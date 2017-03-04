@@ -1,0 +1,11 @@
+# Garbage
+.DS_Store
+*.swp
+
+# Environment/Installation
+composer.phar
+
+# Directories
+.vagrant/
+vendor/
+logs/
