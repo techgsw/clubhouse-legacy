@@ -1,40 +1,52 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Sports Business Solutions
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+[Sports Business Solutions](http://www.sportsbusiness.solutions/) helps people succeed in sports business by providing training, consulting, and recruiting services for sports teams and career cervices for those interested in working in sports.
 
-## About Laravel
+See the [Wiki](https://source.whale.enterprises/sbs/sportsbusinesssolutions/wikis/home) for project scope.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+# Installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## git
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+Clone the git repository:
 
-## Learning Laravel
+```
+git clone git@source.whale.enterprises:sbs/sportsbusinesssolutions.git sportsbusinesssolutions
+```
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+## Homestead
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+*full instructions at https://laravel.com/docs/5.4/homestead*
 
-## Contributing
+Set up Homestead environment, which bundles PHP, nginx, MySQL, Postgres, Redis, Memcached, Node, &c.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+First, install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) and [Vagrant](https://www.vagrantup.com/downloads.html).
 
-## Security Vulnerabilities
+#### Install the Homestead Vagrant box
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+```
+vagrant box add laravel/homestead
+```
 
-## License
+#### Install and Configure Homestead
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+```
+php vendor/bin/homestead make
+vi Homestead.yaml
+```
+Check that `folders` points to your development directory.  
+Change `sites` to `- { map: sportsbusinesssolutions, to: /home/vagrant/Code/sportsbusinesssolutions/public }`.
+
+#### Add to Hosts
+
+```
+sudo vi /etc/hosts
+```
+Add `192.168.10.10 sportsbusinesssolutions` to the list of hosts
+
+#### Run the dang thing
+
+```
+vagrant up
+```
+Go to `http://sportsbusinesssolutions/`
