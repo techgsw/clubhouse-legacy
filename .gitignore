@@ -4,6 +4,7 @@
 
 # Environment/Installation
 composer.phar
+Homestead.yaml
 
 # Directories
 .vagrant/

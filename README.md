@@ -28,6 +28,15 @@ First, install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) and [
 vagrant box add laravel/homestead
 ```
 
+#### Install and Configure Homestead
+
+```
+php vendor/bin/homestead make
+vi Homestead.yaml
+```
+Check that `folders` points to your development directory.  
+Change `sites` to `- { map: sportsbusinesssolutions, to: /home/vagrant/Code/sportsbusinesssolutions/public }`.
+
 #### Add to Hosts
 
 ```
