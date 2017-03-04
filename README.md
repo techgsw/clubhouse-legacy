@@ -50,3 +50,7 @@ Add `192.168.10.10 sportsbusinesssolutions` to the list of hosts
 vagrant up
 ```
 Go to `http://sportsbusinesssolutions/`
+
+## Laravel
+
+*full instructions at https://laravel.com/docs/5.4*
