@@ -8,6 +8,7 @@ Homestead.json
 Homestead.yaml
 .env
 .DS_Store
+.editorconfig
 *.swp
 /.vagrant
 /logs
