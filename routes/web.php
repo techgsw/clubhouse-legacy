@@ -56,3 +56,11 @@ Route::group(['namespace' => 'SalesCenter'], function () {
 Route::group(['namespace' => 'Admin'], function () {
     // namespace App\Http\Controllers\Admin
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
