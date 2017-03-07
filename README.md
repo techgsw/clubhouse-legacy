@@ -61,3 +61,14 @@ Run the dang thing
 vagrant up
 ```
 Go to `http://sportsbusinesssolutions/`
+
+## Schema
+
+```
+mysql -u root -p
+
+> create database sbs;
+> use sbs;
+
+php artisan migrate
+```
