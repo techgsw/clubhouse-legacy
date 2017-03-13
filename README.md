@@ -60,15 +60,35 @@ Run the dang thing
 ```
 vagrant up
 ```
-Go to `http://sportsbusinesssolutions/`
 
 ## Schema
 
+Migrations will build the schema for you, but you'll have to create the database in your Vagrant environment.
+
 ```
-mysql -u root -p
+vagrant ssh
+mysql -u homestead -p secret
 
 > create database sbs;
 > use sbs;
+> exit;
 
 php artisan migrate
 ```
+
+To obtain access through a client like Sequel Pro or MySQL Workbench, set up with SSH
+
+```
+Host:     192.168.10.10
+Username: homestead
+Password: secret
+SSH Host: 192.168.10.10
+SSH User: vagrant
+SSH Pass: vagrant
+```
+
+*see https://laracasts.com/discuss/channels/general-discussion/location-of-mysql-db-on-vm*
+
+## Did it work?
+
+Go to `http://sportsbusinesssolutions/` to find out.
