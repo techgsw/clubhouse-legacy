@@ -1,5 +1,12 @@
-(function($){
-  $(function(){
+var SBS;
+if (!SBS) {
+    SBS = {};
+}
+
+(function () {
     $('.button-collapse').sideNav();
-  });
-})(jQuery);
+})();
+
+$(window).load(function() {
+    // On load
+});
