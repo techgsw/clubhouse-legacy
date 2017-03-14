@@ -1,4 +1,4 @@
-<!-- /resources/views/user/profile.blade.php -->
+<!-- /resources/views/user/profile/edit.blade.php -->
 @extends('layouts.default')
 @section('title', 'User Profile')
 @section('content')
@@ -12,6 +12,8 @@
         </ul>
     </div>
 @endif
+<p>{{ $user->name }}</p>
+<p>{{ $user->email }}</p>
 <!-- User Profile Form -->
 <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
     {{ csrf_field() }}
@@ -19,25 +21,21 @@
         <label for="name">Name</label>
         <input id="name" type="text" class="validate" name="name" value="{{ old('name') }}" required autofocus>
         @if ($errors->has('name'))
-            <span class="help-block">
-                <strong>{{ $errors->first('name') }}</strong>
-            </span>
+            <p><strong>{{ $errors->first('name') }}</strong></p>
         @endif
     </div>
     <div class="input-field {{ $errors->has('email') ? 'invalid' : '' }}">
         <label for="email">E-Mail Address</label>
         <input id="email" type="email" class="validate" name="email" value="{{ old('email') }}" required>
         @if ($errors->has('email'))
-            <span class="help-block">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
+            <p><strong>{{ $errors->first('email') }}</strong></p>
         @endif
     </div>
     <div class="input-field {{ $errors->has('password') ? 'invalid' : '' }}">
         <label for="password">Password</label>
         <input id="password" type="password" class="validate" name="password" required>
         @if ($errors->has('password'))
-            <strong>{{ $errors->first('password') }}</strong>
+            <p><strong>{{ $errors->first('password') }}</strong></p>
         @endif
     </div>
     <div class="input-field">
