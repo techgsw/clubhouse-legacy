@@ -1,50 +1,69 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
 /**
- * General
+ * General styles
+ * - Layout
+ * - Type
  * - Forms
  */
 
-/* FORMS */
+/**
+ * Layout
+ */
 
-input:not([type]),
-input[type=text],
-input[type=password],
-input[type=email],
-input[type=url],
-input[type=time],
-input[type=date],
-input[type=datetime],
-input[type=datetime-local],
-input[type=tel],
-input[type=number],
-input[type=search],
-textarea.materialize-textarea {}
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
 
-/* label color */
-.input-field input:focus + label {
- color: #000;
-}
-/* label underline focus color */
-.input-field input:focus {
- border-bottom: 1px solid #000;
- box-shadow: 0 1px 0 0 #000;
-}
-/* valid color */
-.input-field input.valid {
- border-bottom: 1px solid #000;
- box-shadow: 0 1px 0 0 #000;
-}
-/* invalid color */
-.input-field input.invalid {
- border-bottom: 1px solid #000;
- box-shadow: 0 1px 0 0 #000;
-}
-/* icon prefix focus color */
-.input-field .prefix.active {
- color: #000;
+main {
+    flex: 1 0 auto;
 }
 
 /**
- * Specific
+ * Type
+ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {}
+
+p {}
+
+a {}
+a:hover {}
+a:visited {}
+a:active {}
+
+/**
+ * Forms
+ */
+
+textarea:focus,
+.input-field input:focus {
+    border-bottom: 1px solid #000 !important;
+    box-shadow: 0 1px 0 0 #000 !important;
+}
+
+.input-field input:focus:not([readonly]) + label {
+    color: #9e9e9e !important;
+}
+
+/**
+ * Alert
+ */
+
+.alert ul {
+    -webkit-margin-before: 0.2em;
+    -webkit-margin-after: 0.2em;
+}
+
+
+/**
+ * Specific styles
+ * -
  */

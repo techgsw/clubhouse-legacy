@@ -24,13 +24,10 @@
                 <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} />
                 <label for="remember">Remember Me</label>
             </p>
-            <div class="input-field m6 left">
+            <div class="input-field">
                 <button type="submit" class="btn waves-effect waves-light red">Login</button>
             </div>
-            <div class="input-field m6 hide-on-small-only right">
-                <a class="btn white red-text" href="{{ route('password.request') }}">Forgot Your Password?</a>
-            </div>
-            <div class="input-field hide-on-med-and-up s12 left">
+            <div class="input-field">
                 <a class="btn white red-text" href="{{ route('password.request') }}">Forgot Your Password?</a>
             </div>
         </form>

@@ -1,8 +1,7 @@
-<!-- /resources/views/user/profile/view.blade.php -->
+<!-- /resources/views/user/show.blade.php -->
 @extends('layouts.default')
 @section('title', 'User Profile')
 @section('content')
-<h5 class="header red-text">Profile</h5>
-<p>{{ $user->name }}</p>
+<h5 class="header red-text">{{ $user->name }}</h5>
 <p>{{ $user->email }}</p>
 @endsection

@@ -7,19 +7,19 @@
 Route::get('/', function () {
     return view('home');
 });
-Route::get('about', function () {
+Route::get('/about', function () {
     return view('about');
 });
-Route::get('contact', function () {
+Route::get('/contact', function () {
     return view('contact');
 });
-Route::get('register', function () {
+Route::get('/register', function () {
     return view('register');
 });
-Route::get('services', function () {
+Route::get('/services', function () {
     return view('services');
 });
-Route::get('blog', function () {
+Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
 
@@ -34,11 +34,32 @@ Route::group(['namespace' => 'Auth'], function () {
 });
 
 /**
- * User
+ * User Profile
  */
 
-Route::group(['namespace' => 'User'], function () {
-    // namespace App\Http\Controllers\User
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user/{id}', 'UserController@show');
+    Route::get('/user/{id}/edit', 'UserController@edit');
+    Route::patch('/user/{id}', 'UserController@update');
+});
+
+/**
+ * Q&A
+ */
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/question', 'QuestionController@index');
+    Route::get('/question/create', 'QuestionController@create');
+    Route::post('/question', 'QuestionController@store');
+    Route::get('/question/{id}', 'QuestionController@show');
+    Route::get('/question/{id}/edit', 'QuestionController@edit');
+    Route::post('/question/{id}', 'QuestionController@update');
+    //Route::delete('/question/{id}', 'QuestionController@destroy');
+    Route::get('/question/{id}/answer', 'AnswerController@create');
+    Route::post('/question/{id}/answer', 'AnswerController@store');
+    Route::get('/answer/{id}/edit', 'AnswerController@edit');
+    Route::post('/answer/{id}', 'AnswerController@update');
+    //Route::delete('/answer/{id}', 'AnswerController@destroy');
 });
 
 /**
@@ -53,14 +74,8 @@ Route::group(['namespace' => 'SalesCenter'], function () {
  * Admin
  */
 
-Route::group(['namespace' => 'Admin'], function () {
+Route::group(['namespace' => 'Admin', 'middleware' => ['web']], function () {
     // namespace App\Http\Controllers\Admin
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
