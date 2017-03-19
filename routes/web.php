@@ -10,14 +10,17 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
+Route::get('/services', function () {
+    return view('services');
+});
 Route::get('/contact', function () {
     return view('contact');
 });
 Route::get('/register', function () {
-    return view('register');
+    return redirect('sales-center');
 });
-Route::get('/services', function () {
-    return view('services');
+Route::get('/sales-center', function () {
+    return view('sales-center');
 });
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
@@ -27,20 +30,41 @@ Route::get('/blog', function () {
  * Auth
  */
 
+Auth::routes();
+/*
 Route::group(['namespace' => 'Auth'], function () {
-    // namespace App\Http\Controllers\Auth
     Route::get('login', 'LoginController@login')->name('login');
     Route::get('logout', 'LoginController@logout')->name('logout');
 });
+*/
 
 /**
- * User Profile
+ * User
  */
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
     Route::get('/user/{id}/edit', 'UserController@edit');
     Route::patch('/user/{id}', 'UserController@update');
+});
+
+/**
+ * Job Board
+ */
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/job', function () {
+        return view('job/index');
+    });
+    /*
+    Route::get('/job', 'JobController@index');
+    Route::get('/job/create', 'JobController@create');
+    Route::post('/job', 'JobController@store');
+    Route::get('/job/{id}', 'JobController@show');
+    Route::get('/job/{id}/edit', 'JobController@edit');
+    Route::post('/job/{id}', 'JobController@update');
+    Route::delete('/job/{id}', 'JobController@destroy');
+    */
 });
 
 /**
@@ -66,19 +90,9 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 /**
- * SalesCenter
- */
-
-Route::group(['namespace' => 'SalesCenter'], function () {
-    // namespace App\Http\Controllers\SalesCenter
-});
-
-/**
  * Admin
  */
 
-Route::group(['namespace' => 'Admin', 'middleware' => ['web']], function () {
-    // namespace App\Http\Controllers\Admin
-});
+Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'web']], function () {
 
-Auth::routes();
+});

@@ -1,7 +1,7 @@
 <header>
-    <nav class="nav-user" role="navigation">
+    <nav class="nav-user hide-on-med-and-down" role="navigation">
         <div class="nav-wrapper container">
-            <ul class="right hide-on-med-and-down">
+            <ul class="right">
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
@@ -28,16 +28,6 @@
                 <li><a href="/jobs">Job Board</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li><a href="/sales-center">Sports Sales Center</a></li>
-                <!-- Dropdown?
-                <li><a class='dropdown-button' href='#' data-activates='services-dropdown' data-hover="true" data-constrainwidth="false" data-beloworigin="true">Sports Sales Center</a></li>
-                <ul id='services-dropdown' class='dropdown-content'>
-                    <li><a href="/school">School</a></li>
-                    <li><a href="/blog">Sports Sales Blog</a></li>
-                    <li><a href="/question">Q&amp;A</a></li>
-                    <li><a href="/training">Training videos</a></li>
-                    <li><a href="/clients" >Clients</a></li>
-                </ul>
-                -->
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="/about">About</a></li>
@@ -65,19 +55,9 @@
                     </li>
                 @endif
             </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-lg" aria-hidden="true"></i></a>
         </div>
     </nav>
-    <nav class="nav-sub nav-center" role="navigation">
-        <div class="nav-wrapper container">
-            <ul class="hide-on-med-and-down">
-                <li><a href="/school">School</a></li>
-                <li><a href="/blog">Sports Sales Blog</a></li>
-                <li><a href="/question">Q&amp;A</a></li>
-                <li><a href="/training">Training videos</a></li>
-                <li><a href="/clients" >Clients</a></li>
-            </ul>
-        </div>
-    </nav>
+    @yield('subnav')
     @include('layouts.components.breadcrumb')
 </header>
