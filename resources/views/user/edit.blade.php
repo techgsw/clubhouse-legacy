@@ -34,7 +34,7 @@
                 <input id="password-confirm" type="password" class="validate" name="password_confirmation" required>
             </div>
             <div class="input-field">
-                <button type="submit" class="btn waves-effect waves-light red">Register</button>
+                <button type="submit" class="btn sbs-red">Register</button>
             </div>
         </form>
     </div>

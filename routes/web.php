@@ -52,11 +52,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/question/create', 'QuestionController@create');
     Route::post('/question', 'QuestionController@store');
     Route::get('/question/{id}', 'QuestionController@show');
+    Route::get('/question/{id}/approve', 'QuestionController@approve');
+    Route::get('/question/{id}/disapprove', 'QuestionController@disapprove');
     Route::get('/question/{id}/edit', 'QuestionController@edit');
     Route::post('/question/{id}', 'QuestionController@update');
     //Route::delete('/question/{id}', 'QuestionController@destroy');
-    Route::get('/question/{id}/answer', 'AnswerController@create');
     Route::post('/question/{id}/answer', 'AnswerController@store');
+    Route::get('/answer/{id}/approve', 'AnswerController@approve');
+    Route::get('/answer/{id}/disapprove', 'AnswerController@disapprove');
     Route::get('/answer/{id}/edit', 'AnswerController@edit');
     Route::post('/answer/{id}', 'AnswerController@update');
     //Route::delete('/answer/{id}', 'AnswerController@destroy');

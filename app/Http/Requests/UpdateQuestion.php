@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class StoreQuestion extends FormRequest
+class UpdateQuestion extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,6 +14,8 @@ class StoreQuestion extends FormRequest
      */
     public function authorize()
     {
+        // TODO
+        // return Auth::user()->id == $question->user->id;
         return true;
     }
 

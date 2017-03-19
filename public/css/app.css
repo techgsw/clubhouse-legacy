@@ -2,10 +2,30 @@
 
 /**
  * General styles
+ * - Colors
  * - Layout
  * - Type
  * - Forms
  */
+
+/**
+ * Colors
+ * white        #FFFFFF
+ * pale red     #FF7981
+ * sbs red      #EB2935 (from SBS logo)
+ * red          #D50C17
+ * bright red   #FC0D1B
+ * light gray   #F2F2F2
+ * gray         #898989
+ * dark gray    #3F3E3E
+ */
+
+.sbs-red {
+    background-color: #EB2935
+}
+.sbs-red-text {
+    color: #EB2935
+}
 
 /**
  * Layout
@@ -22,22 +42,159 @@ main {
 }
 
 /**
+ * Nav
+ */
+
+nav.nav-main {
+    height: 120px;
+    line-height: 120px;
+    background-color: #FFFFFF;
+}
+nav.nav-main ul a {
+    color: #898989;
+    font-weight: 300;
+    line-height: 70px;
+    margin-top: 50px;
+}
+nav.nav-main ul a:hover {
+    color: #3F3E3E;
+}
+
+.brand-logo > img {
+    height: 60px;
+    vertical-align: bottom;
+    margin-bottom: 20px;
+}
+
+nav.nav-user {
+    height: 30px;
+    line-height: 30px;
+    background-color: #F2F2F2;
+}
+nav.nav-user a,
+nav.nav-user ul a {
+    color: #3F3E3E;
+    font-size: 0.90em;
+    text-transform: uppercase;
+    letter-spacing: 0.18px;
+    font-weight: 300;
+}
+
+nav.nav-center {}
+nav.nav-center ul {
+    text-align: center;
+}
+nav.nav-center ul li {
+    display: inline;
+    float: none;
+}
+nav.nav-center ul li a {
+    display: inline-block;
+}
+
+nav.nav-sub {
+    height: 60px;
+    line-height: 60px;
+    background: #EB2935;
+}
+nav.nav-sub ul {}
+nav.nav-sub ul li {}
+nav.nav-sub ul li a {}
+
+nav.nav-breadcrumb {
+    height: 30px;
+    line-height: 30px;
+    background: #3F3E3E;
+}
+nav.nav-breadcrumb a.breadcrumb {
+    font-size: 0.8em;
+}
+
+footer.page-footer {
+    background-color: #F2F2F2;
+    color: #3F3E3E;
+}
+footer.page-footer .footer-copyright {
+    background-color: #3F3E3E;
+    color: #F2F2F2;
+}
+
+/**
  * Type
  */
+
+h1 { font-size: 3.4rem; }
+h2 { font-size: 2.8rem; }
+h3 { font-size: 2.2rem; }
+h4 { font-size: 1.8rem; }
+h5 { font-size: 1.4rem; }
+h6 { font-size: 1.2rem; }
 
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {}
+h6 {
+    font-weight: 300;
+}
 
-p {}
+h1.heavy,
+h2.heavy,
+h3.heavy,
+h4.heavy,
+h5.heavy,
+h6.heavy {
+    font-weight: 700;
+}
 
-a {}
-a:hover {}
-a:visited {}
-a:active {}
+p {
+    font-weight: 300;
+}
+p.small {
+    font-size: 0.8em;
+}
+p.heavy {
+    font-weight: 700;
+}
+
+main a {
+    color: inherit;
+    border-bottom: 3px solid #C9C9C9;
+    transition: border-bottom 150ms ease;
+}
+main a:hover {
+    border-bottom: 3px solid #EB2935;
+}
+main a:visited {}
+main a:active {}
+
+hr {
+    margin: 16px 0;
+    color: #CCC;
+}
+
+/**
+ * Buttons
+ */
+
+.btn.btn-small {
+    height: 28px;
+    line-height: 28px;
+    padding: 0 1.6rem;
+    font-size: 0.9em;
+}
+.btn.btn-xsmall {
+    height: 20px;
+    line-height: 20px;
+    padding: 0 1rem;
+    font-size: 0.7em;
+}
+
+.btn.sbs-red {}
+.btn.sbs-red:hover {
+    background-color: #EB2935;
+}
 
 /**
  * Forms
@@ -65,5 +222,19 @@ textarea:focus,
 
 /**
  * Specific styles
- * -
+ * - Answer
  */
+
+/**
+ * Question
+ */
+
+/**
+ * Answer
+ */
+
+.row.answer > .col {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #CCC;
+}

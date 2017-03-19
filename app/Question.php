@@ -11,11 +11,13 @@ class Question extends Model
         'approved'
     ];
 
-    /**
-     * Represents relationship between Question and User
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
     }
 }

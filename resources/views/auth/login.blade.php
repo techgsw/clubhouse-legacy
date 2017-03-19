@@ -25,7 +25,7 @@
                 <label for="remember">Remember Me</label>
             </p>
             <div class="input-field">
-                <button type="submit" class="btn waves-effect waves-light red">Login</button>
+                <button type="submit" class="btn sbs-red">Login</button>
             </div>
             <div class="input-field">
                 <a class="btn white red-text" href="{{ route('password.request') }}">Forgot Your Password?</a>
