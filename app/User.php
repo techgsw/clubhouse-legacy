@@ -10,11 +10,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $table = 'user';
-    protected $fillable = [
-        'name',
-        'email',
-        'password'
-    ];
+    protected $guarded = [];
     protected $hidden = [
         'password',
         'remember_token'
@@ -26,5 +22,18 @@ class User extends Authenticatable
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    /**
+     * Represents relationship between User and Answers
+     */
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
+    public function getName()
+    {
+        return $this->first_name . " " . $this->last_name;
     }
 }

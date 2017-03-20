@@ -30,13 +30,11 @@ Route::get('/blog', function () {
  * Auth
  */
 
-Auth::routes();
-/*
 Route::group(['namespace' => 'Auth'], function () {
     Route::get('login', 'LoginController@login')->name('login');
     Route::get('logout', 'LoginController@logout')->name('logout');
 });
-*/
+Auth::routes();
 
 /**
  * User
@@ -45,7 +43,7 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
     Route::get('/user/{id}/edit', 'UserController@edit');
-    Route::patch('/user/{id}', 'UserController@update');
+    Route::post('/user/{id}', 'UserController@update');
 });
 
 /**

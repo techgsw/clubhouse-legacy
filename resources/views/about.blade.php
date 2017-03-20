@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('title', 'About')
 @section('hero')
-    <div class="row hero bg-image">
+    <div class="row hero bg-image about">
         <div class="col s12">
             <h4 class="header">About</h4>
         </div>

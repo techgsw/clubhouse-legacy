@@ -22,7 +22,7 @@
         </div>
         <!-- Question -->
         <h5>{{ $question->title }}</h5>
-        <p class="light">by {{ $question->user->name }} on {{ $question->created_at->format('F j, Y g:ia') }}</p>
+        <p class="light">by {{ $question->user->getName() }} on {{ $question->created_at->format('F j, Y g:ia') }}</p>
         <p>{!! nl2br(e($question->body)) !!}</p>
         @if ($question->approved == false)
             <div class="chip">Not approved</div>
@@ -39,17 +39,17 @@
                 <div class="row answer">
                     <div class="col s1">
                         @if ($answer->approved == true)
-                            <p><a href="/answer/{{ $answer->id }}/disapprove"><i class="fa fa-ban red-text"></i></a></p>
+                            <p><a href="/answer/{{ $answer->id }}/disapprove" class="red-text"><i class="fa fa-ban"></i></a></p>
                         @else
-                            <p><a href="/answer/{{ $answer->id }}/approve"><i class="fa fa-check green-text"></i></a></p>
+                            <p><a href="/answer/{{ $answer->id }}/approve" class="green-text"><i class="fa fa-check"></i></a></p>
                         @endif
                         @if ($answer->user_id == Auth::user()->id)
-                            <p><a href="/answer/{{ $answer->id }}/edit"><i class="fa fa-pencil"></i></a></p>
+                            <p><a href="/answer/{{ $answer->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i></a></p>
                         @endif
                     </div>
                     <div class="col s11">
                         <p>{!! nl2br(e($answer->answer)) !!}</p>
-                        <p class="light">by {{ $answer->user->name }} on {{ $answer->created_at->format('F j, Y g:ia') }}</p>
+                        <p class="light">by {{ $answer->user->getName() }} on {{ $answer->created_at->format('F j, Y g:ia') }}</p>
                     </div>
                 </div>
             @endforeach

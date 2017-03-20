@@ -10,21 +10,31 @@
             <p>A career development platform for current and aspiring sports sales professionals.</p>
         </div>
     </div>
-    <div class="row hero gray">
-        <div class="col s12">
-            <h4 class="header">Join our community</h4>
+    @if (!Auth::check())
+        <div class="row hero gray">
+            <div class="col s12">
+                <h4 class="header">Join our community</h4>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col s12 center-align">
-            <div class="arrow down"></div>
+        <div class="row">
+            <div class="col s12 center-align">
+                <div class="arrow down"></div>
+            </div>
         </div>
-    </div>
+    @endif
 @endsection
 @section('content')
+@if (!Auth::check())
+    @include('layouts.components.errors')
+    <div class="row">
+        <div class="col s12">
+            @include('forms.register')
+        </div>
+    </div>
+@endif
 <div class="row">
     <div class="col s12">
-        @include('forms.user')
+        <h4>Blog</h4>
     </div>
 </div>
 @endsection

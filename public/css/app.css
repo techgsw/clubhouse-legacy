@@ -46,6 +46,10 @@ main {
     flex: 1 0 auto;
 }
 
+main img {
+    max-width: 100%;
+}
+
 div.row.hero {
     padding: 40px 0;
     text-align: center;
@@ -56,11 +60,14 @@ div.gray {
 }
 
 div.row.bg-image {
-    background-image: url("/images/bg.jpg");
+    background-image: url("/images/hero.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+}
+div.row.bg-image.home {
+    background-image: url("/images/home/hero.jpg");
 }
 div.row.bg-image h1,
 div.row.bg-image h2,
@@ -156,6 +163,7 @@ nav.nav-breadcrumb a.breadcrumb {
 footer.page-footer {
     background-color: #F2F2F2;
     color: #3F3E3E;
+    margin-top: 40px;
 }
 footer.page-footer .footer-copyright {
     background-color: #3F3E3E;
@@ -202,6 +210,12 @@ p.heavy {
     font-weight: 700;
 }
 
+main a.btn,
+main a.btn:hover,
+footer a.btn,
+footer a.btn:hover {
+    border-bottom: none;
+}
 main a,
 footer a {
     color: inherit;
@@ -211,6 +225,14 @@ footer a {
 main a:hover,
 footer a:hover {
     border-bottom: 3px solid #EB2935;
+}
+main a.green-text:hover,
+footer a.green-text:hover {
+    border-bottom: 3px solid #4CAF50;
+}
+main a.blue-text:hover,
+footer a.blue-text:hover {
+    border-bottom: 3px solid #2196F3;
 }
 
 ul.footer-nav {
@@ -258,7 +280,8 @@ hr {
 }
 
 .btn.sbs-red {}
-.btn.sbs-red:hover {
+.btn.sbs-red:hover,
+.btn.sbs-red:focus {
     background-color: #EB2935;
 }
 
