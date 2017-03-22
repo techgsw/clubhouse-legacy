@@ -16,9 +16,7 @@ class QuestionController extends Controller
     public function index()
     {
         // TODO Paginate
-        $questions = Question::where('approved', true)
-            ->orderBy('id', 'desc')
-            ->get();
+        $questions = Question::approved();
 
         return view('question/index', [
             'breadcrumb' => ['Home' => '/', 'Q&A' => '/question'],
@@ -124,9 +122,12 @@ class QuestionController extends Controller
      */
     public function update(UpdateQuestion $request, $id)
     {
+        $now = new \DateTime('NOW');
+
         $question = Question::find($id);
         $question->title = request('title');
         $question->body = request('body');
+        $question->edited_at = $now;
         $question->save();
 
         return redirect()->action('QuestionController@show', [$question]);

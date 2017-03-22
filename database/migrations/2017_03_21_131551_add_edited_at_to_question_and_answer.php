@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeQuestionFields extends Migration
+class AddEditedAtToQuestionAndAnswer extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,11 @@ class ChangeQuestionFields extends Migration
     public function up()
     {
         Schema::table('question', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->renameColumn('question', 'title');
-            $table->text('body');
+            $table->timestamp('edited_at')->nullable();
+        });
+
+        Schema::table('answer', function (Blueprint $table) {
+            $table->timestamp('edited_at')->nullable();
         });
     }
 
@@ -28,8 +30,11 @@ class ChangeQuestionFields extends Migration
     public function down()
     {
         Schema::table('question', function (Blueprint $table) {
-            $table->renameColumn('title', 'question');
-            $table->dropColumn('body');
+            $table->dropColumn('edited_at');
+        });
+
+        Schema::table('answer', function (Blueprint $table) {
+            $table->dropColumn('edited_at');
         });
     }
 }

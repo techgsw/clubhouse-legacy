@@ -28,5 +28,4 @@
         <a href="/user/{{ $user->id }}/edit" class="btn sbs-red">Edit profile</a>
     </div>
 </div>
-
 @endsection

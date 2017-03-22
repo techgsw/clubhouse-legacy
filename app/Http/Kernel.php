@@ -18,6 +18,9 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        // from web, but necessary globally for 404, e.g.
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
     ];
 
     /**

@@ -5,7 +5,7 @@
  */
 
 Route::get('/', function () {
-    return view('home');
+    return view('index');
 });
 Route::get('/about', function () {
     return view('about');
@@ -91,6 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
  * Admin
  */
 
-Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'web']], function () {
-
+Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
+    Route::get('/admin', 'IndexController@index');
+    Route::get('/admin/question', 'QuestionController@index');
+    Route::get('/admin/job', 'JobController@index');
 });

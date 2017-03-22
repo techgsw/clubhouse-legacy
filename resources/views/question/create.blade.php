@@ -5,6 +5,7 @@
 <div class="row">
     <div class="col s12">
         @include('layouts.components.errors')
+        {{ count($errors) }}
     </div>
 </div>
 <div class="row">
@@ -12,11 +13,11 @@
         <form class="form-horizontal" role="form" method="POST" action="/question">
             {{ csrf_field() }}
             <div class="input-field">
-                <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" autofocus>
+                <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" required autofocus>
                 <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
             </div>
             <div class="input-field">
-                <textarea id="body" class="materialize-textarea validate {{ $errors->has('body') ? 'invalid' : '' }}" name="body"></textarea>
+                <textarea id="body" class="materialize-textarea validate {{ $errors->has('body') ? 'invalid' : '' }}" name="body" required></textarea>
                 <label for="body" data-error="{{ $errors->first('body') }}">Body</label>
             </div>
             <div class="input-field">

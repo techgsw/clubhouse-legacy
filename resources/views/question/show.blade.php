@@ -11,24 +11,34 @@
     <div class="col s12">
         <div class="right">
             <!-- Question controls -->
-            @if ($question->approved == false)
-                <p class="small"><a href="/question/{{ $question->id }}/approve" class="green-text"><i class="fa fa-check"></i> Approve</a></p>
-            @else
-                <p class="small"><a href="/question/{{ $question->id }}/disapprove" class="red-text"><i class="fa fa-ban"></i> Disapprove</a></p>
-            @endif
-            @if ($question->user_id == Auth::user()->id)
+            @can ('approve-question', $question)
+                @if (is_null($question->approved) || $question->approved == false)
+                    <p class="small"><a href="/question/{{ $question->id }}/approve" class="green-text"><i class="fa fa-check"></i> Approve</a></p>
+                @endif
+                @if (is_null($question->approved) || $question->approved == true)
+                    <p class="small"><a href="/question/{{ $question->id }}/disapprove" class="red-text"><i class="fa fa-ban"></i> Disapprove</a></p>
+                @endif
+            @endcan
+            @can ('edit-question', $question)
                 <p class="small"><a href="/question/{{ $question->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i> Edit</a></p>
-            @endif
+            @endcan
         </div>
         <!-- Question -->
         <h5>{{ $question->title }}</h5>
         <p class="light">by {{ $question->user->getName() }} on {{ $question->created_at->format('F j, Y g:ia') }}</p>
-        <p>{!! nl2br(e($question->body)) !!}</p>
-        @if ($question->approved == false)
-            <div class="chip">Not approved</div>
-        @else
-            <div class="chip green white-text">Approved</div>
+        @if (!is_null($question->edited_at))
+            <p class="light">edited by {{ $question->user->getName() }} on {{ $question->edited_at->format('F j, Y g:ia') }}</p>
         @endif
+        <p>{!! nl2br(e($question->body)) !!}</p>
+        @can ('approve-question', $question)
+            @if (is_null($question->approved))
+                <div class="chip">Not approved</div>
+            @elseif ($question->approved == false)
+                <div class="chip sbs-red white-text">Disapproved</div>
+            @else
+                <div class="chip green white-text">Approved</div>
+            @endif
+        @endcan
     </div>
 </div>
 <div class="row">
@@ -50,6 +60,9 @@
                     <div class="col s11">
                         <p>{!! nl2br(e($answer->answer)) !!}</p>
                         <p class="light">by {{ $answer->user->getName() }} on {{ $answer->created_at->format('F j, Y g:ia') }}</p>
+                        @if (!is_null($answer->edited_at))
+                            <p class="light">edited by {{ $answer->user->getName() }} on {{ $answer->edited_at->format('F j, Y g:ia') }}</p>
+                        @endif
                     </div>
                 </div>
             @endforeach

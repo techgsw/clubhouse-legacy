@@ -18,6 +18,7 @@ class UserController extends Controller
     public function show(Request $request)
     {
         $this->user = Auth::user();
+
         return view('user/show', [
             'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$this->user->id}"],
             'user' => $this->user

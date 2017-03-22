@@ -10,6 +10,11 @@ class Question extends Model
     protected $guarded = [
         'approved'
     ];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'edited_at'
+    ];
 
     public function user()
     {
@@ -19,5 +24,15 @@ class Question extends Model
     public function answers()
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public static function approved()
+    {
+        return Question::where('approved', true)->orderBy('created_at', 'desc')->get();
+    }
+
+    public static function unapproved()
+    {
+        return Question::where('approved', null)->orderBy('created_at', 'asc')->get();
     }
 }

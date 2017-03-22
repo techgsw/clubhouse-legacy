@@ -10,6 +10,11 @@ class Answer extends Model
     protected $guarded = [
         'approved'
     ];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'edited_at'
+    ];
 
     public function user()
     {

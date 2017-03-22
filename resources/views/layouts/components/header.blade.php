@@ -1,6 +1,11 @@
 <header>
     <nav class="nav-user hide-on-med-and-down" role="navigation">
         <div class="nav-wrapper container">
+            @can ('view-admin-dashboard')
+                <ul>
+                    <li><a href="/admin">ADMIN</a></li>
+                </ul>
+            @endif
             <ul class="right">
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
@@ -40,12 +45,14 @@
                 <li><a href="/question">Q&amp;A</a></li>
                 <li><a href="/job">Job Board</a></li>
                 <li class="divider"></li>
-                <li><a href="/help">Help</a></li>
-                <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
                 @else
+                    @if (Auth::user()->hasAccess('admin_index'))
+                        <li><a href="/admin">Admin</a></li>
+                        <li class="divider"></li>
+                    @endif
                     <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>
                     <li>
                         <a href="{{ route('logout') }}">Logout</a>

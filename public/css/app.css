@@ -46,6 +46,14 @@ main {
     flex: 1 0 auto;
 }
 
+.flex {
+    display: flex;
+    flex-direction: column;
+}
+.flex-col {
+    flex: 1 0 auto;
+}
+
 main img {
     max-width: 100%;
 }
@@ -151,6 +159,20 @@ nav.nav-sub ul {}
 nav.nav-sub ul li {}
 nav.nav-sub ul li a {}
 
+nav.nav-admin {
+    height: 40px;
+    line-height: 40px;
+    background: #3F3E3E;
+}
+nav.nav-admin ul {}
+nav.nav-admin ul li {}
+nav.nav-admin ul li a {}
+nav.nav-admin a.button-collapse {
+    color: #D3D3D3;
+    line-height: 40px;
+    margin: -48px 18px;
+}
+
 nav.nav-breadcrumb {
     height: 30px;
     line-height: 30px;
@@ -208,6 +230,14 @@ p.small {
 }
 p.heavy {
     font-weight: 700;
+}
+
+a {}
+a.spaced {
+    margin: 0 6px;
+}
+a.padded {
+    padding: 0 6px;
 }
 
 main a.btn,

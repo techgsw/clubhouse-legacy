@@ -82,8 +82,11 @@ class AnswerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $now = new \DateTime('NOW');
+
         $answer = Answer::find($id);
         $answer->answer = request('answer');
+        $answer->edited_at = $now;
         $answer->save();
 
         return redirect()->action('QuestionController@show', [$answer->question]);
