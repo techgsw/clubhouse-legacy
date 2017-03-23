@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class StoreQuestion extends FormRequest
+class StoreJob extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreQuestion extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create-question');
+        return $this->user()->can('create-job');
     }
 
     /**
@@ -26,7 +26,11 @@ class StoreQuestion extends FormRequest
     {
         return [
             'title' => 'required',
-            'body' => 'required'
+            'description' => 'required',
+            'organization' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            //'image_url' => 'image|mimes:jpg,jpeg,png|max:2000',
         ];
     }
 
@@ -39,7 +43,12 @@ class StoreQuestion extends FormRequest
     {
         return [
             'title.required' => 'Title is a required field',
-            'body.required' => 'Body is a required field'
+            'description.required' => 'Description is a required field',
+            'organization.required' => 'Organization is a required field',
+            'city.required' => 'City is a required field',
+            'state.required' => 'State is a required field',
+            'image_url.required' => 'Image is a required field',
+            'image_url.image' => 'Image must be a valid image',
         ];
     }
 }

@@ -15,7 +15,7 @@
             @foreach ($users as $user)
                 <div class="row">
                     <div class="col s12">
-                        <a href="/user/{{ $user->id }}"><h5>{{ $user->name }}</h5></a>
+                        <a href="/user/{{ $user->id }}"><h5>{{ $user->getName() }}</h5></a>
                         <p>{{ $user->email }}</p>
                     </div>
                 </div>

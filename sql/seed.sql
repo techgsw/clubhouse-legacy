@@ -10,7 +10,7 @@ VALUES
 /* RoleUser */
 INSERT INTO `role_user` (`role_code`, `user_id`)
 VALUES
-    ('super-user', 1),
+    ('superuser', 1),
     ('administrator', 1),
     ('moderator', 1),
     ('user', 1),

@@ -51,18 +51,16 @@ Route::group(['middleware' => ['auth']], function () {
  */
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/job', function () {
-        return view('job/index');
-    });
-    /*
     Route::get('/job', 'JobController@index');
     Route::get('/job/create', 'JobController@create');
     Route::post('/job', 'JobController@store');
     Route::get('/job/{id}', 'JobController@show');
+    Route::get('/job/{id}/open', 'JobController@open');
+    Route::get('/job/{id}/close', 'JobController@close');
     Route::get('/job/{id}/edit', 'JobController@edit');
     Route::post('/job/{id}', 'JobController@update');
-    Route::delete('/job/{id}', 'JobController@destroy');
-    */
+    Route::post('/job/{id}/inquire', 'InquiryController@store');
+    Route::get('/inquiry/{id}', 'InquiryController@show');
 });
 
 /**
@@ -78,13 +76,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/question/{id}/disapprove', 'QuestionController@disapprove');
     Route::get('/question/{id}/edit', 'QuestionController@edit');
     Route::post('/question/{id}', 'QuestionController@update');
-    //Route::delete('/question/{id}', 'QuestionController@destroy');
     Route::post('/question/{id}/answer', 'AnswerController@store');
     Route::get('/answer/{id}/approve', 'AnswerController@approve');
     Route::get('/answer/{id}/disapprove', 'AnswerController@disapprove');
     Route::get('/answer/{id}/edit', 'AnswerController@edit');
     Route::post('/answer/{id}', 'AnswerController@update');
-    //Route::delete('/answer/{id}', 'AnswerController@destroy');
 });
 
 /**
@@ -95,4 +91,5 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/admin', 'IndexController@index');
     Route::get('/admin/question', 'QuestionController@index');
     Route::get('/admin/job', 'JobController@index');
+    Route::get('/admin/user', 'UserController@index');
 });

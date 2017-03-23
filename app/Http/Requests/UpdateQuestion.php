@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Question;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,9 +15,8 @@ class UpdateQuestion extends FormRequest
      */
     public function authorize()
     {
-        // TODO
-        // return Auth::user()->id == $question->user->id;
-        return true;
+        $question = Question::find($this->route('id'));
+        return $this->user()->can('edit-question', $question);
     }
 
     /**

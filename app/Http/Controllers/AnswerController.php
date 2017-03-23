@@ -36,6 +36,8 @@ class AnswerController extends Controller
      */
     public function approve($id)
     {
+        $this->authorize('approve-answer');
+
         $answer = Answer::find($id);
         if (!$answer) {
             return redirect()->back()->withErrors(['msg' => 'Could not find answer ' . $id]);
@@ -43,7 +45,7 @@ class AnswerController extends Controller
         $answer->approved = true;
         $answer->save();
 
-        return redirect()->action('QuestionController@show', [$answer->question]);
+        return back();
     }
 
     /**
@@ -52,6 +54,8 @@ class AnswerController extends Controller
      */
     public function disapprove($id)
     {
+        $this->authorize('approve-answer');
+
         $answer = Answer::find($id);
         if (!$answer) {
             return redirect()->back()->withErrors(['msg' => 'Could not find answer ' . $id]);
@@ -59,7 +63,7 @@ class AnswerController extends Controller
         $answer->approved = false;
         $answer->save();
 
-        return redirect()->action('QuestionController@show', [$answer->question]);
+        return back();
     }
 
     /**
@@ -69,6 +73,7 @@ class AnswerController extends Controller
     public function edit($id)
     {
         $answer = Answer::find($id);
+        $this->authorize('edit-answer', $answer);
 
         return view('answer/edit', [
             'answer' => $answer
@@ -90,14 +95,5 @@ class AnswerController extends Controller
         $answer->save();
 
         return redirect()->action('QuestionController@show', [$answer->question]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        // TODO
     }
 }

@@ -5,7 +5,6 @@
 <div class="row">
     <div class="col s12">
         @include('layouts.components.errors')
-        {{ count($errors) }}
     </div>
 </div>
 <div class="row">

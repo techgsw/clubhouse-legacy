@@ -15,6 +15,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-question-index');
+
         // TODO Paginate
         $questions = Question::approved();
 
@@ -29,6 +31,8 @@ class QuestionController extends Controller
      */
     public function create()
     {
+        $this->authorize('create-question');
+
         return view('question/create', [
             'breadcrumb' => ['Home' => '/', 'Q&A' => '/question', 'Ask a question' => '/question/create']
         ]);
@@ -55,6 +59,8 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view-question');
+
         $question = Question::find($id);
         if (!$question) {
             return abort(404);
@@ -75,6 +81,8 @@ class QuestionController extends Controller
      */
     public function approve($id)
     {
+        $this->authorize('approve-question');
+
         $question = Question::find($id);
         if (!$question) {
             return redirect()->back()->withErrors(['msg' => 'Could not find question ' . $id]);
@@ -82,7 +90,7 @@ class QuestionController extends Controller
         $question->approved = true;
         $question->save();
 
-        return redirect()->action('QuestionController@show', [$question]);
+        return back();
     }
 
     /**
@@ -91,6 +99,8 @@ class QuestionController extends Controller
      */
     public function disapprove($id)
     {
+        $this->authorize('approve-question');
+
         $question = Question::find($id);
         if (!$question) {
             return redirect()->back()->withErrors(['msg' => 'Could not find question ' . $id]);
@@ -98,7 +108,7 @@ class QuestionController extends Controller
         $question->approved = false;
         $question->save();
 
-        return redirect()->action('QuestionController@show', [$question]);
+        return back();
     }
 
     /**
@@ -108,6 +118,7 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::find($id);
+        $this->authorize('edit-question', $question);
 
         return view('question/edit', [
             'question' => $question,
@@ -131,14 +142,5 @@ class QuestionController extends Controller
         $question->save();
 
         return redirect()->action('QuestionController@show', [$question]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        // TODO
     }
 }

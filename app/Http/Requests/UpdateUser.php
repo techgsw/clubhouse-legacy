@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUser extends FormRequest
 {
@@ -13,8 +15,8 @@ class UpdateUser extends FormRequest
      */
     public function authorize()
     {
-        // TODO
-        return true;
+        $user = User::find($this->route('id'));
+        return $this->user()->can('edit-user', $user);
     }
 
     /**
@@ -24,10 +26,16 @@ class UpdateUser extends FormRequest
      */
     public function rules()
     {
+        $user = User::find($this->route('id'));
         return [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:user'
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('user')->ignore($user->id),
+            ]
         ];
     }
 

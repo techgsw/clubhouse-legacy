@@ -15,13 +15,14 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function show(Request $request)
+    public function show(Request $request, $id)
     {
-        $this->user = Auth::user();
+        $user = User::find($id);
+        $this->authorize('view-user', $user);
 
         return view('user/show', [
-            'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$this->user->id}"],
-            'user' => $this->user
+            'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$user->id}"],
+            'user' => $user
         ]);
     }
 
@@ -31,12 +32,14 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
-        $this->user = Auth::user();
+        $user = User::find($id);
+        $this->authorize('edit-user', $user);
+
         return view('user/edit', [
-            'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$this->user->id}", 'Edit' => "/user/{$this->user->id}/edit"],
-            'user' => $this->user
+            'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$user->id}", 'Edit' => "/user/{$user->id}/edit"],
+            'user' => $user
         ]);
     }
 
@@ -58,6 +61,8 @@ class UserController extends Controller
         $user->receives_newsletter = request('receives_newsletter') && request('receives_newsletter') == "on";
         $user->is_interested_in_jobs = request('is_interested_in_jobs') && request('is_interested_in_jobs') == "on";
         $user->save();
+
+        // TODO MailChimp newsletter event
 
         return redirect()->action('UserController@show', [$user]);
     }

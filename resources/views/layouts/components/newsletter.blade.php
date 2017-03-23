@@ -4,5 +4,5 @@
         <input id="email" type="text" class="validate" name="email">
         <label for="email">Email</label>
     </div>
-    <button type="submit" class="btn sbs-red">Submit</button>
+    <button class="btn sbs-red">Submit</button>
 </form>

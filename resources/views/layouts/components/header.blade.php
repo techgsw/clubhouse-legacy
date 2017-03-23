@@ -30,18 +30,19 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="/about">About</a></li>
                 <li><a href="/services">Services</a></li>
-                <li><a href="/jobs">Job Board</a></li>
+                <li><a href="/job">Job Board</a></li>
                 <li><a href="/contact">Contact</a></li>
+                <li><a href="/blog">Blog</a></li>
                 <li><a href="/sales-center">Sports Sales Center</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="/about">About</a></li>
                 <li><a href="/services">Services</a></li>
-                <li><a href="/jobs">Job Board</a></li>
+                <li><a href="/job">Job Board</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Sports Sales Center</a></li>
+                <li><a href="/sales-center">Sports Sales Center</a></li>
                 <li><a href="/question">Q&amp;A</a></li>
                 <li><a href="/job">Job Board</a></li>
                 <li class="divider"></li>

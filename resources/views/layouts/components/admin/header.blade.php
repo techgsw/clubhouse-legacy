@@ -18,19 +18,35 @@
     <nav class="nav-admin" role="navigation">
         <div class="nav-wrapper container">
             <ul class="hide-on-med-and-down">
-                <li><a href="/admin">Dashboard</a></li>
-                <li><a href="/admin/user">Users</a></li>
-                <li><a href="/admin/question">Q&amp;A</a></li>
-                <li><a href="/admin/job">Job Board</a></li>
+                @can ('view-admin-dashboard')
+                    <li><a href="/admin">Dashboard</a></li>
+                @endcan
+                @can ('view-admin-users')
+                    <li><a href="/admin/user">Users</a></li>
+                @endcan
+                @can ('view-admin-questions')
+                    <li><a href="/admin/question">Q&amp;A</a></li>
+                @endcan
+                @can ('view-admin-jobs')
+                    <li><a href="/admin/job">Job Board</a></li>
+                @endcan
             </ul>
         </div>
         <ul id="nav-mobile" class="side-nav">
             <li><a href="/">Home</a></li>
             <li class="divider"></li>
-            <li><a href="/admin">Dashboard</a></li>
-            <li><a href="/admin/user">Users</a></li>
-            <li><a href="/admin/question">Q&amp;A</a></li>
-            <li><a href="/admin/job">Job Board</a></li>
+            @can ('view-admin-dashboard')
+                <li><a href="/admin">Dashboard</a></li>
+            @endcan
+            @can ('view-admin-users')
+                <li><a href="/admin/user">Users</a></li>
+            @endcan
+            @can ('view-admin-questions')
+                <li><a href="/admin/question">Q&amp;A</a></li>
+            @endcan
+            @can ('view-admin-jobs')
+                <li><a href="/admin/job">Job Board</a></li>
+            @endcan
             <li class="divider"></li>
             <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>
             <li>
