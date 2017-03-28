@@ -383,6 +383,17 @@ div.arrow.down {
     border-right: 20px solid #F2F2F2;
 }
 
+/**
+ * Pagination
+ */
+
+.pagination {}
+.pagination li a {
+    border-bottom: none;
+}
+.pagination li.active {
+    background-color: #898989;
+}
 
 /**
  * Specific styles
@@ -426,6 +437,27 @@ div.arrow.down {
     max-width: 200px;
     max-height: 200px;
     padding: 20px 30px;
+    margin-top: 10px;
+}
+@media only screen and (max-width: 992px) {
+    .row.job-show img {
+        max-width: 100%;
+        max-height: 100%;
+        padding: 5px 5px;
+    }
+}
+.row.job-show .job-description {
+    padding-bottom: 30px;
+}
+.row .col.job-inquire {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 20px;
+}
+
+.row .col.job-inquiry {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 form#edit-job {}
@@ -433,4 +465,43 @@ form#edit-job img {
     max-width: 200px;
     max-height: 200px;
     padding: 20px 30px;
+}
+
+
+.instagram h5 {
+    margin-bottom: 1.2rem;
+}
+.instagram a,
+.instagram a:hover {
+    border: none;
+    transition: none;
+}
+.instagram a.username {
+    border: none;
+}
+.instagram a.username:hover {
+    border-bottom: 2px solid #EB2935;
+}
+.instagram img.avatar {
+    border: 2px solid transparent;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+}
+.instagram a:hover img.avatar {
+    border: 2px solid #EB2935;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+}
+.instagram .row {
+    margin-bottom: 2px;
+}
+.instagram .instagram-feed a img {
+    border: 2px solid transparent;
+    max-width: 100%;
+    max-height: 100%;
+}
+.instagram .instagram-feed a:hover img {
+    border: 2px solid #EB2935;
 }

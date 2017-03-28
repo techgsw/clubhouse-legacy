@@ -30,7 +30,7 @@ class StoreJob extends FormRequest
             'organization' => 'required',
             'city' => 'required',
             'state' => 'required',
-            //'image_url' => 'image|mimes:jpg,jpeg,png|max:2000',
+            //'image_url' => 'required|image|mimes:jpg,jpeg,png|max:2000',
         ];
     }
 

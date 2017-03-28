@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInquiry;
 use App\Inquiry;
 use App\Job;
+use App\Http\Requests\StoreJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,18 +15,22 @@ class InquiryController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request, $id)
+    public function store(StoreInquiry $request, $id)
     {
-        $this->authenticate('create-inquiry');
-
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
 
+        $resume = request()->file('resume');
+
         $inquiry = Inquiry::create([
             'user_id' => Auth::user()->id,
-            'job_id' => $id
+            'job_id' => $id,
+            'name' => request('name'),
+            'email' => request('email'),
+            'phone' => request('phone'),
+            'resume' => $resume->store('resume', 'public'),
         ]);
 
         return redirect()->action('JobController@show', [$job]);

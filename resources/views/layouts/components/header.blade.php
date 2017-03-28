@@ -33,7 +33,7 @@
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li><a href="/blog">Blog</a></li>
-                <li><a href="/sales-center">Sports Sales Center</a></li>
+                <li><a href="/the-hub">The Hub</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="/about">About</a></li>
@@ -42,9 +42,10 @@
                 <li><a href="/contact">Contact</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li class="divider"></li>
-                <li><a href="/sales-center">Sports Sales Center</a></li>
-                <li><a href="/question">Q&amp;A</a></li>
-                <li><a href="/job">Job Board</a></li>
+                <li><a href="/the-hub">The Hub</a></li>
+                <li><a href="/question">Q&amp;A Forum</a></li>
+                <li><a href="/training">Training</a></li>
+                <li><a href="/#clients">Clients</a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>

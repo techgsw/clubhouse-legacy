@@ -32,9 +32,11 @@
         </div>
     </div>
 @endif
-<div class="row">
-    <div class="col s12">
-        <h4>Blog</h4>
+@if (Auth::check())
+    <div class="row">
+        <div class="col s12">
+            <h4>Blog</h4>
+        </div>
     </div>
-</div>
+@endif
 @endsection

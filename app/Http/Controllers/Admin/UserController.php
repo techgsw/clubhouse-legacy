@@ -13,6 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-admin-user');
+
         $users = User::all();
 
         return view('admin/user', [

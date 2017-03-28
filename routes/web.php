@@ -19,8 +19,8 @@ Route::get('/contact', function () {
 Route::get('/register', function () {
     return redirect('sales-center');
 });
-Route::get('/sales-center', function () {
-    return view('sales-center');
+Route::get('/the-hub', function () {
+    return view('the-hub');
 });
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
@@ -29,7 +29,6 @@ Route::get('/blog', function () {
 /**
  * Auth
  */
-
 Route::group(['namespace' => 'Auth'], function () {
     Route::get('login', 'LoginController@login')->name('login');
     Route::get('logout', 'LoginController@logout')->name('logout');
@@ -50,7 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
  * Job Board
  */
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['web']], function () {
     Route::get('/job', 'JobController@index');
     Route::get('/job/create', 'JobController@create');
     Route::post('/job', 'JobController@store');
@@ -67,7 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
  * Q&A
  */
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['web']], function () {
     Route::get('/question', 'QuestionController@index');
     Route::get('/question/create', 'QuestionController@create');
     Route::post('/question', 'QuestionController@store');

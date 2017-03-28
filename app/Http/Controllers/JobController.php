@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
+use App\Inquiry;
 use App\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +15,9 @@ class JobController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->authorize('view-job-board');
-
-        // TODO Paginate
-        $jobs = Job::open();
+        $jobs = Job::filter($request)->paginate(5);
 
         return view('job/index', [
             'breadcrumb' => ['Home' => '/', 'Job Board' => '/job'],
@@ -52,6 +50,8 @@ class JobController extends Controller
             'title' => request('title'),
             'description' => request('description'),
             'organization' => request('organization'),
+            'league' => request('league'),
+            'job_type' => request('job_type'),
             'city' => request('city'),
             'state' => request('state'),
             'image_url' => $image->store('job', 'public'),
@@ -66,17 +66,19 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view-job');
-
         $job = Job::find($id);
         if (!$job) {
             return abort(404);
         }
 
-        $answers = $job->answers;
+        $inquiries = Inquiry::where('job_id', $id)
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('job/show', [
             'job' => $job,
+            'inquiries' => $inquiries,
             'breadcrumb' => ['Home' => '/', 'Job Board' => '/job', "$job->title with $job->organization" => "/job/{$job->id}"]
         ]);
     }
@@ -145,6 +147,8 @@ class JobController extends Controller
         $job->title = request('title');
         $job->description = request('description');
         $job->organization = request('organization');
+        $job->league = request('league');
+        $job->job_type = request('job_type');
         $job->city = request('city');
         $job->state = request('state');
         if (request('image_url')) {

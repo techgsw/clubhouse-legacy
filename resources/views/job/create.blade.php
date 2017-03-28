@@ -1,6 +1,6 @@
 <!-- /resources/views/question/edit.blade.php -->
 @extends('layouts.default')
-@section('title', 'New Question')
+@section('title', 'New Job')
 @section('content')
 <div class="row">
     <div class="col s12">
@@ -22,6 +22,24 @@
             <div class="input-field">
                 <input id="organization" type="text" class="validate {{ $errors->has('organization') ? 'invalid' : '' }}" name="organization" value="{{ old('organization') }}" required autofocus>
                 <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
+            </div>
+            <div class="input-field">
+                <select name="league">
+                    <option value="" {{ old('state') == "" ? "selected" : "" }}>None</option>
+                    <option value="mlb" {{ old('state') == "mlb" ? "selected" : "" }}>MLB</option>
+                    <option value="mls" {{ old('state') == "mls" ? "selected" : "" }}>MLS</option>
+                    <option value="nba" {{ old('state') == "nba" ? "selected" : "" }}>NBA</option>
+                    <option value="nfl" {{ old('state') == "nfl" ? "selected" : "" }}>NFL</option>
+                    <option value="wnba" {{ old('state') == "wnba" ? "selected" : "" }}>WNBA</option>
+                </select>
+                <label>League</label>
+            </div>
+            <div class="input-field">
+                <select name="job_type">
+                    <option value="" {{ old('state') == "" ? "selected" : "" }}>None</option>
+                    <option value="sales" {{ old('state') == "sales" ? "selected" : "" }}>Sales</option>
+                </select>
+                <label>Type</label>
             </div>
             <div class="file-field input-field">
                 <div class="btn white black-text">

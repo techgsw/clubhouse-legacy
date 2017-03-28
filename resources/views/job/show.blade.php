@@ -12,7 +12,7 @@
     <div class="col s3">
         <img src={{ Storage::disk('local')->url($job->image_url) }}>
     </div>
-    <div class="col s9">
+    <div class="col s9 job-description">
         <div class="right">
             <!-- Job controls -->
             @can ('close-job', $job)
@@ -43,15 +43,55 @@
                 <div class="chip green white-text">Open</div>
             @endif
         @endcan
-        <!-- TODO View Inquiries here? -->
+    </div>
+</div>
+@if (count($inquiries) > 0)
+    <div class="row">
+        @foreach ($inquiries as $inquiry)
+            <div class="col s12 m9 offset-m3 job-inquiry">
+                <p class="small">Applied for this job on {{ $inquiry->created_at->format('F j, Y g:ia') }}</p>
+                <p><a href="{{ Storage::disk('local')->url($inquiry->resume) }}">View resume</a></p>
+            </div>
+        @endforeach
+    </div>
+@endif
+<div class="row">
+    <div class="col s12 m9 offset-m3 job-inquire">
         @can ('create-inquiry', $job)
-            <!-- TODO Inquiry form -->
-            <form method="POST" action="/job/{{ $job->id }}/inquire">
+            <form method="POST" action="/job/{{ $job->id }}/inquire" enctype="multipart/form-data">
                 {{ csrf_field() }}
+                <div class="input-field" style="padding-bottom: 10px;">
+                    <h5>Apply</h5>
+                </div>
                 <div class="input-field">
-                    <button class="btn sbs-red" type="submit" name="button">Apply for this job</button>
+                    <input id="name" type="text" name="name" value="{{ Auth::user()->getName() }}">
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-field">
+                    <input id="email" type="text" name="email" value="{{ Auth::user()->email }}">
+                    <label for="email">Email Address</label>
+                </div>
+                <div class="input-field">
+                    <input id="phone" type="text" name="phone" value="{{ Auth::user()->phone }}">
+                    <label for="phone">Phone number</label>
+                </div>
+                <div class="file-field input-field">
+                    <div class="btn white black-text">
+                        <span>Upload Resume</span>
+                        <input type="file" name="resume" value="{{ old('resume') }}">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" name="resume_text" value="{{ old('resume_text') }}">
+                    </div>
+                </div>
+                <div class="input-field">
+                    <button class="btn sbs-red" type="submit" name="button">Apply</button>
                 </div>
             </form>
+        @else
+            <div class="input-field">
+                <a href="/register" class="btn sbs-red">Join to apply</a>
+            </div>
         @endcan
     </div>
 </div>

@@ -34,7 +34,7 @@
     </div>
     <div class="row">
         <div class="col s12 center-align">
-            <h3>Our Clients Include</h3>
+            <a name="clients"><h3>Our Clients Include</h3></a>
         </div>
     </div>
     <div class="row">
