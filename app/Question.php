@@ -34,7 +34,7 @@ class Question extends Model
 
     public static function unapproved()
     {
-        return Question::where('approved', null)->orderBy('created_at', 'asc');
+        return Question::whereNull('approved')->orderBy('created_at', 'asc');
     }
 
     public static function search(Request $request)

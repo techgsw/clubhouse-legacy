@@ -13,7 +13,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $unapproved = Question::unapproved();
+        $unapproved = Question::unapproved()->get();
 
         return view('admin/question', [
             'unapproved' => $unapproved
