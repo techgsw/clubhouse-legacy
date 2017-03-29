@@ -20,7 +20,10 @@ class JobController extends Controller
         $jobs = Job::filter($request)->paginate(5);
 
         return view('job/index', [
-            'breadcrumb' => ['Home' => '/', 'Job Board' => '/job'],
+            'breadcrumb' => [
+                'Home' => '/',
+                'Job Board' => '/job'
+            ],
             'jobs' => $jobs
         ]);
     }
@@ -33,7 +36,11 @@ class JobController extends Controller
         $this->authorize('create-job');
 
         return view('job/create', [
-            'breadcrumb' => ['Home' => '/', 'Job Board' => '/job', 'Post a job' => '/job/create']
+            'breadcrumb' => [
+                'Home' => '/',
+                'Job Board' => '/job',
+                'Post a job' => '/job/create'
+            ]
         ]);
     }
 
@@ -79,7 +86,11 @@ class JobController extends Controller
         return view('job/show', [
             'job' => $job,
             'inquiries' => $inquiries,
-            'breadcrumb' => ['Home' => '/', 'Job Board' => '/job', "$job->title with $job->organization" => "/job/{$job->id}"]
+            'breadcrumb' => [
+                'Home' => '/',
+                'Job Board' => '/job',
+                "$job->title with $job->organization" => "/job/{$job->id}"
+            ]
         ]);
     }
 
@@ -132,7 +143,11 @@ class JobController extends Controller
 
         return view('job/edit', [
             'job' => $job,
-            'breadcrumb' => ['Home' => '/', 'Job Board' => '/job', "Edit" => "/job/{$job->id}/edit"]
+            'breadcrumb' => [
+                'Home' => '/',
+                'Job Board' => '/job',
+                "Edit" => "/job/{$job->id}/edit"
+            ]
         ]);
     }
 

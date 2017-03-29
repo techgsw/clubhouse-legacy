@@ -13,15 +13,22 @@ class QuestionController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('view-question-index');
 
-        // TODO Paginate
-        $questions = Question::approved();
+        $questions = Question::search($request)->paginate(10);
+
+        $breadcrumb = [
+            'Home' => '/',
+            'Q&A' => '/question',
+        ];
+        if ($search = request('search')) {
+            $breadcrumb["Searching \"{$search}\""] = "/question?search={$search}";
+        }
 
         return view('question/index', [
-            'breadcrumb' => ['Home' => '/', 'Q&A' => '/question'],
+            'breadcrumb' => $breadcrumb,
             'questions' => $questions
         ]);
     }
@@ -34,7 +41,11 @@ class QuestionController extends Controller
         $this->authorize('create-question');
 
         return view('question/create', [
-            'breadcrumb' => ['Home' => '/', 'Q&A' => '/question', 'Ask a question' => '/question/create']
+            'breadcrumb' => [
+                'Home' => '/',
+                'Q&A' => '/question',
+                'Ask a question' => '/question/create'
+            ]
         ]);
     }
 
@@ -71,7 +82,11 @@ class QuestionController extends Controller
         return view('question/show', [
             'question' => $question,
             'answers' => $answers,
-            'breadcrumb' => ['Home' => '/', 'Q&A' => '/question', "{$question->title}" => "/question/{$question->id}"]
+            'breadcrumb' => [
+                'Home' => '/',
+                'Q&A' => '/question',
+                "{$question->title}" => "/question/{$question->id}"
+            ]
         ]);
     }
 
@@ -122,7 +137,11 @@ class QuestionController extends Controller
 
         return view('question/edit', [
             'question' => $question,
-            'breadcrumb' => ['Home' => '/', 'Q&A' => '/question', "Edit" => "/question/{$question->id}/edit"]
+            'breadcrumb' => [
+                'Home' => '/',
+                'Q&A' => '/question',
+                "Edit" => "/question/{$question->id}/edit"
+            ]
         ]);
     }
 

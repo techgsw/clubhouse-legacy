@@ -6,17 +6,19 @@
 @endsection
 @section('content')
 <div class="row">
-    <div class="col s12 center-align">
-        <h4>Q&amp;A Forum</h4>
-    </div>
+    <form action="/question" method="get">
+        <div class="col s12 m9 input-field">
+            <input id="search" type="text" name="search" value="{{ request('search') }}">
+            <label for="search">Search</label>
+        </div>
+        <div class="col s12 m3 input-field center-align">
+            <button type="submit" class="btn sbs-red">Search</button>
+        </div>
+    </form>
 </div>
 <div class="row">
-    <div class="col s12 m8 input-field">
-        <input id="search" type="text" name="search">
-        <label for="search">Search</label>
-    </div>
-    <div class="col s12 m4 input-field">
-        <a href="/question/create" class="btn sbs-red">Ask a question</a>
+    <div class="col s12 center-align">
+        <a href="/question/create" class="btn btn-large sbs-red">Ask a question</a>
     </div>
 </div>
 <div class="row">
