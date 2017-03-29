@@ -16,12 +16,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         \View::composer('layouts.components.instagram-feed', function ($view) {
             $this->getInstagramFeed($view);
         });
-        /*
-        Don't load Twitter feed manually. Using embedded timeline.
-        \View::composer('layouts.components.twitter-feed', function ($view) {
-            $this->getTwitterFeed($view);
-        });
-        */
+        // Don't load Twitter feed manually. Using embedded timeline.
     }
 
     /**

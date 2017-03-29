@@ -13,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->authorize('view-admin-user');
+        $this->authorize('view-admin-users');
 
         $users = User::all();
 
