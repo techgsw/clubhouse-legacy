@@ -17,7 +17,6 @@ git clone git@source.whale.enterprises:sbs/sportsbusinesssolutions.git sportsbus
 
 Update and install project dependencies
 ```
-composer update
 composer install
 ```
 
