@@ -185,7 +185,6 @@ nav.nav-breadcrumb a.breadcrumb {
 footer.page-footer {
     background-color: #F2F2F2;
     color: #3F3E3E;
-    margin-top: 40px;
 }
 footer.page-footer .footer-copyright {
     background-color: #3F3E3E;
@@ -465,6 +464,27 @@ form#edit-job img {
     max-width: 200px;
     max-height: 200px;
     padding: 20px 30px;
+}
+
+/**
+ * Carousel
+ */
+.carousel {}
+.carousel .carousel-item {
+    background-color: #F2F2F2
+}
+.carousel.testimonial img.testimonial-logo {
+    max-width: 100%;
+}
+.carousel .carousel-item .testimonial-content {
+    padding: 18px 24px;
+    text-align: left;
+}
+.carousel .indicators .indicator-item {
+    background-color: #FF7981;
+}
+.carousel .indicators .indicator-item.active {
+    background-color: #EB2935;
 }
 
 /**

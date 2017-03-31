@@ -7,9 +7,7 @@
         <main>
             @yield('hero')
             <div class="section no-pad-bot" id="index-banner">
-                <div class="container">
-                    @yield('content')
-                </div>
+                @yield('content')
             </div>
         </main>
         @include('layouts.components.footer')

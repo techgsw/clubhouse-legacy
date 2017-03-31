@@ -24,17 +24,19 @@
     @endif
 @endsection
 @section('content')
-@if (!Auth::check())
-    @include('layouts.components.errors')
+<div class="container">
+    @if (!Auth::check())
+        @include('layouts.components.errors')
+        <div class="row">
+            <div class="col s12">
+                @include('forms.register')
+            </div>
+        </div>
+    @endif
     <div class="row">
         <div class="col s12">
-            @include('forms.register')
+            <h4>Blog</h4>
         </div>
-    </div>
-@endif
-<div class="row">
-    <div class="col s12">
-        <h4>Blog</h4>
     </div>
 </div>
 @endsection

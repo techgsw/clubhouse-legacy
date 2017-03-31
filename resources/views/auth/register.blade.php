@@ -14,9 +14,11 @@
     </div>
 @endsection
 @section('content')
-<div class="row">
-    <div class="col s12">
-        @include('forms.register')
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            @include('forms.register')
+        </div>
     </div>
 </div>
 @endsection

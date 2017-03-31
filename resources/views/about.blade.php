@@ -8,9 +8,11 @@
     </div>
 @endsection
 @section('content')
-<div class="row">
-    <div class="col s12">
-        <p>This is a <a href="/">link</a></p>
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <p>This is a <a href="/">link</a></p>
+        </div>
     </div>
 </div>
 @endsection
