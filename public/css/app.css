@@ -59,7 +59,7 @@ main img {
 }
 
 div.row.hero {
-    padding: 40px 0;
+    padding: 60px 0;
     text-align: center;
     margin-bottom: 0;
 }
@@ -76,6 +76,9 @@ div.row.bg-image {
 }
 div.row.bg-image.home {
     background-image: url("/images/home/hero.jpg");
+}
+div.row.bg-image.about {
+    background-image: url("/images/about/hero.jpg");
 }
 div.row.bg-image h1,
 div.row.bg-image h2,
@@ -238,6 +241,18 @@ p {
 }
 
 a {}
+a>img {
+    border: 3px solid transparent;
+}
+a:hover>img {
+    border: 3px solid #EB2935;
+}
+a.no-underline {
+    border: none;
+}
+a:hover.no-underline {
+    border: none;
+}
 
 main a.btn,
 main a.btn:hover,
@@ -548,7 +563,7 @@ form#edit-job img {
     border-bottom: 2px solid #EB2935;
 }
 .twitter img.avatar {
-    border: 2px solid transparent;
+    border: 3px solid transparent;
     max-width: 100%;
     max-height: 100%;
     width: 100%;
@@ -556,7 +571,7 @@ form#edit-job img {
     border-radius: 50%;
 }
 .twitter a:hover img.avatar {
-    border: 2px solid #EB2935;
+    border: 3px solid #EB2935;
     max-width: 100%;
     max-height: 100%;
     border-radius: 50%;
