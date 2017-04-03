@@ -25,6 +25,9 @@ Route::get('/the-hub', function () {
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
+Route::get('/videos', function () {
+    return view('videos');
+});
 
 /**
  * Auth
