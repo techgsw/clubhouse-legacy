@@ -3,12 +3,6 @@
 @section('title', 'Question & Answer')
 @section('content')
 <div class="row">
-    <div class="col s12 input-field">
-        <input id="search" type="text" name="search">
-        <label for="search">Search all questions</label>
-    </div>
-</div>
-<div class="row">
     <div class="col s12">
         <h4>Unapproved Questions</h4>
         @if (count($unapproved) > 0)
@@ -33,6 +27,11 @@
                     </div>
                 </div>
             @endforeach
+            <div class="row">
+                <div class="col s12 center-align">
+                    {{ $unapproved->links('components.pagination') }}
+                </div>
+            </div>
         @endif
     </div>
 </div>

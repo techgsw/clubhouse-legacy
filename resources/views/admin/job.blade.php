@@ -2,12 +2,6 @@
 @extends('layouts.admin')
 @section('title', 'Job Board')
 @section('content')
-<div class="row">
-    <div class="col s12 input-field">
-        <input id="search" type="text" name="search">
-        <label for="search">Search all jobs</label>
-    </div>
-</div>
 @can ('create-job')
     <div class="row">
         <div class="col s12 input-field">
@@ -53,6 +47,11 @@
                     </div>
                 </div>
             @endforeach
+            <div class="row">
+                <div class="col s12 center-align">
+                    {{ $jobs->links('components.pagination') }}
+                </div>
+            </div>
         @endif
     </div>
 </div>

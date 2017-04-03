@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         $this->authorize('view-admin-users');
 
-        $users = User::all();
+        $users = User::orderBy('id', 'desc')->paginate(5);
 
         return view('admin/user', [
             'users' => $users

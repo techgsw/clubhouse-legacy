@@ -14,6 +14,11 @@
                     </div>
                 </div>
             @endforeach
+            <div class="row">
+                <div class="col s12 center-align">
+                    {{ $users->links('components.pagination') }}
+                </div>
+            </div>
         @endif
     </div>
 </div>

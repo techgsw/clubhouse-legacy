@@ -13,7 +13,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $unapproved = Question::unapproved()->get();
+        $unapproved = Question::unapproved()->paginate(5);
 
         return view('admin/question', [
             'unapproved' => $unapproved
