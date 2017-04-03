@@ -19,6 +19,7 @@
                         </form>
                     </li>
                 @endif
+                <li><a class="sbs-red white-text" href="/contact">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -37,7 +38,6 @@
                     <li><a href="/career-services">Career Services</a></li>
                 </ul>
                 <li><a href="/job">Job Board</a></li>
-                <li><a href="/contact">Contact</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/the-hub">The Hub</a></li>
             </ul>
