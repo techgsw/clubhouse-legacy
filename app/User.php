@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,6 +17,15 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
+
+    public static function boot() {
+        static::created(function (User $user) {
+            $roles = Role::where('code', 'user')->get();
+            $user->roles()->attach($roles);
+        });
+
+        parent::boot();
+    }
 
     public function questions()
     {
