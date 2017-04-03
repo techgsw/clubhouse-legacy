@@ -29,7 +29,13 @@
             </a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="/about">About</a></li>
-                <li><a href="/services">Services</a></li>
+                <li><a href="/services" class="dropdown-button" data-activates="services-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Services</a></li>
+                <!-- Dropdown Structure -->
+                <ul id="services-dropdown" class="dropdown-content">
+                    <li><a href="/training-consulting">Training &amp; Consulting</a></li>
+                    <li><a href="/recruiting-3">Recruiting</a></li>
+                    <li><a href="/career-services">Career Services</a></li>
+                </ul>
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li><a href="/blog">Blog</a></li>
