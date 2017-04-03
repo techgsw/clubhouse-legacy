@@ -8,6 +8,7 @@ use App\Inquiry;
 use App\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class JobController extends Controller
@@ -78,10 +79,16 @@ class JobController extends Controller
             return abort(404);
         }
 
-        $inquiries = Inquiry::where('job_id', $id)
-            ->where('user_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        if (Gate::allows('view-admin-jobs')) {
+            $inquiries = Inquiry::where('job_id', $id)
+                ->orderBy('created_at', 'asc')
+                ->get();
+        } else {
+            $inquiries = Inquiry::where('job_id', $id)
+                ->where('user_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
 
         return view('job/show', [
             'job' => $job,

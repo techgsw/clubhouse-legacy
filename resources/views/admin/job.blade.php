@@ -14,6 +14,7 @@
         <h4>Jobs</h4>
         @if (count($jobs) > 0)
             @foreach ($jobs as $job)
+                <a href="/job/{{$job->id}}">
                 <div class="row">
                     <div class="col s3 m2">
                         <img src={{ Storage::disk('local')->url($job->image_url) }}>
@@ -46,6 +47,7 @@
                         </p>
                     </div>
                 </div>
+                </a>
             @endforeach
             <div class="row">
                 <div class="col s12 center-align">

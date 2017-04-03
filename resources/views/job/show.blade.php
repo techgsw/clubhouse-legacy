@@ -50,7 +50,8 @@
         <div class="row">
             @foreach ($inquiries as $inquiry)
                 <div class="col s12 m9 offset-m3 job-inquiry">
-                    <p class="small">Applied for this job on {{ $inquiry->created_at->format('F j, Y g:ia') }}</p>
+                    <p>{{ $inquiry->name}} <a href="mailto:{{ $inquiry->email}}">{{ $inquiry->email}}</a> {{ $inquiry->phone}}</p>
+                    <p class="small">applied for this job on {{ $inquiry->created_at->format('F j, Y g:ia') }}</p>
                     <p><a href="{{ Storage::disk('local')->url($inquiry->resume) }}">View resume</a></p>
                 </div>
             @endforeach
