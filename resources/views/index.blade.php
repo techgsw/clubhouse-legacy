@@ -50,7 +50,7 @@
         <h3>Training &amp; Consulting</h3>
         <p>With more than 10 years of sports industry experience and a passion for teaching and coaching we’re excited to help you and your team succeed. Let us know the challenges you’re facing and we’ll work together to provide a solution that helps you accomplish your business objectives and take your team to the next level.</p>
         <div class="input-field">
-            <a href="/training" class="btn btn-large sbs-red">Learn more</a>
+            <a href="/training-consulting" class="btn btn-large sbs-red">Learn more</a>
         </div>
     </div>
     <div class="sbs-col-6 bg-img training hide-on-small-only"></div>
@@ -61,7 +61,7 @@
         <h3>Recruiting</h3>
         <p>Our experience as former hiring managers in sports gives us unique insight and the right qualifications to find and place best-in-class job candidates. Not only do we have firsthand knowledge of the skills and attributes needed to succeed in sports business jobs, we have established relationships with the future stars of our industry. Let us help you find your next sports industry leader.</p>
         <div class="input-field">
-            <a href="/recruiting" class="btn btn-large sbs-red">Learn more</a>
+            <a href="/recruiting-3" class="btn btn-large sbs-red">Learn more</a>
         </div>
     </div>
 </div>
