@@ -80,6 +80,9 @@ div.row.bg-image.home {
 div.row.bg-image.about {
     background-image: url("/images/about/hero.jpg");
 }
+div.row.bg-image.services {
+    background-image: url("/images/services/hero.jpg");
+}
 div.row.bg-image h1,
 div.row.bg-image h2,
 div.row.bg-image h3,
@@ -488,8 +491,13 @@ form#edit-job img {
 .carousel .carousel-item {
     background-color: #F2F2F2
 }
-.carousel.testimonial img.testimonial-logo {
+.carousel.testimonial img.logo {
+    box-sizing: border-box;
     max-width: 100%;
+    max-height: 220px;
+    padding: 20px 10px 0px 10px;
+    width: auto;
+    height: auto;
 }
 .carousel .carousel-item .testimonial-content {
     padding: 18px 24px;
@@ -500,6 +508,30 @@ form#edit-job img {
 }
 .carousel .indicators .indicator-item.active {
     background-color: #EB2935;
+}
+
+/**
+ * Services
+ */
+
+.gray-bg {
+    background-color: #F2F2F2;
+}
+.red-hover:hover {
+    background-color: #EB2935;
+    color: #FFFFFF;
+    transition: all 0.2s linear;
+}
+.red-hover .btn {
+    background: transparent;
+    border: 2px solid #EB2935;
+    color: #EB2935;
+}
+.red-hover:hover .btn,
+.red-hover .btn:hover {
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    transition: all 0.2s linear;
 }
 
 /**
@@ -585,4 +617,59 @@ form#edit-job img {
 }
 .twitter-feed iframe .timeline-Header {
     display: none;
+}
+
+/**
+ * SBS grid
+ */
+.sbs-row {
+    display: flex;
+    flex-flow: row;
+}
+.sbs-col-6 {
+    flex: 1 1 50%;
+}
+.sbs-col-6.gray {
+    background-color: #F2F2F2;
+    padding: 50px 65px;
+}
+.sbs-col-6.bg-img {
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+}
+.sbs-col-6.bg-img.training {
+    background-image: url('/images/home/training.jpg');
+}
+.sbs-col-6.bg-img.recruiting {
+    background-image: url('/images/home/recruiting.jpg');
+}
+.sbs-col-6.bg-img.services {
+    background-image: url('/images/home/services.jpg');
+}
+
+/**
+ *
+ */
+@media only screen and (min-width: 601px) {
+    .sbs-row .sbs-col-6.push-m6 {
+        left: 50%;
+    }
+    .sbs-row .sbs-col-6.pull-m6 {
+        right: 50%;
+    }
+}
+@media only screen and (max-width: 601px) {
+    .sbs-row {
+        display: block;
+    }
+    .sbs-row .sbs-col-6 {
+        flex: 0 0 100%;
+    }
+    .sbs-col-6.gray {
+        padding: 20px 25px;
+    }
+    .carousel.testimonial.carousel-slider {
+        height: 800px;
+    }
 }
