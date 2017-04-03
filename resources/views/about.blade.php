@@ -50,62 +50,69 @@
     </div>
     <div class="row" style="padding-bottom: 20px;">
         <div class="col s12">
-            <div class="carousel carousel-slider center" data-indicators="true">
+            <div class="carousel testimonial carousel-slider center" data-indicators="true">
                 <div class="carousel-item" href="#">
                     <div class="row">
-                        <div class="col s4">
-                            <!-- TODO image -->
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/seat-geek.png" alt="">
                         </div>
-                        <div class="col s8 left-align">
+                        <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
                                 <p>I had the pleasure of hiring Bob Hamer and working with him in Phoenix for the better part of seven years. Bob has a sharp eye for revenue generation and creating systems that enhance results. His ability to identify and hire great talent, as well as teaching this talent to succeed, is first class. I consider Bob a trusted advisor and would want him as part of my team.</p>
-                                <p class="heavy">Jeff Ianello</p>
-                                <p class="heavy">Executive Vice President, Client Partnerships</p>
-                                <p class="heavy">SeatGeek</p>
+                                <p class="heavy">
+                                    Jeff Ianello<br/>
+                                    Executive Vice President, Client Partnerships<br/>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item" href="#">
                     <div class="row">
-                        <div class="col s4">
-                            <!-- TODO image -->
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/usf-bulls.png" alt="">
                         </div>
-                        <div class="col s8 left-align">
+                        <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
                                 <p>Bob Hamer has a unique perspective to offer young men and women hoping to work in the sport industry. He has progressed from an entry level sales person to a Vice President responsible for generating millions of dollars in revenue. In his role he has recruited, trained and developed successful professionals and has a real understanding of what it takes to be successful in sport business. His experience, concern, empathy and ability to communicate effectively make him uniquely qualified to provide direction and career advice. I can think of very few people with the credibility and interest in helping young people more than Bob Hamer. He will make a difference in people’s lives.</p>
-                                <p class="heavy">Dr. William (Bill) Sutton</p>
-                                <p class="heavy">Professor & Director, Sports Management</p>
-                                <p class="heavy">University South Florida</p>
+                                <p class="heavy">
+                                    Dr. William (Bill) Sutton<br/>
+                                    Professor & Director, Sports Management<br/>
+                                    University South Florida
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item" href="#">
                     <div class="row">
-                        <div class="col s4">
-                            <!-- TODO image -->
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/arizona-diamondbacks.png" alt="">
                         </div>
-                        <div class="col s8 left-align">
+                        <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
                                 <p>I’ve had the pleasure of knowing and working with Bob Hamer for the last ten years, in that time he has continued to grow and learn each and every day. Now all those lessons he’s learned while working in sports and traveling to visit teams are ready to be passed onto the next generation of industry leaders. The sports business field is highly competitive, and everyone looking for a start should also be looking for an advantage. I cannot think of a better professional to teach, train, recruit, and help place individuals in sports than Bob. His passion to help others learn, grow, and succeed are second to none. I highly recommend Bob to any individuals or teams. If you work with him, I promise you’ll be ahead of the game from that moment on.</p>
-                                <p class="heavy">Ryan Holmstedt</p>
-                                <p class="heavy">Sr. Director, Ticket Sales, Arizona Diamondbacks (MLB)</p>
+                                <p class="heavy">
+                                    Ryan Holmstedt<br/>
+                                    Sr. Director, Ticket Sales, Arizona Diamondbacks (MLB)
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item" href="#">
                     <div class="row">
-                        <div class="col s4">
-                            <!-- TODO image -->
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/new-jersey-devils.png" alt="">
                         </div>
-                        <div class="col s8 left-align">
+                        <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
                                 <p>Bob is someone who has a vast knowledge of the industry and is a proven professional. His experience helps him directly relate to sales rep in every aspect and makes for an extremely enjoyable training experience. He was very adaptable to our specific culture and was able to tailor his methods to fit the needs of our departments.</p>
-                                <p class="heavy">Will Lamont</p>
-                                <p class="heavy">Sr. Manager, Group Events</p>
-                                <p class="heavy">New Jersey Devils</p>
+                                <p class="heavy">
+                                    Will Lamont<br/>
+                                    Sr. Manager, Group Events<br/>
+                                    New Jersey Devils
+                                </p>
                             </div>
                         </div>
                     </div>

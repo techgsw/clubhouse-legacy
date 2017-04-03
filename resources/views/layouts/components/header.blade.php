@@ -44,7 +44,7 @@
                 <li class="divider"></li>
                 <li><a href="/the-hub">The Hub</a></li>
                 <li><a href="/question">Q&amp;A Forum</a></li>
-                <li><a href="/training">Training</a></li>
+                <li><a href="/training-consulting">Training</a></li>
                 <li><a href="/#clients">Clients</a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())

@@ -250,6 +250,10 @@ a>img {
 a:hover>img {
     border: 3px solid #EB2935;
 }
+a.brand-logo>img,
+a.brand-logo:hover>img {
+    border: none;
+}
 a.no-underline {
     border: none;
 }
@@ -620,6 +624,25 @@ form#edit-job img {
 }
 
 /**
+ * Panels
+ */
+
+.panel-icon {
+    height: 50px;
+    width: 50px;
+    display: block;
+    margin: 20px auto 30px auto;
+}
+
+/**
+ * Service flex
+ */
+
+.service-flex {
+    display: flex;
+}
+
+/**
  * SBS grid
  */
 .sbs-row {
@@ -671,5 +694,9 @@ form#edit-job img {
     }
     .carousel.testimonial.carousel-slider {
         height: 800px;
+    }
+
+    .service-flex {
+        display: none;
     }
 }
