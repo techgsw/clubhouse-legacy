@@ -97,10 +97,19 @@ div.row.bg-image p {
  * Nav
  */
 
+nav {
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+}
+
 nav.nav-main {
     height: 120px;
     line-height: 120px;
     background-color: #FFFFFF;
+}
+nav.nav-main ul li {
+    padding-bottom: 0 !important;
 }
 nav.nav-main ul a {
     color: #898989;
