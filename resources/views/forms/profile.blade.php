@@ -39,6 +39,7 @@
             <label for="title">What is your title?</label>
         </div>
     </div>
+    <!-- TODO
     <div class="row">
         <div class="switch col s12">
             <p>Would you like to receive our free newsletter with advice on sports sales?</p>
@@ -50,6 +51,7 @@
             </label>
         </div>
     </div>
+    -->
     <div class="row">
         <div class="switch col s12">
             <p>Would you like to be considered for jobs in sports sales, business development, or sales leadership?</p>

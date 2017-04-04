@@ -29,51 +29,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="switch col s12">
-            <p>Are you currently a sports sales professional?</p>
-            <label>
-                No
-                <input type="checkbox" name="is_sales_professional" checked>
-                <span class="lever"></span>
-                Yes
-            </label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12 {{ $errors->has('name') ? 'invalid' : '' }}">
-            <input id="organization" type="text" name="organization" value="{{ old('organization') }}">
-            <label for="organization">Which organization do you work for?</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12 {{ $errors->has('name') ? 'invalid' : '' }}">
-            <input id="title" type="text" name="title" value="{{ old('title') }}">
-            <label for="title">What is your title?</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="switch col s12">
-            <p>Would you like to receive our free newsletter with advice on sports sales?</p>
-            <label>
-                No
-                <input type="checkbox" name="receives_newsletter" checked>
-                <span class="lever"></span>
-                Yes
-            </label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="switch col s12">
-            <p>Would you like to be considered for jobs in sports sales, business development, or sales leadership?</p>
-            <label>
-                No
-                <input type="checkbox" name="is_interested_in_jobs" checked>
-                <span class="lever"></span>
-                Yes
-            </label>
-        </div>
-    </div>
-    <div class="row">
         <div class="input-field col s12 center-align">
             <button type="submit" class="btn btn-large sbs-red">Join</button>
         </div>

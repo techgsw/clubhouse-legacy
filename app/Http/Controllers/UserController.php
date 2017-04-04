@@ -58,7 +58,7 @@ class UserController extends Controller
         $user->title = request('title');
         $user->organization = request('organization');
         $user->is_sales_professional = request('is_sales_professional') && request('is_sales_professional') == "on";
-        $user->receives_newsletter = request('receives_newsletter') && request('receives_newsletter') == "on";
+        //$user->receives_newsletter = request('receives_newsletter') && request('receives_newsletter') == "on";
         $user->is_interested_in_jobs = request('is_interested_in_jobs') && request('is_interested_in_jobs') == "on";
         $user->save();
 

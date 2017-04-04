@@ -68,11 +68,6 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'organization' => $data['organization'],
-            'title' => $data['title'],
-            'is_sales_professional' => isset($data['is_sales_professional']),
-            'receives_newsletter' => isset($data['receives_newsletter']),
-            'is_interested_in_jobs' => isset($data['is_interested_in_jobs']),
         ]);
     }
 }
