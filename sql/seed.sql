@@ -2,10 +2,11 @@
 /* User */
 INSERT INTO `user` (`id`, `first_name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `last_name`, `organization`, `title`, `is_sales_professional`, `receives_newsletter`, `is_interested_in_jobs`)
 VALUES
-	(1, 'Niko', 'niko@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', '5QtHdOtZl70ZE2bLcvF1JLHeRAtxg8DX2BFlIBc3JINXekqDB37L2Tx7Hk6M', '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Kovacevic', 'Whale Enterprises', 'Software Developer', 0, 1, 0),
-	(2, 'Alice', 'alice@sportsbusiness.solutions', '$2y$10$D8K0FX8p6GKIiuf5p1Qu7ePuvLoztfllZ/VNO0VrOZn4PiugfQHRG', 'R02neBpvIvwUzOcu2RHWWwissHxKXRlGhNdLyuCF7gFseNpjaNObo1itw99t', '2017-03-21 13:03:39', '2017-03-21 13:03:39', 'User', 'Phoenix Suns', 'Sales associate', 1, 1, 1),
-	(3, 'Bob', 'bob@sportsbusiness.solutions', '$2y$10$R6VTK2BVksOkzijuPFiveuZJPwlGye.3R.9zhLFnuKI3tRQ32.Kdq', 'Qm7RnQ6AS4QBm03JpXL3f7sqslyMhxJSYYcpKlgncu8tBLMNXZKMxG2WV7Ar', '2017-03-21 13:04:09', '2017-03-21 13:05:26', 'User', 'Pittsburgh Steelers', 'Quarterback', 0, 0, 1),
-	(4, 'Mike', 'mike@sportsbusiness.solutions', '$2y$10$lzi8TUpVOUgvqolG6i/Qc.dBw4n2XV8xoYKto0rP7hmuFmENRVr2e', NULL, '2017-03-21 14:08:00', '2017-03-21 14:08:00', 'Moderator', 'Sports Business Solutions', 'Moderator', 1, 0, 1);
+    (1, 'Bob', 'bob@sportsbusiness.solutions', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Hamer', 'Sports Business Solutions', 'President', 1, 0, 0),
+	(2, 'Niko', 'niko@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Kovacevic', 'Whale Enterprises', 'Software Developer', 0, 0, 0),
+    (3, 'Sean', 'sean@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Brown', 'Whale Enterprises', 'Software Developer', 0, 0, 0),
+    (4, 'Test', 'developer@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'User', 'Whale Enterprises', 'Software Developer', 0, 0, 0),
+	;
 
 /* RoleUser */
 INSERT INTO `role_user` (`role_code`, `user_id`)
@@ -14,9 +15,14 @@ VALUES
     ('administrator', 1),
     ('moderator', 1),
     ('user', 1),
+    ('superuser', 2),
+    ('administrator', 2),
+    ('moderator', 2),
     ('user', 2),
+    ('superuser', 3),
+    ('administrator', 3),
+    ('moderator', 3),
     ('user', 3),
-    ('moderator', 4),
     ('user', 4)
     ;
 
