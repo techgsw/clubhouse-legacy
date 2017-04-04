@@ -709,6 +709,20 @@ form#edit-job img {
 }
 
 /**
+ * Mailchimp
+ */
+
+#mce-success-response {
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 16px;
+    color: #31708f;
+    background-color: #d9edf7;
+    border: 1px solid #bce8f1;
+    border-radius: 4px;
+}
+
+/**
  * Media queries
  */
 @media only screen and (min-width: 601px) {
