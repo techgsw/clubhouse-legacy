@@ -5,7 +5,8 @@ VALUES
     (1, 'Bob', 'bob@sportsbusiness.solutions', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Hamer', 'Sports Business Solutions', 'President', 1, 0, 0),
 	(2, 'Niko', 'niko@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Kovacevic', 'Whale Enterprises', 'Software Developer', 0, 0, 0),
     (3, 'Sean', 'sean@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Brown', 'Whale Enterprises', 'Software Developer', 0, 0, 0),
-    (4, 'Test', 'developer@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'User', 'Whale Enterprises', 'Software Developer', 0, 0, 0),
+    (4, 'Liz', 'emagura@gmail.com', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'Magura', NULL, 'Graphic Designer', 0, 0, 0),
+    (5, 'Test', 'developer@whale.enterprises', '$2y$10$ae8AwT5S7Taava1LrmVvAOPevxaSC5gTfwG4NofdUafDVQQnbTjVy', NULL, '2017-03-21 13:03:06', '2017-03-21 13:03:06', 'User', NULL, NULL, 0, 0, 0)
 	;
 
 /* RoleUser */
@@ -23,7 +24,11 @@ VALUES
     ('administrator', 3),
     ('moderator', 3),
     ('user', 3),
-    ('user', 4)
+    ('superuser', 4),
+    ('administrator', 4),
+    ('moderator', 4),
+    ('user', 4),
+    ('user', 5)
     ;
 
 /* Question */
