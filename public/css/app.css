@@ -110,6 +110,8 @@ nav.nav-main {
 }
 nav.nav-main ul li {
     padding-bottom: 0 !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
 }
 nav.nav-main ul a {
     color: #898989;
@@ -143,6 +145,14 @@ nav.nav-user {
     height: 30px;
     line-height: 30px;
     background-color: #F2F2F2;
+}
+nav.nav-user ul {
+    font-size: 14.5px !important;
+}
+nav.nav-user ul li {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    padding-bottom: 0 !important;
 }
 nav.nav-user a,
 nav.nav-user ul a {
