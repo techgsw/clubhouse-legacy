@@ -7,6 +7,10 @@
                 </ul>
             @endif
             <ul class="right">
+                <li><a href="https://facebook.com/sportsbusinesssolutions"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a></li>
+                <li><a href="https://twitter.com/SportsBizBob"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a></li>
+                <li><a href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.linkedin.com/in/bob-hamer-b1ab703"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
@@ -20,6 +24,7 @@
                     </li>
                 @endif
                 <li><a class="sbs-red white-text" href="/contact">Contact</a></li>
+                <li><a href="/cart"><i class="fa fa-shopping-cart fa-16x" aria-hidden="true"></i></a></li>
             </ul>
         </div>
     </nav>
@@ -37,21 +42,33 @@
                     <li><a href="/recruiting-3">Recruiting</a></li>
                     <li><a href="/career-services">Career Services</a></li>
                 </ul>
-                <li><a href="/job">Job Board</a></li>
+                <li><a href="/blog">Archives</a></li>
                 <li><a href="/blog">Blog</a></li>
+                <li><a href="/job">Job Board</a></li>
                 <li><a href="/the-hub">The Hub</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
+                <li class="social-media">
+                    <a href="https://facebook.com/sportsbusinesssolutions"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://twitter.com/SportsBizBob"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://www.linkedin.com/in/bob-hamer-b1ab703"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                </li>
+                <li><a href="/contact" class="sbs-red white-text">Contact</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/services">Services</a></li>
-                <li><a href="/job">Job Board</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="/blog">Archives</a></li>
                 <li><a href="/blog">Blog</a></li>
+                <li><a href="/job">Job Board</a></li>
+                <li><a href="/#clients">Clients</a></li>
+                <li class="divider"></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/training-consulting">&mdash;Training &amp; Consulting</a></li>
+                <li><a href="/recruiting-3">&mdash;Recruiting</a></li>
+                <li><a href="/career-services">&mdash;Career Services</a></li>
                 <li class="divider"></li>
                 <li><a href="/the-hub">The Hub</a></li>
-                <li><a href="/question">Q&amp;A Forum</a></li>
-                <li><a href="/training-consulting">Training</a></li>
-                <li><a href="/#clients">Clients</a></li>
+                <li><a href="/question">&mdash;Q&amp;A Forum</a></li>
+                <li><a href="/videos">&mdash;Training</a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>

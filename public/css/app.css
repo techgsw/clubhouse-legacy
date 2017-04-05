@@ -140,10 +140,27 @@ nav ul.side-nav li a {
     height: 40px;
     margin-top: 0px;
 }
+nav.nav-main ul.side-nav li.social-media {
+    height: 50px;
+    line-height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+nav.nav-main ul.side-nav li.social-media a {
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+nav.nav-main ul.side-nav li.social-media a i {
+    height: 50px;
+    line-height: 50px;
+    margin: 0 auto;
+}
 
 nav.nav-user {
-    height: 30px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
     background-color: #F2F2F2;
 }
 nav.nav-user ul {
@@ -161,6 +178,14 @@ nav.nav-user ul a {
     text-transform: uppercase;
     letter-spacing: 0.18px;
     font-weight: 300;
+}
+nav.nav-user ul li a {
+    height: 40px;
+    line-height: 40px;
+}
+nav.nav-user ul li a i {
+    height: 40px;
+    line-height: 40px;
 }
 
 nav.nav-center {}
@@ -698,6 +723,23 @@ form#edit-job img {
 }
 .sbs-col-6.bg-img.services {
     background-image: url('/images/home/services.jpg');
+}
+
+/**
+ * Icons
+ */
+
+.fa-16x {
+    font-size: 1.6em;
+}
+
+a#hub-video {
+    color: #FFFFFF;
+    border: none;
+}
+a#hub-video:hover {
+    color: #FFFFFF;
+    border: none;
 }
 
 /**

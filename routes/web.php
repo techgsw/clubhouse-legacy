@@ -19,15 +19,13 @@ Route::get('/contact', function () {
 Route::get('/register', function () {
     return redirect('sales-center');
 });
-Route::get('/the-hub', function () {
-    return view('the-hub');
-});
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
 Route::get('/videos', function () {
     return view('videos');
 });
+Route::get('/the-hub', 'HubController@index');
 
 /**
  * Auth

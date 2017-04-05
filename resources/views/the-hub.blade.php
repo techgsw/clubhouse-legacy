@@ -9,6 +9,14 @@
             <h4 class="header">The Hub</h4>
             <p>A career development platform for current and aspiring sports sales professionals.</p>
         </div>
+        <div class="col s12" style="margin-top: 30px;">
+            <a id="hub-video" href="#hub-video-modal"><i class="fa fa-play-circle-o fa-4x" aria-hidden="true"></i></a>
+            <div id="hub-video-modal" class="modal">
+                <div class="modal-content">
+                    {!! $video !!}
+                </div>
+            </div>
+        </div>
     </div>
     @if (!Auth::check())
         <div class="row hero gray">
