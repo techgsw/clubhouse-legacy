@@ -13,9 +13,6 @@ Route::get('/about', function () {
 Route::get('/services', function () {
     return view('services');
 });
-Route::get('/contact', function () {
-    return view('contact');
-});
 Route::get('/register', function () {
     return redirect('sales-center');
 });
@@ -25,7 +22,18 @@ Route::get('/blog', function () {
 Route::get('/videos', function () {
     return redirect('videos');
 });
+
+/**
+ * The Hub
+ */
 Route::get('/the-hub', 'HubController@index');
+
+/**
+ * Contact
+ */
+Route::get('/contact', 'ContactController@index');
+Route::post('/contact', 'ContactController@send');
+Route::get('/contact/thanks', 'ContactController@thanks');
 
 /**
  * Auth
@@ -39,7 +47,6 @@ Auth::routes();
 /**
  * User
  */
-
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
     Route::get('/user/{id}/edit', 'UserController@edit');
@@ -49,7 +56,6 @@ Route::group(['middleware' => ['auth']], function () {
 /**
  * Job Board
  */
-
 Route::group(['middleware' => ['web']], function () {
     Route::get('/job', 'JobController@index');
     Route::get('/job/create', 'JobController@create');
@@ -70,7 +76,6 @@ Route::group(['middleware' => ['web']], function () {
 /**
  * Q&A
  */
-
 Route::group(['middleware' => ['web']], function () {
     Route::get('/question', 'QuestionController@index');
     Route::get('/question/create', 'QuestionController@create');
@@ -94,7 +99,6 @@ Route::group(['middleware' => ['web']], function () {
 /**
  * Admin
  */
-
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/admin', 'IndexController@index');
     Route::get('/admin/question', 'QuestionController@index');

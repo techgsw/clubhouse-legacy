@@ -2,10 +2,10 @@
 @section('title', 'Contact')
 @section('content')
 <div class="container">
-    <h5 class="header red-text">Contact</h5>
+    <h3 class="header">Thank you!</h3>
     <div class="row">
         <div class="col s12">
-            <p class="light"></p>
+            <p>We'll get back to you soon.</p>
         </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Page Not Found')
+@section('title', 'Not Authorized')
 @section('content')
 <div class="container">
     @if (!Auth::check())
