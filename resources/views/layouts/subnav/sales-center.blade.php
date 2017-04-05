@@ -2,7 +2,7 @@
     <div class="nav-wrapper container">
         <ul>
             <li><a href="/question">Q&amp;A Forum</a></li>
-            <li><a href="/videos">Training videos</a></li>
+            <li><a href="/videos">Insight videos</a></li>
         </ul>
     </div>
 </nav>

@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Training Videos')
+@section('title', 'Insight videos')
 @section('subnav')
     @include('layouts.subnav.sales-center')
 @endsection

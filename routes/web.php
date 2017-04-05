@@ -23,7 +23,7 @@ Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
 Route::get('/videos', function () {
-    return view('videos');
+    return redirect('videos');
 });
 Route::get('/the-hub', 'HubController@index');
 
@@ -61,6 +61,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/job/{id}', 'JobController@update');
     Route::post('/job/{id}/inquire', 'InquiryController@store');
     Route::get('/inquiry/{id}', 'InquiryController@show');
+
+    Route::get('/jobs', function () {
+        return redirect('/job');
+    });
 });
 
 /**
@@ -81,6 +85,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/answer/{id}/disapprove', 'AnswerController@disapprove');
     Route::get('/answer/{id}/edit', 'AnswerController@edit');
     Route::post('/answer/{id}', 'AnswerController@update');
+
+    Route::get('/questions', function () {
+        return redirect('/question');
+    });
 });
 
 /**
