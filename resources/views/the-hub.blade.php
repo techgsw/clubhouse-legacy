@@ -26,7 +26,11 @@
 @section('content')
 <div class="container">
     @if (!Auth::check())
-        @include('layouts.components.errors')
+        <div class="row">
+            <div class="col s12">
+                @include('layouts.components.errors')
+            </div>
+        </div>
         <div class="row">
             <div class="col s12">
                 @include('forms.register')

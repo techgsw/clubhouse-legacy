@@ -47,12 +47,21 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:user',
             'password' => 'required|min:6|confirmed',
-        ]);
+        ];
+
+        $messages = [
+            'unique' => 'That :attribute has already been taken.',
+            'required' => 'Sorry, :attribute is a required field.',
+            'password.min.string' => 'Passwords must be at least 6 characters long',
+            'min' => 'Sorry, :attribute must be at least 6 characters long',
+        ];
+
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
