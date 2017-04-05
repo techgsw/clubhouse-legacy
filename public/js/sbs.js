@@ -6,16 +6,18 @@ if (!SBS) {
 (function () {
     SBS.Video = {};
     SBS.Video.init = function () {
-        var vimeo = $('#hub-video-modal iframe');
-        var player = new Vimeo.Player(vimeo);
-        $('#hub-video-modal').modal({
-            ready: function() {
-                player.play();
-            },
-            complete: function() {
-                player.pause();
-            },
-        });
+        if ($('#hub-video-modal iframe').legnth) {
+            var vimeo = $('#hub-video-modal iframe');
+            var player = new Vimeo.Player(vimeo);
+            $('#hub-video-modal').modal({
+                ready: function() {
+                    player.play();
+                },
+                complete: function() {
+                    player.pause();
+                },
+            });
+        }
     };
 })();
 
