@@ -46,11 +46,26 @@
         </div>
     @endif
     @if (Auth::check())
-        <div class="row">
-            <div class="col s12">
-                <h4>Blog</h4>
+        @if (count($posts) > 0)
+            <div class="row">
+                <div class="col s12">
+                    <h4 class="header center-align">Latest Blog Posts</h4>
+                </div>
             </div>
-        </div>
+            <div class="row blog">
+                @foreach ($posts as $key => $post)
+                    <a class="blog-post-link" href="{{ $post->link }}">
+                        <div class="col s12 {{ $key > 0 ? "m6" : ""}} blog-post-container">
+                            <div class="blog-post-wrapper" style="background-image: url({{ $post->image_url }});">
+                                <div class="blog-post">
+                                    <h5 style="margin: auto">{{ $post->title->rendered }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        @endif
     @endif
 </div>
 @endsection

@@ -761,6 +761,47 @@ a#hub-video:hover {
 }
 
 /**
+ * Blog preview
+ */
+.blog {
+    margin-bottom: 30px;
+}
+.blog .blog-post-container {
+    padding-bottom: 1.5rem;
+}
+.blog a.blog-post-link .blog-post-wrapper {
+    text-align: center;
+    min-height: 300px;
+    display: flex;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.blog a.blog-post-link .blog-post {
+    text-align: center;
+    padding: 12px 18px;
+    flex: 1 1 100%;
+    display: flex;
+}
+.blog a.blog-post-link .blog-post h5 {
+    padding: 10px;
+    background: rgba(0,0,0,.75);
+    color: #FFFFFF;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+
+}
+.blog a.blog-post-link .blog-post {
+    background: transparent;
+    transition: background .3s;
+}
+.blog a.blog-post-link:hover .blog-post {
+    background: rgba(235,41,53,0.75);
+}
+
+/**
  * Mailchimp
  */
 
