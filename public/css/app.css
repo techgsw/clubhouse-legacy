@@ -596,41 +596,41 @@ form#edit-job img {
  * Instagram
  */
 
-.instagram h5 {
+#instagram h5 {
     margin-bottom: 1.2rem;
 }
-.instagram a,
-.instagram a:hover {
+#instagram a,
+#instagram a:hover {
     border: none;
     transition: none;
 }
-.instagram a.username {
+#instagram a.username {
     border: none;
 }
-.instagram a.username:hover {
+#instagram a.username:hover {
     border-bottom: 2px solid #EB2935;
 }
-.instagram img.avatar {
+#instagram img.avatar {
     border: 2px solid transparent;
     max-width: 100%;
     max-height: 100%;
     border-radius: 50%;
 }
-.instagram a:hover img.avatar {
+#instagram a:hover img.avatar {
     border: 2px solid #EB2935;
     max-width: 100%;
     max-height: 100%;
     border-radius: 50%;
 }
-.instagram .row {
+#instagram .row {
     margin-bottom: 2px;
 }
-.instagram .instagram-feed a img {
+#instagram .instagram-feed a img {
     border: 2px solid transparent;
     max-width: 100%;
     max-height: 100%;
 }
-.instagram .instagram-feed a:hover img {
+#instagram .instagram-feed a:hover img {
     border: 2px solid #EB2935;
 }
 

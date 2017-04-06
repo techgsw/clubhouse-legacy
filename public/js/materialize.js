@@ -7595,8 +7595,6 @@ Picker.extend( 'pickadate', DatePicker )
             });
           } else {
             imageHeight = view.find('.carousel-item').first().height();
-            console.log(view.find('.carousel-item').first().height());
-            console.log(view.find('.carousel-item .row').first().height());
             view.css('height', imageHeight);
           }
 

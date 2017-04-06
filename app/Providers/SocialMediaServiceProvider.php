@@ -13,10 +13,7 @@ class SocialMediaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \View::composer('layouts.components.instagram-feed', function ($view) {
-            $this->getInstagramFeed($view);
-        });
-        // Don't load Twitter feed manually. Using embedded timeline.
+        //
     }
 
     /**
@@ -29,7 +26,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         //
     }
 
-    protected function getInstagramFeed($view) {
+    public static function getInstagramFeed($view) {
         $access_token = env('INSTAGRAM_ACCESS_TOKEN');
         $client_id = env('INSTAGRAM_CLIENT_ID');
         $user_id = env('INSTAGRAM_USER_ID');
@@ -74,7 +71,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         }
 
         // Send feed to view
-        $view->with([
+        return $view->with([
             'username' => $username,
             'avatar' => $avatar,
             'bio' => $bio,

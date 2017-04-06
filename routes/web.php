@@ -105,3 +105,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/admin/job', 'JobController@index');
     Route::get('/admin/user', 'UserController@index');
 });
+
+/**
+ * Social media
+ */
+Route::get('/social/instagram', 'SocialMediaController@instagram');

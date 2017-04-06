@@ -5,10 +5,10 @@
                 @include('layouts.components.newsletter')
             </div>
             <div class="col m4 s12">
-                @include('layouts.components.instagram-feed')
+                @include('layouts.components.instagram')
             </div>
             <div class="col m4 s12">
-                @include('layouts.components.twitter-feed')
+                @include('layouts.components.twitter')
             </div>
         </div>
     </div>
