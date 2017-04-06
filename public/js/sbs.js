@@ -4,7 +4,9 @@ if (!SBS) {
 }
 
 (function () {
-    Instagram = {};
+    var Instagram = {};
+    var Video = {};
+
     Instagram.getFeed = function () {
         return $.ajax({
             type: "GET",
@@ -30,9 +32,9 @@ if (!SBS) {
         }
     }
 
-    SBS.Video = {};
-    SBS.Video.init = function () {
-        if ($('#hub-video-modal iframe').legnth) {
+
+    Video.init = function () {
+        if ($('#hub-video-modal iframe').length) {
             var vimeo = $('#hub-video-modal iframe');
             var player = new Vimeo.Player(vimeo);
             $('#hub-video-modal').modal({
@@ -45,6 +47,11 @@ if (!SBS) {
             });
         }
     };
+
+    SBS.init = function () {
+        Instagram.init();
+        Video.init();
+    }
 })();
 
 $(document).ready(function () {
@@ -54,6 +61,5 @@ $(document).ready(function () {
     $('.collapsible').collapsible();
     $('.modal').modal();
 
-    SBS.Video.init();
-    Instagram.init();
+    SBS.init();
 });
