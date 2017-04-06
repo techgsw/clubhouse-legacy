@@ -56,7 +56,6 @@ class AppServiceProvider extends ServiceProvider
                 $media = AppServiceProvider::curlGET($url);
                 if ($media) {
                     try {
-                        dump(json_decode($media));
                         $media = json_decode($media)[0];
                     } catch (Exception $e) {
                         \App\Exceptions\Handler::report($exception);
