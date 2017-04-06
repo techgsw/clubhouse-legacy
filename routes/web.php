@@ -19,8 +19,11 @@ Route::get('/register', function () {
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
-Route::get('/videos', function () {
+Route::get('/video', function () {
     return redirect('videos');
+});
+Route::get('/videos', function () {
+    return view('videos');
 });
 
 /**
