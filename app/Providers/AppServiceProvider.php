@@ -55,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         if (count($posts) > 0) {
             foreach ($posts as $i => $post) {
                 $url = env("WP_API") . "/media?id={$post->featured_media}";
+                dump($url);
                 $media = AppServiceProvider::curlGET($url);
                 if ($media) {
                     try {
