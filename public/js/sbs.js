@@ -4,8 +4,22 @@ if (!SBS) {
 }
 
 (function () {
+    var Auth = {};
     var Instagram = {};
     var Video = {};
+
+    Auth.getAuthHeader = function () {
+        return $.ajax({
+            type: "GET",
+            url: "/auth/login/header",
+            params: {},
+        });
+    }
+    Auth.getAuthHeader().done(
+        function (resp) {
+            console.log(resp);
+        }
+    );
 
     Instagram.getFeed = function () {
         return $.ajax({
