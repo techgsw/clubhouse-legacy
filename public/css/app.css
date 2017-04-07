@@ -118,6 +118,7 @@ nav.nav-main ul a {
     font-weight: 300;
     line-height: 70px;
     margin-top: 50px;
+    font-size: 110%;
 }
 nav.nav-main ul a:hover {
     color: #3F3E3E;
