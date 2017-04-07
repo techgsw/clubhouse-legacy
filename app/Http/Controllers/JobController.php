@@ -83,11 +83,13 @@ class JobController extends Controller
             $inquiries = Inquiry::where('job_id', $id)
                 ->orderBy('created_at', 'asc')
                 ->get();
-        } else {
+        } elseif (Auth::check()) {
             $inquiries = Inquiry::where('job_id', $id)
                 ->where('user_id', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
+        } else {
+            $inquiries = [];
         }
 
         return view('job/show', [
