@@ -66,7 +66,7 @@
         <div class="col s12 m4 center-align">
             <img class="panel-icon" src="/images/services/custom.png" alt="">
             <h4>Customization</h4>
-            <p class="small">We work with our clients to understand their challenges and then customize a solution that’s unique for them. We don’t believe in a one-size-fits-all approach as no two teams are alike.</p>
+            <p>We work with our clients to understand their challenges and then customize a solution that’s unique for them. We don’t believe in a one-size-fits-all approach as no two teams are alike.</p>
         </div>
         <div class="col s12 m4 center-align">
             <img class="panel-icon" src="/images/services/industry.png" alt="">
