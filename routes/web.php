@@ -44,6 +44,7 @@ Route::get('/contact/thanks', 'ContactController@thanks');
 Route::group(['namespace' => 'Auth'], function () {
     Route::get('login', 'LoginController@login')->name('login');
     Route::get('logout', 'LoginController@logout')->name('logout');
+    Route::get('/auth/login/header', 'LoginController@header');
 });
 Auth::routes();
 

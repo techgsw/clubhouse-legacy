@@ -9,7 +9,16 @@
                 <div class="input-field">
                     <select name="job_type">
                         <option value="all" {{ (!request('job_type') || request('job_type') == 'all') ? "selected" : "" }}>All</option>
-                        <option value="sales" {{ request('job_type') == 'sales' ? "selected" : "" }}>Sales</option>
+                        <option value="ticket-sales" {{ request('job_type') == 'ticket-sales' ? "selected" : "ticket-sales" }}>Ticket Sales</option>
+                        <option value="sponsorship-sales" {{ request('job_type') == 'sponsorship-sales' ? "selected" : "sponsorship-sales" }}>Sponsorship Sales</option>
+                        <option value="marketing" {{ request('job_type') == 'marketing' ? "selected" : "marketing" }}>Marketing</option>
+                        <option value="internships" {{ request('job_type') == 'internships' ? "selected" : "internships" }}>Internships</option>
+                        <option value="business-operations" {{ request('job_type') == 'business-operations' ? "selected" : "business-operations" }}>Business operations</option>
+                        <option value="data-analytics" {{ request('job_type') == 'data-analytics' ? "selected" : "data-analytics" }}>Data/Analytics</option>
+                        <option value="player-operations" {{ request('job_type') == 'player-operations' ? "selected" : "player-operations" }}>Player operations</option>
+                        <option value="communications" {{ request('job_type') == 'communications' ? "selected" : "communications" }}>Communications</option>
+                        <option value="it-technology" {{ request('job_type') == 'it-technology' ? "selected" : "it-technology" }}>IT and Technology</option>
+                        <option value="administrative" {{ request('job_type') == 'administrative' ? "selected" : "administrative" }}>Administrative</option>
                     </select>
                     <label>Job Type</label>
                 </div>
@@ -18,11 +27,14 @@
                 <div class="input-field">
                     <select name="league">
                         <option value="all" {{ (!request('league') || request('league') == 'all') ? "selected" : "" }}>All</option>
-                        <option value="mlb" {{ request('league') == 'mlb' ? "selected" : "" }}>MLB</option>
-                        <option value="mls" {{ request('league') == 'mls' ? "selected" : "" }}>MLS</option>
-                        <option value="nba" {{ request('league') == 'nba' ? "selected" : "" }}>NBA</option>
-                        <option value="nfl" {{ request('league') == 'nfl' ? "selected" : "" }}>NFL</option>
-                        <option value="wnba" {{ request('league') == 'wnba' ? "selected" : "" }}>WNBA</option>
+                        <option value="mlb" {{ request('state') == "mlb" ? "selected" : "" }}>MLB</option>
+                        <option value="mls" {{ request('state') == "mls" ? "selected" : "" }}>MLS</option>
+                        <option value="nba" {{ request('state') == "nba" ? "selected" : "" }}>NBA</option>
+                        <option value="ncaa" {{ request('state') == "ncaa" ? "selected" : "" }}>NCAA</option>
+                        <option value="nfl" {{ request('state') == "nfl" ? "selected" : "" }}>NFL</option>
+                        <option value="nhl" {{ request('state') == "nhl" ? "selected" : "" }}>NHL</option>
+                        <option value="wnba" {{ request('state') == "wnba" ? "selected" : "" }}>WNBA</option>
+                        <option value="other" {{ request('state') == "other" ? "selected" : "" }}>Other</option>
                     </select>
                     <label>League</label>
                 </div>
