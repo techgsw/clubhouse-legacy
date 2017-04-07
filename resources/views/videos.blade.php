@@ -41,29 +41,5 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col s6">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/vR08s5tEFgY" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-        <div class="col s6">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/ZCd0L5WiHbg" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s6">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/4G0tmmHCUGM" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-        <div class="col s6">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/JB72GCyle-A" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection
