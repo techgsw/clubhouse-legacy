@@ -21,7 +21,7 @@
     @if (!Auth::check())
         <div class="row hero gray">
             <div class="col s12">
-                <h4 class="header">Join our community</h4>
+                <h4>Join our community</h4>
             </div>
         </div>
         <div class="row">
