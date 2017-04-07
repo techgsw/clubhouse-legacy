@@ -30,15 +30,27 @@
                         <option value="mlb" {{ old('state') == "mlb" ? "selected" : "" }}>MLB</option>
                         <option value="mls" {{ old('state') == "mls" ? "selected" : "" }}>MLS</option>
                         <option value="nba" {{ old('state') == "nba" ? "selected" : "" }}>NBA</option>
+                        <option value="ncaa" {{ old('state') == "ncaa" ? "selected" : "" }}>NCAA</option>
                         <option value="nfl" {{ old('state') == "nfl" ? "selected" : "" }}>NFL</option>
+                        <option value="nhl" {{ old('state') == "nhl" ? "selected" : "" }}>NHL</option>
                         <option value="wnba" {{ old('state') == "wnba" ? "selected" : "" }}>WNBA</option>
+                        <option value="other" {{ old('state') == "other" ? "selected" : "" }}>Other</option>
                     </select>
                     <label>League</label>
                 </div>
                 <div class="input-field">
                     <select name="job_type">
                         <option value="" {{ old('state') == "" ? "selected" : "" }}>None</option>
-                        <option value="sales" {{ old('state') == "sales" ? "selected" : "" }}>Sales</option>
+                        <option value="ticket-sales" {{ old('job_type') == '' ? "selected" : "ticket-sales" }}>Ticket Sales</option>
+                        <option value="sponsorship-sales" {{ old('job_type') == '' ? "selected" : "sponsorship-sales" }}>Sponsorship Sales</option>
+                        <option value="marketing" {{ old('job_type') == '' ? "selected" : "marketing" }}>Marketing</option>
+                        <option value="internships" {{ old('job_type') == '' ? "selected" : "internships" }}>Internships</option>
+                        <option value="business-operations" {{ old('job_type') == '' ? "selected" : "business-operations" }}>Business operations</option>
+                        <option value="data-analytics" {{ old('job_type') == '' ? "selected" : "data-analytics" }}>Data/Analytics</option>
+                        <option value="player-operations" {{ old('job_type') == '' ? "selected" : "player-operations" }}>Player operations</option>
+                        <option value="communications" {{ old('job_type') == '' ? "selected" : "communications" }}>Communications</option>
+                        <option value="it-technology" {{ old('job_type') == '' ? "selected" : "it-technology" }}>IT and Technology</option>
+                        <option value="administrative" {{ old('job_type') == '' ? "selected" : "administrative" }}>Administrative</option>
                     </select>
                     <label>Type</label>
                 </div>
