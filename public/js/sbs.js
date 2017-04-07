@@ -15,11 +15,6 @@ if (!SBS) {
             params: {},
         });
     }
-    Auth.getAuthHeader().done(
-        function (resp) {
-            console.log(resp);
-        }
-    );
 
     Instagram.getFeed = function () {
         return $.ajax({
@@ -65,6 +60,13 @@ if (!SBS) {
     SBS.init = function () {
         Instagram.init();
         Video.init();
+        if ($('.app-login-placeholder-after').length > 0) {
+            Auth.getAuthHeader().done(
+                function (resp) {
+                    $('.app-login-placeholder-after').after(resp);
+                }
+            );
+        }
     }
 })();
 
@@ -103,6 +105,8 @@ $(document).ready(function () {
     $('.collapsible').collapsible();
     // Modals
     $('.modal').modal();
+
+
 
     SBS.init();
 });

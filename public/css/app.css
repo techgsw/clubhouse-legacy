@@ -779,7 +779,7 @@ form#edit-job img {
  */
 
 .fa-16x {
-    font-size: 1.6em;
+    font-size: 1.6em!important;
 }
 
 a#hub-video {
