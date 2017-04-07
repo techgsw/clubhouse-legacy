@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class SocialMediaServiceProvider extends ServiceProvider
@@ -13,7 +14,9 @@ class SocialMediaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        View::composer('layouts.components.twitter-sportsbiztip', function ($view) {
+            SocialMediaServiceProvider::getTweets($view);
+        });
     }
 
     /**
@@ -79,13 +82,14 @@ class SocialMediaServiceProvider extends ServiceProvider
         ]);
     }
 
-    protected function getTwitterFeed($view) {
-        // Get credentials
+    protected function getTweets($view) {
         $access_token = env('TWITTER_ACCESS_TOKEN');
         $screen_name = env('TWITTER_SCREEN_NAME');
 
-        // Get user
-        $url = "https://api.twitter.com/1.1/users/show.json?screen_name={$screen_name}";
+        // Get tweets
+        $count = 3;
+        $hashtag = 'sportsbiztip';
+        $url = "https://api.twitter.com/1.1/search/tweets.json?q=from:{$screen_name}+%23{$hashtag}&count={$count}";
         $ch = curl_init($url);
         $headers = [
             "Authorization: Bearer {$access_token}",
@@ -97,58 +101,21 @@ class SocialMediaServiceProvider extends ServiceProvider
             $data = curl_exec($ch);
             $data = json_decode($data);
         } catch (Exception $e) {
-            dd($e);
             curl_close($ch);
             return;
         }
         curl_close($ch);
 
-        $profile_url = $data->url;
-        $avatar = $data->profile_image_url_https;
-        $bio = $data->description;
-
-        // Get feed
-        $count = 10;
-        $url = "https://api.twitter.com/1.1/statuses/user_timeline.json?count={$count}&screen_name={$screen_name}";
-        $ch = curl_init($url);
-        $headers = [
-            "Authorization: Bearer {$access_token}",
-        ];
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        try {
-            $data = curl_exec($ch);
-            $data = json_decode($data);
-        } catch (Exception $e) {
-            dd($e);
-            curl_close($ch);
-            return;
-        }
-        curl_close($ch);
-
-        // Process data
-        $feed = [];
-        foreach ($data as $tweet) {
-            $feed[] = [
-                "user" => [
-                    "name" => $tweet->user->name,
-                    "username" => $tweet->user->screen_name,
-                    "url" => $tweet->user->url,
-                    "profile_url" => $tweet->user->profile_image_url_https,
-                ],
-                "text" => $tweet->text,
-                //"url" => $link,
-            ];
+        if (!$data->statuses || count($data->statuses) == 0) {
+            $view->with([
+                "feed" => false,
+            ]);
         }
 
         // Send feed to view
         $view->with([
-            "username" => $screen_name,
-            "avatar" => $avatar,
-            "bio" => $bio,
-            "url" => $profile_url,
-            "feed" => $feed,
+            "screen_name" => $screen_name,
+            "feed" => $data->statuses,
         ]);
     }
 }

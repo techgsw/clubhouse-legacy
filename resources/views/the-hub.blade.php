@@ -67,5 +67,6 @@
             </div>
         @endif
     @endif
+    @include('layouts.components.twitter-sportsbiztip')
 </div>
 @endsection

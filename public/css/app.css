@@ -641,6 +641,49 @@ form#edit-job img {
 }
 
 /**
+ * Twitter #SportsBizTip
+ */
+
+#twitter-sportsbiztip {}
+#twitter-sportsbiztip .tweets {
+    display: flex;
+}
+#twitter-sportsbiztip .tweets .col {
+    display: flex;
+}
+#twitter-sportsbiztip .tweets .col a {
+    display: flex;
+    border: none;
+}
+#twitter-sportsbiztip .tweets .col a:hover {
+    border: none;
+}
+#twitter-sportsbiztip .tweets .col a .tweet {
+    border: 3px solid transparent;
+}
+#twitter-sportsbiztip .tweets .col a:hover .tweet {
+    border: 3px solid #1DA1F2;
+}
+#twitter-sportsbiztip .tweet {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    background: #EEE;
+    margin: 4px;
+    padding: 15px;
+    text-align: center;
+}
+#twitter-sportsbiztip .tweet {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    background: #EEE;
+    margin: 4px;
+    padding: 15px;
+    text-align: center;
+}
+
+/**
  * Twitter
  */
 
