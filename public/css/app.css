@@ -29,7 +29,7 @@
     background-color: #EB2935
 }
 .sbs-red-text {
-    color: #EB2935
+    color: #EB2935;
 }
 
 /**
@@ -87,6 +87,9 @@ div.row.bg-image.about {
 }
 div.row.bg-image.services {
     background-image: url("/images/services/hero.jpg");
+}
+div.row.bg-image.training-consulting {
+    background-image: url("/images/training-consulting/hero.jpg");
 }
 div.row.bg-image h1,
 div.row.bg-image h2,
@@ -303,6 +306,13 @@ p {
     padding: 0 6px;
 }
 
+ul.bullets {
+    padding-left: 25px;
+}
+ul.bullets>li {
+    list-style-type: disc;
+}
+
 a {}
 a>img {
     border: 3px solid transparent;
@@ -394,6 +404,17 @@ hr {
 .btn.sbs-red:hover,
 .btn.sbs-red:focus {
     background-color: #EB2935;
+}
+
+.btn.white-outline {
+    background: transparent;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    transition: all 0.2s linear;
+}
+.btn.white-outline:hover {
+    background: #FFFFFF;
+    color: #EB2935;
 }
 
 /**

@@ -10,14 +10,17 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
-Route::get('/services', function () {
-    return view('services');
+Route::get('/blog', function () {
+    return redirect('https://blog.sportsbusiness.solutions/');
 });
 Route::get('/register', function () {
     return redirect('sales-center');
 });
-Route::get('/blog', function () {
-    return redirect('https://blog.sportsbusiness.solutions/');
+Route::get('/services', function () {
+    return view('services');
+});
+Route::get('/training-consulting', function () {
+    return view('training-consulting');
 });
 Route::get('/video', function () {
     return redirect('videos');
