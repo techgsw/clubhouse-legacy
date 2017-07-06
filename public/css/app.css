@@ -85,6 +85,9 @@ div.row.bg-image.home {
 div.row.bg-image.about {
     background-image: url("/images/about/hero.jpg");
 }
+div.row.bg-image.recruiting {
+    background-image: url("/images/recruiting/hero.jpg");
+}
 div.row.bg-image.services {
     background-image: url("/images/services/hero.jpg");
 }

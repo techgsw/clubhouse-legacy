@@ -5,7 +5,7 @@
         <div class="col s12">
             <h4 class="header">Training &amp; Consulting</h4>
             <p>Our goal is simple: to understand our clients challenges and provide solutions that deliver results and optimize team performance.</p>
-            <a href="/training-consulting#why" class="btn btn-large sbs-red">Let's get started</a>
+            <a href="#why" class="btn btn-large sbs-red">Let's get started</a>
         </div>
     </div>
 @endsection

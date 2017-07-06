@@ -13,6 +13,12 @@ Route::get('/about', function () {
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
+Route::get('/recruiting-3', function () {
+    return redirect('recruiting');
+});
+Route::get('/recruiting', function () {
+    return view('recruiting');
+});
 Route::get('/register', function () {
     return redirect('sales-center');
 });
