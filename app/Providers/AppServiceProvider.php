@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        if (count($posts) > 0) {
+        if ($posts && count($posts) > 0) {
             foreach ($posts as $i => $post) {
                 $url = env("WP_API") . "/media?parent={$post->id}";
                 $media = AppServiceProvider::curlGET($url);

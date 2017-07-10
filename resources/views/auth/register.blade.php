@@ -2,6 +2,7 @@
 @extends('layouts.default')
 @section('title', 'Register')
 @section('hero')
+    <a name="register"></a>
     <div class="row hero gray">
         <div class="col s12">
             <h4 class="header">Join our community</h4>

@@ -18,6 +18,7 @@
             </div>
         </div>
     </div>
+    <a name="register"></a>
     @if (!Auth::check())
         <div class="row hero gray">
             <div class="col s12">

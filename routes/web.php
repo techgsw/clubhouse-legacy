@@ -13,17 +13,41 @@ Route::get('/about', function () {
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
+Route::get('/career-services', function () {
+    return view('career-services');
+});
+Route::get('/network', function () {
+    return view('network');
+});
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+});
 Route::get('/recruiting-3', function () {
     return redirect('recruiting');
 });
 Route::get('/recruiting', function () {
     return view('recruiting');
 });
+Route::get('/refund-policy-2', function () {
+    return redirect('refund-policy');
+});
+Route::get('/refund-policy', function () {
+    return view('refund-policy');
+});
 Route::get('/register', function () {
     return redirect('sales-center');
 });
 Route::get('/services', function () {
     return view('services');
+});
+Route::get('/sports-business-solutions-career-success-stories', function () {
+    return redirect('success-stories');
+});
+Route::get('/success-stories', function () {
+    return view('success-stories');
+});
+Route::get('/terms-of-service', function () {
+    return view('terms-of-service');
 });
 Route::get('/training-consulting', function () {
     return view('training-consulting');

@@ -85,6 +85,9 @@ div.row.bg-image.home {
 div.row.bg-image.about {
     background-image: url("/images/about/hero.jpg");
 }
+div.row.bg-image.career-services {
+    background-image: url("/images/career-services/hero.jpg");
+}
 div.row.bg-image.recruiting {
     background-image: url("/images/recruiting/hero.jpg");
 }
@@ -308,12 +311,20 @@ p {
 .padded {
     padding: 0 6px;
 }
+.large-text {
+    font-size: 115%;
+}
 
 ul.bullets {
     padding-left: 25px;
 }
 ul.bullets>li {
     list-style-type: disc;
+}
+
+ul.spaced>li ,
+ol.spaced>li {
+    padding-bottom: 16px;
 }
 
 a {}

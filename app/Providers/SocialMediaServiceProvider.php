@@ -87,9 +87,10 @@ class SocialMediaServiceProvider extends ServiceProvider
         $screen_name = env('TWITTER_SCREEN_NAME');
 
         // Get tweets
+        // https://twitter.com/search?l=&q=%23sportsbiztip%20from%3ASportsBizSol&src=typd
         $count = 3;
         $hashtag = 'sportsbiztip';
-        $url = "https://api.twitter.com/1.1/search/tweets.json?q=from:{$screen_name}+%23{$hashtag}&count={$count}";
+        $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23{$hashtag}%20from%3A{$screen_name}";
         $ch = curl_init($url);
         $headers = [
             "Authorization: Bearer {$access_token}",
