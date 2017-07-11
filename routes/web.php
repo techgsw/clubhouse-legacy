@@ -10,11 +10,20 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
+Route::get('/bob-hamer', function () {
+    return view('bob-hamer');
+});
 Route::get('/blog', function () {
     return redirect('https://blog.sportsbusiness.solutions/');
 });
 Route::get('/career-services', function () {
     return view('career-services');
+});
+Route::get('/jason-stein', function () {
+    return view('jason-stein');
+});
+Route::get('/mike-rudner', function () {
+    return view('mike-rudner');
 });
 Route::get('/network', function () {
     return view('network');

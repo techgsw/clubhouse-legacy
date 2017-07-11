@@ -15,8 +15,8 @@
             <p>The company was founded by sports business industry professional Bob Hamer. Bob had been working for the Phoenix Suns for just over 8 years. He had risen from an entry level salesperson at the Suns to the Vice President of Ticket Sales and Service. Originally from Southern California and a graduate of the University of Arizona, Bob had strong ties to the West Coast. He loved living in Phoenix, had a great job with the Suns, was financially secure, and he had achieved a good deal of success. On the outside he looked to be living the dream and his future looked all but certain. But was it?</p>
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header">Read more</div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-header">Read more<span style="float: right;">+</span></div>
+                    <div class="collapsible-body" style="padding-top: 0;">
                         <p>To this day Bob owes much of his professional success to the Phoenix Suns and the leadership team he worked for. He had an unbelievable experience there but something was missing and he felt he owed it to himself to figure it out. In his down time he began to think about his job, his life, and his future. Through this exploration he began to realize that his true passions in life were family, sports, business and helping other people succeed. He wanted to do something professionally that allowed him to combine them all. These pillars would become the foundation for which Sports Business Solutions was built on, and they continue to guide the business today.</p>
                         <p>Sports Business Solutions was launched as a way to help more people. In just a short time, it’s safe to say they have. The company has grown from an idea in 2014 to a real life business. They have nearly 40 sports team clients across the country in all major leagues and markets. To those clients they provide regular sales training, consulting and recruiting services and through their efforts they have helped more than 450 salespeople and sports industry employees accomplish their goals. Beyond that they’ve hosted multiple hiring events for aspiring sports industry professionals and have helped more than 80 of them get their start in sports.</p>
                         <p>But more than anything SBS is about people. They’re fueled every day by their passion to build relationships with every sports industry professional and help make a positive impact on them personally and professionally. They are ambitious and driven to grow the business but are committed to keeping great balance and operating with high integrity along the way. The company is living proof that with passion, commitment and hard work you can create a successful business out of an idea.</p>
@@ -29,16 +29,22 @@
         <div class="col s12">
             <h3 class="center-align">Meet the team</h3>
         </div>
-        <div class="col s12 m6 center-align">
+        <div class="col s12 m4 center-align">
             <a href="/bob-hamer" class="no-underline">
                 <img src="/images/about/bob.png" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
                 <h5 class="sbs-red-text">Bob Hamer | Founder &amp; President</h5>
             </a>
         </div>
-        <div class="col s12 m6 center-align">
+        <div class="col s12 m4 center-align">
             <a href="/jason-stein" class="no-underline">
                 <img src="/images/about/jason.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
                 <h5 class="sbs-red-text">Jason Stein | Director of Recruiting</h5>
+            </a>
+        </div>
+        <div class="col s12 m4 center-align">
+            <a href="/mike-rudner" class="no-underline">
+                <img src="/images/about/mike.png" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
+                <h5 class="sbs-red-text">Mike Rudner</h5>
             </a>
         </div>
     </div>
