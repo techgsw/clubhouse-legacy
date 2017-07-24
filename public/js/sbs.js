@@ -105,7 +105,8 @@ $(document).ready(function () {
     $('.collapsible').collapsible();
     // Modals
     $('.modal').modal();
-
+    // Material boxes
+    $('.materialboxed').materialbox();
 
 
     SBS.init();

@@ -22,6 +22,12 @@ Route::get('/career-services', function () {
 Route::get('/jason-stein', function () {
     return view('jason-stein');
 });
+Route::get('/gallery', function () {
+    return view('gallery');
+});
+Route::get('/gallery-2', function () {
+    return redirect('gallery');
+});
 Route::get('/mike-rudner', function () {
     return view('mike-rudner');
 });

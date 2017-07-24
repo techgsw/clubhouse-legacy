@@ -57,6 +57,9 @@ main {
 main img {
     max-width: 100%;
 }
+main img.materialboxed.active {
+    max-width: none;
+}
 
 div.row.hero {
     padding: 60px 0;
