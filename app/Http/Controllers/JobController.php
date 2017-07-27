@@ -51,7 +51,15 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        $image = request()->file('image_url');
+        try {
+            $image = request()->file('image_url');
+            if (!$image) {
+                throw new Exception('Failed to upload image');
+            }
+        } catch (Exception $e) {
+            // TODO redirect with errors
+            return redirect()->action('JobController@show', [$job]);
+        }
 
         $job = Job::create([
             'user_id' => Auth::user()->id,
