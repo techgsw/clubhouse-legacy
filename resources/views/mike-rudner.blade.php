@@ -10,6 +10,7 @@
     <div class="row">
         <div class="col s12 center-align">
             <h3 style="margin: 0;">Mike Rudner</h3>
+            <h5>Vice President, Business Operations</h5>
         </div>
     </div>
     <div class="row">

@@ -15,7 +15,7 @@
         <div class="center-align gray-bg red-hover" style="display: flex; flex-direction: column; justify-content: space-between; flex: 1 1 33%; padding: 20px 30px;">
             <div>
                 <h4>Training &amp; Consulting</h4>
-                <p>With 25+ sports sales teams and more than 400 sellers trained in the last two years we've quickly become a household name in the sports sales training and consulting space.</p>
+                <p>With 45+ sports sales teams and more than 700 sellers trained in the last three years we've quickly become a household name in the sports sales training and consulting space.</p>
             </div>
             <a href="/training-consulting" class="btn" style="margin-top: 30px;">Learn more</a>
         </div>
@@ -29,7 +29,7 @@
         <div class="center-align gray-bg red-hover" style="display: flex; flex-direction: column; justify-content: space-between; flex: 1 1 33%; padding: 20px 30px;">
             <div>
                 <h4>Career Services</h4>
-                <p>With 10 years of sports industry success we not only understand how to get a job in sports, but how to be great and grow your career once you do.</p>
+                <p>With a combined 20 years of sports business industry success we not only understand how to get a job in sports, but how to be great and grow your career once you do.</p>
             </div>
             <a href="/career-services" class="btn" style="margin-top: 30px;">Learn more</a>
         </div>
@@ -83,7 +83,7 @@
         <div class="col s12 m4 offset-m2 center-align">
             <img class="panel-icon" src="/images/services/network.png" alt="">
             <h4>Network</h4>
-            <p>We have personal relationships with nearly 150 sports teams and have 10 years of industry best practices and success stories to share. When you partner with us, you benefit from our best-in-class expertise.</p>
+            <p>We have personal relationships with nearly 200 sports teams and have a combined 20 years of industry best practices and success stories to share. When you partner with us, you benefit from our best-in-class expertise.</p>
         </div>
         <div class="col s12 m4 center-align">
             <img class="panel-icon" src="/images/services/passion.png" alt="">

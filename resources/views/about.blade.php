@@ -32,19 +32,19 @@
         <div class="col s12 m4 center-align">
             <a href="/bob-hamer" class="no-underline">
                 <img src="/images/about/bob.png" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Bob Hamer | Founder &amp; President</h5>
-            </a>
-        </div>
-        <div class="col s12 m4 center-align">
-            <a href="/jason-stein" class="no-underline">
-                <img src="/images/about/jason.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Jason Stein | Director of Recruiting</h5>
+                <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
             </a>
         </div>
         <div class="col s12 m4 center-align">
             <a href="/mike-rudner" class="no-underline">
                 <img src="/images/about/mike.png" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Mike Rudner</h5>
+                <h5 class="sbs-red-text">Mike Rudner<span class="about-position">Vice President,<br/>Business Operations</span></h5>
+            </a>
+        </div>
+        <div class="col s12 m4 center-align">
+            <a href="/jason-stein" class="no-underline">
+                <img src="/images/about/jason.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
+                <h5 class="sbs-red-text">Jason Stein<span class="about-position">Director,<br/>Recruiting</span></h5>
             </a>
         </div>
     </div>

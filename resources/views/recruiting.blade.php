@@ -68,7 +68,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/about-legends.png" alt="">
+                            <img class="logo" src="/images/testimonials/legends.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -114,14 +114,14 @@
             <div style="width: 20%; float: left; padding-top: 10px; font-size: 120px; line-height: 100px; font-weight: 300; color: #aaaaaa;">1</div>
             <div style="width: 80%; float: left;">
                 <h5 class="sbs-red-text">Supreme industry knowledge.</h5>
-                <p>Our recruiters have first-hand industry experience. We understand the job duties of the roles you need to fill, and can focus on what makes your position unique to ensure we deliver you the right prospects.</p>
+                <p>Our recruiters have first-hand industry experience. We understand the job duties of the roles you need to fill, and can focus on what makes your position unique to ensure we deliver you the right candidates.</p>
             </div>
         </div>
         <div class="col s12 m6">
             <div style="width: 20%; float: left; padding-top: 10px; font-size: 120px; line-height: 100px; font-weight: 300; color: #aaaaaa;">2</div>
             <div style="width: 80%; float: left;">
                 <h5 class="sbs-red-text">The network.</h5>
-                <p>We have more than 10 years' experience in sports business and have relationships with more than 125 teams and properties across all leagues. When it comes to providing you a quality candidate list, we’re confident we have the network necessary to deliver superior results.</p>
+                <p>We have a combined 20 years' experience in sports business and have relationships with more than 200 teams and properties across all leagues. When it comes to providing you a quality candidate list, we’re confident we have the network necessary to deliver superior results.</p>
             </div>
         </div>
     </div>
@@ -129,7 +129,7 @@
         <div class="col s12 m6">
             <div style="width: 20%; float: left; padding-top: 10px; font-size: 120px; line-height: 100px; font-weight: 300; color: #aaaaaa;">3</div>
             <div style="width: 80%; float: left;">
-                <h5 class="sbs-red-text">Out flexible fee structure.</h5>
+                <h5 class="sbs-red-text">Our flexible fee structure.</h5>
                 <p>Every recruiting search is different and the resources needed will vary depending on the caliber of the role. We offer different recruiting solutions and believe we deliver the best combination of quality, quantity, and speed for your price.</p>
             </div>
         </div>

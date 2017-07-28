@@ -21,7 +21,9 @@
 <div class="container">
     <div class="row">
         <div class="col s12 m3 center-align">
-            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">1</div>
+            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">
+                <span style="font-size: .25em; vertical-align: top; padding: 0 6px 12px 0;">Step</span><span>1</span>
+            </div>
         </div>
         <div class="col s12 m9">
             <p class="sbs-red-text">Fill out your free career profile and upload your resume.</p>
@@ -30,7 +32,9 @@
     </div>
     <div class="row">
         <div class="col s12 m3 center-align">
-            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">2</div>
+            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">
+                <span style="font-size: .25em; vertical-align: top; padding: 0 6px 12px 0;">Step</span><span>2</span>
+            </div>
         </div>
         <div class="col s12 m9">
             <p class="sbs-red-text">After completing your profile the information you provided will be kept on file so that you can be considered for future jobs in sports. You’ll also be subscribed to our sports business newsletter and you’ll receive an email complete with tips on how to get your desired job in sports.</p>
@@ -38,7 +42,9 @@
     </div>
     <div class="row">
         <div class="col s12 m3 center-align">
-            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">3</div>
+            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">
+                <span style="font-size: .25em; vertical-align: top; padding: 0 6px 12px 0;">Step</span><span>3</span>
+            </div>
         </div>
         <div class="col s12 m9">
             <p class="sbs-red-text">Then, if you’re interested in taking the next steps and becoming a client, you can purchase one of our sports career services listed below. As a client, we will help you build a career plan, connect with hiring managers, prepare for interviews and land the job you want. Our services vary in price and involvement but we pride ourselves in having a solution for everyone. </p>
@@ -47,7 +53,9 @@
     </div>
     <div class="row">
         <div class="col s12 m3 center-align">
-            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">4</div>
+            <div style="font-size: 100px; line-height: 100px; font-weight: 300; color: #aaaaaa;">
+                <span style="font-size: .25em; vertical-align: top; padding: 0 6px 12px 0;">Step</span><span>4</span>
+            </div>
         </div>
         <div class="col s12 m9">
             <p class="sbs-red-text">Get hired! Join nearly 100 Sports Business Solutions Alumni who have partnered with us to jumpstart their career in sports.</p>
@@ -66,7 +74,7 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <h4 class="sbs-red-text center-align">Hear from our sports business solutions alumni</h4>
+            <h4 class="sbs-red-text center-align">Hear from our Sports Business Solutions alumni</h4>
         </div>
     </div>
     <div class="row">

@@ -74,7 +74,7 @@
                             <div class="testimonial-content">
                                 <p>We were lucky to have Sports Business Solutions in to work 1 on 1 with our Sacramento Kings group sales team. It was the perfect mix of honest coaching delivered through the lens of real world experience. As a result following the training, we hit all of our off-season group sales goals and are already pacing 50% ahead of where we were this time last season.</p>
                                 <p class="heavy">
-                                    Phil Horne<br/>
+                                    Phil Horn<br/>
                                     VP Ticket Sales &amp; Service<br/>
                                     Sacramento Kings
                                 </p>

@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col s12 center-align">
             <h3 style="margin: 0;">Jason Stein</h3>
-            <h5>Director of Recruiting</h5>
+            <h5>Director, Recruiting</h5>
         </div>
     </div>
     <div class="row">
