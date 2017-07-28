@@ -24,7 +24,6 @@
                     </li>
                 @endif
                 <li><a class="sbs-red white-text" href="/contact">Contact</a></li>
-                <li><a href="/cart"><i class="fa fa-shopping-cart fa-16x" aria-hidden="true"></i></a></li>
             </ul>
         </div>
     </nav>

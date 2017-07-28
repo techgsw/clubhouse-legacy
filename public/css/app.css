@@ -73,8 +73,7 @@ div.row.hero h2.header {
 div.row.hero h4.header {
     font-size: 2.4rem;
     margin-bottom: 20px;
-    font-weight: bold;
-    font-family: "Oswald", "Roboto", sans-serif;
+    font-weight: 300;
     text-transform: uppercase;
 }
 div.gray {
