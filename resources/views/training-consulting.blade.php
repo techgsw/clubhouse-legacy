@@ -6,6 +6,7 @@
             <h4 class="header">Training &amp; Consulting</h4>
             <p>Our goal is simple: to understand our clients challenges and provide solutions that deliver results and optimize team performance.</p>
             <a href="#why" class="btn btn-large sbs-red">Let's get started</a>
+            <a href="#training-clients" class="btn btn-large sbs-red">See Our Clients</a>
         </div>
     </div>
 @endsection
@@ -191,10 +192,10 @@
     </div>
     <div class="row center-align" style="margin-top: 40px; margin-bottom: 50px;">
         <div class="col s12">
-            <h3>Our training &amp; consulting clients</h3>
+            <h3 id="training-clients">Our training &amp; consulting clients</h3>
         </div>
         <div class="col s12">
-            <img src="/images/training-consulting/clients.png" alt="">
+            <img src="/images/training-consulting/training-clients.png" alt="">
         </div>
     </div>
 </div>

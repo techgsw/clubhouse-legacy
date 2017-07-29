@@ -6,6 +6,7 @@
             <h4 class="header">Recruiting</h4>
             <p>It’s hard to do great things without great people. Let us help you find your next sports industry leader.</p>
             <a href="#why" class="btn btn-large sbs-red">Let's get started</a>
+            <a href="#recruiting-clients" class="btn btn-large sbs-red">Our recruiting clients</a>
         </div>
     </div>
 @endsection
@@ -175,10 +176,10 @@
     </div>
     <div class="row center-align" style="margin-top: 40px; margin-bottom: 50px;">
         <div class="col s12">
-            <h3>Our recruiting clients</h3>
+            <h3 id="recruiting-clients">Our recruiting clients</h3>
         </div>
         <div class="col s12">
-            <img src="/images/recruiting/clients.png" alt="">
+            <img src="/images/recruiting/recruiting-clients.png" alt="">
         </div>
     </div>
 </div>

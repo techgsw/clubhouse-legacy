@@ -87,6 +87,11 @@ div.row.bg-image {
     background-size: cover;
     position: relative;
 }
+div.row.bg-image a.btn.sbs-red {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 5px;
+}
 div.row.bg-image.home {
     background-image: url("/images/home/hero.jpg");
 }
