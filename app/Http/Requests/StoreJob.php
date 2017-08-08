@@ -30,7 +30,8 @@ class StoreJob extends FormRequest
             'organization' => 'required',
             'city' => 'required',
             'state' => 'required',
-            //'image_url' => 'required|image|mimes:jpg,jpeg,png|max:2000',
+            'document' => 'mimes:pdf|max:2000',
+            // TODO 'image_url' => 'required|image|mimes:jpg,jpeg,png|max:2000',
         ];
     }
 
@@ -47,6 +48,7 @@ class StoreJob extends FormRequest
             'organization.required' => 'Organization is a required field',
             'city.required' => 'City is a required field',
             'state.required' => 'State is a required field',
+            'document.mimes' => 'Document must be a PDF',
             'image_url.required' => 'Image is a required field',
             'image_url.image' => 'Image must be a valid image',
         ];
