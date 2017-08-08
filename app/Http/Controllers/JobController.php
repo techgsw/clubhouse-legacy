@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
+use \Exception;
 
 class JobController extends Controller
 {
@@ -58,7 +59,16 @@ class JobController extends Controller
             }
         } catch (Exception $e) {
             // TODO redirect with errors
-            return redirect()->action('JobController@show', [$job]);
+            return redirect()->action('JobController@create');
+        }
+
+        try {
+            $document = request()->file('document');
+            if ($document) {
+                $d = $document->store('document', 'public');
+            }
+        } catch (Exception $e) {
+            // TODO what?
         }
 
         $job = Job::create([
@@ -71,6 +81,7 @@ class JobController extends Controller
             'city' => request('city'),
             'state' => request('state'),
             'image_url' => $image->store('job', 'public'),
+            'document' => $d ?: null,
         ]);
 
         return redirect()->action('JobController@show', [$job]);
@@ -183,6 +194,10 @@ class JobController extends Controller
         $job->job_type = request('job_type');
         $job->city = request('city');
         $job->state = request('state');
+        if (request('document')) {
+            $doc = request()->file('document');
+            $job->document = $doc->store('document', 'public');
+        }
         if (request('image_url')) {
             $image = request()->file('image_url');
             $job->image_url = $image->store('job', 'public');

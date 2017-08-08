@@ -32,6 +32,7 @@ class UpdateJob extends FormRequest
             'organization' => 'required',
             'city' => 'required',
             'state' => 'required',
+            'document' => 'mimes:pdf|max:2000',
             //'image_url' => 'image|mimes:jpg,jpeg,png|max:2000',
         ];
     }
@@ -49,6 +50,7 @@ class UpdateJob extends FormRequest
             'organization.required' => 'Organization is a required field',
             'city.required' => 'City is a required field',
             'state.required' => 'State is a required field',
+            'document.mimes' => 'Document must be a PDF',
             'image_url.required' => 'Image is a required field',
             'image_url.image' => 'File must be a valid image',
             'image_url.mimes' => 'Image must have file extension .jpg or .png',
