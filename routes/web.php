@@ -77,7 +77,7 @@ Route::get('/videos', function () {
 /**
  * The Hub
  */
-Route::get('/the-hub', 'HubController@index');
+// Route::get('/the-hub', 'HubController@index');
 
 /**
  * Contact
