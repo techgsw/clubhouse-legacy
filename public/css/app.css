@@ -324,11 +324,24 @@ p {
 .spaced {
     margin: 0 6px;
 }
+.spaced:first-child {
+    margin-left: 0;
+}
+.spaced:last-child {
+    margin-right: 0;
+}
 .padded {
     padding: 0 6px;
 }
 .large-text {
     font-size: 115%;
+}
+
+span.label {
+    background: #EFEFEF;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #E0E0E0;
 }
 
 .about-position {
@@ -355,9 +368,16 @@ a {}
 a>img {
     border: 3px solid transparent;
 }
+a>img.no-border {
+    border: none;
+}
 a:hover>img {
     border: 3px solid #EB2935;
 }
+a:hover>img.no-border {
+    border: none;
+}
+
 a.brand-logo>img,
 a.brand-logo:hover>img {
     border: none;
@@ -570,6 +590,14 @@ div.arrow.down {
         max-width: 100%;
         max-height: 100%;
     }
+}
+
+.row.job-admin {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #EEE;
+}
+.row.job-admin p {
+    margin: 6px 0;
 }
 
 .row.job-show {}
