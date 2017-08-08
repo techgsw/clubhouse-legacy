@@ -161,6 +161,44 @@
             </div>
         </div>
     </div>
+    <div class="row" style="margin-bottom: 50px;">
+        <div class="col s12 center-align"><h4>Sports Career Services</h4></div>
+        <div class="col m5ths s6 career-service">
+            <a href="/contact?interest=other">
+                <div>
+                    <p>PHONE CONSULTATION</p>
+                </div>
+            </a>
+        </div>
+        <div class="col m5ths s6 career-service">
+            <a href="/contact?interest=coaching">
+                <div>
+                    <p>PERSONALIZED COACHING</p>
+                </div>
+            </a>
+        </div>
+        <div class="col m5ths s6 career-service">
+            <a href="/contact?interest=career-services">
+                <div>
+                    <p>PHONE INTERVIEWS</p>
+                </div>
+            </a>
+        </div>
+        <div class="col m5ths s6 career-service">
+            <a href="/contact?interest=combine">
+                <div>
+                    <p>SPORTS SALES COMBINE</p>
+                </div>
+            </a>
+        </div>
+        <div class="col m5ths s6 career-service">
+            <a href="/contact?interest=career-services">
+                <div>
+                    <p>GUARANTEED JOB</p>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
 
 @endsection

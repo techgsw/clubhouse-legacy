@@ -11,7 +11,7 @@ class ContactController extends Controller
 {
     public function index(Request $request)
     {
-        return view('contact.form');
+        return view('contact.form', array('interest' => $request->interest));
     }
 
     public function send(Request $request)
