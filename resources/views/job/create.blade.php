@@ -138,6 +138,15 @@
                     </select>
                     <label>State</label>
                 </div>
+                <div class="file-field input-field">
+                    <div class="btn white black-text">
+                        <span>Upload Document</span>
+                        <input type="file" name="document" value="{{ old('document') }}">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" name="document_text" value="{{ old('document_text') }}">
+                    </div>
+                </div>
                 <div class="input-field">
                     <button type="submit" class="btn sbs-red">Post</button>
                 </div>

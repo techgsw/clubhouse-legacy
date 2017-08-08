@@ -34,6 +34,9 @@
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization }}</span> in {{ $job->city }}, {{ $job->state }}</p>
             <p>{!! nl2br(e($job->description)) !!}</p>
+            @if ($job->document)
+                <p><a href="{{ Storage::disk('local')->url($job->document) }}">View document</a></p>
+            @endif
             <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}</p>
             @if (!is_null($job->edited_at))
                 <p class="small">edited on {{ $job->edited_at->format('F j, Y g:ia') }}</p>
