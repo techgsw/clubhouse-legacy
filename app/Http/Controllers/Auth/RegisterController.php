@@ -72,11 +72,37 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        // Mailchimp signup
+        $api_key = env("MAILCHIMP_API_KEY");
+        $list_id = env("MAILCHIMP_LIST_ID");
+        $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members";
+        $fields = array(
+            "email_address" => $data['email'],
+            "email_type" => "html",
+            "status" => "subscribed",
+            "merge_fields" => [
+                "FNAME" => $data['first_name'],
+                "LNAME" => $data['last_name'],
+            ]
+        );
+        $json = json_encode($fields);
+        // cURL
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json",
+            "Authorization: apikey {$api_key}"
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        $response = curl_exec($ch);
+
+        return $user;
     }
 }

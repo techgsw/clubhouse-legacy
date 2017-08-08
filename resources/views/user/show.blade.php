@@ -26,10 +26,6 @@
         </div>
         <div class="col s12 m6">
             <p>
-              <input type="checkbox" id="receives-newsletter" disabled="disabled" {{ $user->receives_newsletter ? "checked" : "" }} />
-              <label for="receives-newsletter">Receives newsletter</label>
-            </p>
-            <p>
               <input type="checkbox" id="is-sales-professional" disabled="disabled" {{ $user->is_sales_professional ? "checked" : "" }} />
               <label for="is-sales-professional">Sports Sales Professional</label>
             </p>
