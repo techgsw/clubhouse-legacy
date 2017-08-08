@@ -1,6 +1,9 @@
 <!-- /resources/views/job/show.blade.php -->
 @extends('layouts.default')
 @section('title', "$job->title with $job->organization")
+@section('description', "$job->description")
+@section('url', Request::fullUrl())
+@section('image', Storage::disk('local')->url($job->image_url))
 @section('content')
 <div class="container">
     <div class="row">
