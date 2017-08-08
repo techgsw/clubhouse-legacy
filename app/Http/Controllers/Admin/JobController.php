@@ -13,7 +13,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::orderBy('id', 'desc')->paginate(5);
+        $jobs = Job::orderBy('id', 'desc')->paginate(10);
 
         return view('admin/job', [
             'jobs' => $jobs
