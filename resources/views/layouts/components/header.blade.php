@@ -44,7 +44,7 @@
                 <li><a href="/archives">Archives</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/job">Job Board</a></li>
-                <li><a href="/the-hub">The Hub</a></li>
+                <li><a href="/question">Forum</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li class="social-media">
