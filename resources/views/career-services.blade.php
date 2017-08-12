@@ -48,7 +48,7 @@
         </div>
         <div class="col s12 m9">
             <p class="sbs-red-text">Then, if you’re interested in taking the next steps and becoming a client, you can purchase one of our sports career services listed below. As a client, we will help you build a career plan, connect with hiring managers, prepare for interviews and land the job you want. Our services vary in price and involvement but we pride ourselves in having a solution for everyone. </p>
-            <p class="sbs-red-text"><a href="/contact">Become a client</a></p>
+            <p class="sbs-red-text"><a href="#career-services">Become a client</a></p>
         </div>
     </div>
     <div class="row">
@@ -162,7 +162,7 @@
         </div>
     </div>
     <div class="row" style="margin-bottom: 50px;">
-        <div class="col s12 center-align"><h4>Sports Career Services</h4></div>
+        <div id="career-services" class="col s12 center-align"><h4>Sports Career Services</h4></div>
         <div class="col m5ths s6 career-service">
             <a href="/contact?interest=other">
                 <div>

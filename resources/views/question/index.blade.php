@@ -1,9 +1,6 @@
 <!-- /resources/views/question/edit.blade.php -->
 @extends('layouts.default')
 @section('title', 'Question & Answer')
-@section('subnav')
-    @include('layouts.subnav.sales-center')
-@endsection
 @section('content')
 <div class="container">
     <div class="row">

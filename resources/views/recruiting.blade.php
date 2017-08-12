@@ -144,7 +144,7 @@
     </div>
     <div class="row white-text">
         <div class="col s12" style="background-image: url('/images/training-consulting/recruiting.jpg'); background-size: cover;">
-            <h5 class="center-align" style="margin-top: 30px;">Areas of expertise &amp; training solutions</h4>
+            <h5 class="center-align" style="margin-top: 30px;">Areas of expertise &amp; recruiting solutions</h4>
             <div class="row" style="margin: 0 50px;">
                 <div class="col s6">
                     <ul class="bullets">
