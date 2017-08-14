@@ -12,17 +12,19 @@
         <div class="col s12">
             <div class="right">
                 <!-- Question controls -->
-                @can ('approve-question', $question)
-                    @if (is_null($question->approved) || $question->approved == false)
-                        <p class="small"><a href="/question/{{ $question->id }}/approve" class="green-text"><i class="fa fa-check"></i> Approve</a></p>
-                    @endif
-                    @if (is_null($question->approved) || $question->approved == true)
-                        <p class="small"><a href="/question/{{ $question->id }}/disapprove" class="red-text"><i class="fa fa-ban"></i> Disapprove</a></p>
-                    @endif
-                @endcan
-                @can ('edit-question', $question)
-                    <p class="small"><a href="/question/{{ $question->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i> Edit</a></p>
-                @endcan
+                @if (Auth::user())
+                    @can ('approve-question', $question)
+                        @if (is_null($question->approved) || $question->approved == false)
+                            <p class="small"><a href="/question/{{ $question->id }}/approve" class="green-text"><i class="fa fa-check"></i> Approve</a></p>
+                        @endif
+                        @if (is_null($question->approved) || $question->approved == true)
+                            <p class="small"><a href="/question/{{ $question->id }}/disapprove" class="red-text"><i class="fa fa-ban"></i> Disapprove</a></p>
+                        @endif
+                    @endcan
+                    @can ('edit-question', $question)
+                        <p class="small"><a href="/question/{{ $question->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i> Edit</a></p>
+                    @endcan
+                @endif
             </div>
             <!-- Question -->
             <h5>{{ $question->title }}</h5>
@@ -47,7 +49,7 @@
             <!-- Answers -->
             @if (count($answers) > 0)
                 @foreach ($answers as $answer)
-                    @if ($answer->approved || Auth::user()->can('approve-answer'))
+                    @if ($answer->approved || (Auth::user() && Auth::user()->can('approve-answer')))
                         <div class="row answer">
                             <div class="col s1">
                                 @can ('approve-answer')
@@ -57,8 +59,10 @@
                                         <p><a href="/answer/{{ $answer->id }}/approve" class="green-text"><i class="fa fa-check"></i></a></p>
                                     @endif
                                 @endcan
-                                @if ($answer->user_id == Auth::user()->id)
-                                    <p><a href="/answer/{{ $answer->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i></a></p>
+                                @if (Auth::user())
+                                    @if ($answer->user_id == Auth::user()->id)
+                                        <p><a href="/answer/{{ $answer->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i></a></p>
+                                    @endif
                                 @endif
                             </div>
                             <div class="col s11">
@@ -80,16 +84,18 @@
             @endif
         </div>
     </div>
-    <div class="row">
-        <div class="col s12">
-            <!-- Answer form -->
-            <form method="POST" action="/question/{{ $question->id }}/answer">
-                {{ csrf_field() }}
-                <h5>Your Answer</h5>
-                <textarea class="materialize-textarea" name="answer"></textarea>
-                <button class="btn sbs-red" type="submit" name="button">Submit your answer</button>
-            </form>
+    @if (Auth::user())
+        <div class="row">
+            <div class="col s12">
+                <!-- Answer form -->
+                <form method="POST" action="/question/{{ $question->id }}/answer">
+                    {{ csrf_field() }}
+                    <h5>Your Answer</h5>
+                    <textarea class="materialize-textarea" name="answer"></textarea>
+                    <button class="btn sbs-red" type="submit" name="button">Submit your answer</button>
+                </form>
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 @endsection

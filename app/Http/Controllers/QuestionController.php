@@ -15,8 +15,6 @@ class QuestionController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('view-question-index');
-
         $questions = Question::search($request)->paginate(10);
 
         $breadcrumb = [
@@ -70,8 +68,6 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view-question');
-
         $question = Question::find($id);
         if (!$question) {
             return abort(404);
@@ -155,6 +151,8 @@ class QuestionController extends Controller
         $now = new \DateTime('NOW');
 
         $question = Question::find($id);
+        $this->authorize('edit-question', $question);
+
         $question->title = request('title');
         $question->body = request('body');
         $question->edited_at = $now;
