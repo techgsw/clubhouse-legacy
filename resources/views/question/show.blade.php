@@ -47,25 +47,29 @@
             <!-- Answers -->
             @if (count($answers) > 0)
                 @foreach ($answers as $answer)
-                    <div class="row answer">
-                        <div class="col s1">
-                            @if ($answer->approved == true)
-                                <p><a href="/answer/{{ $answer->id }}/disapprove" class="red-text"><i class="fa fa-ban"></i></a></p>
-                            @else
-                                <p><a href="/answer/{{ $answer->id }}/approve" class="green-text"><i class="fa fa-check"></i></a></p>
-                            @endif
-                            @if ($answer->user_id == Auth::user()->id)
-                                <p><a href="/answer/{{ $answer->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i></a></p>
-                            @endif
+                    @if ($answer->approved || Auth::user()->can('approve-answer'))
+                        <div class="row answer">
+                            <div class="col s1">
+                                @can ('approve-answer')
+                                    @if ($answer->approved == true)
+                                        <p><a href="/answer/{{ $answer->id }}/disapprove" class="red-text"><i class="fa fa-ban"></i></a></p>
+                                    @else
+                                        <p><a href="/answer/{{ $answer->id }}/approve" class="green-text"><i class="fa fa-check"></i></a></p>
+                                    @endif
+                                @endcan
+                                @if ($answer->user_id == Auth::user()->id)
+                                    <p><a href="/answer/{{ $answer->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i></a></p>
+                                @endif
+                            </div>
+                            <div class="col s11">
+                                <p>{!! nl2br(e($answer->answer)) !!}</p>
+                                <p class="light">by {{ $answer->user->getName() }} on {{ $answer->created_at->format('F j, Y g:ia') }}</p>
+                                @if (!is_null($answer->edited_at))
+                                    <p class="light">edited by {{ $answer->user->getName() }} on {{ $answer->edited_at->format('F j, Y g:ia') }}</p>
+                                @endif
+                            </div>
                         </div>
-                        <div class="col s11">
-                            <p>{!! nl2br(e($answer->answer)) !!}</p>
-                            <p class="light">by {{ $answer->user->getName() }} on {{ $answer->created_at->format('F j, Y g:ia') }}</p>
-                            @if (!is_null($answer->edited_at))
-                                <p class="light">edited by {{ $answer->user->getName() }} on {{ $answer->edited_at->format('F j, Y g:ia') }}</p>
-                            @endif
-                        </div>
-                    </div>
+                    @endif
                 @endforeach
             @else
                 <div class="row answer">
