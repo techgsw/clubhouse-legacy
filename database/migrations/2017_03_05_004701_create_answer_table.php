@@ -19,7 +19,7 @@ class CreateAnswerTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('question_id')->unsigned();
             $table->text('answer');
-            $table->boolean('approved')->default(false);
+            $table->boolean('approved')->default(true);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

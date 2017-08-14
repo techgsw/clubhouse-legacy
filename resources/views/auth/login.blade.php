@@ -28,7 +28,7 @@
                     <button type="submit" class="btn sbs-red">Login</button>
                 </div>
                 <div class="input-field">
-                    <a class="btn white red-text" href="{{ route('password.request') }}">Forgot Your Password?</a>
+                    <a class="btn white red-text" href="{{ route('password.request') }}">Reset your password</a>
                 </div>
             </form>
         </div>

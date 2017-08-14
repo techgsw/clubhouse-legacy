@@ -24,8 +24,7 @@ class AnswerController extends Controller
         $answer = Answer::create([
             'user_id' => Auth::user()->id,
             'question_id' => $id,
-            'answer' => request('answer'),
-            'approved' => true
+            'answer' => request('answer')
         ]);
 
         return redirect()->action('QuestionController@show', [$question]);
