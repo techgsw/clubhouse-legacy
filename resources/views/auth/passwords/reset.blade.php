@@ -16,8 +16,21 @@
                         <div class="alert card-panel red lighten-4 red-text text-darken-4">
                             @if ($errors->first('email') == "passwords.token")
                                 Sorry, the reset link has expired. Please <a href="/password/reset">request another reset password email</a>.
+                            @elseif ($errors->first('email') == "passwords.user")
+                                Sorry, your email is incorrect
                             @else
                                 {{ $errors->first('email') }}
+                            @endif
+                        </div>
+                    @endif
+                    @if ($errors->has('password'))
+                        <div class="alert card-panel red lighten-4 red-text text-darken-4">
+                            @if ($errors->first('password') == 'validation.min.string')
+                                Sorry, passwords must be at least 6 characters
+                            @elseif ($errors->first('password') == 'validation.confirmed')
+                                Please make sure your password and password confirmation match
+                            @else
+                                {{ $errors->first('validation.confirmed') }}
                             @endif
                         </div>
                     @endif
@@ -40,12 +53,6 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
@@ -53,12 +60,6 @@
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
