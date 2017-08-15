@@ -27,7 +27,6 @@
         <tr>
             <td align="center">
                 <table class="content" width="100%" cellpadding="0" cellspacing="0">
-                    {{-- Header --}}
                     @component('emails.header')
                     @endcomponent
                     <!-- Email Body -->
@@ -43,7 +42,6 @@
                             </table>
                         </td>
                     </tr>
-                    {{-- Header --}}
                     @component('emails.footer')
                     @endcomponent
                 </table>
