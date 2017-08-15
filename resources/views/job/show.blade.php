@@ -38,9 +38,6 @@
                 <p><a target="_blank" href="{{ Storage::disk('local')->url($job->document) }}">View job description</a></p>
             @endif
             <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}</p>
-            @if (!is_null($job->edited_at))
-                <p class="small">edited on {{ $job->edited_at->format('F j, Y g:ia') }}</p>
-            @endif
             @can ('close-job', $job)
                 @if (is_null($job->open))
                     <div class="chip">Not open</div>
