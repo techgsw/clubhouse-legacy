@@ -16,6 +16,11 @@
                             @endif
                         </div>
                     @endif
+                    @if ($errors->has('email'))
+                        <div class="alert card-panel green white-text">
+                            Please check your email for a reset link
+                        </div>
+                    @endif
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
                         {{ csrf_field() }}
@@ -25,12 +30,6 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
