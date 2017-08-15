@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Mail;
+use App\Mail\UserRegistered;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -79,6 +81,8 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
+        // TODO can we script this?
+        // No reason to block here if we can avoid it
         // Mailchimp signup
         $api_key = env("MAILCHIMP_API_KEY");
         $list_id = env("MAILCHIMP_LIST_ID");
@@ -100,8 +104,10 @@ class RegisterController extends Controller
             "Content-Type: application/json",
             "Authorization: apikey {$api_key}"
         ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        $response = curl_exec($ch);
+        //curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        //$response = curl_exec($ch);
+
+        Mail::to($user)->send(new UserRegistered($user)); 
 
         return $user;
     }
