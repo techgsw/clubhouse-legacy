@@ -1,12 +1,7 @@
 @component('emails.layout')
-    {{-- Header --}}
-    @component('emails.header')
-    @endcomponent
-
     {{-- Body --}}
-    Test
-
+    @slot('body')
+        <p>Test</p>
+    @endslot
     {{-- Footer --}}
-    @component('emails.footer')
-    @endcomponent
 @endcomponent

@@ -27,7 +27,9 @@
         <tr>
             <td align="center">
                 <table class="content" width="100%" cellpadding="0" cellspacing="0">
-                    {{ $header or '' }}
+                    {{-- Header --}}
+                    @component('emails.header')
+                    @endcomponent
                     <!-- Email Body -->
                     <tr>
                         <td class="body" width="100%" cellpadding="0" cellspacing="0">
@@ -41,7 +43,9 @@
                             </table>
                         </td>
                     </tr>
-                    {{ $footer or '' }}
+                    {{-- Header --}}
+                    @component('emails.footer')
+                    @endcomponent
                 </table>
             </td>
         </tr>
