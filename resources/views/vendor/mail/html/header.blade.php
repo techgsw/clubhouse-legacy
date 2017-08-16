@@ -1,5 +1,5 @@
 <tr>
     <td class="header">
-        <a href="{{ $url }}">Sports Business Solutions</a>
+        <a href="{{ config('app.url') }}"><img src="{{ asset('images/logo.png') }}" /></a>
     </td>
 </tr>

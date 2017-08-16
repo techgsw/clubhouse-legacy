@@ -104,8 +104,8 @@ class RegisterController extends Controller
             "Content-Type: application/json",
             "Authorization: apikey {$api_key}"
         ]);
-        //curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        //$response = curl_exec($ch);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        $response = curl_exec($ch);
 
         Mail::to($user)->send(new UserRegistered($user)); 
 

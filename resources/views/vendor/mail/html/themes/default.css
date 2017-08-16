@@ -109,6 +109,10 @@ img {
     text-shadow: 0 1px 0 white;
 }
 
+.header a img {
+    height: 65px;
+}
+
 /* Body */
 
 .body {
