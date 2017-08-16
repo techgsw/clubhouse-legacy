@@ -6,8 +6,10 @@ use App\Http\Requests\StoreInquiry;
 use App\Inquiry;
 use App\Job;
 use App\Http\Requests\StoreJob;
+use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class InquiryController extends Controller
 {
@@ -32,6 +34,8 @@ class InquiryController extends Controller
             'phone' => request('phone'),
             'resume' => $resume->store('resume', 'public'),
         ]);
+
+        Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
 
         return redirect()->action('JobController@show', [$job]);
     }

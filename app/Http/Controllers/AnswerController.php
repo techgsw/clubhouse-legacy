@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAnswer;
 use App\Answer;
 use App\Question;
+use App\User;
+use App\Http\Requests\StoreAnswer;
+use App\Mail\AnswerSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class AnswerController extends Controller
 {
@@ -26,6 +29,8 @@ class AnswerController extends Controller
             'question_id' => $id,
             'answer' => request('answer')
         ]);
+
+        Mail::to(Auth::user())->send(new AnswerSubmitted($answer, $question, $question->user));
 
         return redirect()->action('QuestionController@show', [$question]);
     }
