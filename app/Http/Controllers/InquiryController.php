@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInquiry;
 use App\Inquiry;
 use App\Job;
+use App\User;
 use App\Http\Requests\StoreJob;
+use App\Mail\BobAlert;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +38,13 @@ class InquiryController extends Controller
         ]);
 
         Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
+
+        // TODO Global constant
+        $bob = User::find(1);
+        Mail::to($bob)->send(new BobAlert('emails.bob.inquiry-submitted', array(
+            'job' => $job,
+            'user' => Auth::user()
+        )));
 
         return redirect()->action('JobController@show', [$job]);
     }
