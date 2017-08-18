@@ -41,10 +41,15 @@ class InquiryController extends Controller
 
         // TODO Global constant
         $bob = User::find(1);
-        Mail::to($bob)->send(new BobAlert('emails.bob.inquiry-submitted', array(
-            'job' => $job,
-            'user' => Auth::user()
-        )));
+
+        try {
+            Mail::to($bob)->send(new BobAlert('emails.bob.inquiry-submitted', array(
+                'job' => $job,
+                'user' => Auth::user()
+            )));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
 
         return redirect()->action('JobController@show', [$job]);
     }

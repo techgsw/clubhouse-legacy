@@ -64,10 +64,15 @@ class QuestionController extends Controller
 
         // TODO Global constant
         $bob = User::find(1);
-        Mail::to($bob)->send(new BobAlert('emails.bob.question-submitted', array(
-            'question' => $question,
-            'user' => Auth::user()
-        )));
+
+        try {
+            Mail::to($bob)->send(new BobAlert('emails.bob.question-submitted', array(
+                'question' => $question,
+                'user' => Auth::user()
+            )));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
 
         return redirect()->action('QuestionController@show', [$question]);
     }

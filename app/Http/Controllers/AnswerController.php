@@ -7,6 +7,7 @@ use App\Question;
 use App\User;
 use App\Http\Requests\StoreAnswer;
 use App\Mail\AnswerSubmitted;
+use App\Mail\BobAlert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -30,7 +31,22 @@ class AnswerController extends Controller
             'answer' => request('answer')
         ]);
 
-        Mail::to($question->user)->send(new AnswerSubmitted($answer, $question, $question->user));
+        try {
+            Mail::to($question->user)->send(new AnswerSubmitted($answer, $question, $question->user));
+
+            Mail::to('bob@sportsbusiness.solutions')->send(
+                new BobAlert(
+                    'emails.bob.answer',
+                    array(
+                        'user' => Auth::user(),
+                        'answer' => $answer,
+                        'question' => $question
+                    )
+                )
+            );
+        } catch (Exception $e) {
+            // TODO log exception
+        }
 
         return redirect()->action('QuestionController@show', [$question]);
     }
