@@ -30,7 +30,7 @@ class AnswerController extends Controller
             'answer' => request('answer')
         ]);
 
-        Mail::to(Auth::user())->send(new AnswerSubmitted($answer, $question, $question->user));
+        Mail::to($question->user)->send(new AnswerSubmitted($answer, $question, $question->user));
 
         return redirect()->action('QuestionController@show', [$question]);
     }
