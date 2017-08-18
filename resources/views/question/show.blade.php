@@ -29,8 +29,10 @@
             <!-- Question -->
             <h5>{{ $question->title }}</h5>
             <p class="light">by {{ $question->user->getName() }} on {{ $question->created_at->format('F j, Y g:ia') }}</p>
-            @if (!is_null($question->edited_at))
-                <p class="light">edited by {{ $question->user->getName() }} on {{ $question->edited_at->format('F j, Y g:ia') }}</p>
+            @if (Auth::user() && Auth::user()->can('approve-question'))
+                @if (!is_null($question->edited_at))
+                    <p class="light">edited by {{ $question->user->getName() }} on {{ $question->edited_at->format('F j, Y g:ia') }}</p>
+                @endif
             @endif
             <p>{!! nl2br(e($question->body)) !!}</p>
             @can ('approve-question', $question)
