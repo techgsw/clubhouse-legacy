@@ -65,7 +65,6 @@
                 <li><a href="/recruiting-3">&mdash;Recruiting</a></li>
                 <li><a href="/career-services">&mdash;Career Services</a></li>
                 <li class="divider"></li>
-                <li><a href="/the-hub">The Hub</a></li>
                 <li><a href="/question">&mdash;Q&amp;A Forum</a></li>
                 <li><a href="/videos">&mdash;Training</a></li>
                 <li class="divider"></li>
