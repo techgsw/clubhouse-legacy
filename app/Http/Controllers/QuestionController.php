@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Question;
+use App\User;
 use App\Http\Requests\StoreQuestion;
 use App\Http\Requests\UpdateQuestion;
-use App\Question;
+use App\Mail\BobAlert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class QuestionController extends Controller
 {
@@ -58,6 +61,13 @@ class QuestionController extends Controller
             'title' => request('title'),
             'body' => request('body')
         ]);
+
+        // TODO Global constant
+        $bob = User::find(1);
+        Mail::to($bob)->send(new BobAlert('emails.bob.question-submitted', array(
+            'question' => $question,
+            'user' => Auth::user()
+        )));
 
         return redirect()->action('QuestionController@show', [$question]);
     }
