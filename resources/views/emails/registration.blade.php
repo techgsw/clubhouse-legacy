@@ -6,7 +6,7 @@
         <ul>
             <li>Go to the <a href="{{ config('app.url') }}job">Job Board</a> to search for job opportunities. As a member, you can apply and take the first step toward landing the perfect job.</li>
             <li>Visit the <a href="{{ config('app.url') }}question">Forum</a>, where our community members ask and answer the questions that matter to you. As a member, you can ask and answer questions.</li>
-            <li>View <a href="{{ config('app.url') }}user/{{ $user->id }}">your profile</a> and update it when you land that job!</li>
+            <li>View <a href="{{ config('app.url') }}/user/{{ $user->id }}">your profile</a> and update it when you land that job!</li>
         </ul>
         <p>Regards,<br/>Sports Business Solutions</p>
     @endslot
