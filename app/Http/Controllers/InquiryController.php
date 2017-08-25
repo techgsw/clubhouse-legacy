@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInquiry;
 use App\Inquiry;
 use App\Job;
+use App\Message;
 use App\User;
 use App\Http\Requests\StoreJob;
 use App\Mail\BobAlert;
@@ -45,6 +46,12 @@ class InquiryController extends Controller
             'job' => $job,
             'user' => Auth::user()
         )));
+
+        // TODO Need to do multiples
+        $request->session()->flash('message', new Message(
+            "Thank you! We've received your résumé and you are being considered for the position.",
+            "success"
+        ));
 
         return redirect()->action('JobController@show', [$job]);
     }

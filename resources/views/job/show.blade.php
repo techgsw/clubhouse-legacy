@@ -8,6 +8,11 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
+            @include('layouts.components.messages')
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
             @include('layouts.components.errors')
         </div>
     </div>

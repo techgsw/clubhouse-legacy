@@ -27,7 +27,8 @@ class AnswerController extends Controller
         $answer = Answer::create([
             'user_id' => Auth::user()->id,
             'question_id' => $id,
-            'answer' => request('answer')
+            'answer' => request('answer'),
+            'approved' => true
         ]);
 
         Mail::to($question->user)->send(new AnswerSubmitted($answer, $question, $question->user));

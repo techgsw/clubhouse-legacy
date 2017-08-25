@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     protected $table = 'answer';
-    protected $guarded = [
-        'approved'
-    ];
+    protected $guarded = [];
     protected $dates = [
         'created_at',
         'updated_at',
