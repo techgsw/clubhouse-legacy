@@ -12,8 +12,9 @@ class BobAlert extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $job;
+    public $answer;
     public $question;
+    public $job;
     public $user;
     public $view;
 
@@ -39,6 +40,6 @@ class BobAlert extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-                    ->markdown($this->view);
+            ->markdown($this->view);
     }
 }

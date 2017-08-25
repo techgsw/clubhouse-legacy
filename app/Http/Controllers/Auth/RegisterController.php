@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Mail;
+use App\Mail\BobAlert;
 use App\Mail\UserRegistered;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -107,7 +108,15 @@ class RegisterController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         $response = curl_exec($ch);
 
-        Mail::to($user)->send(new UserRegistered($user)); 
+        try {
+            Mail::to($user)->send(new UserRegistered($user)); 
+
+            Mail::to('bob@sportsbusiness.solutions')->send(
+                new BobAlert('emails.bob.registration', array('user' => $user))
+            );
+        } catch (Exception $e) {
+            // TODO log exception
+        }
 
         return $user;
     }

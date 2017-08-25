@@ -42,10 +42,15 @@ class InquiryController extends Controller
 
         // TODO Global constant
         $bob = User::find(1);
-        Mail::to($bob)->send(new BobAlert('emails.bob.inquiry-submitted', array(
-            'job' => $job,
-            'user' => Auth::user()
-        )));
+
+        try {
+            Mail::to($bob)->send(new BobAlert('emails.bob.inquiry-submitted', array(
+                'job' => $job,
+                'user' => Auth::user()
+            )));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
 
         // TODO Need to do multiples
         $request->session()->flash('message', new Message(
