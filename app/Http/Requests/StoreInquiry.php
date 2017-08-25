@@ -28,7 +28,7 @@ class StoreInquiry extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required',
-            'resume' => 'required|mimes:pdf|max:2000',
+            'resume' => 'required|mimes:pdf,doc,docx,odt,ott|max:2000',
         ];
     }
 
@@ -43,7 +43,7 @@ class StoreInquiry extends FormRequest
             'name.required' => 'Name is a required field',
             'email.required' => 'Email address is a required field',
             'resume.required' => 'Resume is a required field',
-            'resume.mimes' => 'Resume must be a PDF',
+            'resume.mimes' => 'Resume must be a PDF or Word Doc',
         ];
     }
 }

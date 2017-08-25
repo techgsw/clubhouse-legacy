@@ -63,6 +63,13 @@
                     <p><a href="{{ Storage::disk('local')->url($inquiry->resume) }}">View resume</a></p>
                 </div>
             @endforeach
+            @if ($inquiries->total() > 8)
+                <div class="row">
+                    <div class="col s12 center-align">
+                        {{ $inquiries->links('components.pagination') }}
+                    </div>
+                </div>
+            @endif
         </div>
     @endif
     <div class="row">
