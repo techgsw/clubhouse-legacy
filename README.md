@@ -66,7 +66,8 @@ Migrations will build the schema for you, but you'll have to create the database
 
 ```
 vagrant ssh
-mysql -u homestead -p secret
+mysql -u homestead -p
+Enter the password: secret
 
 > create database sbs;
 > use sbs;
