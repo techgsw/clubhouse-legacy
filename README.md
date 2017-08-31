@@ -36,18 +36,31 @@ Set up Homestead environment, which bundles PHP, nginx, MySQL, Postgres, Redis, 
 
 First, install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) and [Vagrant](https://www.vagrantup.com/downloads.html).
 
+Drop this `Homestead.yaml` config file into the project's root directory:
+```
+ip: 192.168.10.10
+memory: 2048
+cpus: 1
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    - { map: /Users/{YOU}/Sites/sportsbusinesssolutions, to: /home/vagrant/Code/sportsbusinesssolutions }
+sites:
+    - { map: sportsbusinesssolutions.app, to: /home/vagrant/Code/sportsbusinesssolutions/public }
+databases:
+    - homestead
+name: sportsbusinesssolutions
+hostname: sportsbusinesssolutions
+```
+- Check that `folders` points to your development directory.  
+- Check that `sites` points to `- { map: sportsbusinesssolutions, to: /home/vagrant/Code/sportsbusinesssolutions/public }`.
+
 Install the Homestead Vagrant box
 ```
 vagrant box add laravel/homestead
 ```
-
-Install and Configure Homestead
-```
-php vendor/bin/homestead make
-vi Homestead.yaml
-```
-- Check that `folders` points to your development directory.  
-- Change `sites` to `- { map: sportsbusinesssolutions, to: /home/vagrant/Code/sportsbusinesssolutions/public }`.
 
 Add to Hosts
 ```
