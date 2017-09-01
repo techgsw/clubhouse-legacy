@@ -19,13 +19,13 @@ class CreateProfileTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('user');
             // Fields
-            $table->string('name');
-            $table->string('line1');
-            $table->string('line2');
-            $table->string('city');
-            $table->string('state');
-            $table->string('postal_code');
-            $table->string('country');
+            $table->string('name')->default(NULL);
+            $table->string('line1')->default(NULL);
+            $table->string('line2')->default(NULL);
+            $table->string('city')->default(NULL);
+            $table->string('state')->default(NULL);
+            $table->string('postal_code')->default(NULL);
+            $table->string('country')->default(NULL);
             $table->timestamps();
         });
 
