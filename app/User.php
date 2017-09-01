@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Role;
+// TODO use App\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,6 +40,16 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function address()
+    {
+        return $this->hasOne(Address::class);
     }
 
     public function hasAccess($resource_code)
