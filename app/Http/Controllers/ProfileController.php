@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProfile;
 use App\Http\Requests\UpdateProfile;
-use App\Inquiry;
 use App\Profile;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -22,17 +22,21 @@ class ProfileController extends Controller
     {
         // TODO permissions ?
 
-        $profile = User::find($id)->profile;
+        $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
+        $profile = $user->profile;
         if (!$profile) {
             return abort(404);
         }
 
-        // TODO permissions
-
-        return view('profile/show', [
+        return view('user/profile/show', [
+            'user' => $user,
             'profile' => $profile,
             'breadcrumb' => [
                 'Home' => '/',
+                'User' => "/user/$id",
                 'Profile' => "/user/$id/profile"
             ]
         ]);
@@ -44,18 +48,24 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        $profile = User::find($id)->profile;
+        $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
+        $profile = $user->profile;
         if (!$profile) {
             return abort(404);
         }
 
         // TODO permission
-        $this->authorize('edit-profile', $profile);
+        // $this->authorize('edit-profile', $profile);
 
-        return view('profile/edit', [
+        return view('user/profile/edit', [
+            'user' => $user,
             'profile' => $profile,
             'breadcrumb' => [
                 'Home' => '/',
+                'User' => "/user/$id",
                 'Profile' => "/user/$id/profile",
                 'Edit' => "/user/$id/edit-profile"
             ]

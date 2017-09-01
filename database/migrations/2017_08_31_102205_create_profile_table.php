@@ -43,18 +43,18 @@ class CreateProfileTable extends Migration
             // Date of Birth
             $table->date('date_of_birth');
             // Ethnicity
-            // - Asian or Pacific Islander
-            // - Black or African American
-            // - Hispanic
-            // - Native American
-            // - White or Caucasian
+            // - asian => Asian or Pacific Islander
+            // - black => Black or African American
+            // - hispanic => Hispanic
+            // - native => Native American
+            // - white => White or Caucasian
             $table->string('ethnicity');
             // Gender
-            // - Female
-            // - Male
-            // - Non-binary
+            // - female => Female
+            // - male => Male
+            // - non-bin => Non-binary
             $table->string('gender');
-            // Headshot
+            // Headshot (FILE)
             $table->string('headshot')->default(NULL);
 
             // Job preferences
@@ -91,10 +91,10 @@ class CreateProfileTable extends Migration
             // - department_interests['entertainment'] => Game Entertainment
             // - department_interests['legal'] => Legal
             // - TODO Other: ____
-            $table->json('department_interests')->default(NULL);
+            $table->json('department_interests');
             // When making a decision on your next job in sports which of the following are most important? Choose three.
             // - ?
-            $table->json('job_decision_factors')->default(NULL);
+            $table->json('job_decision_factors');
             // Are you currently employed in sports sales?
             $table->boolean('employed_in_sports_sales')->default(NULL);
             // Do you want to continue your career in sports sales?
@@ -192,7 +192,7 @@ class CreateProfileTable extends Migration
             // - department_experience['entertainment'] => Game Entertainment
             // - department_experience['legal'] => Legal
             // - TODO Other: ____
-            $table->json('department_experience')->default(NULL);
+            $table->json('department_experience');
             // If not, where do you work now?
             $table->string('if_not_organization')->default(NULL);
             // What department do you work in?
@@ -228,7 +228,7 @@ class CreateProfileTable extends Migration
             // legal
             // IT
             // TODO Other:
-            $table->json('if_not_department_experience')->default(NULL);
+            $table->json('if_not_department_experience');
             // Upload resume
             $table->string('resume')->default(NULL);
 
@@ -263,8 +263,15 @@ class CreateProfileTable extends Migration
             // - email_preference['leadership'] => Sales Leadership/management/strategy
             // - email_preference['best-practices'] => Industry best practices and sports business articles
             // - email_preference['career-advice'] => Advice on how to grow your career in sports business
-            $table->json('email_preference')->default(NULL);
+            $table->json('email_preference');
         });
+
+        //foreach ($user as $user) {
+            // Create a null address
+            // Create a null profile
+            // Port columns from User to Profile
+            // Drop columns on User
+        //}
     }
 
     /**
@@ -274,6 +281,11 @@ class CreateProfileTable extends Migration
      */
     public function down()
     {
+        //foreach ($user as $user) {
+            // Add columns on User
+            // Port columns from Profile to User
+        //}
+
         Schema::dropIfExists('address');
         Schema::dropIfExists('profile');
     }
