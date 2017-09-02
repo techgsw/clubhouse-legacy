@@ -396,32 +396,48 @@
     <div class="row">
         <h2>Educational History</h2>
     </div>
-
-<!--
-            // Educational history: (Copy from current profile)
-            // What’s your highest education level completed?
-            // - high-school => High school
-            // - associate => Associate degree
-            // - bachelor => Bachelor's degree
-            // - master => Master's degree
-            // - doctor => Doctorate (PhD, MD, JD, etc.)
-            $table->string('education_level')->default(NULL);
-            // What college did/do you attend?
-            $table->string('college')->default(NULL);
-            // What year did/will you graduate?
-            $table->integer('graduation_year')->default(NULL);
-            // What is/was your undergraduate GPA?
-            $table->double('gpa', 4, 2)->default(NULL);
-            // What collegiate organizations did/do you belong to? List any leadership positions you held.
-            $table->text('college_organizations')->default(NULL);
-            // What sports business clubs or in your athletic department(s) were you involved in? List any leadership positions you held.
-            $table->text('college_sports_clubs')->default(NULL);
-            // Do you plan to attend more school in the future?
-            $table->boolean('has_school_plans')->default(NULL);
---!>
-
-
-
+    <div class="row">
+        <div class="input-field col s6">
+            <select class="browser-default" name="education-level">
+                <option value="" {{old('education_level') == "" ? "selected" : "" }} disabled>Highest education level completed</option>
+                <option value="high-school" {{old('education_level') == "high-school" ? 'selected' : $profile->education_level == "high-school" ? 'selected' : '' }}>High School</option>
+                <option value="associate" {{old('education_level') == "associate" ? 'selected' : $profile->education_level == "associate" ? 'selected' : '' }}>Associate degree</option>
+                <option value="bachelor" {{old('education_level') == "bachelor" ? 'selected' : $profile->education_level == "bachelor" ? 'selected' : '' }}>Bachelor's degree</option>
+                <option value="master" {{old('education_level') == "master" ? 'selected' : $profile->education_level == "master" ? 'selected' : '' }}>Master's degree</option>
+                <option value="doctor" {{old('education_level') == "doctor" ? 'selected' : $profile->education_level == "doctor" ? 'selected' : '' }}>Doctorate (PhD, MD, JD, etc.)</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12 {{ $errors->has('college') ? 'invalid' : '' }}">
+            <input id="college" type="text" name="college" value="{{ old('college') ?: $profile->college ?: null }}">
+            <label for="college">What college did/do you attend?</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12 m6 {{ $errors->has('graduation_year') ? 'invalid' : '' }}">
+            <input id="graduation-year" type="text" name="graduation_year" value="{{ old('graduation_year') ?: $profile->graduation_year ?: null }}">
+            <label for="graduation-year">What year did/will you graduate?</label>
+        </div>
+        <div class="input-field col s12 m6 {{ $errors->has('gpa') ? 'invalid' : '' }}">
+            <input id="gpa" type="text" name="gpa" value="{{ old('gpa') ?: $profile->gpa ?: null }}">
+            <label for="gpa">What was/is your undergraduate GPA?</label>
+        </div>
+    </div>
+    <div class="input-field">
+        <textarea id="college-organizations" class="materialize-textarea {{ $errors->has('college_organizations') ? 'invalid' : '' }}" name="college_organizations"> {{ old('college_organizations') ?: $profile->college_organizations ?: null }}</textarea>
+        <label for="college-organizations">What collegiate organizations did/do you belong to? List any leadership positions you held.</label>
+    </div>
+    <div class="input-field">
+        <textarea id="college-sports-clubs" class="materialize-textarea {{ $errors->has('college_sports_clubs') ? 'invalid' : '' }}" name="college_sports_clubs"> {{ old('college_sports_clubs') ?: $profile->college_sports_clubs ?: null }}</textarea>
+        <label for="college-sports-clubs">What sports business clubs or in your athletic department(s) were you involved in? List any leadership positions you held.</label>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <input id="has-school-plans" type="checkbox" name="has_school_plans" value="{{ old('has_school_plans') ?: $profile->has_school_plans ?: null }}" />
+            <label for="has-school-plans">Do you plan to attend more school in the future?</label>
+        </div>
+    </div>
     <div class="row">
         <div class="input-field col s12">
             <button type="submit" class="btn sbs-red">Save</button>
