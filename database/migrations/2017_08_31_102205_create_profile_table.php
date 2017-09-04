@@ -271,7 +271,8 @@ class CreateProfileTable extends Migration
 
         foreach (User::all() as $user) {
             $address = Address::create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'name' => $user->getName()
             ]);
             $profile = Profile::create([
                 'user_id' => $user->id,
