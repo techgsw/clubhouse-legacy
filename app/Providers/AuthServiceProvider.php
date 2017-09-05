@@ -46,6 +46,12 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-user', function ($auth_user, $user) {
             return $auth_user->id == $user->id || $auth_user->hasAccess('user_edit');
         });
+        Gate::define('view-profile', function ($auth_user, $user) {
+            return $auth_user->id == $user->id || $auth_user->hasAccess('profile_show');
+        });
+        Gate::define('edit-profile', function ($auth_user, $user) {
+            return $auth_user->id == $user->id || $auth_user->hasAccess('profile_edit');
+        });
 
         // Q&A
         Gate::define('view-question-index', function ($user) {
