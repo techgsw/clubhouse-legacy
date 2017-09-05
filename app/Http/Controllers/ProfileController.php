@@ -20,7 +20,7 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        // TODO permissions ?
+        // TODO permission
 
         $user = User::find($id);
         if (!$user) {

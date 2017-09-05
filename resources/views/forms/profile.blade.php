@@ -1,8 +1,6 @@
 <form method="post" action="/user/{{ $user->id }}/profile">
     {{ csrf_field() }}
-    <div class="row">
-        <h2>Personal Information</h2>
-    </div>
+    <h4>Personal Information</h4>
     <div class="row">
         <div class="input-field col s12 m6 {{ $errors->has('phone') ? 'invalid' : '' }}">
             <input id="phone" type="text" name="phone" value="{{ old('phone') ?: $profile->phone ?: null }}" required>
@@ -15,8 +13,8 @@
     </div>
     <div class="row">
         <div class="input-field col s12 m6">
-            <select class="browser-default" name="ethnicity">
-                <option value="" {{old('gender') == "" ? "selected" : "" }} disabled>Gender</option>
+            <select class="browser-default" name="gender">
+                <option value="" {{old('gender') == "" ? "selected" : "" }} disabled>N/A</option>
                 <option value="female" {{old('gender') == "female" ? 'selected' : $profile->gender == "female" ? 'selected' : '' }}>Female</option>
                 <option value="male" {{old('gender') == "male" ? 'selected' : $profile->gender == "male" ? 'selected' : '' }}>Male</option>
                 <option value="non-binary" {{old('gender') == "non-binary" ? 'selected' : $profile->gender == "non-binary" ? 'selected' : '' }}>Non-binary</option>
@@ -24,7 +22,7 @@
         </div>
         <div class="input-field col s12 m6">
             <select class="browser-default" name="ethnicity">
-                <option value="" {{old('ethnicity') == "" ? "selected" : "" }} disabled>Ethnicity</option>
+                <option value="" {{old('ethnicity') == "" ? "selected" : "" }} disabled>N/A</option>
                 <option value="asian" {{old('ethnicity') == "asian" ? 'selected' : $profile->ethnicity == "asian" ? 'selected' : '' }}>Asian or Pacific Islander</option>
                 <option value="black" {{old('ethnicity') == "black" ? 'selected' : $profile->ethnicity == "black" ? 'selected' : '' }}>Black or African American</option>
                 <option value="hispanic" {{old('ethnicity') == "hispanic" ? 'selected' : $profile->ethnicity == "hispanic" ? 'selected' : '' }}>Hispanic</option>
@@ -46,10 +44,7 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <h2>Job Preferences</h2>
-    </div>
+    <h4>Job Preferences</h4>
     <div class="row">
         <div class="input-field col s12 m4">
             <select class="browser-default" name="employment_status">
@@ -72,80 +67,78 @@
         <input id="receives-job-notifications" type="checkbox" name="receives_job_notifications" value="{{ old('receives_job_notifications') ?: $profile->receives_job_notifications ?: null }}" />
         <label for="receives-job-notifications">Do you want to be considered for future jobs in the sports industry?</label>
     </div>
-<!--
-            // If yes, check all departments that interest you
---!>
+    <!-- If yes, check all departments that interest you -->
     <div class="row">
         <div class="input-field col s8 offset-m1">
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="ticket-sales" type="checkbox" name="ticket_sales" value="{{ old('ticket_sales') ?: $profile->department_interests ?: null }}" />
                 <label for="ticket-sales">Ticket Sales</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="sponsorship-sales" type="checkbox" name="sponsorship_sales" value="{{ old('sponsorship_sales') ?: $profile->department_interests ?: null }}" />
                 <label for="sponsorship-sales">Sponsorship Sales</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="service" type="checkbox" name="service" value="{{ old('service') ?: $profile->department_interests ?: null }}" />
                 <label for="service">Service</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="premium-sales" type="checkbox" name="premium_sales" value="{{ old('premium_sales') ?: $profile->department_interests ?: null }}" />
                 <label for="premium-sales">Premium Sales</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="marketing" type="checkbox" name="marketing" value="{{ old('marketing') ?: $profile->department_interests ?: null }}" />
                 <label for="marketing">Marketing</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="sponsorship-activation" type="checkbox" name="sponsorship-activation" value="{{ old('sponsorship-activation') ?: $profile->department_interests ?: null }}" />
-                <label for="sponsorship-activation">sponsorship Activation</label>
+                <label for="sponsorship-activation">Sponsorship Activation</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="hr" type="checkbox" name="hr" value="{{ old('hr') ?: $profile->department_interests ?: null }}" />
                 <label for="hr">HR</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="analytics" type="checkbox" name="analytics" value="{{ old('analytics') ?: $profile->department_interests ?: null }}" />
                 <label for="analytics">Analytics</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="cr" type="checkbox" name="cr" value="{{ old('cr') ?: $profile->department_interests ?: null }}" />
                 <label for="cr">CR</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="pr" type="checkbox" name="pr" value="{{ old('pr') ?: $profile->department_interests ?: null }}" />
                 <label for="pr">PR</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="database" type="checkbox" name="database" value="{{ old('database') ?: $profile->department_interests ?: null }}" />
                 <label for="database">Database</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="finance" type="checkbox" name="finance" value="{{ old('finance') ?: $profile->department_interests ?: null }}" />
                 <label for="finance">Finance</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="arena-ops" type="checkbox" name="arena-ops" value="{{ old('arena-ops') ?: $profile->department_interests ?: null }}" />
                 <label for="arena-ops">Arena Ops</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="player-ops" type="checkbox" name="player-ops" value="{{ old('player-ops') ?: $profile->department_interests ?: null }}" />
                 <label for="player-ops">Player Ops</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="event-ops" type="checkbox" name="event-ops" value="{{ old('event-ops') ?: $profile->department_interests ?: null }}" />
                 <label for="event-ops">Event Ops</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="social-media" type="checkbox" name="social-media" value="{{ old('social-media') ?: $profile->department_interests ?: null }}" />
                 <label for="social-media">Digital/Social Media</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="entertainment" type="checkbox" name="entertainment" value="{{ old('entertainment') ?: $profile->department_interests ?: null }}" />
                 <label for="entertainment">Game Entertainment</label>
             </div>
-            <div class="col s4 m4">
+            <div class="col s6">
                 <input id="legal" type="checkbox" name="legal" value="{{ old('legal') ?: $profile->department_interests ?: null }}" />
                 <label for="legal">Legal</label>
             </div>
@@ -173,9 +166,7 @@
             <input id="continuing-sports-sales" type="checkbox" name="continuing_sports_sales" value="{{ old('continuing_sports_sales') ?: $profile->continuing_sports_sales ?: null }}" />
             <label for="continuing-sports-sales">Do you want to continue your career in sports sales?</label>
         </div>
-<!--
-            // If yes, which sports sales job is the next step for you?
---!>
+        <!-- If yes, which sports sales job is the next step for you? -->
         <div class="input-field col s8 offset-m1">
             <select class="browser-default" name="next_sales_job">
                 <option value="" {{old('next_sales_job') == "" ? "selected" : "" }} disabled>Which sports sales job is the next step for you?</option>
@@ -199,9 +190,7 @@
             <input id="continuing-management" type="checkbox" name="continuing_management" value="{{ old('continuing_management') ?: $profile->continuing_management ?: null }}" />
             <label for="continuing-management">Do you want to continue your career in sports sales leadership?</label>
         </div>
-<!--
-            // If yes, what management job is the next step for you?
---!>
+        <!-- If yes, what management job is the next step for you? -->
         <div class="input-field col s8 offset-m1">
             <select class="browser-default" name="next_management_job">
                 <option value="" {{old('next_management_job') == "" ? "selected" : "" }} disabled>What management job is the next step for you?</option>
@@ -223,9 +212,7 @@
             <input id="continuing-executive" type="checkbox" name="continuing_executive" value="{{ old('continuing_executive') ?: $profile->continuing_executive ?: null }}" />
             <label for="continuing-executive">Do you want to continue your career as a sports executive?</label>
         </div>
-<!--
-            // If yes, which is the next step for you?
---!>
+        <!-- If yes, which is the next step for you? -->
         <div class="input-field col s8 offset-m1">
             <select class="browser-default" name="next_executive">
                 <option value="" {{old('next_executive') == "" ? "selected" : "" }} disabled>Which is the next step for you?</option>
@@ -240,7 +227,7 @@
     </div>
 
     <div class="row">
-        <h2>Employment History</h2>
+        <h4>Employment History</h4>
     </div>
 
     <div class="row">
@@ -248,23 +235,17 @@
             <input id="works-in-sports" type="checkbox" name="works_in_sports" value="{{ old('works_in_sports') ?: $profile->works_in_sports ?: null }}" />
             <label for="works-in-sports">Are you currently working in sports?</label>
         </div>
-<!--
-            // If yes, how many years have you worked in sports?
---!>
+        <!-- If yes, how many years have you worked in sports? -->
         <div class="input-field col s4 offset-m1 {{ $errors->has('years_in_sports') ? 'invalid' : '' }}">
             <input id="years-in-sports" type="text" name="years_in_sports" value="{{ old('years_in_sports') ?: $profile->years_in_sports ?: null }}">
             <label for="years-in-sports">How many years have you worked in sports?</label>
         </div>
-<!--
-            // If yes, which organization?
---!>
+        <!-- If yes, which organization? -->
         <div class="input-field col s8 offset-m1 {{ $errors->has('current_organization') ? 'invalid' : '' }}">
             <input id="current-organization" type="text" name="current_organization" value="{{ old('current_organization') ?: $profile->current_organization ?: null }}">
             <label for="current-organization">Which organization?</label>
         </div>
-<!--
-            // If yes, which region?
---!>
+        <!-- If yes, which region? -->
         <div class="input-field col s8 offset-m1">
             <select class="browser-default" name="current_region">
                 <option value="" {{old('current_region') == "" ? "selected" : "" }} disabled>What geographic region do you work in?</option>
@@ -275,9 +256,7 @@
                 <option value="sw" {{old('current_region') == "sw" ? 'selected' : $profile->current_region == "sw" ? 'selected' : '' }}>Southwest</option>
             </select>
         </div>
-<!--
-            // If yes, which department?
---!>
+        <!-- If yes, which department? -->
         <div class="input-field col s8 offset-m1">
             <select class="browser-default" name="current_department">
                 <option value="" {{old('current_department') == "" ? "selected" : "" }} disabled>What department do you work in?</option>
@@ -300,23 +279,17 @@
                 <option value="legal" {{old('current_department') == "legal" ? 'selected' : $profile->current_department == "legal" ? 'selected' : '' }}>Legal</option>
             </select>
         </div>
-<!--
-            // If yes, what is your title?
---!>
+        <!-- If yes, what is your title? -->
         <div class="input-field col s8 offset-m1 {{ $errors->has('current_title') ? 'invalid' : '' }}">
             <input id="current-title" type="text" name="current_title" value="{{ old('current_title') ?: $profile->current_title ?: null }}">
             <label for="current-title">Title</label>
         </div>
-<!--
-            // If yes, how many years have you been with your current organization?
---!>
+        <!-- If yes, how many years have you been with your current organization? -->
         <div class="input-field col s8 offset-m1 {{ $errors->has('years_current_organization') ? 'invalid' : '' }}">
             <input id="years-current-organization" type="text" name="years_current_organization" value="{{ old('years_current_organization') ?: $profile->years_current_organization ?: null }}">
             <label for="years-current-organization">How many years have you been with your current organization?</label>
         </div>
-<!--
-            // If yes, how many years have you been in your current role?
---!>
+        <!-- If yes, how many years have you been in your current role? -->
         <div class="input-field col s8 offset-m1 {{ $errors->has('years_current_role') ? 'invalid' : '' }}">
             <input id="years-current-role" type="text" name="years_current_role" value="{{ old('years_current_role') ?: $profile->years_current_role ?: null }}">
             <label for="years-current-role">How many years have you been in your current role?</label>
@@ -326,92 +299,87 @@
         <input id="receives-job-notifications" type="checkbox" name="receives_job_notifications" value="{{ old('receives_job_notifications') ?: $profile->receives_job_notifications ?: null }}" />
         <label for="receives-job-notifications">Do you want to be considered for future jobs in the sports industry?</label>
     </div>
-<!--
-            // If yes, check all departments that interest you
---!>
+    <!-- If yes, check all departments that interest you -->
     <div class="row">
-        <p>In sports, which departments do you have experience in? Check all that apply:</p>
-        <div class="row">
-            <div class="input-field col s8 offset-m1">
-                <div class="col s4 m4">
-                    <input id="ticket-sales" type="checkbox" name="ticket_sales" value="{{ old('ticket_sales') ?: $profile->department_experience ?: null }}" />
+        <div class="col s11 offset-m1">
+            <p>In sports, which departments do you have experience in? Check all that apply:</p>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="ticket-sales" type="checkbox" name="department_experience['ticket_sales']" value="{{ old("department_experience['ticket_sales']") ?: $profile->department_experience ?: null }}" />
                     <label for="ticket-sales">Ticket Sales</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="sponsorship-sales" type="checkbox" name="sponsorship_sales" value="{{ old('sponsorship_sales') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="sponsorship-sales" type="checkbox" name="department_experience['sponsorship_sales']" value="{{ old("department_experience['sponsorship_sales']") ?: $profile->department_experience ?: null }}" />
                     <label for="sponsorship-sales">Sponsorship Sales</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="service" type="checkbox" name="service" value="{{ old('service') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="service" type="checkbox" name="department_experience['service']" value="{{ old("department_experience['service']") ?: $profile->department_experience ?: null }}" />
                     <label for="service">Service</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="premium-sales" type="checkbox" name="premium_sales" value="{{ old('premium_sales') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="premium-sales" type="checkbox" name="department_experience['premium_sales']" value="{{ old("department_experience['premium_sales']") ?: $profile->department_experience ?: null }}" />
                     <label for="premium-sales">Premium Sales</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="marketing" type="checkbox" name="marketing" value="{{ old('marketing') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="marketing" type="checkbox" name="department_experience['marketing']" value="{{ old("department_experience['marketing']") ?: $profile->department_experience ?: null }}" />
                     <label for="marketing">Marketing</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="sponsorship-activation" type="checkbox" name="sponsorship-activation" value="{{ old('sponsorship-activation') ?: $profile->department_experience ?: null }}" />
-                    <label for="sponsorship-activation">sponsorship Activation</label>
+                <div class="input-field col s6">
+                    <input id="sponsorship-activation" type="checkbox" name="department_experience['sponsorship_activation']" value="{{ old("department_experience['sponsorship_activation']") ?: $profile->department_experience ?: null }}" />
+                    <label for="sponsorship-activation">Sponsorship Activation</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="hr" type="checkbox" name="hr" value="{{ old('hr') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="hr" type="checkbox" name="department_experience['hr']" value="{{ old("department_experience['hr']") ?: $profile->department_experience ?: null }}" />
                     <label for="hr">HR</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="analytics" type="checkbox" name="analytics" value="{{ old('analytics') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="analytics" type="checkbox" name="department_experience['analytics']" value="{{ old("department_experience['analytics']") ?: $profile->department_experience ?: null }}" />
                     <label for="analytics">Analytics</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="cr" type="checkbox" name="cr" value="{{ old('cr') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="cr" type="checkbox" name="department_experience['cr']" value="{{ old("department_experience['cr']") ?: $profile->department_experience ?: null }}" />
                     <label for="cr">CR</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="pr" type="checkbox" name="pr" value="{{ old('pr') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="pr" type="checkbox" name="department_experience['pr']" value="{{ old("department_experience['pr']") ?: $profile->department_experience ?: null }}" />
                     <label for="pr">PR</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="database" type="checkbox" name="database" value="{{ old('database') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="database" type="checkbox" name="department_experience['database']" value="{{ old("department_experience['database']") ?: $profile->department_experience ?: null }}" />
                     <label for="database">Database</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="finance" type="checkbox" name="finance" value="{{ old('finance') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="finance" type="checkbox" name="department_experience['finance']" value="{{ old("department_experience['finance']") ?: $profile->department_experience ?: null }}" />
                     <label for="finance">Finance</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="arena-ops" type="checkbox" name="arena-ops" value="{{ old('arena-ops') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="arena-ops" type="checkbox" name="department_experience['arena_ops']" value="{{ old("department_experience['arena_ops']") ?: $profile->department_experience ?: null }}" />
                     <label for="arena-ops">Arena Ops</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="player-ops" type="checkbox" name="player-ops" value="{{ old('player-ops') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="player-ops" type="checkbox" name="department_experience['player_ops']" value="{{ old("department_experience['player_ops']") ?: $profile->department_experience ?: null }}" />
                     <label for="player-ops">Player Ops</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="event-ops" type="checkbox" name="event-ops" value="{{ old('event-ops') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="event-ops" type="checkbox" name="department_experience['event_ops']" value="{{ old("department_experience['event_ops']") ?: $profile->department_experience ?: null }}" />
                     <label for="event-ops">Event Ops</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="social-media" type="checkbox" name="social-media" value="{{ old('social-media') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="social-media" type="checkbox" name="department_experience['social_media']" value="{{ old("department_experience['social_media']") ?: $profile->department_experience ?: null }}" />
                     <label for="social-media">Digital/Social Media</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="entertainment" type="checkbox" name="entertainment" value="{{ old('entertainment') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="entertainment" type="checkbox" name="department_experience['entertainment']" value="{{ old("department_experience['entertainment']") ?: $profile->department_experience ?: null }}" />
                     <label for="entertainment">Game Entertainment</label>
                 </div>
-                <div class="col s4 m4">
-                    <input id="legal" type="checkbox" name="legal" value="{{ old('legal') ?: $profile->department_experience ?: null }}" />
+                <div class="input-field col s6">
+                    <input id="legal" type="checkbox" name="department_experience['legal']" value="{{ old("department_experience['legal']") ?: $profile->department_experience ?: null }}" />
                     <label for="legal">Legal</label>
                 </div>
             </div>
         </div>
     </div>
-
-<!--
-            // If not, where do you work now?
---!>
+    <!-- If not, where do you work now? -->
     <div class="row">
         <div class="input-field col s12 {{ $errors->has('if_not_organization') ? 'invalid' : '' }}">
             <input id="if-not-organization" type="text" name="if_not_organization" value="{{ old('if_not_organization') ?: $profile->if_not_organization ?: null }}">
@@ -442,36 +410,33 @@
             <label for="if-not-years-current-role">How long have you been in your current role?</label>
         </div>
     </div>
-<!--
-            // Employment history
-
-            // What departments do you have experience in? Check all that apply:
-            // Phone sales
-            // door to door sales
-            // territory management
-            // B2B sales
-            // customer service
-            // sponsorship,
-            // High level business development
-            // marketing
-            // analytics
-            // BI
-            // database
-            // digital
-            // web design
-            // social media
-            // HR
-            // finance
-            // accounting
-            // organizational development
-            // communications
-            // PR
-            // media relations
-            // legal
-            // IT
-            // TODO Other:
-            $table->json('if_not_department_experience');
---!>
+    <!-- Employment history
+        // What departments do you have experience in? Check all that apply:
+        // Phone sales
+        // door to door sales
+        // territory management
+        // B2B sales
+        // customer service
+        // sponsorship,
+        // High level business development
+        // marketing
+        // analytics
+        // BI
+        // database
+        // digital
+        // web design
+        // social media
+        // HR
+        // finance
+        // accounting
+        // organizational development
+        // communications
+        // PR
+        // media relations
+        // legal
+        // IT
+        // TODO Other:
+    -->
     <div class="row">
         <div class="col s12">
             <div class="file-field input-field">
@@ -485,9 +450,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <h2>Educational History</h2>
-    </div>
+    <h4>Educational History</h4>
     <div class="row">
         <div class="input-field col s6">
             <select class="browser-default" name="education-level">
@@ -531,37 +494,33 @@
         </div>
     </div>
     <div class="row">
-        <h2>Email Preferences</h2>
+        <h4>Email Preferences</h4>
     </div>
     <div class="row">
-        <p>I’m interested in receiving information on the following sports business topics (select all that apply)</p>
-        <div class="row">
-            <div class="input-field col s8 offset-m1">
-                <div class="col s12">
-                    <input id="entry-job" type="checkbox" name="entry_job" value="{{ old('entry_job') ?: $profile->email_preference ?: null }}" />
-                    <label for="entry-job">Getting an entry level job in sports</label>
-                </div>
-                <div class="col s12">
-                    <input id="new-job" type="checkbox" name="new_job" value="{{ old('new_job') ?: $profile->department_interests ?: null }}" />
-                    <label for="new-job">New job openings in sports</label>
-                </div>
-                <div class="col s12">
-                    <input id="ticket-sales" type="checkbox" name="ticket_sales" value="{{ old('ticket_sales') ?: $profile->email_preference ?: null }}" />
-                    <label for="ticket-sales">Ticket sales tips and tricks</label>
-                </div>
-                <div class="col s12">
-                    <input id="leadership" type="checkbox" name="leadership" value="{{ old('leadership') ?: $profile->email_preference ?: null }}" />
-                    <label for="leadership">Sales Leadership/management/strategy</label>
-                </div>
-                <div class="col s12">
-                    <input id="best-practices" type="checkbox" name="best_practices" value="{{ old('best_practices') ?: $profile->email_preference ?: null }}" />
-                    <label for="best-practices">Industry best practices and sports business articles</label>
-                </div>
-                <div class="col s12">
-                    <input id="career-advice" type="checkbox" name="career_advice" value="{{ old('career_advice') ?: $profile->email_preference ?: null }}" />
-                    <label for="career-advice">Advice on how to grow your career in sports business</label>
-                </div>
-            </div>
+        <label for="email_preference">Select which email updates you'd like to receive:</label>
+        <div class="input-field col s12">
+            <input id="entry-job" type="checkbox" name="email_preference['entry_job']" value="{{ old('entry_job') ?: $profile->email_preference ?: null }}" />
+            <label for="entry-job">Getting an entry level job in sports</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="new-job" type="checkbox" name="new_job" value="{{ old('new_job') ?: $profile->department_interests ?: null }}" />
+            <label for="new-job">New job openings in sports</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="ticket-sales" type="checkbox" name="ticket_sales" value="{{ old('ticket_sales') ?: $profile->email_preference ?: null }}" />
+            <label for="ticket-sales">Ticket sales tips and tricks</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="leadership" type="checkbox" name="leadership" value="{{ old('leadership') ?: $profile->email_preference ?: null }}" />
+            <label for="leadership">Sales Leadership/management/strategy</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="best-practices" type="checkbox" name="best_practices" value="{{ old('best_practices') ?: $profile->email_preference ?: null }}" />
+            <label for="best-practices">Industry best practices and sports business articles</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="career-advice" type="checkbox" name="career_advice" value="{{ old('career_advice') ?: $profile->email_preference ?: null }}" />
+            <label for="career-advice">Advice on how to grow your career in sports business</label>
         </div>
     </div>
     <div class="row">
