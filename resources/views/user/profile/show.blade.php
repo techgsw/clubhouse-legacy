@@ -1,4 +1,4 @@
-<!-- /resources/views/user/show.blade.php -->
+<!-- /resources/views/user/profile/show.blade.php -->
 @extends('layouts.default')
 @section('title', 'User Profile')
 @section('content')
