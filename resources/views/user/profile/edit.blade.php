@@ -8,8 +8,6 @@
     <div class="row">
         <div class="col s12">
             <h3 class="header">{{ $user->getName() }}</h3>
-            <p><i class="material-icons tiny icon-left">email</i> {{ $user->email }}</p>
-            <p class="small">Joined {{ $user->created_at->format('F j, Y g:ia') }}</p>
         </div>
     </div>
     <div class="row">
