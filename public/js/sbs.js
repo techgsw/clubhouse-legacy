@@ -107,7 +107,13 @@ $(document).ready(function () {
     $('.modal').modal();
     // Material boxes
     $('.materialboxed').materialbox();
-
+    // Material datepicker
+    $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: 150,
+        close: 'Ok',
+        closeOnSelect: false
+    });
 
     SBS.init();
 });
