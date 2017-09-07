@@ -109,14 +109,34 @@ class ProfileController extends Controller
         $address->updated_at = new \DateTime('NOW');
         $address->save();
 
-        //dump($request->all());
+        try {
+            $headshot = request()->file('headshot_url');
+            if ($headshot) {
+                $h = $headshot->store('headshot', 'public');
+            } else {
+                $h = null;
+            }
+        } catch (Exception $e) {
+            // TODO what?
+        }
+
+        try {
+            $resume = request()->file('resume_url');
+            if ($resume) {
+                $r = $resume->store('resume', 'public');
+            } else {
+                $r = null;
+            }
+        } catch (Exception $e) {
+            // TODO what?
+        }
 
         $profile->phone = request('phone');
         $birthday = new \DateTime(request('date_of_birth'));
         $profile->date_of_birth = $birthday->format('Y-m-d');
         $profile->ethnicity = request('ethnicity');
         $profile->gender = request('gender');
-        $profile->headshot_url = request('headshot_url');
+        $profile->headshot_url = $h ?: $profile->headshot_url;
         $profile->employment_status = request('employment_status');
         $profile->job_seeking_status = request('job_seeking_status');
         $profile->receives_job_notifications = request('receives_job_notifications');
@@ -223,7 +243,7 @@ class ProfileController extends Controller
         $profile->if_not_department_experience_legal = request('if_not_department_experience_legal') ? true : false;
         $profile->if_not_department_experience_it = request('if_not_department_experience_it') ? true : false;
         $profile->if_not_department_experience_other = request('if_not_department_experience_other') ? true : false;
-        $profile->resume_url = request('resume_url');
+        $profile->resume_url = $r ?: $profile->resume_url;
         $profile->education_level = request('education_level');
         $profile->college = request('college');
         $profile->graduation_year = request('graduation_year');
@@ -239,8 +259,6 @@ class ProfileController extends Controller
         $profile->email_preference_career_advice = request('email_preference_career_advice') ? true : false;
         $profile->updated_at = new \DateTime('NOW');
         $profile->save();
-
-        //dd($profile);
 
         $request->session()->flash('message', new Message(
             "Profile saved",

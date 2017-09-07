@@ -501,6 +501,17 @@ hr {
     color: #EB2935;
 }
 
+.file-field.very-small {}
+.file-field.very-small .btn {
+    height: 2rem;
+    line-height: 2rem;
+    padding: 0 1rem;
+    font-size: 12px;
+}
+.file-field.very-small .file-path-wrapper input.file-path[type="text"] {
+    height: 2rem;
+}
+
 /**
  * Forms
  */

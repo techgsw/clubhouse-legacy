@@ -1,31 +1,55 @@
-<form method="post" action="/user/{{ $user->id }}/profile">
+<form method="post" action="/user/{{ $user->id }}/profile" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="row">
-        <div class="input-field col s12 m6">
-            <input id="email" disabled value="{{ $user->email }}" />
-            <label for="email" class="active">Email</label>
-        </div>
-        <div class="input-field col s12 m6">
-            <input id="phone" type="text" name="phone" value="{{ old('phone') ?: $profile->phone ?: "" }}" />
-            <label for="phone">Phone</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="file-field input-field col s12 m4">
-            @if ($profile->resume)
-                <a href="#" class="btn sbs-red white-text">View Resume</a>
+        <div class="col s12 m4 l3 center-align">
+            @if ($profile->headshot_url)
+                <img src={{ Storage::disk('local')->url($profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%;" />
             @else
-                <a href="#" class="btn grey black-text disabled">No Resume</a>
+                <i class="material-icons large">person</i>
             @endif
-        </div>
-        <div class="col s12 m8">
-            <div class="file-field input-field">
-                <div class="btn white black-text">
-                    <span>Upload</span>
-                    <input type="file" name="resume_url" value="{{ old('resume_url') }}">
+            <div class="row">
+                <div class="col s12 center-align">
+                    <div class="file-field input-field very-small">
+                        <div class="btn white black-text">
+                            <span>Edit</span>
+                            <input type="file" name="headshot_url" value="{{ old('headshot_url') }}">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" name="headshot_url_text" value="{{ old('headshot_url_text') }}">
+                        </div>
+                    </div>
                 </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" name="resume_url_text" value="{{ old('resume_url_text') }}">
+            </div>
+        </div>
+        <div class="col s12 m8 l9">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input id="email" disabled value="{{ $user->email }}" />
+                    <label for="email" class="active">Email</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="phone" type="text" name="phone" value="{{ old('phone') ?: $profile->phone ?: "" }}" />
+                    <label for="phone">Phone</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="file-field input-field col s12 m4">
+                    @if ($profile->resume_url)
+                        <a href="{{ Storage::disk('local')->url($profile->resume_url) }}" class="btn sbs-red white-text" style="width: 100%">View Resume</a>
+                    @else
+                        <a href="#" class="btn grey black-text disabled">No Resume</a>
+                    @endif
+                </div>
+                <div class="col s12 m8">
+                    <div class="file-field input-field">
+                        <div class="btn white black-text">
+                            <span>Upload</span>
+                            <input type="file" name="resume_url" value="{{ old('resume_url') }}">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" name="resume_url_text" value="{{ old('resume_url_text') }}">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,19 +82,6 @@
                             <option value="native" {{old('ethnicity') == "native" ? 'selected' : $profile->ethnicity == "native" ? 'selected' : '' }}>Native American</option>
                             <option value="white" {{old('ethnicity') == "white" ? 'selected' : $profile->ethnicity == "white" ? 'selected' : '' }}>White or Caucasian</option>
                         </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="file-field input-field">
-                            <div class="btn white black-text">
-                                <span>Upload Headshot</span>
-                                <input type="file" name="headshot_url" value="{{ old('headshot_url') }}">
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text" name="headshot_url_text" value="{{ old('headshot_url_text') }}">
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
