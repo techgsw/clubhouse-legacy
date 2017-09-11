@@ -115,8 +115,13 @@ class CreateProfileTable extends Migration
             $table->string('department_interests_other')->nullable()->default(NULL);
             // When making a decision on your next job in sports which of the following are most important? Choose three.
             // • ?
-            // TODO checkbox options
+            $table->boolean('job_decision_factors_money')->default(false);
+            $table->boolean('job_decision_factors_title')->default(false);
+            $table->boolean('job_decision_factors_location')->default(false);
             $table->string('job_decision_factors_other')->nullable()->default(NULL);
+            $table->string('desired_salary')->nullable()->default(NULL);
+            $table->string('desired_title')->nullable()->default(NULL);
+            $table->string('desired_location')->nullable()->default(NULL);
             // Are you currently employed in sports sales?
             $table->boolean('employed_in_sports_sales')->nullable()->default(NULL);
             // Do you want to continue your career in sports sales?

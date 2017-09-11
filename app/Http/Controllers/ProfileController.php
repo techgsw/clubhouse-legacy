@@ -159,7 +159,13 @@ class ProfileController extends Controller
         $profile->department_interests_entertainment = request('department_interests_entertainment') ? true : false;
         $profile->department_interests_legal = request('department_interests_legal') ? true : false;
         $profile->department_interests_other = request('department_interests_other') ? true : false;
+        $profile->job_decision_factors_money = request('job_decision_factors_money') ? true : false;
+        $profile->job_decision_factors_title = request('job_decision_factors_title') ? true : false;
+        $profile->job_decision_factors_location = request('job_decision_factors_location') ? true : false;
         $profile->job_decision_factors_other = request('job_decision_factors_other');
+        $profile->desired_salary = request('desired_salary');
+        $profile->desired_title = request('desired_title');
+        $profile->desired_location = request('desired_location');
         $profile->employed_in_sports_sales = request('employed_in_sports_sales');
         $profile->continuing_sports_sales = request('continuing_sports_sales');
         $profile->next_sales_job = request('next_sales_job');

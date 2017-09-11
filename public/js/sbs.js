@@ -7,6 +7,7 @@ if (!SBS) {
     var Auth = {};
     var Instagram = {};
     var Video = {};
+    var Form = {};
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -41,7 +42,6 @@ if (!SBS) {
         }
     }
 
-
     Video.init = function () {
         if ($('#hub-video-modal iframe').length) {
             var vimeo = $('#hub-video-modal iframe');
@@ -68,10 +68,54 @@ if (!SBS) {
             );
         }
     }
+
+    Form.toggleGroup = function (group) {
+        var inputs = group.find('input');
+        inputs.each(function(i, input) {
+            if ($(input).attr('disabled')) {
+                $(input).removeAttr('disabled');
+            } else {
+                $(input).attr('disabled','disabled');
+            }
+        });
+        var selects = group.find('select');
+        selects.each(function(i, select) {
+            if ($(select).attr('disabled')) {
+                $(select).removeAttr('disabled');
+            } else {
+                $(select).attr('disabled','disabled');
+            }
+        });
+        var textareas = group.find('textarea');
+        textareas.each(function(i, textarea) {
+            if ($(textarea).attr('disabled')) {
+                $(textarea).removeAttr('disabled');
+            } else {
+                $(textarea).attr('disabled','disabled');
+            }
+        });
+        group.toggleClass('hidden');
+    }
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var input = $(this);
+                var name = $(this).attr('sbs-toggle-group');
+                var group = $("div[sbs-group="+name+"]");
+                if (group.length > 0) {
+                    console.log("Toggle group: "+name);
+                    Form.toggleGroup(group);
+                } else {
+                    console.error("Failed to find form group: "+name);
+                }
+            }
+        },
+        'input.sbs-toggle-group'
+    );
 })();
 
 $(document).ready(function () {
-
     // Carousels
     var Carousel = {}
     Carousel.autoplay_id;
@@ -114,6 +158,6 @@ $(document).ready(function () {
         close: 'Ok',
         closeOnSelect: false
     });
-
+    // Initialize
     SBS.init();
 });
