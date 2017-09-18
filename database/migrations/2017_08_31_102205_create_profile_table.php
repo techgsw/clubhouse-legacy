@@ -39,10 +39,15 @@ class CreateProfileTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('user');
 
-            // Personal information
-
             // Phone number
             $table->string('phone')->nullable()->default(NULL);
+            // Upload resume
+            $table->string('resume_url')->nullable()->default(NULL);
+            // Headshot
+            $table->string('headshot_url')->nullable()->default(NULL);
+
+            // Personal information
+
             // Date of Birth
             $table->date('date_of_birth')->nullable()->default(NULL);
             // Ethnicity
@@ -57,167 +62,121 @@ class CreateProfileTable extends Migration
             // • male => Male
             // • non_binary => Non-binary
             $table->string('gender')->nullable()->default(NULL);
-            // Headshot
-            $table->string('headshot_url')->nullable()->default(NULL);
 
-            // Job preferences
+            // Job-seeking preferences
 
-            // Employment status
-            // • full_time => Employed full-time
-            // • part_time => Employed part-time
-            // • none => Unemployed
-            $table->string('employment_status')->nullable()->default(NULL);
-            // How would you describe your job-seeking status?
-            // • active => Actively looking
-            // • passive => Happy where I am but open to good opportunities
-            // • not => Happy where I am and not open to anything new
+            // What is your job-seeking status? (Select one)
+            // • unemployed => Unemployed, actively seeking a new job
+            // • employed_active => Employed, actively seeking a new job
+            // • employed_passive => Employed, passively exploring new opportunities
+            // • employed_future => Employed, only open to future opportunities
+            // • employed_not => Employed, currently have my dream job
             $table->string('job_seeking_status')->nullable()->default(NULL);
-            // Do you want to be considered for future jobs in the sports industry?
-            $table->boolean('receives_job_notifications')->nullable()->default(NULL);
-            // If yes, check all departments that interest you
-            // • department_interests_ticket_sales => Ticket Sales
-            // • department_interests_sponsorship_sales => Sponsorship Sales
-            // • department_interests_service => Service
-            // • department_interests_premium_sales => Premium Sales
-            // • department_interests_marketing => Marketing
-            // • department_interests_sponsorship_activation => Sponsorship Activation
-            // • department_interests_hr => HR
-            // • department_interests_analytics => Analytics
-            // • department_interests_cr => CR
-            // • department_interests_pr => PR
-            // • department_interests_database => Database
-            // • department_interests_finance => Finance
-            // • department_interests_arena_ops => Arena Ops
-            // • department_interests_player_ops => Player Ops
-            // • department_interests_event_ops => Event Ops
-            // • department_interests_social_media => Digital/Social Media
-            // • department_interests_entertainment => Game Entertainment
-            // • department_interests_legal => Legal
-            // • department_interests_other => Other: ____
-            $table->boolean('department_interests_ticket_sales')->default(false);
-            $table->boolean('department_interests_sponsorship_sales')->default(false);
-            $table->boolean('department_interests_service')->default(false);
-            $table->boolean('department_interests_premium_sales')->default(false);
-            $table->boolean('department_interests_marketing')->default(false);
-            $table->boolean('department_interests_sponsorship_activation')->default(false);
-            $table->boolean('department_interests_hr')->default(false);
-            $table->boolean('department_interests_analytics')->default(false);
-            $table->boolean('department_interests_cr')->default(false);
-            $table->boolean('department_interests_pr')->default(false);
-            $table->boolean('department_interests_database')->default(false);
-            $table->boolean('department_interests_finance')->default(false);
-            $table->boolean('department_interests_arena_ops')->default(false);
-            $table->boolean('department_interests_player_ops')->default(false);
-            $table->boolean('department_interests_event_ops')->default(false);
-            $table->boolean('department_interests_social_media')->default(false);
-            $table->boolean('department_interests_entertainment')->default(false);
-            $table->boolean('department_interests_legal')->default(false);
-            $table->string('department_interests_other')->nullable()->default(NULL);
+            // Which type of job most closely fits your goals? (Select one)
+            // • junior => Junior-level
+            // • senior => Senior-level
+            // • management => Management
+            // • executive => Executive
+            $table->string('job_seeking_type')->nullable()->default(NULL);
+            // Which department(s) most closely match your goals?
+            // • department_goals_ticket_sales => Ticket Sales
+            // • department_goals_sponsorship_sales => Sponsorship Sales
+            // • department_goals_service => Service
+            // • department_goals_premium_sales => Premium Sales
+            // • department_goals_marketing => Marketing
+            // • department_goals_sponsorship_activation => Sponsorship Activation
+            // • department_goals_hr => HR
+            // • department_goals_analytics => Analytics
+            // • department_goals_cr => CR
+            // • department_goals_pr => PR
+            // • department_goals_database => Database
+            // • department_goals_finance => Finance
+            // • department_goals_arena_ops => Arena Ops
+            // • department_goals_player_ops => Player Ops
+            // • department_goals_event_ops => Event Ops
+            // • department_goals_social_media => Digital/Social Media
+            // • department_goals_entertainment => Game Entertainment
+            // • department_goals_legal => Legal
+            // • department_goals_other => Other: ____
+            $table->boolean('department_goals_ticket_sales')->default(false);
+            $table->boolean('department_goals_sponsorship_sales')->default(false);
+            $table->boolean('department_goals_service')->default(false);
+            $table->boolean('department_goals_premium_sales')->default(false);
+            $table->boolean('department_goals_marketing')->default(false);
+            $table->boolean('department_goals_sponsorship_activation')->default(false);
+            $table->boolean('department_goals_hr')->default(false);
+            $table->boolean('department_goals_analytics')->default(false);
+            $table->boolean('department_goals_cr')->default(false);
+            $table->boolean('department_goals_pr')->default(false);
+            $table->boolean('department_goals_database')->default(false);
+            $table->boolean('department_goals_finance')->default(false);
+            $table->boolean('department_goals_arena_ops')->default(false);
+            $table->boolean('department_goals_player_ops')->default(false);
+            $table->boolean('department_goals_event_ops')->default(false);
+            $table->boolean('department_goals_social_media')->default(false);
+            $table->boolean('department_goals_entertainment')->default(false);
+            $table->boolean('department_goals_legal')->default(false);
+            $table->string('department_goals_other')->nullable()->default(NULL);
+            // Which region are you most interested in working in?
+            // • mw => Midwest
+            // • ne => Northeast
+            // • nw => Northwest
+            // • se => Southeast
+            // • sw => Southwest
+            $table->string('job_seeking_region')->nullable()->default(NULL);
             // When making a decision on your next job in sports which of the following are most important? Choose three.
-            // • ?
-            $table->boolean('job_decision_factors_money')->default(false);
-            $table->boolean('job_decision_factors_title')->default(false);
-            $table->boolean('job_decision_factors_location')->default(false);
-            $table->string('job_decision_factors_other')->nullable()->default(NULL);
+            // • Money
+            $table->boolean('job_factors_money')->default(false);
+            //   • What is your desired annual income? (Select one)
+            //     • below 30,000
+            //     • 30,000-50,000
+            //     • 50,000-80,000
+            //     • 80,000-120,000
+            //     • 120,000+
             $table->string('desired_salary')->nullable()->default(NULL);
+            // • Title
+            $table->boolean('job_factors_title')->default(false);
+            //   • What is your desired title? (Text)
             $table->string('desired_title')->nullable()->default(NULL);
-            $table->string('desired_location')->nullable()->default(NULL);
-            // Are you currently employed in sports sales?
-            $table->boolean('employed_in_sports_sales')->nullable()->default(NULL);
-            // Do you want to continue your career in sports sales?
-            $table->boolean('continuing_sports_sales')->nullable()->default(NULL);
-            // If yes, which sports sales job is the next step for you?
-            // • inside_sales => Inside Sales – Entry level sales
-            // • executive_sales => Account Executive, Group or Season Sales – Mid level sales
-            // • executive_service => Account Executive, Service and Retention – Mid level service
-            // • premium_sales => Premium Sales – Advanced sales
-            // • sponsorship_sales => Sponsorship Sales – Sr. and Exec. level sales
-            // • manager => Manager – Inside Sales – Managing entry level sales team
-            $table->string('next_sales_job')->nullable()->default(NULL);
-            // Are you a sports sales manager?
-            $table->boolean('is_sports_sales_manager')->nullable()->default(NULL);
-            // Do you want to continue your career in sports sales leadership?
-            $table->boolean('continuing_management')->nullable()->default(NULL);
-            // If yes, what management job is the next step for you?
-            // • manager_entry => Manager – Inside Sales – Managing entry level team
-            // • manager_mid => Manager - Season, Premium, Group, Service, Sponsorship, Activation – Managing mid level team
-            // • director => Director - Seasons, Premium, Group, Service, Sponsorship, Activation – Running strategy for your team
-            // • sr_director => Sr. Director – Running strategy for multiple departments and managing managers                                                                                                                 v.            Vice President – Ticket Sales, Service and Retention, Sponsorship – Running the whole operation
-            $table->string('next_management_job')->nullable()->default(NULL);
-            // Are you an executive in sports business?
-            $table->boolean('is_executive')->nullable()->default(NULL);
-            // Do you want to continue your career as a sports executive?
-            $table->boolean('continuing_executive')->nullable()->default(NULL);
-            // If yes, which is the next step for you?
-            // • vp => VP
-            // • svp => SVP
-            // • evp => EVP
-            // • cro => CRO
-            // • cmo => CMO
-            // • c => C Level (TODO what's this? -> "+ - Running multiple business units at the executive level")
-            $table->string('next_executive_job')->nullable()->default(NULL);
+            // • Location
+            $table->boolean('job_factors_location')->default(false);
+            // • Organization
+            $table->boolean('job_factors_organization')->default(false);
+            //   • Which organization(s)?
+            $table->text('desired_organizations')->nullable()->default(NULL);
+            // • Benefits
+            $table->boolean('job_factors_benefits')->nullable()->default(NULL);
+            // • Other (Text)
+            $table->string('job_factors_other')->nullable()->default(NULL);
 
-            // Employment history
+            // Employment History
 
-            // Are you currently working in sports?
+            // Do you currently work in sports?
             $table->boolean('works_in_sports')->nullable()->default(NULL);
-            // If yes, how many years have you worked in sports?
-            $table->integer('years_in_sports')->nullable()->default(NULL);
-            // If yes, which organization?
+            // What organization do you currently work for?
             $table->string('current_organization')->nullable()->default(NULL);
-            // What geographic region do you work in?
+            // What is your current title?
+            $table->string('current_title')->nullable()->default(NULL);
+            // Which region do you currently work in?
             // • mw => Midwest
             // • ne => Northeast
             // • nw => Northwest
             // • se => Southeast
             // • sw => Southwest
             $table->string('current_region')->nullable()->default(NULL);
-            // What department do you work in?
-            // • current_department_ticket_sales => Ticket Sales
-            // • current_department_sponsorship_sales => Sponsorship Sales
-            // • current_department_service => Service
-            // • current_department_premium_sales => Premium Sales
-            // • current_department_marketing => Marketing
-            // • current_department_sponsorship_activation => Sponsorship Activation
-            // • current_department_hr => HR
-            // • current_department_analytics => Analytics
-            // • current_department_cr => CR
-            // • current_department_pr => PR
-            // • current_department_database => Database
-            // • current_department_finance => Finance
-            // • current_department_arena_ops => Arena Ops
-            // • current_department_player_ops => Player Ops
-            // • current_department_event_ops => Event Ops
-            // • current_department_social_media => Digital/Social Media
-            // • current_department_entertainment => Game Entertainment
-            // • current_department_legal => Legal
-            // • current_department_other => Other: ____
-            $table->boolean('current_department_ticket_sales')->default(false);
-            $table->boolean('current_department_sponsorship_sales')->default(false);
-            $table->boolean('current_department_service')->default(false);
-            $table->boolean('current_department_premium_sales')->default(false);
-            $table->boolean('current_department_marketing')->default(false);
-            $table->boolean('current_department_sponsorship_activation')->default(false);
-            $table->boolean('current_department_hr')->default(false);
-            $table->boolean('current_department_analytics')->default(false);
-            $table->boolean('current_department_cr')->default(false);
-            $table->boolean('current_department_pr')->default(false);
-            $table->boolean('current_department_database')->default(false);
-            $table->boolean('current_department_finance')->default(false);
-            $table->boolean('current_department_arena_ops')->default(false);
-            $table->boolean('current_department_player_ops')->default(false);
-            $table->boolean('current_department_event_ops')->default(false);
-            $table->boolean('current_department_social_media')->default(false);
-            $table->boolean('current_department_entertainment')->default(false);
-            $table->boolean('current_department_legal')->default(false);
-            $table->string('current_department_other')->nullable()->default(NULL);
-            // What is your title?
-            $table->string('current_title')->nullable()->default(NULL);
             // How many years have you been with your current organization?
-            $table->integer('years_current_organization')->nullable()->default(NULL);
-            // How many years have you been in your current role?
-            $table->integer('years_current_role')->nullable()->default(NULL);
-            // In sports, which departments do you have experience in? Check all that apply:
+            // • less_1 => less than a year
+            // • 1_to_3 => 1-3 years
+            // • 3_to_6 => 3-6 years
+            // • 6_more => 6+ years
+            $table->string('current_organization_years')->nullable()->default(NULL);
+            // How many years have you had your current title?
+            // • less_1 => less than a year
+            // • 1_to_3 => 1-3 years
+            // • 3_to_6 => 3-6 years
+            // • 6_more => 6+ years
+            $table->string('current_title_years')->nullable()->default(NULL);
+            // Which departments do you have experience in?
             // • department_experience_ticket_sales => Ticket Sales
             // • department_experience_sponsorship_sales => Sponsorship Sales
             // • department_experience_service => Service
@@ -256,69 +215,9 @@ class CreateProfileTable extends Migration
             $table->boolean('department_experience_entertainment')->default(false);
             $table->boolean('department_experience_legal')->default(false);
             $table->string('department_experience_other')->nullable()->default(NULL);
-            // If not, where do you work now?
-            $table->string('if_not_organization')->nullable()->default(NULL);
-            // What department do you work in?
-            $table->string('if_not_department')->nullable()->default(NULL);
-            // What is your title?
-            $table->string('if_not_title')->nullable()->default(NULL);
-            // How long have you been with your current organization?
-            $table->string('if_not_years_current_organization')->nullable()->default(NULL);
-            // How long have you been in your current role?
-            $table->string('if_not_years_current_role')->nullable()->default(NULL);
-            // What departments do you have experience in? Check all that apply:
-            // • if_not_department_experience_phone_sales => Phone sales
-            // • if_not_department_experience_door_to_door_sales => Door-to-door sales
-            // • if_not_department_experience_territory_management => Territory managements
-            // • if_not_department_experience_b2b_sales => Business-to-business sales
-            // • if_not_department_experience_customer service => Customer service
-            // • if_not_department_experience_sponsorship => Sponsorship
-            // • if_not_department_experience_high_level_business_development => High level business development
-            // • if_not_department_experience_marketing => Marketing
-            // • if_not_department_experience_analytics => Analytics
-            // • if_not_department_experience_bi => B.I.
-            // • if_not_department_experience_database => Database
-            // • if_not_department_experience_digital => Digital
-            // • if_not_department_experience_web_design => Web design
-            // • if_not_department_experience_social_media => Social media
-            // • if_not_department_experience_hr => HR
-            // • if_not_department_experience_finance => Finance
-            // • if_not_department_experience_accounting => Accounting
-            // • if_not_department_experience_organizational_development => Organizational development
-            // • if_not_department_experience_communications => Communications
-            // • if_not_department_experience_pr => PR
-            // • if_not_department_experience_media_relations => Media relations
-            // • if_not_department_experience_legal => Legal
-            // • if_not_department_experience_it => IT
-            // • if_not_department_experience_other => Other: __
-            $table->boolean('if_not_department_experience_phone_sales')->default(false);
-            $table->boolean('if_not_department_experience_door_to_door_sales')->default(false);
-            $table->boolean('if_not_department_experience_territory_management')->default(false);
-            $table->boolean('if_not_department_experience_b2b_sales')->default(false);
-            $table->boolean('if_not_department_experience_customer')->default(false);
-            $table->boolean('if_not_department_experience_sponsorship')->default(false);
-            $table->boolean('if_not_department_experience_high_level_business_development')->default(false);
-            $table->boolean('if_not_department_experience_marketing')->default(false);
-            $table->boolean('if_not_department_experience_analytics')->default(false);
-            $table->boolean('if_not_department_experience_bi')->default(false);
-            $table->boolean('if_not_department_experience_database')->default(false);
-            $table->boolean('if_not_department_experience_digital')->default(false);
-            $table->boolean('if_not_department_experience_web_design')->default(false);
-            $table->boolean('if_not_department_experience_social_media')->default(false);
-            $table->boolean('if_not_department_experience_hr')->default(false);
-            $table->boolean('if_not_department_experience_finance')->default(false);
-            $table->boolean('if_not_department_experience_accounting')->default(false);
-            $table->boolean('if_not_department_experience_organizational_development')->default(false);
-            $table->boolean('if_not_department_experience_communications')->default(false);
-            $table->boolean('if_not_department_experience_pr')->default(false);
-            $table->boolean('if_not_department_experience_media_relations')->default(false);
-            $table->boolean('if_not_department_experience_legal')->default(false);
-            $table->boolean('if_not_department_experience_it')->default(false);
-            $table->string('if_not_department_experience_other')->nullable()->default(NULL);
-            // Upload resume
-            $table->string('resume_url')->nullable()->default(NULL);
 
-            // Educational history: (Copy from current profile)
+            // Educational History
+
             // What’s your highest education level completed?
             // • high-school => High school
             // • associate => Associate degree
@@ -327,18 +226,17 @@ class CreateProfileTable extends Migration
             // • doctor => Doctorate (PhD, MD, JD, etc.)
             $table->string('education_level')->nullable()->default(NULL);
             // What college did/do you attend?
-            $table->string('college')->nullable()->default(NULL);
+            $table->string('college_name')->nullable()->default(NULL);
             // What year did/will you graduate?
-            $table->integer('graduation_year')->nullable()->default(NULL);
+            $table->integer('college_graduation_year')->nullable()->default(NULL);
             // What is/was your undergraduate GPA?
-            $table->double('gpa', 4, 2)->nullable()->default(NULL);
+            $table->double('college_gpa', 4, 2)->nullable()->default(NULL);
             // What collegiate organizations did/do you belong to? List any leadership positions you held.
             $table->text('college_organizations')->nullable()->default(NULL);
             // What sports business clubs or in your athletic department(s) were you involved in? List any leadership positions you held.
             $table->text('college_sports_clubs')->nullable()->default(NULL);
             // Do you plan to attend more school in the future?
             $table->boolean('has_school_plans')->nullable()->default(NULL);
-
 
             // Email preferences
 
@@ -367,8 +265,7 @@ class CreateProfileTable extends Migration
                 'phone' => $user->phone,
                 'current_organization' => $user->organization,
                 'current_title' => $user->title,
-                'employed_in_sports_sales' => $user->is_sales_professinal,
-                'receives_job_notifications' => $user->is_interested_in_jobs
+                'works_in_sports' => $user->is_sales_professinal,
             ]);
         }
 
@@ -457,12 +354,10 @@ class CreateProfileTable extends Migration
             $user->phone = $profile->phone;
             $user->organization = $profile->organization;
             $user->title = $profile->title;
-            $user->is_sales_professional = is_null($profile->employed_in_sports_sales) || $profile->employed_in_sports_sales == ""
+            $user->is_sales_professional = is_null($profile->works_in_sports) || $profile->employed_in_sports_sales == ""
                 ? false
                 : $profile->employed_in_sports_sales;
-            $user->is_interested_in_jobs = is_null($profile->receives_job_notifications) || $profile->receives_job_notifications == ""
-                ? false
-                : $profile->receives_job_notifications;
+            $user->is_interested_in_jobs = false;
             $user->save();
         }
 
