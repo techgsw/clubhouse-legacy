@@ -128,11 +128,11 @@ class CreateProfileTable extends Migration
             // • Money
             $table->boolean('job_factors_money')->default(false);
             //   • What is your desired annual income? (Select one)
-            //     • below 30,000
-            //     • 30,000-50,000
-            //     • 50,000-80,000
-            //     • 80,000-120,000
-            //     • 120,000+
+            //     • below_30 =>  below 30,000
+            //     • 30_to_50 =>  30,000-50,000
+            //     • 50_to_80 =>  50,000-80,000
+            //     • 80_to_120 => 80,000-120,000
+            //     • 120_above => 120,000+
             $table->string('job_seeking_income')->nullable()->default(NULL);
             // • Title
             $table->boolean('job_factors_title')->default(false);

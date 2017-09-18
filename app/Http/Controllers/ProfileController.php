@@ -161,13 +161,14 @@ class ProfileController extends Controller
         $profile->department_goals_social_media = request('department_goals_social_media') ? true : false;
         $profile->department_goals_entertainment = request('department_goals_entertainment') ? true : false;
         $profile->department_goals_legal = request('department_goals_legal') ? true : false;
-        $profile->department_goals_other = request('department_goals_other') ? true : false;
+        $profile->department_goals_other = request('department_goals_other');
         $profile->job_factors_money = request('job_factors_money') ? true : false;
         $profile->job_seeking_income = request('job_seeking_income');
         $profile->job_factors_title = request('job_factors_title') ? true : false;
         $profile->job_seeking_title = request('job_seeking_title');
         $profile->job_factors_location = request('job_factors_location') ? true : false;
-        $profile->job_seeking_organization = request('job_seeking_organization');
+        $profile->job_factors_organization = request('job_factors_organization') ? true : false;
+        $profile->job_seeking_organizations = request('job_seeking_organizations');
         $profile->job_factors_other = request('job_factors_other');
         // Employment history
         $profile->works_in_sports = request('works_in_sports') ? true : false;
@@ -194,7 +195,7 @@ class ProfileController extends Controller
         $profile->department_experience_social_media = request('department_experience_social_media') ? true : false;
         $profile->department_experience_entertainment = request('department_experience_entertainment') ? true : false;
         $profile->department_experience_legal = request('department_experience_legal') ? true : false;
-        $profile->department_experience_other = request('department_experience_other') ? true : false;
+        $profile->department_experience_other = request('department_experience_other');
         // Education history
         $profile->education_level = request('education_level');
         $profile->college_name = request('college_name');
