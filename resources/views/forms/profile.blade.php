@@ -60,7 +60,15 @@
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
-                        <input class="datepicker" id="date-of-birth" type="text" name="date_of_birth" value="{{ old('date_of_birth') ?: $profile->date_of_birth ?: "" }}" />
+                        @php
+                            $dob = old('date_of_birth') ?: $profile->date_of_birth ?: "";
+                            if ($dob != "") {
+                                $dob = new \DateTime($dob);
+                                $dob = $dob->format("D M, Y");
+                            }
+                            dump($dob);
+                        @endphp
+                        <input class="datepicker" id="date-of-birth" type="text" name="date_of_birth" value="{{ $dob }}" />
                         <label for="date-of-birth">Birthday</label>
                     </div>
                 </div>

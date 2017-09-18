@@ -133,17 +133,17 @@ class CreateProfileTable extends Migration
             //     • 50,000-80,000
             //     • 80,000-120,000
             //     • 120,000+
-            $table->string('desired_salary')->nullable()->default(NULL);
+            $table->string('job_seeking_income')->nullable()->default(NULL);
             // • Title
             $table->boolean('job_factors_title')->default(false);
             //   • What is your desired title? (Text)
-            $table->string('desired_title')->nullable()->default(NULL);
+            $table->string('job_seeking_title')->nullable()->default(NULL);
             // • Location
             $table->boolean('job_factors_location')->default(false);
             // • Organization
             $table->boolean('job_factors_organization')->default(false);
             //   • Which organization(s)?
-            $table->text('desired_organizations')->nullable()->default(NULL);
+            $table->text('job_seeking_organizations')->nullable()->default(NULL);
             // • Benefits
             $table->boolean('job_factors_benefits')->nullable()->default(NULL);
             // • Other (Text)
