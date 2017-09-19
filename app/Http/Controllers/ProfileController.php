@@ -65,10 +65,98 @@ class ProfileController extends Controller
             return abort(404);
         }
 
+        $personal_complete =
+            $profile->date_of_birth &&
+            $profile->ethnicity &&
+            $profile->gender;
+
+        $address_complete =
+            $address->line1 &&
+            $address->city &&
+            $address->state &&
+            $address->postal_code &&
+            $address->country;
+
+        $job_preferences_complete =
+            $profile->job_seeking_status &&
+            $profile->job_seeking_type &&
+            $profile->job_seeking_region && (
+                // At least one department goal
+                $profile->department_goals_ticket_sales ||
+                $profile->department_goals_sponsorship_sales ||
+                $profile->department_goals_service ||
+                $profile->department_goals_premium_sales ||
+                $profile->department_goals_marketing ||
+                $profile->department_goals_sponsorship_activation ||
+                $profile->department_goals_hr ||
+                $profile->department_goals_analytics ||
+                $profile->department_goals_cr ||
+                $profile->department_goals_pr ||
+                $profile->department_goals_database ||
+                $profile->department_goals_finance ||
+                $profile->department_goals_arena_ops ||
+                $profile->department_goals_player_ops ||
+                $profile->department_goals_event_ops ||
+                $profile->department_goals_social_media ||
+                $profile->department_goals_entertainment ||
+                $profile->department_goals_legal ||
+                $profile->department_goals_other
+            ) && (
+                // At least one job factor
+                $profile->job_factors_money ||
+                $profile->job_factors_title ||
+                $profile->job_factors_location ||
+                $profile->job_factors_organization ||
+                $profile->job_factors_other
+            );
+
+        $employment_complete =
+            !is_null($profile->works_in_sports) &&
+            $profile->current_organization &&
+            $profile->current_title &&
+            $profile->current_region &&
+            $profile->current_organization_years &&
+            $profile->current_title_years && (
+                // At least one department experience
+                $profile->department_experience_ticket_sales ||
+                $profile->department_experience_sponsorship_sales ||
+                $profile->department_experience_service ||
+                $profile->department_experience_premium_sales ||
+                $profile->department_experience_marketing ||
+                $profile->department_experience_sponsorship_activation ||
+                $profile->department_experience_hr ||
+                $profile->department_experience_analytics ||
+                $profile->department_experience_cr ||
+                $profile->department_experience_pr ||
+                $profile->department_experience_database ||
+                $profile->department_experience_finance ||
+                $profile->department_experience_arena_ops ||
+                $profile->department_experience_player_ops ||
+                $profile->department_experience_event_ops ||
+                $profile->department_experience_social_media ||
+                $profile->department_experience_entertainment ||
+                $profile->department_experience_legal ||
+                $profile->department_experience_other
+            );
+
+        $education_complete =
+            $profile->education_level &&
+            $profile->college_name &&
+            $profile->college_graduation_year &&
+            $profile->college_gpa &&
+            $profile->college_organizations &&
+            $profile->college_sports_clubs &&
+            !is_null($profile->has_school_plans);
+
         return view('user/profile/edit', [
             'user' => $user,
             'profile' => $profile,
             'address' => $address,
+            'personal_complete' => $personal_complete,
+            'address_complete' => $address_complete,
+            'job_preferences_complete' => $job_preferences_complete,
+            'employment_complete' => $employment_complete,
+            'education_complete' => $education_complete,
             'breadcrumb' => [
                 'Home' => '/',
                 'User' => "/user/$id",

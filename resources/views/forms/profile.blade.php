@@ -37,7 +37,7 @@
                     @if ($profile->resume_url)
                         <a href="{{ Storage::disk('local')->url($profile->resume_url) }}" class="btn sbs-red white-text" style="width: 100%">View Resume</a>
                     @else
-                        <a href="#" class="btn grey black-text disabled">No Resume</a>
+                        <a href="#" class="btn disabled">No Resume</a>
                     @endif
                 </div>
                 <div class="col s12 m8">
@@ -56,7 +56,14 @@
     </div>
     <ul class="collapsible" data-collapsible="accordion">
         <li> <!-- Personal Information -->
-            <div class="collapsible-header"><i class="material-icons">person</i>Personal Information</div>
+            <div class="collapsible-header">
+                <i class="material-icons">person</i>Personal Information
+                @if ($personal_complete)
+                    <span id="personal-complete-icon" class="personal-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                @else
+                    <span id="personal-incomplete-icon" class="personal-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                @endif
+            </div>
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
@@ -96,7 +103,14 @@
             </div>
         </li>
         <li> <!-- Address -->
-            <div class="collapsible-header"><i class="material-icons">home</i>Address</div>
+            <div class="collapsible-header">
+                <i class="material-icons">home</i>Address
+                @if ($address_complete)
+                    <span id="address-complete-icon" class="address-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                @else
+                    <span id="address-incomplete-icon" class="address-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                @endif
+            </div>
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
@@ -111,19 +125,30 @@
                         <input id="city" name="city" type="text" value="{{ old('city') ?: $address->city ?: "" }}">
                         <label for="city">City</label>
                     </div>
-                    <div class="input-field col s12 m4">
+                    <div class="input-field col s12 m2">
                         <input id="state" name="state" type="text" value="{{ old('state') ?: $address->state ?: "" }}">
                         <label for="state">State/Province</label>
                     </div>
-                    <div class="input-field col s12 m4">
+                    <div class="input-field col s12 m3">
                         <input id="postal_code" name="postal_code" type="text" value="{{ old('postal_code') ?: $address->postal_code ?: "" }}">
                         <label for="postal_code">Postal code</label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <input id="country" name="country" type="text" value="{{ old('country') ?: $address->country ?: "" }}">
+                        <label for="country">Country</label>
                     </div>
                 </div>
             </div>
         </li>
         <li> <!-- Job-seeking Preferences -->
-            <div class="collapsible-header"><i class="material-icons">settings</i>Job-seeking Preferences</div>
+            <div class="collapsible-header">
+                <i class="material-icons">settings</i>Job-seeking Preferences
+                @if ($job_preferences_complete)
+                    <span id="job-preferences-complete-icon" class="job-preferences-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                @else
+                    <span id="job-preferences-incomplete-icon" class="job-preferences-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                @endif
+            </div>
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
@@ -146,13 +171,13 @@
                         </select>
                     </div>
                     <div class="input-field col s12">
-                        <select class="browser-default" name="job_seeking_location">
-                            <option value="" {{ is_null(old('job_seeking_location')) ? ($profile->job_seeking_location == "" ? "selected" : "") : (old("job_seeking_location") == "" ? "selected" : "") }} disabled>Which region are you most interested in working in?</option>
-                            <option value="mw" {{ is_null(old('job_seeking_location')) ? ($profile->job_seeking_location == "mw" ? "selected" : "") : (old("job_seeking_location") == "mw" ? "selected" : "") }}>Midwest</option>
-                            <option value="ne" {{ is_null(old('job_seeking_location')) ? ($profile->job_seeking_location == "ne" ? "selected" : "") : (old("job_seeking_location") == "ne" ? "selected" : "") }}>Northeast</option>
-                            <option value="nw" {{ is_null(old('job_seeking_location')) ? ($profile->job_seeking_location == "nw" ? "selected" : "") : (old("job_seeking_location") == "nw" ? "selected" : "") }}>Northwest</option>
-                            <option value="se" {{ is_null(old('job_seeking_location')) ? ($profile->job_seeking_location == "se" ? "selected" : "") : (old("job_seeking_location") == "se" ? "selected" : "") }}>Southeast</option>
-                            <option value="sw" {{ is_null(old('job_seeking_location')) ? ($profile->job_seeking_location == "sw" ? "selected" : "") : (old("job_seeking_location") == "sw" ? "selected" : "") }}>Southwest</option>
+                        <select class="browser-default" name="job_seeking_region">
+                            <option value="" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "" ? "selected" : "") : (old("job_seeking_region") == "" ? "selected" : "") }} disabled>Which region are you most interested in working in?</option>
+                            <option value="mw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "mw" ? "selected" : "") : (old("job_seeking_region") == "mw" ? "selected" : "") }}>Midwest</option>
+                            <option value="ne" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "ne" ? "selected" : "") : (old("job_seeking_region") == "ne" ? "selected" : "") }}>Northeast</option>
+                            <option value="nw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "nw" ? "selected" : "") : (old("job_seeking_region") == "nw" ? "selected" : "") }}>Northwest</option>
+                            <option value="se" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "se" ? "selected" : "") : (old("job_seeking_region") == "se" ? "selected" : "") }}>Southeast</option>
+                            <option value="sw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "sw" ? "selected" : "") : (old("job_seeking_region") == "sw" ? "selected" : "") }}>Southwest</option>
                         </select>
                     </div>
                 </div>
@@ -301,7 +326,13 @@
             </div>
         </li>
         <li> <!-- Employment History -->
-            <div class="collapsible-header"><i class="material-icons">work</i>Employment History</div>
+            <div class="collapsible-header">
+                <i class="material-icons">work</i>Employment History
+                @if ($employment_complete)
+                    <span id="employment-complete-icon" class="employment-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                @else
+                    <span id="employment-incomplete-icon" class="employment-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                @endif</div>
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
@@ -434,7 +465,14 @@
             </div>
         </li>
         <li> <!-- Education History -->
-            <div class="collapsible-header"><i class="material-icons">school</i>Educational History</div>
+            <div class="collapsible-header">
+                <i class="material-icons">school</i>Educational History
+                @if ($education_complete)
+                    <span id="education-complete-icon" class="education-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                @else
+                    <span id="education-incomplete-icon" class="education-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                @endif
+            </div>
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
@@ -459,8 +497,8 @@
                         <input id="college_graduation_year" type="text" name="college_graduation_year" value="{{ old('college_graduation_year') ?: $profile->college_graduation_year ?: null }}">
                         <label for="college_graduation_year">What year did/will you graduate?</label>
                     </div>
-                    <div class="input-field col s12 m6 {{ $errors->has('gpa') ? 'invalid' : '' }}">
-                        <input id="college_gpa" type="text" name="college_gpa" value="{{ old('college_gpa') }}">
+                    <div class="input-field col s12 m6">
+                        <input id="college_gpa" type="text" name="college_gpa" value="{{ old('college_gpa') ?: $profile->college_gpa ?: '' }}">
                         <label for="college_gpa">What was/is your undergraduate GPA?</label>
                     </div>
                 </div>
@@ -487,7 +525,7 @@
                 </div>
             </div>
         </li>
-        <li>
+        <li> <!-- Email preferences -->
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
                 <div class="row">
