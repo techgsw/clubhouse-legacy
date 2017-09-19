@@ -1,4 +1,4 @@
-<form method="post" action="/user/{{ $user->id }}/profile" enctype="multipart/form-data">
+<form id="edit-profile" method="post" action="/user/{{ $user->id }}/profile" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="row">
         <div class="col s12 m4 l3 center-align">
@@ -55,14 +55,15 @@
         </div>
     </div>
     <ul class="collapsible" data-collapsible="accordion">
-        <li> <!-- Personal Information -->
+        <li class="form-section"> <!-- Personal Information -->
             <div class="collapsible-header">
                 <i class="material-icons">person</i>Personal Information
                 @if ($personal_complete)
-                    <span id="personal-complete-icon" class="personal-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                    <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span id="personal-incomplete-icon" class="personal-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
                 @endif
+                <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
             </div>
             <div class="collapsible-body">
                 <div class="row">
@@ -102,14 +103,15 @@
                 </div>
             </div>
         </li>
-        <li> <!-- Address -->
+        <li class="form-section"> <!-- Address -->
             <div class="collapsible-header">
                 <i class="material-icons">home</i>Address
                 @if ($address_complete)
-                    <span id="address-complete-icon" class="address-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                    <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span id="address-incomplete-icon" class="address-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
                 @endif
+                <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
             </div>
             <div class="collapsible-body">
                 <div class="row">
@@ -140,14 +142,15 @@
                 </div>
             </div>
         </li>
-        <li> <!-- Job-seeking Preferences -->
+        <li class="form-section"> <!-- Job-seeking Preferences -->
             <div class="collapsible-header">
                 <i class="material-icons">settings</i>Job-seeking Preferences
                 @if ($job_preferences_complete)
-                    <span id="job-preferences-complete-icon" class="job-preferences-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                    <span class="progress-iconprogress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span id="job-preferences-incomplete-icon" class="job-preferences-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    <span class="progress-iconprogress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
                 @endif
+                <span class="progress-iconprogress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
             </div>
             <div class="collapsible-body">
                 <div class="row">
@@ -325,14 +328,16 @@
                 </div>
             </div>
         </li>
-        <li> <!-- Employment History -->
+        <li class="form-section"> <!-- Employment History -->
             <div class="collapsible-header">
                 <i class="material-icons">work</i>Employment History
                 @if ($employment_complete)
-                    <span id="employment-complete-icon" class="employment-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                    <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span id="employment-incomplete-icon" class="employment-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
-                @endif</div>
+                    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                @endif
+                <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
+            </div>
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
@@ -464,14 +469,15 @@
                 </div>
             </div>
         </li>
-        <li> <!-- Education History -->
+        <li class="form-section"> <!-- Education History -->
             <div class="collapsible-header">
                 <i class="material-icons">school</i>Educational History
                 @if ($education_complete)
-                    <span id="education-complete-icon" class="education-progress green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                    <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span id="education-incomplete-icon" class="education-progress yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
                 @endif
+                <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
             </div>
             <div class="collapsible-body">
                 <div class="row">
@@ -525,7 +531,7 @@
                 </div>
             </div>
         </li>
-        <li> <!-- Email preferences -->
+        <li class="form-section"> <!-- Email preferences -->
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
                 <div class="row">

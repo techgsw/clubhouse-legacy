@@ -7,7 +7,9 @@ if (!SBS) {
     var Auth = {};
     var Instagram = {};
     var Video = {};
-    var Form = {};
+    var Form = {
+        unsaved: false
+    };
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -104,7 +106,6 @@ if (!SBS) {
                 var name = $(this).attr('sbs-toggle-group');
                 var group = $("div[sbs-group="+name+"]");
                 if (group.length > 0) {
-                    console.log("Toggle group: "+name);
                     Form.toggleGroup(group);
                 } else {
                     console.error("Failed to find form group: "+name);
@@ -113,6 +114,37 @@ if (!SBS) {
         },
         'input.sbs-toggle-group'
     );
+
+    // TODO generalize into a class of form
+    $('body').on(
+        {
+            change: function (e, ui) {
+                Form.unsaved = true;
+                var input = $(this);
+                var section = input.parents("li.form-section");
+                section.find("span.progress-icon").addClass("hidden");
+                section.find("span.progress-icon.progress-unsaved").removeClass("hidden");
+            }
+        },
+        'form#edit-profile input, form#edit-profile select, form#edit-profile textarea'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                Form.unsaved = false;
+            }
+        },
+        'button[type="submit"], input[type="submit"]'
+    );
+
+    $(window).on("beforeunload", function (e, ui) {
+        console.log(e);
+        console.log(ui);
+        if (Form.unsaved) {
+            return "You have unsaved changes. Do you still want to leave?";
+        }
+    });
 })();
 
 $(document).ready(function () {

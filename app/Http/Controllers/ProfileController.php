@@ -148,6 +148,10 @@ class ProfileController extends Controller
             $profile->college_sports_clubs &&
             !is_null($profile->has_school_plans);
 
+        if ($profile->phone && strlen($profile->phone) == 10) {
+            $profile->phone = "(".substr($profile->phone, 0, 3).")".substr($profile->phone, 3, 3)."-".substr($profile->phone, 6, 4);
+        }
+
         return view('user/profile/edit', [
             'user' => $user,
             'profile' => $profile,
@@ -210,7 +214,9 @@ class ProfileController extends Controller
             // TODO what?
         }
 
-        $profile->phone = request('phone');
+        $profile->phone = request('phone')
+            ? preg_replace("/[^\d]/", "", request('phone'))
+            : null;
         $profile->headshot_url = $h ?: $profile->headshot_url;
         $profile->resume_url = $r ?: $profile->resume_url;
         // Personal Information
