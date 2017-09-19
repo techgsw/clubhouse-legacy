@@ -146,11 +146,11 @@
             <div class="collapsible-header">
                 <i class="material-icons">settings</i>Job-seeking Preferences
                 @if ($job_preferences_complete)
-                    <span class="progress-iconprogress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                    <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span class="progress-iconprogress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
                 @endif
-                <span class="progress-iconprogress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
+                <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
             </div>
             <div class="collapsible-body">
                 <div class="row">
