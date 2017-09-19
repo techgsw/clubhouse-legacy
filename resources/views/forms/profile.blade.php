@@ -75,7 +75,7 @@
                                 $dob = $dob->format("j F, Y");
                             }
                         @endphp
-                        <input class="datepicker" id="date-of-birth" type="text" name="date_of_birth" value="{{ $dob }}" />
+                        <input class="datepicker" default-year="1985" default-month="01" default-day="01" id="date-of-birth" type="text" name="date_of_birth" value="{{ $dob }}" />
                         <label for="date-of-birth">Date of birth</label>
                     </div>
                 </div>

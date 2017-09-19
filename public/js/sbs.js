@@ -138,9 +138,25 @@ if (!SBS) {
         'button[type="submit"], input[type="submit"]'
     );
 
+    $('body').on(
+        {
+            mousedown: function () {
+                var input = $(this);
+                var picker = input.pickadate('picker');
+                if (!input.val() || input.val() === "") {
+                    var year = parseInt(input.attr('default-year'));
+                    var month = parseInt(input.attr('default-month'));
+                    var day = parseInt(input.attr('default-day'));
+                    if (year && month && day) {
+                        picker.set('select', [year, month, day]);
+                    }
+                }
+            }
+        },
+        'input.datepicker'
+    );
+
     $(window).on("beforeunload", function (e, ui) {
-        console.log(e);
-        console.log(ui);
         if (Form.unsaved) {
             return "You have unsaved changes. Do you still want to leave?";
         }
@@ -188,7 +204,7 @@ $(document).ready(function () {
         selectMonths: true,
         selectYears: 150,
         close: 'Ok',
-        closeOnSelect: false
+        closeOnSelect: true
     });
     // Initialize
     SBS.init();
