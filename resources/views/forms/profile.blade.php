@@ -166,11 +166,13 @@
                     </div>
                     <div class="input-field col s12">
                         <select class="browser-default" name="job_seeking_type">
-                            <option value="" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>Which type most closely fits your next goal?</option>
-                            <option value="junior" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "junior" ? "selected" : "") : (old("job_seeking_type") == "junior" ? "selected" : "") }}>Junior-level</option>
-                            <option value="senior" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "senior" ? "selected" : "") : (old("job_seeking_type") == "senior" ? "selected" : "") }}>Senior-level</option>
-                            <option value="management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "management" ? "selected" : "") : (old("job_seeking_type") == "management" ? "selected" : "") }}>Management</option>
-                            <option value="executive" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive</option>
+                            <option value="" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>What job type most closely fits your next career step?</option>
+                            <option value="internship" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
+                            <option value="entry-level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry-level" ? "selected" : "") : (old("job_seeking_type") == "entry-level" ? "selected" : "") }}>Entry-level</option>
+                            <option value="mid-level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid-level" ? "selected" : "") : (old("job_seeking_type") == "mid-level" ? "selected" : "") }}>Mid-level</option>
+                            <option value="entry-level-management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry-level-management" ? "selected" : "") : (old("job_seeking_type") == "entry-level-managment" ? "selected" : "") }}>Entry-level management</option>
+                            <option value="mid-level-management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid-level-management" ? "selected" : "") : (old("job_seeking_type") == "mid-level-managment" ? "selected" : "") }}>Mid-level management</option>
+                            <option value="executive" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
                         </select>
                     </div>
                     <div class="input-field col s12">
@@ -185,6 +187,9 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col s12">
+                        <p>What departments are you most interested in?</p>
+                    </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_ticket_sales" id="department_goals_ticket_sales" value="1" {{ is_null(old('department_goals_ticket_sales')) ? ($profile->department_goals_ticket_sales ? "checked" : "") : (old('department_goals_ticket_sales') ? "checked" : "") }} />
                         <label for="department_goals_ticket_sales">Ticket Sales</label>
@@ -211,7 +216,7 @@
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_hr" id="department_goals_hr" value="1" {{ is_null(old('department_goals_hr')) ? ($profile->department_goals_hr ? "checked" : "") : (old('department_goals_hr') ? "checked" : "") }} />
-                        <label for="department_goals_hr">HR</label>
+                        <label for="department_goals_hr">Human Resources</label>
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_analytics" id="department_goals_analytics" value="1" {{ is_null(old('department_goals_analytics')) ? ($profile->department_goals_analytics ? "checked" : "") : (old('department_goals_analytics') ? "checked" : "") }} />
@@ -219,11 +224,11 @@
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_cr" id="department_goals_cr" value="1" {{ is_null(old('department_goals_cr')) ? ($profile->department_goals_cr ? "checked" : "") : (old('department_goals_cr') ? "checked" : "") }} />
-                        <label for="department_goals_cr">CR</label>
+                        <label for="department_goals_cr">Community Relations</label>
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_pr" id="department_goals_pr" value="1" {{ is_null(old('department_goals_pr')) ? ($profile->department_goals_pr ? "checked" : "") : (old('department_goals_pr') ? "checked" : "") }} />
-                        <label for="department_goals_pr">PR</label>
+                        <label for="department_goals_pr">Public Relations</label>
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_database" id="department_goals_database" value="1" {{ is_null(old('department_goals_database')) ? ($profile->department_goals_database ? "checked" : "") : (old('department_goals_database') ? "checked" : "") }} />
@@ -235,15 +240,15 @@
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_arena_ops" id="department_goals_arena_ops" value="1" {{ is_null(old('department_goals_arena_ops')) ? ($profile->department_goals_arena_ops ? "checked" : "") : (old('department_goals_arena_ops') ? "checked" : "") }} />
-                        <label for="department_goals_arena_ops">Arena Ops</label>
+                        <label for="department_goals_arena_ops">Arena Operations</label>
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_player_ops" id="department_goals_player_ops" value="1" {{ is_null(old('department_goals_player_ops')) ? ($profile->department_goals_player_ops ? "checked" : "") : (old('department_goals_player_ops') ? "checked" : "") }} />
-                        <label for="department_goals_player_ops">Player Ops</label>
+                        <label for="department_goals_player_ops">Player Operations</label>
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_event_ops" id="department_goals_event_ops" value="1" {{ is_null(old('department_goals_event_ops')) ? ($profile->department_goals_event_ops ? "checked" : "") : (old('department_goals_event_ops') ? "checked" : "") }} />
-                        <label for="department_goals_event_op">Event Ops</label>
+                        <label for="department_goals_event_op">Event Operations</label>
                     </div>
                     <div class="input-field col s12 m6 l4">
                         <input type="checkbox" name="department_goals_social_media" id="department_goals_social_media" value="1" {{ is_null(old('department_goals_social_media')) ? ($profile->department_goals_social_media ? "checked" : "") : (old('department_goals_social_media') ? "checked" : "") }} />
@@ -393,75 +398,79 @@
                         <p>Which department(s) do you have experience in?</p>
                         <div class="row">
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_ticket_sales" id="department_experience_ticket_sales" type="checkbox" {{ is_null(old('department_experience_ticket_sales')) ? ($profile->department_experience_ticket_sales ? "checked" : "") : (old('department_experience_ticket_sales') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_ticket_sales" id="department_experience_ticket_sales" value="1" {{ is_null(old('department_experience_ticket_sales')) ? ($profile->department_experience_ticket_sales ? "checked" : "") : (old('department_experience_ticket_sales') ? "checked" : "") }} />
                                 <label for="department_experience_ticket_sales">Ticket Sales</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_sponsorship_sales" id="department_experience_sponsorship_sales" type="checkbox" {{ is_null(old('department_experience_sponsorship_sales')) ? ($profile->department_experience_sponsorship_sales ? "checked" : "") : (old('department_experience_sponsorship_sales') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_sponsorship_sales" id="department_experience_sponsorship_sales" value="1" {{ is_null(old('department_experience_sponsorship_sales')) ? ($profile->department_experience_sponsorship_sales ? "checked" : "") : (old('department_experience_sponsorship_sales') ? "checked" : "") }} />
                                 <label for="department_experience_sponsorship_sales">Sponsorship Sales</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_service" id="department_experience_service" type="checkbox" {{ is_null(old('department_experience_service')) ? ($profile->department_experience_service ? "checked" : "") : (old('department_experience_service') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_service" id="department_experience_service" value="1" {{ is_null(old('department_experience_service')) ? ($profile->department_experience_service ? "checked" : "") : (old('department_experience_service') ? "checked" : "") }} />
                                 <label for="department_experience_service">Service</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_premium_sales" id="department_experience_premium_sales" type="checkbox" {{ is_null(old('department_experience_premium_sales')) ? ($profile->department_experience_premium_sales ? "checked" : "") : (old('department_experience_premium_sales') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_premium_sales" id="department_experience_premium_sales" value="1" {{ is_null(old('department_experience_premium_sales')) ? ($profile->department_experience_premium_sales ? "checked" : "") : (old('department_experience_premium_sales') ? "checked" : "") }} />
                                 <label for="department_experience_premium_sales">Premium Sales</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_marketing" id="department_experience_marketing" type="checkbox" {{ is_null(old('department_experience_marketing')) ? ($profile->department_experience_marketing ? "checked" : "") : (old('department_experience_marketing') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_marketing" id="department_experience_marketing" value="1" {{ is_null(old('department_experience_marketing')) ? ($profile->department_experience_marketing ? "checked" : "") : (old('department_experience_marketing') ? "checked" : "") }} />
                                 <label for="department_experience_marketing">Marketing</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_sponsorship_activation" id="department_experience_sponsorship_activation" type="checkbox" {{ is_null(old('department_experience_sponsorship_activation')) ? ($profile->department_experience_sponsorship_activation ? "checked" : "") : (old('department_experience_sponsorship_activation') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_sponsorship_activation">Activation</label>
+                                <input type="checkbox" name="department_experience_sponsorship_activation" id="department_experience_sponsorship_activation" value="1" {{ is_null(old('department_experience_sponsorship_activation')) ? ($profile->department_experience_sponsorship_activation ? "checked" : "") : (old('department_experience_sponsorship_activation') ? "checked" : "") }} />
+                                <label for="department_experience_sponsorship_activation">Sponsorship Activation</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_hr" id="department_experience_hr" type="checkbox" {{ is_null(old('department_experience_hr')) ? ($profile->department_experience_hr ? "checked" : "") : (old('department_experience_hr') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_hr">HR</label>
+                                <input type="checkbox" name="department_experience_hr" id="department_experience_hr" value="1" {{ is_null(old('department_experience_hr')) ? ($profile->department_experience_hr ? "checked" : "") : (old('department_experience_hr') ? "checked" : "") }} />
+                                <label for="department_experience_hr">Human Resources</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_cr" id="department_experience_cr" type="checkbox" {{ is_null(old('department_experience_cr')) ? ($profile->department_experience_cr ? "checked" : "") : (old('department_experience_cr') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_cr">CR</label>
+                                <input type="checkbox" name="department_experience_analytics" id="department_experience_analytics" value="1" {{ is_null(old('department_experience_analytics')) ? ($profile->department_experience_analytics ? "checked" : "") : (old('department_experience_analytics') ? "checked" : "") }} />
+                                <label for="department_experience_analytics">Analytics</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_pr" id="department_experience_pr" type="checkbox" {{ is_null(old('department_experience_pr')) ? ($profile->department_experience_pr ? "checked" : "") : (old('department_experience_pr') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_pr">PR</label>
+                                <input type="checkbox" name="department_experience_cr" id="department_experience_cr" value="1" {{ is_null(old('department_experience_cr')) ? ($profile->department_experience_cr ? "checked" : "") : (old('department_experience_cr') ? "checked" : "") }} />
+                                <label for="department_experience_cr">Community Relations</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_database" id="department_experience_database" type="checkbox" {{ is_null(old('department_experience_database')) ? ($profile->department_experience_database ? "checked" : "") : (old('department_experience_database') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_pr" id="department_experience_pr" value="1" {{ is_null(old('department_experience_pr')) ? ($profile->department_experience_pr ? "checked" : "") : (old('department_experience_pr') ? "checked" : "") }} />
+                                <label for="department_experience_pr">Public Relations</label>
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <input type="checkbox" name="department_experience_database" id="department_experience_database" value="1" {{ is_null(old('department_experience_database')) ? ($profile->department_experience_database ? "checked" : "") : (old('department_experience_database') ? "checked" : "") }} />
                                 <label for="department_experience_database">Database</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_finance" id="department_experience_finance" type="checkbox" {{ is_null(old('department_experience_finance')) ? ($profile->department_experience_finance ? "checked" : "") : (old('department_experience_finance') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_finance" id="department_experience_finance" value="1" {{ is_null(old('department_experience_finance')) ? ($profile->department_experience_finance ? "checked" : "") : (old('department_experience_finance') ? "checked" : "") }} />
                                 <label for="department_experience_finance">Finance</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_arena_ops" id="department_experience_arena_ops" type="checkbox" {{ is_null(old('department_experience_arena_ops')) ? ($profile->department_experience_arena_ops ? "checked" : "") : (old('department_experience_arena_ops') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_arena_ops">Arena Ops</label>
+                                <input type="checkbox" name="department_experience_arena_ops" id="department_experience_arena_ops" value="1" {{ is_null(old('department_experience_arena_ops')) ? ($profile->department_experience_arena_ops ? "checked" : "") : (old('department_experience_arena_ops') ? "checked" : "") }} />
+                                <label for="department_experience_arena_ops">Arena Operations</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_player_ops" id="department_experience_player_ops" type="checkbox" {{ is_null(old('department_experience_player_ops')) ? ($profile->department_experience_player_ops ? "checked" : "") : (old('department_experience_player_ops') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_player_ops">Player Ops</label>
+                                <input type="checkbox" name="department_experience_player_ops" id="department_experience_player_ops" value="1" {{ is_null(old('department_experience_player_ops')) ? ($profile->department_experience_player_ops ? "checked" : "") : (old('department_experience_player_ops') ? "checked" : "") }} />
+                                <label for="department_experience_player_ops">Player Operations</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_event_ops" id="department_experience_event_ops" type="checkbox" {{ is_null(old('department_experience_event_ops')) ? ($profile->department_experience_event_ops ? "checked" : "") : (old('department_experience_event_ops') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_event_ops">Event Ops</label>
+                                <input type="checkbox" name="department_experience_event_ops" id="department_experience_event_ops" value="1" {{ is_null(old('department_experience_event_ops')) ? ($profile->department_experience_event_ops ? "checked" : "") : (old('department_experience_event_ops') ? "checked" : "") }} />
+                                <label for="department_experience_event_op">Event Operations</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_social_media" id="department_experience_social_media" type="checkbox" {{ is_null(old('department_experience_social_media')) ? ($profile->department_experience_social_media ? "checked" : "") : (old('department_experience_social_media') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_social_media">Media</label>
+                                <input type="checkbox" name="department_experience_social_media" id="department_experience_social_media" value="1" {{ is_null(old('department_experience_social_media')) ? ($profile->department_experience_social_media ? "checked" : "") : (old('department_experience_social_media') ? "checked" : "") }} />
+                                <label for="department_experience_social_media">Digital/Social Media</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_entertainment" id="department_experience_entertainment" type="checkbox" {{ is_null(old('department_experience_entertainment')) ? ($profile->department_experience_entertainment ? "checked" : "") : (old('department_experience_entertainment') ? "checked" : "") }} value="1" />
-                                <label for="department_experience_entertainment">Entertainment</label>
+                                <input type="checkbox" name="department_experience_entertainment" id="department_experience_entertainment" value="1" {{ is_null(old('department_experience_entertainment')) ? ($profile->department_experience_entertainment ? "checked" : "") : (old('department_experience_entertainment') ? "checked" : "") }} />
+                                <label for="department_experience_entertainment">Game Entertainment</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_legal" id="department_experience_legal" type="checkbox" {{ is_null(old('department_experience_legal')) ? ($profile->department_experience_legal ? "checked" : "") : (old('department_experience_legal') ? "checked" : "") }} value="1" />
+                                <input type="checkbox" name="department_experience_legal" id="department_experience_legal" value="1" {{ is_null(old('department_experience_legal')) ? ($profile->department_experience_legal ? "checked" : "") : (old('department_experience_legal') ? "checked" : "") }} />
                                 <label for="department_experience_legal">Legal</label>
                             </div>
-                            <div class="input-field col s12 m6 l4">
-                                <input name="department_experience_other" id="department_experience_other" type="text" value="{{ old('department_experience_other') ?: $profile->department_experience_other ?: '' }}" />
+                            <div class="input-field col s12">
+                                <input type="text" name="department_experience_other" id="department_experience_other" value="{{ old('department_experience_other') ?: $profile->department_experience_other ?: '' }}" />
                                 <label for="department_experience_other">Other</label>
                             </div>
                         </div>
@@ -510,11 +519,11 @@
                 </div>
                 <div class="input-field">
                     <textarea id="college_organizations" class="materialize-textarea" name="college_organizations">{{ old('college_organizations') ?: $profile->college_organizations ?: null }}</textarea>
-                    <label for="college_organizations">What collegiate organizations did/do you belong to? List any leadership positions you held.</label>
+                    <label for="college_organizations">What student organizations were/are you involved with in college? List any leadership positions you held or hold.</label>
                 </div>
                 <div class="input-field">
                     <textarea id="college_sports_clubs" class="materialize-textarea" name="college_sports_clubs">{{ old('college_sports_clubs') ?: $profile->college_sports_clubs ?: null }}</textarea>
-                    <label for="college_sports_clubs">What sports business clubs or in your athletic department(s) were you involved in? List any leadership positions you held.</label>
+                    <label for="college_sports_clubs">What sports business clubs or Athletic Department jobs were/are you involved with in college? List any leadership positions you held or hold.</label>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
@@ -531,7 +540,9 @@
                 </div>
             </div>
         </li>
-        <li class="form-section"> <!-- Email preferences -->
+        <!-- Email preferences -->
+        <!-- 
+        <li class="form-section">
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
                 <div class="row">
@@ -563,6 +574,7 @@
                 </div>
             </div>
         </li>
+        -->
     </ul>
     <div class="row">
         <div class="input-field col s12">
