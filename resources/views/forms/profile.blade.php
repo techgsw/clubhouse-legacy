@@ -168,10 +168,10 @@
                         <select class="browser-default" name="job_seeking_type">
                             <option value="" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>What job type most closely fits your next career step?</option>
                             <option value="internship" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
-                            <option value="entry-level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry-level" ? "selected" : "") : (old("job_seeking_type") == "entry-level" ? "selected" : "") }}>Entry-level</option>
-                            <option value="mid-level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid-level" ? "selected" : "") : (old("job_seeking_type") == "mid-level" ? "selected" : "") }}>Mid-level</option>
-                            <option value="entry-level-management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry-level-management" ? "selected" : "") : (old("job_seeking_type") == "entry-level-managment" ? "selected" : "") }}>Entry-level management</option>
-                            <option value="mid-level-management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid-level-management" ? "selected" : "") : (old("job_seeking_type") == "mid-level-managment" ? "selected" : "") }}>Mid-level management</option>
+                            <option value="entry_level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry_level" ? "selected" : "") : (old("job_seeking_type") == "entry_level" ? "selected" : "") }}>Entry-level</option>
+                            <option value="mid_level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid_level" ? "selected" : "") : (old("job_seeking_type") == "mid_level" ? "selected" : "") }}>Mid-level</option>
+                            <option value="entry_level_management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry_level_management" ? "selected" : "") : (old("job_seeking_type") == "entry_level-managment" ? "selected" : "") }}>Entry-level management</option>
+                            <option value="mid_level_management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid_level_management" ? "selected" : "") : (old("job_seeking_type") == "mid_level-managment" ? "selected" : "") }}>Mid-level management</option>
                             <option value="executive" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
                         </select>
                     </div>
@@ -541,7 +541,7 @@
             </div>
         </li>
         <!-- Email preferences -->
-        <!-- 
+        <!--
         <li class="form-section">
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
