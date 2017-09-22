@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col s12">
                 @foreach ($user->inquiries as $inquiry)
-                    <a href="/job/{{ $inquiry->id }}">
+                    <a href="/job/{{ $inquiry->job->id }}">
                         <h6>{{ $inquiry->job->title }}</h6>
                         <p>
                             <span class="spaced">submitted {{ $inquiry->created_at->format('F j, Y g:ia') }}</span>
