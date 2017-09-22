@@ -7,6 +7,9 @@ if (!SBS) {
     var Auth = {};
     var Instagram = {};
     var Video = {};
+    var Form = {
+        unsaved: false
+    };
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -41,7 +44,6 @@ if (!SBS) {
         }
     }
 
-
     Video.init = function () {
         if ($('#hub-video-modal iframe').length) {
             var vimeo = $('#hub-video-modal iframe');
@@ -68,10 +70,100 @@ if (!SBS) {
             );
         }
     }
+
+    Form.toggleGroup = function (group) {
+        var inputs = group.find('input');
+        inputs.each(function(i, input) {
+            if ($(input).attr('disabled')) {
+                $(input).removeAttr('disabled');
+            } else {
+                $(input).attr('disabled','disabled');
+            }
+        });
+        var selects = group.find('select');
+        selects.each(function(i, select) {
+            if ($(select).attr('disabled')) {
+                $(select).removeAttr('disabled');
+            } else {
+                $(select).attr('disabled','disabled');
+            }
+        });
+        var textareas = group.find('textarea');
+        textareas.each(function(i, textarea) {
+            if ($(textarea).attr('disabled')) {
+                $(textarea).removeAttr('disabled');
+            } else {
+                $(textarea).attr('disabled','disabled');
+            }
+        });
+        group.toggleClass('hidden');
+    }
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var input = $(this);
+                var name = $(this).attr('sbs-toggle-group');
+                var group = $("div[sbs-group="+name+"]");
+                if (group.length > 0) {
+                    Form.toggleGroup(group);
+                } else {
+                    console.error("Failed to find form group: "+name);
+                }
+            }
+        },
+        'input.sbs-toggle-group'
+    );
+
+    // TODO generalize into a class of form
+    $('body').on(
+        {
+            change: function (e, ui) {
+                Form.unsaved = true;
+                var input = $(this);
+                var section = input.parents("li.form-section");
+                section.find("span.progress-icon").addClass("hidden");
+                section.find("span.progress-icon.progress-unsaved").removeClass("hidden");
+            }
+        },
+        'form#edit-profile input, form#edit-profile select, form#edit-profile textarea'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                Form.unsaved = false;
+            }
+        },
+        'button[type="submit"], input[type="submit"]'
+    );
+
+    $('body').on(
+        {
+            mousedown: function () {
+                var input = $(this);
+                var picker = input.pickadate('picker');
+                if (!input.val() || input.val() === "") {
+                    var year = parseInt(input.attr('default-year'));
+                    var month = parseInt(input.attr('default-month'));
+                    var day = parseInt(input.attr('default-day'));
+                    if (year && month && day) {
+                        picker.set('select', [year, month, day]);
+                    }
+                }
+            }
+        },
+        'input.datepicker'
+    );
+
+    $(window).on("beforeunload", function (e, ui) {
+        if (Form.unsaved) {
+            return "You have unsaved changes. Do you still want to leave?";
+        }
+    });
 })();
 
 $(document).ready(function () {
-
     // Carousels
     var Carousel = {}
     Carousel.autoplay_id;
@@ -107,7 +199,13 @@ $(document).ready(function () {
     $('.modal').modal();
     // Material boxes
     $('.materialboxed').materialbox();
-
-
+    // Material datepicker
+    $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: 150,
+        close: 'Ok',
+        closeOnSelect: true
+    });
+    // Initialize
     SBS.init();
 });

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Mail;
 use App\Mail\BobAlert;
 use App\Mail\UserRegistered;
+use App\Address;
+use App\Profile;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -82,6 +84,14 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
+        $address = Address::create([
+            'user_id' => $user->id
+        ]);
+
+        $profile = Profile::create([
+            'user_id' => $user->id
+        ]);
+
         // TODO can we script this?
         // No reason to block here if we can avoid it
         // Mailchimp signup
@@ -109,7 +119,7 @@ class RegisterController extends Controller
         $response = curl_exec($ch);
 
         try {
-            Mail::to($user)->send(new UserRegistered($user)); 
+            Mail::to($user)->send(new UserRegistered($user));
 
             Mail::to('bob@sportsbusiness.solutions')->send(
                 new BobAlert('emails.bob.registration', array('user' => $user))

@@ -21,7 +21,10 @@ class UserController extends Controller
         $this->authorize('view-user', $user);
 
         return view('user/show', [
-            'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$user->id}"],
+            'breadcrumb' => [
+                'Home' => '/',
+                'User' => "/user/{$user->id}"
+            ],
             'user' => $user
         ]);
     }
