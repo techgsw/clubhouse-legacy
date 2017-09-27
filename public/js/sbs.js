@@ -140,7 +140,7 @@ if (!SBS) {
 
     $('body').on(
         {
-            mousedown: function () {
+            click: function () {
                 var input = $(this);
                 var picker = input.pickadate('picker');
                 if (!input.val() || input.val() === "") {
@@ -148,6 +148,7 @@ if (!SBS) {
                     var month = parseInt(input.attr('default-month'));
                     var day = parseInt(input.attr('default-day'));
                     if (year && month && day) {
+                        console.log('here');
                         picker.set('select', [year, month, day]);
                     }
                 }
@@ -202,8 +203,7 @@ $(document).ready(function () {
     // Material datepicker
     $('.datepicker').pickadate({
         selectMonths: true,
-        selectYears: 150,
-        clear: 'Clear',
+        selectYears: 100,
         close: 'Ok',
         closeOnSelect: true
     });
