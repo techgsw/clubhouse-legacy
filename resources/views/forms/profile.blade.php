@@ -154,9 +154,10 @@
             </div>
             <div class="collapsible-body">
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="col s12">
+                        <label style="font-size: 14px; color: #000; font-weight: 300;">Job-seeking status</label>
                         <select class="browser-default" name="job_seeking_status">
-                            <option value="" {{ is_null(old('job_seeking_status')) ? ($profile->job_seeking_status == "" ? "selected" : "") : (old("job_seeking_status") == "" ? "selected" : "") }} disabled>Job-seeking status</option>
+                            <option value="" {{ is_null(old('job_seeking_status')) ? ($profile->job_seeking_status == "" ? "selected" : "") : (old("job_seeking_status") == "" ? "selected" : "") }} disabled>Please select</option>
                             <option value="unemployed" {{ is_null(old('job_seeking_status')) ? ($profile->job_seeking_status == "unemployed" ? "selected" : "") : (old("job_seeking_status") == "unemployed" ? "selected" : "") }}>Unemployed, actively seeking a new job</option>
                             <option value="employed_active" {{ is_null(old('job_seeking_status')) ? ($profile->job_seeking_status == "employed_active" ? "selected" : "") : (old("job_seeking_status") == "employed_active" ? "selected" : "") }}>Employed, actively seeking a new job</option>
                             <option value="employed_passive" {{ is_null(old('job_seeking_status')) ? ($profile->job_seeking_status == "employed_passive" ? "selected" : "") : (old("job_seeking_status") == "employed_passive" ? "selected" : "") }}>Employed, passively exploring new opportunities</option>
@@ -164,9 +165,12 @@
                             <option value="employed_not" {{ is_null(old('job_seeking_status')) ? ($profile->job_seeking_status == "employed_not" ? "selected" : "") : (old("job_seeking_status") == "employed_not" ? "selected" : "") }}>Employed, currently have my dream job</option>
                         </select>
                     </div>
-                    <div class="input-field col s12">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label style="font-size: 14px; color: #000; font-weight: 300;">What job type most closely fits your next career step?</label>
                         <select class="browser-default" name="job_seeking_type">
-                            <option value="" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>What job type most closely fits your next career step?</option>
+                            <option value="" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>Please select</option>
                             <option value="internship" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
                             <option value="entry_level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry_level" ? "selected" : "") : (old("job_seeking_type") == "entry_level" ? "selected" : "") }}>Entry-level</option>
                             <option value="mid_level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid_level" ? "selected" : "") : (old("job_seeking_type") == "mid_level" ? "selected" : "") }}>Mid-level</option>
@@ -175,9 +179,12 @@
                             <option value="executive" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
                         </select>
                     </div>
-                    <div class="input-field col s12">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label style="font-size: 14px; color: #000; font-weight: 300;">Which region are you most interested in working in?</label>
                         <select class="browser-default" name="job_seeking_region">
-                            <option value="" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "" ? "selected" : "") : (old("job_seeking_region") == "" ? "selected" : "") }} disabled>Which region are you most interested in working in?</option>
+                            <option value="" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "" ? "selected" : "") : (old("job_seeking_region") == "" ? "selected" : "") }} disabled>Please select</option>
                             <option value="mw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "mw" ? "selected" : "") : (old("job_seeking_region") == "mw" ? "selected" : "") }}>Midwest</option>
                             <option value="ne" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "ne" ? "selected" : "") : (old("job_seeking_region") == "ne" ? "selected" : "") }}>Northeast</option>
                             <option value="nw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "nw" ? "selected" : "") : (old("job_seeking_region") == "nw" ? "selected" : "") }}>Northwest</option>
@@ -362,9 +369,12 @@
                         <input id="current_organization" type="text" name="current_organization" value="{{ old('current_organization') ?: $profile->current_organization ?: null }}" />
                         <label for="current_organization">What organization do you currently work for?</label>
                     </div>
-                    <div class="input-field col s12">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label style="font-size: 14px; color: #000; font-weight: 300;">How many years have you been with your current organization?</label>
                         <select class="browser-default" name="current_organization_years">
-                            <option value="" {{ is_null(old('current_organization_years')) ? ($profile->current_organization_years == "" ? "selected" : "") : (old("current_organization_years") == "" ? "selected" : "") }} disabled>How many years have you been with your current organization?</option>
+                            <option value="" {{ is_null(old('current_organization_years')) ? ($profile->current_organization_years == "" ? "selected" : "") : (old("current_organization_years") == "" ? "selected" : "") }} disabled>Please select</option>
                             <option value="less_1" {{ is_null(old('current_organization_years')) ? ($profile->current_organization_years == "less_1" ? "selected" : "") : (old("current_organization_years") == "less_1" ? "selected" : "") }}>Less than 1 year</option>
                             <option value="1_to_3" {{ is_null(old('current_organization_years')) ? ($profile->current_organization_years == "1_to_3" ? "selected" : "") : (old("current_organization_years") == "1_to_3" ? "selected" : "") }}>1-3 years</option>
                             <option value="3_to_6" {{ is_null(old('current_organization_years')) ? ($profile->current_organization_years == "3_to_6" ? "selected" : "") : (old("current_organization_years") == "3_to_6" ? "selected" : "") }}>3-6 years</option>
@@ -375,18 +385,24 @@
                         <input id="current_title" type="text" name="current_title" value="{{ old('current_title') ?: $profile->current_title ?: null }}" />
                         <label for="current_title">What is your title?</label>
                     </div>
-                    <div class="input-field col s12">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label style="font-size: 14px; color: #000; font-weight: 300;">How many years have you had your current title?</label>
                         <select class="browser-default" name="current_title_years">
-                            <option value="" {{ is_null(old('current_title_years')) ? ($profile->current_title_years == "" ? "selected" : "") : (old("current_title_years") == "" ? "selected" : "") }} disabled>How many years have you had your current title?</option>
+                            <option value="" {{ is_null(old('current_title_years')) ? ($profile->current_title_years == "" ? "selected" : "") : (old("current_title_years") == "" ? "selected" : "") }} disabled>Please select</option>
                             <option value="less_1" {{ is_null(old('current_title_years')) ? ($profile->current_title_years == "less_1" ? "selected" : "") : (old("current_title_years") == "less_1" ? "selected" : "") }}>Less than 1 year</option>
                             <option value="1_to_3" {{ is_null(old('current_title_years')) ? ($profile->current_title_years == "1_to_3" ? "selected" : "") : (old("current_title_years") == "1_to_3" ? "selected" : "") }}>1-3 years</option>
                             <option value="3_to_6" {{ is_null(old('current_title_years')) ? ($profile->current_title_years == "3_to_6" ? "selected" : "") : (old("current_title_years") == "3_to_6" ? "selected" : "") }}>3-6 years</option>
                             <option value="6_more" {{ is_null(old('current_title_years')) ? ($profile->current_title_years == "6_more" ? "selected" : "") : (old("current_title_years") == "6_more" ? "selected" : "") }}>6 or more years</option>
                         </select>
                     </div>
-                    <div class="input-field col s12">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label style="font-size: 14px; color: #000; font-weight: 300;">Which region do you currently work in?</label>
                         <select class="browser-default" name="current_region">
-                            <option value="" {{ is_null(old('current_region')) ? ($profile->current_region == "" ? "selected" : "") : (old("current_region") == "" ? "selected" : "") }} disabled>Which region do you currently work in?</option>
+                            <option value="" {{ is_null(old('current_region')) ? ($profile->current_region == "" ? "selected" : "") : (old("current_region") == "" ? "selected" : "") }} disabled>Please select</option>
                             <option value="mw" {{ is_null(old('current_region')) ? ($profile->current_region == "mw" ? "selected" : "") : (old("current_region") == "mw" ? "selected" : "") }}>Midwest</option>
                             <option value="ne" {{ is_null(old('current_region')) ? ($profile->current_region == "ne" ? "selected" : "") : (old("current_region") == "ne" ? "selected" : "") }}>Northeast</option>
                             <option value="nw" {{ is_null(old('current_region')) ? ($profile->current_region == "nw" ? "selected" : "") : (old("current_region") == "nw" ? "selected" : "") }}>Northwest</option>
@@ -394,6 +410,8 @@
                             <option value="sw" {{ is_null(old('current_region')) ? ($profile->current_region == "sw" ? "selected" : "") : (old("current_region") == "sw" ? "selected" : "") }}>Southwest</option>
                         </select>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col s12">
                         <p>Which department(s) do you have experience in?</p>
                         <div class="row">
@@ -490,9 +508,10 @@
             </div>
             <div class="collapsible-body">
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="col s12">
+                        <label style="font-size: 14px; color: #000; font-weight: 300;">Which is your highest completed level of education?</label>
                         <select class="browser-default" name="education_level">
-                            <option value="" {{ is_null(old('education_level')) ? ($profile->education_level == "" ? "selected" : "") : (old("education_level") == "" ? "selected" : "") }} disabled>Which is your highest completed level of education?</option>
+                            <option value="" {{ is_null(old('education_level')) ? ($profile->education_level == "" ? "selected" : "") : (old("education_level") == "" ? "selected" : "") }} disabled>Please select</option>
                             <option value="high_school" {{ is_null(old('education_level')) ? ($profile->education_level == "high_school" ? "selected" : "") : (old("education_level") == "high_school" ? "selected" : "") }}>High School</option>
                             <option value="associate" {{ is_null(old('education_level')) ? ($profile->education_level == "associate" ? "selected" : "") : (old("education_level") == "associate" ? "selected" : "") }}>Associate degree</option>
                             <option value="bachelor" {{ is_null(old('education_level')) ? ($profile->education_level == "bachelor" ? "selected" : "") : (old("education_level") == "bachelor" ? "selected" : "") }}>Bachelor's degree</option>
