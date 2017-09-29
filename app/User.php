@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -73,5 +75,48 @@ class User extends Authenticatable
     public function getName()
     {
         return $this->first_name . " " . $this->last_name;
+    }
+
+    public static function search(Request $request)
+    {
+        $users = User::where('id', '>', 0);
+
+        if ($term = request('term')) {
+            if (ctype_digit($term)) {
+                $term = (int)$term;
+                $users = $users->where('id', $term);
+            } else {
+                $users = $users->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%$term%");
+                $users = $users->orWhere('email', 'like', "%$term%");
+            }
+        }
+
+        if ($sort = request('sort')) {
+            switch ($sort) {
+                case 'id-desc':
+                    $users = $users->orderBy('id', 'desc');
+                    break;
+                case 'id-asc':
+                    $users = $users->orderBy('id', 'asc');
+                    break;
+                case 'email-desc':
+                    $users = $users->orderBy('email', 'desc');
+                    break;
+                case 'email-asc':
+                    $users = $users->orderBy('email', 'asc');
+                    break;
+                case 'name-desc':
+                    $users = $users->orderBy('last_name', 'desc');
+                    break;
+                case 'name-asc':
+                    $users = $users->orderBy('last_name', 'asc');
+                    break;
+                default:
+                    $users = $users->orderBy('id', 'asc');
+                    break;
+            }
+        }
+
+        return $users;
     }
 }
