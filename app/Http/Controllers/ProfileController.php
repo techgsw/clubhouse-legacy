@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProfile;
 use App\Message;
 use App\Profile;
 use App\User;
+use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -194,7 +195,16 @@ class ProfileController extends Controller
 
         try {
             $headshot = request()->file('headshot_url');
+            //dd($headshot->getClientOriginalExtension());
+
             if ($headshot) {
+                $h = $headshot->storeAs(
+                    'headshot/'.$user->id,
+                    'original-'.$user->first_name.'-'.$user->last_name.'-Sports-Business-Solutions.'.$headshot->getClientOriginalExtension()
+                );
+                dd($h);
+                $image_provider = new ImageServiceProvider($headshot->getPathName());
+                //ImageServiceProvider::saveImage($headshot, $user->first_name.'-'$user->last_name);
                 $h = $headshot->store('headshot', 'public');
             } else {
                 $h = null;
