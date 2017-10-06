@@ -33,9 +33,129 @@ class ProfileController extends Controller
             return abort(404);
         }
 
+        $department_goals = [];
+        if ($profile->department_goals_ticket_sales) {
+            $department_goals[] = "Ticket Sales";
+        }
+        if ($profile->department_goals_sponsorship_sales) {
+            $department_goals[] = "Sponsorship Sales";
+        }
+        if ($profile->department_goals_service) {
+            $department_goals[] = "Service";
+        }
+        if ($profile->department_goals_premium_sales) {
+            $department_goals[] = "Premium Sales";
+        }
+        if ($profile->department_goals_marketing) {
+            $department_goals[] = "Marketing";
+        }
+        if ($profile->department_goals_sponsorship_activation) {
+            $department_goals[] = "Sponsorship Activation";
+        }
+        if ($profile->department_goals_hr) {
+            $department_goals[] = "Human Resources";
+        }
+        if ($profile->department_goals_analytics) {
+            $department_goals[] = "Analytics";
+        }
+        if ($profile->department_goals_cr) {
+            $department_goals[] = "Community Relations";
+        }
+        if ($profile->department_goals_pr) {
+            $department_goals[] = "Public Relations";
+        }
+        if ($profile->department_goals_database) {
+            $department_goals[] = "Database";
+        }
+        if ($profile->department_goals_finance) {
+            $department_goals[] = "Finance";
+        }
+        if ($profile->department_goals_arena_ops) {
+            $department_goals[] = "Arena Ops";
+        }
+        if ($profile->department_goals_player_ops) {
+            $department_goals[] = "Player Ops";
+        }
+        if ($profile->department_goals_event_ops) {
+            $department_goals[] = "Event Ops";
+        }
+        if ($profile->department_goals_social_media) {
+            $department_goals[] = "Social Media";
+        }
+        if ($profile->department_goals_entertainment) {
+            $department_goals[] = "Entertainment";
+        }
+        if ($profile->department_goals_legal) {
+            $department_goals[] = "Legal";
+        }
+        if ($profile->department_goals_other) {
+            $department_goals[] = $profile->department_goals_other;
+        }
+
+        $department_experience = [];
+        if ($profile->department_experience_ticket_sales) {
+            $department_experience[] = "Ticket Sales";
+        }
+        if ($profile->department_experience_sponsorship_sales) {
+            $department_experience[] = "Sponsorship Sales";
+        }
+        if ($profile->department_experience_service) {
+            $department_experience[] = "Service";
+        }
+        if ($profile->department_experience_premium_sales) {
+            $department_experience[] = "Premium Sales";
+        }
+        if ($profile->department_experience_marketing) {
+            $department_experience[] = "Marketing";
+        }
+        if ($profile->department_experience_sponsorship_activation) {
+            $department_experience[] = "Sponsorship Activation";
+        }
+        if ($profile->department_experience_hr) {
+            $department_experience[] = "Human Resources";
+        }
+        if ($profile->department_experience_analytics) {
+            $department_experience[] = "Analytics";
+        }
+        if ($profile->department_experience_cr) {
+            $department_experience[] = "Community Relations";
+        }
+        if ($profile->department_experience_pr) {
+            $department_experience[] = "Public Relations";
+        }
+        if ($profile->department_experience_database) {
+            $department_experience[] = "Database";
+        }
+        if ($profile->department_experience_finance) {
+            $department_experience[] = "Finance";
+        }
+        if ($profile->department_experience_arena_ops) {
+            $department_experience[] = "Arena Ops";
+        }
+        if ($profile->department_experience_player_ops) {
+            $department_experience[] = "Player Ops";
+        }
+        if ($profile->department_experience_event_ops) {
+            $department_experience[] = "Event Ops";
+        }
+        if ($profile->department_experience_social_media) {
+            $department_experience[] = "Social Media";
+        }
+        if ($profile->department_experience_entertainment) {
+            $department_experience[] = "Entertainment";
+        }
+        if ($profile->department_experience_legal) {
+            $department_experience[] = "Legal";
+        }
+        if ($profile->department_experience_other) {
+            $department_experience[] = $profile->department_experience_other;
+        }
+
         return view('user/profile/show', [
             'user' => $user,
             'profile' => $profile,
+            'department_goals' => $department_goals,
+            'department_experience' => $department_experience,
             'breadcrumb' => [
                 'Home' => '/',
                 'User' => "/user/$id",

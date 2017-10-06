@@ -82,6 +82,15 @@
                     <p>Next career step is <b>an executive position</b>.</p>
                 @endif
             @endif
+            @if (count($department_goals) > 0)
+                <p>Is interested in the following departments:
+                    <ul>
+                        @foreach ($department_goals as $d)
+                            <li style="list-style: inside;"><b>{{$d}}</b></li>
+                        @endforeach
+                    </ul>
+                </p>
+            @endif
         </div>
     </div>
     <div class="row">
@@ -125,7 +134,15 @@
                 @endif
                 </p>
             @endif
-            <p></p>
+            @if (count($department_experience) > 0)
+                <p>Has work experience in the following departments:
+                    <ul>
+                        @foreach ($department_experience as $d)
+                            <li style="list-style: inside;"><b>{{$d}}</b></li>
+                        @endforeach
+                    </ul>
+                </p>
+            @endif
         </div>
     </div>
     <div class="row">
