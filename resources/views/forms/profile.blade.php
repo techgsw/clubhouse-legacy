@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col s12 m4 l3 center-align">
             @if ($profile->headshot_url)
-                <img src={{ Storage::disk('local')->url($profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%;" />
+                <img src={{ Storage::disk('local')->url($profile->headshot_url) }} style="width: 80%; max-width: 150px; border-radius: 50%;" />
             @else
                 <i class="material-icons large">person</i>
             @endif
