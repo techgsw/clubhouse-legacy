@@ -11,6 +11,7 @@ use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use \Exception;
@@ -194,6 +195,8 @@ class ProfileController extends Controller
             return abort(404);
         }
 
+        $image_error = false;
+
         try {
             $headshot = request()->file('headshot_url');
 
@@ -224,8 +227,9 @@ class ProfileController extends Controller
                 $profile_image = null;
             }
         } catch (Exception $e) {
-            // TODO what?
+            Log::error($e->getMessage());
             $profile_image = null;
+            $image_error = true;
         }
 
         try {
@@ -334,12 +338,21 @@ class ProfileController extends Controller
         $profile->updated_at = new \DateTime('NOW');
         $profile->save();
 
-        $request->session()->flash('message', new Message(
-            "Profile saved",
-            "success",
-            $code = null,
-            $icon = "check_circle"
-        ));
+        if ($image_error) {
+            $request->session()->flash('message', new Message(
+                "Sorry, your profile image failed to upload. Please try a different image.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+        } else {
+            $request->session()->flash('message', new Message(
+                "Profile saved",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
+        }
 
         return redirect()->action('ProfileController@edit', [$profile]);
     }
