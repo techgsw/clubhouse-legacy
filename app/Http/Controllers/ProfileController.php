@@ -11,6 +11,7 @@ use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use \Exception;
 
@@ -195,22 +196,36 @@ class ProfileController extends Controller
 
         try {
             $headshot = request()->file('headshot_url');
-            //dd($headshot->getClientOriginalExtension());
 
             if ($headshot) {
-                $h = $headshot->storeAs(
-                    'headshot/'.$user->id,
-                    'original-'.$user->first_name.'-'.$user->last_name.'-Sports-Business-Solutions.'.$headshot->getClientOriginalExtension()
-                );
-                dd($h);
-                $image_provider = new ImageServiceProvider($headshot->getPathName());
-                //ImageServiceProvider::saveImage($headshot, $user->first_name.'-'$user->last_name);
-                $h = $headshot->store('headshot', 'public');
+                $storage_path = storage_path().'/app/public/headshot/'.$user->id.'/';
+                $filename = $user->first_name.'-'.$user->last_name.'-Sports-Business-Solutions.'.strtolower($headshot->getClientOriginalExtension());
+
+                $image_relative_path = $headshot->storeAs('headshot/'.$user->id, 'original-'.$filename, 'public');
+
+                $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
+                $main_image->cropFromCenter(2000);
+                $main_image->save($storage_path.'/main-'.$filename);
+
+                $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                $large_image->resize(1000, 1000);
+                $large_image->save($storage_path.'/large-'.$filename);
+
+                $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                $medium_image->resize(500, 500);
+                $medium_image->save($storage_path.'/medium-'.$filename);
+
+                $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                $small_image->resize(250, 250);
+                $small_image->save($storage_path.'/small-'.$filename);
+
+                $profile_image = str_replace('original', 'medium', $image_relative_path);
             } else {
-                $h = null;
+                $profile_image = null;
             }
         } catch (Exception $e) {
             // TODO what?
+            $profile_image = null;
         }
 
         try {
@@ -227,7 +242,7 @@ class ProfileController extends Controller
         $profile->phone = request('phone')
             ? preg_replace("/[^\d]/", "", request('phone'))
             : null;
-        $profile->headshot_url = $h ?: $profile->headshot_url;
+        $profile->headshot_url = $profile_image ?: $profile->headshot_url;
         $profile->resume_url = $r ?: $profile->resume_url;
         // Personal Information
         $birthday = new \DateTime(request('date_of_birth'));

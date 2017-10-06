@@ -82,10 +82,13 @@ class ImageServiceProvider extends ServiceProvider
             }
 
             $size = GetImageSize($this->fileName);
+            //dd($size);
             $this->currentDimensions = array('width'=>$size[0],'height'=>$size[1]);
             $this->newImage = $this->oldImage;
             $this->gatherImageMeta();
         }
+        //dd(exif_read_data($this->fileName));
+        //dd($this->currentDimensions);
 
         if($this->error == true) {
             $this->showErrorImage();
@@ -298,6 +301,9 @@ class ImageServiceProvider extends ServiceProvider
     }
 
     public function show($quality=100,$name = '') {
+        if (isset($this->imageMeta['Orientation']) && $this->imageMeta['Orientation'] == 6) {
+            $this->rotateImage();
+        }
         switch($this->format) {
             case 'GIF':
                 if($name != '') {
@@ -424,6 +430,8 @@ class ImageServiceProvider extends ServiceProvider
             $imageData = exif_read_data($this->fileName);
             if (isset($imageData['Make']))
                 $this->imageMeta['make'] = ucwords(strtolower($imageData['Make']));
+            if (isset($imageData['Orientation']))
+                $this->imageMeta['Orientation'] = $imageData['Orientation'];
             if (isset($imageData['Model']))
                 $this->imageMeta['model'] = $imageData['Model'];
             if (isset($imageData['COMPUTED']['ApertureFNumber'])) {
@@ -475,10 +483,5 @@ class ImageServiceProvider extends ServiceProvider
 
     public function register()
     {
-    }
-
-    public function resizeAndSaveImage(string $image_name)
-    {
-        dd($image);
     }
 }
