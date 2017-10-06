@@ -4,14 +4,23 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col s12">
+        <div class="col s12 m3 l2">
+            <div class="hide-on-small-only" style="margin-top: 20px;"></div>
+            @if ($user->profile->headshot_url)
+                <img src={{ Storage::disk('local')->url($user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%;" />
+            @else
+                <i class="material-icons large">person</i>
+            @endif
+        </div>
+        <div class="col s12 m9 l10">
             @can ('edit-user', $user)
                 <div class="input-field right">
                     <a href="/user/{{ $user->id }}/profile" class="btn sbs-red">Profile</span></a>
                 </div>
             @endcan
-            <h3 class="header">{{ $user->getName() }}</h3>
-            <p class="small">Joined {{ $user->created_at->format('F j, Y g:ia') }}</p>
+            <h3 class="header" style="display: inline-block; margin-bottom: 10px;">{{ $user->getName() }}</h3>
+            <p class="small" style="margin: 4px 0;">Joined {{ $user->created_at->format('F j, Y') }}</p>
+            <p class="small" style="margin: 4px 0;">Last updated {{ $user->updated_at->format('F j, Y') }}</p>
         </div>
     </div>
     <div class="row">
