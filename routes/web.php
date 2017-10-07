@@ -102,10 +102,7 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
 
-    // Route::get('/user/{id}/profile', 'ProfileController@show');
-    Route::get('/user/{id}/profile', function ($id) {
-        return redirect("/user/{$id}/edit-profile");
-    });
+    Route::get('/user/{id}/profile', 'ProfileController@show');
     Route::get('/user/{id}/edit-profile', 'ProfileController@edit');
     Route::post('/user/{id}/profile', 'ProfileController@update');
 });
