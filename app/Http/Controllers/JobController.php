@@ -60,10 +60,23 @@ class JobController extends Controller
             $image = request()->file('image_url');
             if ($image) {
                 $job_image = $image->store('job', 'public');
+            } else {
+                $request->session()->flash('message', new Message(
+                    "You must upload an image.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            // TODO redirect with errors
+            $request->session()->flash('message', new Message(
+                "Sorry, the image you tried to upload failed.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
             return back()->withInput();
         }
 
@@ -109,7 +122,7 @@ class JobController extends Controller
             $image = request()->file('image_url');
             if ($image) {
                 $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
-                $filename = $job->organization.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+                $filename = str_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
 
                 $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
 
@@ -265,9 +278,48 @@ class JobController extends Controller
             $doc = request()->file('document');
             $job->document = $doc->store('document', 'public');
         }
-        if (request('image_url')) {
+        try {
             $image = request()->file('image_url');
-            $job->image_url = $image->store('job', 'public');
+            if ($image) {
+                $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
+                $filename = str_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+
+                $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
+
+                $large_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
+                $large_image->resize(1000, 1000);
+                $large_image->save($storage_path.'/large-'.$filename);
+
+                $medium_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
+                $medium_image->resize(500, 500);
+                $medium_image->save($storage_path.'/medium-'.$filename);
+
+                $small_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
+                $small_image->resize(250, 250);
+                $small_image->save($storage_path.'/small-'.$filename);
+
+                $width = $large_image->getCurrentWidth();
+                $height = $large_image->getCurrentHeight();
+                $dest_x = (1000-$width)/2;
+                $dest_y = (1000-$height)/2;
+
+                $background_fill_image = imagecreatetruecolor(1000, 1000);
+                $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
+                imagefill($background_fill_image, 0, 0, $white_color);
+                imagecopy($background_fill_image, $large_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
+                imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
+
+                $job_image = str_replace('original', 'medium', $image_relative_path);
+
+                $job->image_url = $job_image;
+                $job->save();
+
+                Storage::delete($job_image);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            // TODO redirect with errors
+            return redirect()->action('JobController@create');
         }
         $job->edited_at = new \DateTime('NOW');
         $job->save();
