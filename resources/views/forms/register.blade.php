@@ -29,6 +29,11 @@
         </div>
     </div>
     <div class="row">
+        <div class="col s12">
+            <div class="g-recaptcha" data-sitekey="6Lc4ljQUAAAAAN4ViU1D82Qbn-li3PO5NtbJfn0A"></div>
+        </div>
+    </div>
+    <div class="row">
         <div class="input-field col s12 center-align">
             <button type="submit" class="btn btn-large sbs-red">Join</button>
         </div>

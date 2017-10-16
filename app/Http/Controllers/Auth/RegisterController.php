@@ -52,6 +52,35 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        // reCAPTCHA
+        $secret = env('RECAPTCHA_SECRET');
+        $recaptcha = $data['g-recaptcha-response'];
+        $remote_ip = $_SERVER['REMOTE_ADDR'];
+
+        dump($secret);
+        dump($recaptcha);
+        dump($remote_ip);
+        dd("Here");
+
+        $url = "https://www.google.com/recaptcha/api/siteverify";
+        $ch = curl_init($url);
+        $params = [
+            'secret' => $secret,
+            'response' => $recaptcha,
+            'remoteip' => $remote_ip
+        ];
+        curl_setopt($ch, CURLOPT_POST, 1 );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+
+        try {
+            $data = curl_exec($ch);
+            $data = json_decode($data);
+        } catch (Exception $e) {
+            curl_close($ch);
+            return;
+        }
+        curl_close($ch);
+
         $rules = [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
