@@ -184,6 +184,9 @@ class ImageServiceProvider extends ServiceProvider
             $this->workingImage = ImageCreate($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
         }
 
+        imagealphablending($this->workingImage, false);
+        imagesavealpha($this->workingImage, true);
+
         ImageCopyResampled(
             $this->workingImage,
             $this->oldImage,
@@ -196,6 +199,7 @@ class ImageServiceProvider extends ServiceProvider
             $this->currentDimensions['width'],
             $this->currentDimensions['height']
         );
+
 
         $this->oldImage = $this->workingImage;
         $this->newImage = $this->workingImage;
