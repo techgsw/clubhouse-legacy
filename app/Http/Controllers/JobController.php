@@ -23,7 +23,7 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        $jobs = Job::filter($request)->paginate(5);
+        $jobs = Job::filter($request)->paginate(15);
 
         return view('job/index', [
             'breadcrumb' => [
@@ -122,7 +122,7 @@ class JobController extends Controller
             $image = request()->file('image_url');
             if ($image) {
                 $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
-                $filename = str_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+                $filename = preg_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
 
                 $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
 
@@ -282,7 +282,7 @@ class JobController extends Controller
             $image = request()->file('image_url');
             if ($image) {
                 $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
-                $filename = str_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+                $filename = preg_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
 
                 $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
 
