@@ -135,8 +135,10 @@
                             </div>
                             <div class="col s9 m7">
                                 <h5>{{ $job->title }}</h5>
-                                <p>{{ $job->organization }} <i class="fa fa-map-pin spaced" aria-hidden="true"></i> {{ $job->city }}, {{ $job->state }}</p>
-                                <p>listed on {{ $job->created_at->format('F j, Y g:ia') }}</p>
+                                <p><b>{{ $job->organization }}</b> <i class="fa fa-map-pin" aria-hidden="true" style="margin: 0 4px 0 16px;"></i> {{ $job->city }}, {{ $job->state }}</p>
+                                @if ($job->isNew())
+                                    <p class="small"><span class="label sbs-red" style="letter-spacing: 0.6px;"><b>NEW</b></span></p>
+                                @endif
                             </div>
                             <div class="col s12 m3 center-align">
                                 @can ('create-inquiry')

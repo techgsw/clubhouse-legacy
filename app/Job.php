@@ -27,6 +27,12 @@ class Job extends Model
         return $this->hasMany(Inquiry::class);
     }
 
+    public function isNew()
+    {
+        $new = (new \DateTime('NOW'))->sub(new \DateInterval('P7D'));
+        return $this->created_at > $new;
+    }
+
     public static function open()
     {
         return Job::where('open', true)->orderBy('created_at', 'desc');
