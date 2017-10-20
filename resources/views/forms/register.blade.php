@@ -30,7 +30,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="g-recaptcha" data-sitekey="6Lc4ljQUAAAAAN4ViU1D82Qbn-li3PO5NtbJfn0A"></div>
+            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
         </div>
     </div>
     <div class="row">
