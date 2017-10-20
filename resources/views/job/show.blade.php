@@ -108,7 +108,7 @@
                                 <p style="margin: 6px 0;">@component('components.phone', [ 'phone'=> Auth::user()->profile->phone ]) @endcomponent</p>
                                 <div>
                                     <input type="checkbox" name="use_profile_resume" id="use_profile_resume" value="1" checked />
-                                    <label for="use_profile_resume">Use profile resume</label>
+                                    <label for="use_profile_resume">Use résumé from profile <a href="{{ Storage::disk('local')->url(Auth::user()->profile->resume_url) }}" target="_blank"><i class="tiny material-icons">open_in_new</i></a></label>
                                 </div>
                                 <div id="upload-resume" class="file-field input-field hidden">
                                     <div class="btn white black-text">
@@ -123,7 +123,7 @@
                                     <button class="btn sbs-red" type="submit" name="button">Apply</button>
                                 </div>
                                 <div class="input-field">
-                                    <p style="font-style: italic;">Update this information by visiting <a href="/user/{{ Auth::user()->id }}/edit-profile">your profile</a>.</p>
+                                    <p class="small italic">Update this information&mdash;including your default résumé&mdash;by visiting <a href="/user/{{ Auth::user()->id }}/edit-profile">your profile</a>.</p>
                                 </div>
                             </div>
                         </div>

@@ -28,10 +28,9 @@ class InquiryController extends Controller
         }
 
         if (request('use_profile_resume')) {
-            // TODO
-            $resume = null;
-        } else {
-            $resume = request()->file('resume');
+            $resume = Auth::user()->profile->resume_url;
+        } else {``
+            $resume = request()->file('resume')->store('resume', 'public');
         }
 
         $inquiry = Inquiry::create([
@@ -40,7 +39,7 @@ class InquiryController extends Controller
             'name' => request('name'),
             'email' => request('email'),
             'phone' => request('phone'),
-            'resume' => $resume ? $resume->store('resume', 'public') : null,
+            'resume' => $resume,
         ]);
 
         Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));

@@ -351,6 +351,9 @@ p i.material-icons {
 .heavy {
     font-weight: 700;
 }
+.italic {
+    font-style: italic;
+}
 .spaced {
     margin: 0 6px;
 }
