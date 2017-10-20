@@ -25,10 +25,12 @@ class StoreInquiry extends FormRequest
      */
     public function rules()
     {
+        // if (!$this->use_profile_resume) {
+        //     $required['resume'] = 'required|mimes:pdf,doc,docx,odt,ott|max:2000';
+        // }
         return [
             'name' => 'required',
             'email' => 'required',
-            'resume' => 'required|mimes:pdf,doc,docx,odt,ott|max:2000',
         ];
     }
 

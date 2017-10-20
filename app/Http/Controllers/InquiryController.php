@@ -27,7 +27,12 @@ class InquiryController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
 
-        $resume = request()->file('resume');
+        if (request('use_profile_resume')) {
+            // TODO
+            $resume = null;
+        } else {
+            $resume = request()->file('resume');
+        }
 
         $inquiry = Inquiry::create([
             'user_id' => Auth::user()->id,
@@ -35,7 +40,7 @@ class InquiryController extends Controller
             'name' => request('name'),
             'email' => request('email'),
             'phone' => request('phone'),
-            'resume' => $resume->store('resume', 'public'),
+            'resume' => $resume ? $resume->store('resume', 'public') : null,
         ]);
 
         Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
