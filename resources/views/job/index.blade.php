@@ -128,7 +128,7 @@
         <div class="row">
             <div class="col s12">
                 @foreach ($jobs as $job)
-                    <a href="/job/{{ $job->id }}-{{ preg_replace('/\s/', '-', ucwords($job->title)) }}-{{ preg_replace('/\s/', '-', ucwords($job->organization)) }}">
+                    <a href="/job/{{ $job->id }}-{{ preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($job->title))) }}-{{ preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($job->organization))) }}">
                         <div class="row job-index">
                             <div class="col s3 m2">
                                 <img src={{ Storage::disk('local')->url($job->image_url) }} class="thumb">
@@ -142,7 +142,7 @@
                             </div>
                             <div class="col s12 m3 center-align">
                                 @can ('create-inquiry')
-                                    <a href="/job/{{ $job->id }}-{{ preg_replace('/\s/', '-', ucwords($job->title)) }}-{{ preg_replace('/\s/', '-', ucwords($job->organization)) }}" class="btn white black-text">Apply</a>
+                                    <a href="/job/{{ $job->id }}-{{ preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($job->title))) }}-{{ preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($job->organization))) }}" class="btn white black-text">Apply</a>
                                 @else
                                     <a href="/register" class="btn white black-text">Join to apply</a>
                                 @endcan

@@ -9,7 +9,9 @@
     <!-- OPEN GRAPH -->
     <meta property="og:title" content="@yield('title', 'Sports Business Solutions') | Sports Business Solutions" />
     <meta property="og:description" content="@yield('description', 'Sports Business Solutions provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
-    <meta property="og:image" content="@yield('image', url('/').'/images/logo.png')">
+    <meta property="og:image" content="@yield('image', url('/').'/images/Share-Sports-Business-Solutions.png')">
+    <meta property="og:image:height" content="520">
+    <meta property="og:image:width" content="1000">
     <meta property="og:url" content="@yield('url', url('/'))">
     <!-- CSS  -->
     <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
