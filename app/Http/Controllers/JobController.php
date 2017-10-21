@@ -180,7 +180,7 @@ class JobController extends Controller
 
         if (Gate::allows('view-admin-jobs')) {
             $inquiries = Inquiry::where('job_id', $id)
-                ->orderBy('created_at', 'asc')
+                ->orderBy('created_at', 'desc')
                 ->paginate(8);
         } elseif (Auth::check()) {
             $inquiries = Inquiry::where('job_id', $id)
