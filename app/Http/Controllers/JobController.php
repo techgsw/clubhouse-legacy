@@ -191,9 +191,16 @@ class JobController extends Controller
             $inquiries = [];
         }
 
+        $profile_complete = false;
+        $user = Auth::user();
+        if ($user) {
+            $profile_complete = $user->hasCompleteProfile();
+        }
+
         return view('job/show', [
             'job' => $job,
             'inquiries' => $inquiries,
+            'profile_complete' => $profile_complete,
             'breadcrumb' => [
                 'Home' => '/',
                 'Job Board' => '/job',

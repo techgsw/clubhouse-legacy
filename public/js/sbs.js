@@ -157,6 +157,25 @@ if (!SBS) {
         'input.datepicker'
     );
 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var upload_resume = $("#upload-resume");
+                if (!upload_resume) {
+                    return;
+                }
+
+                var checked = $(this).prop('checked');
+                if (checked) {
+                    upload_resume.addClass('hidden');
+                } else {
+                    upload_resume.removeClass('hidden');
+                }
+            }
+        },
+        'input#use_profile_resume'
+    );
+
     $(window).on("beforeunload", function (e, ui) {
         if (Form.unsaved) {
             return "You have unsaved changes. Do you still want to leave?";

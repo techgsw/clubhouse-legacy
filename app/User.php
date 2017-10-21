@@ -77,6 +77,101 @@ class User extends Authenticatable
         return $this->first_name . " " . $this->last_name;
     }
 
+    public function hasCompleteProfile()
+    {
+        $personal_complete =
+            $this->profile->date_of_birth &&
+            $this->profile->ethnicity &&
+            $this->profile->gender;
+
+        $address_complete =
+            $this->address->line1 &&
+            $this->address->city &&
+            $this->address->state &&
+            $this->address->postal_code &&
+            $this->address->country;
+
+        $job_preferences_complete =
+            $this->profile->job_seeking_status &&
+            $this->profile->job_seeking_type &&
+            $this->profile->job_seeking_region && (
+                // At least one department goal
+                $this->profile->department_goals_ticket_sales ||
+                $this->profile->department_goals_sponsorship_sales ||
+                $this->profile->department_goals_service ||
+                $this->profile->department_goals_premium_sales ||
+                $this->profile->department_goals_marketing ||
+                $this->profile->department_goals_sponsorship_activation ||
+                $this->profile->department_goals_hr ||
+                $this->profile->department_goals_analytics ||
+                $this->profile->department_goals_cr ||
+                $this->profile->department_goals_pr ||
+                $this->profile->department_goals_database ||
+                $this->profile->department_goals_finance ||
+                $this->profile->department_goals_arena_ops ||
+                $this->profile->department_goals_player_ops ||
+                $this->profile->department_goals_event_ops ||
+                $this->profile->department_goals_social_media ||
+                $this->profile->department_goals_entertainment ||
+                $this->profile->department_goals_legal ||
+                $this->profile->department_goals_other
+            ) && (
+                // At least one job factor
+                $this->profile->job_factors_money ||
+                $this->profile->job_factors_title ||
+                $this->profile->job_factors_location ||
+                $this->profile->job_factors_organization ||
+                $this->profile->job_factors_other
+            );
+
+        $employment_complete =
+            !is_null($this->profile->works_in_sports) &&
+            $this->profile->current_organization &&
+            $this->profile->current_title &&
+            $this->profile->current_region &&
+            $this->profile->current_organization_years &&
+            $this->profile->current_title_years && (
+                // At least one department experience
+                $this->profile->department_experience_ticket_sales ||
+                $this->profile->department_experience_sponsorship_sales ||
+                $this->profile->department_experience_service ||
+                $this->profile->department_experience_premium_sales ||
+                $this->profile->department_experience_marketing ||
+                $this->profile->department_experience_sponsorship_activation ||
+                $this->profile->department_experience_hr ||
+                $this->profile->department_experience_analytics ||
+                $this->profile->department_experience_cr ||
+                $this->profile->department_experience_pr ||
+                $this->profile->department_experience_database ||
+                $this->profile->department_experience_finance ||
+                $this->profile->department_experience_arena_ops ||
+                $this->profile->department_experience_player_ops ||
+                $this->profile->department_experience_event_ops ||
+                $this->profile->department_experience_social_media ||
+                $this->profile->department_experience_entertainment ||
+                $this->profile->department_experience_legal ||
+                $this->profile->department_experience_other
+            );
+
+        $education_complete =
+            $this->profile->education_level &&
+            $this->profile->college_name &&
+            $this->profile->college_graduation_year &&
+            $this->profile->college_gpa &&
+            $this->profile->college_organizations &&
+            $this->profile->college_sports_clubs &&
+            !is_null($this->profile->has_school_plans);
+
+        $complete =
+            $personal_complete &&
+            $address_complete &&
+            $job_preferences_complete &&
+            $employment_complete &&
+            $education_complete;
+
+        return $complete;
+    }
+
     public static function search(Request $request)
     {
         $users = User::where('id', '>', 0);
