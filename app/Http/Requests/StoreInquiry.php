@@ -30,7 +30,7 @@ class StoreInquiry extends FormRequest
             'email' => 'required',
         ];
         if (!request()->use_profile_resume) {
-            $rules['resume'] = 'required|mimes:pdf,doc,docx,odt,ott|max:2000';
+            $rules['resume'] = 'required|mimes:pdf,doc,docx,odt,ott|max:10000';
         }
         return $rules;
     }

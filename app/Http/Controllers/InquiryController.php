@@ -29,9 +29,34 @@ class InquiryController extends Controller
 
         if (request('use_profile_resume')) {
             $resume = Auth::user()->profile->resume_url;
-        } else {``
+
+            if (!$resume) {
+                // TODO Need to do multiples
+                $request->session()->flash('message', new Message(
+                    "Please upload a resume to your profile.",
+                    "danger"
+                ));
+                return back()->withInput();
+            }
+        } else if (request('resume')) {
             $resume = request()->file('resume')->store('resume', 'public');
+            if (!$resume) {
+                // TODO Need to do multiples
+                $request->session()->flash('message', new Message(
+                    "Please attach a resume.",
+                    "danger"
+                ));
+                return back()->withInput();
+            }
+        } else {
+            // TODO Need to do multiples
+            $request->session()->flash('message', new Message(
+                "It looks like you forgot to upload a resume.",
+                "error"
+            ));
+            return back()->withInput();
         }
+
 
         $inquiry = Inquiry::create([
             'user_id' => Auth::user()->id,
