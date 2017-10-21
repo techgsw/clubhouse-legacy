@@ -6,9 +6,11 @@ use Mail;
 use App\Mail\BobAlert;
 use App\Mail\UserRegistered;
 use App\Address;
+use App\Message;
 use App\Profile;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Traits\ReCaptchaTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -26,6 +28,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    use ReCaptchaTrait;
 
     /**
      * Where to redirect users after registration.
@@ -52,14 +55,21 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['recaptcha'] = $this->recaptchaCheck($data);
+
         $rules = [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:user',
             'password' => 'required|min:6|confirmed',
+            'g-recaptcha-response' => 'required',
+            'recaptcha' => 'required|min:1'
         ];
 
         $messages = [
+            'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+            'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+            'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
             'unique' => 'That :attribute has already been taken.',
             'required' => 'Sorry, :attribute is a required field.',
             'password.min.string' => 'Passwords must be at least 6 characters long',
@@ -110,6 +120,7 @@ class RegisterController extends Controller
         $json = json_encode($fields);
         // cURL
         $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Content-Type: application/json",
@@ -120,7 +131,6 @@ class RegisterController extends Controller
 
         try {
             Mail::to($user)->send(new UserRegistered($user));
-
             Mail::to('bob@sportsbusiness.solutions')->send(
                 new BobAlert('emails.bob.registration', array('user' => $user))
             );
