@@ -27,14 +27,14 @@
                 <div class="input-field">
                     <select name="league">
                         <option value="all" {{ (!request('league') || request('league') == 'all') ? "selected" : "" }}>All</option>
-                        <option value="mlb" {{ request('state') == "mlb" ? "selected" : "" }}>MLB</option>
-                        <option value="mls" {{ request('state') == "mls" ? "selected" : "" }}>MLS</option>
-                        <option value="nba" {{ request('state') == "nba" ? "selected" : "" }}>NBA</option>
-                        <option value="ncaa" {{ request('state') == "ncaa" ? "selected" : "" }}>NCAA</option>
-                        <option value="nfl" {{ request('state') == "nfl" ? "selected" : "" }}>NFL</option>
-                        <option value="nhl" {{ request('state') == "nhl" ? "selected" : "" }}>NHL</option>
-                        <option value="wnba" {{ request('state') == "wnba" ? "selected" : "" }}>WNBA</option>
-                        <option value="other" {{ request('state') == "other" ? "selected" : "" }}>Other</option>
+                        <option value="mlb" {{ request('league') == "mlb" ? "selected" : "" }}>MLB</option>
+                        <option value="mls" {{ request('league') == "mls" ? "selected" : "" }}>MLS</option>
+                        <option value="nba" {{ request('league') == "nba" ? "selected" : "" }}>NBA</option>
+                        <option value="ncaa" {{ request('league') == "ncaa" ? "selected" : "" }}>NCAA</option>
+                        <option value="nfl" {{ request('league') == "nfl" ? "selected" : "" }}>NFL</option>
+                        <option value="nhl" {{ request('league') == "nhl" ? "selected" : "" }}>NHL</option>
+                        <option value="wnba" {{ request('league') == "wnba" ? "selected" : "" }}>WNBA</option>
+                        <option value="other" {{ request('league') == "other" ? "selected" : "" }}>Other</option>
                     </select>
                     <label>League</label>
                 </div>

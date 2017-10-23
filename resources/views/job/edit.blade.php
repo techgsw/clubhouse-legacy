@@ -31,15 +31,15 @@
                 </div>
                 <div class="input-field">
                     <select name="league">
-                        <option value="" {{ old('state') == "" ? "selected" : "" }}>None</option>
-                        <option value="mlb" {{ old('state') == "mlb" ? "selected" : "" }}>MLB</option>
-                        <option value="mls" {{ old('state') == "mls" ? "selected" : "" }}>MLS</option>
-                        <option value="nba" {{ old('state') == "nba" ? "selected" : "" }}>NBA</option>
-                        <option value="ncaa" {{ old('state') == "ncaa" ? "selected" : "" }}>NCAA</option>
-                        <option value="nfl" {{ old('state') == "nfl" ? "selected" : "" }}>NFL</option>
-                        <option value="nhl" {{ old('state') == "nhl" ? "selected" : "" }}>NHL</option>
-                        <option value="wnba" {{ old('state') == "wnba" ? "selected" : "" }}>WNBA</option>
-                        <option value="other" {{ old('state') == "other" ? "selected" : "" }}>Other</option>
+                        <option value="" {{ old('league') == "" ? "selected" : is_null($job->league) ? "selected" : "" }}>None</option>
+                        <option value="mlb" {{ old('league') == "mlb" ? "selected" : $job->league == "mlb" ? "selected" : "" }}>MLB</option>
+                        <option value="mls" {{ old('league') == "mls" ? "selected" : $job->league == "mls" ? "selected" : "" }}>MLS</option>
+                        <option value="nba" {{ old('league') == "nba" ? "selected" : $job->league == "nba" ? "selected" : "" }}>NBA</option>
+                        <option value="ncaa" {{ old('league') == "ncaa" ? "selected" : $job->league == "ncaa" ? "selected" : "" }}>NCAA</option>
+                        <option value="nfl" {{ old('league') == "nfl" ? "selected" : $job->league == "nfl" ? "selected" : "" }}>NFL</option>
+                        <option value="nhl" {{ old('league') == "nhl" ? "selected" : $job->league == "nhl" ? "selected" : "" }}>NHL</option>
+                        <option value="wnba" {{ old('league') == "wnba" ? "selected" : $job->league == "wnba" ? "selected" : "" }}>WNBA</option>
+                        <option value="other" {{ old('league') == "other" ? "selected" : $job->league == "other" ? "selected" : "" }}>Other</option>
                     </select>
                     <label>League</label>
                 </div>
