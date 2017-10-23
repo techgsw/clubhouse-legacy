@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <p>Asked on {{ $job->created_at->format('F j, Y g:ia') }}</p>
+            <p>Posted on {{ $job->created_at->format('F j, Y g:ia') }}</p>
         </div>
     </div>
     <div class="row">
@@ -45,17 +45,17 @@
                 </div>
                 <div class="input-field">
                     <select name="job_type">
-                        <option value="" {{ old('state') == "" ? "selected" : "" }}>None</option>
-                        <option value="ticket-sales" {{ old('job_type') == '' ? "selected" : "ticket-sales" }}>Ticket Sales</option>
-                        <option value="sponsorship-sales" {{ old('job_type') == '' ? "selected" : "sponsorship-sales" }}>Sponsorship Sales</option>
-                        <option value="marketing" {{ old('job_type') == '' ? "selected" : "marketing" }}>Marketing</option>
-                        <option value="internships" {{ old('job_type') == '' ? "selected" : "internships" }}>Internships</option>
-                        <option value="business-operations" {{ old('job_type') == '' ? "selected" : "business-operations" }}>Business operations</option>
-                        <option value="data-analytics" {{ old('job_type') == '' ? "selected" : "data-analytics" }}>Data/Analytics</option>
-                        <option value="player-operations" {{ old('job_type') == '' ? "selected" : "player-operations" }}>Player operations</option>
-                        <option value="communications" {{ old('job_type') == '' ? "selected" : "communications" }}>Communications</option>
-                        <option value="it-technology" {{ old('job_type') == '' ? "selected" : "it-technology" }}>IT and Technology</option>
-                        <option value="administrative" {{ old('job_type') == '' ? "selected" : "administrative" }}>Administrative</option>
+                        <option value="" {{ old("state") == "" ? "selected" : is_null($job->state) ? "selected" : "" }}>None</option>
+                        <option value="ticket-sales" {{ old("job_type") == "ticket-sales" ? "selected" : $job->job_type == "ticket-sales" ? "selected" : "" }}>Ticket Sales</option>
+                        <option value="sponsorship-sales" {{ old("job_type") == "sponsorship-sales" ? "selected" : $job->job_type == "sponsorship-sales" ? "selected" : "" }}>Sponsorship Sales</option>
+                        <option value="marketing" {{ old("job_type") == "marketing" ? "selected" : $job->job_type == "marketing" ? "selected" : "" }}>Marketing</option>
+                        <option value="internships" {{ old("job_type") == "internships" ? "selected" : $job->job_type == "internships" ? "selected" : "" }}>Internships</option>
+                        <option value="business-operations" {{ old("job_type") == "business-operations" ? "selected" : $job->job_type == "business-operations" ? "selected" : "" }}>Business operations</option>
+                        <option value="data-analytics" {{ old("job_type") == "data-analytics" ? "selected" : $job->job_type == "data-analytics" ? "selected" : "" }}>Data/Analytics</option>
+                        <option value="player-operations" {{ old("job_type") == "player-operations" ? "selected" : $job->job_type == "player-operations" ? "selected" : "" }}>Player operations</option>
+                        <option value="communications" {{ old("job_type") == "communications" ? "selected" : $job->job_type == "communications" ? "selected" : "" }}>Communications</option>
+                        <option value="it-technology" {{ old("job_type") == "it-technology" ? "selected" : $job->job_type == "it-technology" ? "selected" : "" }}>IT and Technology</option>
+                        <option value="administrative" {{ old("job_type") == "administrative" ? "selected" : $job->job_type == "administrative" ? "selected" : "" }}>Administrative</option>
                     </select>
                     <label>Type</label>
                 </div>
