@@ -33,6 +33,11 @@ class Job extends Model
         return $this->created_at > $new;
     }
 
+    public function getURL()
+    {
+        return "/job/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->title))) . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->organization)));
+    }
+
     public static function open()
     {
         return Job::where('open', true)->orderBy('created_at', 'desc');
@@ -60,6 +65,6 @@ class Job extends Model
             $jobs->where('state', $loc);
         }
 
-        return $jobs->orderBy('created_at', 'desc');
+        return $jobs;
     }
 }

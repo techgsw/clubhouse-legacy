@@ -340,10 +340,10 @@ p i.material-icons {
     line-height: inherit;
 }
 .icon-left {
-    padding-right: 10px;
+    padding-right: 8px;
 }
 .icon-right {
-    padding-left: 10px;
+    padding-left: 8px;
 }
 .small {
     font-size: 0.8em;
@@ -369,7 +369,10 @@ p i.material-icons {
 .large-text {
     font-size: 115%;
 }
-
+button.text {
+    background: none;
+    border: none;
+}
 span.label {
     background: #EFEFEF;
     padding: 6px 12px;
@@ -628,7 +631,14 @@ div.arrow.down {
  * Job board
  */
 
-.row.job-index {}
+.row.job-index {
+    padding: 16px 0;
+    margin: 0;
+    border-bottom: 1px solid #FAFAFA;
+}
+.row.job-index:hover {
+    background: #FAFAFA;
+}
 .row.job-index img.thumb {
     max-width: 100px;
     max-height: 100px;

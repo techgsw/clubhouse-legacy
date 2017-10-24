@@ -23,7 +23,11 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        $jobs = Job::filter($request)->paginate(15);
+        $jobs = Job::filter($request)
+            ->orderBy('featured', 'desc')
+            ->orderBy('rank', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
         return view('job/index', [
             'breadcrumb' => [
@@ -275,6 +279,7 @@ class JobController extends Controller
     {
         $job = Job::find($id);
         $job->title = request('title');
+        $job->featured = request('featured') ? true : false;
         $job->description = request('description');
         $job->organization = request('organization');
         $job->league = request('league');

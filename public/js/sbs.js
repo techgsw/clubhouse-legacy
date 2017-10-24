@@ -176,6 +176,31 @@ if (!SBS) {
         'input#use_profile_resume'
     );
 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var button = $(this);
+                var showHideId = "#"+button.attr('show-hide-id');
+                var element = $(showHideId);
+
+                if (!element) {
+                    return;
+                }
+
+                if (element.hasClass('hidden')) {
+                    element.removeClass('hidden');
+                    button.find('span.show-options').addClass('hidden');
+                    button.find('span.hide-options').removeClass('hidden');
+                } else {
+                    element.addClass('hidden');
+                    button.find('span.hide-options').addClass('hidden');
+                    button.find('span.show-options').removeClass('hidden');
+                }
+            }
+        },
+        'button.show-hide'
+    );
+
     $(window).on("beforeunload", function (e, ui) {
         if (Form.unsaved) {
             return "You have unsaved changes. Do you still want to leave?";
