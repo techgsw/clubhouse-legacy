@@ -429,6 +429,27 @@ a:hover.no-underline {
     border: none;
 }
 
+.flat-button {
+    background: none !important;
+    border: 2px solid #EEE;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 15px;
+}
+.flat-button:hover {
+    text-decoration: none;
+    border-bottom: 2px solid;
+    background: #EEE !important;
+}
+.flat-button.small {
+    font-size: 12px;
+    padding: 3px 5px;
+}
+.flat-button.blue {
+    border-color: #2196F3;
+    color: #2196F3;
+}
+
 main a.btn,
 main a.btn:hover,
 footer a.btn,
@@ -637,12 +658,15 @@ div.arrow.down {
     border-bottom: 1px solid #FAFAFA;
     border-left: 3px solid transparent;
 }
+.row.job-index:hover {
+    border-left: 3px solid #F0F0F0;
+    border-bottom: 1px solid #F0F0F0;
+}
 .row.job-index.featured-job {
     border-left: 3px solid #EB2935;
-    border-bottom: none;
 }
-.row.job-index:hover {
-    background: #FAFAFA;
+.row.job-index.featured-job:hover {
+    border-left: 3px solid #EB2935;
 }
 .row.job-index img.thumb {
     max-width: 100px;

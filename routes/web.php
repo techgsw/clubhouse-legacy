@@ -117,6 +117,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/job/{id}', 'JobController@show');
     Route::get('/job/{id}/open', 'JobController@open');
     Route::get('/job/{id}/close', 'JobController@close');
+    Route::get('/job/{id}/feature', 'JobController@feature');
+    Route::get('/job/{id}/unfeature', 'JobController@unfeature');
+    Route::get('/job/{id}/rank-up', 'JobController@rankUp');
+    Route::get('/job/{id}/rank-down', 'JobController@rankDown');
     Route::get('/job/{id}/edit', 'JobController@edit');
     Route::post('/job/{id}', 'JobController@update');
     Route::post('/job/{id}/inquire', 'InquiryController@store');

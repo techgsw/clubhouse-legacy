@@ -5,11 +5,11 @@
 <div class="container">
     <div style="margin-bottom: 12px;">
         <button class="text grey-text show-hide" show-hide-id="job-search-form">
-            <span class="show-options"><i class="fa fa-caret-square-o-down icon-left"></i>Show search options</span>
-            <span class="hide-options hidden"><i class="fa fa-caret-square-o-up icon-left"></i>Hide search options</span>
+            <span class="show-options {{ $searching ? 'hidden' : ''}}"><i class="fa fa-caret-square-o-down icon-left"></i>Show search options</span>
+            <span class="hide-options {{ $searching ? '' : 'hidden'}}"><i class="fa fa-caret-square-o-up icon-left"></i>Hide search options</span>
         </button>
     </div>
-    <div id="job-search-form" class="hidden">
+    <div id="job-search-form" class="{{ $searching ? '' : 'hidden'}}">
         @include('forms.job-search')
     </div>
     @if (count($jobs) > 0)
@@ -33,10 +33,24 @@
                         </p>
                     </div>
                     <div class="col s12 m3 center-align hide-on-small-only">
-                        @can ('create-inquiry')
-                            <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply now</a>
-                        @else
-                            <a style="margin-top: 12px;" href="/register" class="btn white black-text">Join to apply</a>
+                        <div>
+                            @can ('create-inquiry')
+                                <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply now</a>
+                            @else
+                                <a style="margin-top: 12px;" href="/register" class="btn white black-text">Join to apply</a>
+                            @endcan
+                        </div>
+                        @can ('edit-job', $job)
+                            <div class="small" style="margin-top: 16px;">
+                                <a href="/job/{{ $job->id }}/edit" class="flat-button small blue"><i class="fa fa-pencil"></i></a>
+                                @if ($job->featured)
+                                    <a href="/job/{{ $job->id }}/unfeature" class="flat-button small blue"><i class="fa fa-star"></i> {{ $job->rank }}</a>
+                                    <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
+                                @else
+                                    <a href="/job/{{ $job->id }}/feature" class="flat-button small blue"><i class="fa fa-star-o"></i></a>
+                                @endif
+                            </div>
                         @endcan
                     </div>
                 </div>

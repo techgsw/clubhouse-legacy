@@ -15,7 +15,7 @@ class AddFeaturedToJob extends Migration
     {
         Schema::table('job', function (Blueprint $table) {
             $table->boolean('featured')->default(false);
-            $table->integer('rank')->default(NULL);
+            $table->unsignedInteger('rank')->default(0);
         });
     }
 

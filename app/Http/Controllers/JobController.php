@@ -29,12 +29,19 @@ class JobController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
+        $searching =
+            request('job_type') && request('job_type') != 'all' ||
+            request('league') && request('league') != 'all' ||
+            request('state') && request('state') != 'all' ||
+            request('organization');
+
         return view('job/index', [
             'breadcrumb' => [
                 'Home' => '/',
                 'Job Board' => '/job'
             ],
-            'jobs' => $jobs
+            'jobs' => $jobs,
+            'searching' => $searching
         ]);
     }
 
@@ -255,9 +262,140 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function feature($id)
+    {
+        $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
+        $this->authorize('edit-job', $job);
+
+        // Insert at last rank, i.e. one greater than the highest current
+        $rank = 1;
+        $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+        if ($last_job) {
+            $rank = $last_job->rank+1;
+        }
+
+        $job->featured = true;
+        $job->rank = $rank;
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function unfeature($id)
+    {
+        $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
+        $this->authorize('edit-job', $job);
+
+        $rank = $job->rank;
+
+        $job->featured = false;
+        $job->rank = 0;
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        // Shift neighbors with lower rank up one
+        $neighbors = Job::where('rank', '>', $rank)->get();
+        if (!$neighbors) {
+            return back();
+        }
+        foreach ($neighbors as $neighbor) {
+            $neighbor->rank = $neighbor->rank-1;
+            $neighbor->edited_at = new \DateTime('NOW');
+            $neighbor->save();
+        }
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rankUp($id)
+    {
+        $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
+        $this->authorize('edit-job', $job);
+
+        if ($job->rank <= 1) {
+            return back();
+        }
+
+        $job->rank--;
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        $neighbors = Job::where('id', '!=', $id)->where('rank', $job->rank)->get();
+        if (!$neighbors) {
+            return back();
+        }
+        foreach ($neighbors as $neighbor) {
+            $neighbor->rank = $neighbor->rank+1;
+            $neighbor->edited_at = new \DateTime('NOW');
+            $neighbor->save();
+        }
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rankDown($id)
+    {
+        $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
+        $this->authorize('edit-job', $job);
+
+        // Don't allow the last job to be ranked down
+        $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+        if ($last_job && $last_job->id == $id) {
+            return back();
+        }
+
+        $job->rank++;
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        $neighbors = Job::where('id', '!=', $id)->where('rank', $job->rank)->get();
+        if (!$neighbors) {
+            return back();
+        }
+        foreach ($neighbors as $neighbor) {
+            $neighbor->rank = $neighbor->rank-1;
+            $neighbor->edited_at = new \DateTime('NOW');
+            $neighbor->save();
+        }
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
         $this->authorize('edit-job', $job);
 
         return view('job/edit', [
@@ -280,7 +418,11 @@ class JobController extends Controller
         $job = Job::find($id);
         $job->title = request('title');
         $job->featured = request('featured') ? true : false;
-        $job->rank = request('rank');
+        if ($job->featured) {
+            $job->rank = request('rank');
+        } else {
+            $job->rank = null;
+        }
         $job->description = request('description');
         $job->organization = request('organization');
         $job->league = request('league');
