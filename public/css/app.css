@@ -635,6 +635,11 @@ div.arrow.down {
     padding: 16px 0;
     margin: 0;
     border-bottom: 1px solid #FAFAFA;
+    border-left: 3px solid transparent;
+}
+.row.job-index.featured-job {
+    border-left: 3px solid #EB2935;
+    border-bottom: none;
 }
 .row.job-index:hover {
     background: #FAFAFA;

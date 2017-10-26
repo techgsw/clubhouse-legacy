@@ -16,13 +16,17 @@
     <form id="edit-job" method="POST" action="/job/{{ $job->id }}" enctype="multipart/form-data">
         <div class="row">
             {{ csrf_field() }}
-            <div class="input-field col s12 m8">
+            <div class="input-field col s12 m6">
                 <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" value="{{ old('title') ?: $job->title }}" required autofocus>
                 <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
             </div>
-            <div class="input-field col s12 m4">
+            <div class="input-field col s12 m3">
                 <input type="checkbox" name="featured" id="featured" value="1" {{ is_null(old('featured')) ? ($job->featured ? "checked" : "") : (old('featured') ? "checked" : "") }} />
                 <label for="featured">Featured</label>
+            </div>
+            <div class="input-field col s12 m3">
+                <input type="number" step="1" min="1" name="rank" id="rank" value="{{ old('rank') ?: $job->rank ?: '' }}" {{ is_null(old('featured')) ? ($job->featured ? "" : "disabled") : (old('featured') ? "" : "disabled") }} />
+                <label for="rank">Rank</label>
             </div>
             <div class="input-field col s12">
                 <textarea id="description" class="materialize-textarea validate {{ $errors->has('description') ? 'invalid' : '' }}" name="description" required>{{ old('description') ?: $job->description }}</textarea>

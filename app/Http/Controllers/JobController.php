@@ -280,6 +280,7 @@ class JobController extends Controller
         $job = Job::find($id);
         $job->title = request('title');
         $job->featured = request('featured') ? true : false;
+        $job->rank = request('rank');
         $job->description = request('description');
         $job->organization = request('organization');
         $job->league = request('league');

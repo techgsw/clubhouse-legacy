@@ -179,6 +179,27 @@ if (!SBS) {
     $('body').on(
         {
             click: function (e, ui) {
+                var featured = $(this).prop('checked');
+                var rank = $('input[name="rank"]');
+
+                if (!rank) {
+                    return;
+                }
+
+                if (featured) {
+                    rank.removeAttr('disabled');
+                } else {
+                    rank.val("");
+                    rank.attr('disabled', 'disabled');
+                }
+            }
+        },
+        'input[name="featured"]'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
                 var button = $(this);
                 var showHideId = "#"+button.attr('show-hide-id');
                 var element = $(showHideId);

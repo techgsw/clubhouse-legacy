@@ -13,10 +13,13 @@
         @include('forms.job-search')
     </div>
     @if (count($jobs) > 0)
+        @if ($jobs[0]->featured)
+            <h3 style="text-transform: uppercase; letter-spacing: 0.6px; font-size: 14px; color: #EB2935; border-left: 3px solid #EB2935; margin: 0; padding: 12px 0 18px 18px;">Featured jobs</h3>
+        @endif
         @foreach ($jobs as $job)
             <a href="{{ $job->getURL() }}">
-                <div class="row job-index">
-                    <div class="col s3 m2">
+                <div class="row job-index {{ $job->featured ? 'featured-job' : '' }}">
+                    <div class="col s3 m2 center-align">
                         <img style="margin-top: 12px;" src={{ Storage::disk('local')->url($job->image_url) }} class="thumb">
                     </div>
                     <div class="col s9 m7">
@@ -24,9 +27,6 @@
                         <p style="font-size: 16px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization }}</p>
                         <p style="margin: 0 0 6px 0;"><i class="fa fa-map-pin icon-left" aria-hidden="true"></i>{{ $job->city }}, {{ $job->state }}</p>
                         <p class="small tags">
-                            @if ($job->featured)
-                                <span class="label sbs-red" style="letter-spacing: 0.6px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
-                            @endif
                             @if ($job->isNew())
                                 <span class="label blue white-text" style="letter-spacing: 0.6px;"><b><i class="fa fa-certificate icon-left" aria-hidden="true"></i>NEW</b></span>
                             @endif
