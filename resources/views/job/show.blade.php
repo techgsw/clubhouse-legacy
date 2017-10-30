@@ -38,6 +38,11 @@
             </div>
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization }}</span> in {{ $job->city }}, {{ $job->state }}</p>
+            <p class="small tags">
+                @if ($job->featured)
+                    <span class="label sbs-red" style="letter-spacing: 0.6px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+                @endif
+            </p>
             <p>{!! nl2br(e($job->description)) !!}</p>
             @if ($job->document)
                 <p><a target="_blank" href="{{ Storage::disk('local')->url($job->document) }}">View job description</a></p>
