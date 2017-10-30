@@ -112,7 +112,6 @@ class JobController extends Controller
                 $code = null,
                 $icon = "error"
             ));
-            // TODO what?
             return back()->withInput();
         }
 
@@ -125,6 +124,8 @@ class JobController extends Controller
             'job_type' => request('job_type'),
             'city' => request('city'),
             'state' => request('state'),
+            'rank' => request('rank') ?: 0,
+            'featured' => request('featured') ? true : false,
             'image_url' => $job_image,
             'document' => $d ?: null,
         ]);
@@ -416,6 +417,8 @@ class JobController extends Controller
     public function update(UpdateJob $request, $id)
     {
         $job = Job::find($id);
+        $rank = request('rank') ?: $job->rank;
+
         $job->title = request('title');
         $job->featured = request('featured') ? true : false;
         if ($job->featured) {
@@ -429,6 +432,17 @@ class JobController extends Controller
         $job->job_type = request('job_type');
         $job->city = request('city');
         $job->state = request('state');
+        $job->featured = request('featured') ? true : false;
+        // Set rank if newly featured
+        if ($job->featured && $rank == 0) {
+            $rank = 1;
+            $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+            if ($last_job) {
+                $rank = $last_job->rank+1;
+            }
+        }
+        $job->rank = $rank;
+
         if (request('document')) {
             $doc = request()->file('document');
             $job->document = $doc->store('document', 'public');

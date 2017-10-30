@@ -11,7 +11,7 @@
                 <div class="col s12 center-align">
                     <div class="file-field input-field very-small">
                         <div class="btn white black-text">
-                            <span>Edit</span>
+                            <span>Edit<span class="hide-on-small-only"> Headshot</span></span>
                             <input type="file" name="headshot_url" value="{{ old('headshot_url') }}">
                         </div>
                         <div class="file-path-wrapper">
@@ -43,7 +43,7 @@
                 <div class="col s12 m8">
                     <div class="file-field input-field">
                         <div class="btn white black-text">
-                            <span>Upload</span>
+                            <span>Upload<span class="hide-on-small-only"> Resume</span></span>
                             <input type="file" name="resume_url" value="{{ old('resume_url') }}">
                         </div>
                         <div class="file-path-wrapper">

@@ -28,7 +28,7 @@
                         <p style="margin: 0 0 6px 0;"><i class="fa fa-map-pin icon-left" aria-hidden="true"></i>{{ $job->city }}, {{ $job->state }}</p>
                         <p class="small tags">
                             @if ($job->isNew())
-                                <span class="label blue white-text" style="letter-spacing: 0.6px;"><b><i class="fa fa-certificate icon-left" aria-hidden="true"></i>NEW</b></span>
+                                <span class="label blue white-text" style="letter-spacing: 0.6px;"><b>NEW</b></span>
                             @endif
                         </p>
                     </div>
