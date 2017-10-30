@@ -222,6 +222,41 @@ if (!SBS) {
         'button.show-hide'
     );
 
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var form = $(this).parents('form');
+                form.submit();
+            }
+        },
+        '.submit-on-change'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                console.log(e);
+
+                var inputId = $(this).attr('input-id');
+                if (!inputId) {
+                    return;
+                }
+                var value = $(this).attr('value');
+                if (!value) {
+                    return;
+                }
+                var input = $('#'+inputId);
+                if (!input) {
+                    return;
+                }
+
+                input.val(value);
+                input.change();
+            }
+        },
+        'button.input-control'
+    );
+
     $(window).on("beforeunload", function (e, ui) {
         if (Form.unsaved) {
             return "You have unsaved changes. Do you still want to leave?";

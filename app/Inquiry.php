@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Inquiry extends Model
 {
@@ -21,5 +22,47 @@ class Inquiry extends Model
     public function job()
     {
         return $this->belongsTo(Job::class);
+    }
+
+    public static function filter($job_id, Request $request)
+    {
+        $inquiries = Inquiry::where('job_id', $job_id);
+
+        $rating = request('rating');
+        switch ($rating) {
+            case "up":
+                $inquiries->where('rating', '>', '0');
+                break;
+            case "maybe":
+                $inquiries->where('rating', '0');
+                break;
+            case "down":
+                $inquiries->where('rating', '<', '0');
+                break;
+            case "none":
+                $inquiries->whereNull('rating');
+                break;
+            default:
+                break;
+        }
+
+        $sort = request('sort');
+        switch ($sort) {
+            case "alpha":
+                $inquiries->orderBy('name', 'asc');
+                break;
+            case "alpha-reverse":
+                $inquiries->orderBy('name', 'desc');
+                break;
+            case "rating":
+                $inquiries->orderBy('rating', 'desc');
+                break;
+            case "recent":
+            default:
+                $inquiries->orderBy('created_at', 'desc');
+                break;
+        }
+
+        return $inquiries;
     }
 }
