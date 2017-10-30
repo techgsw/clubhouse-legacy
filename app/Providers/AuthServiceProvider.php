@@ -98,5 +98,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-inquiry', function ($user) {
             return $user->hasAccess('inquiry_create');
         });
+        Gate::define('edit-inquiry', function ($user) {
+            return $user->hasAccess('inquiry_edit');
+        });
     }
 }

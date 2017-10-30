@@ -89,4 +89,58 @@ class InquiryController extends Controller
 
         return redirect()->action('JobController@show', [$job]);
     }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rateUp($id)
+    {
+        $inquiry = Inquiry::find($id);
+        if (!$inquiry) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
+        }
+        $this->authorize('edit-inquiry');
+
+        $inquiry->rating = 1;
+        $inquiry->save();
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rateMaybe($id)
+    {
+        $inquiry = Inquiry::find($id);
+        if (!$inquiry) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
+        }
+        $this->authorize('edit-inquiry');
+
+        $inquiry->rating = 0;
+        $inquiry->save();
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rateDown($id)
+    {
+        $inquiry = Inquiry::find($id);
+        if (!$inquiry) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
+        }
+        $this->authorize('edit-inquiry');
+
+        $inquiry->rating = -1;
+        $inquiry->save();
+
+        return back();
+    }
 }
