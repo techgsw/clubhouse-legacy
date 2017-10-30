@@ -54,9 +54,6 @@
             @endcan
         </div>
     </div>
-    @if (count($inquiries) > 0)
-        @include('components.inquiry-list', ['inquiries' => $inquiries])
-    @endif
     <div class="row">
         <div class="col s12 m9 offset-m3 job-inquire">
             @can ('create-inquiry', $job)
@@ -72,5 +69,8 @@
             @endcan
         </div>
     </div>
+    @if (count($inquiries) > 0)
+        @include('components.inquiry-list', ['inquiries' => $inquiries])
+    @endif
 </div>
 @endsection
