@@ -340,10 +340,10 @@ p i.material-icons {
     line-height: inherit;
 }
 .icon-left {
-    padding-right: 10px;
+    padding-right: 8px;
 }
 .icon-right {
-    padding-left: 10px;
+    padding-left: 8px;
 }
 .small {
     font-size: 0.8em;
@@ -369,7 +369,10 @@ p i.material-icons {
 .large-text {
     font-size: 115%;
 }
-
+button.text {
+    background: none;
+    border: none;
+}
 span.label {
     background: #EFEFEF;
     padding: 6px 12px;
@@ -424,6 +427,27 @@ a.no-underline {
 }
 a:hover.no-underline {
     border: none;
+}
+
+.flat-button {
+    background: none !important;
+    border: 2px solid #EEE;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 15px;
+}
+.flat-button:hover {
+    text-decoration: none;
+    border-bottom: 2px solid;
+    background: #EEE !important;
+}
+.flat-button.small {
+    font-size: 12px;
+    padding: 3px 5px;
+}
+.flat-button.blue {
+    border-color: #2196F3;
+    color: #2196F3;
 }
 
 main a.btn,
@@ -628,7 +652,22 @@ div.arrow.down {
  * Job board
  */
 
-.row.job-index {}
+.row.job-index {
+    padding: 16px 0;
+    margin: 0;
+    border-bottom: 1px solid #FAFAFA;
+    border-left: 3px solid transparent;
+}
+.row.job-index:hover {
+    border-left: 3px solid #F0F0F0;
+    border-bottom: 1px solid #F0F0F0;
+}
+.row.job-index.featured-job {
+    border-left: 3px solid #EB2935;
+}
+.row.job-index.featured-job:hover {
+    border-left: 3px solid #EB2935;
+}
 .row.job-index img.thumb {
     max-width: 100px;
     max-height: 100px;
