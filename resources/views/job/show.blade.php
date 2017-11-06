@@ -76,13 +76,15 @@
     </div>
     <div class="row">
         <div class="col s12 m9 offset-m3 job-inquire">
-            <h5>Applications</h5>
+            <a name="applications">
+                <h5>Applications</h5>
+            </a>
         </div>
     </div>
     @can ('edit-inquiry')
         <div class="row">
             <div class="col s12 m9 offset-m3">
-                <form method="get">
+                <form method="get" action="/job/{{ $job->id }}#applications">
                     <select class="hidden submit-on-change" name="rating" id="rating">
                         <option value="all" {{ (!request('rating') || request('rating') == 'all') ? "selected" : "" }}>All</option>
                         <option value="up" {{ request('rating') == 'up' ? "selected" : "" }}>Up</option>
@@ -115,5 +117,13 @@
     @if (count($inquiries) > 0)
         @include('components.inquiry-list', ['inquiries' => $inquiries])
     @endif
+</div>
+<div id="pdf-view-modal" class="modal modal-large modal-fixed-footer">
+    <div class="modal-content">
+        <iframe class="pdf-frame" src="" width="100%" height="100%" style="border: none;"></iframe>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close btn btn-flat">Done</a>
+    </div>
 </div>
 @endsection

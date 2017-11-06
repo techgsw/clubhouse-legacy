@@ -650,6 +650,13 @@ div.arrow.down {
     background-color: #898989;
 }
 
+.modal.modal-large {
+    width: 70% !important;
+    height: 90% !important;
+    max-height: 100%;
+    top: 5% !important;
+}
+
 /**
  * Specific styles
  * - Question

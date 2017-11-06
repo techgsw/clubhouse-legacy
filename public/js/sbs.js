@@ -71,6 +71,30 @@ if (!SBS) {
         }
     }
 
+    SBS.Inquiry = {};
+    SBS.Inquiry.rate = function (id, rating) {
+        var action = '';
+        // Normalize rating to -1, 0, or 1
+        rating = (rating > 0) ? 1 : (rating < 0) ? -1 : 0;
+        switch (rating) {
+            case 1:
+                action = 'rateUp';
+                break;
+            case 0:
+                action = 'rateMaybe';
+                break;
+            case -1:
+                action = 'rateMaybe';
+                break;
+        }
+        $.ajax({
+            method: "POST",
+            url: "/inquiry/"+id+"/",
+            data: "",
+
+        })
+    }
+
     Form.toggleGroup = function (group) {
         var inputs = group.find('input');
         inputs.each(function(i, input) {
@@ -255,6 +279,41 @@ if (!SBS) {
             }
         },
         'button.input-control'
+    );
+
+    /**
+     * PDF viewer modal.
+     *
+     * Trigger element:
+     * <a class="modal-trigger pdf-modal-trigger" href="#pdf-view-modal" pdf-src="{{ ... }}">View</a>
+     *
+     * Modal element:
+     * <div id="pdf-view-modal" class="modal modal-large modal-fixed-footer">
+     *   ...
+     *     <iframe class="pdf-frame" src="" width="100%"></iframe>
+     */
+    $('body').on(
+        {
+            click: function (e, ui) {
+                e.preventDefault();
+
+                var href = $(this).attr('href');
+                var pdf_src = $(this).attr('pdf-src');
+                if (!href || !pdf_src) {
+                    return;
+                }
+
+                var modal = $(href);
+                var frame = modal.find('iframe.pdf-frame');
+                if (!modal || !frame) {
+                    return;
+                }
+
+                frame.attr('src', pdf_src);
+                modal.modal();
+            }
+        },
+        'a.modal-trigger.pdf-modal-trigger'
     );
 
     $(window).on("beforeunload", function (e, ui) {
