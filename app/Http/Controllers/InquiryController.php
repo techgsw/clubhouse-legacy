@@ -9,6 +9,7 @@ use App\Message;
 use App\User;
 use App\Http\Requests\StoreJob;
 use App\Mail\BobAlert;
+use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,6 +106,12 @@ class InquiryController extends Controller
         $inquiry->rating = 1;
         $inquiry->save();
 
+        try {
+            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'up'));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
+
         return response()->json([
             'type' => 'success',
             'inquiry_id' => $id,
@@ -127,6 +134,12 @@ class InquiryController extends Controller
         $inquiry->rating = 0;
         $inquiry->save();
 
+        try {
+            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'maybe'));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
+
         return response()->json([
             'type' => 'success',
             'inquiry_id' => $id,
@@ -148,6 +161,12 @@ class InquiryController extends Controller
 
         $inquiry->rating = -1;
         $inquiry->save();
+
+        try {
+            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'down'));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
 
         return response()->json([
             'type' => 'success',
