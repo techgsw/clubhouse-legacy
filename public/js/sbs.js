@@ -78,22 +78,64 @@ if (!SBS) {
         rating = (rating > 0) ? 1 : (rating < 0) ? -1 : 0;
         switch (rating) {
             case 1:
-                action = 'rateUp';
+                action = 'rate-up';
                 break;
             case 0:
-                action = 'rateMaybe';
+                action = 'rate-maybe';
                 break;
             case -1:
-                action = 'rateMaybe';
+                action = 'rate-down';
                 break;
         }
-        $.ajax({
-            method: "POST",
-            url: "/inquiry/"+id+"/",
-            data: "",
-
-        })
+        // POST and return deferred object
+        return $.ajax({
+            method: "GET",
+            url: "/inquiry/"+id+"/"+action,
+            data: {}
+        });
     }
+
+    // Rate an inquiry upon clicking a rating button
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var id = parseInt($(this).attr('inquiry-id'));
+                var rating = parseInt($(this).attr('rating'));
+
+                if (!id) {
+                    console.error('Inquiry.rate: ID and rating are required');
+                    return;
+                }
+
+                // The clicked rating button
+                var btn = $(this);
+                // All rating buttons, including the clicked one
+                var rating_btns = $(this).parent().find('button[action="inquiry-rate"]');
+                // Switch all buttons to gray to indicate a pending action
+                rating_btns.each(function (i, b) {
+                    $(b).removeClass('blue');
+                    $(b).addClass('gray');
+                });
+
+                SBS.Inquiry.rate(id, rating).done(function (resp) {
+                    if (resp.type != 'success') {
+                        console.error('An error occurred trying to rate inquiry '+id);
+                        return;
+                    }
+                    // Deactivate the selection class for all buttons. Return
+                    // all buttons to blue now that the app has responded.
+                    rating_btns.each(function (i, b) {
+                        $(b).removeClass('gray');
+                        $(b).addClass('blue');
+                        $(b).removeClass('inverse');
+                    });
+                    // Activate the selection class for the clicked button only
+                    btn.addClass('inverse');
+                });
+            }
+        },
+        'button[action="inquiry-rate"]'
+    );
 
     Form.toggleGroup = function (group) {
         var inputs = group.find('input');

@@ -472,6 +472,15 @@ a:hover.no-underline {
     background-color: #EB2935 !important;
     color: #FFFFFF;
 }
+.flat-button.gray {
+    border-color: #AAAAAA;
+    color: #AAAAAA;
+}
+.flat-button.gray.inverse {
+    border-color: #AAAAAA;
+    background-color: #AAAAAA !important;
+    color: #FFFFFF;
+}
 
 main a.btn,
 main a.btn:hover,

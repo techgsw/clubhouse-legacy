@@ -105,7 +105,11 @@ class InquiryController extends Controller
         $inquiry->rating = 1;
         $inquiry->save();
 
-        return back();
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $id,
+            'rating' => 1
+        ]);
     }
 
     /**
@@ -123,7 +127,11 @@ class InquiryController extends Controller
         $inquiry->rating = 0;
         $inquiry->save();
 
-        return back();
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $id,
+            'rating' => 0
+        ]);
     }
 
     /**
@@ -141,6 +149,10 @@ class InquiryController extends Controller
         $inquiry->rating = -1;
         $inquiry->save();
 
-        return back();
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $id,
+            'rating' => -1
+        ]);
     }
 }

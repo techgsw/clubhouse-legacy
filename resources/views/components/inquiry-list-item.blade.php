@@ -17,9 +17,9 @@
             </p>
             @can ('edit-inquiry', $inquiry)
                 <p>
-                    <button href="/inquiry/{{ $inquiry->id }}/rate-up" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
-                    <button href="/inquiry/{{ $inquiry->id }}/rate-maybe" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
-                    <button href="/inquiry/{{ $inquiry->id }}/rate-down" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
+                    <button action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
+                    <button action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
+                    <button action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
                     @if (!is_null($inquiry->rating))
                         <span class="small spaced">{{ $inquiry->updated_at->format('F j, Y') }}</span>
                     @endif
