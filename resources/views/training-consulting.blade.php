@@ -110,7 +110,7 @@
                                 <p>Bob Hamer spent three days laying a strong foundation of B2B sales with our Inside Sales Team.  Working with a group that had not made a B2B Call to date, Bob coached them to get out of their comfort zone, and broke down the barriers of the B2B sales process. From the initial call, to the signed contract, Bob laid out a strategic game plan for success.  Our goal for training was to ensure that our reps left more comfortable and more skilled selling in a corporate setting. Mission accomplished.</p>
                                 <p class="heavy">
                                     Joe Schiavi<br/>
-                                    Director of Inside Sales<br/>
+                                    Director – Sales<br/>
                                     Detroit Pistons
                                 </p>
                             </div>

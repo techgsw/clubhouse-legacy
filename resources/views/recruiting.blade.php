@@ -18,23 +18,6 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/los-angeles-clippers.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>Sports Business Solutions armed us with the necessary material and feedback needed to make an informed decision on potential job candidates. They were very thorough and detailed dissecting the strengths and weaknesses of each candidate.  We endorse their selection process and services with complete confidence.</p>
-                                <p class="heavy">
-                                    Urel Martinez<br/>
-                                    Director of Sales<br/>
-                                    Los Angeles Clippers<br/>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
                             <img class="logo" src="/images/testimonials/jacksonville-armada.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
@@ -78,23 +61,6 @@
                                     Mike Behan<br/>
                                     Vice President<br/>
                                     Legends Global Sales
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/miami-dolphins.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We recently used Sports Business Solutions to run an Inside Sales recruiting event for us. Not only did they run a seamless event, they helped us hire five future Inside Sales stars. We look forward to working with them again in the future.</p>
-                                <p class="heavy">
-                                    Nick Forro<br/>
-                                    Vice President of Sales &amp; Service<br/>
-                                    Miami Dolphins
                                 </p>
                             </div>
                         </div>
