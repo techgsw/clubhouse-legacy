@@ -59,80 +59,11 @@
             @endcan
         </div>
     </div>
-    @if (count($inquiries) > 0)
-        <div class="row" style="margin-bottom: 0;">
-            @foreach ($inquiries as $inquiry)
-                <div class="col s12 m9 offset-m3 job-inquiry">
-                    <div class="row">
-                        <div class="col s3 center-align">
-                            @if ($inquiry->user->profile->headshot_url)
-                                <img src={{ Storage::disk('local')->url($inquiry->user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px;" />
-                            @else
-                                <i class="material-icons large">person</i>
-                            @endif
-                        </div>
-                        <div class="col s9">
-                            <p><a href="/user/{{ $inquiry->user->id }}/profile">{{ $inquiry->name}}</a></p>
-                            <p class="small">applied on {{ $inquiry->created_at->format('F j, Y') }}</p>
-                            <p class="hide-on-small-only"><a href="{{ Storage::disk('local')->url($inquiry->resume) }}">Résumé</a> | <a href="mailto:{{ $inquiry->email}}">{{ $inquiry->email}}</a> | @component('components.phone', [ 'phone'=> $inquiry->phone ]) @endcomponent</p>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-            @if ($inquiries->total() > 8)
-                <div class="row">
-                    <div class="col s12 center-align">
-                        {{ $inquiries->links('components.pagination') }}
-                    </div>
-                </div>
-            @endif
-        </div>
-    @endif
     <div class="row">
         <div class="col s12 m9 offset-m3 job-inquire">
             @can ('create-inquiry', $job)
                 @if ($profile_complete)
-                    <form method="POST" action="/job/{{ $job->id }}/inquire" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="name" value="{{ Auth::user()->getName() }}" />
-                        <input type="hidden" name="email" value="{{ Auth::user()->email }}" />
-                        <input type="hidden" name="phone" value="{{ Auth::user()->profile->phone }}" />
-                        <h5>Apply for this job</h5>
-                        <div class="row">
-                            <div class="col s4 m3 center-align">
-                                @if (Auth::user()->profile->headshot_url)
-                                    <img src={{ Storage::disk('local')->url(Auth::user()->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px;" />
-                                @else
-                                    <i class="material-icons large">person</i>
-                                @endif
-                            </div>
-                            <div class="col s8 m9">
-                                <div style="margin-top: 16px;"></div>
-                                <p style="margin: 6px 0;">{{ Auth::user()->getName() }}</p>
-                                <p style="margin: 6px 0;">{{ Auth::user()->email }}</p>
-                                <p style="margin: 6px 0;">@component('components.phone', [ 'phone'=> Auth::user()->profile->phone ]) @endcomponent</p>
-                                <div>
-                                    <input type="checkbox" name="use_profile_resume" id="use_profile_resume" value="1" checked />
-                                    <label for="use_profile_resume">Use résumé from profile <a href="{{ Storage::disk('local')->url(Auth::user()->profile->resume_url) }}" target="_blank"><i class="tiny material-icons">open_in_new</i></a></label>
-                                </div>
-                                <div id="upload-resume" class="file-field input-field hidden">
-                                    <div class="btn white black-text">
-                                        <span>Upload Resume</span>
-                                        <input type="file" name="resume" value="{{ old('resume') }}">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text" name="resume_text" value="{{ old('resume_text') }}">
-                                    </div>
-                                </div>
-                                <div class="input-field">
-                                    <button class="btn sbs-red" type="submit" name="button">Apply</button>
-                                </div>
-                                <div class="input-field">
-                                    <p class="small italic">Update this information&mdash;including your default résumé&mdash;by visiting <a href="/user/{{ Auth::user()->id }}/edit-profile">your profile</a>.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    @include('forms.job-inquiry')
                 @else
                     <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red">Complete your profile to apply</a>
                 @endif
@@ -142,6 +73,57 @@
                 </div>
             @endcan
         </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m9 offset-m3 job-inquire">
+            <a name="applications">
+                <h5>Applications</h5>
+            </a>
+        </div>
+    </div>
+    @can ('edit-inquiry')
+        <div class="row">
+            <div class="col s12 m9 offset-m3">
+                <form method="get" action="/job/{{ $job->id }}#applications">
+                    <select class="hidden submit-on-change" name="rating" id="rating">
+                        <option value="all" {{ (!request('rating') || request('rating') == 'all') ? "selected" : "" }}>All</option>
+                        <option value="up" {{ request('rating') == 'up' ? "selected" : "" }}>Up</option>
+                        <option value="maybe" {{ request('rating') == 'maybe' ? "selected" : "" }}>Maybe</option>
+                        <option value="down" {{ request('rating') == 'down' ? "selected" : "" }}>Down</option>
+                        <option value="none" {{ request('rating') == 'none' ? "selected" : "" }}>None</option>
+                    </select>
+                    <div class="row">
+                        <div class="col s6 m4 input-field">
+                            <button type="button" class="flat-button {{ (!request('rating') || request('rating') == 'all') ? "inverse" : "" }} input-control" input-id="rating" value="all"><i class="fa fa-times"></i></button>
+                            <button type="button" class="flat-button {{ request('rating') == 'none' ? "inverse" : "" }} input-control" input-id="rating" value="none"><i class="fa fa-circle-thin"></i></button>
+                            <button type="button" class="flat-button {{ request('rating') == 'up' ? "inverse" : "" }} input-control" input-id="rating" value="up"><i class="fa fa-thumbs-up"></i></button>
+                            <button type="button" class="flat-button {{ request('rating') == 'maybe' ? "inverse" : "" }} input-control" input-id="rating" value="maybe"><i class="fa fa-question-circle"></i></button>
+                            <button type="button" class="flat-button {{ request('rating') == 'down' ? "inverse" : "" }} input-control" input-id="rating" value="down"><i class="fa fa-thumbs-down"></i></button>
+                        </div>
+                        <div class="col s6 m8 input-field center-align">
+                            <select class="submit-on-change" name="sort">
+                                <option value="recent" {{ (!request('sort') || request('sort') == 'recent') ? "selected" : "" }}>Most recent</option>
+                                <option value="rating" {{ request('sort') == 'rating' ? "selected" : "" }}>Best rating</option>
+                                <option value="alpha" {{ request('sort') == 'alpha' ? "selected" : "" }}>Alphabetical (A-Z)</option>
+                                <option value="alpha-reverse" {{ request('sort') == 'alpha-reverse' ? "selected" : "" }}>Alphabetical (Z-A)</option>
+                            </select>
+                            <label for="sort">Sort</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endcan
+    @if (count($inquiries) > 0)
+        @include('components.inquiry-list', ['inquiries' => $inquiries])
+    @endif
+</div>
+<div id="pdf-view-modal" class="modal modal-large modal-fixed-footer">
+    <div class="modal-content">
+        <iframe class="pdf-frame" src="" width="100%" height="100%" style="border: none;"></iframe>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close btn btn-flat">Done</a>
     </div>
 </div>
 @endsection

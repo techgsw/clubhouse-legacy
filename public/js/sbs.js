@@ -71,6 +71,72 @@ if (!SBS) {
         }
     }
 
+    SBS.Inquiry = {};
+    SBS.Inquiry.rate = function (id, rating) {
+        var action = '';
+        // Normalize rating to -1, 0, or 1
+        rating = (rating > 0) ? 1 : (rating < 0) ? -1 : 0;
+        switch (rating) {
+            case 1:
+                action = 'rate-up';
+                break;
+            case 0:
+                action = 'rate-maybe';
+                break;
+            case -1:
+                action = 'rate-down';
+                break;
+        }
+        // POST and return deferred object
+        return $.ajax({
+            method: "GET",
+            url: "/inquiry/"+id+"/"+action,
+            data: {}
+        });
+    }
+
+    // Rate an inquiry upon clicking a rating button
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var id = parseInt($(this).attr('inquiry-id'));
+                var rating = parseInt($(this).attr('rating'));
+
+                if (!id) {
+                    console.error('Inquiry.rate: ID and rating are required');
+                    return;
+                }
+
+                // The clicked rating button
+                var btn = $(this);
+                // All rating buttons, including the clicked one
+                var rating_btns = $(this).parent().find('button[action="inquiry-rate"]');
+                // Switch all buttons to gray to indicate a pending action
+                rating_btns.each(function (i, b) {
+                    $(b).removeClass('blue');
+                    $(b).addClass('gray');
+                });
+
+                SBS.Inquiry.rate(id, rating).done(function (resp) {
+                    if (resp.type != 'success') {
+                        console.error('An error occurred trying to rate inquiry '+id);
+                        return;
+                    }
+                    // Deactivate the selection class for all buttons. Return
+                    // all buttons to blue now that the app has responded.
+                    rating_btns.each(function (i, b) {
+                        $(b).removeClass('gray');
+                        $(b).addClass('blue');
+                        $(b).removeClass('inverse');
+                    });
+                    // Activate the selection class for the clicked button only
+                    btn.addClass('inverse');
+                });
+            }
+        },
+        'button[action="inquiry-rate"]'
+    );
+
     Form.toggleGroup = function (group) {
         var inputs = group.find('input');
         inputs.each(function(i, input) {
@@ -220,6 +286,76 @@ if (!SBS) {
             }
         },
         'button.show-hide'
+    );
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var form = $(this).parents('form');
+                form.submit();
+            }
+        },
+        '.submit-on-change'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                console.log(e);
+
+                var inputId = $(this).attr('input-id');
+                if (!inputId) {
+                    return;
+                }
+                var value = $(this).attr('value');
+                if (!value) {
+                    return;
+                }
+                var input = $('#'+inputId);
+                if (!input) {
+                    return;
+                }
+
+                input.val(value);
+                input.change();
+            }
+        },
+        'button.input-control'
+    );
+
+    /**
+     * PDF viewer modal.
+     *
+     * Trigger element:
+     * <a class="modal-trigger pdf-modal-trigger" href="#pdf-view-modal" pdf-src="{{ ... }}">View</a>
+     *
+     * Modal element:
+     * <div id="pdf-view-modal" class="modal modal-large modal-fixed-footer">
+     *   ...
+     *     <iframe class="pdf-frame" src="" width="100%"></iframe>
+     */
+    $('body').on(
+        {
+            click: function (e, ui) {
+                e.preventDefault();
+
+                var href = $(this).attr('href');
+                var pdf_src = $(this).attr('pdf-src');
+                if (!href || !pdf_src) {
+                    return;
+                }
+
+                var modal = $(href);
+                var frame = modal.find('iframe.pdf-frame');
+                if (!modal || !frame) {
+                    return;
+                }
+
+                frame.attr('src', pdf_src);
+                modal.modal();
+            }
+        },
+        'a.modal-trigger.pdf-modal-trigger'
     );
 
     $(window).on("beforeunload", function (e, ui) {

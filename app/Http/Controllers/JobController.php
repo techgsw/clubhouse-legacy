@@ -183,7 +183,7 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $job = Job::find($id);
         if (!$job) {
@@ -191,14 +191,13 @@ class JobController extends Controller
         }
 
         if (Gate::allows('view-admin-jobs')) {
-            $inquiries = Inquiry::where('job_id', $id)
-                ->orderBy('created_at', 'desc')
-                ->paginate(8);
+            $inquiries = Inquiry::filter($id, $request)
+                ->paginate(10);
         } elseif (Auth::check()) {
             $inquiries = Inquiry::where('job_id', $id)
                 ->where('user_id', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
-                ->paginate(8);
+                ->paginate(10);
         } else {
             $inquiries = [];
         }

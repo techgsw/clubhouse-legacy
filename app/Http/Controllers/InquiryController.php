@@ -9,6 +9,7 @@ use App\Message;
 use App\User;
 use App\Http\Requests\StoreJob;
 use App\Mail\BobAlert;
+use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -88,5 +89,89 @@ class InquiryController extends Controller
         ));
 
         return redirect()->action('JobController@show', [$job]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rateUp($id)
+    {
+        $inquiry = Inquiry::find($id);
+        if (!$inquiry) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
+        }
+        $this->authorize('edit-inquiry');
+
+        $inquiry->rating = 1;
+        $inquiry->save();
+
+        try {
+            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'up'));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $id,
+            'rating' => 1
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rateMaybe($id)
+    {
+        $inquiry = Inquiry::find($id);
+        if (!$inquiry) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
+        }
+        $this->authorize('edit-inquiry');
+
+        $inquiry->rating = 0;
+        $inquiry->save();
+
+        try {
+            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'maybe'));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $id,
+            'rating' => 0
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rateDown($id)
+    {
+        $inquiry = Inquiry::find($id);
+        if (!$inquiry) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
+        }
+        $this->authorize('edit-inquiry');
+
+        $inquiry->rating = -1;
+        $inquiry->save();
+
+        try {
+            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'down'));
+        } catch (Exception $e) {
+            // TODO log exception
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $id,
+            'rating' => -1
+        ]);
     }
 }

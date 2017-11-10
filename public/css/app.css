@@ -43,7 +43,7 @@
 }
 
 .sbs-red {
-    background-color: #EB2935
+    background-color: #EB2935;
 }
 .sbs-red-text {
     color: #EB2935;
@@ -431,14 +431,23 @@ a:hover.no-underline {
 
 .flat-button {
     background: none !important;
-    border: 2px solid #EEE;
+    border: 2px solid #555;
+    color: #555;
     border-radius: 4px;
     padding: 6px 10px;
     font-size: 15px;
 }
+.flat-button.inverse {
+    border-color: #555;
+    background-color: #555 !important;
+    color: #FFFFFF;
+}
+.flat-button.inverse:hover {
+    background-color: #555 !important;
+}
 .flat-button:hover {
     text-decoration: none;
-    border-bottom: 2px solid;
+    border-bottom: 2px solid #555;
     background: #EEE !important;
 }
 .flat-button.small {
@@ -448,6 +457,29 @@ a:hover.no-underline {
 .flat-button.blue {
     border-color: #2196F3;
     color: #2196F3;
+}
+.flat-button.blue.inverse {
+    border-color: #2196F3;
+    background-color: #2196F3 !important;
+    color: #FFFFFF;
+}
+.flat-button.red {
+    border-color: #EB2935;
+    color: #EB2935;
+}
+.flat-button.red.inverse {
+    border-color: #EB2935;
+    background-color: #EB2935 !important;
+    color: #FFFFFF;
+}
+.flat-button.gray {
+    border-color: #AAAAAA;
+    color: #AAAAAA;
+}
+.flat-button.gray.inverse {
+    border-color: #AAAAAA;
+    background-color: #AAAAAA !important;
+    color: #FFFFFF;
 }
 
 main a.btn,
@@ -627,6 +659,13 @@ div.arrow.down {
     background-color: #898989;
 }
 
+.modal.modal-large {
+    width: 70% !important;
+    height: 90% !important;
+    max-height: 100%;
+    top: 5% !important;
+}
+
 /**
  * Specific styles
  * - Question
@@ -710,7 +749,7 @@ div.arrow.down {
 }
 
 .row .col.job-inquiry {
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
     padding-top: 10px;
     padding-bottom: 10px;
 }
