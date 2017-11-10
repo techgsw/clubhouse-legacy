@@ -2,6 +2,11 @@
 @section('title', 'Contact')
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col s12">
+            @include('layouts.components.messages')
+        </div>
+    </div>
     <form action="/contact" method="post">
         {{ csrf_field() }}
         <h3 class="header">Contact us</h3>
@@ -45,6 +50,11 @@
             <div class="input-field col s12">
                 <textarea id="body" class="materialize-textarea {{ $errors->has('body') ? 'invalid' : '' }}" name="body" required></textarea>
                 <label for="body">Body</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
             </div>
         </div>
         <div class="row" style="margin-bottom: 30px">
