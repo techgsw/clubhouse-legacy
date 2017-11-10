@@ -11,23 +11,12 @@ class JobController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $jobs = Job::filter($request)->orderBy('created_at', 'desc');
-        $count = $jobs->count();
-        $jobs = $jobs->paginate(15);
-
-        $searching =
-            request('job_type') && request('job_type') != 'all' ||
-            request('league') && request('league') != 'all' ||
-            request('state') && request('state') != 'all' ||
-            request('status') && request('status') != 'all' ||
-            request('organization');
+        $jobs = Job::orderBy('id', 'desc')->paginate(10);
 
         return view('admin/job', [
-            'jobs' => $jobs,
-            'count' => $count,
-            'searching' => $searching
+            'jobs' => $jobs
         ]);
     }
 }
