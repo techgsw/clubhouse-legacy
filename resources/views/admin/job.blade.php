@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col s12 input-field" style="display: flex; flex-flow: row;">
             <a href="/job/create" class="btn sbs-red" style="flex: 0 0 auto;">List a job</a>
-            <span style="flex: 1 0 auto; margin-left: 16px; text-align: center; vertical-align: bottom; display: inline-block; height: 36px; border-radius: 2px; background: #EFEFEF;line-height: 36px; padding: 0 2rem;">N jobs</span>
+            <span style="text-transform: uppercase; flex: 1 0 auto; margin-left: 16px; text-align: center; vertical-align: bottom; display: inline-block; height: 36px; border-radius: 2px; background: #EFEFEF;line-height: 36px; padding: 0 2rem;"><b>{{ $count }}</b> jobs{{ $searching ? " match search" : " total" }}</span>
         </div>
     </div>
 @endcan
