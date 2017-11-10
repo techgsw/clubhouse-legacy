@@ -124,7 +124,7 @@
                                 <p>When I decided to pursue a job in sports, one of my very first calls was to Bob. He’s a great friend -- as generous with his expertise and rolodex as he is with his time – and he is always willing to provide valuable guidance and insight. Aspiring sports leaders are incredibly lucky to have Bob as a resource in their corner.</p>
                                 <p class="heavy">
                                     Colin Twomey<br/>
-                                    Sr. Director – Business Strategy &amp; Analytics<br/>
+                                    Vice President – Product Development &amp; Analytics<br/>
                                     Sacramento Kings
                                 </p>
                             </div>
@@ -141,7 +141,7 @@
                                 <p>Bob Hamer is a great mentor of mine and someone I hold in the highest regard. An expert in Ticket Sales, Bob has a strong work ethic for driving revenue while helping grow the careers of those around him. Bob’s management experience includes overseeing group, season ticket, and premium sales teams that exceeded sales goals regardless of team performance. His passion for growing careers coupled with his overall professionalism and vast network throughout the sports industry make him stand out amongst his peers. I was fortunate enough to work for Bob for two years with the Phoenix Suns and am privileged to call him a close friend.</p>
                                 <p class="heavy">
                                     Dave Baldwin<br/>
-                                    Sr. Director – Business Development &amp; Premium Sales<br/>
+                                    Vice President – Ticket Sales &amp; Service<br/>
                                     Miami Dolphins
                                 </p>
                             </div>

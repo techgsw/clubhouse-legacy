@@ -12,3 +12,4 @@ Homestead.yaml
 *.swp
 /.vagrant
 /logs
+*.mp3
