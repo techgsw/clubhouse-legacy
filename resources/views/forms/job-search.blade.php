@@ -1,8 +1,9 @@
 <form action="/job" method="get">
     <div class="row">
-        <div class="col s12 m3">
-            <div class="input-field">
-                <select name="job_type">
+        <div class="col s12 m7">
+            <div class="col s4 input-field">
+                <label class="active">Job Type</label>
+                <select name="job_type" class="browser-default">
                     <option value="all" {{ (!request('job_type') || request('job_type') == 'all') ? "selected" : "" }}>All</option>
                     <option value="ticket-sales" {{ request('job_type') == 'ticket-sales' ? "selected" : "ticket-sales" }}>Ticket Sales</option>
                     <option value="sponsorship-sales" {{ request('job_type') == 'sponsorship-sales' ? "selected" : "sponsorship-sales" }}>Sponsorship Sales</option>
@@ -15,12 +16,10 @@
                     <option value="it-technology" {{ request('job_type') == 'it-technology' ? "selected" : "it-technology" }}>IT and Technology</option>
                     <option value="administrative" {{ request('job_type') == 'administrative' ? "selected" : "administrative" }}>Administrative</option>
                 </select>
-                <label>Job Type</label>
             </div>
-        </div>
-        <div class="col s6 m3">
-            <div class="input-field">
-                <select name="league">
+            <div class="col s4 input-field">
+                <label class="active">League</label>
+                <select name="league" class="browser-default">
                     <option value="all" {{ (!request('league') || request('league') == 'all') ? "selected" : "" }}>All</option>
                     <option value="mlb" {{ request('league') == "mlb" ? "selected" : "" }}>MLB</option>
                     <option value="mls" {{ request('league') == "mls" ? "selected" : "" }}>MLS</option>
@@ -31,12 +30,10 @@
                     <option value="wnba" {{ request('league') == "wnba" ? "selected" : "" }}>WNBA</option>
                     <option value="other" {{ request('league') == "other" ? "selected" : "" }}>Other</option>
                 </select>
-                <label>League</label>
             </div>
-        </div>
-        <div class="col s6 m3">
-            <div class="input-field">
-                <select name="state">
+            <div class="col s4 input-field">
+                <label class="active">State</label>
+                <select id="state" name="state" class="browser-default">
                     <option value="" {{ request('state') == "" ? "selected" : "" }}>All</option>
                     <option disabled>U.S.A.</option>
                     <option value="AL" {{ request('state') == "AL" ? "selected" : "" }}>Alabama</option>
@@ -105,16 +102,15 @@
                     <option value="NU" {{ request('state') == "NU" ? 'selected' : '' }}>Nunavut</option>
                     <option value="YT" {{ request('state') == "YT" ? 'selected' : '' }}>Yukon</option>
                 </select>
-                <label for="state">State</label>
             </div>
         </div>
-        <div class="col s12 m3">
-            <div class="input-field">
+        <div class="col s12 m3 input-field">
+            <div class="">
                 <input type="text" name="organization" id="organization" value="{{ request('organization') }}">
                 <label for="organization">Organization</label>
             </div>
         </div>
-        <div class="col s12 input-field center-align">
+        <div class="col s12 m2 input-field center-align">
             <button type="submit" name="search" class="btn sbs-red" style="margin-bottom: 12px;">Search</button>
         </div>
     </div>

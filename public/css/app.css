@@ -605,6 +605,11 @@ textarea:focus,
     left: 24px;
 }
 
+/* Fix for labels being offset */
+select.browser-default {
+    margin-top: 4px;
+}
+
 /**
  * Alert
  */
@@ -702,10 +707,10 @@ div.arrow.down {
     border-bottom: 1px solid #F0F0F0;
 }
 .row.job-index.featured-job {
-    border-left: 3px solid #EB2935;
+    border-left: none;
 }
 .row.job-index.featured-job:hover {
-    border-left: 3px solid #EB2935;
+    border-left: none;
 }
 .row.job-index img.thumb {
     max-width: 100px;
