@@ -33,6 +33,28 @@ class Job extends Model
         return $this->created_at > $new;
     }
 
+    public function inquiryTotals()
+    {
+        $totals = [
+            'none' => 0,
+            'up' => 0,
+            'maybe' => 0,
+            'down' => 0
+        ];
+        foreach ($this->inquiries as $i) {
+            if ($i->rating === 1) {
+                $totals['up']++;
+            } else if ($i->rating === 0) {
+                $totals['maybe']++;
+            } else if ($i->rating === -1) {
+                $totals['no']++;
+            } else {
+                $totals['none']++;
+            }
+        }
+        return $totals;
+    }
+
     public function getURL()
     {
         return "/job/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->title))) . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->organization)));
