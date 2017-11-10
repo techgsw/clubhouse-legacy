@@ -4,14 +4,17 @@
 @section('content')
 @can ('create-job')
     <div class="row">
-        <div class="col s12 input-field">
-            <a href="/job/create" class="btn sbs-red">List a job</a>
+        <div class="col s12 input-field" style="display: flex; flex-flow: row;">
+            <a href="/job/create" class="btn sbs-red" style="flex: 0 0 auto;">List a job</a>
+            <span style="flex: 1 0 auto; margin-left: 16px; text-align: center; vertical-align: bottom; display: inline-block; height: 36px; border-radius: 2px; background: #EFEFEF;line-height: 36px; padding: 0 2rem;">N jobs</span>
         </div>
     </div>
 @endcan
+<div id="job-search-form">
+    @include('forms.admin-job-search')
+</div>
 <div class="row">
     <div class="col s12">
-        <h4>Jobs</h4>
         @if (count($jobs) > 0)
             @foreach ($jobs as $job)
                 <div class="row job-admin">
