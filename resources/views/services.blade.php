@@ -15,7 +15,7 @@
         <div class="center-align gray-bg red-hover" style="display: flex; flex-direction: column; justify-content: space-between; flex: 1 1 33%; padding: 20px 30px;">
             <div>
                 <h4>Training &amp; Consulting</h4>
-                <p>With 45+ sports sales teams and more than 700 sellers trained in the last three years we've quickly become a household name in the sports sales training and consulting space.</p>
+                <p>With 50+ sports sales teams and more than 600 sellers trained in the last three years we've quickly become a household name in the sports sales training and consulting space.</p>
             </div>
             <a href="/training-consulting" class="btn" style="margin-top: 30px;">Learn more</a>
         </div>

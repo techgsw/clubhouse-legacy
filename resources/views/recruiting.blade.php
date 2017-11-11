@@ -52,6 +52,40 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
+                            <img class="logo" src="/images/testimonials/dc-united.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>We partnered with Jason, Bob and SBS to help fill a spot on our premium sales team. Not only did they provide us with some excellent candidates, but they went above and beyond throughout the process - even to the point of helping our new team member's wife set up some interviews in the area! They were instrumental in helping us find the next superstar for our team.</p>
+                                <p class="heavy">
+                                    James A. Clark<br/>
+                                    Manager, Season & Premium Sales<br/>
+                                    DC United 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/testimonials/denver-nuggets.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>Sports Business Solutions provided us at the Denver Nuggets with several qualified candidates to choose from for our premium sales position.   Bob and Jason did a great job screening and getting us the candidates in a timely manner, and were very helpful in the communication process.  I recommend your team reaching out to Sports Business Solutions for any sales position that your team needs to fill.</p>
+                                <p class="heavy">
+                                    Kevin Duerr<br/>
+                                    Director of Ticket Sales<br/>
+                                    Denver Nuggets 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
                             <img class="logo" src="/images/testimonials/legends.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">

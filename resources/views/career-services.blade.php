@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="col s12 m9">
-            <p class="sbs-red-text">After completing your profile the information you provided will be kept on file so that you can be considered for future jobs in sports. You’ll also be subscribed to our sports business newsletter and you’ll receive an email complete with tips on how to get your desired job in sports.</p>
+            <p class="sbs-red-text">After completing your profile the information you provided will be kept on file so that you can be considered for future jobs in sports and we can keep you informed of new and exciting things happening in the world of sports business!</p>
         </div>
     </div>
     <div class="row">
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="col s12 m9">
-            <p class="sbs-red-text">Then, if you’re interested in taking the next steps and becoming a client, you can purchase one of our sports career services listed below. As a client, we will help you build a career plan, connect with hiring managers, prepare for interviews and land the job you want. Our services vary in price and involvement but we pride ourselves in having a solution for everyone. </p>
+            <p class="sbs-red-text">Then, if you’re interested in taking the next steps and becoming a client, you can purchase one of our career services listed below. As a client, we can help you build a career plan, connect with hiring managers, prepare for interviews and land the job you want.</p>
             <p class="sbs-red-text"><a href="#career-services">Become a client</a></p>
         </div>
     </div>
@@ -154,6 +154,22 @@
                             <p class="heavy">
                                 Michael Ciolek<br/>
                                 Miami Dolphins
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" href="#">
+                <div class="row">
+                    <div class="col s12 m4">
+                        <img class="logo" src="/images/testimonials/49ers.jpg" alt="">
+                    </div>
+                    <div class="col s12 m8 left-align">
+                        <div class="testimonial-content">
+                            <p>A good friend of mine introduced me to Bob and Sports Business Solutions and from there we hopped on a phone call. I told him what I was passionate about, why I wanted to do what I wanted to do, and he was so helpful in explaining to me what kind opportunities I should be looking for. Within a week, I received an email from the San Francisco 49ers saying they got my information from Bob and that they wanted me to apply to their Event Marketing Internship. After three rounds of interviews, I was offered the internship and I accepted it. The internship gave me every opportunity to do what I was passionate about; coaching and working with young kids while representing an NFL organization. I met so many great people and made so many amazing memories from this internship and I cannot thank Bob enough for his help. Without him, I don’t know where my career path would be at this point; he has helped me in ways I did not think anybody could.</p>
+                            <p class="heavy">
+                                Jason Sass<br/>
+                                San Francisco 49ers 
                             </p>
                         </div>
                     </div>
