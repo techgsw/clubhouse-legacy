@@ -41,7 +41,7 @@ class SendMigrationEmails extends Command
      */
     public function handle()
     {
-        $users = DB::table('user')->where('password', 'invalid-hash')->get();
+        $users = User::where('password', 'invalid-hash')->get();
         
         foreach ($users as $user) {
             try {
