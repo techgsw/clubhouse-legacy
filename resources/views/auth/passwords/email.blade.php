@@ -7,8 +7,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            @if (request()->query->get('migration') == 'true')
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p style="font-size: 14.5px; font-weight: normal;">{{ (request()->query->get('name') ? request()->query->get('name').', welcome' : 'Welcome') }} back to Sports Business Solutions!</p>
+                        <p>Please enter your email below so that we may send you a password reset link.</p>
+                    </div>
+                </div>
+            @endif
             <div class="panel panel-default">
+                @if (request()->query->get('migration') != 'true')
                 <div class="panel-heading">Reset Password</div>
+                @endif
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert card-panel green white-text">
