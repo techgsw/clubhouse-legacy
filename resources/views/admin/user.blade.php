@@ -34,7 +34,7 @@
                 <a href="/user/{{ $user->id }}">
                     <div class="row">
                         <div class="col s3 l2">
-                            @if (property_exists($user, 'profile'))
+                            @if (!is_null($user->profile))
                                 @if ($user->profile->headshot_url)
                                     <img src={{ Storage::disk('local')->url($user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%;" />
                                 @else
