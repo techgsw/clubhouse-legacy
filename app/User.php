@@ -176,7 +176,7 @@ class User extends Authenticatable
     {
         $users = User::where('id', '>', 0);
 
-        if ($term = request('term')) {
+        if ($term = $request->query->get('term')) {
             if (ctype_digit($term)) {
                 $term = (int)$term;
                 $users = $users->where('id', $term);
@@ -186,7 +186,7 @@ class User extends Authenticatable
             }
         }
 
-        if ($sort = request('sort')) {
+        if ($sort = $request->query->get('sort')) {
             switch ($sort) {
                 case 'id-desc':
                     $users = $users->orderBy('id', 'desc');
