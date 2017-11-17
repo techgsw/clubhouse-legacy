@@ -764,7 +764,9 @@ form#edit-job img {
 /**
  * Carousel
  */
-.carousel {}
+.carousel {
+    background-color: #F2F2F2
+}
 .carousel .carousel-item {
     background-color: #F2F2F2
 }
