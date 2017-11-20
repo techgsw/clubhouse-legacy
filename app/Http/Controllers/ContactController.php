@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Contact;
+use App\Message;
+use App\Traits\ReCaptchaTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
+    use ReCaptchaTrait;
+
     public function index(Request $request)
     {
         return view('contact.form', array('interest' => $request->interest));
@@ -16,6 +20,18 @@ class ContactController extends Controller
 
     public function send(Request $request)
     {
+        $recaptcha = $this->recaptchaCheck($request->all());
+
+        if (!request('g-recaptcha-response') || $recaptcha < 1) {
+            $request->session()->flash('message', new Message(
+                "Please confirm you are a human.",
+                "warning",
+                $code = null,
+                $icon = "warning"
+            ));
+            return back()->withInput();
+        }
+
         $to = 'bob@sportsbusiness.solutions';
         $request->interested_in = null;
         if (request('about')) {

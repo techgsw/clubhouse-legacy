@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 trait ReCaptchaTrait {
-
     // Docs:
     // https://developers.google.com/recaptcha/docs/verify
     public function recaptchaCheck($data)
@@ -42,5 +41,4 @@ trait ReCaptchaTrait {
 
         return $recaptcha->success ? 1 : 0;
     }
-
 }
