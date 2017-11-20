@@ -46,7 +46,7 @@ class Job extends Model
 
     public static function filter(Request $request)
     {
-        if (Auth::user()->can('create-job')) {
+        if (Auth::user() && Auth::user()->can('create-job')) {
             // Admins can filter by status
             $status = request('status');
             switch ($status) {
