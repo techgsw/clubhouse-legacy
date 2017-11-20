@@ -13,6 +13,8 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('create-job');
+
         $jobs = Job::filter($request)->orderBy('created_at', 'desc');
         $count = $jobs->count();
         $jobs = $jobs->paginate(15);

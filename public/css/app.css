@@ -472,6 +472,15 @@ a:hover.no-underline {
     background-color: #EB2935 !important;
     color: #FFFFFF;
 }
+.flat-button.green {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+.flat-button.green.inverse {
+    border-color: #4CAF50;
+    background-color: #4CAF50 !important;
+    color: #FFFFFF;
+}
 .flat-button.gray {
     border-color: #AAAAAA;
     color: #AAAAAA;
@@ -479,6 +488,15 @@ a:hover.no-underline {
 .flat-button.gray.inverse {
     border-color: #AAAAAA;
     background-color: #AAAAAA !important;
+    color: #FFFFFF;
+}
+.flat-button.black {
+    border-color: #303030;
+    color: #303030;
+}
+.flat-button.black.inverse {
+    border-color: #303030;
+    background-color: #303030 !important;
     color: #FFFFFF;
 }
 
