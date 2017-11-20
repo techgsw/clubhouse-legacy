@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Job extends Model
 {
@@ -45,7 +46,25 @@ class Job extends Model
 
     public static function filter(Request $request)
     {
-        $jobs = Job::where('open', true);
+        if (Auth::user() && Auth::user()->can('create-job')) {
+            // Admins can filter by status
+            $status = request('status');
+            switch ($status) {
+                case 'open':
+                    $jobs = Job::where('open', true);
+                    break;
+                case 'closed':
+                    $jobs = Job::where('open', false);
+                    break;
+                case 'all':
+                default:
+                    $jobs = Job::where('id', '>', 0);
+                    break;
+            }
+        } else {
+            // Users can only see open jobs
+            $jobs = Job::where('open', true);
+        }
 
         $type = request('job_type');
         if ($type && $type != 'all') {
