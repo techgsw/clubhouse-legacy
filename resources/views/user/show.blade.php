@@ -13,7 +13,7 @@
         <div class="col s12">
             <p class="small hide-on-small-only" style="margin: 4px 0;">Joined {{ $user->created_at->format('F j, Y') }}</p>
             <p class="small hide-on-small-only" style="margin: 4px 0;">Last updated {{ $user->updated_at->format('F j, Y') }}</p>
-            @if (is_null($user->profile->job_seeking_status))
+            @if (is_null($user->profile) || is_null($user->profile->job_seeking_status))
                 <p><span class="label blue white-text">NEW</span> Check out your <a href="/user/{{$user->id}}/profile">profile</a>! The more complete it is, the better chance we'll have of helping you make progress in your career.</p>
             @else
                 <p>According to your profile, you're currently
