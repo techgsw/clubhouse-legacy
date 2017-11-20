@@ -97,6 +97,21 @@ Route::group(['namespace' => 'Auth'], function () {
 Auth::routes();
 
 /**
+ * Blog
+ */
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/blog', 'BlogController@index');
+    Route::get('/post', function () {
+        return redirect('/blog');
+    });
+    Route::get('/post/create', 'PostController@create');
+    Route::post('/post', 'PostController@store');
+    Route::get('/post/{id}', 'PostController@show');
+    //Route::get('/post/{id}/edit', 'PostController@edit');
+    //Route::post('/post/{id}', 'PostController@update');
+});
+
+/**
  * User
  */
 Route::group(['middleware' => ['auth']], function () {

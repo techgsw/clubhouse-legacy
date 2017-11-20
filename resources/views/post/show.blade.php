@@ -1,6 +1,6 @@
-<!-- /resources/views/blog/index.blade.php -->
+<!-- /resources/views/post/show.blade.php -->
 @extends('layouts.default')
-@section('title', 'Blog')
+@section('title', $post->title)
 @section('content')
 <div class="container">
     <div class="row">
@@ -11,14 +11,10 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <h3>Blog</h3>
-            @foreach ($posts as $post)
-                <div>
-                    <a href="/post/{{ $post->id }}">
-                        <h5>{{ $post->title }}</h5>
-                    </a>
-                </div>
-            @endforeach
+            <h3>{{ $post->title }}</h3>
+            <div>
+                {{ $post->body }}
+            </div>
         </div>
     </div>
 </div>
