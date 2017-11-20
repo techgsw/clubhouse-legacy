@@ -48,7 +48,7 @@ class Job extends Model
             } else if ($i->rating === 0) {
                 $totals['maybe']++;
             } else if ($i->rating === -1) {
-                $totals['no']++;
+                $totals['down']++;
             } else {
                 $totals['none']++;
             }
