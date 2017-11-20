@@ -27,7 +27,7 @@
                 <p class="small">
                 @can ('close-job', $job)
                     @if (is_null($job->open) || $job->open == false)
-                        <a href="/job/{{ $job->id }}/open" class="flat-button small green"><i class="fa fa-check"></i> Open</a></p>
+                        <a href="/job/{{ $job->id }}/open" class="flat-button small green"><i class="fa fa-check"></i> Open</a>
                     @endif
                     @if (is_null($job->open) || $job->open == true)
                         <a href="/job/{{ $job->id }}/close" class="flat-button small red"><i class="fa fa-ban"></i> Close</a>
