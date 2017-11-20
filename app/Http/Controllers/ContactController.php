@@ -22,9 +22,6 @@ class ContactController extends Controller
     {
         $recaptcha = $this->recaptchaCheck($request->all());
 
-        dump(request('g-recaptcha-response'));
-        dump($recaptcha);
-
         if (!request('g-recaptcha-response') || $recaptcha < 1) {
             $request->session()->flash('message', new Message(
                 "Please confirm you are a human.",
