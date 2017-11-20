@@ -24,17 +24,19 @@
         <div class="col s9 job-description">
             <div class="right">
                 <!-- Job controls -->
+                <p class="small">
                 @can ('close-job', $job)
                     @if (is_null($job->open) || $job->open == false)
-                        <p class="small"><a href="/job/{{ $job->id }}/open" class="green-text"><i class="fa fa-check"></i> Open</a></p>
+                        <a href="/job/{{ $job->id }}/open" class="flat-button small green"><i class="fa fa-check"></i> Open</a>
                     @endif
                     @if (is_null($job->open) || $job->open == true)
-                        <p class="small"><a href="/job/{{ $job->id }}/close" class="red-text"><i class="fa fa-ban"></i> Close</a></p>
+                        <a href="/job/{{ $job->id }}/close" class="flat-button small red"><i class="fa fa-ban"></i> Close</a>
                     @endif
                 @endcan
                 @can ('edit-job', $job)
-                    <p class="small"><a href="/job/{{ $job->id }}/edit" class="blue-text"><i class="fa fa-pencil"></i> Edit</a></p>
+                    <a href="/job/{{ $job->id }}/edit" class="flat-button small blue"><i class="fa fa-pencil"></i> Edit</a>
                 @endcan
+                </p>
             </div>
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization }}</span> in {{ $job->city }}, {{ $job->state }}</p>
@@ -74,7 +76,7 @@
             @endcan
         </div>
     </div>
-    @if (count($inquiries) > 0)
+    @if (count($inquiries) > 0 || (Auth::user() && Auth::user()->can('edit-inquiry')))
         <div class="row">
             <div class="col s12 m9 offset-m3 job-inquire">
                 <a name="applications">
@@ -94,14 +96,14 @@
                             <option value="none" {{ request('rating') == 'none' ? "selected" : "" }}>None</option>
                         </select>
                         <div class="row">
-                            <div class="col s6 m4 input-field">
+                            <div class="col s6 input-field">
                                 <button type="button" class="flat-button {{ (!request('rating') || request('rating') == 'all') ? "inverse" : "" }} input-control" input-id="rating" value="all"><i class="fa fa-times"></i></button>
                                 <button type="button" class="flat-button {{ request('rating') == 'none' ? "inverse" : "" }} input-control" input-id="rating" value="none"><i class="fa fa-circle-thin"></i></button>
                                 <button type="button" class="flat-button {{ request('rating') == 'up' ? "inverse" : "" }} input-control" input-id="rating" value="up"><i class="fa fa-thumbs-up"></i></button>
                                 <button type="button" class="flat-button {{ request('rating') == 'maybe' ? "inverse" : "" }} input-control" input-id="rating" value="maybe"><i class="fa fa-question-circle"></i></button>
                                 <button type="button" class="flat-button {{ request('rating') == 'down' ? "inverse" : "" }} input-control" input-id="rating" value="down"><i class="fa fa-thumbs-down"></i></button>
                             </div>
-                            <div class="col s6 m8 input-field center-align">
+                            <div class="col s6 input-field center-align">
                                 <select class="submit-on-change" name="sort">
                                     <option value="recent" {{ (!request('sort') || request('sort') == 'recent') ? "selected" : "" }}>Most recent</option>
                                     <option value="rating" {{ request('sort') == 'rating' ? "selected" : "" }}>Best rating</option>
