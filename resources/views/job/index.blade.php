@@ -4,19 +4,32 @@
 @section('content')
 <div class="container">
     <div style="margin-bottom: 12px;">
-        <button class="text grey-text show-hide" show-hide-id="job-search-form">
+        <button class="text grey-text show-hide-sm hide-on-med-and-up" show-hide-id="job-search-form">
             <span class="show-options {{ $searching ? 'hidden' : ''}}"><i class="fa fa-caret-square-o-down icon-left"></i>Show search options</span>
             <span class="hide-options {{ $searching ? '' : 'hidden'}}"><i class="fa fa-caret-square-o-up icon-left"></i>Hide search options</span>
         </button>
     </div>
-    <div id="job-search-form" class="{{ $searching ? '' : 'hidden'}}">
+    <div id="job-search-form" class="{{ $searching ? '' : 'hide-on-small-only'}}">
         @include('forms.job-search')
     </div>
     @if (count($jobs) > 0)
+        @php
+            $featured = false;
+        @endphp
         @if ($jobs[0]->featured)
-            <h3 style="text-transform: uppercase; letter-spacing: 0.6px; font-size: 14px; color: #EB2935; border-left: 3px solid #EB2935; margin: 0; padding: 12px 0 18px 18px;">Featured jobs</h3>
+            @php
+                $featured = true;
+            @endphp
+            <div style="border: 3px solid #EB2935; border-radius: 4px; margin-bottom: 16px; padding: 0;">
+                <h3 style="text-transform: uppercase; letter-spacing: 0.6px; font-size: 16px; color: #EB2935; margin: 0; padding: 20px 0 18px 18px;">Featured jobs</h3>
         @endif
         @foreach ($jobs as $job)
+            @if ($featured && !$job->featured)
+                @php
+                    $featured = false;
+                @endphp
+                </div>
+            @endif
             <a href="{{ $job->getURL() }}">
                 <div class="row job-index {{ $job->featured ? 'featured-job' : '' }}">
                     <div class="col s3 m2 center-align">
@@ -56,6 +69,12 @@
                 </div>
             </a>
         @endforeach
+        @if ($featured)
+            @php
+                $featured = false;
+            @endphp
+            </div>
+        @endif
         <div class="row">
             <div class="col s12 center-align">
                 {{ $jobs->links('components.pagination') }}

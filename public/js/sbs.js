@@ -5,11 +5,11 @@ if (!SBS) {
 
 (function () {
     var Auth = {};
-    var Instagram = {};
-    var Video = {};
     var Form = {
         unsaved: false
     };
+    var Instagram = {};
+    var Video = {};
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -26,6 +26,7 @@ if (!SBS) {
             params: {},
         });
     }
+
     Instagram.init = function () {
         var ig = $('#instagram');
         if (ig.length > 0) {
@@ -283,9 +284,44 @@ if (!SBS) {
                     button.find('span.hide-options').addClass('hidden');
                     button.find('span.show-options').removeClass('hidden');
                 }
+
+                if (element.hasClass('hide-on-small-only')) {
+                    element.removeClass('hide-on-small-only');
+                    button.find('span.show-options').addClass('hidden');
+                    button.find('span.hide-options').removeClass('hidden');
+                } else {
+                    element.addClass('hide-on-small-only');
+                    button.find('span.hide-options').addClass('hidden');
+                    button.find('span.show-options').removeClass('hidden');
+                }
             }
         },
         'button.show-hide'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var button = $(this);
+                var showHideId = "#"+button.attr('show-hide-id');
+                var element = $(showHideId);
+
+                if (!element) {
+                    return;
+                }
+
+                if (element.hasClass('hide-on-small-only')) {
+                    element.removeClass('hide-on-small-only');
+                    button.find('span.show-options').addClass('hidden');
+                    button.find('span.hide-options').removeClass('hidden');
+                } else {
+                    element.addClass('hide-on-small-only');
+                    button.find('span.hide-options').addClass('hidden');
+                    button.find('span.show-options').removeClass('hidden');
+                }
+            }
+        },
+        'button.show-hide-sm'
     );
 
     $('body').on(
