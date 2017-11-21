@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Oswald:600" rel="stylesheet">
     <link href="/css/font-awesome.min.css" type="text/css" rel="stylesheet">
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
     <link href="/css/app.css?v=6" type="text/css" rel="stylesheet"/>
     <script>
         window.Laravel = {!! json_encode([

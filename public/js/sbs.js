@@ -42,10 +42,12 @@ $.valHooks.textarea = {
         new MediumEditor(editor, {
             extensions: {
                 markdown: new MeMarkdown(function (md) {
-                    console.log(md);
                     input.val(md);
-                    console.log(input.val());
                 })
+            },
+            placeholder: {
+                text: 'Write here',
+                hideOnClick: true
             }
         });
     }

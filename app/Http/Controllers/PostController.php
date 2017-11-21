@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Message;
 use App\Http\Requests\StorePost;
-//use App\Http\Requests\UpdatePost;
+use App\Http\Requests\UpdatePost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -54,6 +54,51 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function edit($id)
+    {
+        $post = Post::find($id);
+        if (!$post) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $id]);
+        }
+        // TODO $this->authorize('edit-post', $post);
+
+        $pd = new Parsedown();
+
+        return view('post/edit', [
+            'post' => $post,
+            'body' => $pd->text($post->body),
+            'breadcrumb' => [
+                'Home' => '/',
+                'Blog' => '/blog',
+                'New Post' => "/post/{$id}/edit"
+            ]
+        ]);
+    }
+
+    /**
+     * @param  UpdatePost  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(UpdatePost $request, $id)
+    {
+        $post = Post::find($id);
+        if (!$post) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $id]);
+        }
+        // TODO $this->authorize('edit-post', $post);
+
+        $post->title = request('title');
+        $post->body = request('body');
+        $post->save();
+
+        return redirect()->action('PostController@show', [$post]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show(Request $request, $id)
     {
         $post = Post::find($id);
@@ -64,7 +109,7 @@ class PostController extends Controller
         $pd = new Parsedown();
 
         return view('post/show', [
-            'title' => $post->title,
+            'post' => $post,
             'body' => $pd->text($post->body),
             'breadcrumb' => [
                 'Home' => '/',
