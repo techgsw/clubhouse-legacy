@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Parsedown;
 use \Exception;
 
 class PostController extends Controller
@@ -60,8 +61,11 @@ class PostController extends Controller
             return abort(404);
         }
 
+        $pd = new Parsedown();
+
         return view('post/show', [
-            'post' => $post,
+            'title' => $post->title,
+            'body' => $pd->text($post->body),
             'breadcrumb' => [
                 'Home' => '/',
                 'Blog' => '/blog',

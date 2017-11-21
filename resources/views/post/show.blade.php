@@ -1,6 +1,6 @@
 <!-- /resources/views/post/show.blade.php -->
 @extends('layouts.default')
-@section('title', $post->title)
+@section('title', $title)
 @section('content')
 <div class="container">
     <div class="row">
@@ -11,9 +11,9 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <h3>{{ $post->title }}</h3>
-            <div>
-                {{ $post->body }}
+            <div class="blog-post">
+                <h2 class="title">{{ $title }}</h2>
+                {!! $body !!}
             </div>
         </div>
     </div>

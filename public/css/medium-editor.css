@@ -85,7 +85,8 @@
   position: relative; }
   .medium-editor-placeholder:after {
     content: attr(data-placeholder) !important;
-    font-style: italic;
+    /*font-style: italic;*/
+    color: #BBB;
     position: absolute;
     left: 0;
     top: 0;

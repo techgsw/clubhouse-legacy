@@ -3,8 +3,18 @@ if (!SBS) {
     SBS = {};
 }
 
+/**
+ * Shim from http://api.jquery.com/val/ to preserve newline characters
+ */
+$.valHooks.textarea = {
+    get: function( elem ) {
+        return elem.value.replace( /\r?\n/g, "\r\n" );
+    }
+};
+
 (function () {
     var Auth = {};
+    var Blog = {};
     var Instagram = {};
     var Video = {};
     var Form = {
@@ -18,6 +28,28 @@ if (!SBS) {
             params: {},
         });
     }
+
+    Blog.init = function () {
+        var editor = $(".markdown-editor");
+        if (!editor) {
+            return;
+        }
+        var input = $("textarea.markdown-input");
+        if (!input) {
+            return;
+        }
+        console.log("Initializing MarkdownEditor");
+        new MediumEditor(editor, {
+            extensions: {
+                markdown: new MeMarkdown(function (md) {
+                    console.log(md);
+                    input.val(md);
+                    console.log(input.val());
+                })
+            }
+        });
+    }
+    Blog.init();
 
     Instagram.getFeed = function () {
         return $.ajax({
