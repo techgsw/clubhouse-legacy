@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Profile;
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -15,8 +16,9 @@ class UpdateProfile extends FormRequest
      */
     public function authorize()
     {
-        $profile = Profile::find($this->route('id'));
-        return $this->user()->can('edit-profile', $profile->user);
+        $id = (int)$this->route('id');
+        $user = User::find($id);
+        return $this->user()->can('edit-profile', $user);
     }
 
     /**
