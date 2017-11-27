@@ -474,6 +474,6 @@ class ProfileController extends Controller
             ));
         }
 
-        return redirect()->action('ProfileController@edit', [$profile]);
+        return redirect()->action('ProfileController@edit', [$user]);
     }
 }
