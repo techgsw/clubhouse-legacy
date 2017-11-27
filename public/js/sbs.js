@@ -42,8 +42,16 @@ $.valHooks.textarea = {
         new MediumEditor(editor, {
             extensions: {
                 markdown: new MeMarkdown(function (md) {
+                    console.log(md);
                     input.val(md);
                 })
+            },
+            paste: {
+                forcePlainText: false,
+                cleanPastedHTML: true,
+                cleanReplacements: [],
+                cleanAttrs: ['class', 'style', 'dir', 'span'],
+                cleanTags: ['meta', 'span']
             },
             placeholder: {
                 text: 'Write here',

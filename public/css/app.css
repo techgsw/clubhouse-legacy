@@ -115,6 +115,9 @@ div.row.bg-image.home {
 div.row.bg-image.about {
     background-image: url("/images/about/hero.jpg");
 }
+div.row.bg-image.blog {
+    background-image: url("/images/blog/hero.jpg");
+}
 div.row.bg-image.career-services {
     background-image: url("/images/career-services/hero.jpg");
 }
