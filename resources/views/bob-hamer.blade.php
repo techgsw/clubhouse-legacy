@@ -39,7 +39,7 @@
                         <p><b>Favorite candy:</b> Hershey's Milk Chocolate and Sour Patch Kids</p>
                         <p><b>Favorite TV shows:</b> Game of Thrones, Pardon the Interruption, Million Dollar Listing, Top Chef</p>
                         <p><b>Favorite travel destinations:</b> California beaches, Italy</p>
-                        <p><b>Places I'd like to visit:</b> Paris, London, Venice, Cabo, Vancouver</p>
+                        <p><b>Places I'd like to visit:</b> Cabo, England, Croatia, Ireland</p>
                         <p><b>Favorite sport:</b> Basketball, then Football and Baseball</p>
                         <p><b>Magazine Subscriptions:</b> Entrepreneur, Fast Company, Sports Business Journal</p>
                         <p><b>Favorite Movie:</b> Good Will Hunting</p>
