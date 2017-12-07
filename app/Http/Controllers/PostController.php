@@ -40,10 +40,12 @@ class PostController extends Controller
     public function store(StorePost $request)
     {
         // TODO $this->authorize('create-post');
+        // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
         $post = Post::create([
             'user_id' => Auth::user()->id,
             'title' => request('title'),
+            'title_url' => preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title')))),
             'body' => request('body')
         ]);
 
@@ -87,8 +89,10 @@ class PostController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $id]);
         }
         // TODO $this->authorize('edit-post', $post);
+        // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
         $post->title = request('title');
+        $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
         $post->body = request('body');
         $post->save();
 
@@ -96,12 +100,12 @@ class PostController extends Controller
     }
 
     /**
-     * @param  int  $id
+     * @param  string $title_url
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $title_url)
     {
-        $post = Post::find($id);
+        $post = Post::where('title_url', $title_url)->first();
         if (!$post) {
             return abort(404);
         }
