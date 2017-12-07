@@ -1,5 +1,7 @@
 <?php
 
+use App\Post;
+
 /**
  * Static
  */
@@ -99,6 +101,7 @@ Auth::routes();
 /**
  * Blog
  */
+
 Route::group(['middleware' => ['web']], function () {
     Route::get('/blog', 'BlogController@index');
     Route::get('/post', function () {
@@ -109,6 +112,15 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/post/{id}', 'PostController@show');
     Route::get('/post/{id}/edit', 'PostController@edit');
     Route::post('/post/{id}', 'PostController@update');
+
+    // Dynamic routes for post slugs
+    // TODO can we cache this query!?
+    $posts = Post::all();
+    foreach ($posts as $post) {
+        Route::get('/'.$post->title_url, function() {
+            return redirect('/post/'.$this->current->uri);
+        });
+    }
 });
 
 /**
