@@ -21,9 +21,9 @@
         <div class="col s12 blog-list">
             @foreach ($posts as $post)
                 <div class="blog-list-item">
-                    <a href="/post/{{ $post->id }}">
+                    <a href="/post/{{ $post->title_url}}">
                         <h5>{{ $post->title }}</h5>
-                        <a href="/post/{{ $post->id }}" class="btn sbs-red"> Read more</a>
+                        <a href="/post/{{ $post->title_url }}" class="btn sbs-red"> Read more</a>
                     </a>
                 </div>
             @endforeach
