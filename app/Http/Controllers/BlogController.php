@@ -21,8 +21,16 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::orderBy('id', 'dec')->paginate(15);
+        $posts = Post::search($request)->paginate(15);
         $tags = Tag::orderBy('name', 'dec')->get();
+
+        $tag = null;
+        if ($request->tag) {
+            $results = Tag::where('slug', $request->tag)->get();
+            if (count($results) > 0) {
+                $tag = $results[0];
+            }
+        }
 
         return view('blog/index', [
             'breadcrumb' => [
@@ -30,7 +38,8 @@ class BlogController extends Controller
                 'Blog' => '/blog'
             ],
             'posts' => $posts,
-            'tags' => $tags
+            'tags' => $tags,
+            'tag' => $tag
         ]);
     }
 
