@@ -43,7 +43,7 @@
                     <div class="row">
                         <div class="col s4 m3">
                             <a href="/post/{{ $post->title_url}}" class="no-underline">
-                                <img src="storage/blog/placeholder1.png" alt="">
+                                <img src="{{ $post->image_url }}" alt="">
                             </a>
                         </div>
                         <div class="col s8 m9">
