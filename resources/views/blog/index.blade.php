@@ -48,9 +48,9 @@
                                 </a>
                             </div>
                             <div class="col s8 m9">
-                                <h5>{{ $post->title }}</h5>
+                                <h5 style="margin-top: 0;">{{ $post->title }}</h5>
                                 <p class="small light uppercase">by {{ $post->user->first_name }} {{ $post->user->last_name }}</p>
-                                <p>This is the post preview bit. I think it should be set per-post, rather than just pulling the first few words. What do you think?</p>
+                                <p class="small">This is the post preview bit. I think it should be set per-post, rather than just pulling the first few words. What do you think?</p>
                                 <a href="/post/{{ $post->title_url }}" class="btn sbs-red"> Read more</a>
                             </div>
                         </div>
