@@ -20,6 +20,11 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag');
+    }
+
     public function isNew()
     {
         $new = (new \DateTime('NOW'))->sub(new \DateInterval('P14D'));

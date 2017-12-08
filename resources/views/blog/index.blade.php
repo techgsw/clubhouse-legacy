@@ -48,7 +48,7 @@
             <!-- Tags -->
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
-                    <a href="/blog" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag }}</a>
+                    <a href="/blog" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>

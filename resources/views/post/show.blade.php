@@ -10,18 +10,22 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 m9 l10">
+        <div class="col s12">
             <div class="blog-post">
+                <div class="tag-list" style="margin-top: -10px; margin-bottom: 20px;">
+                    @foreach ($post->tags as $tag)
+                        <a href="/blog" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</a>
+                    @endforeach
+                    @if (true) <!-- TODO can (edit-post) -->
+                        <div style="float: right;">
+                            <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
+                        </div>
+                    @endif
+                </div>
                 <h2 class="title">{{ $post->title }}</h2>
+                <p class="small light uppercase">by {{ $post->user->first_name }} {{ $post->user->last_name }}</p>
                 {!! $body !!}
             </div>
-        </div>
-        <div class="col s12 m3 l2">
-            @if (true) <!-- TODO can (edit-post) -->
-                <div>
-                    <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
-                </div>
-            @endif
         </div>
     </div>
 </div>

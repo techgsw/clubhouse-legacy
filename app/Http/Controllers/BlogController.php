@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Tag;
 use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,15 +22,7 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $posts = Post::orderBy('id', 'dec')->paginate(15);
-
-        // TODO
-        $tags = [
-            "sports sales",
-            "business",
-            "negotiation",
-            "personal values",
-            "inspiration"
-        ];
+        $tags = Tag::orderBy('name', 'dec')->get();
 
         return view('blog/index', [
             'breadcrumb' => [
