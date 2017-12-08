@@ -19,7 +19,7 @@
                         </div>
                     @endif
                     @foreach ($post->tags as $tag)
-                        <a href="/blog" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</a>
+                        <a href="/blog?tag={{ $tag->slug }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</a>
                     @endforeach
                 </div>
                 <h2 class="title">{{ $post->title }}</h2>
