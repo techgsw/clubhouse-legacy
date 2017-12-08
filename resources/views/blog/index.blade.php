@@ -18,15 +18,39 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 blog-list">
+        <div class="col s12 m8 l9 blog-list">
             @foreach ($posts as $post)
                 <div class="blog-list-item">
-                    <a href="/post/{{ $post->title_url}}">
-                        <h5>{{ $post->title }}</h5>
-                        <a href="/post/{{ $post->title_url }}" class="btn sbs-red"> Read more</a>
-                    </a>
+                    <div class="row">
+                        <div class="col s4 m3">
+                            <a href="/post/{{ $post->title_url}}" class="no-underline">
+                                <img src="storage/blog/placeholder1.png" alt="">
+                            </a>
+                        </div>
+                        <div class="col s8 m9">
+                            <h5>{{ $post->title }}</h5>
+                            <p class="small light uppercase">by {{ $post->user->first_name }} {{ $post->user->last_name }}</p>
+                            <p>This is the post preview bit. I think it should be set per-post, rather than just pulling the first few words. What do you think?</p>
+                            <a href="/post/{{ $post->title_url }}" class="btn sbs-red"> Read more</a>
+                        </div>
+                    </div>
                 </div>
             @endforeach
+        </div>
+        <div class="col hide-on-small-only m4 l3">
+            <!-- Search -->
+            <form action="/blog" method="get">
+                <div class="input-field">
+                    <input id="search" type="text" name="search" value="">
+                    <label for="search">Search</label>
+                </div>
+            </form>
+            <!-- Tags -->
+            <div class="tag-cloud">
+                @foreach ($tags as $tag)
+                    <a href="/blog" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag }}</a>
+                @endforeach
+            </div>
         </div>
     </div>
 </div>

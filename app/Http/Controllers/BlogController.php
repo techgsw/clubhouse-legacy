@@ -22,12 +22,22 @@ class BlogController extends Controller
     {
         $posts = Post::orderBy('id', 'dec')->paginate(15);
 
+        // TODO
+        $tags = [
+            "sports sales",
+            "business",
+            "negotiation",
+            "personal values",
+            "inspiration"
+        ];
+
         return view('blog/index', [
             'breadcrumb' => [
                 'Home' => '/',
                 'Blog' => '/blog'
             ],
-            'posts' => $posts
+            'posts' => $posts,
+            'tags' => $tags
         ]);
     }
 
