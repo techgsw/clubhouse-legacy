@@ -146,10 +146,59 @@ class PostController extends Controller
         // TODO $this->authorize('edit-post', $post);
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
-        $post->title = request('title');
-        $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
-        $post->body = request('body');
-        $post->save();
+
+        try {
+            DB::transaction(function ($post) use ($post) {
+                $post->title = request('title');
+                $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
+                $post->body = request('body');
+                $post->save();
+
+                $image = request()->file('image_url');
+
+                if ($image) {
+                    $storage_path = storage_path().'/app/public/post/'.$post->id.'/';
+                    $filename = $post->title_url.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+
+                    $image_relative_path = $image->storeAs('post/'.$post->id, 'original-'.$filename, 'public');
+
+                    $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
+                    $main_image->cropFromCenter(2000);
+                    $main_image->save($storage_path.'/main-'.$filename);
+
+                    $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                    $large_image->resize(1000, 1000);
+                    $large_image->save($storage_path.'/large-'.$filename);
+
+                    $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                    $medium_image->resize(500, 500);
+                    $medium_image->save($storage_path.'/medium-'.$filename);
+
+                    $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                    $small_image->resize(250, 250);
+                    $small_image->save($storage_path.'/small-'.$filename);
+
+                    $post_image = str_replace('original', 'medium', $image_relative_path);
+
+                    $post->image_url =  $post_image;
+                    $post->save();
+                }
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            if ($e->getCode() === '23000') {
+                $message = "Oops! It looks like you have already used that title!";
+            } else {
+                $message = "Sorry, we were unable to edit the post. Please contact support.";
+            }
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
 
         return redirect()->action('BlogController@show', [$title_url]);
     }

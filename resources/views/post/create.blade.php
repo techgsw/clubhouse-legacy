@@ -14,7 +14,7 @@
             <div class="col s12 center-align">
                 <div class="file-field input-field very-small">
                     <div class="btn white black-text">
-                        <span>Edit<span class="hide-on-small-only"> Image</span></span>
+                        <span>Add<span class="hide-on-small-only"> Image</span></span>
                         <input type="file" name="image_url" value="{{ old('image_url') }}">
                     </div>
                     <div class="file-path-wrapper">
