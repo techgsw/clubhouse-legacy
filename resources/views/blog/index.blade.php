@@ -25,6 +25,20 @@
         </div>
     </div>
     <div class="row">
+        <div class="col s12 hide-on-med-and-up">
+            <!-- Search -->
+            <form action="/blog" method="get" style="display: flex; flex-flow: row;">
+                <div class="input-field" style="flex: 1 0 auto;">
+                    <input id="search" type="text" name="search" value="{{ request('search') }}">
+                    <label for="search">Search</label>
+                </div>
+                <div class="input-field" style="flex: 0 0 auto;">
+                    <button type="submit" name="submit" class="flat-button black">Go</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
         <div class="col s12 m8 l9 blog-list">
             @if (request('search') || request('tag'))
                 <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
@@ -76,6 +90,14 @@
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
                     <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                @endforeach
+            </div>
+        </div>
+        <div class="col s12 hide-on-med-and-up">
+            <!-- Tags -->
+            <div class="tag-cloud">
+                @foreach ($tags as $tag)
+                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black small" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>
