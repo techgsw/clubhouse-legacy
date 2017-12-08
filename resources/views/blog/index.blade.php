@@ -35,7 +35,7 @@
                     @if (request('tag'))
                         tagged <b>{{ $tag->name }}</b>
                     @endif
-                    <a href="{{ $url }}" style="float: right;">Clear</a>
+                    <a href="/blog" style="float: right;">Clear</a>
                 </div>
             @endif
             @foreach ($posts as $post)
