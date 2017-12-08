@@ -38,23 +38,30 @@
                     <a href="/blog" style="float: right;">Clear</a>
                 </div>
             @endif
-            @foreach ($posts as $post)
-                <div class="blog-list-item">
-                    <div class="row">
-                        <div class="col s4 m3">
-                            <a href="/post/{{ $post->title_url}}" class="no-underline">
-                                <img src="{{ $post->image_url }}" alt="">
-                            </a>
-                        </div>
-                        <div class="col s8 m9">
-                            <h5>{{ $post->title }}</h5>
-                            <p class="small light uppercase">by {{ $post->user->first_name }} {{ $post->user->last_name }}</p>
-                            <p>This is the post preview bit. I think it should be set per-post, rather than just pulling the first few words. What do you think?</p>
-                            <a href="/post/{{ $post->title_url }}" class="btn sbs-red"> Read more</a>
+            @if (count($posts) > 0)
+                @foreach ($posts as $post)
+                    <div class="blog-list-item">
+                        <div class="row">
+                            <div class="col s4 m3">
+                                <a href="/post/{{ $post->title_url}}" class="no-underline">
+                                    <img src="{{ $post->image_url }}" alt="">
+                                </a>
+                            </div>
+                            <div class="col s8 m9">
+                                <h5>{{ $post->title }}</h5>
+                                <p class="small light uppercase">by {{ $post->user->first_name }} {{ $post->user->last_name }}</p>
+                                <p>This is the post preview bit. I think it should be set per-post, rather than just pulling the first few words. What do you think?</p>
+                                <a href="/post/{{ $post->title_url }}" class="btn sbs-red"> Read more</a>
+                            </div>
                         </div>
                     </div>
+                @endforeach
+                <div class="row">
+                    <div class="col s12 center-align">
+                        {{ $posts->links('components.pagination') }}
+                    </div>
                 </div>
-            @endforeach
+            @endif
         </div>
         <div class="col hide-on-small-only m4 l3">
             <!-- Search -->
@@ -63,6 +70,7 @@
                     <input id="search" type="text" name="search" value="{{ request('search') }}">
                     <label for="search">Search</label>
                 </div>
+                <input type="hidden" name="tag" value="{{ request('tag') }}">
             </form>
             <!-- Tags -->
             <div class="tag-cloud">
