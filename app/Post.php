@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
@@ -29,6 +30,27 @@ class Post extends Model
     {
         $new = (new \DateTime('NOW'))->sub(new \DateInterval('P14D'));
         return $this->created_at > $new;
+    }
+
+    public static function search(Request $request)
+    {
+        // TODO published, e.g. $posts = Post::where('published', true);
+
+        if (request('tag')) {
+            $tag = request('tag');
+            $posts = Post::whereHas('tags', function ($query) use ($tag) {
+                $query->where('slug', $tag);
+            });
+        } else {
+            $posts = Post::where('id', '>', 0);
+        }
+
+        if (request('search')) {
+            $search = request('search');
+            $posts->whereRaw("MATCH(`title`,`body`) AGAINST (? IN BOOLEAN MODE)", [$search]);
+        }
+
+        return $posts->orderBy('post.created_at', 'desc');
     }
 
     public function getURL()

@@ -9,6 +9,13 @@
         </div>
     </div>
 @endsection
+@php
+    if (request('search')) {
+        $url = "/blog?search=" . request('search') . "&";
+    } else {
+        $url = "/blog?";
+    }
+@endphp
 @section('content')
 <div class="container">
     <div class="row">
@@ -19,6 +26,18 @@
     </div>
     <div class="row">
         <div class="col s12 m8 l9 blog-list">
+            @if (request('search') || request('tag'))
+                <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
+                    <b>{{ count($posts) }}</b> result{{ count($posts) > 1 || count($posts) == 0 ? "s" : "" }}
+                    @if (request('search'))
+                        searching for <b>{{ request('search') }}</b>
+                    @endif
+                    @if (request('tag'))
+                        tagged <b>{{ $tag->name }}</b>
+                    @endif
+                    <a href="{{ $url }}" style="float: right;">Clear</a>
+                </div>
+            @endif
             @foreach ($posts as $post)
                 <div class="blog-list-item">
                     <div class="row">
@@ -41,22 +60,17 @@
             <!-- Search -->
             <form action="/blog" method="get">
                 <div class="input-field">
-                    <input id="search" type="text" name="search" value="">
+                    <input id="search" type="text" name="search" value="{{ request('search') }}">
                     <label for="search">Search</label>
                 </div>
             </form>
             <!-- Tags -->
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
-                    <a href="/blog" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>
     </div>
 </div>
 @endsection
-<style type="text/css" media="screen">
-    .blog-list .blog-list-item {
-        padding: 12px 0;
-    }
-</style>
