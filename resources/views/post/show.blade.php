@@ -24,10 +24,14 @@
                 </div>
                 <h2 class="title">{{ $post->title }}</h2>
                 <p class="small light uppercase">by {{ $post->user->first_name }} {{ $post->user->last_name }}</p>
-                @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
-                    <img style="width: 100%;" src="{{ $post->image_url }}" alt="">
-                @else
-                    <img style="width: 100%;" src={{ Storage::disk('local')->url($post->image_url) }} />
+                @if ($post->image_url)
+                    <p style="text-align: center;">
+                        @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
+                            <img style="width: 80%; max-height: 200px;" src="{{ $post->image_url }}" alt="">
+                        @else
+                            <img style="width: 80%; max-height: 200px;" src={{ Storage::disk('local')->url($post->image_url) }} />
+                        @endif
+                    </p>
                 @endif
                 {!! $body !!}
             </div>
