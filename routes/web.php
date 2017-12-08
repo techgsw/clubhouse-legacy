@@ -104,6 +104,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/blog', 'BlogController@index');
+    Route::get('/blog/{id}', 'BlogController@show');
     Route::get('/post', function () {
         return redirect('/blog');
     });

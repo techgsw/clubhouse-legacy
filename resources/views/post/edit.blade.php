@@ -11,7 +11,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form method="post" action="/post/{{$post->id}}" enctype="multipart/form-data">
+            <form method="post" action="/post/{{$post->title_url}}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="blog-post">
                     <div class="input-field" style="margin-top: 0;">

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Parsedown;
 use \Exception;
 
 class BlogController extends Controller
@@ -27,6 +28,30 @@ class BlogController extends Controller
                 'Blog' => '/blog'
             ],
             'posts' => $posts
+        ]);
+    }
+
+    /**
+     * @param  string $title_url
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $title_url)
+    {
+        $post = Post::where('title_url', $title_url)->first();
+        if (!$post) {
+            return abort(404);
+        }
+
+        $pd = new Parsedown();
+
+        return view('post/show', [
+            'post' => $post,
+            'body' => $pd->text($post->body),
+            'breadcrumb' => [
+                'Home' => '/',
+                'Blog' => '/blog',
+                "$post->title" => "/post/{$post->id}"
+            ]
         ]);
     }
 }

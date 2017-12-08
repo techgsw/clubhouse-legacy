@@ -19,7 +19,7 @@
         <div class="col s12 m3 l2">
             @if (true) <!-- TODO can (edit-post) -->
                 <div>
-                    <a href="/post/{{ $post->id }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
+                    <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
                 </div>
             @endif
         </div>

@@ -42,25 +42,37 @@ class PostController extends Controller
         // TODO $this->authorize('create-post');
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
-        $post = Post::create([
-            'user_id' => Auth::user()->id,
-            'title' => request('title'),
-            'title_url' => preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title')))),
-            'body' => request('body')
-        ]);
+        try {
+            $title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
+            $post = Post::create([
+                'user_id' => Auth::user()->id,
+                'title' => request('title'),
+                'title_url' => $title_url,
+                'body' => request('body')
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $request->session()->flash('message', new Message(
+                "Sorry, the image you tried to upload failed.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
 
-        return redirect()->action('PostController@show', [$post]);
+        return redirect()->action('BlogController@show', [$title_url]);
     }
 
     /**
-     * @param  int  $id
+     * @param  string $title_url
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($title_url)
     {
-        $post = Post::find($id);
+        $post = Post::where('title_url', $title_url)->first();
         if (!$post) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $id]);
+            return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
         }
         // TODO $this->authorize('edit-post', $post);
 
@@ -72,21 +84,21 @@ class PostController extends Controller
             'breadcrumb' => [
                 'Home' => '/',
                 'Blog' => '/blog',
-                'New Post' => "/post/{$id}/edit"
+                'New Post' => "/post/{$title_url}/edit"
             ]
         ]);
     }
 
     /**
      * @param  UpdatePost  $request
-     * @param  int  $id
+     * @param  string $title_url
      * @return Response
      */
-    public function update(UpdatePost $request, $id)
+    public function update(UpdatePost $request, $title_url)
     {
-        $post = Post::find($id);
+        $post = Post::where('title_url', $title_url)->first();
         if (!$post) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $id]);
+            return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
         }
         // TODO $this->authorize('edit-post', $post);
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
@@ -96,7 +108,7 @@ class PostController extends Controller
         $post->body = request('body');
         $post->save();
 
-        return redirect()->action('PostController@show', [$post]);
+        return redirect()->action('BlogController@show', [$title_url]);
     }
 
     /**
@@ -105,21 +117,6 @@ class PostController extends Controller
      */
     public function show(Request $request, $title_url)
     {
-        $post = Post::where('title_url', $title_url)->first();
-        if (!$post) {
-            return abort(404);
-        }
-
-        $pd = new Parsedown();
-
-        return view('post/show', [
-            'post' => $post,
-            'body' => $pd->text($post->body),
-            'breadcrumb' => [
-                'Home' => '/',
-                'Blog' => '/blog',
-                "$post->title" => "/post/{$post->id}"
-            ]
-        ]);
+        return redirect()->action('BlogController@show', [$title_url]);
     }
 }
