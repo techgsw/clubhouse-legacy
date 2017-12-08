@@ -52,8 +52,13 @@ class PostController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
+            if ($e->getCode() === '23000') {
+                $message = "Oops! It looks like you have already used that title!";
+            } else {
+                $message = "Sorry, we were unable to create the post. Please contact support.";
+            }
             $request->session()->flash('message', new Message(
-                "Sorry, the image you tried to upload failed.",
+                $message,
                 "danger",
                 $code = null,
                 $icon = "error"
