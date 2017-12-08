@@ -12,12 +12,12 @@
     <div class="row">
         <div class="col s12">
             <div class="blog-post">
+                @if (true) <!-- TODO can (edit-post) -->
+                    <div style="text-align: right;">
+                        <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
+                    </div>
+                @endif
                 <div class="tag-list" style="margin-top: -10px; margin-bottom: 20px;">
-                    @if (true) <!-- TODO can (edit-post) -->
-                        <div style="float: right;">
-                            <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
-                        </div>
-                    @endif
                     @foreach ($post->tags as $tag)
                         <a href="/blog?tag={{ $tag->slug }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</a>
                     @endforeach
