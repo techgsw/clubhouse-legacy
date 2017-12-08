@@ -44,7 +44,11 @@
                         <div class="row">
                             <div class="col s4 m3">
                                 <a href="/post/{{ $post->title_url}}" class="no-underline">
-                                    <img src="{{ $post->image_url }}" alt="">
+                                    @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
+                                        <img src="{{ $post->image_url }}" alt="">
+                                    @else
+                                        <img src={{ Storage::disk('local')->url($post->image_url) }} />
+                                    @endif
                                 </a>
                             </div>
                             <div class="col s8 m9">
