@@ -20,7 +20,7 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::paginate(15);
+        $posts = Post::orderBy('id', 'dec')->paginate(15);
 
         return view('blog/index', [
             'breadcrumb' => [
