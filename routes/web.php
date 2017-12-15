@@ -1,5 +1,7 @@
 <?php
 
+use App\Post;
+
 /**
  * Static
  */
@@ -95,6 +97,35 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::get('/auth/login/header', 'LoginController@header');
 });
 Auth::routes();
+
+/**
+ * Blog
+ */
+
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/blog', 'BlogController@index');
+    Route::get('/blog/{id}', 'BlogController@show');
+    Route::get('/post', function () {
+        return redirect('/blog');
+    });
+    Route::get('/post/create', 'PostController@create');
+    Route::post('/post', 'PostController@store');
+    Route::get('/post/{id}', 'PostController@show');
+    Route::get('/post/{id}/edit', 'PostController@edit');
+    Route::post('/post/{id}', 'PostController@update');
+
+    // Dynamic routes for post slugs
+    // TODO can we cache this query!?
+    $posts = Post::all();
+    foreach ($posts as $post) {
+        Route::get('/'.$post->title_url, function() {
+            return redirect('/post/'.$this->current->uri);
+        });
+    }
+
+    Route::post('/tag', 'TagController@store');
+    Route::get('/tag/all', 'TagController@all');
+});
 
 /**
  * User

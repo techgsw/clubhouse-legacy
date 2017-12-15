@@ -21,14 +21,15 @@
                 @can ('view-admin-dashboard')
                     <li><a href="/admin">Dashboard</a></li>
                 @endcan
-                @can ('view-admin-users')
-                    <li><a href="/admin/user">Users</a></li>
+                <li><a href="/blog">Blog</a></li>
+                @can ('view-admin-jobs')
+                    <li><a href="/admin/job">Job Board</a></li>
                 @endcan
                 @can ('view-admin-questions')
                     <li><a href="/admin/question">Q&amp;A</a></li>
                 @endcan
-                @can ('view-admin-jobs')
-                    <li><a href="/admin/job">Job Board</a></li>
+                @can ('view-admin-users')
+                    <li><a href="/admin/user">Users</a></li>
                 @endcan
             </ul>
         </div>
@@ -38,14 +39,15 @@
             @can ('view-admin-dashboard')
                 <li><a href="/admin">Dashboard</a></li>
             @endcan
-            @can ('view-admin-users')
-                <li><a href="/admin/user">Users</a></li>
+            <li><a href="/admin/job">Blog</a></li>
+            @can ('view-admin-jobs')
+                <li><a href="/admin/job">Job Board</a></li>
             @endcan
             @can ('view-admin-questions')
                 <li><a href="/admin/question">Q&amp;A</a></li>
             @endcan
-            @can ('view-admin-jobs')
-                <li><a href="/admin/job">Job Board</a></li>
+            @can ('view-admin-users')
+                <li><a href="/admin/user">Users</a></li>
             @endcan
             <li class="divider"></li>
             <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>

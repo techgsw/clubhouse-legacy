@@ -101,5 +101,21 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-inquiry', function ($user) {
             return $user->hasAccess('inquiry_edit');
         });
+
+        // Blog
+        // Gate::define('view-post', function ($user) {
+        //     return $user->hasAccess('post_show');
+        // });
+        Gate::define('create-post', function ($user) {
+            return $user->hasAccess('post_create');
+        });
+        Gate::define('edit-post', function ($user, $post) {
+            return $user->id == $post->user_id || $user->hasAccess('post_edit');
+        });
+
+        // Tags
+        Gate::define('create-tag', function ($user) {
+            return $user->hasAccess('tag_create');
+        });
     }
 }

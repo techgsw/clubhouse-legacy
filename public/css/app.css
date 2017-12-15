@@ -115,6 +115,9 @@ div.row.bg-image.home {
 div.row.bg-image.about {
     background-image: url("/images/about/hero.jpg");
 }
+div.row.bg-image.blog {
+    background-image: url("/images/blog/hero.jpg");
+}
 div.row.bg-image.career-services {
     background-image: url("/images/career-services/hero.jpg");
 }
@@ -354,6 +357,9 @@ p i.material-icons {
 .italic {
     font-style: italic;
 }
+.uppercase {
+    text-transform: uppercase;
+}
 .spaced {
     margin: 0 6px;
 }
@@ -378,6 +384,7 @@ span.label {
     padding: 6px 12px;
     border-radius: 4px;
     border: 1px solid #E0E0E0;
+    display: inline-block;
 }
 span.label.sbs-red {
     background-color: #EB2935;
@@ -428,14 +435,24 @@ a.no-underline {
 a:hover.no-underline {
     border: none;
 }
+a.hover-outline {
+    transition: all 100ms ease-in-out;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    display: block;
+    margin: 8px 12px;
+}
+a.hover-outline:hover {
+    border: 2px solid #F2F2F2;
+}
 
 .flat-button {
     background: none !important;
     border: 2px solid #555;
     color: #555;
     border-radius: 4px;
-    padding: 6px 10px;
-    font-size: 15px;
+    padding: 4px 10px;
+    font-size: 14px;
 }
 .flat-button.inverse {
     border-color: #555;
@@ -498,6 +515,21 @@ a:hover.no-underline {
     border-color: #303030;
     background-color: #303030 !important;
     color: #FFFFFF;
+}
+
+button.x {
+    border: none;
+    background: none;
+    margin: 0 4px 0 0;
+    padding: 0 2px;
+    font-size: 13px;
+}
+button.x:hover {
+    color: #000;
+}
+span.flat-button.tag {
+    display: inline-block;
+    margin: 2px;
 }
 
 main a.btn,
@@ -695,6 +727,36 @@ div.arrow.down {
  * - Answer
  * - Job board
  */
+
+/**
+ * Blog
+ */
+.blog-list .blog-list-item {
+    padding: 12px 0;
+}
+.blog-post {
+    outline: none;
+}
+.blog-post .title {
+    margin-top: 0;
+    font-size: 2.2rem;
+    letter-spacing: 0.25px;
+    border-bottom: none;
+}
+.blog-post .title:focus {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+.blog-post h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.87);
+}
+.blog-post h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #EB2935;
+}
 
 /**
  * Question

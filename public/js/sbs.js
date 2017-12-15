@@ -3,12 +3,31 @@ if (!SBS) {
     SBS = {};
 }
 
+/**
+ * Shim from http://api.jquery.com/val/ to preserve newline characters
+ */
+$.valHooks.textarea = {
+    get: function( elem ) {
+        return elem.value.replace( /\r?\n/g, "\r\n" );
+    }
+};
+
 (function () {
     var Auth = {};
+<<<<<<< HEAD
+=======
+    var Blog = {};
+>>>>>>> blog
     var Form = {
         unsaved: false
     };
     var Instagram = {};
+<<<<<<< HEAD
+=======
+    var Tag = {
+        map: {}
+    };
+>>>>>>> blog
     var Video = {};
 
     Auth.getAuthHeader = function () {
@@ -18,6 +37,151 @@ if (!SBS) {
             params: {},
         });
     }
+
+    Blog.init = function () {
+        var editor = $(".markdown-editor");
+        if (!editor) {
+            return;
+        }
+        var input = $("textarea.markdown-input");
+        if (!input) {
+            return;
+        }
+        new MediumEditor(editor, {
+            extensions: {
+                markdown: new MeMarkdown(function (md) {
+                    input.val(md);
+                })
+            },
+            paste: {
+                forcePlainText: false,
+                cleanPastedHTML: true,
+                cleanReplacements: [],
+                cleanAttrs: ['class', 'style', 'dir', 'span'],
+                cleanTags: ['meta', 'span']
+            },
+            placeholder: {
+                text: 'Write here',
+                hideOnClick: true
+            }
+        });
+    }
+
+    Tag.create = function (name) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/tag',
+            'data': {
+                'name': name,
+                '_token': $('form#create-tag input[name="_token"]').val()
+            }
+        });
+    }
+
+    Tag.getOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/tag/all',
+            'data': {}
+        });
+    }
+
+    Tag.addToPost = function (name, input, view) {
+        // Append to input
+        var tags = JSON.parse(input.val());
+        tags.push(name);
+        $(input).val(JSON.stringify(tags));
+        // Append to view
+        var tag =
+            `<span class="flat-button gray small tag">
+                <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
+            </span>`;
+        $(view).append(tag);
+    }
+
+    Tag.removeFromPost = function (name, input, view) {
+        // Remove from input
+        var tags = JSON.parse(input.val());
+        var i = tags.indexOf(name);
+        if (i > -1) {
+            tags.splice(i, 1);
+        }
+        input.val(JSON.stringify(tags));
+        // Remove from view
+        var button = $('button[tag-name="'+name+'"]');
+        if (button) {
+            button.parent().remove();
+        }
+    }
+
+    Tag.init = function () {
+        var tag_autocomplete = $('input.tag-autocomplete');
+        if (tag_autocomplete.length > 0) {
+            Tag.getOptions().done(function (data) {
+                var tags = {}
+                data.forEach(function (t) {
+                    Tag.map[t.name] = t.slug;
+                    tags[t.name] = "";
+                });
+                var x = tag_autocomplete.autocomplete({
+                    data: tags,
+                    limit: 10,
+                    onAutocomplete: function (val) {
+                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
+                        tag_autocomplete.val("");
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
+
+    $('body').on(
+        {
+            submit: function (e, ui) {
+                e.preventDefault();
+            }
+        },
+        'form#create-tag'
+    )
+
+    $('body').on(
+        {
+            keydown: function (e, ui) {
+                if (e.keyCode != 13) {
+                    return;
+                }
+                var input = $(this);
+                var name = $(this).val();
+                if (!name || name == "") {
+                    return;
+                }
+                // Tag already exists in map. Add it and clear input.
+                if (Tag.map[name] !== undefined) {
+                    Tag.addToPost(name, $('input#post-tags-json'), $('.post-tags'));
+                    tag_autocomplete.val("");
+                    return;
+                }
+                // Create new tag, add it, and clear input.
+                Tag.create(name).done(function (resp) {
+                    var tag_name = resp.tag.name;
+                    Tag.addToPost(tag_name, $('input#post-tags-json'), $('.post-tags'));
+                    input.val("");
+                });
+            }
+        },
+        '.tag-autocomplete'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var name = $(this).attr('tag-name');
+                Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
+            }
+        },
+        'span.tag button.x'
+    );
 
     Instagram.getFeed = function () {
         return $.ajax({
@@ -59,18 +223,6 @@ if (!SBS) {
             });
         }
     };
-
-    SBS.init = function () {
-        Instagram.init();
-        Video.init();
-        if ($('.app-login-placeholder-after').length > 0) {
-            Auth.getAuthHeader().done(
-                function (resp) {
-                    $('.app-login-placeholder-after').after(resp);
-                }
-            );
-        }
-    }
 
     SBS.Inquiry = {};
     SBS.Inquiry.rate = function (id, rating) {
@@ -215,7 +367,6 @@ if (!SBS) {
                     var month = parseInt(input.attr('default-month'));
                     var day = parseInt(input.attr('default-day'));
                     if (year && month && day) {
-                        console.log('here');
                         picker.set('select', [year, month, day]);
                     }
                 }
@@ -337,8 +488,6 @@ if (!SBS) {
     $('body').on(
         {
             click: function (e, ui) {
-                console.log(e);
-
                 var inputId = $(this).attr('input-id');
                 if (!inputId) {
                     return;
@@ -399,6 +548,20 @@ if (!SBS) {
             return "You have unsaved changes. Do you still want to leave?";
         }
     });
+
+    SBS.init = function () {
+        Blog.init();
+        Instagram.init();
+        Video.init();
+        Tag.init();
+        if ($('.app-login-placeholder-after').length > 0) {
+            Auth.getAuthHeader().done(
+                function (resp) {
+                    $('.app-login-placeholder-after').after(resp);
+                }
+            );
+        }
+    }
 })();
 
 $(document).ready(function () {

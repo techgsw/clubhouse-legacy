@@ -174,8 +174,6 @@ class JobController extends Controller
             return redirect()->action('JobController@create');
         }
 
-
-
         return redirect()->action('JobController@show', [$job]);
     }
 

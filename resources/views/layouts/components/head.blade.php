@@ -17,7 +17,9 @@
     <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Oswald:600" rel="stylesheet">
     <link href="/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-    <link href="/css/app.css?v=7" type="text/css" rel="stylesheet"/>
+    <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/app.css?v=8" type="text/css" rel="stylesheet"/>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
