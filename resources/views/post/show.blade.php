@@ -46,7 +46,7 @@
                     @endforeach
                 </div>
                 <h2 class="title">{{ $post->title }}</h2>
-                <p class="small light uppercase">by {{ $post->user->first_name }} {{ $post->user->last_name }} | {{ $post->created_at->format('F d, Y') }}</p>
+                <p class="small light uppercase">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> | {{ $post->created_at->format('F d, Y') }}</p>
                 @if ($post->image_url)
                     <p class="hide-on-med-and-up" style="text-align: center;">
                         @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
