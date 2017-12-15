@@ -44,8 +44,10 @@ class PostController extends Controller
         $this->authorize('create-post');
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
+        $post_tags = json_decode(request('post_tags_json'));
+
         try {
-            $title_url = DB::transaction(function () {
+            $title_url = DB::transaction(function () use ($post_tags) {
                 $title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
                 $post = Post::create([
                     'user_id' => Auth::user()->id,
@@ -84,6 +86,8 @@ class PostController extends Controller
                     $post->image_url =  $post_image;
                     $post->save();
                 }
+
+                $post->tags()->sync($post_tags);
 
                 return $title_url;
             });

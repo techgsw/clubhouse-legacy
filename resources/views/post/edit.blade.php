@@ -49,13 +49,14 @@
         <div class="row">
             <div class="col s12">
                 {{ csrf_field() }}
-                <input type="hidden" id="post-tags-json" name="post_tags_json" value="{{ $post_tags_json }}">
+                <input type="hidden" id="post-tags-json" name="post_tags_json" value="{{ old('post_tags_json') ?: $post_tags_json }}">
                 <div class="blog-post">
                     <div class="input-field" style="margin-top: 0;">
                         <input class="title" placeholder="Title" id="title" type="text" name="title" value="{{ old('title') ?: $post->title }}" required autofocus>
                     </div>
                     <div class="input-field" style="margin-top: 0;">
-                        <input class="authored" placeholder="Author (optional)" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') ?: $post->authored_by }}">
+                        <span class="prefix" style="color: #b3b3b1; position: absolute; width: 1.5rem; font-size: 0.8rem; margin-top: 14px; transition: color .2s;">BY</span>
+                        <input class="authored" style="margin-left: 1.5rem; width: calc(100% - 1.5rem); text-transform: uppercase; border-bottom: none; font-size: 0.8em; margin-bottom: 6px;" placeholder="Author (optional)" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') ?: $post->authored_by }}">
                     </div>
                     <div class="markdown-editor" style="outline: none;">
                         {!! $body !!}
@@ -71,20 +72,4 @@
         </div>
     </form>
 </div>
-<style type="text/css" media="screen">
-    button.x {
-        border: none;
-        background: none;
-        margin: 0 4px 0 0;
-        padding: 0 2px;
-        font-size: 13px;
-    }
-    button.x:hover {
-        color: #000;
-    }
-    span.flat-button.tag {
-        display: inline-block;
-        margin: 2px;
-    }
-</style>
 @endsection

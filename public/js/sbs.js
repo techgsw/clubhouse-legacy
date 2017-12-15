@@ -41,11 +41,9 @@ $.valHooks.textarea = {
         if (!input) {
             return;
         }
-        console.log("Initializing MarkdownEditor");
         new MediumEditor(editor, {
             extensions: {
                 markdown: new MeMarkdown(function (md) {
-                    console.log(md);
                     input.val(md);
                 })
             },
@@ -362,7 +360,6 @@ $.valHooks.textarea = {
                     var month = parseInt(input.attr('default-month'));
                     var day = parseInt(input.attr('default-day'));
                     if (year && month && day) {
-                        console.log('here');
                         picker.set('select', [year, month, day]);
                     }
                 }
@@ -449,8 +446,6 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                console.log(e);
-
                 var inputId = $(this).attr('input-id');
                 if (!inputId) {
                     return;
