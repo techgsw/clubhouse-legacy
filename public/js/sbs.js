@@ -63,6 +63,17 @@ $.valHooks.textarea = {
         });
     }
 
+    Tag.create = function (name) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/tag',
+            'data': {
+                'name': name,
+                '_token': $('form#create-tag input[name="_token"]').val()
+            }
+        });
+    }
+
     Tag.getOptions = function () {
         return $.ajax({
             'type': 'GET',
@@ -97,6 +108,36 @@ $.valHooks.textarea = {
             });
         }
     }
+
+    $('body').on(
+        {
+            submit: function (e, ui) {
+                e.preventDefault();
+            }
+        },
+        'form#create-tag'
+    )
+
+    $('body').on(
+        {
+            keydown: function (e, ui) {
+                if (e.keyCode != 13) {
+                    return;
+                }
+                var input = $(this);
+                var name = $(this).val();
+                if (!name || name == "") {
+                    return;
+                }
+                Tag.create(name).done(function (resp) {
+                    var tag_name = resp.tag.name;
+                    Tag.addToPost(tag_name, $('.post-tags'));
+                    input.val("");
+                });
+            }
+        },
+        '.tag-autocomplete'
+    );
 
     Instagram.getFeed = function () {
         return $.ajax({

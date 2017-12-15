@@ -13,9 +13,12 @@
         <div class="col s12 left-align">
             <div class="row" style="margin-bottom: 0;">
                 <div class="input-field col s12 m4 l3">
-                    <i class="fa fa-tags fa-small prefix" style="font-size: 1.5rem; margin-top: 12px;" aria-hidden="true"></i>
-                    <input type="text" id="tag-autocomplete-input" class="tag-autocomplete">
-                    <label for="tag-autocomplete-input">Tags</label>
+                    <form id="create-tag" action="/tag" method="post">
+                        {{ csrf_field() }}
+                        <i class="fa fa-tags fa-small prefix" style="font-size: 1.5rem; margin-top: 12px;" aria-hidden="true"></i>
+                        <input type="text" id="tag-autocomplete-input" class="tag-autocomplete">
+                        <label for="tag-autocomplete-input">Tags</label>
+                    </form>
                 </div>
                 <div class="col s12 m8 l9">
                     <div class="post-tags" style="position: relative; margin-top: 26px;">
@@ -23,11 +26,6 @@
                             <span class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</span>
                         @endforeach
                     </div>
-                </div>
-            </div>
-            <div class="col s6 center-align">
-                <div class="input-field" style="margin-top: 0;">
-                    <input class="authored" placeholder="Authored by" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') }}" autofocus>
                 </div>
             </div>
         </div>
@@ -52,6 +50,9 @@
                 <div class="blog-post">
                     <div class="input-field" style="margin-top: 0;">
                         <input class="title" placeholder="Title" id="title" type="text" name="title" value="{{ old('title') ?: $post->title }}" required autofocus>
+                    </div>
+                    <div class="input-field" style="margin-top: 0;">
+                        <input class="authored" placeholder="Author (optional)" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') ?: $post->authored_by }}">
                     </div>
                     <div class="markdown-editor" style="outline: none;">
                         {!! $body !!}

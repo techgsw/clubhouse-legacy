@@ -22,11 +22,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col s6 center-align">
-                <div class="input-field" style="margin-top: 0;">
-                        <input class="authored" placeholder="Authored by" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') }}" autofocus>
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col s12">
@@ -34,6 +29,9 @@
                 <div class="blog-post">
                     <div class="input-field" style="margin-top: 0;">
                         <input class="title" placeholder="Title" id="title" type="text" name="title" value="{{ old('title') }}" required autofocus>
+                    </div>
+                    <div class="input-field" style="margin-top: 0;">
+                        <input class="authored" placeholder="Author (optional)" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') }}">
                     </div>
                     <div class="markdown-editor" style="outline: none;"></div>
                     <div class="hidden">

@@ -12,6 +12,7 @@ class Tag extends Model
     protected $dates = [];
     protected $primaryKey = 'name';
     public $incrementing = false;
+    public $timestamps = false;
 
     public function posts()
     {
