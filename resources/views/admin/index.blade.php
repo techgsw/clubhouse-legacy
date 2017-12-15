@@ -35,16 +35,4 @@
         </a>
     </div>
 </div>
-<style type="text/css" media="screen">
-    a.hover-outline {
-        transition: all 100ms ease-in-out;
-        border: 2px solid transparent;
-        border-radius: 8px;
-        display: block;
-        margin: 8px 12px;
-    }
-    a.hover-outline:hover {
-        border: 2px solid #F2F2F2;
-    }
-</style>
 @endsection
