@@ -122,6 +122,9 @@ Route::group(['middleware' => ['web']], function () {
             return redirect('/post/'.$this->current->uri);
         });
     }
+
+    Route::post('/tag', 'TagController@store');
+    Route::get('/tag/all', 'TagController@all');
 });
 
 /**
