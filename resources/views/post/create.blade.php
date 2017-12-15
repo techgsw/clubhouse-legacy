@@ -11,7 +11,7 @@
     </div>
     <form method="post" action="/post" enctype="multipart/form-data">
         <div class="row">
-            <div class="col s12 center-align">
+            <div class="col s6 center-align">
                 <div class="file-field input-field very-small">
                     <div class="btn white black-text">
                         <span>Add<span class="hide-on-small-only"> Image</span></span>
@@ -20,6 +20,11 @@
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text" name="image_url_text" value="{{ old('image_url_text') }}">
                     </div>
+                </div>
+            </div>
+            <div class="col s6 center-align">
+                <div class="input-field" style="margin-top: 0;">
+                        <input class="authored" placeholder="Authored by" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') }}" autofocus>
                 </div>
             </div>
         </div>
