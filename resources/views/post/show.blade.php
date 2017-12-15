@@ -32,7 +32,7 @@
                             <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($post->image_url) }} />
                         @endif
                     </p>
-                    <p class="hide-on-small-only" style="float: left; margin-right: 20px;">
+                    <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
                         @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
                             <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src="{{ $post->image_url }}" alt="">
                         @else
