@@ -102,7 +102,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('inquiry_edit');
         });
 
-        // Job board
+        // Blog
         // Gate::define('view-post', function ($user) {
         //     return $user->hasAccess('post_show');
         // });
@@ -111,6 +111,11 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('edit-post', function ($user, $post) {
             return $user->id == $post->user_id || $user->hasAccess('post_edit');
+        });
+
+        // Tags
+        Gate::define('create-tag', function ($user) {
+            return $user->hasAccess('tag_create');
         });
     }
 }
