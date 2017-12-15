@@ -1,18 +1,18 @@
 <!-- /resources/views/post/show.blade.php -->
 @extends('layouts.default')
 @section('title', strip_tags($post->title))
-@php 
+@php
     // TODO I'm sure this could be more elegant.
     $parsedown = new Parsedown();
     $meta_body = strip_tags($parsedown->text($post->body));
     $post_length = strlen($body);
-    $index = 200; 
+    $index = 200;
 @endphp
 @if ($post_length > $index)
     @while (!preg_match('/\s/', $meta_body[$index]) && $post_length > $index)
     @php $index++; @endphp
     @endwhile
-    
+
     @section('description', substr($meta_body, 0, $index).'...')
 @else
     @section('description', $meta_body)
@@ -40,9 +40,16 @@
                         <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
                     </div>
                 @endif
-                <div class="tag-list" style="margin-top: -10px; margin-bottom: 20px;">
+                <div style="margin-top: -24px; margin-bottom: 12px;">
+                    <span>Share on </span>
+                    <a class="no-underline" href="https://facebook.com/sportsbusinesssolutions"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" href="https://twitter.com/SportsBizSol"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" href="https://www.linkedin.com/company/sports-business-solutions"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                </div>
+                <div class="tag-list" style="margin-bottom: 12px;">
                     @foreach ($post->tags as $tag)
-                        <a href="/blog?tag={{ $tag->slug }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</a>
+                        <a href="/blog?tag={{ $tag->slug }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
                     @endforeach
                 </div>
                 <h2 class="title">{{ $post->title }}</h2>
