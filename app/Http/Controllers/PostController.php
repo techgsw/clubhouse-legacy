@@ -146,7 +146,6 @@ class PostController extends Controller
         // TODO $this->authorize('edit-post', $post);
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
-
         try {
             DB::transaction(function ($post) use ($post) {
                 $post->title = request('title');

@@ -30,6 +30,9 @@
                 @can ('view-admin-jobs')
                     <li><a href="/admin/job">Job Board</a></li>
                 @endcan
+                @can ('create-post')
+                    <li><a href="/post/create">New Blog Post</a></li>
+                @endcan
             </ul>
         </div>
         <ul id="nav-mobile" class="side-nav">
