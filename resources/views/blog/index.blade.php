@@ -42,7 +42,7 @@
         <div class="col s12 m8 l9 blog-list">
             @if (request('search') || request('tag'))
                 <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
-                    <b>{{ count($posts) }}</b> result{{ count($posts) > 1 || count($posts) == 0 ? "s" : "" }}
+                    <b>{{ $posts->total() }}</b> result{{ count($posts) > 1 || count($posts) == 0 ? "s" : "" }}
                     @if (request('search'))
                         searching for <b>{{ request('search') }}</b>
                     @endif
@@ -90,7 +90,7 @@
                 @endforeach
                 <div class="row">
                     <div class="col s12 center-align">
-                        {{ $posts->links('components.pagination') }}
+                        {{ $posts->appends(request()->all())->links('components.pagination') }}
                     </div>
                 </div>
             @endif
