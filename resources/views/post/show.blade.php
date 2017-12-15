@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col s12">
             <div class="blog-post">
-                @if (true) <!-- TODO can (edit-post) -->
+                @can ('edit-post', $post)
                     <div style="text-align: right;">
                         <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
                     </div>

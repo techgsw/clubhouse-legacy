@@ -15,11 +15,14 @@ $.valHooks.textarea = {
 (function () {
     var Auth = {};
     var Blog = {};
-    var Instagram = {};
-    var Video = {};
     var Form = {
         unsaved: false
     };
+    var Instagram = {};
+    var Tag = {
+        map: {}
+    };
+    var Video = {};
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -59,7 +62,41 @@ $.valHooks.textarea = {
             }
         });
     }
-    Blog.init();
+
+    Tag.getOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/tag/all',
+            'data': {}
+        });
+    }
+
+    Tag.addToPost = function (name, container) {
+        var tag = `<span class="flat-button gray small" style="display: inline-block; margin: 2px;">${name}</span>`;
+        $(container).append(tag);
+    }
+
+    Tag.init = function () {
+        var tag_autocomplete = $('input.tag-autocomplete');
+        if (tag_autocomplete.length > 0) {
+            Tag.getOptions().done(function (data) {
+                var tags = {}
+                data.forEach(function (t) {
+                    Tag.map[t.name] = t.slug;
+                    tags[t.name] = "";
+                });
+                var x = tag_autocomplete.autocomplete({
+                    data: tags,
+                    limit: 10,
+                    onAutocomplete: function (val) {
+                        Tag.addToPost(val, $('.post-tags'));
+                        tag_autocomplete.val("");
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
 
     Instagram.getFeed = function () {
         return $.ajax({
@@ -100,18 +137,6 @@ $.valHooks.textarea = {
             });
         }
     };
-
-    SBS.init = function () {
-        Instagram.init();
-        Video.init();
-        if ($('.app-login-placeholder-after').length > 0) {
-            Auth.getAuthHeader().done(
-                function (resp) {
-                    $('.app-login-placeholder-after').after(resp);
-                }
-            );
-        }
-    }
 
     SBS.Inquiry = {};
     SBS.Inquiry.rate = function (id, rating) {
@@ -405,6 +430,19 @@ $.valHooks.textarea = {
             return "You have unsaved changes. Do you still want to leave?";
         }
     });
+
+    SBS.init = function () {
+        Instagram.init();
+        Video.init();
+        Tag.init();
+        if ($('.app-login-placeholder-after').length > 0) {
+            Auth.getAuthHeader().done(
+                function (resp) {
+                    $('.app-login-placeholder-after').after(resp);
+                }
+            );
+        }
+    }
 })();
 
 $(document).ready(function () {

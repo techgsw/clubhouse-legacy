@@ -125,7 +125,7 @@ class PostController extends Controller
             'breadcrumb' => [
                 'Home' => '/',
                 'Blog' => '/blog',
-                'New Post' => "/post/{$title_url}/edit"
+                "{$post->title}" => "/post/{$title_url}/edit"
             ]
         ]);
     }
@@ -137,15 +137,15 @@ class PostController extends Controller
      */
     public function update(UpdatePost $request, $title_url)
     {
-        $p = Post::where('title_url', $title_url)->first();
-        if (!$p) {
+        $post = Post::where('title_url', $title_url)->first();
+        if (!$post) {
             return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
         }
-        $this->authorize('edit-post', $p);
+        $this->authorize('edit-post', $post);
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
         try {
-            DB::transaction(function ($post) use ($p) {
+            DB::transaction(function () use ($post) {
                 $post->title = request('title');
                 $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
                 $post->body = request('body');
