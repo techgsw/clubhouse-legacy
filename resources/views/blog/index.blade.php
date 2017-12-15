@@ -67,7 +67,7 @@
                             </div>
                             <div class="col s8 m9">
                                 <h5 style="margin-top: 0; margin-bottom: 0;"><a href="/post/{{ $post->title_url }}" class="no-underline">{{ $post->title }}</a></h5>
-                                <p class="small light uppercase" style="margin-top: 3px;">by {{ $post->user->first_name }} {{ $post->user->last_name }}</p>
+                                <p class="small light uppercase" style="margin-top: 3px;">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?></p>
                                 @php 
                                     // TODO I'm sure this could be more elegant.
                                     $parsedown = new Parsedown();

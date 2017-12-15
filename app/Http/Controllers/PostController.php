@@ -49,6 +49,7 @@ class PostController extends Controller
                 $title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
                 $post = Post::create([
                     'user_id' => Auth::user()->id,
+                    'authored_by' => request('authored_by'),
                     'title' => request('title'),
                     'title_url' => $title_url,
                     'body' => request('body')
@@ -147,6 +148,7 @@ class PostController extends Controller
         try {
             DB::transaction(function () use ($post) {
                 $post->title = request('title');
+                $post->authored_by = request('authored_by');
                 $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
                 $post->body = request('body');
                 $post->save();

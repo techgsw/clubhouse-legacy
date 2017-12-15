@@ -25,6 +25,11 @@
                     </div>
                 </div>
             </div>
+            <div class="col s6 center-align">
+                <div class="input-field" style="margin-top: 0;">
+                    <input class="authored" placeholder="Authored by" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') }}" autofocus>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
