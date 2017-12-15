@@ -24,7 +24,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        // TODO $this->authorize('create-post');
+        $this->authorize('create-post');
 
         return view('post/create', [
             'breadcrumb' => [
@@ -41,10 +41,8 @@ class PostController extends Controller
      */
     public function store(StorePost $request)
     {
-        // TODO $this->authorize('create-post');
+        $this->authorize('create-post');
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
-
-
 
         try {
             $title_url = DB::transaction(function () {
@@ -117,7 +115,7 @@ class PostController extends Controller
         if (!$post) {
             return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
         }
-        // TODO $this->authorize('edit-post', $post);
+        $this->authorize('edit-post', $post);
 
         $pd = new Parsedown();
 
@@ -139,15 +137,15 @@ class PostController extends Controller
      */
     public function update(UpdatePost $request, $title_url)
     {
-        $post = Post::where('title_url', $title_url)->first();
-        if (!$post) {
+        $p = Post::where('title_url', $title_url)->first();
+        if (!$p) {
             return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
         }
-        // TODO $this->authorize('edit-post', $post);
+        $this->authorize('edit-post', $p);
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
         try {
-            DB::transaction(function ($post) use ($post) {
+            DB::transaction(function ($post) use ($p) {
                 $post->title = request('title');
                 $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
                 $post->body = request('body');

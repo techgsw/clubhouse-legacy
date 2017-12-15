@@ -103,7 +103,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // Job board
-        // Gate::define('view-blog', function ($user) {
+        // Gate::define('view-post', function ($user) {
         //     return $user->hasAccess('post_show');
         // });
         Gate::define('create-post', function ($user) {
