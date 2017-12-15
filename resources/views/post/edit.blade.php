@@ -1,6 +1,6 @@
 <!-- /resources/views/post/create.blade.php -->
 @extends('layouts.default')
-@section('title', 'New Post')
+@section('title', "Edit Post | " . $post->title)
 @section('content')
 <div class="container">
     <div class="row">
