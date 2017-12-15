@@ -97,11 +97,17 @@ $.valHooks.textarea = {
 
     Tag.removeFromPost = function (name, input, view) {
         // Remove from input
-        var tags = JSON.parse($(input).val());
-        console.log(tags);
-
+        var tags = JSON.parse(input.val());
+        var i = tags.indexOf(name);
+        if (i > -1) {
+            tags.splice(i, 1);
+        }
+        input.val(JSON.stringify(tags));
         // Remove from view
-
+        var button = $('button[tag-name="'+name+'"]');
+        if (button) {
+            button.parent().remove();
+        }
     }
 
     Tag.init = function () {
@@ -167,8 +173,7 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var name = $(this).attr('tag-name');
-                console.log("Remove: ", name);
-                // Tag.removeFromPost();
+                Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
             }
         },
         'span.tag button.x'
