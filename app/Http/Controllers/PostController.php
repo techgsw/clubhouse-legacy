@@ -118,10 +118,16 @@ class PostController extends Controller
         }
         $this->authorize('edit-post', $post);
 
+        $post_tags = [];
+        foreach ($post->tags as $tag) {
+            $post_tags[] = $tag->name;
+        }
+
         $pd = new Parsedown();
 
         return view('post/edit', [
             'post' => $post,
+            'post_tags_json' => json_encode($post_tags),
             'body' => $pd->text($post->body),
             'breadcrumb' => [
                 'Home' => '/',
@@ -143,10 +149,13 @@ class PostController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
         }
         $this->authorize('edit-post', $post);
+
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
+        $post_tags = json_decode(request('post_tags_json'));
+
         try {
-            DB::transaction(function () use ($post) {
+            DB::transaction(function () use ($post, $post_tags) {
                 $post->title = request('title');
                 $post->authored_by = request('authored_by');
                 $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
@@ -182,6 +191,8 @@ class PostController extends Controller
                     $post->image_url =  $post_image;
                     $post->save();
                 }
+
+                $post->tags()->sync($post_tags);
             });
         } catch (Exception $e) {
             Log::error($e->getMessage());

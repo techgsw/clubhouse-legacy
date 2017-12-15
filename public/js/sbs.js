@@ -82,9 +82,26 @@ $.valHooks.textarea = {
         });
     }
 
-    Tag.addToPost = function (name, container) {
-        var tag = `<span class="flat-button gray small" style="display: inline-block; margin: 2px;">${name}</span>`;
-        $(container).append(tag);
+    Tag.addToPost = function (name, input, view) {
+        // Append to input
+        var tags = JSON.parse(input.val());
+        tags.push(name);
+        $(input).val(JSON.stringify(tags));
+        // Append to view
+        var tag =
+            `<span class="flat-button gray small tag">
+                <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
+            </span>`;
+        $(view).append(tag);
+    }
+
+    Tag.removeFromPost = function (name, input, view) {
+        // Remove from input
+        var tags = JSON.parse($(input).val());
+        console.log(tags);
+
+        // Remove from view
+
     }
 
     Tag.init = function () {
@@ -100,7 +117,7 @@ $.valHooks.textarea = {
                     data: tags,
                     limit: 10,
                     onAutocomplete: function (val) {
-                        Tag.addToPost(val, $('.post-tags'));
+                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
                         tag_autocomplete.val("");
                     },
                     minLength: 2,
@@ -129,14 +146,32 @@ $.valHooks.textarea = {
                 if (!name || name == "") {
                     return;
                 }
+                // Tag already exists in map. Add it and clear input.
+                if (Tag.map[name] !== undefined) {
+                    Tag.addToPost(name, $('input#post-tags-json'), $('.post-tags'));
+                    tag_autocomplete.val("");
+                    return;
+                }
+                // Create new tag, add it, and clear input.
                 Tag.create(name).done(function (resp) {
                     var tag_name = resp.tag.name;
-                    Tag.addToPost(tag_name, $('.post-tags'));
+                    Tag.addToPost(tag_name, $('input#post-tags-json'), $('.post-tags'));
                     input.val("");
                 });
             }
         },
         '.tag-autocomplete'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var name = $(this).attr('tag-name');
+                console.log("Remove: ", name);
+                // Tag.removeFromPost();
+            }
+        },
+        'span.tag button.x'
     );
 
     Instagram.getFeed = function () {
@@ -473,6 +508,7 @@ $.valHooks.textarea = {
     });
 
     SBS.init = function () {
+        Blog.init();
         Instagram.init();
         Video.init();
         Tag.init();

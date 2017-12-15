@@ -23,7 +23,9 @@
                 <div class="col s12 m8 l9">
                     <div class="post-tags" style="position: relative; margin-top: 26px;">
                         @foreach ($post->tags as $tag)
-                            <span class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</span>
+                            <span class="flat-button gray small tag">
+                                <button type="button" name="button" class="x" tag-name="{{ $tag->name }}">&times;</button>{{ $tag->name }}
+                            </span>
                         @endforeach
                     </div>
                 </div>
@@ -47,6 +49,7 @@
         <div class="row">
             <div class="col s12">
                 {{ csrf_field() }}
+                <input type="hidden" id="post-tags-json" name="post_tags_json" value="{{ $post_tags_json }}">
                 <div class="blog-post">
                     <div class="input-field" style="margin-top: 0;">
                         <input class="title" placeholder="Title" id="title" type="text" name="title" value="{{ old('title') ?: $post->title }}" required autofocus>
@@ -68,4 +71,20 @@
         </div>
     </form>
 </div>
+<style type="text/css" media="screen">
+    button.x {
+        border: none;
+        background: none;
+        margin: 0 4px 0 0;
+        padding: 0 2px;
+        font-size: 13px;
+    }
+    button.x:hover {
+        color: #000;
+    }
+    span.flat-button.tag {
+        display: inline-block;
+        margin: 2px;
+    }
+</style>
 @endsection
