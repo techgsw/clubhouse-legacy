@@ -40,19 +40,18 @@
                         <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
                     </div>
                 @endif
-                <div style="margin-top: -24px; margin-bottom: 12px;">
-                    <span>Share on </span>
-                    <a class="no-underline" href="https://facebook.com/sportsbusinesssolutions"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" href="https://twitter.com/SportsBizSol"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" href="https://www.linkedin.com/company/sports-business-solutions"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
-                </div>
                 <div class="tag-list" style="margin-bottom: 12px;">
                     @foreach ($post->tags as $tag)
                         <a href="/blog?tag={{ $tag->slug }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
                     @endforeach
                 </div>
                 <h2 class="title">{{ $post->title }}</h2>
+                <div style="margin-bottom: 10px;">
+                    <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsportsbusiness.solutions%2Fblog%2F<?=urlencode($post->title_url)?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('Checkout this post at Sports Business Solutions https://sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=$post->title?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                </div>
                 <p class="small light uppercase">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> | {{ $post->created_at->format('F d, Y') }}</p>
                 @if ($post->image_url)
                     <p class="hide-on-med-and-up" style="text-align: center;">
