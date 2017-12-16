@@ -48,7 +48,7 @@
                 <h2 class="title">{{ $post->title }}</h2>
                 <div style="margin-bottom: 10px;">
                     <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsportsbusiness.solutions%2Fblog%2F<?=urlencode($post->title_url)?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('Checkout this post at Sports Business Solutions https://sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
                     <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=$post->title?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                     <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                 </div>
