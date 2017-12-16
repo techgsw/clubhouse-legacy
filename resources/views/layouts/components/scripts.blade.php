@@ -16,4 +16,4 @@
 <script type="text/javascript" src="/js/materialize.js"></script>
 <script type="text/javascript" src="/js/medium-editor.js"></script>
 <script type="text/javascript" src="/js/me-markdown.standalone.min.js"></script>
-<script type="text/javascript" src="/js/sbs.js?v=8"></script>
+<script type="text/javascript" src="/js/sbs.js?v=9"></script>

@@ -14,20 +14,14 @@ $.valHooks.textarea = {
 
 (function () {
     var Auth = {};
-<<<<<<< HEAD
-=======
     var Blog = {};
->>>>>>> blog
     var Form = {
         unsaved: false
     };
     var Instagram = {};
-<<<<<<< HEAD
-=======
     var Tag = {
         map: {}
     };
->>>>>>> blog
     var Video = {};
 
     Auth.getAuthHeader = function () {
