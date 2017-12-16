@@ -81,6 +81,17 @@ class PostController extends Controller
                     $small_image->resize(250, 250);
                     $small_image->save($storage_path.'/small-'.$filename);
 
+                    $width = $medium_image->getCurrentWidth();
+                    $height = $medium_image->getCurrentHeight();
+                    $dest_x = (1000-$width)/2;
+                    $dest_y = (520-$height)/2;
+
+                    $background_fill_image = imagecreatetruecolor(1000, 520);
+                    $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
+                    imagefill($background_fill_image, 0, 0, $white_color);
+                    imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
+                    imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
+
                     $post_image = str_replace('original', 'medium', $image_relative_path);
 
                     $post->image_url =  $post_image;
@@ -189,6 +200,17 @@ class PostController extends Controller
                     $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
                     $small_image->resize(250, 250);
                     $small_image->save($storage_path.'/small-'.$filename);
+
+                    $width = $medium_image->getCurrentWidth();
+                    $height = $medium_image->getCurrentHeight();
+                    $dest_x = (1000-$width)/2;
+                    $dest_y = (520-$height)/2;
+
+                    $background_fill_image = imagecreatetruecolor(1000, 520);
+                    $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
+                    imagefill($background_fill_image, 0, 0, $white_color);
+                    imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
+                    imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
 
                     $post_image = str_replace('original', 'medium', $image_relative_path);
 
