@@ -23,6 +23,9 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
+        // Only view open Jobs. (Enforcing in Job::filter, but only for non-admins.)
+        $request->merge(['status' => 'open']);
+
         $jobs = Job::filter($request)
             ->orderBy('featured', 'desc')
             ->orderBy('rank', 'asc')
