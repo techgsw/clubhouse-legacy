@@ -110,7 +110,11 @@
                 <option value="closed" {{ request('status') == "closed" ? 'selected' : '' }}>Closed</option>
             </select>
         </div>
-        <div class="col s12 m8 input-field">
+        <div class="col s12 m3 input-field">
+            <input type="checkbox" name="new-inquiries" id="new-inquiries" value="1" {{ request('new-inquiries') ? "checked" : "" }} />
+            <label for="new-inquiries">New inquiries</label>
+        </div>
+        <div class="col s12 m5 input-field">
             <input type="text" name="organization" id="organization" value="{{ request('organization') }}">
             <label for="organization">Organization</label>
         </div>
