@@ -134,6 +134,13 @@ class Job extends Model
             $jobs->where('state', $loc);
         }
 
+        $new_inquiries = request('new-inquiries') && request('new-inquiries') == '1';
+        if ($new_inquiries) {
+            $jobs->whereHas('inquiries', function ($query) {
+                $query->whereNull('rating');
+            });
+        }
+
         return $jobs;
     }
 }
