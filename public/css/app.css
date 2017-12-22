@@ -1205,7 +1205,7 @@ a#hub-video:hover {
     padding: 20px 10px;
     background-color: #EEE;
     min-height: 200px;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s ease-in-out;
     border-bottom: none;
     box-shadow: 1px 1px 4px #AAA;
     border-radius: 2px;
@@ -1224,11 +1224,11 @@ p.icon {
 }
 
 .publication {
-    display: block;
-    padding: 20px 10px;
-    background-color: #EEE;
-    min-height: 200px;
-    transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-flow: row;
+    padding: 14px 18px;
+    background-color: #FEFEFE;
+    transition: all 0.1s ease-in-out;
     border-bottom: none;
     box-shadow: 1px 1px 4px #AAA;
     border-radius: 2px;
@@ -1238,6 +1238,28 @@ p.icon {
     background: #EB2935;
     color: #FFF;
     border-bottom: none;
+}
+.publication .publication-icon {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+.publication .publication-text {
+    text-align: left;
+    padding-left: 18px;
+}
+.publication .publication-text .venue {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    margin: 6px 0px;
+}
+.publication .publication-text .title {
+    margin: 6px 0px;
+    min-height: 50px;
+}
+
+.clearfix {
+    clear: all;
 }
 
 /**

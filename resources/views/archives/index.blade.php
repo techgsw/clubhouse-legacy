@@ -141,6 +141,109 @@
             <hr />
         </div>
     </div>
+    <div class="row center">
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://collegead.com/roadmap-getting-job-sports/">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">College AD</h6>
+                    <h6 class="title">How to get a job in sports</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://collegead.com/secrets-selling-large-donors/">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">College AD</h6>
+                    <h6 class="title">The secrets of selling to large donors</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://sportscareers.about.com/od/interviews/fl/Sport-Sales-Combine-Your-Ticket-to-A-Sports-Sales-Career.htm">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">about.com</h6>
+                    <h6 class="title">Getting a job in sports</h6>
+                </div>
+            </a>
+        </div>
+        <div class="clearfix hide-on-small-only"></div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://collegead.com/get-promoted-sports-business-job/">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">College AD</h6>
+                    <h6 class="title">How to get promoted in your sports business job</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://sportstaopodcast.libsyn.com/ep-419-bob-hamer-ceo-sports-business-solutions">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">The Tao of Sports</h6>
+                    <h6 class="title">The Sports Sales Combine</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://www.frontofficesports.org/interviews/11/15/an-in-depth-look-at-the-sports-sales-combine-with-bob-hamer">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">Front Office Sports</h6>
+                    <h6 class="title">The Sports Sales Combine</h6>
+                </div>
+            </a>
+        </div>
+        <div class="clearfix hide-on-small-only"></div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://www.frontofficesports.org/interviews/12/18/from-one-side-of-the-desk-to-another-how-a-passion-for-helping-others-turned-an-idea-into-a-new-business-venture?rq=Bob%20Hamer">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">Front Office Sports</h6>
+                    <h6 class="title">Launching Sports Business Solutions</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://sportsgeekhq.com/podcast/bob-hamer-sales-success-sports/">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">The Sports Geek Podcast</h6>
+                    <h6 class="title">Interview with SBS President, Bob Hamer</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s6 m4">
+            <a class="publication" target="_blank" href="http://alsd.com/content/podcast-bob-hamer">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">ALSD (Association of Luxury Suite Directors)</h6>
+                    <h6 class="title">Podcast with Bob Hamer & Brett Zalaski</h6>
+                </div>
+            </a>
+        </div>
+    </div>
     <div class="row">
         <div class="col s12">
             <h4>Training videos</h4>
