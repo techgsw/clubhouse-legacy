@@ -66,6 +66,34 @@ class Job extends Model
         return Job::where('open', true)->orderBy('created_at', 'desc');
     }
 
+    public static function unfeature($id)
+    {
+        $job = Job::find($id);
+        if (!$job) {
+            return false;
+        }
+
+        $rank = $job->rank;
+
+        $job->featured = false;
+        $job->rank = 0;
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        // Shift neighbors with lower rank up one
+        $neighbors = Job::where('rank', '>', $rank)->get();
+        if (!$neighbors) {
+            return $job;
+        }
+        foreach ($neighbors as $neighbor) {
+            $neighbor->rank = $neighbor->rank-1;
+            $neighbor->edited_at = new \DateTime('NOW');
+            $neighbor->save();
+        }
+
+        return $job;
+    }
+
     public static function filter(Request $request)
     {
         if (Auth::user() && Auth::user()->can('create-job')) {
