@@ -103,7 +103,15 @@ Auth::routes();
 */
 
 Route::group(['middleware' => ['web']], function () {
-  Route::get('/archives', 'ArchivesController@index');
+    Route::get('/archives', 'ArchivesController@index');
+    Route::get('/session', function () {
+        return redirect('/archives');
+    });
+    Route::get('/session/create', 'SessionController@create');
+    Route::post('/session', 'SessionController@store');
+    Route::get('/session/{id}', 'SessionController@show');
+    Route::get('/session/{id}/edit', 'SessionController@edit');
+    Route::post('/session/{id}', 'SessionController@update');
 });
 
 /**

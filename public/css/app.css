@@ -1174,6 +1174,38 @@ a#hub-video:hover {
     padding-left: 10px;
     font-weight: 100;
 }
+
+/**
+ * Archives Page
+ */
+
+.session-image {
+    display: inline-block;
+    width: 300px;
+    height: 300px;
+    background-image: attr(data-image-src url);
+    background-position: center center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.session-image img.materialboxed, .session-image img.materialboxed:hover {
+    opacity: 0;
+    max-width: initial;
+}
+
+.session-image img.materialboxed.active {
+    width: auto;
+    height: auto;
+    opacity: 1;
+}
+
+.press-release {
+    padding-top: 20px;
+    background-color: #EEE;
+    min-height: 200px;
+}
+
 /**
  * Mailchimp
  */
@@ -1201,6 +1233,10 @@ a#hub-video:hover {
     .sbs-row .sbs-col-6.pull-m6 {
         right: 50%;
     }
+    .session-image {
+        width: 100px;
+        height: 100px;
+    }
 }
 @media only screen and (max-width: 601px) {
     .sbs-row {
@@ -1215,14 +1251,21 @@ a#hub-video:hover {
     .carousel.testimonial.carousel-slider {
         height: 800px;
     }
-
     .service-flex {
         display: none;
+    }
+    .session-image {
+        width: 100px;
+        height: 100px;
     }
 }
 @media only screen and (min-width: 993px) {
     .row .col.l5ths {
         width: 20%;
+    }
+    .session-image {
+        width: 200px;
+        height: 200px;
     }
 }
 @media only screen and (min-width: 1201px) {
