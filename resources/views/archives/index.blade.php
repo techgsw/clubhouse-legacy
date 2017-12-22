@@ -142,7 +142,7 @@
         </div>
     </div>
     <div class="row center">
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://collegead.com/roadmap-getting-job-sports/">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -153,7 +153,7 @@
                 </div>
             </a>
         </div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://collegead.com/secrets-selling-large-donors/">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -164,7 +164,7 @@
                 </div>
             </a>
         </div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://sportscareers.about.com/od/interviews/fl/Sport-Sales-Combine-Your-Ticket-to-A-Sports-Sales-Career.htm">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -176,7 +176,7 @@
             </a>
         </div>
         <div class="clearfix hide-on-small-only"></div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://collegead.com/get-promoted-sports-business-job/">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -187,7 +187,7 @@
                 </div>
             </a>
         </div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://sportstaopodcast.libsyn.com/ep-419-bob-hamer-ceo-sports-business-solutions">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -198,7 +198,7 @@
                 </div>
             </a>
         </div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://www.frontofficesports.org/interviews/11/15/an-in-depth-look-at-the-sports-sales-combine-with-bob-hamer">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -210,7 +210,7 @@
             </a>
         </div>
         <div class="clearfix hide-on-small-only"></div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://www.frontofficesports.org/interviews/12/18/from-one-side-of-the-desk-to-another-how-a-passion-for-helping-others-turned-an-idea-into-a-new-business-venture?rq=Bob%20Hamer">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -221,7 +221,7 @@
                 </div>
             </a>
         </div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://sportsgeekhq.com/podcast/bob-hamer-sales-success-sports/">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -232,7 +232,7 @@
                 </div>
             </a>
         </div>
-        <div class="col s6 m4">
+        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://alsd.com/content/podcast-bob-hamer">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>

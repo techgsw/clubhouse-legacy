@@ -1234,6 +1234,7 @@ p.icon {
     box-shadow: 1px 1px 4px #AAA;
     border-radius: 2px;
     margin-bottom: 10px;
+    min-height: 120px;
 }
 .publication:hover {
     background: #EB2935;
@@ -1248,6 +1249,9 @@ p.icon {
 .publication .publication-text {
     text-align: left;
     padding-left: 18px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 }
 .publication .publication-text .venue {
     font-size: 0.8em;
@@ -1256,7 +1260,6 @@ p.icon {
 }
 .publication .publication-text .title {
     margin: 6px 0px;
-    min-height: 50px;
 }
 
 .clearfix {
