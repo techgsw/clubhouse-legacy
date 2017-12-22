@@ -99,6 +99,14 @@ Route::group(['namespace' => 'Auth'], function () {
 Auth::routes();
 
 /**
+ * Archives
+*/
+
+Route::group(['middleware' => ['web']], function () {
+  Route::get('/archives', 'ArchivesController@index');
+});
+
+/**
  * Blog
  */
 
