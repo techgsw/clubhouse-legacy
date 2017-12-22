@@ -256,6 +256,8 @@ class JobController extends Controller
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
+        $job = Job::unfeature($id);
+
         return back();
     }
 
@@ -298,23 +300,7 @@ class JobController extends Controller
         }
         $this->authorize('edit-job', $job);
 
-        $rank = $job->rank;
-
-        $job->featured = false;
-        $job->rank = 0;
-        $job->edited_at = new \DateTime('NOW');
-        $job->save();
-
-        // Shift neighbors with lower rank up one
-        $neighbors = Job::where('rank', '>', $rank)->get();
-        if (!$neighbors) {
-            return back();
-        }
-        foreach ($neighbors as $neighbor) {
-            $neighbor->rank = $neighbor->rank-1;
-            $neighbor->edited_at = new \DateTime('NOW');
-            $neighbor->save();
-        }
+        $job = Job::unfeature($id);
 
         return back();
     }
