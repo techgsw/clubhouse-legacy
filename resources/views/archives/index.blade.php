@@ -2,7 +2,7 @@
 @extends('layouts.default')
 @section('title', 'Archive')
 @section('hero')
-    <div class="row hero">
+    <div class="row hero" style="padding-bottom: 10px;">
         <div class="col s12">
             <h4 class="header">Sports Business Archives</h4>
             <p>We go all over the country conducting sales training, keynote speeches, hiring events and more. Check out all the places we’ve been!</p>
