@@ -57,86 +57,82 @@
         </div>
     </div>
     <div class="row center">
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>09.12.14</p>
                 <h6>Launch of SBS</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>10.01.14</p>
                 <h6>Sales Combine Purchase</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>11.12.14</p>
                 <h6>PHX Sales Combine 2014</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>12.16.14</p>
                 <h6>MN Sales Combine 2014</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-    </div>
-    <div class="row center">
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>03.09.15</p>
                 <h6>NJ Sales Combine 2015</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>08.31.15</p>
                 <h6>50 job candidates placed</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>12.07.15</p>
                 <h6>DET Sales Combine 2015</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>12.30.15</p>
                 <h6>SBS adding Recruiting & Training</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-    </div>
-    <div class="row center">
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>02.29.16</p>
                 <h6>SJ Sales Combine 2016</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>03.30.16</p>
                 <h6>New hire Jason Stein</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
-        <div class="col s6 m3">
-            <div class="press-release">
+        <div class="col s6 m4 l3">
+            <a class="press-release" href="#">
                 <p>06.14.17</p>
                 <h6>New hire Mike Rudner</h6>
-                <p class="fa fa-newspaper-o fa-2x"></p>
-            </div>
+                <p class="icon fa fa-newspaper-o fa-2x"></p>
+            </a>
         </div>
     </div>
     <div class="row">

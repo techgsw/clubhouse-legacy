@@ -1201,9 +1201,43 @@ a#hub-video:hover {
 }
 
 .press-release {
-    padding-top: 20px;
+    display: block;
+    padding: 20px 10px;
     background-color: #EEE;
     min-height: 200px;
+    transition: all 0.2s ease-in-out;
+    border-bottom: none;
+    box-shadow: 1px 1px 4px #AAA;
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
+.press-release:hover {
+    background: #EB2935;
+    color: #FFF;
+    border-bottom: none;
+}
+.press-release h6 {
+    height: 60px;
+}
+p.icon {
+    margin: 0px;
+}
+
+.publication {
+    display: block;
+    padding: 20px 10px;
+    background-color: #EEE;
+    min-height: 200px;
+    transition: all 0.2s ease-in-out;
+    border-bottom: none;
+    box-shadow: 1px 1px 4px #AAA;
+    border-radius: 2px;
+    margin-bottom: 10px;
+}
+.publication:hover {
+    background: #EB2935;
+    color: #FFF;
+    border-bottom: none;
 }
 
 /**
