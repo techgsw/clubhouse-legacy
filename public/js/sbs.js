@@ -312,6 +312,21 @@ $.valHooks.textarea = {
         group.toggleClass('hidden');
     }
 
+    // Hover effect on archive page
+    $('body').on(
+        {
+            mouseover: function (e, ui) {
+                var overlay = $(this).parents('.session-image').first().children('.overlay');
+                $(overlay).addClass('active');
+            },
+            mouseout: function (e, ui) {
+                var overlay = $(this).parents('.session-image').first().children('.overlay');
+                $(overlay).removeClass('active');
+            }
+        },
+        '.materialboxed'
+    );
+
     $('body').on(
         {
             change: function (e, ui) {

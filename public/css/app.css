@@ -1181,6 +1181,7 @@ a#hub-video:hover {
  */
 
 .session-image {
+    position: relative;
     display: inline-block;
     width: 300px;
     height: 300px;
@@ -1188,6 +1189,29 @@ a#hub-video:hover {
     background-position: center center;
     background-size: cover;
     overflow: hidden;
+}
+
+.session-image div.overlay {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    color: #FFF;
+}
+
+.session-image div.overlay.active {
+    display: block;
+}
+
+.session-image div.overlay span.overlay-text {
+    position: absolute;
+    background-color: #EB2935;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
 }
 
 .session-image img.materialboxed, .session-image img.materialboxed:hover {
