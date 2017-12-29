@@ -19,7 +19,7 @@
         <div class="card-content">
             <span class="card-title"><a href="/admin/job" class="no-underline">Jobs</a></span>
             <p style="text-transform: uppercase;">
-                <a href="/admin/jobs" class="no-underline"><span class="sbs-red-text">{{ $job_count }}</span> jobs</a>
+                <a href="/admin/job" class="no-underline"><span class="sbs-red-text">{{ $job_count }}</span> jobs</a>
             </p>
         </div>
         <div class="card-action">
