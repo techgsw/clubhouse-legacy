@@ -19,8 +19,8 @@ class CreateNoteTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('user');
             // Fields
-            $table->string('table')->nullable()->default(NULL);
-            $table->string('key')->nullable()->default(NULL);
+            $table->integer('notable_id')->nullable()->default(NULL);
+            $table->string('notable_type')->nullable()->default(NULL);
             $table->text('content')->nullable()->default(NULL);
             $table->timestamps();
         });

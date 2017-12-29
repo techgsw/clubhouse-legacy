@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasOne(Address::class);
     }
 
+    public function notes()
+    {
+        return $this->morphMany('App\Note', 'notable');
+    }
+
     public function hasAccess($resource_code)
     {
         $roles = $this->roles;
