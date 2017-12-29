@@ -10,6 +10,9 @@
         @else
             <a href="#" class="btn disabled">No Resume</a>
         @endif
+        @can ('view-profile-notes')
+
+        @endif
         @can ('edit-profile', $user)
             <a href="/user/{{ $user->id }}/edit-profile" class="btn sbs-red">Edit<span class="hide-on-small-only"> Profile</span></a>
         @endcan

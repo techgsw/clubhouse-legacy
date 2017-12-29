@@ -117,5 +117,19 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-tag', function ($user) {
             return $user->hasAccess('tag_create');
         });
+
+        // Notes
+        Gate::define('view-profile-notes', function ($profile) {
+            return $user->hasAccess('profile_note_show');
+        });
+        Gate::define('create-profile-note', function ($profile) {
+            return $user->hasAccess('profile_note_create');
+        });
+        Gate::define('view-inquiry-notes', function ($inquiry) {
+            return $user->hasAccess('inquiry_note_show');
+        });
+        Gate::define('create-inquiry-note', function ($inquiry) {
+            return $user->hasAccess('inquiry_note_create');
+        });
     }
 }
