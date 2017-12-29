@@ -24,7 +24,8 @@ class JobController extends Controller
             request('league') && request('league') != 'all' ||
             request('state') && request('state') != 'all' ||
             request('status') && request('status') != 'all' ||
-            request('organization');
+            request('organization') ||
+            request('new-inquiries');
 
         return view('admin/job', [
             'jobs' => $jobs,
