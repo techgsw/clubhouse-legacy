@@ -31,11 +31,15 @@
                         @foreach ($sessions as $index => $session)
                             @if (!is_null($session->image_url))
                                 @if (preg_match('/\/uploads\//', $session->image_url))
-                                    <div class="session-image" style="background-image: url('{{ $session->image_url }}');">
+                                    <div class="session-image" style="background-image: url('{{ preg_replace('/\./', '-510x382.', $session->image_url) }}');">
                                         <div class="overlay">
                                             <span class="overlay-text">{{ $session->title }}</span>
                                         </div>
-                                        <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ $session->image_url }}" />
+                                        @if (preg_match('/\/uploads\/2015\/10\/AHL-Meetings\.jpg/', $session->image_url))
+                                            <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ preg_replace('/\./', '-960x675.', $session->image_url) }}" />
+                                        @else
+                                            <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ preg_replace('/\./', '-1080x675.', $session->image_url) }}" />
+                                        @endif
                                     </div>
                                 @else
                                     <div class="session-image" style="background-image: url('{{ Storage::disk('local')->url($session->image_url) }}')">
