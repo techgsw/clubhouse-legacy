@@ -22,7 +22,7 @@ class ArchivesController extends Controller
      */
     public function index(Request $request)
     {
-        $sessions = Session::paginate(60);
+        $sessions = Session::orderby('id', 'desc')->paginate(60);
 
         return view('archives/index', [
             'breadcrumb' => [
