@@ -117,5 +117,13 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-tag', function ($user) {
             return $user->hasAccess('tag_create');
         });
+
+        // Blog
+        Gate::define('create-session', function ($user) {
+            return $user->hasAccess('session_create');
+        });
+        Gate::define('edit-session', function ($user, $session) {
+            return $user->id == $session->user_id || $user->hasAccess('session_edit');
+        });
     }
 }

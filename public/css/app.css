@@ -1125,6 +1125,7 @@ a#hub-video:hover {
     padding-bottom: 56.25%; /* 16:9 */
     padding-top: 25px;
     height: 0;
+    margin-bottom: 12px;
 }
 .video-wrapper iframe {
     position: absolute;
@@ -1199,6 +1200,121 @@ a#hub-video:hover {
     padding-left: 10px;
     font-weight: 100;
 }
+
+/**
+ * Archives Page
+ */
+
+.session-image {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+    height: 300px;
+    background-image: attr(data-image-src url);
+    background-position: center center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.session-image div.overlay {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    color: #FFF;
+}
+
+.session-image div.overlay.active {
+    display: block;
+}
+
+.session-image div.overlay span.overlay-text {
+    position: absolute;
+    background-color: #EB2935;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.session-image img.materialboxed, .session-image img.materialboxed:hover {
+    opacity: 0;
+    max-width: initial;
+}
+
+.session-image img.materialboxed.active {
+    width: auto;
+    height: auto;
+    opacity: 1;
+}
+
+.press-release {
+    display: block;
+    padding: 20px 10px;
+    background-color: #EEE;
+    min-height: 200px;
+    transition: all 0.1s ease-in-out;
+    border-bottom: none;
+    box-shadow: 1px 1px 4px #AAA;
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
+.press-release:hover {
+    background: #EB2935;
+    color: #FFF;
+    border-bottom: none;
+}
+.press-release h6 {
+    height: 60px;
+}
+p.icon {
+    margin: 0px;
+}
+
+.publication {
+    display: flex;
+    flex-flow: row;
+    padding: 14px 18px;
+    background-color: #FEFEFE;
+    transition: all 0.1s ease-in-out;
+    border-bottom: none;
+    box-shadow: 1px 1px 4px #AAA;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    min-height: 120px;
+}
+.publication:hover {
+    background: #EB2935;
+    color: #FFF;
+    border-bottom: none;
+}
+.publication .publication-icon {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+.publication .publication-text {
+    text-align: left;
+    padding-left: 18px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+.publication .publication-text .venue {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    margin: 6px 0px;
+}
+.publication .publication-text .title {
+    margin: 6px 0px;
+}
+
+.clearfix {
+    clear: all;
+}
+
 /**
  * Mailchimp
  */
@@ -1226,6 +1342,10 @@ a#hub-video:hover {
     .sbs-row .sbs-col-6.pull-m6 {
         right: 50%;
     }
+    .session-image {
+        width: 100px;
+        height: 100px;
+    }
 }
 @media only screen and (max-width: 601px) {
     .sbs-row {
@@ -1240,14 +1360,21 @@ a#hub-video:hover {
     .carousel.testimonial.carousel-slider {
         height: 800px;
     }
-
     .service-flex {
         display: none;
+    }
+    .session-image {
+        width: 100px;
+        height: 100px;
     }
 }
 @media only screen and (min-width: 993px) {
     .row .col.l5ths {
         width: 20%;
+    }
+    .session-image {
+        width: 200px;
+        height: 200px;
     }
 }
 @media only screen and (min-width: 1201px) {
