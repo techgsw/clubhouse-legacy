@@ -123,6 +123,9 @@ class RegisterController extends Controller
             Mail::to('bob@sportsbusiness.solutions')->send(
                 new InternalAlert('emails.internal.registration', array('user' => $user))
             );
+            Mail::to('josh@sportsbusiness.solutions')->send(
+                new InternalAlert('emails.internal.registration', array('user' => $user))
+            );
         } catch (Exception $e) {
             // TODO log exception
         }
