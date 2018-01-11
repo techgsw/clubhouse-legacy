@@ -78,6 +78,10 @@ class InquiryController extends Controller
                 'job' => $job,
                 'user' => Auth::user()
             )));
+            Mail::to('jason@sportsbusiness.solutions')->send(new InternalAlert('emails.internal.inquiry-submitted', array(
+                'job' => $job,
+                'user' => Auth::user()
+            )));
         } catch (Exception $e) {
             // TODO log exception
         }
