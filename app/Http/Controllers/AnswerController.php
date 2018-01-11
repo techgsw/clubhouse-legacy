@@ -7,7 +7,7 @@ use App\Question;
 use App\User;
 use App\Http\Requests\StoreAnswer;
 use App\Mail\AnswerSubmitted;
-use App\Mail\BobAlert;
+use App\Mail\InternalAlert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -36,8 +36,8 @@ class AnswerController extends Controller
             Mail::to($question->user)->send(new AnswerSubmitted($answer, $question, $question->user));
 
             Mail::to('bob@sportsbusiness.solutions')->send(
-                new BobAlert(
-                    'emails.bob.answer',
+                new InternalAlert(
+                    'emails.internal.answer',
                     array(
                         'user' => Auth::user(),
                         'answer' => $answer,

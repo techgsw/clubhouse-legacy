@@ -6,7 +6,7 @@ use App\Question;
 use App\User;
 use App\Http\Requests\StoreQuestion;
 use App\Http\Requests\UpdateQuestion;
-use App\Mail\BobAlert;
+use App\Mail\InternalAlert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -66,7 +66,7 @@ class QuestionController extends Controller
         $bob = User::find(1);
 
         try {
-            Mail::to($bob)->send(new BobAlert('emails.bob.question-submitted', array(
+            Mail::to($bob)->send(new InternalAlert('emails.internal.question-submitted', array(
                 'question' => $question,
                 'user' => Auth::user()
             )));
