@@ -119,16 +119,16 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // Notes
-        Gate::define('view-profile-notes', function ($profile) {
+        Gate::define('view-profile-notes', function ($user) {
             return $user->hasAccess('profile_note_show');
         });
-        Gate::define('create-profile-note', function ($profile) {
+        Gate::define('create-profile-note', function ($user) {
             return $user->hasAccess('profile_note_create');
         });
-        Gate::define('view-inquiry-notes', function ($inquiry) {
+        Gate::define('view-inquiry-notes', function ($user) {
             return $user->hasAccess('inquiry_note_show');
         });
-        Gate::define('create-inquiry-note', function ($inquiry) {
+        Gate::define('create-inquiry-note', function ($user) {
             return $user->hasAccess('inquiry_note_create');
         });
     }

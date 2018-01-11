@@ -11,6 +11,9 @@
                 @else
                     <i class="material-icons large">person</i>
                 @endif
+                @can ('view-profile-notes')
+                    <button type="button" class="view-profile-notes-btn btn btn-small sbs-red white-text" user-id="{{ $user->id }}">Notes</button>
+                @endif
             </div>
             <div class="col s8">
                 <h3 class="header" style="display: inline-block; margin-bottom: 10px;">{{ $user->getName() }}</h3>

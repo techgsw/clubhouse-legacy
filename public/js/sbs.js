@@ -19,6 +19,7 @@ $.valHooks.textarea = {
         unsaved: false
     };
     var Instagram = {};
+    var Note = {};
     var Tag = {
         map: {}
     };
@@ -312,6 +313,43 @@ $.valHooks.textarea = {
         group.toggleClass('hidden');
     }
 
+    // Notes
+    Note.init = function () {
+        $('.profile-notes-modal').modal({
+            dismissible: true,  // Modal can be dismissed by clicking outside of the modal
+            opacity: .5,        // Opacity of modal background
+            inDuration: 300,    // Transition in duration
+            outDuration: 200,   // Transition out duration
+            startingTop: '4%',  // Starting top style attribute
+            endingTop: '10%',   // Ending top style attribute
+        });
+    };
+
+    Note.getProfileNotes = function (user_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/user/'+user_id+'/profile-notes',
+            data: {
+                id: user_id
+            }
+        });
+    }
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                console.log(e);
+                var user_id = parseInt($(this).attr('user-id'));
+                Note.getProfileNotes(user_id).done(function (view) {
+                    $('.profile-notes-modal .modal-content').html(view);
+                    $('.profile-notes-modal').modal('open');
+                });
+            }
+        },
+        '.view-profile-notes-btn'
+    )
+    // end Notes
+
     $('body').on(
         {
             change: function (e, ui) {
@@ -546,6 +584,7 @@ $.valHooks.textarea = {
     SBS.init = function () {
         Blog.init();
         Instagram.init();
+        Note.init();
         Video.init();
         Tag.init();
         if ($('.app-login-placeholder-after').length > 0) {

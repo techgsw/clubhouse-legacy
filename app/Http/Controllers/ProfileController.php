@@ -476,4 +476,32 @@ class ProfileController extends Controller
 
         return redirect()->action('ProfileController@edit', [$user]);
     }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showNotes($id)
+    {
+        $user = User::find($id);
+        $this->authorize('view-profile-notes');
+
+        $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
+
+        $profile = $user->profile;
+        if (!$profile) {
+            return abort(404);
+        }
+
+        $notes = $user->profile->notes;
+
+        return view('user/profile-notes/show', [
+            'user' => $user,
+            'profile' => $profile,
+            'notes' => $notes
+        ]);
+    }
 }
