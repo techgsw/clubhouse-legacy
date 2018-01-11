@@ -96,19 +96,32 @@ class Job extends Model
 
     public static function filter(Request $request)
     {
+        $jobs = Job::where('job.id', '>', 0);
+
+        // Admin-only
         if (Auth::user() && Auth::user()->can('create-job')) {
+            // Admins can filter by new inquiries
+            $new_inquiries = request('new-inquiries') && request('new-inquiries') == '1';
+            if ($new_inquiries) {
+                $jobs = $jobs->join('inquiry', 'job.id', '=', 'inquiry.job_id');
+                $jobs->whereHas('inquiries', function ($query) {
+                    $query->whereNull('rating');
+                });
+                $jobs = $jobs->select(\DB::raw('job.*, COUNT(inquiry.id)'));
+                $jobs->orderBy(\DB::raw('MAX(inquiry.created_at)'), 'desc');
+                $jobs->groupBy('job.id');
+            }
             // Admins can filter by status
             $status = request('status');
             switch ($status) {
                 case 'open':
-                    $jobs = Job::where('open', true);
+                    $jobs = $jobs->where('open', true);
                     break;
                 case 'closed':
-                    $jobs = Job::where('open', false);
+                    $jobs = $jobs->where('open', false);
                     break;
                 case 'all':
                 default:
-                    $jobs = Job::where('id', '>', 0);
                     break;
             }
         } else {
@@ -132,13 +145,6 @@ class Job extends Model
 
         if ($loc = request('state')) {
             $jobs->where('state', $loc);
-        }
-
-        $new_inquiries = request('new-inquiries') && request('new-inquiries') == '1';
-        if ($new_inquiries) {
-            $jobs->whereHas('inquiries', function ($query) {
-                $query->whereNull('rating');
-            });
         }
 
         return $jobs;

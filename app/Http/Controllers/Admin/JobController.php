@@ -15,7 +15,21 @@ class JobController extends Controller
     {
         $this->authorize('create-job');
 
-        $jobs = Job::filter($request)->orderBy('created_at', 'desc');
+        // Defaults
+        if (!request('status')) {
+            $request->merge(['status' => 'open']);
+        }
+
+        $jobs = Job::filter($request);
+        if (request('new-inquiries')) {
+            // Order new inquiries requests by most recent inquiry
+            // Done in filter function
+        } else {
+            // Default: order like front-end
+            $jobs = $jobs->orderBy('featured', 'desc')
+                ->orderBy('rank', 'asc')
+                ->orderBy('created_at', 'desc');
+        }
         $count = $jobs->count();
         $jobs = $jobs->paginate(15);
 

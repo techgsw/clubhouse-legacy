@@ -105,8 +105,8 @@
         <div class="col s3 input-field">
             <label class="active">Status</label>
             <select name="status" class="browser-default">
-                <option value="" {{ request('status') == "" ? "selected" : "" }}>All</option>
-                <option value="open" {{ request('status') == "open" ? "selected" : "" }}>Open</option>
+                <option value="all" {{ request('status') == "all" ? "selected" : "" }}>All</option>
+                <option value="open" {{ request('status') == "" || request('status') == "open" ? "selected" : "" }}>Open</option>
                 <option value="closed" {{ request('status') == "closed" ? 'selected' : '' }}>Closed</option>
             </select>
         </div>
