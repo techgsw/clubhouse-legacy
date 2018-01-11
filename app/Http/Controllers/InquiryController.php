@@ -8,7 +8,7 @@ use App\Job;
 use App\Message;
 use App\User;
 use App\Http\Requests\StoreJob;
-use App\Mail\BobAlert;
+use App\Mail\InternalAlert;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
@@ -74,7 +74,7 @@ class InquiryController extends Controller
         $bob = User::find(1);
 
         try {
-            Mail::to($bob)->send(new BobAlert('emails.bob.inquiry-submitted', array(
+            Mail::to($bob)->send(new InternalAlert('emails.internal.inquiry-submitted', array(
                 'job' => $job,
                 'user' => Auth::user()
             )));

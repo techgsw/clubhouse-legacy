@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Mail;
-use App\Mail\BobAlert;
+use App\Mail\InternalAlert;
 use App\Mail\UserRegistered;
 use App\Address;
 use App\Message;
@@ -121,7 +121,7 @@ class RegisterController extends Controller
         try {
             Mail::to($user)->send(new UserRegistered($user));
             Mail::to('bob@sportsbusiness.solutions')->send(
-                new BobAlert('emails.bob.registration', array('user' => $user))
+                new InternalAlert('emails.internal.registration', array('user' => $user))
             );
         } catch (Exception $e) {
             // TODO log exception
