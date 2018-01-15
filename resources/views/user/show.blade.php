@@ -11,8 +11,6 @@
     @endcomponent
     <div class="row">
         <div class="col s12">
-            <p class="small hide-on-small-only" style="margin: 4px 0;">Joined {{ $user->created_at->format('F j, Y') }}</p>
-            <p class="small hide-on-small-only" style="margin: 4px 0;">Last updated {{ $user->updated_at->format('F j, Y') }}</p>
             @if (is_null($user->profile) || is_null($user->profile->job_seeking_status))
                 <p><span class="label blue white-text">NEW</span> Check out your <a href="/user/{{$user->id}}/profile">profile</a>! The more complete it is, the better chance we'll have of helping you make progress in your career.</p>
             @else
@@ -38,12 +36,7 @@
             <h4>Job Applications</h4>
             @if (count($user->inquiries))
                 @foreach ($user->inquiries as $inquiry)
-                    <div style="margin: 14px 10px 4px 2px; border-bottom: 1px solid #EEE;">
-                        <a href="/job/{{ $inquiry->job->id }}">
-                            <h6>{{ $inquiry->job->title }}</h6>
-                            <p>submitted {{ $inquiry->created_at->format('F j, Y g:ia') }}</p>
-                        </a>
-                    </div>
+                    @include('components.user-inquiry-list-item', ['inquiry' => $inquiry, 'user' => $user])
                 @endforeach
             @else
                 <p>When you apply for jobs on the <a href="/job">Job Board</a>, those jobs will appear here.</p>

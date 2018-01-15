@@ -38,6 +38,13 @@
     right: auto;
 }
 
+.float-right {
+    float: right;
+}
+.float-left {
+    float: left;
+}
+
 .row .col.s5ths {
     width: 20%;
 }
