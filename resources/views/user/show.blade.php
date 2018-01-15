@@ -71,4 +71,5 @@
         </div>
     </div>
 </div>
+@include('components.profile-notes-modal')
 @endsection

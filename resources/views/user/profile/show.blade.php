@@ -196,30 +196,5 @@
         </div>
     </div>
 </div>
-<div class="profile-notes-modal modal modal-large modal-fixed-footer">
-    <div class="modal-content"></div>
-    <div class="modal-footer" style="height: auto;">
-        <div class="row">
-            <div class="input-field col s12">
-                <form method="post">
-                    <textarea id="note" name="note" placeholder="New note"></textarea>
-                    <button type="submit" name="save" class="btn sbs-red">Save</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<style media="screen">
-    textarea#note {
-        padding: 8px 12px;
-        border: 1px solid #DDD !important;
-        height: auto;
-        border-radius: 4px;
-    }
-    textarea#note:focus {
-        outline: none;
-        border: 1px solid #AAA !important;
-        box-shadow: none !important;
-    }
-</style>
+@include('components.profile-notes-modal')
 @endsection

@@ -328,17 +328,21 @@ $.valHooks.textarea = {
     Note.getProfileNotes = function (user_id) {
         return $.ajax({
             type: 'GET',
-            url: '/user/'+user_id+'/profile-notes',
-            data: {
-                id: user_id
-            }
+            url: '/user/'+user_id+'/show-notes'
+        });
+    }
+
+    Note.postProfileNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/user/'+data.user_id+'/create-note',
+            data: data
         });
     }
 
     $('body').on(
         {
             click: function (e, ui) {
-                console.log(e);
                 var user_id = parseInt($(this).attr('user-id'));
                 Note.getProfileNotes(user_id).done(function (view) {
                     $('.profile-notes-modal .modal-content').html(view);
@@ -347,7 +351,41 @@ $.valHooks.textarea = {
             }
         },
         '.view-profile-notes-btn'
-    )
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-profile-note');
+                if (form.length == 0) {
+                    return;
+                }
+
+                var values = {};
+                data = form.serializeArray();
+                data.forEach(function (input) {
+                    values[input.name] = input.value;
+                });
+
+                form.find('input, textarea, button').attr('disabled', 'disabled');
+                Note.postProfileNote(values).done(function (response) {
+                    if (response.type != 'success') {
+                        // TODO fail
+                        console.error('Failed to add note');
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        return;
+                    }
+                    Note.getProfileNotes(values.user_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        $('.profile-notes-modal .modal-content').html(view);
+                        $('.profile-notes-modal').modal('open');
+                    });
+                });
+            }
+        },
+        '.submit-profile-note-btn'
+    );
     // end Notes
 
     $('body').on(

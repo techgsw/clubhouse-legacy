@@ -26,4 +26,10 @@ class Note extends Authenticatable
     {
         return $this->morphTo();
     }
+
+    public static function profile($user_id, array $options = null)
+    {
+        return Note::where('notable_type', 'App\Profile')
+         ->where('notable_id', $user_id);
+    }
 }

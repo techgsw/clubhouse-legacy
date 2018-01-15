@@ -144,7 +144,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}/profile', 'ProfileController@show');
     Route::get('/user/{id}/edit-profile', 'ProfileController@edit');
     Route::post('/user/{id}/profile', 'ProfileController@update');
-    Route::get('/user/{id}/profile-notes', 'ProfileController@showNotes');
+    Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
+    Route::post('/user/{id}/create-note', 'ProfileController@createNote');
 });
 
 /**

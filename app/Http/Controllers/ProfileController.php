@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProfile;
 use App\Http\Requests\UpdateProfile;
 use App\Message;
+use App\Note;
 use App\Profile;
 use App\User;
 use App\Providers\ImageServiceProvider;
@@ -483,8 +484,24 @@ class ProfileController extends Controller
      */
     public function showNotes($id)
     {
-        $user = User::find($id);
         $this->authorize('view-profile-notes');
+
+        $notes = Note::profile($id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('user/profile-notes/show', [
+            'notes' => $notes
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createNote($id)
+    {
+        $this->authorize('create-profile-note');
 
         $user = User::find($id);
         if (!$user) {
@@ -496,12 +513,17 @@ class ProfileController extends Controller
             return abort(404);
         }
 
-        $notes = $user->profile->notes;
+        $note = new Note();
+        $note->user_id = Auth::user()->id;
+        $note->notable_id = $id;
+        $note->notable_type = "App\Profile";
+        $note->content = request("note");
+        $note->save();
 
-        return view('user/profile-notes/show', [
-            'user' => $user,
-            'profile' => $profile,
-            'notes' => $notes
+        return response()->json([
+            'type' => 'success',
+            'content' => $note->content,
+            'user' => Auth::user()
         ]);
     }
 }
