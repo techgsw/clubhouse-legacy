@@ -370,7 +370,7 @@ $.valHooks.textarea = {
                 form.find('input, textarea, button').attr('disabled', 'disabled');
                 Note.postProfileNote(values).done(function (response) {
                     if (response.type != 'success') {
-                        // TODO fail
+                        // TODO better messaging for failure
                         console.error('Failed to add note');
                         form.find('input, textarea, button').removeAttr('disabled');
                         return;
