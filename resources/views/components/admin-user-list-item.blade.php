@@ -1,7 +1,11 @@
 <div class="row user-admin">
     <div class="col s3 m2">
         <a href="/user/{{$user->id}}" class="no-underline">
-            <img src={{ Storage::disk('local')->url($user->image_url) }} class="no-border">
+            @if ($user->profile->headshot_url)
+                <img src={{ Storage::disk('local')->url($user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px;" class="no-border">
+            @else
+                <i class="material-icons large">person</i>
+            @endif
         </a>
     </div>
     <div class="col s9 m10">
