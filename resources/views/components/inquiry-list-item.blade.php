@@ -10,7 +10,7 @@
         <div class="col s9">
             <p>
                 <button class="view-profile-notes-btn flat-button small grey pull-right" user-id="{{ $inquiry->user->id }}">{{ count($inquiry->user->profile->notes) }} <i class="fa fa-comments"></i></button>
-                <a href="/user/{{ $inquiry->user->id }}/profile">{{ $inquiry->name}}</a>
+                <a href="/user/{{ $inquiry->user->id }}">{{ $inquiry->name}}</a>
             </p>
             <p class="small">applied on {{ $inquiry->created_at->format('F j, Y') }}</p>
             <p class="hide-on-small-only">
