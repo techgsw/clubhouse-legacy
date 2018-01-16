@@ -340,6 +340,21 @@ $.valHooks.textarea = {
         });
     }
 
+    Note.getInquiryNotes = function (inquiry_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/inquiry/'+inquiry_id+'/show-notes'
+        });
+    }
+
+    Note.postInquiryNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/inquiry/'+data.inquiry_id+'/create-note',
+            data: data
+        });
+    }
+
     $('body').on(
         {
             click: function (e, ui) {
@@ -386,6 +401,54 @@ $.valHooks.textarea = {
             }
         },
         '.submit-profile-note-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var inquiry_id = parseInt($(this).attr('inquiry-id'));
+                Note.getInquiryNotes(inquiry_id).done(function (view) {
+                    $('.inquiry-notes-modal .modal-content').html(view);
+                    $('.inquiry-notes-modal').modal('open');
+                    $('form#create-inquiry-note input[name="inquiry_id"]').val(inquiry_id);
+                });
+            }
+        },
+        '.view-inquiry-notes-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-inquiry-note');
+                if (form.length == 0) {
+                    return;
+                }
+
+                var values = {};
+                data = form.serializeArray();
+                data.forEach(function (input) {
+                    values[input.name] = input.value;
+                });
+
+                form.find('input, textarea, button').attr('disabled', 'disabled');
+                Note.postInquiryNote(values).done(function (response) {
+                    if (response.type != 'success') {
+                        // TODO better messaging for failure
+                        console.error('Failed to add note');
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        return;
+                    }
+                    Note.getInquiryNotes(values.inquiry_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        $('.inquiry-notes-modal .modal-content').html(view);
+                        $('.inquiry-notes-modal').modal('open');
+                    });
+                });
+            }
+        },
+        '.submit-inquiry-note-btn'
     );
     // end Notes
 

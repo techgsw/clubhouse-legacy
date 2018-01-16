@@ -169,6 +169,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/inquiry/{id}/rate-up', 'InquiryController@rateUp');
     Route::get('/inquiry/{id}/rate-maybe', 'InquiryController@rateMaybe');
     Route::get('/inquiry/{id}/rate-down', 'InquiryController@rateDown');
+    Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');
+    Route::post('/inquiry/{id}/create-note', 'InquiryController@createNote');
 
     Route::get('/jobs', function () {
         return redirect('/job');

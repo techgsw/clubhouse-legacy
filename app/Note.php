@@ -32,4 +32,10 @@ class Note extends Authenticatable
         return Note::where('notable_type', 'App\Profile')
          ->where('notable_id', $user_id);
     }
+
+    public static function inquiry($inquiry_id, array $options = null)
+    {
+        return Note::where('notable_type', 'App\Inquiry')
+         ->where('notable_id', $inquiry_id);
+    }
 }

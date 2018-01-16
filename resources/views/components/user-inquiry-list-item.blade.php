@@ -7,7 +7,7 @@
     <div class="col s9 m10 info">
         @can ('edit-inquiry', $inquiry)
             <div class="float-right controls">
-                <button type="button" class="flat-button small blue"><i class="fa fa-comments"></i></button>
+                <button type="button" class="flat-button small blue view-inquiry-notes-btn" inquiry-id="{{ $inquiry->id }}"><i class="fa fa-comments"></i></button>
                 <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
                 <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
                 <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>

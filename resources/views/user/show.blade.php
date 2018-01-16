@@ -65,4 +65,5 @@
     </div>
 </div>
 @include('components.profile-notes-modal')
+@include('components.inquiry-notes-modal')
 @endsection
