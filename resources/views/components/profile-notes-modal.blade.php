@@ -6,7 +6,7 @@
                 <form id="create-profile-note" method="post">
                     {{ csrf_field() }}
                     <textarea id="note" name="note" placeholder="New note"></textarea>
-                    <input type="hidden" name="user_id" value="{{ $user->id }}" />
+                    <input type="hidden" name="user_id" value="" />
                     <button type="button" name="save" class="btn sbs-red submit-profile-note-btn">Save</button>
                 </form>
             </div>
