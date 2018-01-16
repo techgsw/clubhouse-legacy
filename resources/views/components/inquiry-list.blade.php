@@ -9,4 +9,5 @@
             </div>
         </div>
     @endif
+    @include('components.profile-notes-modal')
 </div>

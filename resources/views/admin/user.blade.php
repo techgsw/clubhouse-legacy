@@ -31,32 +31,7 @@
     <div class="col s12">
         @if (count($users) > 0)
             @foreach ($users as $user)
-                <a href="/user/{{ $user->id }}">
-                    <div class="row">
-                        <div class="col s3 l2">
-                            @if (!is_null($user->profile))
-                                @if ($user->profile->headshot_url)
-                                    <img src={{ Storage::disk('local')->url($user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%;" />
-                                @else
-                                    <i class="material-icons large">person</i>
-                                @endif
-                            @else
-                                <i class="material-icons large">person</i>
-                            @endif
-                        </div>
-                        <div class="col s9 l10">
-                            <div class="row">
-                                <div class="col s12 m6">
-                                    <h5>{{ $user->getName() }}</h5>
-                                    <p>{{ $user->email }}</p>
-                                </div>
-                                <div class="col s12 m6">
-                                    <p>#{{ $user->id }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                @include('components.admin-user-list-item', ['user' => $user])
             @endforeach
             <div class="row">
                 <div class="col s12 center-align">
@@ -67,3 +42,4 @@
     </div>
 </div>
 @endsection
+@include('components.profile-notes-modal')

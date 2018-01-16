@@ -347,6 +347,7 @@ $.valHooks.textarea = {
                 Note.getProfileNotes(user_id).done(function (view) {
                     $('.profile-notes-modal .modal-content').html(view);
                     $('.profile-notes-modal').modal('open');
+                    $('form#create-profile-note input[name="user_id"]').val(user_id);
                 });
             }
         },
