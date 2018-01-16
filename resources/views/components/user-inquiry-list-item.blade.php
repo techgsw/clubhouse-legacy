@@ -6,7 +6,7 @@
     </div>
     <div class="col s9 m10 info">
         @can ('edit-inquiry', $inquiry)
-            <div class="float-right controls">
+            <div class="hide-on-small-only float-right controls">
                 <button type="button" class="flat-button small blue view-inquiry-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
                 <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
                 <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
@@ -21,6 +21,17 @@
             <p><span class="heavy">{{ $inquiry->job->organization }}</span> in {{ $inquiry->job->city }}, {{ $inquiry->job->state }}</p>
             <p class="small">submitted {{ $inquiry->created_at->format('F j, Y g:ia') }}</p>
         </a>
+        @can ('edit-inquiry', $inquiry)
+            <div class="hide-on-med-and-up controls">
+                <button type="button" class="flat-button small blue view-inquiry-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
+                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
+                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
+                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
+                @if (!is_null($inquiry->rating))
+                    <p class="small right-align">{{ $inquiry->updated_at->format('F j, Y') }}</p>
+                @endif
+            </div>
+        @endcan
     </div>
 </div>
 <style media="screen">
@@ -31,8 +42,8 @@
         margin: 0;
     }
     .user-inquiry-list-item img.job-image {
-        max-height: 80px;
-        max-width: 80px;
+        width: 80px;
+        max-width: 100%;
     }
     .user-inquiry-list-item .info p {
         margin: 4px 0px;

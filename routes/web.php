@@ -140,6 +140,8 @@ Route::group(['middleware' => ['web']], function () {
  */
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
+    Route::get('/user/{id}/jobs', 'UserController@jobs');
+    Route::get('/user/{id}/questions', 'UserController@questions');
 
     Route::get('/user/{id}/profile', 'ProfileController@show');
     Route::get('/user/{id}/edit-profile', 'ProfileController@edit');

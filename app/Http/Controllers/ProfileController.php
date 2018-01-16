@@ -155,7 +155,7 @@ class ProfileController extends Controller
             $department_experience[] = $profile->department_experience_other;
         }
 
-        return view('user/profile/show', [
+        return view('user/profile', [
             'user' => $user,
             'profile' => $profile,
             'department_goals' => $department_goals,
@@ -276,7 +276,7 @@ class ProfileController extends Controller
             $profile->phone = "(".substr($profile->phone, 0, 3).")".substr($profile->phone, 3, 3)."-".substr($profile->phone, 6, 4);
         }
 
-        return view('user/profile/edit', [
+        return view('user/edit-profile', [
             'user' => $user,
             'profile' => $profile,
             'address' => $address,
