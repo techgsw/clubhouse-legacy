@@ -10,4 +10,5 @@
         </div>
     @endif
     @include('components.profile-notes-modal')
+    @include('components.inquiry-notes-modal')
 </div>
