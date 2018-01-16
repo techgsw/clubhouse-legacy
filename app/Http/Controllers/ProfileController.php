@@ -361,7 +361,7 @@ class ProfileController extends Controller
                 $r = null;
             }
         } catch (Exception $e) {
-            // TODO what?
+            Log::error($e->getMessage());
         }
 
         $profile->phone = request('phone')
