@@ -13,3 +13,4 @@ Homestead.yaml
 /.vagrant
 /logs
 *.mp3
+database/backups
