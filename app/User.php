@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Note;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -213,5 +214,10 @@ class User extends Authenticatable
         }
 
         return $users;
+    }
+
+    public function noteCount()
+    {
+        return count(Note::profile($this->id));
     }
 }

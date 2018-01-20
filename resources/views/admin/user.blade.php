@@ -33,6 +33,7 @@
             @foreach ($users as $user)
                 @include('components.admin-user-list-item', ['user' => $user])
             @endforeach
+            @include('components.profile-notes-modal')
             <div class="row">
                 <div class="col s12 center-align">
                     {{ $users->links('components.pagination') }}
@@ -42,4 +43,3 @@
     </div>
 </div>
 @endsection
-@include('components.profile-notes-modal')

@@ -486,9 +486,7 @@ class ProfileController extends Controller
     {
         $this->authorize('view-profile-notes');
 
-        $notes = Note::profile($id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $notes = Note::profile($id);
 
         return view('user/profile-notes/show', [
             'notes' => $notes

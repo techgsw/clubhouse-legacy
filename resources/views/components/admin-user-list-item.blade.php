@@ -14,7 +14,7 @@
         </a>
         <p class="small">{{ $user->email }}</p>
         <p class="small heavy" style="padding-top: 6px;">
-            <button class="view-profile-notes-btn flat-button small grey" user-id="{{ $user->id }}">{{ count($user->profile->notes) }} <i class="fa fa-comments"></i></button>
+            <button class="view-profile-notes-btn flat-button small grey" user-id="{{ $user->id }}">{{ $user->noteCount() }} <i class="fa fa-comments"></i></button>
         </p>
     </div>
 </div>
