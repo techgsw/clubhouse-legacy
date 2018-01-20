@@ -24,6 +24,11 @@ class Inquiry extends Model
         return $this->belongsTo(Job::class);
     }
 
+    public function notes()
+    {
+        return $this->morphMany('App\Note', 'notable');
+    }
+
     public static function filter($job_id, Request $request)
     {
         $inquiries = Inquiry::where('job_id', $job_id);

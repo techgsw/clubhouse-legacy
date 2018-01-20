@@ -18,12 +18,45 @@ class UserController extends Controller
     public function show(Request $request, $id)
     {
         $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
         $this->authorize('view-user', $user);
 
-        return view('user/show', [
+        return redirect("/user/{$id}/profile");
+    }
+
+    public function jobs(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
+        $this->authorize('view-user', $user);
+
+        return view('user/jobs', [
             'breadcrumb' => [
                 'Home' => '/',
-                'User' => "/user/{$user->id}"
+                'User' => "/user/{$user->id}",
+                'Jobs' => "/user/{$user->id}/jobs"
+            ],
+            'user' => $user
+        ]);
+    }
+
+    public function questions(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
+        $this->authorize('view-user', $user);
+
+        return view('user/questions', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'User' => "/user/{$user->id}",
+                'Questions' => "/user/{$user->id}/questions"
             ],
             'user' => $user
         ]);
@@ -38,6 +71,9 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
         $this->authorize('edit-user', $user);
 
         return view('user/edit', [
@@ -55,6 +91,9 @@ class UserController extends Controller
     public function update(UpdateUser $request, $id)
     {
         $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
         $user->first_name = request('first_name');
         $user->last_name = request('last_name');
         $user->email = request('email');
@@ -69,6 +108,4 @@ class UserController extends Controller
 
         return redirect()->action('UserController@show', [$user]);
     }
-
-
 }

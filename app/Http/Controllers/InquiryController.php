@@ -6,6 +6,7 @@ use App\Http\Requests\StoreInquiry;
 use App\Inquiry;
 use App\Job;
 use App\Message;
+use App\Note;
 use App\User;
 use App\Http\Requests\StoreJob;
 use App\Mail\InternalAlert;
@@ -176,6 +177,50 @@ class InquiryController extends Controller
             'type' => 'success',
             'inquiry_id' => $id,
             'rating' => -1
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showNotes($id)
+    {
+        $this->authorize('view-inquiry-notes');
+
+        $notes = Note::inquiry($id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('inquiry/notes/show', [
+            'notes' => $notes
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createNote($id)
+    {
+        $this->authorize('create-inquiry-note');
+
+        $inquiry = Inquiry::find($id);
+        if (!$inquiry) {
+            return abort(404);
+        }
+
+        $note = new Note();
+        $note->user_id = Auth::user()->id;
+        $note->notable_id = $id;
+        $note->notable_type = "App\Inquiry";
+        $note->content = request("note");
+        $note->save();
+
+        return response()->json([
+            'type' => 'success',
+            'content' => $note->content,
+            'user' => Auth::user()
         ]);
     }
 }

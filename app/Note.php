@@ -1,0 +1,72 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
+
+class Note extends Authenticatable
+{
+    protected $table = 'note';
+    protected $guarded = [];
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function notable()
+    {
+        return $this->morphTo();
+    }
+
+    public static function profile($user_id, array $options = null)
+    {
+        $notes = array();
+
+        $profile_notes = Note::where('notable_type', 'App\Profile')
+            ->where('notable_id', $user_id)
+            ->get();
+        foreach ($profile_notes as $note) {
+            $notes[$note->created_at->getTimestamp()] = $note;
+        }
+
+        $inquiries = DB::table('inquiry')
+            ->where('inquiry.user_id', $user_id)
+            ->select('inquiry.id')
+            ->get();
+
+        if ($inquiries) {
+            $inquiry_ids = array();
+            foreach ($inquiries as $inquiry) {
+                $inquiry_ids[] = $inquiry->id;
+            }
+            $inquiry_notes = Note::where('notable_type', 'App\Inquiry')
+                ->join('inquiry', 'note.notable_id', '=', 'inquiry.id')
+                ->join('job', 'inquiry.job_id', '=', 'job.id')
+                ->whereIn('notable_id', $inquiry_ids)
+                ->select('note.*', 'job.id as job_id', 'job.title as job_title', 'job.organization as job_organization')
+                ->get();
+            foreach ($inquiry_notes as $note) {
+                $notes[$note->created_at->getTimestamp()] = $note;
+            }
+        }
+
+        krsort($notes);
+
+        return $notes;
+    }
+
+    public static function inquiry($inquiry_id, array $options = null)
+    {
+        return Note::where('notable_type', 'App\Inquiry')
+            ->where('notable_id', $inquiry_id);
+    }
+}

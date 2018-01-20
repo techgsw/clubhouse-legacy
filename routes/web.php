@@ -148,10 +148,14 @@ Route::group(['middleware' => ['web']], function () {
  */
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
+    Route::get('/user/{id}/jobs', 'UserController@jobs');
+    Route::get('/user/{id}/questions', 'UserController@questions');
 
     Route::get('/user/{id}/profile', 'ProfileController@show');
     Route::get('/user/{id}/edit-profile', 'ProfileController@edit');
     Route::post('/user/{id}/profile', 'ProfileController@update');
+    Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
+    Route::post('/user/{id}/create-note', 'ProfileController@createNote');
 });
 
 /**
@@ -175,6 +179,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/inquiry/{id}/rate-up', 'InquiryController@rateUp');
     Route::get('/inquiry/{id}/rate-maybe', 'InquiryController@rateMaybe');
     Route::get('/inquiry/{id}/rate-down', 'InquiryController@rateDown');
+    Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');
+    Route::post('/inquiry/{id}/create-note', 'InquiryController@createNote');
 
     Route::get('/jobs', function () {
         return redirect('/job');

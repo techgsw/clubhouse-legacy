@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProfile;
 use App\Http\Requests\UpdateProfile;
 use App\Message;
+use App\Note;
 use App\Profile;
 use App\User;
 use App\Providers\ImageServiceProvider;
@@ -154,7 +155,7 @@ class ProfileController extends Controller
             $department_experience[] = $profile->department_experience_other;
         }
 
-        return view('user/profile/show', [
+        return view('user/profile', [
             'user' => $user,
             'profile' => $profile,
             'department_goals' => $department_goals,
@@ -275,7 +276,7 @@ class ProfileController extends Controller
             $profile->phone = "(".substr($profile->phone, 0, 3).")".substr($profile->phone, 3, 3)."-".substr($profile->phone, 6, 4);
         }
 
-        return view('user/profile/edit', [
+        return view('user/edit-profile', [
             'user' => $user,
             'profile' => $profile,
             'address' => $address,
@@ -360,7 +361,7 @@ class ProfileController extends Controller
                 $r = null;
             }
         } catch (Exception $e) {
-            // TODO what?
+            Log::error($e->getMessage());
         }
 
         $profile->phone = request('phone')
@@ -475,5 +476,52 @@ class ProfileController extends Controller
         }
 
         return redirect()->action('ProfileController@edit', [$user]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showNotes($id)
+    {
+        $this->authorize('view-profile-notes');
+
+        $notes = Note::profile($id);
+
+        return view('user/profile-notes/show', [
+            'notes' => $notes
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createNote($id)
+    {
+        $this->authorize('create-profile-note');
+
+        $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
+
+        $profile = $user->profile;
+        if (!$profile) {
+            return abort(404);
+        }
+
+        $note = new Note();
+        $note->user_id = Auth::user()->id;
+        $note->notable_id = $id;
+        $note->notable_type = "App\Profile";
+        $note->content = request("note");
+        $note->save();
+
+        return response()->json([
+            'type' => 'success',
+            'content' => $note->content,
+            'user' => Auth::user()
+        ]);
     }
 }

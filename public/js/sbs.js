@@ -19,6 +19,7 @@ $.valHooks.textarea = {
         unsaved: false
     };
     var Instagram = {};
+    var Note = {};
     var Tag = {
         map: {}
     };
@@ -327,6 +328,145 @@ $.valHooks.textarea = {
         '.materialboxed'
     );
 
+    // Notes
+    Note.init = function () {
+        $('.profile-notes-modal').modal({
+            dismissible: true,  // Modal can be dismissed by clicking outside of the modal
+            opacity: .5,        // Opacity of modal background
+            inDuration: 300,    // Transition in duration
+            outDuration: 200,   // Transition out duration
+            startingTop: '4%',  // Starting top style attribute
+            endingTop: '10%',   // Ending top style attribute
+        });
+    };
+
+    Note.getProfileNotes = function (user_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/user/'+user_id+'/show-notes'
+        });
+    }
+
+    Note.postProfileNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/user/'+data.user_id+'/create-note',
+            data: data
+        });
+    }
+
+    Note.getInquiryNotes = function (inquiry_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/inquiry/'+inquiry_id+'/show-notes'
+        });
+    }
+
+    Note.postInquiryNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/inquiry/'+data.inquiry_id+'/create-note',
+            data: data
+        });
+    }
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var user_id = parseInt($(this).attr('user-id'));
+                Note.getProfileNotes(user_id).done(function (view) {
+                    $('.profile-notes-modal .modal-content').html(view);
+                    $('.profile-notes-modal').modal('open');
+                    $('form#create-profile-note input[name="user_id"]').val(user_id);
+                });
+            }
+        },
+        '.view-profile-notes-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-profile-note');
+                if (form.length == 0) {
+                    return;
+                }
+
+                var values = {};
+                data = form.serializeArray();
+                data.forEach(function (input) {
+                    values[input.name] = input.value;
+                });
+
+                form.find('input, textarea, button').attr('disabled', 'disabled');
+                Note.postProfileNote(values).done(function (response) {
+                    if (response.type != 'success') {
+                        // TODO better messaging for failure
+                        console.error('Failed to add note');
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        return;
+                    }
+                    Note.getProfileNotes(values.user_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        $('.profile-notes-modal .modal-content').html(view);
+                        $('.profile-notes-modal').modal('open');
+                    });
+                });
+            }
+        },
+        '.submit-profile-note-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var inquiry_id = parseInt($(this).attr('inquiry-id'));
+                Note.getInquiryNotes(inquiry_id).done(function (view) {
+                    $('.inquiry-notes-modal .modal-content').html(view);
+                    $('.inquiry-notes-modal').modal('open');
+                    $('form#create-inquiry-note input[name="inquiry_id"]').val(inquiry_id);
+                });
+            }
+        },
+        '.view-inquiry-notes-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-inquiry-note');
+                if (form.length == 0) {
+                    return;
+                }
+
+                var values = {};
+                data = form.serializeArray();
+                data.forEach(function (input) {
+                    values[input.name] = input.value;
+                });
+
+                form.find('input, textarea, button').attr('disabled', 'disabled');
+                Note.postInquiryNote(values).done(function (response) {
+                    if (response.type != 'success') {
+                        // TODO better messaging for failure
+                        console.error('Failed to add note');
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        return;
+                    }
+                    Note.getInquiryNotes(values.inquiry_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        $('.inquiry-notes-modal .modal-content').html(view);
+                        $('.inquiry-notes-modal').modal('open');
+                    });
+                });
+            }
+        },
+        '.submit-inquiry-note-btn'
+    );
+    // end Notes
+
     $('body').on(
         {
             change: function (e, ui) {
@@ -561,6 +701,7 @@ $.valHooks.textarea = {
     SBS.init = function () {
         Blog.init();
         Instagram.init();
+        Note.init();
         Video.init();
         Tag.init();
         if ($('.app-login-placeholder-after').length > 0) {

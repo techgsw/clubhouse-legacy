@@ -124,6 +124,19 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('edit-session', function ($user, $session) {
             return $user->id == $session->user_id || $user->hasAccess('session_edit');
+
+        // Notes
+        Gate::define('view-profile-notes', function ($user) {
+            return $user->hasAccess('profile_note_show');
+        });
+        Gate::define('create-profile-note', function ($user) {
+            return $user->hasAccess('profile_note_create');
+        });
+        Gate::define('view-inquiry-notes', function ($user) {
+            return $user->hasAccess('inquiry_note_show');
+        });
+        Gate::define('create-inquiry-note', function ($user) {
+            return $user->hasAccess('inquiry_note_create');
         });
     }
 }
