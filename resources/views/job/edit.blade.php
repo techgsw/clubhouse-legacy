@@ -25,7 +25,7 @@
                 <label for="featured">Featured</label>
             </div>
             <div class="input-field col s12 m3">
-                <input type="number" step="1" min="1" name="rank" id="rank" value="{{ old('rank') ?: $job->rank ?: '' }}" {{ is_null(old('featured')) ? ($job->featured ? "" : "disabled") : (old('featured') ? "" : "disabled") }} />
+                <input type="number" step="1" min="1" name="rank" id="rank" value="{{ old('rank') ?: $job->rank ?: '' }}" disabled />
                 <label for="rank">Rank</label>
             </div>
             <div class="input-field col s12">

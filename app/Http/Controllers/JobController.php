@@ -45,7 +45,7 @@ class JobController extends Controller
         return view('job/index', [
             'breadcrumb' => [
                 'Home' => '/',
-                'Job Board' => '/job'
+                'Job Board' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
             'jobs' => $jobs,
             'searching' => $searching
@@ -62,7 +62,7 @@ class JobController extends Controller
         return view('job/create', [
             'breadcrumb' => [
                 'Home' => '/',
-                'Job Board' => '/job',
+                'Job Board' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 'Post a job' => '/job/create'
             ]
         ]);
@@ -219,7 +219,7 @@ class JobController extends Controller
             'profile_complete' => $profile_complete,
             'breadcrumb' => [
                 'Home' => '/',
-                'Job Board' => '/job',
+                'Job Board' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 "$job->title with $job->organization" => "/job/{$job->id}"
             ]
         ]);
@@ -393,7 +393,7 @@ class JobController extends Controller
             'job' => $job,
             'breadcrumb' => [
                 'Home' => '/',
-                'Job Board' => '/job',
+                'Job Board' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 "Edit" => "/job/{$job->id}/edit"
             ]
         ]);
@@ -411,9 +411,7 @@ class JobController extends Controller
 
         $job->title = request('title');
         $job->featured = request('featured') ? true : false;
-        if ($job->featured) {
-            $job->rank = request('rank');
-        } else {
+        if (!$job->featured) {
             $job->rank = null;
         }
         $job->description = request('description');
@@ -430,8 +428,8 @@ class JobController extends Controller
             if ($last_job) {
                 $rank = $last_job->rank+1;
             }
+            $job->rank = $rank;
         }
-        $job->rank = $rank;
 
         if (request('document')) {
             $doc = request()->file('document');
