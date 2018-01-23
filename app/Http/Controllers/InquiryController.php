@@ -69,12 +69,10 @@ class InquiryController extends Controller
             'resume' => $resume,
         ]);
 
-        Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
-
-        // TODO Global constant
-        $bob = User::find(1);
-
         try {
+            Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
+
+            $bob = User::find(1);
             Mail::to($bob)->send(new InternalAlert('emails.internal.inquiry-submitted', array(
                 'job' => $job,
                 'user' => Auth::user()
@@ -84,10 +82,9 @@ class InquiryController extends Controller
                 'user' => Auth::user()
             )));
         } catch (Exception $e) {
-            // TODO log exception
+            Log::error($e->getMessage());
         }
 
-        // TODO Need to do multiples
         $request->session()->flash('message', new Message(
             "Thank you! We've received your résumé and you are being considered for the position.",
             "success"
