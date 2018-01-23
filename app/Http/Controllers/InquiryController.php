@@ -73,13 +73,10 @@ class InquiryController extends Controller
             Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
 
             $bob = User::find(1);
-            Mail::to($bob)->send(new InternalAlert('emails.internal.inquiry-submitted', array(
-                'job' => $job,
-                'user' => Auth::user()
-            )));
-            Mail::to('jason@sportsbusiness.solutions')->send(new InternalAlert('emails.internal.inquiry-submitted', array(
-                'job' => $job,
-                'user' => Auth::user()
+            Mail::to($bob)->cc('jason@sportsbusiness.solutions')
+                ->send(new InternalAlert('emails.internal.inquiry-submitted', array(
+                    'job' => $job,
+                    'user' => Auth::user()
             )));
         } catch (Exception $e) {
             Log::error($e->getMessage());
