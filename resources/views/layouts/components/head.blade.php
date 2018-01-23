@@ -19,7 +19,7 @@
     <link href="/css/font-awesome.min.css" type="text/css" rel="stylesheet">
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
     <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
-    <link href="/css/app.css?v=10" type="text/css" rel="stylesheet"/>
+    <link href="/css/app.css?v=11" type="text/css" rel="stylesheet"/>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
