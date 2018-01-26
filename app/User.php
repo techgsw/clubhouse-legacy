@@ -80,6 +80,9 @@ class User extends Authenticatable
 
     public function getTitle()
     {
+        if (!$this->profile) {
+            return null;
+        }
         if (!is_null($this->profile->current_title) || !is_null($this->profile->current_organization)) {
             return ($this->profile->current_title ?: 'Works') . ($this->profile->current_organization ? ' at ' . $this->profile->current_organization : '');
         }
@@ -183,42 +186,102 @@ class User extends Authenticatable
 
     public static function search(Request $request)
     {
-        $users = User::where('id', '>', 0);
+        $users = User::join('profile', 'profile.user_id', '=', 'user.id')
+            // Yooo whaaat https://github.com/laravel/framework/issues/4962
+            ->select('profile.*', 'user.*');
 
-        if ($term = $request->query->get('term')) {
-            if (ctype_digit($term)) {
-                $term = (int)$term;
-                $users = $users->where('id', $term);
-            } else {
-                $users = $users->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%$term%");
-                $users = $users->orWhere('email', 'like', "%$term%");
-            }
+        $term = $request->query->get('term');
+        $index = $request->query->get('index') ?: 'name';
+
+        switch ($index) {
+        case 'id':
+            $term = (int)$term;
+            $users = $users->where('user.id', $term);
+            break;
+        case 'organization':
+            $users = $users->where('profile.current_organization', 'like', "%$term%");
+            break;
+        case 'title':
+            $users = $users->where('profile.current_title', 'like', "%$term%");
+            break;
+        case 'email':
+            $users = $users->where('user.email', 'like', "%$term%");
+            break;
+        case 'name':
+        default:
+            $users = $users->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$term%");
         }
 
-        if ($sort = $request->query->get('sort')) {
-            switch ($sort) {
-                case 'id-desc':
-                    $users = $users->orderBy('id', 'desc');
-                    break;
-                case 'id-asc':
-                    $users = $users->orderBy('id', 'asc');
-                    break;
-                case 'email-desc':
-                    $users = $users->orderBy('email', 'desc');
-                    break;
-                case 'email-asc':
-                    $users = $users->orderBy('email', 'asc');
-                    break;
-                case 'name-desc':
-                    $users = $users->orderBy('last_name', 'desc');
-                    break;
-                case 'name-asc':
-                    $users = $users->orderBy('last_name', 'asc');
-                    break;
-                default:
-                    $users = $users->orderBy('id', 'asc');
-                    break;
-            }
+        $sort = $request->query->get('sort');
+        switch ($sort) {
+        case 'id-desc':
+            $users = $users->orderBy('user.id', 'desc');
+            break;
+        case 'id-asc':
+            $users = $users->orderBy('user.id', 'asc');
+            break;
+        case 'email-desc':
+            $users = $users->orderBy('user.email', 'desc');
+            break;
+        case 'email-asc':
+            $users = $users->orderBy('user.email', 'asc');
+            break;
+        case 'name-desc':
+            $users = $users->orderBy('user.last_name', 'desc');
+            break;
+        case 'name-asc':
+            $users = $users->orderBy('user.last_name', 'asc');
+            break;
+        default:
+            $users = $users->orderBy('user.id', 'desc');
+            break;
+        }
+
+        $job_seeking_type = $request->query->get('job_seeking_type');
+        switch ($job_seeking_type) {
+        case 'internship':
+            $users = $users->where('profile.job_seeking_type', 'internship');
+            break;
+        case 'entry_level':
+            $users = $users->where('profile.job_seeking_type', 'entry_level');
+            break;
+        case 'mid_level':
+            $users = $users->where('profile.job_seeking_type', 'mid_level');
+            break;
+        case 'entry_level_management':
+            $users = $users->where('profile.job_seeking_type', 'entry_level_management');
+            break;
+        case 'mid_level_management':
+            $users = $users->where('profile.job_seeking_type', 'mid_level_management');
+            break;
+        case 'executive':
+            $users = $users->where('profile.job_seeking_type', 'executive');
+            break;
+        case 'all':
+        default:
+            break;
+        }
+
+        $job_seeking_status = $request->query->get('job_seeking_status');
+        switch ($job_seeking_status) {
+        case 'unemployed':
+            $users = $users->where('profile.job_seeking_status', 'unemployed');
+            break;
+        case 'employed_active':
+            $users = $users->where('profile.job_seeking_status', 'employed_active');
+            break;
+        case 'employed_passive':
+            $users = $users->where('profile.job_seeking_status', 'employed_passive');
+            break;
+        case 'employed_future':
+            $users = $users->where('profile.job_seeking_status', 'employed_future');
+            break;
+        case 'employed_not':
+            $users = $users->where('profile.job_seeking_status', 'employed_not');
+            break;
+        case 'all':
+        default:
+            break;
         }
 
         return $users;
