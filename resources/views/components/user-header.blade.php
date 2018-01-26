@@ -17,8 +17,8 @@
                     {{ $slot }}
                 </div>
                 <h3 class="header" style="margin: 14px 0 2px 0;">{{ $user->getName() }}</h3>
-                @if (!is_null($user->profile->current_title) || !is_null($user->profile->current_organization))
-                    <p style="line-height: 1.25; margin: 3px 0;">{{ $user->profile->current_title ?: 'Works' }} {{ $user->profile->current_organization ? 'at ' . $user->profile->current_organization : ''  }}</p>
+                @if (!is_null($user->getTitle()))
+                    <p style="line-height: 1.25; margin: 3px 0;">{{ $user->getTitle() }}</p>
                 @endif
                 @if (!is_null($user->email))
                     <p style="line-height: 1.25; margin: 3px 0;"><a class="no-underline" href="mailto:{{ $user->email}}">{{ $user->email}}</a></p>

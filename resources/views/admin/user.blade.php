@@ -2,7 +2,6 @@
 @extends('layouts.admin')
 @section('title', 'Users')
 @section('content')
-<h4>Users</h4>
 <form class="" action="/admin/user" method="get">
     <div class="row">
         <div class="col input-field s12 m8">
@@ -42,4 +41,5 @@
         @endif
     </div>
 </div>
+@component('components.pdf-view-modal')@endcomponent
 @endsection

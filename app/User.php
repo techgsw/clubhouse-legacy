@@ -78,6 +78,14 @@ class User extends Authenticatable
         return $this->first_name . " " . $this->last_name;
     }
 
+    public function getTitle()
+    {
+        if (!is_null($this->profile->current_title) || !is_null($this->profile->current_organization)) {
+            return ($this->profile->current_title ?: 'Works') . ($this->profile->current_organization ? ' at ' . $this->profile->current_organization : '');
+        }
+        return null;
+    }
+
     public function hasCompleteProfile()
     {
         $personal_complete =
