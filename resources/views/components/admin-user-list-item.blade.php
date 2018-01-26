@@ -1,20 +1,31 @@
-<div class="row user-admin">
-    <div class="col s3 m2">
-        <a href="/user/{{$user->id}}" class="no-underline">
-            @if ($user->profile->headshot_url)
-                <img src={{ Storage::disk('local')->url($user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px;" class="no-border">
-            @else
-                <i class="material-icons large">person</i>
-            @endif
+@php
+    $notes = App\Note::profile($user->id);
+    $last_note = null;
+    if (count($notes) > 0) {
+        $last_note = array_shift($notes);
+    }
+@endphp
+<div class="row admin-user-list-item">
+    <div class="col s12 m4">
+        <a href="/user/{{$user->id}}">
+            <p class="name">{{ $user->first_name }} {{ $user->last_name }}</p>
+            <p class="title">{{ $user->getTitle() }}</p>
         </a>
     </div>
-    <div class="col s9 m10">
-        <a href="/user/{{$user->id}}">
-            <h5>{{ $user->first_name }} {{ $user->last_name }}</h5>
-        </a>
-        <p class="small">{{ $user->email }}</p>
-        <p class="small heavy" style="padding-top: 6px;">
-            <button class="view-profile-notes-btn flat-button small grey" user-id="{{ $user->id }}">{{ $user->noteCount() }} <i class="fa fa-comments"></i></button>
+    <div class="col s12 m4">
+        <p class="email">
+            <a class="no-underline" href="mailto::{{ $user->email }}">{{ $user->email }}</a>
         </p>
+        <p class="phone">@component('components.phone', ['phone' => $user->profile ? $user->profile->phone : null])@endcomponent</p>
+    </div>
+    <div class="col s12 m4">
+        <div style="margin: 4px 0;">
+            <button class="view-profile-notes-btn flat-button small" user-id="{{ $user->id }}">{{ $user->noteCount() }} <i class="fa fa-comments"></i></button>
+            @component('components.resume-button', ['url' => $user->profile ? $user->profile->resume_url : null])@endcomponent
+            @component('components.admin-profile-button', ['user' => $user])@endcomponent
+        </div>
+        @if ($last_note)
+            <p class="small italic">{{ $last_note->create_user_name }} {{ $last_note->created_at->format('m/d/Y') }}</p>
+        @endif
     </div>
 </div>

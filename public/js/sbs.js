@@ -673,23 +673,29 @@ $.valHooks.textarea = {
             click: function (e, ui) {
                 e.preventDefault();
 
-                var href = $(this).attr('href');
+                var modal_id = $(this).attr('modal-id');
                 var pdf_src = $(this).attr('pdf-src');
-                if (!href || !pdf_src) {
+                if (!modal_id || !pdf_src) {
                     return;
                 }
 
-                var modal = $(href);
+                if (pdf_src.substr(-4) !== ".pdf") {
+                    console.warn("File to preview is not a PDF");
+                    location.href = pdf_src;
+                    return;
+                }
+
+                var modal = $(modal_id);
                 var frame = modal.find('iframe.pdf-frame');
                 if (!modal || !frame) {
                     return;
                 }
 
                 frame.attr('src', pdf_src);
-                modal.modal();
+                modal.modal('open');
             }
         },
-        'a.modal-trigger.pdf-modal-trigger'
+        '.pdf-modal-trigger'
     );
 
     $(window).on("beforeunload", function (e, ui) {

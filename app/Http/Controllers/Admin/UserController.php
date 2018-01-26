@@ -15,10 +15,13 @@ class UserController extends Controller
     {
         $this->authorize('view-admin-users');
 
-        $users = User::search($request)->paginate(10);
+        $users = User::search($request);
+        $count = $users->count();
+        $users = $users->paginate(15);
 
         return view('admin/user', [
-            'users' => $users
+            'users' => $users,
+            'count' => $count
         ]);
     }
 }
