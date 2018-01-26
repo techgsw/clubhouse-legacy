@@ -569,6 +569,15 @@ a.hover-outline:hover {
     background-color: #303030 !important;
     color: #FFFFFF;
 }
+.flat-button.yellow {
+    border-color: #fbc02d;
+    color: #fbc02d;
+}
+.flat-button.yellow.inverse {
+    border-color: #fbc02d;
+    background-color: #fbc02d !important;
+    color: #FFFFFF;
+}
 
 button.x {
     border: none;

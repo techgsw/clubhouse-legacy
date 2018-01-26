@@ -15,6 +15,7 @@
         <div style="margin: 4px 0;">
             <button class="view-profile-notes-btn flat-button small" user-id="{{ $user->id }}">{{ $user->noteCount() }} <i class="fa fa-comments"></i></button>
             @component('components.resume-button', ['url' => $user->profile ? $user->profile->resume_url : null])@endcomponent
+            @component('components.admin-profile-button', ['user' => $user])@endcomponent
         </div>
     </div>
 </div>
