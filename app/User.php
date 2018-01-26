@@ -187,6 +187,9 @@ class User extends Authenticatable
     public static function search(Request $request)
     {
         $users = User::join('profile', 'profile.user_id', '=', 'user.id')
+            // ->join('note', function ($join) {
+            //     $join->on('note.notable_id', '=', 'profile.id')->where('note.notable_type', '=', 'App\Profile')->latest();
+            // })
             // Yooo whaaat https://github.com/laravel/framework/issues/4962
             ->select('profile.*', 'user.*');
 

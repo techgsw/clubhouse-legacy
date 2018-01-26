@@ -1,3 +1,10 @@
+@php
+    $notes = App\Note::profile($user->id);
+    $last_note = null;
+    if (count($notes) > 0) {
+        $last_note = array_shift($notes);
+    }
+@endphp
 <div class="row admin-user-list-item">
     <div class="col s12 m4">
         <a href="/user/{{$user->id}}">
@@ -17,5 +24,8 @@
             @component('components.resume-button', ['url' => $user->profile ? $user->profile->resume_url : null])@endcomponent
             @component('components.admin-profile-button', ['user' => $user])@endcomponent
         </div>
+        @if ($last_note)
+            <p class="small italic">{{ $last_note->create_user_name }} {{ $last_note->created_at->format('m/d/Y') }}</p>
+        @endif
     </div>
 </div>
