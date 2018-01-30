@@ -84,9 +84,9 @@ Route::get('/videos', function () {
 /**
  * Contact
  */
-Route::get('/contact', 'ContactController@index');
-Route::post('/contact', 'ContactController@send');
-Route::get('/contact/thanks', 'ContactController@thanks');
+Route::get('/contact', 'ContactUsController@index');
+Route::post('/contact', 'ContactUsController@send');
+Route::get('/contact/thanks', 'ContactUsController@thanks');
 
 /**
  * Auth
@@ -156,6 +156,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/user/{id}/profile', 'ProfileController@update');
     Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
     Route::post('/user/{id}/create-note', 'ProfileController@createNote');
+});
+
+/**
+ * Contacts
+ */
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/contact/{id}', 'ContactController@show');
+    Route::post('/contact/{id}', 'ContactController@update');
 });
 
 /**
