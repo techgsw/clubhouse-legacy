@@ -9,13 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class ContactController extends Controller
+class ContactUsController extends Controller
 {
     use ReCaptchaTrait;
 
     public function index(Request $request)
     {
-        return view('contact.form', array('interest' => $request->interest));
+        return view('contact-us.form', array('interest' => $request->interest));
     }
 
     public function send(Request $request)
@@ -69,6 +69,6 @@ class ContactController extends Controller
 
     public function thanks()
     {
-        return view('contact.thanks');
+        return view('contact-us.thanks');
     }
 }

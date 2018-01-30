@@ -20,6 +20,9 @@
         <li class="tab"><a class="active" href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">Jobs</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>
+        @can ('view-profile-notes')
+            <li class="tab"><a href="/user/{{ $user->id }}/admin">Admin</a></li>
+        @endcan
     </ul>
     <div class="row">
         <div class="col s12">
