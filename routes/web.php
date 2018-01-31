@@ -159,11 +159,13 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 /**
- * Contacts
+ * Contact
  */
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/contact/{id}', 'ContactController@show');
-    Route::post('/contact/{id}', 'ContactController@update');
+    // TODO Route::post('/contact/{id}', 'ContactController@update');
+    // TODO Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
+    // TODO Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 });
 
 /**

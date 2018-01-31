@@ -17,12 +17,12 @@
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
+        @can ('view-profile-notes')
+            <li class="tab"><a href="/contact/{{ $user->contact->id }}">Contact</a></li>
+        @endcan
         <li class="tab"><a class="active" href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">Jobs</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>
-        @can ('view-profile-notes')
-            <li class="tab"><a href="/user/{{ $user->id }}/admin">Admin</a></li>
-        @endcan
     </ul>
     <div class="row">
         <div class="col s12">
