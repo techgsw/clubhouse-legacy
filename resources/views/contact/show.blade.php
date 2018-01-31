@@ -23,6 +23,15 @@
     <div class="row">
         <div class="col s12">
             <h6>TO DO</h6>
+            <div class="tag-cloud">
+                @foreach ($contact->getUsers as $user)
+                    <a href="" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $user->getName() }}</a>
+                @endforeach
+                @foreach ($contact->user->getContacts as $contact)
+                    <a href="" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $contact->getName() }}</a>
+                @endforeach
+            </div>
+
         </div>
     </div>
 </div>
