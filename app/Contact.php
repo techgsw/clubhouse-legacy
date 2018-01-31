@@ -34,7 +34,7 @@ class Contact extends Model
         // TODO
     }
 
-    public function getParentRelationships()
+    public function getUsers()
     {
         return $this->belongsToMany('App\User', 'contact_relationship');
     }
