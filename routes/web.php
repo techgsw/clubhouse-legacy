@@ -24,6 +24,9 @@ Route::get('/career-services', function () {
 Route::get('/jason-stein', function () {
     return view('jason-stein');
 });
+Route::get('/josh-belkoff', function () {
+    return view('josh-belkoff');
+});
 Route::get('/gallery', function () {
     return view('gallery');
 });
