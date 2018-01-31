@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function contact()
+    {
+        return $this->hasOne(Contact::class);
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
