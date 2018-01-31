@@ -299,4 +299,10 @@ class User extends Authenticatable
     {
         return count(Note::profile($this->id));
     }
+
+    public function getContacts()
+    {
+        return $this->belongsToMany('App\Contact', 'contact_relationship');
+    }
+
 }
