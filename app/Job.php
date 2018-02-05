@@ -56,9 +56,13 @@ class Job extends Model
         return $totals;
     }
 
-    public function getURL()
+    public function getURL($absolute = false)
     {
-        return "/job/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->title))) . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->organization)));
+        $url = "/job/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->title))) . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->organization)));
+        if ($absolute) {
+            $url = url($url);
+        }
+        return $url;
     }
 
     public static function open()
