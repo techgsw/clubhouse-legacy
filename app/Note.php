@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -27,38 +26,42 @@ class Note extends Authenticatable
         return $this->morphTo();
     }
 
-    public static function profile($user_id, array $options = null)
+    public static function contact($contact_id, array $options = null)
     {
         $notes = array();
 
-        $profile_notes = Note::where('notable_type', 'App\Profile')
+        $contact_notes = Note::where('notable_type', 'App\Contact')
             ->join('user', 'user.id', '=', 'note.user_id')
-            ->where('notable_id', $user_id)
+            ->where('notable_id', $contact_id)
             ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'note.*')
             ->get();
-        foreach ($profile_notes as $note) {
+        foreach ($contact_notes as $note) {
             $notes[$note->created_at->getTimestamp()] = $note;
         }
+        $contact = Contact::find($contact_id);
 
-        $inquiries = DB::table('inquiry')
-            ->where('inquiry.user_id', $user_id)
-            ->select('inquiry.id')
-            ->get();
-
-        if ($inquiries) {
-            $inquiry_ids = array();
-            foreach ($inquiries as $inquiry) {
-                $inquiry_ids[] = $inquiry->id;
-            }
-            $inquiry_notes = Note::where('notable_type', 'App\Inquiry')
-                ->join('inquiry', 'note.notable_id', '=', 'inquiry.id')
-                ->join('job', 'inquiry.job_id', '=', 'job.id')
-                ->join('user', 'user.id', '=', 'note.user_id')
-                ->whereIn('notable_id', $inquiry_ids)
-                ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'job.id as job_id', 'job.title as job_title', 'job.organization as job_organization', 'note.*')
+        if (!is_null($contact->user_id)) {
+            $user_id = $contact->user_id;
+            $inquiries = DB::table('inquiry')
+                ->where('inquiry.user_id', $user_id)
+                ->select('inquiry.id')
                 ->get();
-            foreach ($inquiry_notes as $note) {
-                $notes[$note->created_at->getTimestamp()] = $note;
+
+            if ($inquiries) {
+                $inquiry_ids = array();
+                foreach ($inquiries as $inquiry) {
+                    $inquiry_ids[] = $inquiry->id;
+                }
+                $inquiry_notes = Note::where('notable_type', 'App\Inquiry')
+                    ->join('inquiry', 'note.notable_id', '=', 'inquiry.id')
+                    ->join('job', 'inquiry.job_id', '=', 'job.id')
+                    ->join('user', 'user.id', '=', 'note.user_id')
+                    ->whereIn('notable_id', $inquiry_ids)
+                    ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'job.id as job_id', 'job.title as job_title', 'job.organization as job_organization', 'note.*')
+                    ->get();
+                foreach ($inquiry_notes as $note) {
+                    $notes[$note->created_at->getTimestamp()] = $note;
+                }
             }
         }
 

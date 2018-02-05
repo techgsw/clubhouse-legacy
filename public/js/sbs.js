@@ -340,17 +340,17 @@ $.valHooks.textarea = {
         });
     };
 
-    Note.getProfileNotes = function (user_id) {
+    Note.getContactNotes = function (contact_id) {
         return $.ajax({
             type: 'GET',
-            url: '/user/'+user_id+'/show-notes'
+            url: '/contact/'+contact_id+'/show-notes'
         });
     }
 
-    Note.postProfileNote = function (data) {
+    Note.postContactNote = function (data) {
         return $.ajax({
             type: 'POST',
-            url: '/user/'+data.user_id+'/create-note',
+            url: '/contact/'+data.contact_id+'/create-note',
             data: data
         });
     }
@@ -373,21 +373,21 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                var user_id = parseInt($(this).attr('user-id'));
-                Note.getProfileNotes(user_id).done(function (view) {
-                    $('.profile-notes-modal .modal-content').html(view);
-                    $('.profile-notes-modal').modal('open');
-                    $('form#create-profile-note input[name="user_id"]').val(user_id);
+                var contact_id = parseInt($(this).attr('contact-id'));
+                Note.getContactNotes(contact_id).done(function (view) {
+                    $('.contact-notes-modal .modal-content').html(view);
+                    $('.contact-notes-modal').modal('open');
+                    $('form#create-contact-note input[name="contact_id"]').val(contact_id);
                 });
             }
         },
-        '.view-profile-notes-btn'
+        '.view-contact-notes-btn'
     );
 
     $('body').on(
         {
             click: function (e, ui) {
-                var form = $(this).parents('form#create-profile-note');
+                var form = $(this).parents('form#create-contact-note');
                 if (form.length == 0) {
                     return;
                 }
@@ -399,23 +399,23 @@ $.valHooks.textarea = {
                 });
 
                 form.find('input, textarea, button').attr('disabled', 'disabled');
-                Note.postProfileNote(values).done(function (response) {
+                Note.postContactNote(values).done(function (response) {
                     if (response.type != 'success') {
                         // TODO better messaging for failure
                         console.error('Failed to add note');
                         form.find('input, textarea, button').removeAttr('disabled');
                         return;
                     }
-                    Note.getProfileNotes(values.user_id).done(function (view) {
+                    Note.getContactNotes(values.contact_id).done(function (view) {
                         form.find('textarea#note').val("");
                         form.find('input, textarea, button').removeAttr('disabled');
-                        $('.profile-notes-modal .modal-content').html(view);
-                        $('.profile-notes-modal').modal('open');
+                        $('.contact-notes-modal .modal-content').html(view);
+                        $('.contact-notes-modal').modal('open');
                     });
                 });
             }
         },
-        '.submit-profile-note-btn'
+        '.submit-contact-note-btn'
     );
 
     $('body').on(
