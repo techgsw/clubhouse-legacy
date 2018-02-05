@@ -42,15 +42,15 @@
             </a>
         </div>
         <div class="col s12 m3 center-align">
-            <a href="/josh-belkoff" class="no-underline">
-                <img src="/images/about/josh.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Recruiting &amp; Development</span></h5>
+            <a href="/jason-stein" class="no-underline">
+                <img src="/images/about/jason.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
+                <h5 class="sbs-red-text">Jason Stein<span class="about-position">Vice President,<br/>Recruiting &amp; Development</span></h5>
             </a>
         </div>
         <div class="col s12 m3 center-align">
-            <a href="/jason-stein" class="no-underline">
-                <img src="/images/about/jason.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Jason Stein<span class="about-position">Director,<br/>Recruiting</span></h5>
+            <a href="/josh-belkoff" class="no-underline">
+                <img src="/images/about/josh.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
+                <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Recruiting &amp; Development</span></h5>
             </a>
         </div>
     </div>
