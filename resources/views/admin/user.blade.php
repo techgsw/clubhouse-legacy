@@ -12,7 +12,7 @@
     <div class="col s12">
         @if (count($users) > 0)
             @foreach ($users as $user)
-                @include('components.admin-user-list-item', ['user' => $user])
+                @include('components.admin-user-list-item', ['contact' => $user->contact])
             @endforeach
             @include('components.profile-notes-modal')
             <div class="row">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -24,12 +25,14 @@ class ContactController extends Controller
             return abort(404);
         }
         // TODO $this->authorize('view-contact', $contact);
+        $notes = Note::contact($id);
 
         return view('contact/show', [
             'contact' => $contact,
+            'notes' => $notes,
             'breadcrumb' => [
                 'Home' => '/',
-                $contact->getName() ?: $contact->getOrganization() => "/contact/$id"
+                $contact->getName() ?: $contact->getOrganization() => "/contact/$id",
             ]
         ]);
     }
@@ -59,6 +62,13 @@ class ContactController extends Controller
     public function showNotes($id)
     {
         // TODO port from ProfileController.showNotes, which will be deprecated
+        $this->authorize('view-profile-notes');
+
+        $notes = Note::contact($id);
+
+        return view('contact/notes/show', [
+            'notes' => $notes
+        ]);
     }
 
     /**
@@ -68,5 +78,24 @@ class ContactController extends Controller
     public function createNote($id)
     {
         // TODO port from ProfileController.createNotes, which will be deprecated
+        $this->authorize('create-profile-note');
+
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        $note = new Note();
+        $note->user_id = Auth::user()->id;
+        $note->notable_id = $id;
+        $note->notable_type = "App\Contact";
+        $note->content = request("note");
+        $note->save();
+
+        return response()->json([
+            'type' => 'success',
+            'content' => $note->content,
+            'user' => Auth::user()
+        ]);
     }
 }

@@ -297,7 +297,8 @@ class User extends Authenticatable
 
     public function noteCount()
     {
-        return count(Note::profile($this->id));
+        $contact = Contact::find($this->id);
+        return count(Note::contact($contact->id));
     }
 
     public function getContacts()

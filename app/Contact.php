@@ -31,7 +31,7 @@ class Contact extends Model
 
     public function getNoteCount()
     {
-        // TODO
+        return count(Note::contact($this->id));
     }
 
     public function getUsers()
