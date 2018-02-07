@@ -47,7 +47,7 @@ done
 # should include database/auth.cnf and database/backups/ directory
 if [ "$path" != "" ]; then
     # use the given path
-    dir="$1"
+    dir="$path/database"
 elif [ "$env" == "prod" ]; then
     # use the default prod path
     dir="/srv/www/sportsbusinesssolutions/database"
