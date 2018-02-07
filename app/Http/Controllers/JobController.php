@@ -122,6 +122,15 @@ class JobController extends Controller
             return back()->withInput();
         }
 
+        $rank = 0;
+        if (request('featured')) {
+            $rank = 1;
+            $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+            if ($last_job) {
+                $rank = $last_job->rank+1;
+            }
+        }
+
         $job = Job::create([
             'user_id' => Auth::user()->id,
             'title' => request('title'),
@@ -131,7 +140,7 @@ class JobController extends Controller
             'job_type' => request('job_type'),
             'city' => request('city'),
             'state' => request('state'),
-            'rank' => request('rank') ?: 0,
+            'rank' => $rank,
             'featured' => request('featured') ? true : false,
             'image_url' => $job_image,
             'document' => $d ?: null,
