@@ -407,12 +407,11 @@ class JobController extends Controller
     public function update(UpdateJob $request, $id)
     {
         $job = Job::find($id);
-        $rank = request('rank') ?: $job->rank;
 
         $job->title = request('title');
         $job->featured = request('featured') ? true : false;
         if (!$job->featured) {
-            $job->rank = null;
+            $job->rank = 0;
         }
         $job->description = request('description');
         $job->organization = request('organization');
@@ -422,7 +421,7 @@ class JobController extends Controller
         $job->state = request('state');
         $job->featured = request('featured') ? true : false;
         // Set rank if newly featured
-        if ($job->featured && $rank == 0) {
+        if ($job->featured && $job->rank == 0) {
             $rank = 1;
             $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
             if ($last_job) {
