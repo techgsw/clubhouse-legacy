@@ -355,6 +355,44 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function rankTop($id)
+    {
+        $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
+        $this->authorize('edit-job', $job);
+
+        $rank = $job->rank;
+        if ($rank <= 1) {
+            return back();
+        }
+
+        $job->rank = 1;
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        // All jobs previously ranked higher
+        $neighbors = Job::where('featured', 1)
+            ->where('id', '!=', $id)
+            ->where('rank', '<', $rank)
+            ->get();
+        if (!$neighbors) {
+            return back();
+        }
+        foreach ($neighbors as $neighbor) {
+            $neighbor->rank = $neighbor->rank+1;
+            $neighbor->edited_at = new \DateTime('NOW');
+            $neighbor->save();
+        }
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function rankDown($id)
     {
         $job = Job::find($id);
