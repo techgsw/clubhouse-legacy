@@ -5,7 +5,7 @@
 <div class="container">
     @component('components.user-header', ['user' => $user])
         @can ('view-profile-notes')
-            <button type="button" class="view-profile-notes-btn flat-button black" user-id="{{ $user->id }}">{{ $user->noteCount() }} <i class="fa fa-comments"></i></button>
+            <button type="button" class="view-profile-notes-btn flat-button black" user-id="{{ $user->id }}">{{ $user->getNoteCount() }} <i class="fa fa-comments"></i></button>
         @endif
         @if ($user->profile->resume_url)
             <a href="{{ Storage::disk('local')->url($user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>

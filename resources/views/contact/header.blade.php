@@ -1,12 +1,14 @@
 <div class="row" style="margin-bottom: 0;">
     <div class="col s12">
-        <div style="display: flex; flex-flow: row;">
-            @if ($contact->user && $contact->user->profile->headshot_url)
-                <div style="flex: 0 0 auto; text-align: center; padding: 16px;">
-                    <img src={{ Storage::disk('local')->url($contact->user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
-                </div>
-            @endif
-            <div style="flex: 1 0 auto;">
+        <div class="row">
+            <div class="col s4 m2 center-align">
+                @if ($contact->user && $contact->user->profile->headshot_url)
+                    <img src={{ Storage::disk('local')->url($contact->user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
+                @else
+                    <i class="material-icons large">person</i>
+                @endif
+            </div>
+            <div class="col s8 m10">
                 <div class="hide-on-small-only float-right">
                     {{ $slot }}
                 </div>

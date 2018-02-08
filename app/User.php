@@ -295,12 +295,6 @@ class User extends Authenticatable
         return $users;
     }
 
-    public function noteCount()
-    {
-        $contact = Contact::find($this->id);
-        return count(Note::contact($contact->id));
-    }
-
     public function getContacts()
     {
         return $this->belongsToMany('App\Contact', 'contact_relationship');
