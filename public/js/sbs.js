@@ -169,13 +169,13 @@ $.valHooks.textarea = {
     ContactRelationship.createRelationship = function (user_name, contact_id, view) {
         var user_id = ContactRelationship.map[user_name];
         ContactRelationship.create(user_id, contact_id).done(function (data) {
-            if (!data.error) {
+            if (data.error == null) {
                 var admin_user =
                     `<span class="flat-button gray small tag">
                         <button type="button" name="button" class="x" tag-name=${user_name}>&times;</button>${user_name}
                     </span>`;
                 $(view).append(admin_user);
-            }
+            } 
         });
     }
 
@@ -198,13 +198,11 @@ $.valHooks.textarea = {
             ContactRelationship.getOptions().done(function (data) {
                 var users = {}
                 var contact_id = $('input#contact_id').val();
-                console.log(data);
                 data.users.forEach(function (u) {
                     var full_name = u.first_name+ " " + u.last_name;
                     ContactRelationship.map[full_name] = u.id;
                     users[full_name] = "";
                 });
-                console.log(users);
                 var x = admin_user_autocomplete.autocomplete({
                     data: users,
                     limit: 10,

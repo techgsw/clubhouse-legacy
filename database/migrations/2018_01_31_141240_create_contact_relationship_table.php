@@ -19,6 +19,7 @@ class CreateContactRelationshipTable extends Migration
             $table->foreign('contact_id')->references('id')->on('contact');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('user');
+            $table->primary(['contact_id','user_id']);
             $table->timestamps();
         }); 
     }   
