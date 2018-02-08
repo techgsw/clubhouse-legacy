@@ -131,6 +131,61 @@ $.valHooks.textarea = {
         }
     }
 
+    ContactRelationship.create = function (user_id, contact_id) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/contact/refer/',
+            'data': {
+                'contact_id': contact_id,
+                'user_id': user_id,
+                '_token': $('form#create-contact-relationship input[name="_token"]').val()
+            }
+        });
+    }
+
+    ContactRelationship.getOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/admin/allAdminUsers',
+            'data': {}
+        });
+    }
+
+    ContactRelationship.addToPost = function (name, input, view) {
+        // Append to input
+        var tags = JSON.parse(input.val());
+        tags.push(name);
+        $(input).val(JSON.stringify(tags));
+        // Append to view
+        var tag =
+            `<span class="flat-button gray small tag">
+                <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
+            </span>`;
+        $(view).append(tag);
+    }
+
+    ContactRelationship.init = function () {
+        var admin_user_autocomplete = $('input.admin-user-autocomplete');
+        if (admin_user_autocomplete.length > 0) {
+            Tag.getOptions().done(function (data) {
+                var tags = {}
+                data.forEach(function (t) {
+                    Tag.map[t.name] = t.slug;
+                    tags[t.name] = "";
+                });
+                var x = tag_autocomplete.autocomplete({
+                    data: tags,
+                    limit: 10,
+                    onAutocomplete: function (val) {
+                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
+                        tag_autocomplete.val("");
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
+
     $('body').on(
         {
             submit: function (e, ui) {
@@ -330,7 +385,7 @@ $.valHooks.textarea = {
 
     // Notes
     Note.init = function () {
-        $('.profile-notes-modal').modal({
+        $('.contact-notes-modal').modal({
             dismissible: true,  // Modal can be dismissed by clicking outside of the modal
             opacity: .5,        // Opacity of modal background
             inDuration: 300,    // Transition in duration
@@ -375,7 +430,8 @@ $.valHooks.textarea = {
             click: function (e, ui) {
                 var contact_id = parseInt($(this).attr('contact-id'));
                 Note.getContactNotes(contact_id).done(function (view) {
-                    $('.contact-notes-modal .modal-content').html(view);
+                    //$('.contact-notes-modal .modal-content').html(view);
+                    $('.contact-notes-container').html(view);
                     $('.contact-notes-modal').modal('open');
                     $('form#create-contact-note input[name="contact_id"]').val(contact_id);
                 });
@@ -409,8 +465,9 @@ $.valHooks.textarea = {
                     Note.getContactNotes(values.contact_id).done(function (view) {
                         form.find('textarea#note').val("");
                         form.find('input, textarea, button').removeAttr('disabled');
-                        $('.contact-notes-modal .modal-content').html(view);
-                        $('.contact-notes-modal').modal('open');
+                        //$('.contact-notes-modal .modal-content').html(view);
+                        $('.contact-notes-container').html(view);
+                        //$('.contact-notes-modal').modal('open');
                     });
                 });
             }
@@ -710,6 +767,7 @@ $.valHooks.textarea = {
         Note.init();
         Video.init();
         Tag.init();
+        ContactRelationship.init();
         if ($('.app-login-placeholder-after').length > 0) {
             Auth.getAuthHeader().done(
                 function (resp) {
