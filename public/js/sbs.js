@@ -24,6 +24,9 @@ $.valHooks.textarea = {
         map: {}
     };
     var Video = {};
+    var ContactRelationship = {
+        map: {}
+    };
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -143,42 +146,71 @@ $.valHooks.textarea = {
         });
     }
 
+    ContactRelationship.remove = function (user_id, contact_id) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/contact/remove/',
+            'data': {
+                'contact_id': contact_id,
+                'user_id': user_id,
+                '_token': $('form#create-contact-relationship input[name="_token"]').val()
+            }
+        });
+    }
+
     ContactRelationship.getOptions = function () {
         return $.ajax({
             'type': 'GET',
-            'url': '/admin/allAdminUsers',
+            'url': '/admin/admin-users',
             'data': {}
         });
     }
 
-    ContactRelationship.addToPost = function (name, input, view) {
-        // Append to input
-        var tags = JSON.parse(input.val());
-        tags.push(name);
-        $(input).val(JSON.stringify(tags));
-        // Append to view
-        var tag =
-            `<span class="flat-button gray small tag">
-                <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
-            </span>`;
-        $(view).append(tag);
+    ContactRelationship.createRelationship = function (user_name, contact_id, view) {
+        var user_id = ContactRelationship.map[user_name];
+        ContactRelationship.create(user_id, contact_id).done(function (data) {
+            if (!data.error) {
+                var admin_user =
+                    `<span class="flat-button gray small tag">
+                        <button type="button" name="button" class="x" tag-name=${user_name}>&times;</button>${user_name}
+                    </span>`;
+                $(view).append(admin_user);
+            }
+        });
+    }
+
+    ContactRelationship.removeRelationship = function (user_id) {
+        var contact_id = $('input#contact_id').val();
+        ContactRelationship.remove(user_id, contact_id).done(function (data) {
+            if (!data.error) {
+                // Remove from view
+                var button = $('button[admin-user-id="'+user_id+'"]');
+                if (button) {
+                    button.parent().remove();
+                }
+            }
+        });
     }
 
     ContactRelationship.init = function () {
         var admin_user_autocomplete = $('input.admin-user-autocomplete');
         if (admin_user_autocomplete.length > 0) {
-            Tag.getOptions().done(function (data) {
-                var tags = {}
-                data.forEach(function (t) {
-                    Tag.map[t.name] = t.slug;
-                    tags[t.name] = "";
+            ContactRelationship.getOptions().done(function (data) {
+                var users = {}
+                var contact_id = $('input#contact_id').val();
+                console.log(data);
+                data.users.forEach(function (u) {
+                    var full_name = u.first_name+ " " + u.last_name;
+                    ContactRelationship.map[full_name] = u.id;
+                    users[full_name] = "";
                 });
-                var x = tag_autocomplete.autocomplete({
-                    data: tags,
+                console.log(users);
+                var x = admin_user_autocomplete.autocomplete({
+                    data: users,
                     limit: 10,
                     onAutocomplete: function (val) {
-                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
-                        tag_autocomplete.val("");
+                        ContactRelationship.createRelationship(val, contact_id, $('.contact-user-relationships'));
+                        admin_user_autocomplete.val("");
                     },
                     minLength: 2,
                 });
@@ -227,7 +259,12 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var name = $(this).attr('tag-name');
-                Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
+                if (name == null) {
+                    var user_id = $(this).attr('admin-user-id');
+                    ContactRelationship.removeRelationship(user_id);
+                } else {
+                    Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
+                }
             }
         },
         'span.tag button.x'

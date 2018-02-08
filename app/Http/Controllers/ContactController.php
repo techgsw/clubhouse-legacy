@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\ContactRelationship;
 use App\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -101,19 +102,21 @@ class ContactController extends Controller
     }
 
     /**
-     * @param  int  $id
+     * @param  int  $user_id
+     * @param  int  $contact_id
      * @return \Illuminate\Http\Response
      */
-    public function referContact()
+    public function referContact(Request $request)
     {
         //TODO: Add contact relationship creating resource
         //$this->authorize('refer-contact');
+        $this->authorize('create-profile-note');
 
         $user_id = $request->user_id;
         $contact_id = $request->contact_id;
 
         try {
-            $user = Contact_Relationship::create([
+            $user = ContactRelationship::create([
                 'contact_id' => $contact_id,
                 'user_id' => $user_id,
             ]);
@@ -137,8 +140,45 @@ class ContactController extends Controller
         }
 
         return response()->json([
-            'error' => null,
-            'user' => $user
+            'error' => null
+        ]);
+    }
+
+    /**
+     * @param  int  $user_id
+     * @param  int  $contact_id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeRelationship(Request $request)
+    {
+        //TODO: Add contact relationship editing resource
+        //$this->authorize('edit-contact-relationship');
+        $this->authorize('create-profile-note');
+
+        $user_id = $request->user_id;
+        $contact_id = $request->contact_id;
+
+        try {
+            $relationship = ContactRelationship::where('contact_id','=',$contact_id)
+                ->where('user_id','=',$user_id);
+            $relationship->delete();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $message = "Sorry, we were unable to delete that relationship. Please contact support.";
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return response()->json([
+                'error' => $message,
+                'tag' => null
+            ]);
+        }
+
+        return response()->json([
+            'error' => null
         ]);
     }
 

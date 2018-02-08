@@ -24,4 +24,21 @@ class UserController extends Controller
             'count' => $count
         ]);
     }
+
+    public function allAdminUsers()
+    {
+        $this->authorize('view-admin-dashboard');
+
+        //TODO: Review query, the distinct function is not getting distinct users
+        $users = User::join('role_user', 'user.id', '=', 'role_user.user_id')
+            ->whereIn('role_code',array('administrator','moderator','superuser'))
+            ->distinct()
+            ->get();
+
+        return response()->json([
+            'error' => null,
+            'users' => $users
+        ]);
+        
+    }
 }

@@ -170,7 +170,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 
-    Route::post('/contact/refer/{d}', 'ContactController@referContact');
+    Route::post('/contact/refer', 'ContactController@referContact');
+    Route::post('/contact/remove', 'ContactController@removeRelationship');
 });
 
 /**
@@ -233,6 +234,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/admin/question', 'QuestionController@index');
     Route::get('/admin/job', 'JobController@index');
     Route::get('/admin/user', 'UserController@index');
+    Route::get('/admin/admin-users', 'UserController@allAdminUsers');
 });
 
 /**
