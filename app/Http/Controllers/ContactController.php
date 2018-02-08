@@ -32,6 +32,7 @@ class ContactController extends Controller
             'notes' => $notes,
             'breadcrumb' => [
                 'Home' => '/',
+                'Contact' => '/contact/'.$contact->id,
                 $contact->getName() ?: $contact->getOrganization() => "/contact/$id",
             ]
         ]);

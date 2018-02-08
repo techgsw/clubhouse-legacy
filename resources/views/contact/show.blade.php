@@ -4,6 +4,17 @@
 @section('content')
 <div class="container">
     @component('contact.header', ['contact' => $contact])
+        @can ('view-profile-notes')
+            <button class="view-contact-notes-btn flat-button black" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
+        @endif
+        @if ($contact->user->profile->resume_url)
+            <a href="{{ Storage::disk('local')->url($contact->user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
+        @else
+            <a href="#" class="flat-button black disabled">No Resume</a>
+        @endif
+        @can ('edit-profile', $contact->user)
+            <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
+        @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
         @can ('view-profile-notes')
