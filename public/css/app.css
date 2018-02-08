@@ -852,6 +852,17 @@ div.arrow.down {
 }
 
 /**
+ * Contact
+ */
+
+.contact-notes-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 350px;
+    overflow-y:scroll;
+}
+
+/**
  * Question
  */
 

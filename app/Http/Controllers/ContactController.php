@@ -99,4 +99,47 @@ class ContactController extends Controller
             'user' => Auth::user()
         ]);
     }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function referContact()
+    {
+        //TODO: Add contact relationship creating resource
+        //$this->authorize('refer-contact');
+
+        $user_id = $request->user_id;
+        $contact_id = $request->contact_id;
+
+        try {
+            $user = Contact_Relationship::create([
+                'contact_id' => $contact_id,
+                'user_id' => $user_id,
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            if ($e->getCode() === '23000') {
+                $message = "Oops! That relationship already exists.";
+            } else {
+                $message = "Sorry, we were unable to create that relationship. Please contact support.";
+            }
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return response()->json([
+                'error' => $message,
+                'tag' => null
+            ]);
+        }
+
+        return response()->json([
+            'error' => null,
+            'user' => $user
+        ]);
+    }
+
 }

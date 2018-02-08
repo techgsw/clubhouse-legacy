@@ -35,4 +35,10 @@ class IndexController extends Controller
             'post_count' => $post_count,
         ]);
     }
+
+    public function allAdminUsers()
+    {
+        $this->authorize('view-admin-dashboard');
+        
+    }
 }

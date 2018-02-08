@@ -1,5 +1,5 @@
 <div class="contact-notes-modal modal modal-large modal-fixed-footer">
-    <div class="modal-content" style="height: calc(100% - 160px);"></div>
+    <div class="contact-notes-container" style="height: calc(100% - 160px);"></div>
     <div class="modal-footer" style="height: auto;">
         <div class="row">
             <div class="input-field col s12">
