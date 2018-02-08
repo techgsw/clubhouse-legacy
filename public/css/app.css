@@ -858,8 +858,9 @@ div.arrow.down {
 .contact-notes-container {
     margin-top: 20px;
     margin-bottom: 20px;
-    max-height: 350px;
+    max-height: 100%;
     overflow-y:scroll;
+    padding: 15px;
 }
 
 /**
