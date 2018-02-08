@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contact;
 use App\ContactRelationship;
 use App\Note;
+use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -79,7 +80,7 @@ class ContactController extends Controller
      */
     public function createNote($id)
     {
-        // TODO port from ProfileController.createNotes, which will be deprecated
+        //TODO: Add contact relationship creating resource
         $this->authorize('create-profile-note');
 
         $contact = Contact::find($id);
@@ -108,7 +109,7 @@ class ContactController extends Controller
      */
     public function referContact(Request $request)
     {
-        //TODO: Add contact relationship creating resource
+        //TODO: Add contact relationship editing resource
         //$this->authorize('refer-contact');
         $this->authorize('create-profile-note');
 
@@ -122,11 +123,7 @@ class ContactController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            if ($e->getCode() === '23000') {
-                $message = "Oops! That relationship already exists.";
-            } else {
-                $message = "Sorry, we were unable to create that relationship. Please contact support.";
-            }
+            $message = "Sorry, we were unable to create that relationship. Please contact support.";
             $request->session()->flash('message', new Message(
                 $message,
                 "danger",
