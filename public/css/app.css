@@ -424,6 +424,9 @@ p i.material-icons {
 .large-text {
     font-size: 115%;
 }
+.block {
+    display: block;
+}
 button.text {
     background: none;
     border: none;
@@ -517,6 +520,9 @@ a.hover-outline:hover {
     border-bottom: 2px solid #555;
     background: #EEE !important;
 }
+.flat-button[disabled]:hover {
+    background: none !important;
+}
 .flat-button.small {
     font-size: 12px;
     padding: 1px 5px;
@@ -564,6 +570,15 @@ a.hover-outline:hover {
 .flat-button.black.inverse {
     border-color: #303030;
     background-color: #303030 !important;
+    color: #FFFFFF;
+}
+.flat-button.yellow {
+    border-color: #fbc02d;
+    color: #fbc02d;
+}
+.flat-button.yellow.inverse {
+    border-color: #fbc02d;
+    background-color: #fbc02d !important;
     color: #FFFFFF;
 }
 
@@ -1387,6 +1402,30 @@ p.icon {
     background-color: #d9edf7;
     border: 1px solid #bce8f1;
     border-radius: 4px;
+}
+
+/**
+ * Admin / User
+ */
+.admin-user-list-item {
+    margin: 0;
+    padding: 18px 16px;
+    border-bottom: 1px solid #EEE;
+}
+.admin-user-list-item p {
+    margin: 4px 0;
+}
+.admin-user-list-item p.name {
+    margin: 0;
+    font-size: 1.2rem;
+}
+.admin-user-list-item p.title,
+.admin-user-list-item p.email,
+.admin-user-list-item p.phone {
+    font-size: 0.9rem;
+}
+.admin-user-list-item p.title {
+    font-weight: 400;
 }
 
 /**

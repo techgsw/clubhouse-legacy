@@ -32,7 +32,9 @@ class Note extends Authenticatable
         $notes = array();
 
         $profile_notes = Note::where('notable_type', 'App\Profile')
+            ->join('user', 'user.id', '=', 'note.user_id')
             ->where('notable_id', $user_id)
+            ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'note.*')
             ->get();
         foreach ($profile_notes as $note) {
             $notes[$note->created_at->getTimestamp()] = $note;
@@ -51,8 +53,9 @@ class Note extends Authenticatable
             $inquiry_notes = Note::where('notable_type', 'App\Inquiry')
                 ->join('inquiry', 'note.notable_id', '=', 'inquiry.id')
                 ->join('job', 'inquiry.job_id', '=', 'job.id')
+                ->join('user', 'user.id', '=', 'note.user_id')
                 ->whereIn('notable_id', $inquiry_ids)
-                ->select('note.*', 'job.id as job_id', 'job.title as job_title', 'job.organization as job_organization')
+                ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'job.id as job_id', 'job.title as job_title', 'job.organization as job_organization', 'note.*')
                 ->get();
             foreach ($inquiry_notes as $note) {
                 $notes[$note->created_at->getTimestamp()] = $note;
