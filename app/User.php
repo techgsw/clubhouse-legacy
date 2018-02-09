@@ -295,8 +295,9 @@ class User extends Authenticatable
         return $users;
     }
 
-    public function noteCount()
+    public function getContacts()
     {
-        return count(Note::profile($this->id));
+        return $this->belongsToMany('App\Contact', 'contact_relationship');
     }
+
 }

@@ -43,6 +43,12 @@ class CreateContactTable extends Migration
 
         DB::table('resource')->insert(
             array(
+                'code' => 'contact_create',
+                'description' => "Can create a contact."
+            )
+        );
+        DB::table('resource')->insert(
+            array(
                 'code' => 'contact_show',
                 'description' => "Can view any contact"
             )
@@ -67,6 +73,12 @@ class CreateContactTable extends Migration
         );
         DB::table('resource_role')->insert(
             array(
+                'resource_code' => 'contact_create',
+                'role_code' => 'administrator'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
                 'resource_code' => 'contact_edit',
                 'role_code' => 'superuser'
             )
@@ -75,6 +87,12 @@ class CreateContactTable extends Migration
             array(
                 'resource_code' => 'contact_show',
                 'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'contact_create',
+                'role_code' => 'administrator'
             )
         );
     }
@@ -86,8 +104,10 @@ class CreateContactTable extends Migration
      */
     public function down()
     {
+        DB::table('resource_role')->where('resource_code', 'contact_create')->delete();
         DB::table('resource_role')->where('resource_code', 'contact_show')->delete();
         DB::table('resource_role')->where('resource_code', 'contact_edit')->delete();
+        DB::table('resource')->where('code', 'contact_create')->delete();
         DB::table('resource')->where('code', 'contact_show')->delete();
         DB::table('resource')->where('code', 'contact_edit')->delete();
 
