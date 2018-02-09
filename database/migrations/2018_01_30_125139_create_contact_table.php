@@ -92,7 +92,7 @@ class CreateContactTable extends Migration
         DB::table('resource_role')->insert(
             array(
                 'resource_code' => 'contact_create',
-                'role_code' => 'administrator'
+                'role_code' => 'superuser'
             )
         );
     }
