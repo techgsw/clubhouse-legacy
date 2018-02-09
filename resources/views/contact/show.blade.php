@@ -40,10 +40,9 @@
                 </div>
                 <div class="col s12 m8 l9">
                     <div class="contact-user-relationships" style="position: relative; margin-top: 26px;">
-                        @foreach ($contact->getUsers as $user)
+                        @foreach ($contact->relationships as $user)
                             <span class="flat-button gray small tag">
                                 <button type="button" name="button" class="x" admin-user-id="{{ $user->id }}">&times;</button>{{ $user->getName() }}
-                                <!-- <a href="/user/{{ $user->id }}/profile" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $user->getName() }}</a> --!>
                             </span>
                         @endforeach
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contact;
 use App\Job;
 use App\Post;
 use App\Question;
@@ -21,6 +22,7 @@ class IndexController extends Controller
     {
         $this->authorize('view-admin-dashboard');
 
+        $contact_count = Contact::all()->count();
         $user_count = User::all()->count();
         $question_count = Question::all()->count();
         $answer_count = Answer::all()->count();
@@ -28,6 +30,7 @@ class IndexController extends Controller
         $post_count = Post::all()->count();
 
         return view('admin.index', [
+            'contact_count' => $contact_count,
             'user_count' => $user_count,
             'question_count' => $question_count,
             'answer_count' => $question_count,
