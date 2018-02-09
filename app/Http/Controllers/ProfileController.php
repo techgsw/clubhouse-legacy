@@ -1,4 +1,4 @@
-contact-note<?php
+<?php
 
 namespace App\Http\Controllers;
 
