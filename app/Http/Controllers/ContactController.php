@@ -26,7 +26,7 @@ class ContactController extends Controller
         if (!$contact) {
             return abort(404);
         }
-        // TODO $this->authorize('view-contact', $contact);
+        $this->authorize('view-contact', $contact);
         $notes = Note::contact($id);
 
         return view('contact/show', [
@@ -51,7 +51,7 @@ class ContactController extends Controller
         if (!$contact) {
             return abort(404);
         }
-        // TODO $this->authorize('edit-contact', $contact);
+        $this->authorize('edit-contact', $contact);
 
         // TODO see ProfileController.update
 
@@ -64,8 +64,7 @@ class ContactController extends Controller
      */
     public function showNotes($id)
     {
-        // TODO port from ProfileController.showNotes, which will be deprecated
-        $this->authorize('view-profile-notes');
+        $this->authorize('view-contact-notes');
 
         $notes = Note::contact($id);
 
@@ -80,8 +79,7 @@ class ContactController extends Controller
      */
     public function createNote($id)
     {
-        //TODO: Add contact relationship creating resource
-        $this->authorize('create-profile-note');
+        $this->authorize('create-contact-note');
 
         $contact = Contact::find($id);
         if (!$contact) {
@@ -107,11 +105,9 @@ class ContactController extends Controller
      * @param  int  $contact_id
      * @return \Illuminate\Http\Response
      */
-    public function referContact(Request $request)
+    public function addRelationship(Request $request)
     {
-        //TODO: Add contact relationship editing resource
-        //$this->authorize('refer-contact');
-        $this->authorize('create-profile-note');
+        $this->authorize('add-contact-relationship');
 
         $user_id = $request->user_id;
         $contact_id = $request->contact_id;
@@ -148,9 +144,7 @@ class ContactController extends Controller
      */
     public function removeRelationship(Request $request)
     {
-        //TODO: Add contact relationship editing resource
-        //$this->authorize('edit-contact-relationship');
-        $this->authorize('create-profile-note');
+        $this->authorize('remove-contact-relationship');
 
         $user_id = $request->user_id;
         $contact_id = $request->contact_id;

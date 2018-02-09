@@ -170,8 +170,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 
-    Route::post('/contact/refer', 'ContactController@referContact');
-    Route::post('/contact/remove', 'ContactController@removeRelationship');
+    Route::post('/contact/add-relationship', 'ContactController@addRelationship');
+    Route::post('/contact/remove-relationship', 'ContactController@removeRelationship');
 });
 
 /**

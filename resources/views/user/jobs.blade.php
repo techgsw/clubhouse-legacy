@@ -3,8 +3,8 @@
 @section('title', 'Job Applications')
 @section('content')
 <div class="container">
-    @component('components.user-header', ['user' => $user])
-        @can ('view-profile-notes')
+    @component('contact.header', ['contact' => $user->contact])
+        @can ('view-contact-notes')
             <button type="button" class="view-contact-notes-btn flat-button black" contact-id="{{ $user->contact->id }}">{{ $user->contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
         @endif
         @if ($user->profile->resume_url)
@@ -17,7 +17,7 @@
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
-        @can ('view-profile-notes')
+        @can ('view-contact')
             <li class="tab"><a href="/contact/{{ $user->contact->id }}">Contact</a></li>
         @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
@@ -36,6 +36,6 @@
         </div>
     </div>
 </div>
-@include('components.profile-notes-modal')
+@include('components.contact-notes-modal')
 @include('components.inquiry-notes-modal')
 @endsection

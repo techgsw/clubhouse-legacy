@@ -137,7 +137,7 @@ $.valHooks.textarea = {
     ContactRelationship.create = function (user_id, contact_id) {
         return $.ajax({
             'type': 'POST',
-            'url': '/contact/refer/',
+            'url': '/contact/add-relationship',
             'data': {
                 'contact_id': contact_id,
                 'user_id': user_id,
@@ -149,7 +149,7 @@ $.valHooks.textarea = {
     ContactRelationship.remove = function (user_id, contact_id) {
         return $.ajax({
             'type': 'POST',
-            'url': '/contact/remove/',
+            'url': '/contact/remove-relationship',
             'data': {
                 'contact_id': contact_id,
                 'user_id': user_id,
@@ -175,7 +175,7 @@ $.valHooks.textarea = {
                         <button type="button" name="button" class="x" tag-name=${user_name}>&times;</button>${user_name}
                     </span>`;
                 $(view).append(admin_user);
-            } 
+            }
         });
     }
 

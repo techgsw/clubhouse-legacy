@@ -14,7 +14,7 @@
             @foreach ($users as $user)
                 @include('components.admin-user-list-item', ['contact' => $user->contact])
             @endforeach
-            @include('components.profile-notes-modal')
+            @include('components.contact-notes-modal')
             <div class="row">
                 <div class="col s12 center-align">
                     {{ $users->links('components.pagination') }}

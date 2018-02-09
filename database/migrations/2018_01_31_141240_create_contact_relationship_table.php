@@ -6,13 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateContactRelationshipTable extends Migration
 {
-    /** 
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
-    {   
+    {
         Schema::create('contact_relationship', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->integer('contact_id')->unsigned();
@@ -20,17 +20,18 @@ class CreateContactRelationshipTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('user');
             $table->primary(['contact_id','user_id']);
+            $table->unique(['contact_id','user_id']);
             $table->timestamps();
-        }); 
-    }   
+        });
+    }
 
-    /** 
+    /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down()
-    {   
+    {
         Schema::dropIfExists('contact_relationship');
-    }   
+    }
 }

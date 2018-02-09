@@ -1,9 +1,12 @@
-<!-- /resources/views/conatct/show.blade.php -->
+<!-- /resources/views/contact/show.blade.php -->
 @extends('layouts.default')
 @section('title', 'Contact')
 @section('content')
 <div class="container">
     @component('contact.header', ['contact' => $contact])
+        @can ('view-contact-notes')
+            <button type="button" class="view-contact-notes-btn flat-button black" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
+        @endif
         @if ($contact->user->profile->resume_url)
             <a href="{{ Storage::disk('local')->url($contact->user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
         @else
@@ -14,7 +17,7 @@
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
-        @can ('view-profile-notes')
+        @can ('view-contact')
             <li class="tab"><a class="active" href="/contact/{{ $contact->id }}">Contact</a></li>
         @endcan
         @if ($contact->user)
@@ -24,7 +27,7 @@
         @endif
     </ul>
     @if ($contact)
-        @can ('view-profile-notes')
+        @can ('view-contact-notes')
             <div class="row" style="margin-bottom: 0;">
                 <div class="input-field col s12 m4 l3">
                     <form id="create-contact-relationship" action="/contact/refer" method="post">
@@ -47,7 +50,7 @@
                 </div>
             </div>
         @endcan
-        @can ('view-profile-notes')
+        @can ('view-contact-notes')
             <div class="input-field col s12">
                 <form id="create-contact-note" method="post">
                     {{ csrf_field() }}
@@ -82,5 +85,5 @@
         @endcan
     @endif
 </div>
-@include('components.profile-notes-modal')
+@include('components.contact-notes-modal')
 @endsection
