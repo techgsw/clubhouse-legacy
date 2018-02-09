@@ -17,7 +17,7 @@
     </div>
     <div class="card">
         <div class="card-content">
-            <span class="card-title"><a href="/blog" class="no-underline">Contacts</a></span>
+            <span class="card-title"><a href="/admin/contact" class="no-underline">Contacts</a></span>
             <p style="text-transform: uppercase;">
                 <a href="/admin/contact" class="no-underline"><span class="sbs-red-text">{{ $contact_count }}</span> contacts</a>
             </p>
