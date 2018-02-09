@@ -2,73 +2,175 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Contact;
+use App\Contact;
+use App\ContactRelationship;
+use App\Note;
 use App\Message;
-use App\Traits\ReCaptchaTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use \Exception;
 
 class ContactController extends Controller
 {
-    use ReCaptchaTrait;
-
-    public function index(Request $request)
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        return view('contact.form', array('interest' => $request->interest));
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+        $this->authorize('view-contact', $contact);
+        $notes = Note::contact($id);
+
+        return view('contact/show', [
+            'contact' => $contact,
+            'notes' => $notes,
+            'breadcrumb' => [
+                'Home' => '/',
+                'Contacts' => '/admin/contact',
+                $contact->getName() ?: $contact->getOrganization() => "/contact/$id",
+            ]
+        ]);
     }
 
-    public function send(Request $request)
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update($request, $id)
     {
-        $recaptcha = $this->recaptchaCheck($request->all());
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+        $this->authorize('edit-contact', $contact);
 
-        if (!request('g-recaptcha-response') || $recaptcha < 1) {
+        // TODO see ProfileController.update
+
+        return redirect()->action('ContactController@show', [$contact]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showNotes($id)
+    {
+        $this->authorize('view-contact-notes');
+
+        $notes = Note::contact($id);
+
+        return view('contact/notes/show', [
+            'notes' => $notes
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createNote($id)
+    {
+        $this->authorize('create-contact-note');
+
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        $note = new Note();
+        $note->user_id = Auth::user()->id;
+        $note->notable_id = $id;
+        $note->notable_type = "App\Contact";
+        $note->content = request("note");
+        $note->save();
+
+        return response()->json([
+            'type' => 'success',
+            'content' => $note->content,
+            'user' => Auth::user()
+        ]);
+    }
+
+    /**
+     * @param  int  $user_id
+     * @param  int  $contact_id
+     * @return \Illuminate\Http\Response
+     */
+    public function addRelationship(Request $request)
+    {
+        $this->authorize('add-contact-relationship');
+
+        $user_id = $request->user_id;
+        $contact_id = $request->contact_id;
+
+        try {
+            $user = ContactRelationship::create([
+                'contact_id' => $contact_id,
+                'user_id' => $user_id,
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $message = "Sorry, we were unable to create that relationship. Please contact support.";
             $request->session()->flash('message', new Message(
-                "Please confirm you are a human.",
-                "warning",
+                $message,
+                "danger",
                 $code = null,
-                $icon = "warning"
+                $icon = "error"
             ));
-            return back()->withInput();
+            return response()->json([
+                'error' => $message,
+                'tag' => null
+            ]);
         }
 
-        $to = 'bob@sportsbusiness.solutions';
-        $request->interested_in = null;
-        if (request('about')) {
-            switch (request('about')) {
-                case "sales-training":
-                    $request->interested_in = "sales training";
-                    break;
-                case "consulting":
-                    $request->interested_in = "consulting";
-                    break;
-                case "recruiting":
-                    $request->interested_in = "recruiting";
-                    break;
-                case "career-services":
-                    $request->interested_in = "job-seeker career services";
-                    break;
-                case "coaching":
-                    $request->interested_in = "industry professional coaching";
-                    break;
-                case "combine":
-                    $request->interested_in = "Sports Sales Combine";
-                    break;
-                case "keynote":
-                    $request->interested_in = "keynote speaker opportunities";
-                    break;
-                case "other":
-                    $request->interested_in = null;
-                    break;
-            }
-        }
-        Mail::to($to)->send(new Contact($request));
-
-        return redirect()->action('ContactController@thanks');
+        return response()->json([
+            'error' => null
+        ]);
     }
 
-    public function thanks()
+    /**
+     * @param  int  $user_id
+     * @param  int  $contact_id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeRelationship(Request $request)
     {
-        return view('contact.thanks');
+        $this->authorize('remove-contact-relationship');
+
+        $user_id = $request->user_id;
+        $contact_id = $request->contact_id;
+
+        try {
+            $relationship = ContactRelationship::where('contact_id','=',$contact_id)
+                ->where('user_id','=',$user_id);
+            $relationship->delete();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $message = "Sorry, we were unable to delete that relationship. Please contact support.";
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return response()->json([
+                'error' => $message,
+                'tag' => null
+            ]);
+        }
+
+        return response()->json([
+            'error' => null
+        ]);
     }
+
 }

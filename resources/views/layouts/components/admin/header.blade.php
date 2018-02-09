@@ -19,17 +19,20 @@
         <div class="nav-wrapper container">
             <ul class="hide-on-med-and-down">
                 @can ('view-admin-dashboard')
-                    <li><a href="/admin">Dashboard</a></li>
+                    <li><a href="/admin"><i class="fa fa-th" style="height: 40px; line-height: 40px;"></i></a></li>
                 @endcan
-                <li><a href="/blog">Blog</a></li>
+                <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/blog">Blog</a></li>
+                @can ('view-contact')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/contact">Contacts</a></li>
+                @endcan
                 @can ('view-admin-jobs')
-                    <li><a href="/admin/job">Job Board</a></li>
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/job">Jobs</a></li>
                 @endcan
                 @can ('view-admin-questions')
-                    <li><a href="/admin/question">Q&amp;A</a></li>
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/question">Q&amp;A</a></li>
                 @endcan
                 @can ('view-admin-users')
-                    <li><a href="/admin/user">Users</a></li>
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/user">Users</a></li>
                 @endcan
             </ul>
         </div>
@@ -40,8 +43,11 @@
                 <li><a href="/admin">Dashboard</a></li>
             @endcan
             <li><a href="/admin/job">Blog</a></li>
+            @can ('view-contact')
+                <li><a href="/admin/contact">Contacts</a></li>
+            @endcan
             @can ('view-admin-jobs')
-                <li><a href="/admin/job">Job Board</a></li>
+                <li><a href="/admin/job">Jobs</a></li>
             @endcan
             @can ('view-admin-questions')
                 <li><a href="/admin/question">Q&amp;A</a></li>

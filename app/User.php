@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function contact()
+    {
+        return $this->hasOne(Contact::class);
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
@@ -290,8 +295,9 @@ class User extends Authenticatable
         return $users;
     }
 
-    public function noteCount()
+    public function getContacts()
     {
-        return count(Note::profile($this->id));
+        return $this->belongsToMany('App\Contact', 'contact_relationship');
     }
+
 }

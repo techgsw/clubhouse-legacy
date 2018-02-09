@@ -285,7 +285,11 @@ nav.nav-admin ul li a {}
 nav.nav-admin a.button-collapse {
     color: #D3D3D3;
     line-height: 40px;
-    margin: -48px 18px;
+    margin: -44px 18px;
+}
+nav.nav-admin a.button-collapse i.fa.fa-bars {
+    height: 40px;
+    line-height: 40px;
 }
 
 nav.nav-breadcrumb {
@@ -852,6 +856,18 @@ div.arrow.down {
     font-size: 1.25rem;
     font-weight: bold;
     color: #EB2935;
+}
+
+/**
+ * Contact
+ */
+
+.contact-notes-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 100%;
+    overflow-y:scroll;
+    padding: 15px;
 }
 
 /**

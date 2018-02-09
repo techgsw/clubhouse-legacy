@@ -3,7 +3,7 @@
         <div class="col s12">
             <div class="float-right">
                 @component('components.resume-button', ['url' => $inquiry->resume])@endcomponent
-                <button class="view-profile-notes-btn flat-button small" user-id="{{ $inquiry->user->id }}">{{ $inquiry->user->noteCount() }} <i class="fa fa-comments"></i></button>
+                <button class="view-contact-notes-btn flat-button small" contact-id="{{ $inquiry->user->contact->id }}">{{ $inquiry->user->contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
             </div>
             <a style="margin: 2px 0;" class="no-underline block" href="/user/{{ $inquiry->user->id }}">{{ $inquiry->name}}</a>
             <p style="margin: 2px 0;" class="small">

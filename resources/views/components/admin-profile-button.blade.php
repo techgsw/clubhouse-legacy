@@ -1,4 +1,6 @@
-@if ($user->profile)
+@if (!$user)
+    <button type="button" class="flat-button small gray" disabled>Not a user</button>
+@elseif ($user->profile)
     @if ($user->hasCompleteProfile())
         <a href="/user/{{ $user->id }}/profile" class="flat-button small green">Complete profile</a>
     @else

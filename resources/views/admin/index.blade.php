@@ -17,6 +17,24 @@
     </div>
     <div class="card">
         <div class="card-content">
+            <span class="card-title"><a href="/blog" class="no-underline">Contacts</a></span>
+            <p style="text-transform: uppercase;">
+                <a href="/admin/contact" class="no-underline"><span class="sbs-red-text">{{ $contact_count }}</span> contacts</a>
+            </p>
+        </div>
+        @can ('view-contact')
+            <div class="card-action">
+                <a class="no-underline" href="/admin/contact"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> Find Contact</span></a>
+            </div>
+        @endcan
+        @can ('edit-contact')
+            <div class="card-action">
+                <span class="grey-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i> NEW CONTACT</span>
+            </div>
+        @endcan
+    </div>
+    <div class="card">
+        <div class="card-content">
             <span class="card-title"><a href="/admin/job" class="no-underline">Jobs</a></span>
             <p style="text-transform: uppercase;">
                 <a href="/admin/job" class="no-underline"><span class="sbs-red-text">{{ $job_count }}</span> jobs</a>
@@ -51,6 +69,7 @@
             <a class="no-underline" href="/admin/user"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> Find User</span></a>
         </div>
     </div>
+    <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
 </div>
