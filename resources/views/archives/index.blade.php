@@ -4,8 +4,9 @@
     <div class="row bg-image hero archives">
         <div class="col s12">
             <h4 class="header">Sports Business Archives</h4>
-            <p>We go all over the country conducting sales training, keynote speeches, hiring events and more. Check out all the places we’ve been!</p>
+            <p>We go all over the country conducting sales training, keynote speeches, hiring events and more.</p>
             <a href="#past-sessions" class="btn btn-large sbs-red">VIEW GALLERY</a>
+            <a href="#other-contributions" class="btn btn-large sbs-red">MEDIA CONTRIBUTIONS</a>
         </div>
     </div>
 @endsection
@@ -18,7 +19,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12">
+        <div class="col s12 center">
+            <h4>Check out all the places we’ve been!</h4>
             <img src="/images/archives/client-map.jpg" alt="Client Map" />
         </div>
     </div>
@@ -145,7 +147,7 @@
             </a>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="other-contributions">
         <div class="col s12">
             <h4>Other contributions</h4>
             <hr />
