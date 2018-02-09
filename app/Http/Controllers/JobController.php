@@ -122,6 +122,15 @@ class JobController extends Controller
             return back()->withInput();
         }
 
+        $rank = 0;
+        if (request('featured')) {
+            $rank = 1;
+            $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+            if ($last_job) {
+                $rank = $last_job->rank+1;
+            }
+        }
+
         $job = Job::create([
             'user_id' => Auth::user()->id,
             'title' => request('title'),
@@ -131,7 +140,7 @@ class JobController extends Controller
             'job_type' => request('job_type'),
             'city' => request('city'),
             'state' => request('state'),
-            'rank' => request('rank') ?: 0,
+            'rank' => $rank,
             'featured' => request('featured') ? true : false,
             'image_url' => $job_image,
             'document' => $d ?: null,
@@ -346,6 +355,44 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function rankTop($id)
+    {
+        $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
+        $this->authorize('edit-job', $job);
+
+        $rank = $job->rank;
+        if ($rank <= 1) {
+            return back();
+        }
+
+        $job->rank = 1;
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        // All jobs previously ranked higher
+        $neighbors = Job::where('featured', 1)
+            ->where('id', '!=', $id)
+            ->where('rank', '<', $rank)
+            ->get();
+        if (!$neighbors) {
+            return back();
+        }
+        foreach ($neighbors as $neighbor) {
+            $neighbor->rank = $neighbor->rank+1;
+            $neighbor->edited_at = new \DateTime('NOW');
+            $neighbor->save();
+        }
+
+        return back();
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function rankDown($id)
     {
         $job = Job::find($id);
@@ -407,12 +454,11 @@ class JobController extends Controller
     public function update(UpdateJob $request, $id)
     {
         $job = Job::find($id);
-        $rank = request('rank') ?: $job->rank;
 
         $job->title = request('title');
         $job->featured = request('featured') ? true : false;
         if (!$job->featured) {
-            $job->rank = null;
+            $job->rank = 0;
         }
         $job->description = request('description');
         $job->organization = request('organization');
@@ -422,7 +468,7 @@ class JobController extends Controller
         $job->state = request('state');
         $job->featured = request('featured') ? true : false;
         // Set rank if newly featured
-        if ($job->featured && $rank == 0) {
+        if ($job->featured && $job->rank == 0) {
             $rank = 1;
             $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
             if ($last_job) {

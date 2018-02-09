@@ -85,12 +85,12 @@ class Job extends Model
         $job->save();
 
         // Shift neighbors with lower rank up one
-        $neighbors = Job::where('rank', '>', $rank)->get();
+        $neighbors = Job::where('featured', 1)->orderBy('rank', 'ASC')->get();
         if (!$neighbors) {
             return $job;
         }
-        foreach ($neighbors as $neighbor) {
-            $neighbor->rank = $neighbor->rank-1;
+        foreach ($neighbors as $i => $neighbor) {
+            $neighbor->rank = $i+1;
             $neighbor->edited_at = new \DateTime('NOW');
             $neighbor->save();
         }

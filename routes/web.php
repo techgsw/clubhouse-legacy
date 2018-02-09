@@ -174,6 +174,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/job/{id}/feature', 'JobController@feature');
     Route::get('/job/{id}/unfeature', 'JobController@unfeature');
     Route::get('/job/{id}/rank-up', 'JobController@rankUp');
+    Route::get('/job/{id}/rank-top', 'JobController@rankTop');
     Route::get('/job/{id}/rank-down', 'JobController@rankDown');
     Route::get('/job/{id}/edit', 'JobController@edit');
     Route::post('/job/{id}', 'JobController@update');
