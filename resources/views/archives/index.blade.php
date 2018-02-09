@@ -1,11 +1,11 @@
-<!-- /resources/views/blog/index.blade.php -->
 @extends('layouts.default')
 @section('title', 'Archive')
 @section('hero')
-    <div class="row hero" style="padding-bottom: 10px;">
+    <div class="row bg-image hero archives">
         <div class="col s12">
             <h4 class="header">Sports Business Archives</h4>
             <p>We go all over the country conducting sales training, keynote speeches, hiring events and more. Check out all the places we’ve been!</p>
+            <a href="#past-sessions" class="btn btn-large sbs-red">VIEW GALLERY</a>
         </div>
     </div>
 @endsection
@@ -22,7 +22,7 @@
             <img src="/images/archives/client-map.jpg" alt="Client Map" />
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="past-sessions">
         <div class="col s12">
             <h4>Past sessions</h4>
             <hr />

@@ -24,13 +24,7 @@ class ArchivesController extends Controller
     {
         $sessions = Session::orderby('id', 'desc')->paginate(60);
 
-        return view('archives/index', [
-            'breadcrumb' => [
-                'Home' => '/',
-                'Archive' => '/archives'
-            ],
-            'sessions' => $sessions,
-        ]);
+        return view('archives/index', [ 'sessions' => $sessions, ]);
     }
 
     /**
