@@ -53,10 +53,10 @@ class InsertContactResources extends Migration
             )
         );
 
-        DB::table('resource_role')->where('resource_code', 'contact_relationship_create')->delete();
-        DB::table('resource_role')->where('resource_code', 'contact_relationship_delete')->delete();
-        DB::table('resource')->where('code', 'contact_relationship_create')->delete();
-        DB::table('resource')->where('code', 'contact_relationship_delete')->delete();
+        DB::table('resource_role')->where('resource_code', 'profile_note_create')->delete();
+        DB::table('resource_role')->where('resource_code', 'profile_note_show')->delete();
+        DB::table('resource')->where('code', 'profile_note_create')->delete();
+        DB::table('resource')->where('code', 'profile_note_show')->delete();
 
         // Create contact note
         DB::table('resource')->insert(
