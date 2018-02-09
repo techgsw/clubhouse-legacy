@@ -7,14 +7,16 @@
         @can ('view-contact-notes')
             <button type="button" class="view-contact-notes-btn flat-button black" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
         @endif
-        @if ($contact->user->profile->resume_url)
-            <a href="{{ Storage::disk('local')->url($contact->user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
-        @else
-            <a href="#" class="flat-button black disabled">No Resume</a>
+        @if ($contact->user)
+            @if ($contact->user->profile->resume_url)
+                <a href="{{ Storage::disk('local')->url($contact->user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
+            @else
+                <a href="#" class="flat-button black disabled">No Resume</a>
+            @endif
+            @can ('edit-profile', $contact->user)
+                <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
+            @endcan
         @endif
-        @can ('edit-profile', $contact->user)
-            <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
-        @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
         @can ('view-contact')
@@ -58,14 +60,14 @@
                     <button type="button" name="save" class="btn sbs-red submit-contact-note-btn">Save</button>
                 </form>
             </div>
-            @if (count($notes) == 0)
-                <div class="row">
-                    <div class="col s12">
-                        <p style="font-style: italic;">No notes</p>
+            <div class="contact-notes-container" style="max-height:450px; padding:0px;">
+                @if (count($notes) == 0)
+                    <div class="row">
+                        <div class="col s12">
+                            <p style="font-style: italic;">No notes</p>
+                        </div>
                     </div>
-                </div>
-            @else
-                <div class="contact-notes-container" style="max-height:450px; padding:0px;">
+                @else
                     <div class="row">
                         <div class="col s12">
                             @foreach ($notes as $note)
@@ -79,8 +81,8 @@
                             @endforeach
                         </div>
                     </div>
-                </div>
-            @endif
+                @endif
+            </div>
         @endcan
     @endif
 </div>
