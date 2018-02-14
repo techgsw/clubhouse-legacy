@@ -7,6 +7,7 @@ use App\Post;
 use App\Question;
 use App\Answer;
 use App\User;
+use App\Providers\EmailServiceProvider;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
