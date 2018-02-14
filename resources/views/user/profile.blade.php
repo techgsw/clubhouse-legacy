@@ -26,8 +26,8 @@
     </ul>
     <div class="row">
         <div class="col s12">
-            @if ($user->address && ($user->address->city || $user->address->state))
-                <p>Lives in <b>{{ $user->address->city}}, {{$user->address->state}}</b>.</p>
+            @if ($user->contact->address && ($user->contact->address->city || $user->contact->address->state))
+                <p>Lives in <b>{{ $user->contact->address->city}}, {{$user->contact->address->state}}</b>.</p>
             @endif
             @if ($user->profile->job_seeking_status)
                 @if ($user->profile->job_seeking_status == 'unemployed')

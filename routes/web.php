@@ -166,7 +166,7 @@ Route::group(['middleware' => ['auth']], function () {
  */
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/contact/{id}', 'ContactController@show');
-    // TODO Route::post('/contact/{id}', 'ContactController@update');
+    Route::post('/contact/{id}', 'ContactController@update');
     Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 

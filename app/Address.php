@@ -17,8 +17,8 @@ class Address extends Model
         'edited_at'
     ];
 
-    public function user()
+    public function contact()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Contact::class);
     }
 }

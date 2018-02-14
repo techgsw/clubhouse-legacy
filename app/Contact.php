@@ -18,6 +18,11 @@ class Contact extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
     public function relationships()
     {
         return $this->belongsToMany('App\User', 'contact_relationship');

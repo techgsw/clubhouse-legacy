@@ -45,7 +45,7 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($request, $id)
+    public function update($id)
     {
         $contact = Contact::find($id);
         if (!$contact) {
@@ -53,7 +53,26 @@ class ContactController extends Controller
         }
         $this->authorize('edit-contact', $contact);
 
-        // TODO see ProfileController.update
+        $address = $contact->address;
+        if (!$address) {
+            return abort(404);
+        }
+
+        // Contact
+        $contact->title = request('title');
+        $contact->organization = request('organization');
+        $contact->updated_at = new \DateTime('NOW');
+        $contact->save();
+
+        // Address
+        $address->line1 = request('line1');
+        $address->line2 = request('line2');
+        $address->city = request('city');
+        $address->state = request('state');
+        $address->postal_code = request('postal_code');
+        $address->country = request('country');
+        $address->updated_at = new \DateTime('NOW');
+        $address->save();
 
         return redirect()->action('ContactController@show', [$contact]);
     }

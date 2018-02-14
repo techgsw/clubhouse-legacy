@@ -41,6 +41,25 @@ class CreateContactTable extends Migration
             ]);
         }
 
+        Schema::table('address', function (Blueprint $table) {
+            $table->integer('contact_id')->unsigned()->after('id');
+        });
+
+        DB::update("UPDATE `address` AS `a` JOIN `user` AS `u` ON `a`.`user_id`=`u`.`id` JOIN `contact` AS `c` ON `u`.`id`=`c`.`user_id` SET `a`.`contact_id`=`c`.`id`;");
+
+        Schema::table('address', function (Blueprint $table) {
+            $table->foreign('contact_id')->references('id')->on('contact');
+        });
+
+        Schema::table('address', function (Blueprint $table) {
+            $table->dropForeign([
+                'user_id',
+            ]);
+            $table->dropColumn([
+                'user_id',
+            ]);
+        });
+
         DB::table('resource')->insert(
             array(
                 'code' => 'contact_create',
@@ -112,5 +131,24 @@ class CreateContactTable extends Migration
         DB::table('resource')->where('code', 'contact_edit')->delete();
 
         Schema::dropIfExists('contact');
+
+        Schema::table('address', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+        });
+
+        DB::update("UPDATE `address` AS `a` JOIN `contact` AS `c` ON `a`.`contact_id`=`c`.`id` JOIN `user` AS `u` ON `c`.`user_id`=`u`.`id` SET `a`.`user_id`=`u`.`id`;");
+
+        Schema::table('address', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('user');
+        });
+
+        Schema::table('address', function (Blueprint $table) {
+            $table->dropForeign([
+                'contact_id',
+            ]);
+            $table->dropColumn([
+                'contact_id',
+            ]);
+        });
     }
 }
