@@ -101,12 +101,12 @@ class User extends Authenticatable
             $this->profile->ethnicity &&
             $this->profile->gender;
 
-        $address_complete = $this->address && (
-            $this->address->line1 &&
-            $this->address->city &&
-            $this->address->state &&
-            $this->address->postal_code &&
-            $this->address->country);
+        $address_complete = $this->contact->address && (
+            $this->contact->address->line1 &&
+            $this->contact->address->city &&
+            $this->contact->address->state &&
+            $this->contact->address->postal_code &&
+            $this->contact->address->country);
 
         $job_preferences_complete =
             $this->profile->job_seeking_status &&

@@ -8,6 +8,9 @@
             <p style="text-transform: uppercase;">
                 <a href="/admin/contact" class="no-underline"><span class="sbs-red-text">{{ $contact_count }}</span> contacts</a>
             </p>
+            <p style="text-transform: uppercase;">
+                <a href="/admin/contact" class="no-underline"><span class="sbs-red-text">{{ $user_count }}</span> users</a>
+            </p>
         </div>
         @can ('view-contact')
             <div class="card-action">

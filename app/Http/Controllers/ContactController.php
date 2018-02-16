@@ -61,6 +61,8 @@ class ContactController extends Controller
         // Contact
         $contact->title = request('title');
         $contact->organization = request('organization');
+        $contact->job_seeking_type = request('job_seeking_type');
+        $contact->job_seeking_status = request('job_seeking_status');
         $contact->updated_at = new \DateTime('NOW');
         $contact->save();
 

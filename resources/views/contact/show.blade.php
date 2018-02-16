@@ -5,16 +5,12 @@
 <div class="container">
     @component('contact.header', ['contact' => $contact])
         @can ('view-contact-notes')
-            <button type="button" class="view-contact-notes-btn flat-button black" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
+            <button type="button" class="view-contact-notes-btn flat-button black small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
         @endif
         @if ($contact->user)
-            @if ($contact->user->profile->resume_url)
-                <a href="{{ Storage::disk('local')->url($contact->user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
-            @else
-                <a href="#" class="flat-button black disabled">No Resume</a>
-            @endif
+            @include('components.resume-button', ['url' => $contact->user->profile->resume_url ?: null])
             @can ('edit-profile', $contact->user)
-                <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
+                <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black small">Edit<span class="hide-on-small-only"> Profile</span></a>
             @endcan
         @endif
     @endcomponent
@@ -53,12 +49,29 @@
             <tbody>
                 <tr>
                     <td>
+                        <label>Resume</label>
+                        <div>
+                            @component('components.resume-button', ['url' => $contact->resume_url ?: null])@endcomponent
+                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-upload icon-left"></i>Upload</button>
+                        </div>
+                    </td>
+                    <td>
+                        @if ($contact->user && $contact->user->profile->job_seeking_type)
+                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>
+                            @component('components.resume-button', ['url' => $contact->user->profile ? $contact->user->profile->resume_url : null])@endcomponent
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <label>Title</label>
                         <input type="text" name="title" value="{{ $contact->title }}">
                     </td>
                     <td>
                         @if ($contact->user && $contact->user->profile->current_title)
-                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->current_title }}
+                            @if ($contact->user->profile->current_title != $contact->title)
+                                <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->current_title }}
+                            @endif
                         @endif
                     </td>
                 </tr>
@@ -70,6 +83,43 @@
                     <td>
                         @if ($contact->user && $contact->user->profile->current_organization)
                             <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->current_organization }}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Job-seeking status</label>
+                        <select class="browser-default" name="job_seeking_status">
+                            <option value="" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "" ? "selected" : "") : (old("job_seeking_status") == "" ? "selected" : "") }} disabled>Please select</option>
+                            <option value="unemployed" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "unemployed" ? "selected" : "") : (old("job_seeking_status") == "unemployed" ? "selected" : "") }}>Unemployed, actively seeking a new job</option>
+                            <option value="employed_active" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_active" ? "selected" : "") : (old("job_seeking_status") == "employed_active" ? "selected" : "") }}>Employed, actively seeking a new job</option>
+                            <option value="employed_passive" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_passive" ? "selected" : "") : (old("job_seeking_status") == "employed_passive" ? "selected" : "") }}>Employed, passively exploring new opportunities</option>
+                            <option value="employed_future" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_future" ? "selected" : "") : (old("job_seeking_status") == "employed_future" ? "selected" : "") }}>Employed, only open to future opportunities</option>
+                            <option value="employed_not" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_not" ? "selected" : "") : (old("job_seeking_status") == "employed_not" ? "selected" : "") }}>Employed, currently have my dream job</option>
+                        </select>
+                    </td>
+                    <td>
+                        @if ($contact->user && $contact->user->profile->job_seeking_status)
+                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->job_seeking_status }}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Job-seeking type</label>
+                        <select class="browser-default" name="job_seeking_type">
+                            <option value="" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>Please select</option>
+                            <option value="internship" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
+                            <option value="entry_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level" ? "selected" : "") : (old("job_seeking_type") == "entry_level" ? "selected" : "") }}>Entry-level</option>
+                            <option value="mid_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level" ? "selected" : "") : (old("job_seeking_type") == "mid_level" ? "selected" : "") }}>Mid-level</option>
+                            <option value="entry_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level_management" ? "selected" : "") : (old("job_seeking_type") == "entry_level-managment" ? "selected" : "") }}>Entry-level management</option>
+                            <option value="mid_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level_management" ? "selected" : "") : (old("job_seeking_type") == "mid_level-managment" ? "selected" : "") }}>Mid-level management</option>
+                            <option value="executive" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
+                        </select>
+                    </td>
+                    <td>
+                        @if ($contact->user && $contact->user->profile->job_seeking_type)
+                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->job_seeking_type }}
                         @endif
                     </td>
                 </tr>
@@ -102,6 +152,7 @@
             </div>
         </div>
         <button type="submit" class="btn sbs-red">Save</button>
+        <button type="submit" class="btn green">Accept all from profile</button>
     </form>
     @can ('view-contact-notes')
         <div class="contact-notes-container" style="max-height: 300px; overflow-y: scroll; margin-bottom: 20px; padding:0px;">
@@ -138,4 +189,5 @@
     @endcan
 </div>
 @include('components.contact-notes-modal')
+@include('components.pdf-view-modal')
 @endsection
