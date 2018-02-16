@@ -13,62 +13,66 @@
         <div class="col s12">
             <form method="post" action="/job" enctype="multipart/form-data">
                 {{ csrf_field() }}
-                <div class="input-field">
+                <div class="input-field col s12 m9">
                     <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" value="{{ old('title') }}" required autofocus>
                     <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
                 </div>
-                <div class="input-field">
+                <div class="input-field col s12 m3">
+                    <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
+                    <label for="featured">Featured</label>
+                </div>
+                <div class="input-field col s12">
                     <textarea id="description" class="materialize-textarea validate {{ $errors->has('description') ? 'invalid' : '' }}" name="description" required>{{ old('description') }}</textarea>
                     <label for="description" data-error="{{ $errors->first('description') }}">Description</label>
                 </div>
-                <div class="input-field">
+                <div class="input-field col s12">
                     <input id="organization" type="text" class="validate {{ $errors->has('organization') ? 'invalid' : '' }}" name="organization" value="{{ old('organization') }}" required autofocus>
                     <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
                 </div>
-                <div class="input-field">
+                <div class="input-field col s12">
                     <select name="league">
-                        <option value="" {{ old('state') == "" ? "selected" : "" }}>None</option>
-                        <option value="mlb" {{ old('state') == "mlb" ? "selected" : "" }}>MLB</option>
-                        <option value="mls" {{ old('state') == "mls" ? "selected" : "" }}>MLS</option>
-                        <option value="nba" {{ old('state') == "nba" ? "selected" : "" }}>NBA</option>
-                        <option value="ncaa" {{ old('state') == "ncaa" ? "selected" : "" }}>NCAA</option>
-                        <option value="nfl" {{ old('state') == "nfl" ? "selected" : "" }}>NFL</option>
-                        <option value="nhl" {{ old('state') == "nhl" ? "selected" : "" }}>NHL</option>
-                        <option value="wnba" {{ old('state') == "wnba" ? "selected" : "" }}>WNBA</option>
-                        <option value="other" {{ old('state') == "other" ? "selected" : "" }}>Other</option>
+                        <option value="" {{ old('league') == "" ? "selected" : "" }}>None</option>
+                        <option value="mlb" {{ old('league') == "mlb" ? "selected" : "" }}>MLB</option>
+                        <option value="mls" {{ old('league') == "mls" ? "selected" : "" }}>MLS</option>
+                        <option value="nba" {{ old('league') == "nba" ? "selected" : "" }}>NBA</option>
+                        <option value="ncaa" {{ old('league') == "ncaa" ? "selected" : "" }}>NCAA</option>
+                        <option value="nfl" {{ old('league') == "nfl" ? "selected" : "" }}>NFL</option>
+                        <option value="nhl" {{ old('league') == "nhl" ? "selected" : "" }}>NHL</option>
+                        <option value="wnba" {{ old('league') == "wnba" ? "selected" : "" }}>WNBA</option>
+                        <option value="other" {{ old('league') == "other" ? "selected" : "" }}>Other</option>
                     </select>
                     <label>League</label>
                 </div>
-                <div class="input-field">
+                <div class="input-field col s12">
                     <select name="job_type">
-                        <option value="" {{ old('state') == "" ? "selected" : "" }}>None</option>
-                        <option value="ticket-sales" {{ old('job_type') == '' ? "selected" : "ticket-sales" }}>Ticket Sales</option>
-                        <option value="sponsorship-sales" {{ old('job_type') == '' ? "selected" : "sponsorship-sales" }}>Sponsorship Sales</option>
-                        <option value="marketing" {{ old('job_type') == '' ? "selected" : "marketing" }}>Marketing</option>
-                        <option value="internships" {{ old('job_type') == '' ? "selected" : "internships" }}>Internships</option>
-                        <option value="business-operations" {{ old('job_type') == '' ? "selected" : "business-operations" }}>Business operations</option>
-                        <option value="data-analytics" {{ old('job_type') == '' ? "selected" : "data-analytics" }}>Data/Analytics</option>
-                        <option value="player-operations" {{ old('job_type') == '' ? "selected" : "player-operations" }}>Player operations</option>
-                        <option value="communications" {{ old('job_type') == '' ? "selected" : "communications" }}>Communications</option>
-                        <option value="it-technology" {{ old('job_type') == '' ? "selected" : "it-technology" }}>IT and Technology</option>
-                        <option value="administrative" {{ old('job_type') == '' ? "selected" : "administrative" }}>Administrative</option>
+                        <option value="" {{ old('job_type') == "" ? "selected" : "" }}>None</option>
+                        <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
+                        <option value="sponsorship-sales" {{ old('job_type') == 'sponsorship-sales' ? "selected" : "" }}>Sponsorship Sales</option>
+                        <option value="marketing" {{ old('job_type') == 'marketing' ? "selected" : "" }}>Marketing</option>
+                        <option value="internships" {{ old('job_type') == 'internships' ? "selected" : "" }}>Internships</option>
+                        <option value="business-operations" {{ old('job_type') == 'business-operations' ? "selected" : "" }}>Business operations</option>
+                        <option value="data-analytics" {{ old('job_type') == 'data-analytics' ? "selected" : "" }}>Data/Analytics</option>
+                        <option value="player-operations" {{ old('job_type') == 'player-operations' ? "selected" : "" }}>Player operations</option>
+                        <option value="communications" {{ old('job_type') == 'communications' ? "selected" : "" }}>Communications</option>
+                        <option value="it-technology" {{ old('job_type') == 'it-technology' ? "selected" : "" }}>IT and Technology</option>
+                        <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
                     </select>
                     <label>Type</label>
                 </div>
-                <div class="file-field input-field">
+                <div class="file-field input-field col s12">
                     <div class="btn white black-text">
                         <span>Upload Image</span>
                         <input type="file" name="image_url" value="{{ old('image_url') }}">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="image_url_text" value="{{ old('image_url_text') }}">
+                        <input class="file-path validate" type="text" name="image_url_text" value="">
                     </div>
                 </div>
-                <div class="input-field">
+                <div class="input-field col s12">
                     <input id="city" type="text" class="validate {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') }}" required autofocus>
                     <label for="city" data-error="{{ $errors->first('city') }}">City</label>
                 </div>
-                <div class="input-field">
+                <div class="input-field col s12">
                     <select name="state">
                         <option value="" {{ old('state') == "" ? "selected" : "" }} disabled>U.S.A.</option>
                         <option value="AL" {{ old('state') == "AL" ? "selected" : "" }}>Alabama</option>
@@ -139,16 +143,16 @@
                     </select>
                     <label>State</label>
                 </div>
-                <div class="file-field input-field">
+                <div class="file-field input-field col s12">
                     <div class="btn white black-text">
                         <span>Upload Document</span>
                         <input type="file" name="document" value="{{ old('document') }}">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="document_text" value="{{ old('document_text') }}">
+                        <input class="file-path validate" type="text" name="document_text" value="">
                     </div>
                 </div>
-                <div class="input-field">
+                <div class="input-field col s12">
                     <button type="submit" class="btn sbs-red">Post</button>
                 </div>
             </form>
