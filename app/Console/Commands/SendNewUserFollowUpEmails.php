@@ -4,25 +4,26 @@ namespace App\Console\Commands;
 
 use Mail;
 use App\User;
-use App\Mail\UserMigration;
+use App\Providers\EmailServiceProvider;
+use App\Mail\NewUserFollowUp;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 
-class SendMigrationEmails extends Command
+class SendNewUserFollowUpEmails extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'email:user-migration';
+    protected $signature = 'email:follow-up {date?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send user migration emails.';
+    protected $description = 'Send new user follow-up emails.';
 
     /**
      * Create a new command instance.
@@ -41,15 +42,13 @@ class SendMigrationEmails extends Command
      */
     public function handle()
     {
-        $users = User::where('password', 'invalid-hash')->get();
-
-        foreach ($users as $user) {
-            try {
-                Mail::to($user)->send(new UserMigration($user));
-            } catch (Exception $e) {
-                dd($e);
-                //Log here
-            }
+        $date = $this->argument('date');
+        if ($date) {
+            $date = new \DateTime($date);
+        } else {
+            $date = new \DateTime('now');
+            $date->sub(new \DateInterval('P2D'));
         }
+        EmailServiceProvider::sendNewUserFollowUpEmails($date);
     }
 }

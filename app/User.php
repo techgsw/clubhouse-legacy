@@ -290,6 +290,13 @@ class User extends Authenticatable
         return $users;
     }
 
+    public static function registeredOn(\DateTime $date)
+    {
+        $users = User::where('created_at', '>=', $date->format('Y-m-d 00:00:00'))
+            ->where('created_at', '<=', $date->format('Y-m-d 23:59:59'));
+        return $users;
+    }
+
     public function noteCount()
     {
         return count(Note::profile($this->id));

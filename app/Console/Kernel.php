@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Providers\EmailServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\SendMigrationEmails::class
+        Commands\SendMigrationEmails::class,
+        Commands\SendNewUserFollowUpEmails::class
     ];
 
     /**
@@ -24,8 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+            $date = new \DateTime('now');
+            $date->sub(new \DateInterval('P2D'));
+            EmailServiceProvider::sendNewUserFollowUpEmails($date);
+        })->dailyAt('08:00');
     }
 
     /**
