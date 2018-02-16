@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
             $date = new \DateTime('now');
             $date->sub(new \DateInterval('P2D'));
             EmailServiceProvider::sendNewUserFollowUpEmails($date);
-        })->dailyAt('12:30');
+        })->dailyAt('08:00');
     }
 
     /**
