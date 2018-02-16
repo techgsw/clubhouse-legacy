@@ -1,10 +1,10 @@
 @component('emails.layout')
     @slot('body')
-        <p>Hello, {{ ucwords($user->first_name) }}!</p>
-        <p>Welcome to the Sports Business Solutions family. We are excited to start, help, and grow your sports business career in the industry.</p>
-        <p>As a thank you for joining our team, we would like to extend the opportunity to you to connect with our Sr. Director of Recruiting and Development, Josh Belkoff. He has been a hiring manager in the past and wants to help you gain the upper hand in your sports business ascension in the industry.</p>
-        <p>Please reach out to him at <a href="mailto::josh@sportsbusiness.solutions">josh@sportsbusiness.solutions</a> to set up your conversation with Josh.</p>
-        <p>Success in sports business starts here and we can’t wait to watch you grow in this special industry.</p>
-        <p>Thank you,<br/>Sports Business Solutions</p>
+        <p>{{ ucwords($user->first_name) }}&mdash;</p>
+        <p>Welcome to Sports Business Solutions! We are excited to help you succeed in this industry.</p>
+        <p>As a thank you for joining our community, we’d like to offer you the opportunity to chat with our Sr. Director of Recruiting and Development, Josh Belkoff. He’s been a former hiring manager in sports and wants to learn more about your goals, and then offer advice to help you achieve them.</p>
+        <p>This service is <b>free</b> and if you're interested, just email him at <a href="mailto::josh@sportsbusiness.solutions">josh@sportsbusiness.solutions</a>.</p>
+        <p>Thanks, and we look forward to talking to you soon.</p>
+        <p>The SBS Team</p>
     @endslot
 @endcomponent

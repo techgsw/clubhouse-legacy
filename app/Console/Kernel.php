@@ -25,9 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $date = new \DateTime('yesterday');
-        $schedule->call(EmailServiceProvider::sendNewUserFollowUpEmails($date))
-            ->dailyAt('08:00');
+        $date = new \DateTime('now');
+        $date->sub(new \DateInterval('P2D'));
+        $schedule
+            ->call(EmailServiceProvider::sendNewUserFollowUpEmails($date))
+            ->dailyAt('12:30');
     }
 
     /**
