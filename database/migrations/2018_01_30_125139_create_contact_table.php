@@ -130,8 +130,6 @@ class CreateContactTable extends Migration
         DB::table('resource')->where('code', 'contact_show')->delete();
         DB::table('resource')->where('code', 'contact_edit')->delete();
 
-        Schema::dropIfExists('contact');
-
         Schema::table('address', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
         });
@@ -150,5 +148,7 @@ class CreateContactTable extends Migration
                 'contact_id',
             ]);
         });
+
+        Schema::dropIfExists('contact');
     }
 }
