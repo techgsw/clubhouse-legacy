@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\SendMigrationEmails::class
+        Commands\SendMigrationEmails::class,
+        Commands\SendNewUserFollowUpEmails::class
     ];
 
     /**
@@ -25,11 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $date = new \DateTime('now');
-        $date->sub(new \DateInterval('P2D'));
-        $schedule
-            ->call(EmailServiceProvider::sendNewUserFollowUpEmails($date))
-            ->dailyAt('12:30');
+        $schedule->call(function () {
+            $date = new \DateTime('now');
+            $date->sub(new \DateInterval('P2D'));
+            EmailServiceProvider::sendNewUserFollowUpEmails($date);
+        })->dailyAt('12:30');
     }
 
     /**
