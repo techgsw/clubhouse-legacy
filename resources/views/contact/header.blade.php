@@ -13,9 +13,7 @@
                     {{ $slot }}
                 </div>
                 <h3 class="header" style="margin: 14px 0 2px 0;">{{ $contact->user ? $contact->user->getName() : $contact->getName() }}</h3>
-                @if (!is_null($contact->user->getTitle()))
-                    <p style="line-height: 1.25; margin: 3px 0;">{{ $contact->user ? $contact->user->getTitle() : $contact->getTitle() }}</p>
-                @endif
+                <p style="line-height: 1.25; margin: 3px 0;">{{ $contact->user ? $contact->user->getTitle() : $contact->getTitle() }}</p>
                 @if (!is_null($contact->email))
                     <p style="line-height: 1.25; margin: 3px 0;"><a class="no-underline" href="mailto:{{ $contact->email }}">{{ $contact->email}}</a></p>
                 @endif

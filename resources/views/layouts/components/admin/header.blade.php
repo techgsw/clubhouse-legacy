@@ -31,9 +31,6 @@
                 @can ('view-admin-questions')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/question">Q&amp;A</a></li>
                 @endcan
-                @can ('view-admin-users')
-                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/user">Users</a></li>
-                @endcan
             </ul>
         </div>
         <ul id="nav-mobile" class="side-nav">
@@ -51,9 +48,6 @@
             @endcan
             @can ('view-admin-questions')
                 <li><a href="/admin/question">Q&amp;A</a></li>
-            @endcan
-            @can ('view-admin-users')
-                <li><a href="/admin/user">Users</a></li>
             @endcan
             <li class="divider"></li>
             <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>

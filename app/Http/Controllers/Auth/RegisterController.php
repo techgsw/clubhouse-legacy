@@ -76,6 +76,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // TODO 101 create Contact
+
         $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
@@ -83,6 +85,7 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
+        // TODO 101 link to Contact
         $address = Address::create([
             'user_id' => $user->id
         ]);

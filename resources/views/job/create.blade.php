@@ -1,4 +1,4 @@
-<!-- /resources/views/question/edit.blade.php -->
+<!-- /resources/views/job/create.blade.php -->
 @extends('layouts.default')
 @section('title', 'New Job')
 @section('content')

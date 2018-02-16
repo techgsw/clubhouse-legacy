@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Contact;
 use App\ContactRelationship;
 use App\Note;
@@ -38,6 +39,74 @@ class ContactController extends Controller
                 $contact->getName() ?: $contact->getOrganization() => "/contact/$id",
             ]
         ]);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $this->authorize('create-contact');
+
+        return view('contact/create', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Contacts' => '/admin/contact',
+                'New' => "/contact/create"
+            ]
+        ]);
+    }
+
+    /**
+     * @param  $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        // TODO StoreContact request for validation
+
+        // TODO Check by email if the Contact already exists
+
+        try {
+            $resume = request()->file('resume');
+            if ($resume) {
+                $d = $resume->store('resume', 'public');
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $request->session()->flash('message', new Message(
+                "Sorry, the resume you tried to upload failed.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
+        $contact = Contact::create([
+            'first_name' => request('first_name'),
+            'last_name' => request('last_name'),
+            'email' => request('email'),
+            'phone' => request('phone'),
+            'title' => request('title'),
+            'organization' => request('organization'),
+            'job_seeking_status' => request('job_seeking_status'),
+            'job_seeking_type' => request('job_seeking_type'),
+            'resume_url' => $resume,
+        ]);
+
+        $address = Address::create([
+            'contact_id' => $contact->id,
+            'line1' => request('line1'),
+            'line2' => request('line2'),
+            'city' => request('city'),
+            'state' => request('state'),
+            'postal_code' => request('postal_code'),
+            'country' => request('country')
+        ]);
+
+        return redirect()->action('ContactController@show', [$contact]);
     }
 
     /**

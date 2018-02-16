@@ -19,7 +19,7 @@
         @endcan
         @can ('edit-contact')
             <div class="card-action">
-                <span class="grey-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i> NEW CONTACT</span>
+                <a class="no-underline" href="/contact/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> New Contact</span></a>
             </div>
         @endcan
     </div>
