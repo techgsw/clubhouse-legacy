@@ -403,6 +403,40 @@ $.valHooks.textarea = {
         group.toggleClass('hidden');
     }
 
+    Form.acceptValue = function(id, value) {
+        var target = $('#'+id);
+        if (target.length == 0) {
+            return;
+        }
+
+        target.val(value);
+        return target;
+    }
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var id = $(this).attr('target-id');
+                var value = $(this).attr('target-value');
+                if (!id) {
+                    console.error("No target ID given.");
+                    return;
+                }
+                Form.acceptValue(id, value);
+            }
+        },
+        '.accept-change-button'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $('.accept-change-button').click();
+            }
+        },
+        '.accept-all-changes-button'
+    );
+
     // Hover effect on archive page
     $('body').on(
         {
@@ -492,7 +526,6 @@ $.valHooks.textarea = {
                 form.find('input, textarea, button').attr('disabled', 'disabled');
                 Note.postContactNote(values).done(function (response) {
                     if (response.type != 'success') {
-                        // TODO better messaging for failure
                         console.error('Failed to add note');
                         form.find('input, textarea, button').removeAttr('disabled');
                         return;
@@ -500,9 +533,7 @@ $.valHooks.textarea = {
                     Note.getContactNotes(values.contact_id).done(function (view) {
                         form.find('textarea#note').val("");
                         form.find('input, textarea, button').removeAttr('disabled');
-                        //$('.contact-notes-modal .modal-content').html(view);
                         $('.contact-notes-container').html(view);
-                        //$('.contact-notes-modal').modal('open');
                     });
                 });
             }

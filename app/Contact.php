@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Note;
+use App\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,27 @@ class Contact extends Model
         }
     }
 
+    public function matches(Profile $profile)
+    {
+        return
+            // User
+            $this->first_name === $profile->user->first_name
+            && $this->last_name === $profile->user->last_name
+            && $this->phone === $profile->user->phone
+            // Profile
+            && $this->organization === $profile->organization
+            && $this->title === $profile->user->title
+            && $this->job_seeking_status === $profile->user->job_seeking_status
+            && $this->job_seeking_type === $profile->user->job_seeking_type
+            // Address
+            && $this->address[0]->line1 === $profile->address[0]->line1
+            && $this->address[0]->line2 === $profile->address[0]->line2
+            && $this->address[0]->city === $profile->address[0]->city
+            && $this->address[0]->state === $profile->address[0]->state
+            && $this->address[0]->postal_code === $profile->address[0]->postal_code
+            && $this->address[0]->country === $profile->address[0]->country;
+    }
+
     public static function search(Request $request)
     {
         $contacts = Contact::where('id', '>', 0);
@@ -110,30 +132,77 @@ class Contact extends Model
             $contacts = $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$term%");
         }
 
-        // $sort = $request->query->get('sort');
-        // switch ($sort) {
-        // case 'id-desc':
-        //     $users = $users->orderBy('user.id', 'desc');
-        //     break;
-        // case 'id-asc':
-        //     $users = $users->orderBy('user.id', 'asc');
-        //     break;
-        // case 'email-desc':
-        //     $users = $users->orderBy('user.email', 'desc');
-        //     break;
-        // case 'email-asc':
-        //     $users = $users->orderBy('user.email', 'asc');
-        //     break;
-        // case 'name-desc':
-        //     $users = $users->orderBy('user.last_name', 'desc');
-        //     break;
-        // case 'name-asc':
-        //     $users = $users->orderBy('user.last_name', 'asc');
-        //     break;
-        // default:
-        //     $users = $users->orderBy('user.id', 'desc');
-        //     break;
-        // }
+        $sort = $request->query->get('sort');
+        switch ($sort) {
+        case 'id-desc':
+            $contacts = $contacts->orderBy('contact.id', 'desc');
+            break;
+        case 'id-asc':
+            $contacts = $contacts->orderBy('contact.id', 'asc');
+            break;
+        case 'email-desc':
+            $contacts = $contacts->orderBy('contact.email', 'desc');
+            break;
+        case 'email-asc':
+            $contacts = $contacts->orderBy('contact.email', 'asc');
+            break;
+        case 'name-desc':
+            $contacts = $contacts->orderBy('contact.last_name', 'desc');
+            break;
+        case 'name-asc':
+            $contacts = $contacts->orderBy('contact.last_name', 'asc');
+            break;
+        default:
+            $contacts = $contacts->orderBy('contact.id', 'desc');
+            break;
+        }
+
+        $job_seeking_type = $request->query->get('job_seeking_type');
+        switch ($job_seeking_type) {
+        case 'internship':
+            $contacts = $contacts->where('contact.job_seeking_type', 'internship');
+            break;
+        case 'entry_level':
+            $contacts = $contacts->where('contact.job_seeking_type', 'entry_level');
+            break;
+        case 'mid_level':
+            $contacts = $contacts->where('contact.job_seeking_type', 'mid_level');
+            break;
+        case 'entry_level_management':
+            $contacts = $contacts->where('contact.job_seeking_type', 'entry_level_management');
+            break;
+        case 'mid_level_management':
+            $contacts = $contacts->where('contact.job_seeking_type', 'mid_level_management');
+            break;
+        case 'executive':
+            $contacts = $contacts->where('contact.job_seeking_type', 'executive');
+            break;
+        case 'all':
+        default:
+            break;
+        }
+
+        $job_seeking_status = $request->query->get('job_seeking_status');
+        switch ($job_seeking_status) {
+        case 'unemployed':
+            $contacts = $contacts->where('contact.job_seeking_status', 'unemployed');
+            break;
+        case 'employed_active':
+            $contacts = $contacts->where('contact.job_seeking_status', 'employed_active');
+            break;
+        case 'employed_passive':
+            $contacts = $contacts->where('contact.job_seeking_status', 'employed_passive');
+            break;
+        case 'employed_future':
+            $contacts = $contacts->where('contact.job_seeking_status', 'employed_future');
+            break;
+        case 'employed_not':
+            $contacts = $contacts->where('contact.job_seeking_status', 'employed_not');
+            break;
+        case 'all':
+        default:
+            break;
+        }
 
         return $contacts;
     }

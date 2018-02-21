@@ -48,6 +48,7 @@ class CreateContactTable extends Migration
             $table->foreign('address_id')->references('id')->on('address');
             $table->integer('profile_id')->unsigned()->nullable()->default(NULL);
             $table->foreign('profile_id')->references('id')->on('profile');
+            $table->timestamps();
         });
 
         Schema::create('address_contact', function (Blueprint $table) {
@@ -56,6 +57,7 @@ class CreateContactTable extends Migration
             $table->foreign('address_id')->references('id')->on('address');
             $table->integer('contact_id')->unsigned()->nullable()->default(NULL);
             $table->foreign('contact_id')->references('id')->on('contact');
+            $table->timestamps();
         });
 
         DB::insert("INSERT INTO `address_profile` (`address_id`, `profile_id`) SELECT `a`.`id`, `p`.`id` FROM `address` AS `a` JOIN `user` AS `u` ON `a`.`user_id`=`u`.`id` JOIN `profile` AS `p` ON `u`.`id`=`p`.`user_id`;");

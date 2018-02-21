@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\AddressContact;
 use App\Contact;
 use App\ContactRelationship;
 use App\Note;
@@ -28,6 +29,9 @@ class ContactController extends Controller
             return abort(404);
         }
         $this->authorize('view-contact', $contact);
+
+        // dump($contact);
+        // dump($contact->user);
 
         $notes = Note::contact($id);
 
@@ -108,13 +112,17 @@ class ContactController extends Controller
         ]);
 
         $address = Address::create([
-            'contact_id' => $contact->id,
             'line1' => request('line1'),
             'line2' => request('line2'),
             'city' => request('city'),
             'state' => request('state'),
             'postal_code' => request('postal_code'),
             'country' => request('country')
+        ]);
+
+        $address_contact = AddressContact::create([
+            'address_id' => $address->id,
+            'contact_id' => $contact->id
         ]);
 
         return redirect()->action('ContactController@show', [$contact]);
