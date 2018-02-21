@@ -3,6 +3,7 @@
 @section('title', 'Contact')
 @section('content')
 <div class="container">
+    @include('layouts.components.messages')
     @component('contact.header', ['contact' => $contact])
         @can ('view-contact-notes')
             <button type="button" class="view-contact-notes-btn flat-button black small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
@@ -45,112 +46,154 @@
     @endcan
     <form class="compact" action="/contact/{{ $contact->id }}" method="post">
         {{ csrf_field() }}
-        <table class="compact">
-            <tbody>
-                <tr>
-                    <td>
-                        <label>Resume</label>
-                        <div>
-                            @component('components.resume-button', ['url' => $contact->resume_url ?: null])@endcomponent
-                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-upload icon-left"></i>Upload</button>
+        <ul class="collapsible" data-collapsible="accordion">
+            <li class="form-section">
+                <div class="collapsible-header">
+                    <i class="material-icons">work</i>Employment
+                </div>
+                <div class="collapsible-body">
+                    <div class="compact">
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Resume</label>
+                                <div>
+                                    @component('components.resume-button', ['url' => $contact->resume_url ?: null])@endcomponent
+                                    <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-upload icon-left"></i>Upload</button>
+                                </div>
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->resume_url && $contact->user->profile->resume_url != $contact->resume_url)
+                                    <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>
+                                    @component('components.resume-button', ['url' => $contact->user->profile ? $contact->user->profile->resume_url : null])@endcomponent
+                                @endif
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                        @if ($contact->user && $contact->user->profile->job_seeking_type)
-                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>
-                            @component('components.resume-button', ['url' => $contact->user->profile ? $contact->user->profile->resume_url : null])@endcomponent
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Title</label>
-                        <input type="text" name="title" value="{{ $contact->title }}">
-                    </td>
-                    <td>
-                        @if ($contact->user && $contact->user->profile->current_title)
-                            @if ($contact->user->profile->current_title != $contact->title)
-                                <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->current_title }}
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Title</label>
+                                <input type="text" name="title" value="{{ $contact->title }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->current_title && $contact->user->profile->current_title != $contact->title)
+                                    <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->current_title }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Organization</label>
+                                <input type="text" name="organization" value="{{ $contact->organization }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->current_organization && $contact->user->profile->current_organization != $contact->organization)
+                                    <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->current_organization }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Job-seeking status</label>
+                                <select class="browser-default" name="job_seeking_status">
+                                    <option value="" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "" ? "selected" : "") : (old("job_seeking_status") == "" ? "selected" : "") }} disabled>Please select</option>
+                                    <option value="unemployed" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "unemployed" ? "selected" : "") : (old("job_seeking_status") == "unemployed" ? "selected" : "") }}>Unemployed, actively seeking a new job</option>
+                                    <option value="employed_active" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_active" ? "selected" : "") : (old("job_seeking_status") == "employed_active" ? "selected" : "") }}>Employed, actively seeking a new job</option>
+                                    <option value="employed_passive" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_passive" ? "selected" : "") : (old("job_seeking_status") == "employed_passive" ? "selected" : "") }}>Employed, passively exploring new opportunities</option>
+                                    <option value="employed_future" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_future" ? "selected" : "") : (old("job_seeking_status") == "employed_future" ? "selected" : "") }}>Employed, only open to future opportunities</option>
+                                    <option value="employed_not" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_not" ? "selected" : "") : (old("job_seeking_status") == "employed_not" ? "selected" : "") }}>Employed, currently have my dream job</option>
+                                </select>
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->job_seeking_status && $contact->user->profile->job_seeking_status != $contact->job_seeking_status)
+                                    <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->getJobSeekingStatus() }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Job-seeking type</label>
+                                <select class="browser-default" name="job_seeking_type">
+                                    <option value="" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>Please select</option>
+                                    <option value="internship" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
+                                    <option value="entry_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level" ? "selected" : "") : (old("job_seeking_type") == "entry_level" ? "selected" : "") }}>Entry-level</option>
+                                    <option value="mid_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level" ? "selected" : "") : (old("job_seeking_type") == "mid_level" ? "selected" : "") }}>Mid-level</option>
+                                    <option value="entry_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level_management" ? "selected" : "") : (old("job_seeking_type") == "entry_level-managment" ? "selected" : "") }}>Entry-level management</option>
+                                    <option value="mid_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level_management" ? "selected" : "") : (old("job_seeking_type") == "mid_level-managment" ? "selected" : "") }}>Mid-level management</option>
+                                    <option value="executive" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
+                                </select>
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->job_seeking_type && $contact->user->profile->job_seeking_type != $contact->job_seeking_type)
+                                    <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->getJobSeekingType() }}
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="form-section">
+                <div class="collapsible-header">
+                    <i class="material-icons">home</i>Address
+                </div>
+                <div class="collapsible-body">
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="col s12">
+                                <label for="line1">Street address</label>
+                                <input id="line1" name="line1" type="text" value="{{ old('line1') ?: $contact->address[0]->line1 ?: "" }}">
+                            </div>
+                            <div class="col s12">
+                                <label for="line2">Line 2</label>
+                                <input id="line2" name="line2" type="text" value="{{ old('line2') ?: $contact->address[0]->line2 ?: "" }}">
+                            </div>
+                            <div class="col s12">
+                                <label for="city">City</label>
+                                <input id="city" name="city" type="text" value="{{ old('city') ?: $contact->address[0]->city ?: "" }}">
+                            </div>
+                            <div class="col s12 m4">
+                                <label for="state">State/Province</label>
+                                <input id="state" name="state" type="text" value="{{ old('state') ?: $contact->address[0]->state ?: "" }}">
+                            </div>
+                            <div class="col s12 m4">
+                                <label for="postal_code">Postal code</label>
+                                <input id="postal_code" name="postal_code" type="text" value="{{ old('postal_code') ?: $contact->address[0]->postal_code ?: "" }}">
+                            </div>
+                            <div class="col s12 m4">
+                                <label for="country">Country</label>
+                                <input id="country" name="country" type="text" value="{{ old('country') ?: $contact->address[0]->country ?: "" }}">
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            @if ($contact->user && !$contact->address[0]->equals($contact->user->profile->address[0]))
+                                <div class="col s12">
+                                    <label for="line1">Street address</label>
+                                    <input id="line1" name="line1" type="text" value="{{ $contact->user->profile->address[0]->line1 ?: "" }}">
+                                </div>
+                                <div class="col s12">
+                                    <label for="line2">Line 2</label>
+                                    <input id="line2" name="line2" type="text" value="{{ $contact->user->profile->address[0]->line2 ?: "" }}">
+                                </div>
+                                <div class="col s12">
+                                    <label for="city">City</label>
+                                    <input id="city" name="city" type="text" value="{{ $contact->user->profile->address[0]->city ?: "" }}">
+                                </div>
+                                <div class="col s12 m4">
+                                    <label for="state">State/Province</label>
+                                    <input id="state" name="state" type="text" value="{{ $contact->user->profile->address[0]->state ?: "" }}">
+                                </div>
+                                <div class="col s12 m4">
+                                    <label for="postal_code">Postal code</label>
+                                    <input id="postal_code" name="postal_code" type="text" value="{{ $contact->user->profile->address[0]->postal_code ?: "" }}">
+                                </div>
+                                <div class="col s12 m4">
+                                    <label for="country">Country</label>
+                                    <input id="country" name="country" type="text" value="{{ old('country') ?: $contact->address[0]->country ?: "" }}">
+                                </div>
                             @endif
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Organization</label>
-                        <input type="text" name="organization" value="{{ $contact->organization }}">
-                    </td>
-                    <td>
-                        @if ($contact->user && $contact->user->profile->current_organization)
-                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->current_organization }}
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Job-seeking status</label>
-                        <select class="browser-default" name="job_seeking_status">
-                            <option value="" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "" ? "selected" : "") : (old("job_seeking_status") == "" ? "selected" : "") }} disabled>Please select</option>
-                            <option value="unemployed" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "unemployed" ? "selected" : "") : (old("job_seeking_status") == "unemployed" ? "selected" : "") }}>Unemployed, actively seeking a new job</option>
-                            <option value="employed_active" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_active" ? "selected" : "") : (old("job_seeking_status") == "employed_active" ? "selected" : "") }}>Employed, actively seeking a new job</option>
-                            <option value="employed_passive" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_passive" ? "selected" : "") : (old("job_seeking_status") == "employed_passive" ? "selected" : "") }}>Employed, passively exploring new opportunities</option>
-                            <option value="employed_future" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_future" ? "selected" : "") : (old("job_seeking_status") == "employed_future" ? "selected" : "") }}>Employed, only open to future opportunities</option>
-                            <option value="employed_not" {{ is_null(old('job_seeking_status')) ? ($contact->job_seeking_status == "employed_not" ? "selected" : "") : (old("job_seeking_status") == "employed_not" ? "selected" : "") }}>Employed, currently have my dream job</option>
-                        </select>
-                    </td>
-                    <td>
-                        @if ($contact->user && $contact->user->profile->job_seeking_status)
-                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->job_seeking_status }}
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Job-seeking type</label>
-                        <select class="browser-default" name="job_seeking_type">
-                            <option value="" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>Please select</option>
-                            <option value="internship" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
-                            <option value="entry_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level" ? "selected" : "") : (old("job_seeking_type") == "entry_level" ? "selected" : "") }}>Entry-level</option>
-                            <option value="mid_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level" ? "selected" : "") : (old("job_seeking_type") == "mid_level" ? "selected" : "") }}>Mid-level</option>
-                            <option value="entry_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level_management" ? "selected" : "") : (old("job_seeking_type") == "entry_level-managment" ? "selected" : "") }}>Entry-level management</option>
-                            <option value="mid_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level_management" ? "selected" : "") : (old("job_seeking_type") == "mid_level-managment" ? "selected" : "") }}>Mid-level management</option>
-                            <option value="executive" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
-                        </select>
-                    </td>
-                    <td>
-                        @if ($contact->user && $contact->user->profile->job_seeking_type)
-                            <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->job_seeking_type }}
-                        @endif
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row" style="padding: 5px;">
-            <div class="col s12">
-                <label for="line1">Street address</label>
-                <input id="line1" name="line1" type="text" value="{{ old('line1') ?: $contact->address->line1 ?: "" }}">
-            </div>
-            <div class="col s12">
-                <label for="line2">Line 2</label>
-                <input id="line2" name="line2" type="text" value="{{ old('line2') ?: $contact->address->line2 ?: "" }}">
-            </div>
-            <div class="col s12 m4">
-                <label for="city">City</label>
-                <input id="city" name="city" type="text" value="{{ old('city') ?: $contact->address->city ?: "" }}">
-            </div>
-            <div class="col s12 m2">
-                <label for="state">State/Province</label>
-                <input id="state" name="state" type="text" value="{{ old('state') ?: $contact->address->state ?: "" }}">
-            </div>
-            <div class="col s12 m3">
-                <label for="postal_code">Postal code</label>
-                <input id="postal_code" name="postal_code" type="text" value="{{ old('postal_code') ?: $contact->address->postal_code ?: "" }}">
-            </div>
-            <div class="col s12 m3">
-                <label for="country">Country</label>
-                <input id="country" name="country" type="text" value="{{ old('country') ?: $contact->address->country ?: "" }}">
-            </div>
-        </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
         <button type="submit" class="btn sbs-red">Save</button>
         <button type="submit" class="btn green">Accept all from profile</button>
     </form>

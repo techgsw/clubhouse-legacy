@@ -162,13 +162,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/contact/create', 'ContactController@create');
     Route::post('/contact', 'ContactController@store');
+    Route::post('/contact/add-relationship', 'ContactController@addRelationship');
+    Route::post('/contact/remove-relationship', 'ContactController@removeRelationship');
     Route::get('/contact/{id}', 'ContactController@show');
     Route::post('/contact/{id}', 'ContactController@update');
     Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
-
-    Route::post('/contact/add-relationship', 'ContactController@addRelationship');
-    Route::post('/contact/remove-relationship', 'ContactController@removeRelationship');
 });
 
 /**

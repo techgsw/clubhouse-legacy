@@ -15,14 +15,5 @@
             @include('forms.profile')
         </div>
     </div>
-    <div class="row">
-        <div class="col s12">
-            <form id="edit-profile" method="POST" action="/user/{{$user->id}}/edit-profile" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <div class="input-field">
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
 @endsection

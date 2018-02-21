@@ -3,7 +3,7 @@
 @section('title', 'Job Applications')
 @section('content')
 <div class="container">
-    @component('contact.header', ['contact' => $user->contact])
+    @component('user.header', ['user' => $user])
         @can ('view-contact-notes')
             <button type="button" class="view-contact-notes-btn flat-button black" contact-id="{{ $user->contact->id }}">{{ $user->contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
         @endif

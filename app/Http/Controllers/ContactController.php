@@ -23,11 +23,12 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $contact = Contact::find($id);
+        $contact = Contact::with('address')->find($id);
         if (!$contact) {
             return abort(404);
         }
         $this->authorize('view-contact', $contact);
+
         $notes = Note::contact($id);
 
         return view('contact/show', [
@@ -67,6 +68,16 @@ class ContactController extends Controller
         // TODO StoreContact request for validation
 
         // TODO Check by email if the Contact already exists
+        $contact = Contact::where('email', $email = $request->email)->get();
+        if (count($contact) > 0) {
+            $request->session()->flash('message', new Message(
+                "Contact with email address {$email} already exists.",
+                "warning",
+                $code = null,
+                $icon = "account_circle"
+            ));
+            return redirect()->action('ContactController@show', [$contact[0]]);
+        }
 
         try {
             $resume = request()->file('resume');
@@ -122,7 +133,7 @@ class ContactController extends Controller
         }
         $this->authorize('edit-contact', $contact);
 
-        $address = $contact->address;
+        $address = $contact->address[0];
         if (!$address) {
             return abort(404);
         }
