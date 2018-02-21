@@ -294,10 +294,4 @@ class User extends Authenticatable
 
         return $users;
     }
-
-    public function getContacts()
-    {
-        return $this->belongsToMany('App\Contact', 'contact_relationship');
-    }
-
 }
