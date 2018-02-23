@@ -173,6 +173,9 @@ class CreateContactTable extends Migration
 
         DB::update("UPDATE `address` AS `a` JOIN `address_profile` AS `ap` ON `a`.`id`=`ap`.`address_id` JOIN `profile` AS `p` ON `ap`.`profile_id`=`p`.`id` SET `a`.`user_id`=`p`.`user_id`;");
 
+        DB::table('address')->whereNull('user_id')->delete();
+        DB::table('address')->where('user_id', 0)->delete();
+
         Schema::table('address', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('user');
         });

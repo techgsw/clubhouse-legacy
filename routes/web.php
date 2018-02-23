@@ -54,9 +54,6 @@ Route::get('/refund-policy-2', function () {
 Route::get('/refund-policy', function () {
     return view('refund-policy');
 });
-Route::get('/register', function () {
-    return redirect('sales-center');
-});
 Route::get('/services', function () {
     return view('services');
 });

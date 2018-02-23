@@ -6,11 +6,15 @@ use Mail;
 use App\Mail\InternalAlert;
 use App\Mail\UserRegistered;
 use App\Address;
+use App\AddressContact;
+use App\AddressProfile;
+use App\Contact;
 use App\Message;
 use App\Profile;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Traits\ReCaptchaTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -76,23 +80,52 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // TODO 101 create Contact
+        $email = $data['email'];
+        $contact = Contact::where('email', '=', $email)->get();
+        if (count($contact) > 0) {
+            $contact = $contact[0];
+        }
 
-        $user = User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = DB::transaction(function() use($data, $contact) {
+            $user = User::create([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
 
-        // TODO 101 link to Contact
-        $address = Address::create([
-            'user_id' => $user->id
-        ]);
+            $profile = Profile::create([
+                'user_id' => $user->id
+            ]);
 
-        $profile = Profile::create([
-            'user_id' => $user->id
-        ]);
+            $address = Address::create([
+                'name' => $data['first_name'] . " " . $data['last_name']
+            ]);
+            $address_profile = AddressProfile::create([
+                'address_id' => $address->id,
+                'profile_id' => $profile->id
+            ]);
+
+            if ($contact) {
+                $contact = Contact::create([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'email' => $data['email']
+                ]);
+            }
+            $contact->user_id = $user->id;
+            $contact->save();
+
+            $address = Address::create([
+                'name' => $data['first_name'] . " " . $data['last_name']
+            ]);
+            $address_contact = AddressContact::create([
+                'address_id' => $address->id,
+                'contact_id' => $contact->id
+            ]);
+
+            return $user;
+        });
 
         // TODO can we script this?
         // No reason to block here if we can avoid it

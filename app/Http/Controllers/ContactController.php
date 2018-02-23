@@ -30,10 +30,11 @@ class ContactController extends Controller
         }
         $this->authorize('view-contact', $contact);
 
-        // dump($contact);
-        // dump($contact->user);
-
         $notes = Note::contact($id);
+
+        if ($contact->phone && strlen($contact->phone) == 10) {
+            $contact->phone = "(".substr($contact->phone, 0, 3).")".substr($contact->phone, 3, 3)."-".substr($contact->phone, 6, 4);
+        }
 
         return view('contact/show', [
             'contact' => $contact,
@@ -147,6 +148,13 @@ class ContactController extends Controller
         }
 
         // Contact
+        $contact->first_name = request('first_name');
+        $contact->last_name = request('last_name');
+        $contact->phone = request('phone')
+            ? preg_replace("/[^\d]/", "", request('phone'))
+            : null;
+        // TODO 101 allow this?
+        // $contact->email = request('email');
         $contact->title = request('title');
         $contact->organization = request('organization');
         $contact->job_seeking_type = request('job_seeking_type');

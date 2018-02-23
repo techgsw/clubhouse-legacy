@@ -92,6 +92,59 @@
             <ul class="collapsible" data-collapsible="accordion">
                 <li class="form-section">
                     <div class="collapsible-header">
+                        <i class="material-icons">person</i>Personal
+                    </div>
+                    <div class="collapsible-body">
+                        <div class="row">
+                            <div class="col s6">
+                                <label>First name</label>
+                                <input type="text" id="first_name" name="first_name" value="{{ $contact->first_name }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->first_name && $contact->user->first_name != $contact->first_name)
+                                    <button class="flat-button small green accept-change-button" target-id="first_name" target-value="{{$contact->user->first_name}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->first_name }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Last name</label>
+                                <input type="text" id="last_name" name="last_name" value="{{ $contact->last_name }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->last_name && $contact->user->last_name != $contact->last_name)
+                                    <button class="flat-button small green accept-change-button" target-id="last_name" target-value="{{$contact->user->last_name}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->last_name }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Email</label>
+                                <input type="text" id="email" name="email" value="{{ $contact->email }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->email && $contact->user->email != $contact->email)
+                                    <button class="flat-button small green accept-change-button" target-id="email" target-value="{{$contact->user->email}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->email }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Phone</label>
+                                <input type="text" id="phone" name="phone" value="{{ $contact->phone }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->phone && $contact->user->profile->phone != $contact->phone)
+                                    <button class="flat-button small green accept-change-button" target-id="email" target-value="{{$contact->user->email}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->email }}
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="collapsible" data-collapsible="accordion">
+                <li class="form-section">
+                    <div class="collapsible-header">
                         <i class="material-icons">work</i>Employment
                     </div>
                     <div class="collapsible-body">
@@ -108,39 +161,6 @@
                                     @if ($contact->user && $contact->user->profile->resume_url && $contact->user->profile->resume_url != $contact->resume_url)
                                         <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>
                                         @component('components.resume-button', ['url' => $contact->user->profile ? $contact->user->profile->resume_url : null])@endcomponent
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6">
-                                    <label>First name</label>
-                                    <input type="text" id="first_name" name="first_name" value="{{ $contact->first_name }}">
-                                </div>
-                                <div class="col s6" style="padding-top: 22px;">
-                                    @if ($contact->user && $contact->user->first_name && $contact->user->first_name != $contact->first_name)
-                                        <button class="flat-button small green accept-change-button" target-id="first_name" target-value="{{$contact->user->first_name}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->first_name }}
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6">
-                                    <label>Last name</label>
-                                    <input type="text" id="last_name" name="last_name" value="{{ $contact->last_name }}">
-                                </div>
-                                <div class="col s6" style="padding-top: 22px;">
-                                    @if ($contact->user && $contact->user->last_name && $contact->user->last_name != $contact->last_name)
-                                        <button class="flat-button small green accept-change-button" target-id="last_name" target-value="{{$contact->user->last_name}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->last_name }}
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6">
-                                    <label>Email</label>
-                                    <input type="text" id="email" name="email" value="{{ $contact->email }}">
-                                </div>
-                                <div class="col s6" style="padding-top: 22px;">
-                                    @if ($contact->user && $contact->user->email && $contact->user->email != $contact->email)
-                                        <button class="flat-button small green accept-change-button" target-id="email" target-value="{{$contact->user->email}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->email }}
                                     @endif
                                 </div>
                             </div>

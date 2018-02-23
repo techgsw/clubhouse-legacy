@@ -177,7 +177,7 @@ class ProfileController extends Controller
         if (!$profile) {
             return abort(404);
         }
-        $address = $user->contact->address[0];
+        $address = $user->profile->address[0];
         if (!$address) {
             return abort(404);
         }
@@ -304,7 +304,7 @@ class ProfileController extends Controller
         if (!$profile) {
             return abort(404);
         }
-        $address = $user->contact->address[0];
+        $address = $user->profile->address[0];
         if (!$address) {
             return abort(404);
         }

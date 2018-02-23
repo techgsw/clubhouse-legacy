@@ -91,12 +91,12 @@ class Contact extends Model
             // User
             $this->first_name === $profile->user->first_name
             && $this->last_name === $profile->user->last_name
-            && $this->phone === $profile->user->phone
+            && $this->phone === $profile->phone
             // Profile
-            && $this->organization === $profile->organization
-            && $this->title === $profile->user->title
-            && $this->job_seeking_status === $profile->user->job_seeking_status
-            && $this->job_seeking_type === $profile->user->job_seeking_type
+            && $this->organization === $profile->current_organization
+            && $this->title === $profile->current_title
+            && $this->job_seeking_status === $profile->job_seeking_status
+            && $this->job_seeking_type === $profile->job_seeking_type
             // Address
             && $this->address[0]->line1 === $profile->address[0]->line1
             && $this->address[0]->line2 === $profile->address[0]->line2
