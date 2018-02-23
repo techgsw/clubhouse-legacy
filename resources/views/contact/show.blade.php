@@ -284,7 +284,7 @@
                                     </div>
                                     <div class="col s12 m4">
                                         <label for="country">Country</label>
-                                        <input id="country" name="country" type="text" value="{{ old('country') ?: $contact->address[0]->country ?: "" }}">
+                                        <input id="country" name="country" type="text" value="{{ $contact->user->profile->address[0]->country ?: "" }}">
                                     </div>
                                 @endif
                             </div>
