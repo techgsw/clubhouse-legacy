@@ -106,7 +106,7 @@ class RegisterController extends Controller
                 'profile_id' => $profile->id
             ]);
 
-            if ($contact) {
+            if (!$contact) {
                 $contact = Contact::create([
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
