@@ -261,8 +261,6 @@ class ProfileController extends Controller
             $profile->college_name &&
             $profile->college_graduation_year &&
             $profile->college_gpa &&
-            $profile->college_organizations &&
-            $profile->college_sports_clubs &&
             !is_null($profile->has_school_plans);
 
         if ($profile->phone && strlen($profile->phone) == 10) {
@@ -296,7 +294,6 @@ class ProfileController extends Controller
     {
         $user = User::find($id);
         $this->authorize('edit-profile', $user);
-
         if (!$user) {
             return abort(404);
         }
@@ -306,6 +303,10 @@ class ProfileController extends Controller
         }
         $address = $user->profile->address[0];
         if (!$address) {
+            return abort(404);
+        }
+        $contact = $user->contact;
+        if (!$contact) {
             return abort(404);
         }
 
@@ -451,6 +452,48 @@ class ProfileController extends Controller
         // Timestamp(s)
         $profile->updated_at = new \DateTime('NOW');
         $profile->save();
+
+        // Contact
+        // Fill in fields if they are not set
+        if (is_null($contact->phone)) {
+            $contact->phone = request('phone')
+                ? preg_replace("/[^\d]/", "", request('phone'))
+                : null;
+        }
+        if (is_null($contact->title)) {
+            $contact->title = request('current_title');
+        }
+        if (is_null($contact->organization)) {
+            $contact->organization = request('current_organization');
+        }
+        if (is_null($contact->job_seeking_type)) {
+            $contact->job_seeking_type = request('job_seeking_type');
+        }
+        if (is_null($contact->job_seeking_status)) {
+            $contact->job_seeking_status = request('job_seeking_status');
+        }
+        $contact->save();
+
+        // Address
+        if (is_null($contact->address[0]->line1)) {
+            $contact->address[0]->line1 = request('line1');
+        }
+        if (is_null($contact->address[0]->line2)) {
+            $contact->address[0]->line2 = request('line2');
+        }
+        if (is_null($contact->address[0]->city)) {
+            $contact->address[0]->city = request('city');
+        }
+        if (is_null($contact->address[0]->state)) {
+            $contact->address[0]->state = request('state');
+        }
+        if (is_null($contact->address[0]->postal_code)) {
+            $contact->address[0]->postal_code = request('postal_code');
+        }
+        if (is_null($contact->address[0]->country)) {
+            $contact->address[0]->country = request('country');
+        }
+        $contact->address[0]->save();
 
         if ($image_error) {
             $request->session()->flash('message', new Message(

@@ -13,16 +13,3 @@
         </div>
     </div>
 </div>
-<style media="screen">
-    textarea#note {
-        padding: 8px 12px;
-        border: 1px solid #DDD !important;
-        height: auto;
-        border-radius: 4px;
-    }
-    textarea#note:focus {
-        outline: none;
-        border: 1px solid #AAA !important;
-        box-shadow: none !important;
-    }
-</style>

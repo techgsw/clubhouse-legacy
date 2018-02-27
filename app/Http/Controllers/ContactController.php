@@ -126,6 +126,15 @@ class ContactController extends Controller
             'contact_id' => $contact->id
         ]);
 
+        if (request('note')) {
+            $note = new Note();
+            $note->user_id = Auth::user()->id;
+            $note->notable_id = $contact->id;
+            $note->notable_type = "App\Contact";
+            $note->content = request("note");
+            $note->save();
+        }
+
         return redirect()->action('ContactController@show', [$contact]);
     }
 

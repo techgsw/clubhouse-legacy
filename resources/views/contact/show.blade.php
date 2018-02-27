@@ -31,7 +31,7 @@
             <input type="hidden" id="contact_id" value="{{ $contact->id }}" />
             <div class="row">
                 <div class="col">
-                    <label>Ownership</label>
+                    <label>Account ownership</label>
                     <input type="text" id="admin-user-autocomplete-input" class="admin-user-autocomplete compact">
                 </div>
                 <div class="col contact-user-relationships" style="padding-top: 20px;">

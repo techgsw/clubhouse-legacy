@@ -80,13 +80,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $email = $data['email'];
-        $contact = Contact::where('email', '=', $email)->get();
-        if (count($contact) > 0) {
-            $contact = $contact[0];
-        }
+        $user = DB::transaction(function() use($data) {
+            $email = $data['email'];
+            $contact = Contact::where('email', '=', $email)->get();
+            if (count($contact) > 0) {
+                $contact = $contact[0];
+            } else {
+                $contact = Contact::create([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'email' => $data['email']
+                ]);
+            }
 
-        $user = DB::transaction(function() use($data, $contact) {
             $user = User::create([
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
@@ -106,13 +112,6 @@ class RegisterController extends Controller
                 'profile_id' => $profile->id
             ]);
 
-            if (!$contact) {
-                $contact = Contact::create([
-                    'first_name' => $data['first_name'],
-                    'last_name' => $data['last_name'],
-                    'email' => $data['email']
-                ]);
-            }
             $contact->user_id = $user->id;
             $contact->save();
 
