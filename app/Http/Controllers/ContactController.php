@@ -35,6 +35,9 @@ class ContactController extends Controller
         if ($contact->phone && strlen($contact->phone) == 10) {
             $contact->phone = "(".substr($contact->phone, 0, 3).")".substr($contact->phone, 3, 3)."-".substr($contact->phone, 6, 4);
         }
+        if ($contact->user && $contact->user->profile->phone && strlen($contact->user->profile->phone) == 10) {
+            $contact->user->profile->phone = "(".substr($contact->user->profile->phone, 0, 3).")".substr($contact->user->profile->phone, 3, 3)."-".substr($contact->user->profile->phone, 6, 4);
+        }
 
         return view('contact/show', [
             'contact' => $contact,

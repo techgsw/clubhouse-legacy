@@ -135,7 +135,7 @@
                             </div>
                             <div class="col s6" style="padding-top: 22px;">
                                 @if ($contact->user && $contact->user->profile->phone && $contact->user->profile->phone != $contact->phone)
-                                    <button class="flat-button small green accept-change-button" target-id="email" target-value="{{$contact->user->email}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->email }}
+                                    <button class="flat-button small green accept-change-button" target-id="email" target-value="{{$contact->user->profile->phone}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->phone }}
                                 @endif
                             </div>
                         </div>
@@ -293,9 +293,6 @@
                 </li>
             </ul>
             <button type="submit" class="btn sbs-red">Save</button>
-            @if ($contact->user && !$contact->matches($contact->user->profile))
-                <button type="button" class="btn green accept-all-changes-button">Accept all from profile</button>
-            @endif
         </form>
     </div>
 </div>
