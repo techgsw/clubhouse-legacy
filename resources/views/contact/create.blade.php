@@ -44,12 +44,12 @@
             </div>
             <div class="col s12">
                 <div class="file-field input-field">
-                    <div class="btn white black-text">
+                    <div class="flat-button" style="float: left;">
                         <span>Upload<span class="hide-on-small-only"> Resume</span></span>
-                        <input type="file" name="resume_url" value="{{ old('resume_url') }}">
+                        <input type="file" name="resume" value="{{ old('resume') }}">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="resume_url_text" value="{{ old('resume_url_text') }}">
+                        <input class="file-path validate" type="text" name="resume_text" style="height: 1.8em;" value="{{ old('resume_text') }}">
                     </div>
                 </div>
             </div>

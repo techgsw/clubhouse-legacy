@@ -106,6 +106,44 @@ class Contact extends Model
             && $this->address[0]->country === $profile->address[0]->country;
     }
 
+    public function unsyncedInfo(Profile $profile, $subset = null)
+    {
+        if ($this->updated_at > $profile->updated_at) {
+            // No new information since last save
+            return false;
+        }
+
+        $personal_match =
+            (is_null($profile->user->first_name) || $this->first_name === $profile->user->first_name)
+            && (is_null($profile->user->last_name) || $this->last_name === $profile->user->last_name)
+            && (is_null($profile->phone) || $this->phone === $profile->phone);
+
+        $employment_match =
+            (is_null($profile->current_organization) || $this->organization === $profile->current_organization)
+            && (is_null($profile->current_title) || $this->title === $profile->current_title)
+            && (is_null($profile->job_seeking_status) || $this->job_seeking_status === $profile->job_seeking_status)
+            && (is_null($profile->job_seeking_type) || $this->job_seeking_type === $profile->job_seeking_type);
+
+        $address_match =
+            (is_null($profile->address[0]->line1) || $this->address[0]->line1 === $profile->address[0]->line1)
+            && (is_null($profile->address[0]->line2) || $this->address[0]->line2 === $profile->address[0]->line2)
+            && (is_null($profile->address[0]->city) || $this->address[0]->city === $profile->address[0]->city)
+            && (is_null($profile->address[0]->state) || $this->address[0]->state === $profile->address[0]->state)
+            && (is_null($profile->address[0]->postal_code) || $this->address[0]->postal_code === $profile->address[0]->postal_code)
+            && (is_null($profile->address[0]->country) || $this->address[0]->country === $profile->address[0]->country);
+
+        switch ($subset) {
+        case 'personal':
+            return !$personal_match;
+        case 'employment':
+            return !$employment_match;
+        case 'address':
+            return !$address_match;
+        }
+
+        return !$personal_match || !$employment_match || !address_match;
+    }
+
     public static function search(Request $request)
     {
         $contacts = Contact::where('id', '>', 0);

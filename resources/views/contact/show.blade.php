@@ -49,7 +49,16 @@
             @can ('view-contact-notes')
                 <li class="form-section">
                     <div class="collapsible-header">
-                        <i class="fa fa-comments"></i>Notes
+                        <i class="fa fa-comments"></i>{{ $contact->getNoteCount() }} note{{ $contact->getNoteCount() == 1 ? "" : "s"}}
+                        @php
+                            $last_note = null;
+                            if (count($notes) > 0) {
+                                $last_note = array_shift($notes);
+                            }
+                        @endphp
+                        @if ($last_note)
+                            <span style="float: right;">{{ $last_note->create_user_name }} {{ $last_note->created_at->format('m/d/Y') }}</span>
+                        @endif
                     </div>
                     <div class="collapsible-body">
                         <div class="contact-notes-container" style="max-height: 300px; overflow-y: scroll; margin-bottom: 20px; padding:0px;">
@@ -87,12 +96,18 @@
                 </li>
             @endcan
         </ul>
-        <form class="compact" action="/contact/{{ $contact->id }}" method="post">
+        <form class="compact" action="/contact/{{ $contact->id }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <ul class="collapsible" data-collapsible="accordion">
                 <li class="form-section">
                     <div class="collapsible-header">
                         <i class="material-icons">person</i>Personal
+                        @if ($contact->user && $contact->unsyncedInfo($contact->user->profile, 'personal'))
+                            <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                        @else
+                            <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                        @endif
+                        <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
                     </div>
                     <div class="collapsible-body">
                         <div class="row">
@@ -146,20 +161,32 @@
                 <li class="form-section">
                     <div class="collapsible-header">
                         <i class="material-icons">work</i>Employment
+                        @if ($contact->user && $contact->unsyncedInfo($contact->user->profile, 'employment'))
+                            <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                        @else
+                            <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                        @endif
                     </div>
                     <div class="collapsible-body">
                         <div class="compact">
                             <div class="row">
                                 <div class="col s6">
                                     <label>Resume</label>
-                                    <div>
+                                    <div style="display: flex; flex-flow: row;">
                                         @component('components.resume-button', ['url' => $contact->resume_url ?: null])@endcomponent
-                                        <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-upload icon-left"></i>Upload</button>
+                                        <div class="file-field input-field" style="margin: 0 0 0 6px;">
+                                            <div class="flat-button small green" style="float: left;">
+                                                <span>Upload<span class="hide-on-small-only"> Resume</span></span>
+                                                <input type="file" name="resume" value="{{ old('resume') }}">
+                                            </div>
+                                            <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text" name="resume_text" style="height: 1.4em; margin-bottom: 0;" value="{{ old('resume_text') }}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col s6" style="padding-top: 22px;">
                                     @if ($contact->user && $contact->user->profile->resume_url && $contact->user->profile->resume_url != $contact->resume_url)
-                                        <button class="flat-button small green" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>
                                         @component('components.resume-button', ['url' => $contact->user->profile ? $contact->user->profile->resume_url : null])@endcomponent
                                     @endif
                                 </div>
@@ -231,6 +258,11 @@
                 <li class="form-section">
                     <div class="collapsible-header">
                         <i class="material-icons">home</i>Address
+                        @if ($contact->user && $contact->unsyncedInfo($contact->user->profile, 'address'))
+                            <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                        @else
+                            <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
+                        @endif
                     </div>
                     <div class="collapsible-body">
                         <div class="row">

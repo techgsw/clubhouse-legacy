@@ -32,6 +32,7 @@ class ContactController extends Controller
 
         $notes = Note::contact($id);
 
+        // Format phone numbers
         if ($contact->phone && strlen($contact->phone) == 10) {
             $contact->phone = "(".substr($contact->phone, 0, 3).")".substr($contact->phone, 3, 3)."-".substr($contact->phone, 6, 4);
         }
@@ -87,20 +88,23 @@ class ContactController extends Controller
             return redirect()->action('ContactController@show', [$contact[0]]);
         }
 
-        try {
-            $resume = request()->file('resume');
-            if ($resume) {
-                $d = $resume->store('resume', 'public');
+        $resume = null;
+        if ($request->hasFile('resume')) {
+            try {
+                $resume = request()->file('resume');
+                if ($resume) {
+                    $resume = $resume->store('resume', 'public');
+                }
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                $request->session()->flash('message', new Message(
+                    "Sorry, the resume you tried to upload failed.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
             }
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-            $request->session()->flash('message', new Message(
-                "Sorry, the resume you tried to upload failed.",
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
         }
 
         $contact = Contact::create([
@@ -146,7 +150,7 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         $contact = Contact::find($id);
         if (!$contact) {
@@ -160,6 +164,25 @@ class ContactController extends Controller
         }
 
         // Contact
+        $resume = null;
+        if ($request->hasFile('resume')) {
+            try {
+                $resume = request()->file('resume');
+                if ($resume) {
+                    $resume = $resume->store('resume', 'public');
+                }
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                $request->session()->flash('message', new Message(
+                    "Sorry, the resume you tried to upload failed.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
+            }
+        }
+
         $contact->first_name = request('first_name');
         $contact->last_name = request('last_name');
         $contact->phone = request('phone')
@@ -171,6 +194,9 @@ class ContactController extends Controller
         $contact->organization = request('organization');
         $contact->job_seeking_type = request('job_seeking_type');
         $contact->job_seeking_status = request('job_seeking_status');
+        if (!is_null($resume)) {
+            $contact->resume_url = $resume;
+        }
         $contact->updated_at = new \DateTime('NOW');
         $contact->save();
 
