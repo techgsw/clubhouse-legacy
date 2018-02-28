@@ -127,17 +127,34 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // Notes
-        Gate::define('view-profile-notes', function ($user) {
-            return $user->hasAccess('profile_note_show');
+        Gate::define('view-contact-notes', function ($user) {
+            return $user->hasAccess('contact_note_show');
         });
-        Gate::define('create-profile-note', function ($user) {
-            return $user->hasAccess('profile_note_create');
+        Gate::define('create-contact-note', function ($user) {
+            return $user->hasAccess('contact_note_create');
         });
         Gate::define('view-inquiry-notes', function ($user) {
             return $user->hasAccess('inquiry_note_show');
         });
         Gate::define('create-inquiry-note', function ($user) {
             return $user->hasAccess('inquiry_note_create');
+        });
+
+        // Contact
+        Gate::define('create-contact', function ($user) {
+            return $user->hasAccess('contact_create');
+        });
+        Gate::define('edit-contact', function ($user) {
+            return $user->hasAccess('contact_edit');
+        });
+        Gate::define('view-contact', function ($user) {
+            return $user->hasAccess('contact_show');
+        });
+        Gate::define('add-contact-relationship', function ($user) {
+            return $user->hasAccess('contact_relationship_create');
+        });
+        Gate::define('remove-contact-relationship', function ($user) {
+            return $user->hasAccess('contact_relationship_delete');
         });
     }
 }

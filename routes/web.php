@@ -54,9 +54,6 @@ Route::get('/refund-policy-2', function () {
 Route::get('/refund-policy', function () {
     return view('refund-policy');
 });
-Route::get('/register', function () {
-    return redirect('sales-center');
-});
 Route::get('/services', function () {
     return view('services');
 });
@@ -80,16 +77,11 @@ Route::get('/videos', function () {
 });
 
 /**
- * The Hub
- */
-// Route::get('/the-hub', 'HubController@index');
-
-/**
  * Contact
  */
-Route::get('/contact', 'ContactController@index');
-Route::post('/contact', 'ContactController@send');
-Route::get('/contact/thanks', 'ContactController@thanks');
+Route::get('/contact', 'ContactUsController@index');
+Route::post('/contact', 'ContactUsController@send');
+Route::get('/contact/thanks', 'ContactUsController@thanks');
 
 /**
  * Auth
@@ -149,7 +141,7 @@ Route::group(['middleware' => ['web']], function () {
 /**
  * User
  */
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
     Route::get('/user/{id}/jobs', 'UserController@jobs');
     Route::get('/user/{id}/questions', 'UserController@questions');
@@ -159,6 +151,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/user/{id}/profile', 'ProfileController@update');
     Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
     Route::post('/user/{id}/create-note', 'ProfileController@createNote');
+});
+
+/**
+ * Contact
+ */
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('/contact/create', 'ContactController@create');
+    Route::post('/contact', 'ContactController@store');
+    Route::post('/contact/add-relationship', 'ContactController@addRelationship');
+    Route::post('/contact/remove-relationship', 'ContactController@removeRelationship');
+    Route::get('/contact/{id}', 'ContactController@show');
+    Route::post('/contact/{id}', 'ContactController@update');
+    Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
+    Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 });
 
 /**
@@ -217,11 +223,12 @@ Route::group(['middleware' => ['web']], function () {
 /**
  * Admin
  */
-Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function () {
     Route::get('/admin', 'IndexController@index');
-    Route::get('/admin/question', 'QuestionController@index');
+    Route::get('/admin/contact', 'ContactController@index');
     Route::get('/admin/job', 'JobController@index');
-    Route::get('/admin/user', 'UserController@index');
+    Route::get('/admin/question', 'QuestionController@index');
+    Route::get('/admin/admin-users', 'UserController@allAdminUsers');
 });
 
 /**

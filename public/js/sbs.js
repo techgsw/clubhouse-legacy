@@ -24,6 +24,9 @@ $.valHooks.textarea = {
         map: {}
     };
     var Video = {};
+    var ContactRelationship = {
+        map: {}
+    };
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -131,6 +134,88 @@ $.valHooks.textarea = {
         }
     }
 
+    ContactRelationship.create = function (user_id, contact_id) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/contact/add-relationship',
+            'data': {
+                'contact_id': contact_id,
+                'user_id': user_id,
+                '_token': $('form#create-contact-relationship input[name="_token"]').val()
+            }
+        });
+    }
+
+    ContactRelationship.remove = function (user_id, contact_id) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/contact/remove-relationship',
+            'data': {
+                'contact_id': contact_id,
+                'user_id': user_id,
+                '_token': $('form#create-contact-relationship input[name="_token"]').val()
+            }
+        });
+    }
+
+    ContactRelationship.getOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/admin/admin-users',
+            'data': {}
+        });
+    }
+
+    ContactRelationship.createRelationship = function (user_name, contact_id, view) {
+        var user_id = ContactRelationship.map[user_name];
+        ContactRelationship.create(user_id, contact_id).done(function (data) {
+            if (data.error == null) {
+                var admin_user =
+                    `<span class="flat-button gray small tag">
+                        <button type="button" name="button" class="x" tag-name=${user_name}>&times;</button>${user_name}
+                    </span>`;
+                $(view).append(admin_user);
+            }
+        });
+    }
+
+    ContactRelationship.removeRelationship = function (user_id) {
+        var contact_id = $('input#contact_id').val();
+        ContactRelationship.remove(user_id, contact_id).done(function (data) {
+            if (!data.error) {
+                // Remove from view
+                var button = $('button[admin-user-id="'+user_id+'"]');
+                if (button) {
+                    button.parent().remove();
+                }
+            }
+        });
+    }
+
+    ContactRelationship.init = function () {
+        var admin_user_autocomplete = $('input.admin-user-autocomplete');
+        if (admin_user_autocomplete.length > 0) {
+            ContactRelationship.getOptions().done(function (data) {
+                var users = {}
+                var contact_id = $('input#contact_id').val();
+                data.users.forEach(function (u) {
+                    var full_name = u.first_name+ " " + u.last_name;
+                    ContactRelationship.map[full_name] = u.id;
+                    users[full_name] = "";
+                });
+                var x = admin_user_autocomplete.autocomplete({
+                    data: users,
+                    limit: 10,
+                    onAutocomplete: function (val) {
+                        ContactRelationship.createRelationship(val, contact_id, $('.contact-user-relationships'));
+                        admin_user_autocomplete.val("");
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
+
     $('body').on(
         {
             submit: function (e, ui) {
@@ -172,7 +257,12 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var name = $(this).attr('tag-name');
-                Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
+                if (name == null) {
+                    var user_id = $(this).attr('admin-user-id');
+                    ContactRelationship.removeRelationship(user_id);
+                } else {
+                    Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
+                }
             }
         },
         'span.tag button.x'
@@ -313,6 +403,40 @@ $.valHooks.textarea = {
         group.toggleClass('hidden');
     }
 
+    Form.acceptValue = function(id, value) {
+        var target = $('#'+id);
+        if (target.length == 0) {
+            return;
+        }
+
+        target.val(value);
+        return target;
+    }
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var id = $(this).attr('target-id');
+                var value = $(this).attr('target-value');
+                if (!id) {
+                    console.error("No target ID given.");
+                    return;
+                }
+                Form.acceptValue(id, value);
+            }
+        },
+        '.accept-change-button'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $('.accept-change-button').click();
+            }
+        },
+        '.accept-all-changes-button'
+    );
+
     // Hover effect on archive page
     $('body').on(
         {
@@ -330,7 +454,7 @@ $.valHooks.textarea = {
 
     // Notes
     Note.init = function () {
-        $('.profile-notes-modal').modal({
+        $('.contact-notes-modal').modal({
             dismissible: true,  // Modal can be dismissed by clicking outside of the modal
             opacity: .5,        // Opacity of modal background
             inDuration: 300,    // Transition in duration
@@ -340,17 +464,17 @@ $.valHooks.textarea = {
         });
     };
 
-    Note.getProfileNotes = function (user_id) {
+    Note.getContactNotes = function (contact_id) {
         return $.ajax({
             type: 'GET',
-            url: '/user/'+user_id+'/show-notes'
+            url: '/contact/'+contact_id+'/show-notes'
         });
     }
 
-    Note.postProfileNote = function (data) {
+    Note.postContactNote = function (data) {
         return $.ajax({
             type: 'POST',
-            url: '/user/'+data.user_id+'/create-note',
+            url: '/contact/'+data.contact_id+'/create-note',
             data: data
         });
     }
@@ -373,21 +497,22 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                var user_id = parseInt($(this).attr('user-id'));
-                Note.getProfileNotes(user_id).done(function (view) {
-                    $('.profile-notes-modal .modal-content').html(view);
-                    $('.profile-notes-modal').modal('open');
-                    $('form#create-profile-note input[name="user_id"]').val(user_id);
+                var contact_id = parseInt($(this).attr('contact-id'));
+                Note.getContactNotes(contact_id).done(function (view) {
+                    //$('.contact-notes-modal .modal-content').html(view);
+                    $('.contact-notes-container').html(view);
+                    $('.contact-notes-modal').modal('open');
+                    $('form#create-contact-note input[name="contact_id"]').val(contact_id);
                 });
             }
         },
-        '.view-profile-notes-btn'
+        '.view-contact-notes-btn'
     );
 
     $('body').on(
         {
             click: function (e, ui) {
-                var form = $(this).parents('form#create-profile-note');
+                var form = $(this).parents('form#create-contact-note');
                 if (form.length == 0) {
                     return;
                 }
@@ -399,23 +524,21 @@ $.valHooks.textarea = {
                 });
 
                 form.find('input, textarea, button').attr('disabled', 'disabled');
-                Note.postProfileNote(values).done(function (response) {
+                Note.postContactNote(values).done(function (response) {
                     if (response.type != 'success') {
-                        // TODO better messaging for failure
                         console.error('Failed to add note');
                         form.find('input, textarea, button').removeAttr('disabled');
                         return;
                     }
-                    Note.getProfileNotes(values.user_id).done(function (view) {
+                    Note.getContactNotes(values.contact_id).done(function (view) {
                         form.find('textarea#note').val("");
                         form.find('input, textarea, button').removeAttr('disabled');
-                        $('.profile-notes-modal .modal-content').html(view);
-                        $('.profile-notes-modal').modal('open');
+                        $('.contact-notes-container').html(view);
                     });
                 });
             }
         },
-        '.submit-profile-note-btn'
+        '.submit-contact-note-btn'
     );
 
     $('body').on(
@@ -710,6 +833,7 @@ $.valHooks.textarea = {
         Note.init();
         Video.init();
         Tag.init();
+        ContactRelationship.init();
         if ($('.app-login-placeholder-after').length > 0) {
             Auth.getAuthHeader().done(
                 function (resp) {

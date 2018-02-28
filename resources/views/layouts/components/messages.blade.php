@@ -11,6 +11,9 @@
                         case "success":
                             $msg_class = "alert card-panel green lighten-4 green-text text-darken-4";
                             break;
+                        case "warning":
+                            $msg_class = "alert card-panel yellow lighten-4 yellow-text text-darken-4";
+                            break;
                         case "danger":
                             $msg_class = "alert card-panel red lighten-4 red-text text-darken-4";
                             break;

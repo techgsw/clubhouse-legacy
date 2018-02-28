@@ -24,4 +24,19 @@ class UserController extends Controller
             'count' => $count
         ]);
     }
+
+    public function allAdminUsers()
+    {
+        $this->authorize('view-admin-dashboard');
+
+        $users = User::join('role_user', 'user.id', '=', 'role_user.user_id')
+            ->where('role_code','=','administrator')
+            ->get();
+
+        return response()->json([
+            'error' => null,
+            'users' => $users
+        ]);
+        
+    }
 }

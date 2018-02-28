@@ -3,9 +3,9 @@
 @section('title', 'Profile')
 @section('content')
 <div class="container">
-    @component('components.user-header', ['user' => $user])
-        @can ('view-profile-notes')
-            <button type="button" class="view-profile-notes-btn flat-button black" user-id="{{ $user->id }}">{{ $user->noteCount() }} <i class="fa fa-comments"></i></button>
+    @component('user.header', ['user' => $user])
+        @can ('view-contact-notes')
+            <button type="button" class="view-contact-notes-btn flat-button black" contact-id="{{ $user->contact->id }}">{{ $user->contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
         @endif
         @if ($user->profile->resume_url)
             <a href="{{ Storage::disk('local')->url($user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
@@ -17,14 +17,17 @@
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
+        @can ('view-contact')
+            <li class="tab"><a href="/contact/{{ $user->contact->id }}">Contact</a></li>
+        @endcan
         <li class="tab"><a class="active" href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">Jobs</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>
     </ul>
     <div class="row">
         <div class="col s12">
-            @if ($user->address && ($user->address->city || $user->address->state))
-                <p>Lives in <b>{{ $user->address->city}}, {{$user->address->state}}</b>.</p>
+            @if ($user->profile->address[0] && ($user->profile->address[0]->city || $user->profile->address[0]->state))
+                <p>Lives in <b>{{ $user->profile->address[0]->city}}, {{$user->profile->address[0]->state}}</b>.</p>
             @endif
             @if ($user->profile->job_seeking_status)
                 @if ($user->profile->job_seeking_status == 'unemployed')
@@ -203,6 +206,6 @@
         </div>
     </div>
 </div>
-@include('components.profile-notes-modal')
+@include('components.contact-notes-modal')
 @include('components.inquiry-notes-modal')
 @endsection

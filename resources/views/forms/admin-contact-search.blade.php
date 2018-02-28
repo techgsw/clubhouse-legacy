@@ -1,4 +1,4 @@
-<form action="/admin/user" method="get">
+<form action="/admin/contact" method="get">
     <div class="row">
         <div class="col s7 m9 input-field">
             <input id="search_term" type="text" name="term" value="{{ request('term') }}">

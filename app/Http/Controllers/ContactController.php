@@ -2,73 +2,330 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Contact;
+use App\Address;
+use App\AddressContact;
+use App\Contact;
+use App\ContactRelationship;
+use App\Note;
 use App\Message;
-use App\Traits\ReCaptchaTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use \Exception;
 
 class ContactController extends Controller
 {
-    use ReCaptchaTrait;
-
-    public function index(Request $request)
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        return view('contact.form', array('interest' => $request->interest));
+        $contact = Contact::with('address')->find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+        $this->authorize('view-contact', $contact);
+
+        $notes = Note::contact($id);
+
+        // Format phone numbers
+        if ($contact->phone && strlen($contact->phone) == 10) {
+            $contact->phone = "(".substr($contact->phone, 0, 3).")".substr($contact->phone, 3, 3)."-".substr($contact->phone, 6, 4);
+        }
+        if ($contact->user && $contact->user->profile->phone && strlen($contact->user->profile->phone) == 10) {
+            $contact->user->profile->phone = "(".substr($contact->user->profile->phone, 0, 3).")".substr($contact->user->profile->phone, 3, 3)."-".substr($contact->user->profile->phone, 6, 4);
+        }
+
+        return view('contact/show', [
+            'contact' => $contact,
+            'notes' => $notes,
+            'breadcrumb' => [
+                'Home' => '/',
+                'Contacts' => '/admin/contact',
+                $contact->getName() ?: $contact->getOrganization() => "/contact/$id",
+            ]
+        ]);
     }
 
-    public function send(Request $request)
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $recaptcha = $this->recaptchaCheck($request->all());
+        $this->authorize('create-contact');
 
-        if (!request('g-recaptcha-response') || $recaptcha < 1) {
+        return view('contact/create', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Contacts' => '/admin/contact',
+                'New' => "/contact/create"
+            ]
+        ]);
+    }
+
+    /**
+     * @param  $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        // TODO StoreContact request for validation
+
+        // TODO Check by email if the Contact already exists
+        $contact = Contact::where('email', $email = $request->email)->get();
+        if (count($contact) > 0) {
             $request->session()->flash('message', new Message(
-                "Please confirm you are a human.",
+                "Contact with email address {$email} already exists.",
                 "warning",
                 $code = null,
-                $icon = "warning"
+                $icon = "account_circle"
             ));
-            return back()->withInput();
+            return redirect()->action('ContactController@show', [$contact[0]]);
         }
 
-        $to = 'bob@sportsbusiness.solutions';
-        $request->interested_in = null;
-        if (request('about')) {
-            switch (request('about')) {
-                case "sales-training":
-                    $request->interested_in = "sales training";
-                    break;
-                case "consulting":
-                    $request->interested_in = "consulting";
-                    break;
-                case "recruiting":
-                    $request->interested_in = "recruiting";
-                    break;
-                case "career-services":
-                    $request->interested_in = "job-seeker career services";
-                    break;
-                case "coaching":
-                    $request->interested_in = "industry professional coaching";
-                    break;
-                case "combine":
-                    $request->interested_in = "Sports Sales Combine";
-                    break;
-                case "keynote":
-                    $request->interested_in = "keynote speaker opportunities";
-                    break;
-                case "other":
-                    $request->interested_in = null;
-                    break;
+        $resume = null;
+        if ($request->hasFile('resume')) {
+            try {
+                $resume = request()->file('resume');
+                if ($resume) {
+                    $resume = $resume->store('resume', 'public');
+                }
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                $request->session()->flash('message', new Message(
+                    "Sorry, the resume you tried to upload failed.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
             }
         }
-        Mail::to($to)->send(new Contact($request));
 
-        return redirect()->action('ContactController@thanks');
+        $contact = Contact::create([
+            'first_name' => request('first_name'),
+            'last_name' => request('last_name'),
+            'email' => request('email'),
+            'phone' => request('phone'),
+            'title' => request('title'),
+            'organization' => request('organization'),
+            'job_seeking_status' => request('job_seeking_status'),
+            'job_seeking_type' => request('job_seeking_type'),
+            'resume_url' => $resume,
+        ]);
+
+        $address = Address::create([
+            'line1' => request('line1'),
+            'line2' => request('line2'),
+            'city' => request('city'),
+            'state' => request('state'),
+            'postal_code' => request('postal_code'),
+            'country' => request('country')
+        ]);
+
+        $address_contact = AddressContact::create([
+            'address_id' => $address->id,
+            'contact_id' => $contact->id
+        ]);
+
+        if (request('note')) {
+            $note = new Note();
+            $note->user_id = Auth::user()->id;
+            $note->notable_id = $contact->id;
+            $note->notable_type = "App\Contact";
+            $note->content = request("note");
+            $note->save();
+        }
+
+        return redirect()->action('ContactController@show', [$contact]);
     }
 
-    public function thanks()
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
-        return view('contact.thanks');
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+        $this->authorize('edit-contact', $contact);
+
+        $address = $contact->address[0];
+        if (!$address) {
+            return abort(404);
+        }
+
+        // Contact
+        $resume = null;
+        if ($request->hasFile('resume')) {
+            try {
+                $resume = request()->file('resume');
+                if ($resume) {
+                    $resume = $resume->store('resume', 'public');
+                }
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                $request->session()->flash('message', new Message(
+                    "Sorry, the resume you tried to upload failed.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
+            }
+        }
+
+        $contact->first_name = request('first_name');
+        $contact->last_name = request('last_name');
+        $contact->phone = request('phone')
+            ? preg_replace("/[^\d]/", "", request('phone'))
+            : null;
+        // TODO 101 allow this?
+        // $contact->email = request('email');
+        $contact->title = request('title');
+        $contact->organization = request('organization');
+        $contact->job_seeking_type = request('job_seeking_type');
+        $contact->job_seeking_status = request('job_seeking_status');
+        if (!is_null($resume)) {
+            $contact->resume_url = $resume;
+        }
+        $contact->updated_at = new \DateTime('NOW');
+        $contact->save();
+
+        // Address
+        $address->line1 = request('line1');
+        $address->line2 = request('line2');
+        $address->city = request('city');
+        $address->state = request('state');
+        $address->postal_code = request('postal_code');
+        $address->country = request('country');
+        $address->updated_at = new \DateTime('NOW');
+        $address->save();
+
+        return redirect()->action('ContactController@show', [$contact]);
     }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showNotes($id)
+    {
+        $this->authorize('view-contact-notes');
+
+        $notes = Note::contact($id);
+
+        return view('contact/notes/show', [
+            'notes' => $notes
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createNote($id)
+    {
+        $this->authorize('create-contact-note');
+
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        $note = new Note();
+        $note->user_id = Auth::user()->id;
+        $note->notable_id = $id;
+        $note->notable_type = "App\Contact";
+        $note->content = request("note");
+        $note->save();
+
+        return response()->json([
+            'type' => 'success',
+            'content' => $note->content,
+            'user' => Auth::user()
+        ]);
+    }
+
+    /**
+     * @param  int  $user_id
+     * @param  int  $contact_id
+     * @return \Illuminate\Http\Response
+     */
+    public function addRelationship(Request $request)
+    {
+        $this->authorize('add-contact-relationship');
+
+        $user_id = $request->user_id;
+        $contact_id = $request->contact_id;
+
+        try {
+            $user = ContactRelationship::create([
+                'contact_id' => $contact_id,
+                'user_id' => $user_id,
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $message = "Sorry, we were unable to create that relationship. Please contact support.";
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return response()->json([
+                'error' => $message,
+                'tag' => null
+            ]);
+        }
+
+        return response()->json([
+            'error' => null
+        ]);
+    }
+
+    /**
+     * @param  int  $user_id
+     * @param  int  $contact_id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeRelationship(Request $request)
+    {
+        $this->authorize('remove-contact-relationship');
+
+        $user_id = $request->user_id;
+        $contact_id = $request->contact_id;
+
+        try {
+            $relationship = ContactRelationship::where('contact_id','=',$contact_id)
+                ->where('user_id','=',$user_id);
+            $relationship->delete();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $message = "Sorry, we were unable to delete that relationship. Please contact support.";
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return response()->json([
+                'error' => $message,
+                'tag' => null
+            ]);
+        }
+
+        return response()->json([
+            'error' => null
+        ]);
+    }
+
 }

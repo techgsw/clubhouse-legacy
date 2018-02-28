@@ -4,6 +4,27 @@
 <div class="card-flex-container">
     <div class="card">
         <div class="card-content">
+            <span class="card-title"><a href="/admin/contact" class="no-underline">Contacts</a></span>
+            <p style="text-transform: uppercase;">
+                <a href="/admin/contact" class="no-underline"><span class="sbs-red-text">{{ $contact_count }}</span> contacts</a>
+            </p>
+            <p style="text-transform: uppercase;">
+                <a href="/admin/contact" class="no-underline"><span class="sbs-red-text">{{ $user_count }}</span> users</a>
+            </p>
+        </div>
+        @can ('view-contact')
+            <div class="card-action">
+                <a class="no-underline" href="/admin/contact"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> Find Contact</span></a>
+            </div>
+        @endcan
+        @can ('edit-contact')
+            <div class="card-action">
+                <a class="no-underline" href="/contact/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> New Contact</span></a>
+            </div>
+        @endcan
+    </div>
+    <div class="card">
+        <div class="card-content">
             <span class="card-title"><a href="/blog" class="no-underline">Blog</a></span>
             <p style="text-transform: uppercase;">
                 <a href="/blog" class="no-underline"><span class="sbs-red-text">{{ $post_count }}</span> posts</a>
@@ -40,17 +61,7 @@
             <a class="no-underline" href="/question/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> Ask Question</span></a>
         </div>
     </div>
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title"><a href="/admin/user" class="no-underline">Users</a></span>
-            <p style="text-transform: uppercase;">
-                <a href="/admin/user" class="no-underline"><span class="sbs-red-text">{{ $user_count }}</span> users</a>
-            </p>
-        </div>
-        <div class="card-action">
-            <a class="no-underline" href="/admin/user"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> Find User</span></a>
-        </div>
-    </div>
+    <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
 </div>

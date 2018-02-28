@@ -285,7 +285,11 @@ nav.nav-admin ul li a {}
 nav.nav-admin a.button-collapse {
     color: #D3D3D3;
     line-height: 40px;
-    margin: -48px 18px;
+    margin: -44px 18px;
+}
+nav.nav-admin a.button-collapse i.fa.fa-bars {
+    height: 40px;
+    line-height: 40px;
 }
 
 nav.nav-breadcrumb {
@@ -597,6 +601,18 @@ span.flat-button.tag {
     margin: 2px;
 }
 
+textarea#note {
+    padding: 8px 12px;
+    border: 1px solid #DDD !important;
+    height: auto;
+    border-radius: 4px;
+}
+textarea#note:focus {
+    outline: none;
+    border: 1px solid #AAA !important;
+    box-shadow: none !important;
+}
+
 main a.btn,
 main a.btn:hover,
 footer a.btn,
@@ -727,6 +743,23 @@ form .row {
     margin-bottom: 10px;
 }
 
+table.compact td,
+table.compact th {
+    padding: 5px;
+}
+
+form.compact input,
+form.compact select,
+input.compact,
+select.compact {
+    height: 2rem;
+    margin-bottom: 6px;
+}
+
+form.compact .dropdown-content {
+    margin-top: 0px;
+}
+
 textarea:focus,
 .input-field input:focus {
     border-bottom: 1px solid #000 !important;
@@ -852,6 +885,18 @@ div.arrow.down {
     font-size: 1.25rem;
     font-weight: bold;
     color: #EB2935;
+}
+
+/**
+ * Contact
+ */
+
+.contact-notes-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 100%;
+    overflow-y:scroll;
+    padding: 15px;
 }
 
 /**

@@ -37,7 +37,6 @@ class UserController extends Controller
         return view('user/jobs', [
             'breadcrumb' => [
                 'Home' => '/',
-                'User' => "/user/{$user->id}",
                 'Jobs' => "/user/{$user->id}/jobs"
             ],
             'user' => $user
@@ -55,7 +54,6 @@ class UserController extends Controller
         return view('user/questions', [
             'breadcrumb' => [
                 'Home' => '/',
-                'User' => "/user/{$user->id}",
                 'Questions' => "/user/{$user->id}/questions"
             ],
             'user' => $user

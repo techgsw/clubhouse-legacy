@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function contact()
+    {
+        return $this->hasOne(Contact::class);
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
@@ -96,12 +101,12 @@ class User extends Authenticatable
             $this->profile->ethnicity &&
             $this->profile->gender;
 
-        $address_complete = $this->address && (
-            $this->address->line1 &&
-            $this->address->city &&
-            $this->address->state &&
-            $this->address->postal_code &&
-            $this->address->country);
+        $address_complete = $this->contact->address && (
+            $this->contact->address[0]->line1 &&
+            $this->contact->address[0]->city &&
+            $this->contact->address[0]->state &&
+            $this->contact->address[0]->postal_code &&
+            $this->contact->address[0]->country);
 
         $job_preferences_complete =
             $this->profile->job_seeking_status &&
