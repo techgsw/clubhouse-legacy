@@ -43,6 +43,6 @@ class UploadContacts extends Command
         // TODO 107
         echo "Uploading contacts from " . $this->argument('filepath') . "...\n";
 
-        // Just write it all here
+        // Copy from ContactController.store, but read data from the file
     }
 }
