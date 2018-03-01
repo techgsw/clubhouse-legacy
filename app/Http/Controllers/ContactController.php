@@ -10,6 +10,7 @@ use App\Note;
 use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -76,7 +77,6 @@ class ContactController extends Controller
     {
         // TODO StoreContact request for validation
 
-        // TODO Check by email if the Contact already exists
         $contact = Contact::where('email', $email = $request->email)->get();
         if (count($contact) > 0) {
             $request->session()->flash('message', new Message(
@@ -88,58 +88,68 @@ class ContactController extends Controller
             return redirect()->action('ContactController@show', [$contact[0]]);
         }
 
-        $resume = null;
-        if ($request->hasFile('resume')) {
-            try {
-                $resume = request()->file('resume');
-                if ($resume) {
-                    $resume = $resume->store('resume', 'public');
+        $contact = DB::transaction(function() use($request) {
+            $resume = null;
+            if ($request->hasFile('resume')) {
+                try {
+                    $resume = request()->file('resume');
+                    if ($resume) {
+                        $resume = $resume->store('resume', 'public');
+                    }
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
+                    $request->session()->flash('message', new Message(
+                        "Sorry, the resume you tried to upload failed.",
+                        "danger",
+                        $code = null,
+                        $icon = "error"
+                    ));
+                    return back()->withInput();
                 }
-            } catch (Exception $e) {
-                Log::error($e->getMessage());
-                $request->session()->flash('message', new Message(
-                    "Sorry, the resume you tried to upload failed.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
-                return back()->withInput();
             }
-        }
 
-        $contact = Contact::create([
-            'first_name' => request('first_name'),
-            'last_name' => request('last_name'),
-            'email' => request('email'),
-            'phone' => request('phone'),
-            'title' => request('title'),
-            'organization' => request('organization'),
-            'job_seeking_status' => request('job_seeking_status'),
-            'job_seeking_type' => request('job_seeking_type'),
-            'resume_url' => $resume,
-        ]);
+            $contact = Contact::create([
+                'first_name' => request('first_name'),
+                'last_name' => request('last_name'),
+                'email' => request('email'),
+                'phone' => request('phone'),
+                'title' => request('title'),
+                'organization' => request('organization'),
+                'job_seeking_status' => request('job_seeking_status'),
+                'job_seeking_type' => request('job_seeking_type'),
+                'resume_url' => $resume,
+            ]);
 
-        $address = Address::create([
-            'line1' => request('line1'),
-            'line2' => request('line2'),
-            'city' => request('city'),
-            'state' => request('state'),
-            'postal_code' => request('postal_code'),
-            'country' => request('country')
-        ]);
+            $address = Address::create([
+                'line1' => request('line1'),
+                'line2' => request('line2'),
+                'city' => request('city'),
+                'state' => request('state'),
+                'postal_code' => request('postal_code'),
+                'country' => request('country')
+            ]);
 
-        $address_contact = AddressContact::create([
-            'address_id' => $address->id,
-            'contact_id' => $contact->id
-        ]);
+            $address_contact = AddressContact::create([
+                'address_id' => $address->id,
+                'contact_id' => $contact->id
+            ]);
 
-        if (request('note')) {
-            $note = new Note();
-            $note->user_id = Auth::user()->id;
-            $note->notable_id = $contact->id;
-            $note->notable_type = "App\Contact";
-            $note->content = request("note");
-            $note->save();
+            if (request('note')) {
+                $note = new Note();
+                $note->user_id = Auth::user()->id;
+                $note->notable_id = $contact->id;
+                $note->notable_type = "App\Contact";
+                $note->content = request("note");
+                $note->save();
+            }
+
+            return $contact;
+        });
+
+        if (!$contact) {
+            return redirect()->back()->withErrors([
+                'msg' => 'Failed to save contact. Please try again.'
+            ]);
         }
 
         return redirect()->action('ContactController@show', [$contact]);

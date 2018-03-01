@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\SendMigrationEmails::class,
-        Commands\SendNewUserFollowUpEmails::class
+        Commands\SendNewUserFollowUpEmails::class,
+        Commands\UploadContacts::class
     ];
 
     /**
