@@ -44,16 +44,27 @@ class UploadContacts extends Command
      */
     public function handle()
     {
-        echo "Uploading contacts from " . $this->argument('filepath') . "...\n";
+        echo "Uploading contacts from " . $this->argument('filepath') . "...\n\n";
 
         $handle = fopen($this->argument('filepath'), "r");
         $header = true;
         $created_count = 0;
         $updated_count = 0;
+        $skipped_count = 0;
         $error_count = 0;
         $line_number = 0;
 
+        $sbs_name_to_user = [
+            'bob' => 1,
+            'jason' => 10,
+            'mike' => 5,
+            'josh' => 1952
+        ];
+
+        $row_num = 1;
         while (($row = fgetcsv($handle, ",")) !== false) {
+            $row_num++;
+
             if ($header) {
                 $header = false;
                 continue;
@@ -62,23 +73,27 @@ class UploadContacts extends Command
             $row_size = count($row);
             $email = $row[7];
 
+            if (!$email || strlen($email) == 0) {
+                echo "Email required. Missing on row ".$row_num.".\n";
+                continue;
+            }
+
             $contact = Contact::where('email', '=', $email)->get();
             if (count($contact) > 0) {
-                echo "Already have " . $email . "\n";
-                //TODO: update current contact with info.
-                // Or don't? Which fields do we want to overwrite of existing data?
-                $updated_count += 1;
+                echo $email . " already exists.\n";
+                // TODO Update?
+                $skipped_count += 1;
                 continue;
             }
 
             $sbs_reps = array();
             if ($multi_rep = explode('/', $row[0])) {
                 foreach ($multi_rep as $rep) {
-                    $sbs_reps[] = $rep;
+                    $sbs_reps[] = strtolower($rep);
                 }
             }
-            $sbs_reps[] = (($row[1] !== "") ? $row[1] : null);
-            $sbs_reps[] = (($row[2] !== "") ? $row[2] : null);
+            $sbs_reps[] = (($row[1] !== "") ? strtolower($row[1]) : null);
+            $sbs_reps[] = (($row[2] !== "") ? strtolower($row[2]) : null);
 
             $args = array(
                 'organization' => (($row[3] !== "") ? $row[3] : null),
@@ -95,7 +110,7 @@ class UploadContacts extends Command
                 'sbs_reps'     => $sbs_reps
             );
 
-            $contact = DB::transaction(function() use($args, $line_number) {
+            $contact = DB::transaction(function() use($args, $line_number, $sbs_name_to_user) {
                 $contact = Contact::create([
                     'first_name' => $args['first_name'],
                     'last_name' => $args['last_name'],
@@ -107,38 +122,36 @@ class UploadContacts extends Command
                     'job_seeking_type' => null,
                 ]);
 
-                // TODO: Uncomment adding address and contact_address when migration is in for these tables.
-                //$address = Address::create([
-                //    'line1' => $args['line_one'],
-                //    'line2' => null,
-                //    'city' => $args['city'],
-                //    'state' => $args['state'],
-                //    'postal_code' => $args['postal_code'],
-                //    'country' => $args['country']
-                //]);
+                $address = Address::create([
+                   'line1' => $args['line_one'],
+                   'line2' => null,
+                   'city' => $args['city'],
+                   'state' => $args['state'],
+                   'postal_code' => $args['postal_code'],
+                   'country' => $args['country']
+                ]);
 
-                //$address_contact = AddressContact::create([
-                //    'address_id' => $address->id,
-                //    'contact_id' => $contact->id
-                //]);
+                $address_contact = AddressContact::create([
+                   'address_id' => $address->id,
+                   'contact_id' => $contact->id
+                ]);
 
-                foreach ($args['sbs_reps'] as $rep) {
-                    if (is_null($rep)) {
+                foreach ($args['sbs_reps'] as $name) {
+                    if (is_null($name)) {
                         continue;
                     }
-                    $user = User::where('first_name', 'like', $rep)
-                        ->where('email', 'like', '%sportsbusiness.solutions')->first();
-                    if (count($user) > 0) {
-                        $existing_relationship = ContactRelationship::where('contact_id', '=', $contact->id)
-                            ->where('user_id', '=', $user->id)->get();
-                        if (count($existing_relationship) < 1) {
+                    if (array_key_exists($name, $sbs_name_to_user)) {
+                        $user_id = $sbs_name_to_user[$name];
+                        $existing = ContactRelationship::where('contact_id', '=', $contact->id)
+                            ->where('user_id', '=', $user_id)->get();
+                        if (count($existing) < 1) {
                             $contact_relationship = ContactRelationship::create([
                                 'contact_id' => $contact->id,
-                                'user_id' => $user->id
+                                'user_id' => $user_id
                             ]);
                         }
                     } else {
-                        echo "Invalid Sbs Rep " . $rep ." on line " . $line_number . "\n";
+                        echo "Invalid SBS Rep (".$name.") on row ".$row_num."\n";
                     }
                 }
 
@@ -148,16 +161,15 @@ class UploadContacts extends Command
             if (!is_null($contact)) {
                 $created_count += 1;
             } else {
-                echo "Error creating " . $args['first_name'] ." on line " . $line_number . "\n";
+                echo "Error creating contact on row ".$row_num."\n";
                 $error_count += 1;
             }
-
-            $line_number = $created_count + $updated_count + $error_count + 2;
         }
 
-        echo "Done! \n";
+        echo "\n";
         echo "Created: ". $created_count ."\n";
-        echo "Updated: ". $updated_count ."\n";
+        // echo "Updated: ". $updated_count ."\n";
+        echo "Skipped: ". $skipped_count ."\n";
         echo "Errors: ". $error_count ."\n";
     }
 }
