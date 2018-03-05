@@ -56,8 +56,8 @@ class UploadContacts extends Command
 
         $sbs_name_to_user = [
             'bob' => 1,
-            'jason' => 10,
-            'mike' => 5,
+            'jason' => 13,
+            'mike' => 7,
             'josh' => 1952
         ];
 
