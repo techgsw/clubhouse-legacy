@@ -147,8 +147,12 @@ class Job extends Model
             $jobs->where('organization', 'like', "%{$org}%");
         }
 
-        if ($loc = request('state')) {
-            $jobs->where('state', $loc);
+        if ($state = request('state')) {
+            $jobs->where('state', $state);
+        }
+
+        if ($country = request('country')) {
+            $jobs->where('country', $country);
         }
 
         return $jobs;

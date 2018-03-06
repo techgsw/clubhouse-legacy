@@ -28,7 +28,7 @@
         </div>
         <a href="/job/{{$job->id}}">
             <h5>{{ $job->title }}</h5>
-            <p><span class="heavy">{{ $job->organization }}</span> in {{ $job->city }}, {{ $job->state }}</p>
+            <p><span class="heavy">{{ $job->organization }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
         </a>
         <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}</p>
         @can ('close-job', $job)

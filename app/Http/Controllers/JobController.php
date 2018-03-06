@@ -140,6 +140,7 @@ class JobController extends Controller
             'job_type' => request('job_type'),
             'city' => request('city'),
             'state' => request('state'),
+            'country' => request('country'),
             'rank' => $rank,
             'featured' => request('featured') ? true : false,
             'image_url' => $job_image,
@@ -466,6 +467,7 @@ class JobController extends Controller
         $job->job_type = request('job_type');
         $job->city = request('city');
         $job->state = request('state');
+        $job->country = request('country');
         $job->featured = request('featured') ? true : false;
         // Set rank if newly featured
         if ($job->featured && $job->rank == 0) {

@@ -39,7 +39,7 @@
                 </p>
             </div>
             <h5>{{ $job->title }}</h5>
-            <p><span class="heavy">{{ $job->organization }}</span> in {{ $job->city }}, {{ $job->state }}</p>
+            <p><span class="heavy">{{ $job->organization }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
             <p class="small tags">
                 @if ($job->featured)
                     <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
