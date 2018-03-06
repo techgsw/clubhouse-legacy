@@ -140,6 +140,11 @@
                     	<option value="NT" {{ old('state') == "NT" ? 'selected' : '' }}>Northwest Territories</option>
                     	<option value="NU" {{ old('state') == "NU" ? 'selected' : '' }}>Nunavut</option>
                     	<option value="YT" {{ old('state') == "YT" ? 'selected' : '' }}>Yukon</option>
+                        <option disabled>U.K.</option>
+                        <option value="England" {{ old('state') == "England" ? 'selected' : '' }}>England</option>
+                        <option value="Northern Ireland" {{ old('state') == "Northern Ireland" ? 'selected' : '' }}>Northern Ireland</option>
+                        <option value="Scotland" {{ old('state') == "Scotland" ? 'selected' : '' }}>Scotland</option>
+                        <option value="Wales" {{ old('state') == "Wales" ? 'selected' : '' }}>Wales</option>
                     </select>
                     <label>State</label>
                 </div>
