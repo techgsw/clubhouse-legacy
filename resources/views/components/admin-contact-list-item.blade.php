@@ -2,7 +2,7 @@
     $notes = App\Note::contact($contact->id);
     $last_note = null;
     if (count($notes) > 0) {
-        $last_note = array_shift($notes);
+        $last_note = reset($notes);
     }
 @endphp
 <div class="row admin-user-list-item">

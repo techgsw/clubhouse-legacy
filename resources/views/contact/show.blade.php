@@ -53,8 +53,7 @@
                         @php
                             $last_note = null;
                             if (count($notes) > 0) {
-                                $last_note = array_shift($notes);
-                                $notes[] = $last_note;
+                                $last_note = reset($notes);
                             }
                         @endphp
                         @if ($last_note)
