@@ -471,6 +471,14 @@ $.valHooks.textarea = {
         });
     }
 
+    Note.deleteNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/note/'+data.note_id+'/delete',
+            data: data
+        });
+    }
+
     Note.postContactNote = function (data) {
         return $.ajax({
             type: 'POST',
@@ -539,6 +547,42 @@ $.valHooks.textarea = {
             }
         },
         '.submit-contact-note-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                if (!window.confirm("Delete this note?")) {
+                    return;
+                }
+
+                var note = $(this).parents('div.note')[0];
+                var contact_id = parseInt($(this).attr('contact-id'));
+                var note_id = parseInt($(this).attr('note-id'));
+                if (!note_id || note_id === 0) {
+                    return console.error("Missing note ID");
+                }
+
+                var csrf = $(this).parents('div#note-'+note_id).find('input[name="_token"]').val();
+                var data = {
+                    note_id: note_id,
+                    _token: csrf
+                }
+
+                $(note).hide();
+                Note.deleteNote(data).done(function (response) {
+                    if (response.error != null) {
+                        console.error('Failed to delete note '+note_id);
+                        $(note).show();
+                        return;
+                    }
+                    Note.getContactNotes(contact_id).done(function (view) {
+                        $('.contact-notes-container').html(view);
+                    });
+                });
+            }
+        },
+        '.delete-note-btn'
     );
 
     $('body').on(

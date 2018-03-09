@@ -139,6 +139,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-inquiry-note', function ($user) {
             return $user->hasAccess('inquiry_note_create');
         });
+        Gate::define('delete-note', function ($user) {
+            return $user->hasAccess('note_delete');
+        });
 
         // Contact
         Gate::define('create-contact', function ($user) {

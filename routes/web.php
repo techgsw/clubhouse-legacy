@@ -168,6 +168,13 @@ Route::group(['middleware' => ['web','auth']], function () {
 });
 
 /**
+ * Notes
+ */
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::post('/note/{id}/delete', 'NoteController@delete');
+});
+
+/**
  * Job Board
  */
 Route::group(['middleware' => ['web']], function () {
