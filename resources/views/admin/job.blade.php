@@ -21,7 +21,7 @@
             @endforeach
             <div class="row">
                 <div class="col s12 center-align">
-                    {{ $jobs->links('components.pagination') }}
+                    {{ $jobs->appends(request()->all())->links('components.pagination') }}
                 </div>
             </div>
         @endif

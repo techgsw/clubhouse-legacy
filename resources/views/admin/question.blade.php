@@ -29,7 +29,7 @@
             @endforeach
             <div class="row">
                 <div class="col s12 center-align">
-                    {{ $unapproved->links('components.pagination') }}
+                    {{ $unapproved->appends(request()->all())->links('components.pagination') }}
                 </div>
             </div>
         @endif

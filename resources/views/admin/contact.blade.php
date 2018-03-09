@@ -18,7 +18,7 @@
             @include('components.contact-notes-modal')
             <div class="row">
                 <div class="col s12 center-align">
-                    {{ $contacts->links('components.pagination') }}
+                    {{ $contacts->appends(request()->all())->links('components.pagination') }}
                 </div>
             </div>
         @endif
