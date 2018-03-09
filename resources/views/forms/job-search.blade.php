@@ -32,7 +32,7 @@
                 </select>
             </div>
             <div class="col s4 input-field">
-                <label class="active">State</label>
+                <label class="active">Location</label>
                 <select id="state" name="state" class="browser-default">
                     <option value="" {{ request('state') == "" ? "selected" : "" }}>All</option>
                     <option disabled>U.S.A.</option>
@@ -101,6 +101,11 @@
                     <option value="NT" {{ request('state') == "NT" ? 'selected' : '' }}>Northwest Territories</option>
                     <option value="NU" {{ request('state') == "NU" ? 'selected' : '' }}>Nunavut</option>
                     <option value="YT" {{ request('state') == "YT" ? 'selected' : '' }}>Yukon</option>
+                    <option disabled>U.K.</option>
+                    <option value="England" {{ request('state') == "England" ? 'selected' : '' }}>England</option>
+                    <option value="Northern Ireland" {{ request('state') == "Nothern Ireland" ? 'selected' : '' }}>Northern Ireland</option>
+                    <option value="Scotland" {{ request('state') == "Scotland" ? 'selected' : '' }}>Scotland</option>
+                    <option value="Wales" {{ request('state') == "Wales" ? 'selected' : '' }}>Wales</option>
                 </select>
             </div>
         </div>

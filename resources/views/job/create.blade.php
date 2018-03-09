@@ -72,9 +72,10 @@
                     <input id="city" type="text" class="validate {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') }}" required autofocus>
                     <label for="city" data-error="{{ $errors->first('city') }}">City</label>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col s6">
                     <select name="state">
-                        <option value="" {{ old('state') == "" ? "selected" : "" }} disabled>U.S.A.</option>
+                        <option {{ old('state') == "" ? "selected" : "" }} disabled>Select one</option>
+                        <option disabled>U.S.A.</option>
                         <option value="AL" {{ old('state') == "AL" ? "selected" : "" }}>Alabama</option>
                     	<option value="AK" {{ old('state') == "AK" ? 'selected' : '' }}>Alaska</option>
                     	<option value="AZ" {{ old('state') == "AZ" ? 'selected' : '' }}>Arizona</option>
@@ -140,8 +141,21 @@
                     	<option value="NT" {{ old('state') == "NT" ? 'selected' : '' }}>Northwest Territories</option>
                     	<option value="NU" {{ old('state') == "NU" ? 'selected' : '' }}>Nunavut</option>
                     	<option value="YT" {{ old('state') == "YT" ? 'selected' : '' }}>Yukon</option>
+                        <option disabled>U.K.</option>
+                        <option value="England" {{ old('state') == "England" ? 'selected' : '' }}>England</option>
+                        <option value="Northern Ireland" {{ old('state') == "Northern Ireland" ? 'selected' : '' }}>Northern Ireland</option>
+                        <option value="Scotland" {{ old('state') == "Scotland" ? 'selected' : '' }}>Scotland</option>
+                        <option value="Wales" {{ old('state') == "Wales" ? 'selected' : '' }}>Wales</option>
                     </select>
                     <label>State</label>
+                </div>
+                <div class="input-field col s6">
+                    <select name="country">
+                        <option value="US" {{ old('country') == "US" ? 'selected' : '' }}>U.S.A.</option>
+                        <option value="CA" {{ old('country') == "CA" ? 'selected' : '' }}>Canada</option>
+                        <option value="UK" {{ old('country') == "UK" ? 'selected' : '' }}>U.K.</option>
+                    </select>
+                    <label>Country</label>
                 </div>
                 <div class="file-field input-field col s12">
                     <div class="btn white black-text">

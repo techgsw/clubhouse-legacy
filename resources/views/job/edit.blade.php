@@ -82,11 +82,11 @@
                     </div>
                 </div>
             </div>
-            <div class="input-field">
+            <div class="input-field col s12">
                 <input id="city" type="text" class="validate {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') ?: $job->city }}" required autofocus>
                 <label for="city" data-error="{{ $errors->first('city') }}">City</label>
             </div>
-            <div class="input-field">
+            <div class="input-field col s6">
                 <select name="state">
                     <option value="" {{ old('state') == "" ? "selected" : '' }} disabled>U.S.A.</option>
                     <option value="AL" {{ old('state') == "AL" ? "selected" : $job->state == "AL" ? 'selected' : '' }}>Alabama</option>
@@ -154,10 +154,23 @@
                 	<option value="NT" {{ old('state') == "NT" ? 'selected' : $job->state == "NT" ? 'selected' : '' }}>Northwest Territories</option>
                 	<option value="NU" {{ old('state') == "NU" ? 'selected' : $job->state == "NU" ? 'selected' : '' }}>Nunavut</option>
                 	<option value="YT" {{ old('state') == "YT" ? 'selected' : $job->state == "YT" ? 'selected' : '' }}>Yukon</option>
+                    <option disabled>U.K.</option>
+                    <option value="England" {{ old('state') == "England" ? 'selected' : $job->state == "England" ? 'selected' : '' }}>England</option>
+                    <option value="Northern Ireland" {{ old('state') == "Nothern Ireland" ? 'selected' : $job->state == "Nothern Ireland" ? 'selected' : '' }}>Northern Ireland</option>
+                    <option value="Scotland" {{ old('state') == "Scotland" ? 'selected' : $job->state == "Scotland" ? 'selected' : '' }}>Scotland</option>
+                    <option value="Wales" {{ old('state') == "Wales" ? 'selected' : $job->state == "Wales" ? 'selected' : '' }}>Wales</option>
                 </select>
                 <label>State</label>
             </div>
-            <div class="file-field input-field">
+            <div class="input-field col s6">
+                <select name="country">
+                    <option value="US" {{ old('country') == "US" ? 'selected' : $job->country == "US" ? 'selected' : '' }}>U.S.A.</option>
+                    <option value="CA" {{ old('country') == "CA" ? 'selected' : $job->country == "CA" ? 'selected' : '' }}>Canada</option>
+                    <option value="UK" {{ old('country') == "UK" ? 'selected' : $job->country == "UK" ? 'selected' : '' }}>U.K.</option>
+                </select>
+                <label>Country</label>
+            </div>
+            <div class="file-field input-field col s12">
                 <div class="btn white black-text">
                     <span>Upload Document</span>
                     <input type="file" name="document" value="{{ old('document') }}">
@@ -166,7 +179,7 @@
                     <input class="file-path validate" type="text" name="document_text" value="{{ old('document_text') }}">
                 </div>
             </div>
-            <div class="input-field">
+            <div class="input-field col s12">
                 <button type="submit" class="btn sbs-red">Save</button>
             </div>
         </div>
