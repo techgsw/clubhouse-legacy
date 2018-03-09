@@ -471,6 +471,14 @@ $.valHooks.textarea = {
         });
     }
 
+    Note.deleteContactNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact/'+data.note_id+'/delete-note',
+            data: data
+        });
+    }
+
     Note.postContactNote = function (data) {
         return $.ajax({
             type: 'POST',
@@ -539,6 +547,30 @@ $.valHooks.textarea = {
             }
         },
         '.submit-contact-note-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $(this).attr('disabled','disabled');
+                var note_id = $(this).attr('note-id');
+                var data = {
+                    'note_id': note_id,
+                    'contact_id': $(this).attr('contact-id'),
+                    '_token': $('form[note-id="'+note_id+'"] input[name="_token"]').val()
+                }
+                Note.deleteContactNote(data).done(function (response) {
+                    if (response.error != null) {
+                        console.error('Failed to add note');
+                        return;
+                    }
+                    Note.getContactNotes(data.contact_id).done(function (view) {
+                        $('.contact-notes-container').html(view);
+                    });
+                });
+            }
+        },
+        '.delete-note-btn'
     );
 
     $('body').on(

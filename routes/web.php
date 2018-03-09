@@ -165,6 +165,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/contact/{id}', 'ContactController@update');
     Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
+    Route::post('/contact/{id}/delete-note', 'ContactController@deleteNote');
 });
 
 /**
