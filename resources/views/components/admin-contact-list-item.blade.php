@@ -21,7 +21,13 @@
     <div class="col s12 m4">
         <div style="margin: 4px 0;">
             <button class="view-contact-notes-btn flat-button small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
-            @component('components.resume-button', ['url' => $contact->user ? $contact->user->profile->resume_url : null])@endcomponent
+            @if ($contact->resume_url)
+                @component('components.admin-resume-button', ['url' => $contact->resume_url, 'type' => 'contact'])@endcomponent
+            @elseif ($contact->user)
+                @component('components.admin-resume-button', ['url' => $contact->user->profile->resume_url, 'type' => 'profile'])@endcomponent
+            @else
+                @component('components.admin-resume-button', ['url' => null, 'type' => null])@endcomponent
+            @endif
             @component('components.admin-profile-button', ['user' => $contact->user])@endcomponent
         </div>
         @if ($last_note)
