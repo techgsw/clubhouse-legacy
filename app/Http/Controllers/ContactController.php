@@ -266,36 +266,6 @@ class ContactController extends Controller
     }
 
     /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteNote($id)
-    {
-        $this->authorize('create-contact-note');
-
-        try {
-            $note = Note::find($id);
-            $note->delete();
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-            $message = "Sorry, we were unable to delete that note. Please contact support.";
-            $request->session()->flash('message', new Message(
-                $message,
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return response()->json([
-                'error' => $message
-            ]);
-        }
-
-        return response()->json([
-            'error' => null
-        ]);
-    }
-
-    /**
      * @param  int  $user_id
      * @param  int  $contact_id
      * @return \Illuminate\Http\Response
