@@ -338,4 +338,51 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * @param  int  $user_id
+     * @param  int  $contact_id
+     * @param  date $follow_up_date
+     * @return \Illuminate\Http\Response
+     */
+    public function addFollowUp(Request $request)
+    {
+        $this->authorize('add-contact-follow-up');
+        $user_id = $request->user_id;
+        $contact_id = $request->id;
+        $follow_up_date = $request->follow_up_date;
+
+        $contact = Contact::find($contact_id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        $user = User::find($user_id);
+        if (!$user) {
+            return abort(404);
+        }
+
+
+        try {
+            $contact->follow_up_date = $follow_up_date;
+            $contact->follow_up_user_id = $user_id;
+            $contact->save();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $message = "Sorry, were unable to creat the follow up. Please contact support.";
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return response()->json([
+                'error' => $message,
+                'tag' => null
+            ]);
+        }
+
+        return response()->json([
+            'error' => null
+        ]);
+    }
 }

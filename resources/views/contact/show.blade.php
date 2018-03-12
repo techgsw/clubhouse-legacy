@@ -44,6 +44,34 @@
             </div>
         </form>
     @endcan
+    <!-- TODO: CHANGE TO CORRECT CAN STATEMENT --!>
+    @can ('add-contact-relationship')
+        @if (is_null($contact->followUpUser))
+            <form id="create-contact-follow-up" action="/contact/{{ $contact->id }}/add-follow-up" method="post" class="compact">
+                {{ csrf_field() }}
+                <div class="row">
+                    <div class="col s6 m4">
+                        <label>Follow Up</label>
+                        <input type="text" id="admin-user-autocomplete-input" class="admin-user-autocomplete compact">
+                    </div>
+                    <div class="col s6 m4">
+                        <label>Date</label>
+                        <input class="datepicker" id="follow-up-date" type="text" name="follow_up_date" value="{{ $contact->follow_up_date }}" />
+                    </div>
+                    <div class="col s12 m4">
+                        <button type="button" name="shedule" class="btn btn-small sbs-green submit-contact-follow-up-btn">Schedule</button>
+                    </div>
+                </div>
+            </form>
+        @else 
+            <div class="col">
+                <label>Follow Up</label>
+            </div>
+            <span class="flat-button sbs-green medium tag">
+                {{ $contact->followUpUser->getName() }} - {{ $contact->follow_up_date->format('m/d/Y') }}
+            </span>
+        @endif
+    @endcan
     <div style="margin-bottom: 30px;">
         <ul class="collapsible" data-collapsible="accordion">
             @can ('view-contact-notes')
