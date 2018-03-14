@@ -215,10 +215,12 @@ class PostController extends Controller
                     imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
                     imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
 
-                    $post_image = new PostImage();
+                    $post_image = $post->images[0];
                     $post_image->post_id = $post->id;
                     $post_image->filename = $filename;
                     $post_image->image_order = 1;
+
+                    $post_image->save();
                 }
 
                 $post->tags()->sync($post_tags);
