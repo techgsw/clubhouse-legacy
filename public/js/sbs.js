@@ -27,6 +27,7 @@ $.valHooks.textarea = {
     var ContactRelationship = {
         map: {}
     };
+    var Contact = {};
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -633,6 +634,40 @@ $.valHooks.textarea = {
         '.submit-inquiry-note-btn'
     );
     // end Notes
+
+    // Contact
+
+    Contact.downloadContacts = function (contact_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/admin/contact/download'
+        });
+    }
+
+    $('body').on(
+        {
+            click: function () {
+                var form = $(this).parents('form#admin-contact-search');
+                if (form.length == 0) {
+                    return;
+                }
+
+                var values = {};
+                data = form.serializeArray();
+                data.forEach(function (input) {
+                    values[input.name] = input.value;
+                });
+
+                Contact.downloadContacts(values).done(function (response) {
+                }
+
+
+            }
+        },
+        '.download-contact-search'
+    );
+
+    // end Contact
 
     $('body').on(
         {
