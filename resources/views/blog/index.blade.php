@@ -57,12 +57,11 @@
                     <div class="blog-list-item">
                         <div class="row">
                             <div class="col s4 m3">
+                                @php
+                                    $image_path = $post->getImagePath($post->images->where('image_order', 1)->first(), 'medium');
+                                @endphp
                                 <a href="/post/{{ $post->title_url}}" class="no-underline">
-                                    @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
-                                        <img src="{{ preg_replace('/\./', '-200x150.', $post->image_url) }}" alt="">
-                                    @else
-                                        <img src={{ Storage::disk('local')->url($post->image_url) }} />
-                                    @endif
+                                        <img src={{ Storage::disk('local')->url($image_path) }} />
                                 </a>
                             </div>
                             <div class="col s8 m9">

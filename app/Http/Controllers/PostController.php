@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\PostImage;
 use App\Message;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
@@ -92,10 +93,12 @@ class PostController extends Controller
                     imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
                     imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
 
-                    $post_image = str_replace('original', 'medium', $image_relative_path);
+                    $post_image = new PostImage();
+                    $post_image->post_id = $post->id;
+                    $post_image->filename = $filename;
+                    $post_image->image_order = 1;
 
-                    $post->image_url =  $post_image;
-                    $post->save();
+                    $post_image->save();
                 }
 
                 $post->tags()->sync($post_tags);
@@ -212,10 +215,12 @@ class PostController extends Controller
                     imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
                     imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
 
-                    $post_image = str_replace('original', 'medium', $image_relative_path);
+                    $post_image = $post->images[0];
+                    $post_image->post_id = $post->id;
+                    $post_image->filename = $filename;
+                    $post_image->image_order = 1;
 
-                    $post->image_url =  $post_image;
-                    $post->save();
+                    $post_image->save();
                 }
 
                 $post->tags()->sync($post_tags);

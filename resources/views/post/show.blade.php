@@ -53,20 +53,15 @@
                     <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                 </div>
                 <p class="small light uppercase">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> | {{ $post->created_at->format('F d, Y') }}</p>
-                @if ($post->image_url)
+                @php
+                    $image_path = $post->getImagePath($post->images->where('image_order', 1)->first());
+                @endphp
+                @if ($image_path)
                     <p class="hide-on-med-and-up" style="text-align: center;">
-                        @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
-                            <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src="{{ $post->image_url }}" alt="">
-                        @else
-                            <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($post->image_url) }} />
-                        @endif
+                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($image_path) }} />
                     </p>
                     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-                        @if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
-                            <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src="{{ $post->image_url }}" alt="">
-                        @else
-                            <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($post->image_url) }} />
-                        @endif
+                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($image_path) }} />
                     </p>
                 @endif
                 {!! $body !!}
