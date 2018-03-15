@@ -658,10 +658,6 @@ $.valHooks.textarea = {
                     values[input.name] = input.value;
                 });
 
-                Contact.downloadContacts(values).done(function (response) {
-                }
-
-
             }
         },
         '.download-contact-search'

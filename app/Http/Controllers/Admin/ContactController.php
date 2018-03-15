@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Contact;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -15,35 +16,31 @@ class ContactController extends Controller
     {
         $this->authorize('view-contact');
 
-
-    /*
-        $filename = ROOT_DIR. "/public_html/files/fb/products.csv";
-
-        $file_write = fopen($filename, 'w');
-
-        fputcsv($file_write, $titles_row);
-
-        $row = array($pv_id,$title,$description,$availability,$condition,$price,$url,$image,$brand,null,null,null,null,null,$google_product_category,null,null,$product_type,null,$sale_price_effecitve_date,null,null,null,$auction_type_code,$reserve_status,$consignor_id,$create_user_id,$filter_description);
-
-        fputcsv($file_write, $row);
-        fclose($file_write);
-
-    */
-
-
         $contacts = Contact::search($request);
-        $now = new \DateTime('NOW');
-        $storage_path = storage_path().'/app/public/contacts/';
-        $filename = $storage_path. "contacts_". $now->format('m-d-Y') .".csv";
-        $file_write = fopen($filename, 'w');
+        $storage_path = storage_path().'/contacts/';
+        echo $storage_path;
+        $filename = Auth::user()->first_name ."_contacts.csv";
+        $file_path = $storage_path . $filename;
+        $file_write = fopen($file_path, 'w');
 
-        $column_titles = array_keys((new \App\Contact())->getAttributes());
+        $contacts = $contacts->get();
+        //$column_titles = array_keys((new \App\Contact())->getAttributes());
+        $column_titles = array_keys($contacts[0]->getAttributes());
         
         fputcsv($file_write, $column_titles);
 
-        foreach($contacts->get() as $contact) {
+        foreach($contacts as $contact) {
             $row = array();
             foreach($contact->getAttributes() as $attribute => $value) {
+                switch ($attribute) {
+                    case 'resume_url':
+                        if (is_null($value)) {
+                            $value = 'No';
+                        } else {
+                            $value = 'Yes';
+                        }
+                        break;
+                }
                 $row[] = $value;
             }
             fputcsv($file_write, $row);
@@ -51,19 +48,26 @@ class ContactController extends Controller
 
         fclose($file_write);
 
-        //$headers = array(
-        //    'Content-Type' => 'text/csv',
-        //);
+        $headers = array(
+            'Content-Description' => 'File Transfer',
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => 'attachment; filename="'.basename($file_path).'"',
+            'Expires' => '0',
+            'Cache-Control' => 'must-revalidate',
+            'Pragma' => 'public',
+            'Content-Length' => filesize($file_path)
+        );
+        return $request->download($file_path, $filename, $headers);
+        //readfile($filename);
+        //return $this->download($request, $filename);
+        //$contacts = Contact::search($request);
+        //$count = $contacts->count();
+        //$contacts = $contacts->paginate(15);
 
-        //return Response::download($filename, $filename, $headers);
-        $contacts = Contact::search($request);
-        $count = $contacts->count();
-        $contacts = $contacts->paginate(15);
-
-        return view('admin/contact', [
-            'contacts' => $contacts,
-            'count' => $count
-        ]);
+        //return view('admin/contact', [
+        //    'contacts' => $contacts,
+        //    'count' => $count
+        //]);
     }
 
     /**
