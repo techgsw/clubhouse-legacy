@@ -931,6 +931,20 @@ $(document).ready(function () {
         close: 'Ok',
         closeOnSelect: true
     });
+    // Dropzone
+    $('.dropzone').dropzone({
+        acceptedFiles: "image/jpeg, image/jpg",
+        uploadMultiple: true,
+        parallelUploads: 20,
+        paramName: "image_list",
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+        thumbnailWidth: 180,
+        thumbnailHeight: 180,
+        previewsContainer: '#dropzone-previews div',
+        clickable: ".dropzone-clickable",
+        dictDefaultMessage: ""
+    });
     // Initialize
     SBS.init();
 });

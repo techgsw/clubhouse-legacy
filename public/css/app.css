@@ -784,6 +784,38 @@ select.browser-default {
 }
 
 /**
+ * Dropzone 
+ */
+
+.dz-details, .dz-error-mark, .dz-success-mark, .dz-success-message {
+    display: none;
+}
+
+.dz-preview-flex-container {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: -10px;
+}
+.dz-preview-flex-container .dz-image-preview
+{
+    display: flex;
+    flex-flow: column;
+    flex: 1 0 0;    /* grow; don't shrink; 0-basis (even-width, not content-rated) */
+    margin: 10px;
+    min-width: 200px;
+}
+/*
+.card-flex-container .card .card-content {
+    flex: 1 0 auto;
+}
+.card-flex-container .card .card-action {
+    flex: 0 0 auto;
+}
+*/
+
+/**
  * Alert
  */
 
