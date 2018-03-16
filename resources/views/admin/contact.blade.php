@@ -6,8 +6,10 @@
 <div class="row">
     <div class="col s12" style="display: flex; flex-flow: row; margin-top: 10px;">
         <a href="/contact/create" class="btn sbs-red" style="margin-right: 10px;"><i class="fa fa-plus icon-left"></i>New</a>
-        <a class="btn sbs-red" style="margin-right: 10px;"><i class="fa fa-download icon-left"></i>Download All</a>
-        <a class="btn sbs-red download-contact-search" style="margin-right: 10px;"><i class="fa fa-download icon-left"></i>Download Search</a>
+        @can ('create-contact')
+            <a class="btn sbs-red" href="/admin/contact/download" style="margin-right: 10px;"><i class="fa fa-download icon-left"></i>Download All</a>
+            <a class="btn sbs-red" id="download-search-contacts" style="margin-right: 10px;"><i class="fa fa-download icon-left"></i>Download Search</a>
+        @endcan
         <span style="text-transform: uppercase; flex: 1 0 auto; text-align: center; vertical-align: bottom; display: inline-block; height: 36px; border-radius: 2px; background: #EFEFEF; line-height: 36px; padding: 0 2rem;"><b>{{ $count }}</b> contacts</span>
     </div>
 </div>
