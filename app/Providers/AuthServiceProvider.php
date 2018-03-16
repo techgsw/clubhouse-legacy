@@ -118,12 +118,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('tag_create');
         });
 
-        // Blog
-        Gate::define('create-session', function ($user) {
-            return $user->hasAccess('session_create');
+        // Archive sessions (session post type) 
+        Gate::define('create-post-session', function ($user) {
+            return $user->hasAccess('post_session_create');
         });
-        Gate::define('edit-session', function ($user, $session) {
-            return $user->id == $session->user_id || $user->hasAccess('session_edit');
+        Gate::define('edit-post-session', function ($user, $session) {
+            return $user->id == $session->user_id || $user->hasAccess('post_session_edit');
         });
 
         // Notes

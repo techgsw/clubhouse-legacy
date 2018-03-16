@@ -32,7 +32,7 @@ class ArchivesController extends Controller
      */
     public function create()
     {
-        $this->authorize('create-archive');
+        $this->authorize('create-post-session');
 
         return view('archive/create', [
             'breadcrumb' => [

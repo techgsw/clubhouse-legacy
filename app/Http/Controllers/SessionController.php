@@ -24,7 +24,7 @@ class SessionController extends Controller
      */
     public function create()
     {
-        $this->authorize('create-session');
+        $this->authorize('create-post-session');
 
         return view('session/create', [
             'breadcrumb' => [
@@ -41,7 +41,7 @@ class SessionController extends Controller
      */
     public function store(StoreSession $request)
     {
-        $this->authorize('create-session');
+        $this->authorize('create-post-session');
 
         try {
             $session = DB::transaction(function () {
