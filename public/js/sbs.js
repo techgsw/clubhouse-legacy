@@ -634,6 +634,21 @@ $.valHooks.textarea = {
     );
     // end Notes
 
+    // Contact
+    $('body').on(
+        {
+            click: function () {
+                var form = $('form#admin-contact-search');
+                if (form.length == 0) {
+                    return;
+                }
+                location.href = '/admin/contact/download?' + form.serialize();
+            }
+        },
+        '#download-search-contacts'
+    );
+    // end Contact
+
     $('body').on(
         {
             change: function (e, ui) {
