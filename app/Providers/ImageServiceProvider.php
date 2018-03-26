@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\UploadedFile;
 
@@ -337,6 +338,7 @@ class ImageServiceProvider extends ServiceProvider
     }
 
     public function save($name,$quality=100) {
+        // TODO #63 Storage::disk('s3')->put(...);
         $this->show($quality,$name);
     }
 

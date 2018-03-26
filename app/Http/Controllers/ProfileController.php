@@ -316,6 +316,9 @@ class ProfileController extends Controller
             $headshot = request()->file('headshot_url');
 
             if ($headshot) {
+                // TODO #63
+                Storage::disk('s3')->put("headshot".$profile->id, $headshot);
+
                 $storage_path = storage_path().'/app/public/headshot/'.$user->id.'/';
                 $filename = $user->first_name.'-'.$user->last_name.'-Sports-Business-Solutions.'.strtolower($headshot->getClientOriginalExtension());
 
