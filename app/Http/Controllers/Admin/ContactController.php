@@ -32,7 +32,7 @@ class ContactController extends Controller
      */
     public function download(Request $request)
     {
-        $this->authorize('create-contact');
+        $this->authorize('view-contact');
         $contacts = Contact::search($request);
         $contacts = $contacts->get();
 
@@ -42,12 +42,17 @@ class ContactController extends Controller
                 "warning",
                 $code = null,
                 $icon = "account_circle"
-            )); 
-            return redirect()->action('Admin\ContactController@index');
+            ));
+            return redirect()->back();
         }
 
-        $column_titles = array_keys($contacts[0]->getAttributes());
-        $filename = Auth::user()->first_name ."_contacts.csv";
+        $now = new \DateTime("NOW");
+        $column_titles = [
+            'first_name',
+            'last_name',
+            'email'
+        ];
+        $filename = "contacts-".$now->format("Y-m-d").".csv";
 
         $headers = array(
             'Content-Type' => 'application/octet-stream',
@@ -57,26 +62,10 @@ class ContactController extends Controller
         return new StreamedResponse(function() use($contacts, $column_titles){
             $handle = fopen('php://output', 'w');
             fputcsv($handle, $column_titles);
-            foreach($contacts as $contact) {
+            foreach ($contacts as $contact) {
                 $row = array();
-                foreach($contact->getAttributes() as $attribute => $value) {
-                    switch ($attribute) {
-                        case 'resume_url':
-                            if (is_null($value)) {
-                                $value = 'No';
-                            } else {
-                                $value = 'Yes';
-                            }
-                            break;
-                        case 'user_id':
-                            if (is_null($value)) {
-                                $value = 'No';
-                            } else {
-                                $value = 'Yes';
-                            }
-                            break;
-                    }
-                    $row[] = $value;
+                foreach($column_titles as $attribute) {
+                    $row[] = $contact->$attribute;
                 }
                 fputcsv($handle, $row);
             }

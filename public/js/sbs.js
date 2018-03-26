@@ -638,12 +638,11 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function () {
-                console.log("HERE");
                 var form = $('form#admin-contact-search');
                 if (form.length == 0) {
                     return;
                 }
-                location.href = '/admin/contact/download/?' + form.serialize();
+                location.href = '/admin/contact/download?' + form.serialize();
             }
         },
         '#download-search-contacts'
