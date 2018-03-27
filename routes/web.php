@@ -15,26 +15,29 @@ Route::get('/about', function () {
 Route::get('/bob-hamer', function () {
     return view('bob-hamer');
 });
-Route::get('/blog', function () {
-    return redirect('https://blog.sportsbusiness.solutions/');
-});
-Route::get('/career-services', function () {
-    return view('career-services');
-});
 Route::get('/jason-stein', function () {
     return view('jason-stein');
 });
 Route::get('/josh-belkoff', function () {
     return view('josh-belkoff');
 });
+Route::get('/mike-rudner', function () {
+    return view('mike-rudner');
+});
+Route::get('/adam-vogel', function () {
+    return view('adam-vogel');
+});
+Route::get('/blog', function () {
+    return redirect('https://blog.sportsbusiness.solutions/');
+});
+Route::get('/career-services', function () {
+    return view('career-services');
+});
 Route::get('/gallery', function () {
     return view('gallery');
 });
 Route::get('/gallery-2', function () {
     return redirect('gallery');
-});
-Route::get('/mike-rudner', function () {
-    return view('mike-rudner');
 });
 Route::get('/network', function () {
     return view('network');

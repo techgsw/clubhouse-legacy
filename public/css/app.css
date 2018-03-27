@@ -735,6 +735,34 @@ hr {
     flex: 0 0 auto;
 }
 
+.about-cards {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    text-align: center;
+}
+.about-cards .about-card {
+    flex: 1 0 auto;
+}
+@media only screen and (max-width: 992px) and (min-width: 600px) {
+    .about-cards {
+        flex-wrap: wrap;
+    }
+    .about-cards .about-card {
+        flex: 0 0 auto;
+        width: 140px;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .about-cards {
+        flex-wrap: wrap;
+    }
+    .about-cards .about-card {
+        flex: 0 0 auto;
+        width: 110px;
+    }
+}
+
 /**
  * Forms
  */
