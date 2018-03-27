@@ -29,29 +29,37 @@
         <div class="col s12">
             <h3 class="center-align">Meet the team</h3>
         </div>
-        <div class="col s12 m3 center-align">
-            <a href="/bob-hamer" class="no-underline">
-                <img src="/images/about/bob.png" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
-            </a>
-        </div>
-        <div class="col s12 m3 center-align">
-            <a href="/mike-rudner" class="no-underline">
-                <img src="/images/about/mike.png" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Mike Rudner<span class="about-position">Vice President,<br/>Business Operations</span></h5>
-            </a>
-        </div>
-        <div class="col s12 m3 center-align">
-            <a href="/jason-stein" class="no-underline">
-                <img src="/images/about/jason.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Jason Stein<span class="about-position">Vice President,<br/>Recruiting &amp; Development</span></h5>
-            </a>
-        </div>
-        <div class="col s12 m3 center-align">
-            <a href="/josh-belkoff" class="no-underline">
-                <img src="/images/about/josh.jpg" alt="" style="width: 80%; max-width: 200px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Recruiting &amp; Development</span></h5>
-            </a>
+        <div class="about-cards col s12">
+            <div class="about-card">
+                <a href="/bob-hamer" class="no-underline">
+                    <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
+                </a>
+            </div>
+            <div class="about-card">
+                <a href="/mike-rudner" class="no-underline">
+                    <img src="/images/about/mike.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Mike Rudner<span class="about-position">Vice President,<br/>Business Operations</span></h5>
+                </a>
+            </div>
+            <div class="about-card">
+                <a href="/jason-stein" class="no-underline">
+                    <img src="/images/about/jason.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Jason Stein<span class="about-position">Vice President,<br/>Recruiting &amp; Development</span></h5>
+                </a>
+            </div>
+            <div class="about-card">
+                <a href="/josh-belkoff" class="no-underline">
+                    <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Recruiting &amp; Development</span></h5>
+                </a>
+            </div>
+            <div class="about-card">
+                <a href="/adam-vogel" class="no-underline">
+                    <img src="/images/about/adam.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Adam Vogel<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
+                </a>
+            </div>
         </div>
     </div>
     <div class="row" style="padding: 20px 0 10px 0;">
