@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProfile;
 use App\Http\Requests\UpdateProfile;
+use App\Image;
 use App\Message;
 use App\Note;
 use App\Profile;
@@ -317,7 +318,18 @@ class ProfileController extends Controller
 
             if ($headshot) {
                 // TODO #63
-                Storage::disk('s3')->put("headshot".$profile->id, $headshot);
+                Storage::disk('s3')->putFileAs("headshots", $headshot, $user->id);
+
+                $ext = strtolower($headshot->getClientOriginalExtension());
+                $filename = $user->id.".".$ext;
+                $path = $headshot->storeAs('headshot/original', $filename, 'public');
+
+                $image = new Image(storage_path().'/app/public/'.$path);
+                $image->cropFromCenter(2000)->saveAs('headshot/full', $filename);
+                $image->resize(1000, 1000)->saveAs('headshot/large', $filename);
+                $image->resize(500, 500)->saveAs('headshot/medium', $filename);
+                $image->resize(250, 250)->saveAs('headshot/small', $filename);
+                dd("Success");
 
                 $storage_path = storage_path().'/app/public/headshot/'.$user->id.'/';
                 $filename = $user->first_name.'-'.$user->last_name.'-Sports-Business-Solutions.'.strtolower($headshot->getClientOriginalExtension());
