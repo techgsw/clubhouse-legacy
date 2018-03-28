@@ -2,41 +2,42 @@
 
 namespace App;
 
+use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class Image
 {
     private $dimensions;
-    private $file_name;
+    private $path;
     private $format;
     private $resource;
 
-    public function __construct($file_name)
+    public function __construct($path)
     {
         if (!function_exists("gd_info")) {
             throw new \Exception("GD Library is required.");
         }
 
         $this->dimensions = array();
-        $this->file_name = $file_name;
+        $this->path = storage_path('app/public/'.$path);
 
         // File must exist
-        if (!file_exists($this->file_name)) {
-            throw new \Exception("File ".$this->file_name." does not exist");
+        if (!file_exists($this->path)) {
+            throw new \Exception("File ".$this->path." does not exist");
         }
 
         // File must be readable
-        if (!is_readable($this->file_name)) {
-            throw new \Exception("File ".$this->file_name." is not readable");
+        if (!is_readable($this->path)) {
+            throw new \Exception("File ".$this->path." is not readable");
         }
 
         // Determine format
-        if (stristr(strtolower($this->file_name),'.gif')) {
+        if (stristr(strtolower($this->path),'.gif')) {
             $this->format = 'GIF';
-        } elseif (stristr(strtolower($this->file_name),'.jpg') || stristr(strtolower($this->file_name),'.jpeg')) {
+        } elseif (stristr(strtolower($this->path),'.jpg') || stristr(strtolower($this->path),'.jpeg')) {
             $this->format = 'JPG';
-        } elseif (stristr(strtolower($this->file_name),'.png')) {
+        } elseif (stristr(strtolower($this->path),'.png')) {
             $this->format = 'PNG';
         } else {
             throw new \Exception("Image: unknown file format. Must be GIF, JPEG, or PNG.");
@@ -45,17 +46,17 @@ class Image
         // initialize resources if no errors
         switch ($this->format) {
             case 'GIF':
-                $this->resource = imagecreatefromgif($this->file_name);
+                $this->resource = imagecreatefromgif($this->path);
                 break;
             case 'JPG':
-                $this->resource = imagecreatefromjpeg($this->file_name);
+                $this->resource = imagecreatefromjpeg($this->path);
                 break;
             case 'PNG':
-                $this->resource = imagecreatefromjpeg($this->file_name);
+                $this->resource = imagecreatefrompng($this->path);
                 break;
         }
 
-        $size = getimagesize($this->file_name);
+        $size = getimagesize($this->path);
         $this->dimensions = [
             'width' => $size[0],
             'height' => $size[1]
@@ -84,9 +85,24 @@ class Image
         return $this->resource;
     }
 
-    public function saveAs($bucket, $name)
+    public function saveAs($dir, $name)
     {
-        Storage::disk('s3')->putFileAs($bucket, $this->resource, $name);
+        // TODO strip leading and trailing / form $dir
+        $path = storage_path('app/public/'.$dir.'/'.$name);
+        switch($this->format) {
+            case 'GIF':
+                imagegif($this->resource, $path);
+                break;
+            case 'JPG':
+                imagejpeg($this->resource, $path);
+                break;
+            case 'PNG':
+                imagepng($this->resource, $path);
+                break;
+        }
+        Storage::disk('s3')->putFileAs($dir, new File($path), $name);
+
+        return $dir.'/'.$name;
     }
 
     public function crop($startX, $startY, $width, $height)

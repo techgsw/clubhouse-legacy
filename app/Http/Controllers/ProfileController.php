@@ -9,13 +9,13 @@ use App\Message;
 use App\Note;
 use App\Profile;
 use App\User;
-use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use League\Flysystem\Filesystem;
 use \Exception;
 
 class ProfileController extends Controller
@@ -314,51 +314,39 @@ class ProfileController extends Controller
         $image_error = false;
 
         try {
-            $headshot = request()->file('headshot_url');
-
-            if ($headshot) {
-                // TODO #63
-                Storage::disk('s3')->putFileAs("headshots", $headshot, $user->id);
-
+            if ($headshot = request()->file('headshot_url')) {
                 $ext = strtolower($headshot->getClientOriginalExtension());
-                $filename = $user->id.".".$ext;
-                $path = $headshot->storeAs('headshot/original', $filename, 'public');
+                $dir = 'headshot/'.$user->id;
+                $filename = $user->first_name.'-'.$user->last_name.'-SportsBusinessSolutions.'.$ext;
 
-                $image = new Image(storage_path().'/app/public/'.$path);
-                $image->cropFromCenter(2000)->saveAs('headshot/full', $filename);
-                $image->resize(1000, 1000)->saveAs('headshot/large', $filename);
-                $image->resize(500, 500)->saveAs('headshot/medium', $filename);
-                $image->resize(250, 250)->saveAs('headshot/small', $filename);
-                dd("Success");
+                // Store the original locally on disk
+                $path = $headshot->storeAs('headshot/temp', $filename, 'public');
 
-                $storage_path = storage_path().'/app/public/headshot/'.$user->id.'/';
-                $filename = $user->first_name.'-'.$user->last_name.'-Sports-Business-Solutions.'.strtolower($headshot->getClientOriginalExtension());
+                // Clear user's S3 images
+                $success = Storage::disk('s3')->deleteDirectory($dir);
 
-                $image_relative_path = $headshot->storeAs('headshot/'.$user->id, 'original-'.$filename, 'public');
+                // Create variations, save locally, and upload to S3
+                // Full: 2000 x 2000, cropped square from center
+                $full = new Image($path);
+                $headshot_url = $full->cropFromCenter(2000)->saveAs($dir, 'full-'.$filename);
+                // Large: 1000 x 1000
+                $large = clone $full;
+                $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+                // Medium: 500 x 500
+                $medium = clone $full;
+                $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+                // Small: 250 x 250
+                $small = clone $full;
+                $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
 
-                $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $main_image->cropFromCenter(2000);
-                $main_image->save($storage_path.'/main-'.$filename);
-
-                $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                $large_image->resize(1000, 1000);
-                $large_image->save($storage_path.'/large-'.$filename);
-
-                $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                $medium_image->resize(500, 500);
-                $medium_image->save($storage_path.'/medium-'.$filename);
-
-                $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                $small_image->resize(250, 250);
-                $small_image->save($storage_path.'/small-'.$filename);
-
-                $profile_image = str_replace('original', 'medium', $image_relative_path);
+                // Delete local temp image
+                Storage::delete('public/headshot/temp/'.$filename);
             } else {
-                $profile_image = null;
+                $headshot_url = null;
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $profile_image = null;
+            $headshot_url = null;
             $image_error = true;
         }
 
@@ -376,7 +364,7 @@ class ProfileController extends Controller
         $profile->phone = request('phone')
             ? preg_replace("/[^\d]/", "", request('phone'))
             : null;
-        $profile->headshot_url = $profile_image ?: $profile->headshot_url;
+        $profile->headshot_url = $headshot_url ?: $profile->headshot_url;
         $profile->resume_url = $r ?: $profile->resume_url;
         // Personal Information
         $birthday = new \DateTime(request('date_of_birth'));
