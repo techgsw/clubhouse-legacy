@@ -50,7 +50,9 @@ class ContactController extends Controller
         $column_titles = [
             'first_name',
             'last_name',
-            'email'
+            'email',
+            'title',
+            'organization'
         ];
         $filename = "contacts-".$now->format("Y-m-d").".csv";
 
