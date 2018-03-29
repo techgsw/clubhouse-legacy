@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\Inquiry;
 use App\Job;
 use App\Message;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
-use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -148,42 +148,36 @@ class JobController extends Controller
         ]);
 
         try {
-            $image = request()->file('image_url');
-            if ($image) {
-                $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
-                $filename = preg_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+            if ($image = request()->file('image_url')) {
+                $dir = 'job/'.$job->id;
+                $ext = strtolower($image->getClientOriginalExtension());
+                $filename = preg_replace('/\s/', '-', $job->organization).'-SportsBusinessSolutions.'.$ext;
 
-                $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
+                // Store the original locally on disk
+                $path = $image->storeAs('job/temp', $filename, 'public');
 
-                $large_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $large_image->resize(1000, 1000);
-                $large_image->save($storage_path.'/large-'.$filename);
+                // Create variations, save locally, and upload to S3
+                // Full: 2000 x 2000, cropped square from center
+                $full = new Image($path);
+                $image_url = $full->saveAs($dir, 'full-'.$filename);
+                // Large: 1000 x 1000
+                $large = clone $full;
+                $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+                // Medium: 500 x 500
+                $medium = clone $full;
+                $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+                // Small: 250 x 250
+                $small = clone $full;
+                $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+                // Share: 1000 x 520, padded from 500 x 500, with white background
+                $share = clone $medium;
+                $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
-                $medium_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $medium_image->resize(500, 500);
-                $medium_image->save($storage_path.'/medium-'.$filename);
-
-                $small_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $small_image->resize(250, 250);
-                $small_image->save($storage_path.'/small-'.$filename);
-
-                $width = $medium_image->getCurrentWidth();
-                $height = $medium_image->getCurrentHeight();
-                $dest_x = (1000-$width)/2;
-                $dest_y = (520-$height)/2;
-
-                $background_fill_image = imagecreatetruecolor(1000, 520);
-                $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                imagefill($background_fill_image, 0, 0, $white_color);
-                imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
-
-                $job_image = str_replace('original', 'medium', $image_relative_path);
-
-                $job->image_url = $job_image;
+                $job->image_url = $image_url;
                 $job->save();
 
-                Storage::delete($job_image);
+                // Delete local temp image
+                Storage::delete('public/job/temp/'.$filename);
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
@@ -484,47 +478,48 @@ class JobController extends Controller
             $job->document = $doc->store('document', 'public');
         }
         try {
-            $image = request()->file('image_url');
-            if ($image) {
-                $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
-                $filename = preg_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+            if ($image = request()->file('image_url')) {
+                $dir = 'job/'.$job->id;
+                $ext = strtolower($image->getClientOriginalExtension());
+                $filename = preg_replace('/\s/', '-', $job->organization).'-SportsBusinessSolutions.'.$ext;
 
-                $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
+                // Store the original locally on disk
+                $path = $image->storeAs('job/temp', $filename, 'public');
 
-                $large_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $large_image->resize(1000, 1000);
-                $large_image->save($storage_path.'/large-'.$filename);
+                // Create variations, save locally, and upload to S3
+                // Full: original image
+                $full = new Image($path);
+                $image_url = $full->saveAs($dir, 'full-'.$filename);
+                // Large: 1000 x 1000
+                $large = clone $full;
+                $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+                // Medium: 500 x 500
+                $medium = clone $full;
+                $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+                // Small: 250 x 250
+                $small = clone $full;
+                $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+                // Share: 1000 x 520, padded from 500 x 500, with white background
+                $share = clone $medium;
+                $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
-                $medium_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $medium_image->resize(500, 500);
-                $medium_image->save($storage_path.'/medium-'.$filename);
-
-                $small_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $small_image->resize(250, 250);
-                $small_image->save($storage_path.'/small-'.$filename);
-
-                $width = $medium_image->getCurrentWidth();
-                $height = $medium_image->getCurrentHeight();
-                $dest_x = (1000-$width)/2;
-                $dest_y = (520-$height)/2;
-
-                $background_fill_image = imagecreatetruecolor(1000, 520);
-                $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                imagefill($background_fill_image, 0, 0, $white_color);
-                imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
-
-                $job_image = str_replace('original', 'medium', $image_relative_path);
-
-                $job->image_url = $job_image;
+                $job->image_url = $image_url;
                 $job->save();
 
-                Storage::delete($job_image);
+                // Delete local temp image
+                Storage::delete('public/job/temp/'.$filename);
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            // TODO redirect with errors
-            return redirect()->action('JobController@create');
+            // TODO remove!
+            dd($e->getMessage());
+            $request->session()->flash('message', new Message(
+                "Sorry, the image failed to upload. Please try a different image.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return redirect()->back();
         }
         $job->edited_at = new \DateTime('NOW');
         $job->save();

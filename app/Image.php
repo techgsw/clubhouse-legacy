@@ -101,6 +101,8 @@ class Image
                 break;
         }
 
+        Storage::disk('s3')->putFileAs($dir, new File($path), $name);
+
         return $dir.'/'.$name;
     }
 
@@ -196,7 +198,46 @@ class Image
         return $this;
     }
 
-    public function resize($width, $height)
+    public function padTo($width, $height, array $color=null)
+    {
+        $width = $width ?: $this->getWidth();
+        $height = $height ?: $this->getHeight();
+        if ($width == $this->getWidth() && $height == $this->getHeight()) {
+            return $this;
+        }
+
+        // dump("PAD {$this->getWidth()}x{$this->getHeight()} to {$width}x{$height}");
+
+        if ($width < $this->getWidth()) {
+            throw new \Exception("Image.padTo given width must exceed or equal current width");
+        }
+
+        if ($height < $this->getHeight()) {
+            throw new \Exception("Image.padTo given height must exceed or equal current height");
+        }
+
+        if (is_null($color) || count($color) != 3) {
+            // White by default
+            $color = [255, 255, 255];
+        }
+
+        $resource = imagecreatetruecolor($width, $height);
+        $background_color = imagecolorallocate($resource, ...$color);
+
+        $dest_x = (int)($width-$this->getWidth())/2;
+        $dest_y = (int)($height-$this->getHeight())/2;
+        imagefill($resource, 0, 0, $background_color);
+        imagecopy($resource, $this->resource, $dest_x, $dest_y, 0, 0, $this->dimensions['width'], $this->dimensions['height']);
+
+        $this->resource = $resource;
+        $this->dimensions['width'] = $width;
+        $this->dimensions['height'] = $height;
+
+        return $this;
+    }
+
+    // 1200x1000->resize(150, 100)
+    public function resize($width, $height, $maintain_aspect_ratio=true)
     {
         if (!$width && !$height) {
             throw new \Exception("Image.resize requires at least a width or a height");
@@ -204,12 +245,36 @@ class Image
 
         if (!$width) {
             // Automatically set width to maintain aspect ratio
-            $width = $this->dimensions['width'] * ($height / $this->dimensions['height']);
+            $width = (int)$this->dimensions['width']*($height/$this->dimensions['height']);
         }
 
         if (!$height) {
             // Automatically set height to maintain aspect ratio
-            $height = $this->dimensions['height'] * ($width / $this->dimensions['width']);
+            $height = (int)$this->dimensions['height']*($width/$this->dimensions['width']);
+        }
+
+        // dump("RESIZE {$this->getWidth()}x{$this->getHeight()} to {$width}x{$height}");
+
+        // 120 != 1000*(100/1000)
+        $match_aspect_ratio = ($height == (int)($this->dimensions['height']*($width/$this->dimensions['width'])));
+        dump($match_aspect_ratio);
+        if ($maintain_aspect_ratio && !$match_aspect_ratio) {
+            $height_ratio = $height/$this->dimensions['height'];
+            $width_ratio = $width/$this->dimensions['width'];
+            if ($height_ratio > $width_ratio) {
+                // Need horizontal bars to pad height
+                $w = $this->dimensions['width'];
+                $h = $height * ($this->dimensions['width']/$width);
+                // dump("PAD HEIGHT TO {$w}x{$h}");
+            } else {
+                // Need vertical bars to pad width
+                $w = $width * ($this->dimensions['height']/$height);
+                $h = $this->dimensions['height'];
+                // dump("PAD WIDTH TO {$w}x{$h}");
+            }
+
+            // Pad with white to maintain aspect ratio
+            $this->padTo($w, $h);
         }
 
         if (function_exists("imagecreatetruecolor")) {

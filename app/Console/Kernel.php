@@ -33,6 +33,10 @@ class Kernel extends ConsoleKernel
             $date->sub(new \DateInterval('P2D'));
             EmailServiceProvider::sendNewUserFollowUpEmails($date);
         })->dailyAt('08:00');
+
+        // $schedule->call(function () {
+        //     ImageServiceProvider::migrateToS3();
+        // })->everyMinute();
     }
 
     /**
