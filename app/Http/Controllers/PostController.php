@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\Post;
 use App\PostImage;
 use App\Message;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
-use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -58,40 +58,30 @@ class PostController extends Controller
                     'body' => request('body')
                 ]);
 
-                $image = request()->file('image_url');
+                if ($image = request()->file('image_url')) {
+                    $dir = 'post/'.$post->id;
+                    $ext = strtolower($image->getClientOriginalExtension());
+                    $filename = preg_replace('/\s/', '-', $post->title_url).'-SportsBusinessSolutions.'.$ext;
 
-                if ($image) {
-                    $storage_path = storage_path().'/app/public/post/'.$post->id.'/';
-                    $filename = $post->title_url.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+                    // Store the original locally on disk
+                    $path = $image->storeAs('post/temp', $filename, 'public');
 
-                    $image_relative_path = $image->storeAs('post/'.$post->id, 'original-'.$filename, 'public');
-
-                    $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                    $main_image->cropFromCenter(2000);
-                    $main_image->save($storage_path.'/main-'.$filename);
-
-                    $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $large_image->resize(1000, 1000);
-                    $large_image->save($storage_path.'/large-'.$filename);
-
-                    $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $medium_image->resize(500, 500);
-                    $medium_image->save($storage_path.'/medium-'.$filename);
-
-                    $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $small_image->resize(250, 250);
-                    $small_image->save($storage_path.'/small-'.$filename);
-
-                    $width = $medium_image->getCurrentWidth();
-                    $height = $medium_image->getCurrentHeight();
-                    $dest_x = (1000-$width)/2;
-                    $dest_y = (520-$height)/2;
-
-                    $background_fill_image = imagecreatetruecolor(1000, 520);
-                    $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                    imagefill($background_fill_image, 0, 0, $white_color);
-                    imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                    imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
+                    // Create variations, save locally, and upload to S3
+                    // Full: original image
+                    $full = new Image($path);
+                    $image_url = $full->saveAs($dir, 'full-'.$filename);
+                    // Large: 1000 x 1000
+                    $large = clone $full;
+                    $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+                    // Medium: 500 x 500
+                    $medium = clone $full;
+                    $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+                    // Small: 250 x 250
+                    $small = clone $full;
+                    $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+                    // Share: 1000 x 520, padded from 500 x 500, with white background
+                    $share = clone $medium;
+                    $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
                     $post_image = new PostImage();
                     $post_image->post_id = $post->id;
@@ -180,42 +170,32 @@ class PostController extends Controller
                 $post->body = request('body');
                 $post->save();
 
-                $image = request()->file('image_url');
+                if ($image = request()->file('image_url')) {
+                    $dir = 'post/'.$post->id;
+                    $ext = strtolower($image->getClientOriginalExtension());
+                    $filename = preg_replace('/\s/', '-', $post->title_url).'-SportsBusinessSolutions.'.$ext;
 
-                if ($image) {
-                    $storage_path = storage_path().'/app/public/post/'.$post->id.'/';
-                    $filename = $post->title_url.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+                    // Store the original locally on disk
+                    $path = $image->storeAs('post/temp', $filename, 'public');
 
-                    $image_relative_path = $image->storeAs('post/'.$post->id, 'original-'.$filename, 'public');
+                    // Create variations, save locally, and upload to S3
+                    // Full: original image
+                    $full = new Image($path);
+                    $image_url = $full->saveAs($dir, 'full-'.$filename);
+                    // Large: 1000 x 1000
+                    $large = clone $full;
+                    $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+                    // Medium: 500 x 500
+                    $medium = clone $full;
+                    $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+                    // Small: 250 x 250
+                    $small = clone $full;
+                    $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+                    // Share: 1000 x 520, padded from 500 x 500, with white background
+                    $share = clone $medium;
+                    $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
-                    $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                    $main_image->cropFromCenter(2000);
-                    $main_image->save($storage_path.'/main-'.$filename);
-
-                    $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $large_image->resize(1000, 1000);
-                    $large_image->save($storage_path.'/large-'.$filename);
-
-                    $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $medium_image->resize(500, 500);
-                    $medium_image->save($storage_path.'/medium-'.$filename);
-
-                    $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $small_image->resize(250, 250);
-                    $small_image->save($storage_path.'/small-'.$filename);
-
-                    $width = $medium_image->getCurrentWidth();
-                    $height = $medium_image->getCurrentHeight();
-                    $dest_x = (1000-$width)/2;
-                    $dest_y = (520-$height)/2;
-
-                    $background_fill_image = imagecreatetruecolor(1000, 520);
-                    $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                    imagefill($background_fill_image, 0, 0, $white_color);
-                    imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                    imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
-
-                    $post_image = $post->images[0];
+                    $post_image = count($post->images) > 0 ? $post->images[0] : new PostImage();
                     $post_image->post_id = $post->id;
                     $post_image->filename = $filename;
                     $post_image->image_order = 1;

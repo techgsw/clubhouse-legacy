@@ -255,9 +255,7 @@ class Image
 
         // dump("RESIZE {$this->getWidth()}x{$this->getHeight()} to {$width}x{$height}");
 
-        // 120 != 1000*(100/1000)
         $match_aspect_ratio = ($height == (int)($this->dimensions['height']*($width/$this->dimensions['width'])));
-        dump($match_aspect_ratio);
         if ($maintain_aspect_ratio && !$match_aspect_ratio) {
             $height_ratio = $height/$this->dimensions['height'];
             $width_ratio = $width/$this->dimensions['width'];

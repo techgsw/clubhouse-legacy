@@ -511,8 +511,6 @@ class JobController extends Controller
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            // TODO remove!
-            dd($e->getMessage());
             $request->session()->flash('message', new Message(
                 "Sorry, the image failed to upload. Please try a different image.",
                 "danger",

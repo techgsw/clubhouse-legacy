@@ -64,7 +64,7 @@ class Post extends Model
         return "/blog/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->title)));
     }
 
-    public function getImagePath(PostImage $image = null, $size = 'medium')
+    public function getImagePath(PostImage $image=null, $size='medium')
     {
         if (is_null($image)) {
             return null;

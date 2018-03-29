@@ -7,7 +7,6 @@ use App\Post;
 use App\PostImage;
 use App\Http\Requests\StoreSession;
 use App\Http\Requests\UpdateSession;
-use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -74,10 +73,40 @@ class SessionController extends Controller
                 ]);
 
                 $image_list = request('image_list');
-
                 if (is_array($image_list)) {
                     foreach ($image_list as $index => $image) {
                         if ($image) {
+
+                            // TODO Re-do refactor
+                            // if ($image = request()->file('image_url')) {
+                            //     $dir = 'session/'.$session->id;
+                            //     $ext = strtolower($image->getClientOriginalExtension());
+                            //     $filename = $session->id.'-SportsBusinessSolutions.'.$ext;
+                            //
+                            //     // Store the original locally on disk
+                            //     $path = $image->storeAs('session/temp', $filename, 'public');
+                            //
+                            //     // Create variations, save locally, and upload to S3
+                            //     // Full: original image
+                            //     $full = new Image($path);
+                            //     $image_url = $full->saveAs($dir, 'full-'.$filename);
+                            //     // Large: 1000 x 1000
+                            //     $large = clone $full;
+                            //     $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+                            //     // Medium: 500 x 500
+                            //     $medium = clone $full;
+                            //     $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+                            //     // Small: 250 x 250
+                            //     $small = clone $full;
+                            //     $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+                            //     // Share: 1000 x 520, padded from 500 x 500, with white background
+                            //     $share = clone $medium;
+                            //     $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
+                            //
+                            //     $session->image_url =  $image_url;
+                            //     $session->save();
+                            // }
+
                             $storage_path = storage_path().'/app/public/post/'.$post->id.'/';
                             $filename = $index.time().'-'.$title_url.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
 
