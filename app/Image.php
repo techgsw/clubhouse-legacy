@@ -87,7 +87,7 @@ class Image
 
     public function saveAs($dir, $name)
     {
-        // TODO strip leading and trailing / form $dir
+        $dir = trim($dir, "/");
         $path = storage_path('app/public/'.$dir.'/'.$name);
         switch($this->format) {
             case 'GIF':
@@ -100,7 +100,6 @@ class Image
                 imagepng($this->resource, $path);
                 break;
         }
-        Storage::disk('s3')->putFileAs($dir, new File($path), $name);
 
         return $dir.'/'.$name;
     }
