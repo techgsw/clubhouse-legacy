@@ -27,6 +27,29 @@ $.valHooks.textarea = {
     var ContactRelationship = {
         map: {}
     };
+    var UI = {};
+
+    UI.displayMessage = function(message, type) {
+        var message_template = $('.message-template').clone();
+        $(message_template).find('.message-text').html(message);
+        switch (type) {
+            case 'success':
+                $(message_template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                break;
+            case 'warning':
+                $(message_template).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
+                break;
+            case 'danger':
+                $(message_template).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
+                break;
+            default:
+                break;
+        }
+        $(message_template).removeClass('hidden');
+        $('main div.container').first().prepend(message_template);
+
+        setTimeout(function() { $(message_template).remove(); }, 3000);
+    }
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -871,6 +894,10 @@ $.valHooks.textarea = {
         }
     });
 
+    SBS.UI = {};
+
+    SBS.UI.displayMessage = UI.displayMessage;
+
     SBS.init = function () {
         Blog.init();
         Instagram.init();
@@ -932,7 +959,8 @@ $(document).ready(function () {
         closeOnSelect: true
     });
     // Dropzone
-    $('.dropzone').dropzone({
+    //$('.dropzone').dropzone({
+    Dropzone.options.sessionCreateDropzone = {
         acceptedFiles: "image/jpeg, image/jpg",
         uploadMultiple: true,
         parallelUploads: 20,
@@ -943,8 +971,79 @@ $(document).ready(function () {
         thumbnailHeight: 180,
         previewsContainer: '#dropzone-previews div',
         clickable: ".dropzone-clickable",
-        dictDefaultMessage: ""
-    });
+        dictDefaultMessage: "",
+        init: function() {
+            var thedrop = this, i, files_copy, order, index, count;
+            // First change the button to actually tell Dropzone to process the queue.
+            this.element.querySelector("input[type=submit]").addEventListener("click", function(e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+
+                var file;
+
+                // Provide warning if no images have been uploaded
+                if (thedrop.files.length == 0) {
+                    console.log('You must upload images to submit a product.');
+                }
+
+                //Update the order before processing the queue.
+                files_copy = thedrop.files.slice(0, thedrop.files.length);
+                order = $('#dropzone-previews .dz-preview-flex-container').sortable('toArray');
+                for (i = 0; i < files_copy.length; i += 1) {
+                    file = files_copy[(order[i]-1)];
+                    if (file.type != 'image/jpeg') {
+                        console.log('Images must be JPEGs.');
+                        return;
+                    }
+                    thedrop.files[i] = file;
+                }
+                thedrop.processQueue();
+            });
+            this.on("addedfile", function(file) {
+                $(file.previewElement).attr('id', this.files.length);
+                $("#dropzone-previews .dz-preview-flex-container").sortable({
+                    items:'.dz-preview',
+                    cursor: 'move',
+                    opacity: 0.5,
+                    containment: '#dropzone-previews .dz-preview-flex-container',
+                    distance: 20,
+                    tolerance: 'pointer'
+                });
+            });
+            this.on("sendingmultiple", function() {
+                $('form input[type="submit"]').hide();
+                $('.dz-image').hide();
+                $('.dz-remove').hide();
+                $('.dz-preview').append($('.progress-gif').clone().removeClass('hidden'));
+            });
+            this.on("successmultiple", function(files, response) {
+                $('.dz-preview .progress-gif').remove();
+                $('.dz-image').show();
+
+                if (response.code == 500) {
+                    SBS.UI.displayMessage(response.message, response.type);
+                    return false;
+                }
+
+                window.location = response.url;
+            });
+            this.on("errormultiple", function(files, response) {
+                    SBS.UI.displayMessage(response.message, response.type);
+            });
+        }
+    };
+    //Image Sortable
+    if ($('#dropzone-previews .dz-preview-flex-container') && $('.dz-preview').length > 0) {
+        $("#dropzone-previews .dz-preview-flex-container").sortable({
+            items:'.dz-preview',
+            cursor: 'move',
+            opacity: 0.5,
+            containment: '#dropzone-previews .dz-preview-flex-container',
+            distance: 20,
+            tolerance: 'pointer'
+        });
+    }
     // Initialize
     SBS.init();
 });

@@ -122,8 +122,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-post-session', function ($user) {
             return $user->hasAccess('post_session_create');
         });
-        Gate::define('edit-post-session', function ($user, $session) {
-            return $user->id == $session->user_id || $user->hasAccess('post_session_edit');
+        Gate::define('edit-post-session', function ($user, $post) {
+            return $user->id == $post->user_id || $user->hasAccess('post_session_edit');
         });
 
         // Notes

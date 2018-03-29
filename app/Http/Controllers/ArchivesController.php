@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\Post;
 use App\Session;
 use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class ArchivesController extends Controller
      */
     public function index(Request $request)
     {
-        $sessions = Session::orderby('id', 'desc')->paginate(60);
+        //$sessions = Session::orderby('id', 'desc')->paginate(60);
+        $sessions = Post::where('post_type_code', 'session')->orderby('id', 'desc')->paginate(60);
 
         return view('archives/index', [ 'sessions' => $sessions, ]);
     }

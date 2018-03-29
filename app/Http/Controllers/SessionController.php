@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Session;
 use App\Message;
+use App\Post;
+use App\PostImage;
 use App\Http\Requests\StoreSession;
 use App\Http\Requests\UpdateSession;
 use App\Providers\ImageServiceProvider;
@@ -43,70 +45,84 @@ class SessionController extends Controller
     {
         $this->authorize('create-post-session');
 
+        $response = new Message(
+            "Success! New session created.",
+            "success",
+            $code = 200,
+            $icon = "success"
+        );
+
         try {
-            $session = DB::transaction(function () {
-                $session = Session::create([
+            $post = DB::transaction(function () {
+                $title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
+                $post = Post::create([
                     'user_id' => Auth::user()->id,
+                    'authored_by' => request('authored_by'),
                     'title' => request('title'),
-                    'description' => request('description')
+                    'title_url' => $title_url,
+                    'body' => request('body'),
+                    'post_type_code' => 'session'
                 ]);
 
-                $image = request()->file('image_url');
+                $image_list = request('image_list');
 
-                if ($image) {
-                    $storage_path = storage_path().'/app/public/session/'.$session->id.'/';
-                    $filename = $session->id.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+                if (is_array($image_list)) {
+                    foreach ($image_list as $index => $image) {
+                        if ($image) {
+                            $storage_path = storage_path().'/app/public/post/'.$post->id.'/';
+                            $filename = $index.time().'-'.$title_url.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
 
-                    $image_relative_path = $image->storeAs('session/'.$session->id, 'original-'.$filename, 'public');
+                            $image_relative_path = $image->storeAs('post/'.$post->id, 'original-'.$filename, 'public');
 
-                    $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                    $main_image->cropFromCenter(2000);
-                    $main_image->save($storage_path.'/main-'.$filename);
+                            $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
+                            $main_image->cropFromCenter(2000);
+                            $main_image->save($storage_path.'/main-'.$filename);
 
-                    $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $large_image->resize(1000, 1000);
-                    $large_image->save($storage_path.'/large-'.$filename);
+                            $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                            $large_image->resize(1000, 1000);
+                            $large_image->save($storage_path.'/large-'.$filename);
 
-                    $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $medium_image->resize(500, 500);
-                    $medium_image->save($storage_path.'/medium-'.$filename);
+                            $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                            $medium_image->resize(500, 500);
+                            $medium_image->save($storage_path.'/medium-'.$filename);
 
-                    $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $small_image->resize(250, 250);
-                    $small_image->save($storage_path.'/small-'.$filename);
+                            $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
+                            $small_image->resize(250, 250);
+                            $small_image->save($storage_path.'/small-'.$filename);
 
-                    $width = $medium_image->getCurrentWidth();
-                    $height = $medium_image->getCurrentHeight();
-                    $dest_x = (1000-$width)/2;
-                    $dest_y = (520-$height)/2;
+                            $width = $medium_image->getCurrentWidth();
+                            $height = $medium_image->getCurrentHeight();
+                            $dest_x = (1000-$width)/2;
+                            $dest_y = (520-$height)/2;
 
-                    $background_fill_image = imagecreatetruecolor(1000, 520);
-                    $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                    imagefill($background_fill_image, 0, 0, $white_color);
-                    imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                    imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
+                            $background_fill_image = imagecreatetruecolor(1000, 520);
+                            $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
+                            imagefill($background_fill_image, 0, 0, $white_color);
+                            imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
+                            imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
 
-                    $session_image = str_replace('original', 'medium', $image_relative_path);
+                            $post_image = new PostImage();
+                            $post_image->post_id = $post->id;
+                            $post_image->filename = $filename;
+                            $post_image->image_order = $index + 1;
 
-                    $session->image_url =  $session_image;
-                    $session->save();
+                            $post_image->save();
+                        }
+                    }
                 }
 
-                return $session;
+                return $post;
             });
+            $response->setUrl('/session/'.$post->id.'/edit');
+            $request->session()->flash('message', $response);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $message = "Sorry, we were unable to create the session. Please contact support.";
-            $request->session()->flash('message', new Message(
-                $message,
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
+            $response->setMessage("Sorry, we were unable to create the session. Please contact support.");
+            $response->setType("danger");
+            $response->setCode(500);
         }
 
-        return redirect()->action('ArchivesController@index');
+        return response()->json($response->toArray());
     }
 
     /**
@@ -115,22 +131,22 @@ class SessionController extends Controller
      */
     public function edit($id)
     {
-        $session = Session::find($id);
-        if (!$session) {
+        $post = Post::find($id);
+        if (!$post) {
             return redirect()->back()->withErrors(['msg' => 'Could not find session ' . $id]);
         }
-        $this->authorize('edit-session', $session);
+        $this->authorize('edit-post-session', $post);
 
         $pd = new Parsedown();
 
         return view('session/edit', [
-            'session' => $session,
-            'title' => $pd->text($session->title),
-            'description' => $pd->text($session->description),
+            'post' => $post,
+            'title' => $pd->text($post->title),
+            'body' => $pd->text($post->body),
             'breadcrumb' => [
                 'Home' => '/',
                 'Archives' => '/archives',
-                "{$session->id}" => "/session/{$id}/edit"
+                "{$post->id}" => "/session/{$id}/edit"
             ]
         ]);
     }
