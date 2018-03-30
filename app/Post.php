@@ -70,7 +70,7 @@ class Post extends Model
             return null;
         }
 
-        $image_path = '/post/'.$image->post_id.'/';
+        $image_path = 'post/'.$image->post_id.'/';
 
         if ($image->cdn_upload) {
         } else {

@@ -7,6 +7,7 @@
     $meta_body = strip_tags($parsedown->text($post->body));
     $post_length = strlen($body);
     $index = 200;
+    $image_path = $post->getImagePath($post->images->where('image_order', 1)->first());
 @endphp
 @if ($post_length > $index)
     @while (!preg_match('/\s/', $meta_body[$index]) && $post_length > $index)
@@ -18,10 +19,8 @@
     @section('description', $meta_body)
 @endif
 @section('url', Request::fullUrl())
-@if (preg_match('/\/images\/legacy\/uploads\//', $post->image_url))
-    @section('image', url('/').str_replace('medium', 'share', $post->image_url))
-@else
-    @section('image', url('/').Storage::disk('local')->url(str_replace('medium', 'share', $post->image_url)))
+@if ($image_path)
+    @section('image', url('/').Storage::disk('local')->url(str_replace('medium', 'share', $image_path)))
 @endif
 @section('title', $post->title)
 @section('content')
