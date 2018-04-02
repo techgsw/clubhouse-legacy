@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Session;
 use App\Message;
 use App\Post;
 use App\PostImage;
@@ -21,9 +20,6 @@ use \Exception;
 
 class SessionController extends Controller
 {
-    /**
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $this->authorize('create-post-session');
@@ -37,10 +33,19 @@ class SessionController extends Controller
         ]);
     }
 
-    /**
-     * @param  StoreSession $request
-     * @return Response
-     */
+    public function index()
+    {
+        $posts = Post::where('post_type_code', 'session')->paginate(15);
+
+        return view('session/index', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Archives' => '/archives'
+            ],
+            'posts' => $posts
+        ]);
+    }
+
     public function store(StoreSession $request)
     {
         $this->authorize('create-post-session');
@@ -125,10 +130,6 @@ class SessionController extends Controller
         return response()->json($response->toArray());
     }
 
-    /**
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $post = Post::find($id);
@@ -151,66 +152,26 @@ class SessionController extends Controller
         ]);
     }
 
-    /**
-     * @param  UpdateSession $request
-     * @param  int $id
-     * @return Response
-     */
     public function update(UpdateSession $request, $id)
     {
-        $session = Session::find($id);
-        if (!$session) {
+        $post = Post::find($id);
+        if (!$post) {
             return redirect()->back()->withErrors(['msg' => 'Could not find session ' . $id]);
         }
-        $this->authorize('edit-session', $session);
+        $this->authorize('edit-post-session', $post);
 
         try {
-            DB::transaction(function () use ($session) {
-                $session->title = request('title');
-                $session->description= request('description');
-                $session->save();
-
-                $image = request()->file('image_url');
-
-                if ($image) {
-                    $storage_path = storage_path().'/app/public/session/'.$session->id.'/';
-                    $filename = $session->id.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
-
-                    $image_relative_path = $image->storeAs('session/'.$session->id, 'original-'.$filename, 'public');
-
-                    $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                    $main_image->cropFromCenter(2000);
-                    $main_image->save($storage_path.'/main-'.$filename);
-
-                    $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $large_image->resize(1000, 1000);
-                    $large_image->save($storage_path.'/large-'.$filename);
-
-                    $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $medium_image->resize(500, 500);
-                    $medium_image->save($storage_path.'/medium-'.$filename);
-
-                    $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                    $small_image->resize(250, 250);
-                    $small_image->save($storage_path.'/small-'.$filename);
-
-                    $width = $medium_image->getCurrentWidth();
-                    $height = $medium_image->getCurrentHeight();
-                    $dest_x = (1000-$width)/2;
-                    $dest_y = (520-$height)/2;
-
-                    $background_fill_image = imagecreatetruecolor(1000, 520);
-                    $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                    imagefill($background_fill_image, 0, 0, $white_color);
-                    imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                    imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
-
-                    $session_image = str_replace('original', 'medium', $image_relative_path);
-
-                    $session->image_url =  $session_image;
-                    $session->save();
-                }
+            DB::transaction(function () use ($post) {
+                $post->title = request('title');
+                $post->body = request('body');
+                $post->save();
             });
+            $request->session()->flash('message', new Message(
+                "Session updated!",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
         } catch (Exception $e) {
             Log::error($e->getMessage());
             $message = "Sorry, we were unable to edit the session. Please contact support.";
@@ -223,6 +184,6 @@ class SessionController extends Controller
             return back()->withInput();
         }
 
-        return redirect()->action('ArchivesController@index');
+        return redirect()->action('SessionController@edit', array($id));
     }
 }

@@ -35,12 +35,15 @@ $.valHooks.textarea = {
         switch (type) {
             case 'success':
                 $(message_template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                $(message_template).find('.material-icons').html('check_circle');
                 break;
             case 'warning':
                 $(message_template).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
+                $(message_template).find('.material-icons').html('change_history');
                 break;
             case 'danger':
                 $(message_template).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
+                $(message_template).find('.material-icons').html('error');
                 break;
             default:
                 break;
@@ -959,7 +962,8 @@ $(document).ready(function () {
         closeOnSelect: true
     });
     // Dropzone
-    //$('.dropzone').dropzone({
+
+    // Create dropzone
     Dropzone.options.sessionCreateDropzone = {
         acceptedFiles: "image/jpeg, image/jpg",
         uploadMultiple: true,
@@ -1033,6 +1037,58 @@ $(document).ready(function () {
             });
         }
     };
+
+    // Edit dropzone
+    Dropzone.options.sessionEditDropzone = {
+        acceptedFiles: "image/jpeg, image/jpg",
+        uploadMultiple: true,
+        parallelUploads: 20,
+        paramName: "image_list",
+        autoProcessQueue: true,
+        addRemoveLinks: true,
+        thumbnailWidth: 210,
+        thumbnailHeight: 210,
+        previewsContainer: '#dropzone-previews .dz-preview-flex-container',
+        clickable: ".dropzone-clickable",
+        dictDefaultMessage: "",
+        init: function() {
+            var thedrop = this, i, files_copy, order, index, count;
+            this.on("addedfile", function(file) {
+                $(file.previewElement).attr('id', this.files.length);
+                $("#dropzone-previews .dz-preview-flex-container").sortable({
+                    items:'.dz-preview',
+                    cursor: 'move',
+                    opacity: 0.5,
+                    containment: '#dropzone-previews .dz-preview-flex-container',
+                    distance: 20,
+                    tolerance: 'pointer'
+                });
+            });
+            this.on("sendingmultiple", function() {
+                $('form input[type="submit"]').hide();
+            });
+            this.on("successmultiple", function(files, response) {
+                $('.dz-preview .progress-gif').remove();
+                $('.dz-image').show();
+
+                if (response.code == 500) {
+                    SBS.UI.displayMessage(response.message, response.type);
+                    return false;
+                }
+
+                window.location = response.url;
+            });
+            this.on("errormultiple", function(files, response) {
+                console.log(response);
+                if (response.message) {
+                    SBS.UI.displayMessage(response.message, response.type);
+                } else {
+                    SBS.UI.displayMessage('File not uploaded. Something has gone wrong.', 'danger');
+                }
+            });
+        }
+    };
+
     //Image Sortable
     if ($('#dropzone-previews .dz-preview-flex-container') && $('.dz-preview').length > 0) {
         $("#dropzone-previews .dz-preview-flex-container").sortable({

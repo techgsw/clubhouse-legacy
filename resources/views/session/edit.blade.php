@@ -9,7 +9,8 @@
             @include('layouts.components.errors')
         </div>
     </div>
-    <form method="post" id="session-create-dropzone" class="dropzone" action="/session/{{$post->id}}" enctype="multipart/form-data">
+    <form method="post" id="session-edit-dropzone" class="dropzone" action="/session/{{$post->id}}/image" enctype="multipart/form-data">
+        {{ csrf_field() }}
         <div class="row">
             <div class="col s12 center-align">
                 <div class="card grey lighten-4">
@@ -20,17 +21,16 @@
                         <div class="fallback">
                             <input name="file" type="file" multiple />
                         </div>
-                        
                         <div id="dropzone-previews">
                             <div class="dz-preview-flex-container center-align">
                                 @if (count($post->images))
-                                    @foreach ($post->images as $image)
-                                        <div id="{{ $image->id }}" class="dz-preview dz-image-preview">
+                                    @foreach ($post->images as $index => $image)
+                                        <div id="{{ $index }}" class="dz-preview dz-image-preview">
                                             <div class="dz-image">
                                                 @php
                                                     $image_path = $post->getImagePath($image, 'small');
                                                 @endphp
-                                                <img class="img-thumbnail" src="{{ Storage::disk('local')->url($image_path) }}" />
+                                                <img class="" src="{{ Storage::disk('local')->url($image_path) }}" />
                                             </div>
                                             <a href="javascript: void(0);" data-image-id="{{ $image->id }}" class="image-remove-link" data-dz-remove>Remove Image</a>
                                         </div>
@@ -42,6 +42,8 @@
                 </div>
             </div>
         </div>
+    </form>
+    <form method="post" id="" class="" action="/session/{{$post->id}}" enctype="multipart/form-data">
         <div class="row">
             <div class="col s12">
                 {{ csrf_field() }}

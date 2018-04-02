@@ -38,6 +38,19 @@
     </div>
     <div class="card">
         <div class="card-content">
+            <span class="card-title"><a href="/blog" class="no-underline">Archives</a></span>
+            <p style="text-transform: uppercase;">
+                <a href="/archives" class="no-underline"><span class="sbs-red-text">{{ $session_count }}</span> sessions</a>
+            </p>
+        </div>
+        @can ('create-post')
+            <div class="card-action">
+                <a class="no-underline" href="/session/create"><span class="sbs-red-text"><i class="icon-left fa fa-pencil" aria-hidden="true"></i></span><span style="color: #000"> Create Session</span></a>
+            </div>
+        @endcan
+    </div>
+    <div class="card">
+        <div class="card-content">
             <span class="card-title"><a href="/admin/job" class="no-underline">Jobs</a></span>
             <p style="text-transform: uppercase;">
                 <a href="/admin/job" class="no-underline"><span class="sbs-red-text">{{ $job_count }}</span> jobs</a>
