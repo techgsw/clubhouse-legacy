@@ -29,29 +29,76 @@ $.valHooks.textarea = {
     };
     var UI = {};
 
-    UI.displayMessage = function(message, type) {
-        var message_template = $('.message-template').clone();
-        $(message_template).find('.message-text').html(message);
-        switch (type) {
+    UI.addMessage = function (response) {
+        var template = $('.message-template.hidden').clone();
+        if (!template) {
+            console.warning("Missing message template");
+            console.log(response);
+            return;
+        }
+        $(template).find('.message-text').html(response.message);
+        switch (response.type) {
             case 'success':
-                $(message_template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
-                $(message_template).find('.material-icons').html('check_circle');
+                $(template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                $(template).find('.material-icons').html('check_circle');
                 break;
             case 'warning':
-                $(message_template).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
-                $(message_template).find('.material-icons').html('change_history');
+                $(template).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
+                $(template).find('.material-icons').html('warning');
                 break;
             case 'danger':
-                $(message_template).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
-                $(message_template).find('.material-icons').html('error');
+                $(template).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
+                $(template).find('.material-icons').html('error');
                 break;
             default:
                 break;
         }
-        $(message_template).removeClass('hidden');
-        $('main div.container').first().prepend(message_template);
+        $(template).removeClass('hidden');
+        $('main div.container').first().prepend(template);
+    }
 
-        setTimeout(function() { $(message_template).remove(); }, 3000);
+    UI.displayMessage = function (response) {
+        var message = $('.message');
+        if (message.length == 0) {
+            message = $('.message-template.hidden').clone();
+            message.removeClass('message-template').addClass('message');
+            if (message.length == 0) {
+                console.warning("Missing message template");
+                console.log(response);
+                return;
+            }
+            $('main div.container').first().prepend(message);
+        }
+
+        $(message).find('.message-text').html(response.message);
+        switch (response.type) {
+            case 'success':
+                $(message).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                $(message).find('.material-icons').html('check_circle');
+                break;
+            case 'warning':
+                $(message).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
+                $(message).find('.material-icons').html('warning');
+                break;
+            case 'danger':
+                $(message).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
+                $(message).find('.material-icons').html('error');
+                break;
+            default:
+                break;
+        }
+
+        if ($(message).hasClass('hidden')) {
+            $(message).removeClass('hidden');
+        }
+    }
+
+    UI.removeMessage = function () {
+        var message = $('.message');
+        if (message.length == 0) {
+            return;
+        }
+        $(message).remove();
     }
 
     Auth.getAuthHeader = function () {
@@ -854,15 +901,19 @@ $.valHooks.textarea = {
     $('body').on(
         {
             sortupdate: function() {
-                console.log('here');
-                var url = $('#session-edit-dropzone').attr('action') + '-order';
+                var action = $('#session-edit-dropzone').attr('action');
+                if (action === undefined) {
+                    // We're in a create context, so no need to async reorder
+                    return;
+                }
+                var url = action+'-order';
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: { image_order: $(this).sortable('toArray'), _token: $('input[name="_token"]').val() }
                 })
                 .done(function(response) {
-                    SBS.UI.displayMessage(response.message, response.type);
+                    SBS.UI.displayMessage(response);
                 })
                 .fail(function() {
                 })
@@ -921,8 +972,9 @@ $.valHooks.textarea = {
     });
 
     SBS.UI = {};
-
     SBS.UI.displayMessage = UI.displayMessage;
+    SBS.UI.addMessage = UI.addMessage;
+    SBS.UI.removeMessage = UI.removeMessage;
 
     SBS.init = function () {
         Blog.init();
@@ -984,8 +1036,8 @@ $(document).ready(function () {
         close: 'Ok',
         closeOnSelect: true
     });
-    // Dropzone
 
+    // Dropzone
     // Create dropzone
     Dropzone.options.sessionCreateDropzone = {
         acceptedFiles: "image/jpeg, image/jpg",
@@ -1007,24 +1059,28 @@ $(document).ready(function () {
                 e.preventDefault();
                 e.stopPropagation();
 
+                SBS.UI.removeMessage();
+
                 var file;
 
                 // Provide warning if no images have been uploaded
                 if (thedrop.files.length == 0) {
-                    console.log('You must upload images to submit a product.');
+                    console.warning('You must upload images to submit a product.');
                 }
 
                 //Update the order before processing the queue.
                 files_copy = thedrop.files.slice(0, thedrop.files.length);
+                // return;
                 order = $('#dropzone-previews .dz-preview-flex-container').sortable('toArray');
                 for (i = 0; i < files_copy.length; i += 1) {
                     file = files_copy[(order[i]-1)];
                     if (file.type != 'image/jpeg') {
-                        console.log('Images must be JPEGs.');
+                        console.warning('Images must be JPEGs.');
                         return;
                     }
                     thedrop.files[i] = file;
                 }
+
                 thedrop.processQueue();
             });
             this.on("addedfile", function(file) {
@@ -1049,14 +1105,35 @@ $(document).ready(function () {
                 $('.dz-image').show();
 
                 if (response.code == 500) {
-                    SBS.UI.displayMessage(response.message, response.type);
+                    SBS.UI.displayMessage(response);
                     return false;
                 }
 
                 window.location = response.url;
             });
             this.on("errormultiple", function(files, response) {
-                    SBS.UI.displayMessage(response.message, response.type);
+                var resp = {
+                    message: "Failed to upload session. Please check images and fields and try again.",
+                    type: "warning"
+                }
+
+                if (response.title) {
+                    resp.message = "Failed to upload session: " + response.title[0];
+                }
+
+                SBS.UI.displayMessage(resp);
+
+                thedrop.files.forEach(function (file, i) {
+                    if (file.status == 'error') {
+                        thedrop.files[i].status = 'queued';
+                    }
+                });
+
+                // Restore the images and submit button
+                $('.dz-image').show();
+                $('.dz-remove').show();
+                $('.dz-preview .progress-gif').remove();
+                $('form input[type="submit"]').show();
             });
         }
     };
@@ -1095,24 +1172,26 @@ $(document).ready(function () {
                 $('.dz-image').show();
 
                 if (response.code == 500) {
-                    SBS.UI.displayMessage(response.message, response.type);
+                    SBS.UI.displayMessage(response);
                     return false;
                 }
 
                 window.location = response.url;
             });
             this.on("errormultiple", function(files, response) {
-                console.log(response);
                 if (response.message) {
-                    SBS.UI.displayMessage(response.message, response.type);
+                    SBS.UI.displayMessage(response);
                 } else {
-                    SBS.UI.displayMessage('File not uploaded. Something has gone wrong.', 'danger');
+                    SBS.UI.displayMessage({
+                        message: 'File not uploaded. Something has gone wrong.',
+                        type: 'danger'
+                    });
                 }
             });
         }
     };
 
-    //Image Sortable
+    // Image Sortable
     if ($('#dropzone-previews .dz-preview-flex-container') && $('.dz-preview').length > 0) {
         $("#dropzone-previews .dz-preview-flex-container").sortable({
             items:'.dz-preview',
@@ -1123,8 +1202,6 @@ $(document).ready(function () {
             tolerance: 'pointer'
         });
     }
-
-
 
     // Initialize
     SBS.init();

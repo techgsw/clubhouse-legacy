@@ -14,7 +14,7 @@
                 <div class="card grey lighten-4">
                     <div class="card-content" style="padding-top: 5px;">
                         <div class="dropzone-clickable">
-                            <h3>Click or drag images here</h3>
+                            <h3 style="text-transform: uppercase; font-size: 18px; letter-spacing: 0.6px; cursor: pointer;">Click or drag images here</h3>
                         </div>
                         <div class="fallback">
                             <input name="file" type="file" multiple />

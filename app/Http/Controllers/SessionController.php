@@ -35,12 +35,16 @@ class SessionController extends Controller
 
     public function index()
     {
-        $posts = Post::where('post_type_code', 'session')->paginate(15);
+        $this->authorize('create-post-session');
+
+        $posts = Post::where('post_type_code', 'session')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
         return view('session/index', [
             'breadcrumb' => [
                 'Home' => '/',
-                'Archives' => '/archives'
+                'Archives' => '/session'
             ],
             'posts' => $posts
         ]);
@@ -54,7 +58,7 @@ class SessionController extends Controller
             "Success! New session created.",
             "success",
             $code = 200,
-            $icon = "success"
+            $icon = "check_circle"
         );
 
         try {
@@ -65,7 +69,7 @@ class SessionController extends Controller
                     'authored_by' => request('authored_by'),
                     'title' => request('title'),
                     'title_url' => $title_url,
-                    'body' => request('body'),
+                    'body' => request('body') ?: request('title'),
                     'post_type_code' => 'session'
                 ]);
 
@@ -146,7 +150,7 @@ class SessionController extends Controller
             'body' => $pd->text($post->body),
             'breadcrumb' => [
                 'Home' => '/',
-                'Archives' => '/archives',
+                'Archives' => '/session',
                 "{$post->id}" => "/session/{$id}/edit"
             ]
         ]);
@@ -189,12 +193,18 @@ class SessionController extends Controller
 
     public function imageOrder($id)
     {
+        $post = Post::find($id);
+        if (!$post) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find session ' . $id]);
+        }
+        $this->authorize('edit-post-session', $post);
+
         $image_order = request('image_order');
         $response = new Message(
             "Success! Image order updated.",
             "success",
             $code = 200,
-            $icon = "success"
+            $icon = "check_circle"
         );
         for ($i = 0; $i < count($image_order); $i++) {
             try {

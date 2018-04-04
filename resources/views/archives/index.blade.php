@@ -26,6 +26,7 @@
     </div>
     <div class="row" id="past-sessions">
         <div class="col s12">
+            <a name="sessions"></a>
             <h4>Past sessions</h4>
             <hr />
                 <div class="center">
