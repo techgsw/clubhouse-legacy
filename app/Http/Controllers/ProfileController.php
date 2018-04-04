@@ -323,7 +323,7 @@ class ProfileController extends Controller
                 $path = $headshot->storeAs('headshot/temp', $filename, 'public');
 
                 // Clear user's S3 images
-                $success = Storage::disk('s3')->deleteDirectory($dir);
+                // $success = Storage::disk('s3')->deleteDirectory($dir);
 
                 // Create variations, save locally, and upload to S3
                 // Full: 2000 x 2000, cropped square from center

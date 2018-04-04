@@ -2,16 +2,24 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class Image
+class Image extends Model
 {
-    private $dimensions;
-    private $path;
-    private $format;
-    private $resource;
+    protected $table = 'image';
+    protected $guarded = [];
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $dimensions;
+    protected $full_path;
+    protected $resource;
+    protected $type;
 
     public function __construct($path)
     {
@@ -20,43 +28,44 @@ class Image
         }
 
         $this->dimensions = array();
-        $this->path = storage_path('app/public/'.$path);
+        $this->path = $path;
+        $this->full_path = storage_path('app/public/'.$path);
 
         // File must exist
-        if (!file_exists($this->path)) {
-            throw new \Exception("File ".$this->path." does not exist");
+        if (!file_exists($this->full_path)) {
+            throw new \Exception("File ".$this->full_path." does not exist");
         }
 
         // File must be readable
-        if (!is_readable($this->path)) {
-            throw new \Exception("File ".$this->path." is not readable");
+        if (!is_readable($this->full_path)) {
+            throw new \Exception("File ".$this->full_path." is not readable");
         }
 
-        // Determine format
-        if (stristr(strtolower($this->path),'.gif')) {
-            $this->format = 'GIF';
-        } elseif (stristr(strtolower($this->path),'.jpg') || stristr(strtolower($this->path),'.jpeg')) {
-            $this->format = 'JPG';
-        } elseif (stristr(strtolower($this->path),'.png')) {
-            $this->format = 'PNG';
+        // Determine type
+        if (stristr(strtolower($this->full_path), '.gif')) {
+            $this->type = 'gif';
+        } elseif (stristr(strtolower($this->full_path),'.jpg') || stristr(strtolower($this->full_path),'.jpeg')) {
+            $this->type = 'jpeg';
+        } elseif (stristr(strtolower($this->full_path),'.png')) {
+            $this->type = 'png';
         } else {
-            throw new \Exception("Image: unknown file format. Must be GIF, JPEG, or PNG.");
+            throw new \Exception("Image: unknown file type. Must be GIF, JPEG, or PNG.");
         }
 
         // initialize resources if no errors
-        switch ($this->format) {
-            case 'GIF':
-                $this->resource = imagecreatefromgif($this->path);
+        switch ($this->type) {
+            case 'gif':
+                $this->resource = imagecreatefromgif($this->full_path);
                 break;
-            case 'JPG':
-                $this->resource = imagecreatefromjpeg($this->path);
+            case 'jpeg':
+                $this->resource = imagecreatefromjpeg($this->full_path);
                 break;
-            case 'PNG':
-                $this->resource = imagecreatefrompng($this->path);
+            case 'png':
+                $this->resource = imagecreatefrompng($this->full_path);
                 break;
         }
 
-        $size = getimagesize($this->path);
+        $size = getimagesize($this->full_path);
         $this->dimensions = [
             'width' => $size[0],
             'height' => $size[1]
@@ -85,23 +94,28 @@ class Image
         return $this->resource;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function saveAs($dir, $name)
     {
         $dir = trim($dir, "/");
         $path = storage_path('app/public/'.$dir.'/'.$name);
-        switch($this->format) {
-            case 'GIF':
+        switch ($this->type) {
+            case 'gif':
                 imagegif($this->resource, $path);
                 break;
-            case 'JPG':
+            case 'jpeg':
                 imagejpeg($this->resource, $path);
                 break;
-            case 'PNG':
+            case 'png':
                 imagepng($this->resource, $path);
                 break;
         }
 
-        Storage::disk('s3')->putFileAs($dir, new File($path), $name);
+        // Storage::disk('s3')->putFileAs($dir, new File($path), $name);
 
         return $dir.'/'.$name;
     }
@@ -206,8 +220,6 @@ class Image
             return $this;
         }
 
-        // dump("PAD {$this->getWidth()}x{$this->getHeight()} to {$width}x{$height}");
-
         if ($width < $this->getWidth()) {
             throw new \Exception("Image.padTo given width must exceed or equal current width");
         }
@@ -236,7 +248,6 @@ class Image
         return $this;
     }
 
-    // 1200x1000->resize(150, 100)
     public function resize($width, $height, $maintain_aspect_ratio=true)
     {
         if (!$width && !$height) {
@@ -253,8 +264,6 @@ class Image
             $height = (int)$this->dimensions['height']*($width/$this->dimensions['width']);
         }
 
-        // dump("RESIZE {$this->getWidth()}x{$this->getHeight()} to {$width}x{$height}");
-
         $match_aspect_ratio = ($height == (int)($this->dimensions['height']*($width/$this->dimensions['width'])));
         if ($maintain_aspect_ratio && !$match_aspect_ratio) {
             $height_ratio = $height/$this->dimensions['height'];
@@ -263,12 +272,10 @@ class Image
                 // Need horizontal bars to pad height
                 $w = $this->dimensions['width'];
                 $h = $height * ($this->dimensions['width']/$width);
-                // dump("PAD HEIGHT TO {$w}x{$h}");
             } else {
                 // Need vertical bars to pad width
                 $w = $width * ($this->dimensions['height']/$height);
                 $h = $this->dimensions['height'];
-                // dump("PAD WIDTH TO {$w}x{$h}");
             }
 
             // Pad with white to maintain aspect ratio

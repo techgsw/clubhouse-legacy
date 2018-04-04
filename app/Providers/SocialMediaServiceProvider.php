@@ -19,16 +19,6 @@ class SocialMediaServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
     public static function getInstagramFeed($view) {
         $access_token = env('INSTAGRAM_ACCESS_TOKEN');
         $client_id = env('INSTAGRAM_CLIENT_ID');

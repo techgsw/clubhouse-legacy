@@ -156,8 +156,7 @@ class JobController extends Controller
                 // Store the original locally on disk
                 $path = $image->storeAs('job/temp', $filename, 'public');
 
-                // Create variations, save locally, and upload to S3
-                // Full: 2000 x 2000, cropped square from center
+                // Full: original image
                 $full = new Image($path);
                 $image_url = $full->saveAs($dir, 'full-'.$filename);
                 // Large: 1000 x 1000
