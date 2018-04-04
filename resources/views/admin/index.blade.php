@@ -38,9 +38,9 @@
     </div>
     <div class="card">
         <div class="card-content">
-            <span class="card-title"><a href="/blog" class="no-underline">Archives</a></span>
+            <span class="card-title"><a href="/archives" class="no-underline">Archives</a></span>
             <p style="text-transform: uppercase;">
-                <a href="/archives" class="no-underline"><span class="sbs-red-text">{{ $session_count }}</span> sessions</a>
+                <a href="/session" class="no-underline"><span class="sbs-red-text">{{ $session_count }}</span> sessions</a>
             </p>
         </div>
         @can ('create-post')

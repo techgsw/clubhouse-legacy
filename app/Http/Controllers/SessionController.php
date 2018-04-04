@@ -190,6 +190,12 @@ class SessionController extends Controller
     public function imageOrder($id)
     {
         $image_order = request('image_order');
+        $response = new Message(
+            "Success! Image order updated.",
+            "success",
+            $code = 200,
+            $icon = "success"
+        );
         for ($i = 0; $i < count($image_order); $i++) {
             try {
                 $post_image = PostImage::where('id', $image_order[$i])->first();
@@ -198,7 +204,12 @@ class SessionController extends Controller
                 $post_image->save();
             } catch (Exception $e) {
                 Log::error($e->getMessage());
+                $response->setMessage("Sorry, we were unable to update the image order.");
+                $response->setType("danger");
+                $response->setCode(500);
             }
         }
+
+        return response()->json($response->toArray());
     }
 }

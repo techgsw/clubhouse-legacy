@@ -862,10 +862,7 @@ $.valHooks.textarea = {
                     data: { image_order: $(this).sortable('toArray'), _token: $('input[name="_token"]').val() }
                 })
                 .done(function(response) {
-                    try {
-                        var response = $.parseJSON(response);
-                    } catch (e) {
-                    }
+                    SBS.UI.displayMessage(response.message, response.type);
                 })
                 .fail(function() {
                 })
