@@ -23,7 +23,6 @@ class ArchivesController extends Controller
      */
     public function index(Request $request)
     {
-        //$sessions = Session::orderby('id', 'desc')->paginate(60);
         $sessions = Post::where('post_type_code', 'session')->orderby('id', 'desc')->paginate(60);
 
         return view('archives/index', [ 'sessions' => $sessions, ]);
