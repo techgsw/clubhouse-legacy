@@ -186,4 +186,19 @@ class SessionController extends Controller
 
         return redirect()->action('SessionController@edit', array($id));
     }
+
+    public function imageOrder($id)
+    {
+        $image_order = request('image_order');
+        for ($i = 0; $i < count($image_order); $i++) {
+            try {
+                $post_image = PostImage::where('id', $image_order[$i])->first();
+                $post_image->image_order = $i + 1;
+
+                $post_image->save();
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
+    }
 }

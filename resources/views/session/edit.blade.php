@@ -25,7 +25,7 @@
                             <div class="dz-preview-flex-container center-align">
                                 @if (count($post->images))
                                     @foreach ($post->images as $index => $image)
-                                        <div id="{{ $index }}" class="dz-preview dz-image-preview">
+                                        <div id="{{ $image->id }}" class="dz-preview dz-image-preview">
                                             <div class="dz-image">
                                                 @php
                                                     $image_path = $post->getImagePath($image, 'small');

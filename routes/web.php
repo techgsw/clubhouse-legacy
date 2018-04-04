@@ -109,7 +109,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/session/{id}/edit', 'SessionController@edit');
     Route::post('/session/{id}', 'SessionController@update');
     Route::post('/session/{id}/add-image', 'SessionController@addImage');
-    Route::post('/session/{id}/delete-image', 'SessionController@deleteImage');
+    Route::post('/session/{id}/image-order', 'SessionController@imageOrder');
 });
 
 /**

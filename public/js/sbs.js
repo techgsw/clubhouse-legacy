@@ -850,6 +850,32 @@ $.valHooks.textarea = {
         'button.input-control'
     );
 
+    // Image Order Change
+    $('body').on(
+        {
+            sortupdate: function() {
+                console.log('here');
+                var url = $('#session-edit-dropzone').attr('action') + '-order';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { image_order: $(this).sortable('toArray'), _token: $('input[name="_token"]').val() }
+                })
+                .done(function(response) {
+                    try {
+                        var response = $.parseJSON(response);
+                    } catch (e) {
+                    }
+                })
+                .fail(function() {
+                })
+                .always(function() {
+                });
+            }
+        },
+        '#dropzone-previews .dz-preview-flex-container'
+    );
+
     /**
      * PDF viewer modal.
      *
@@ -1100,6 +1126,9 @@ $(document).ready(function () {
             tolerance: 'pointer'
         });
     }
+
+
+
     // Initialize
     SBS.init();
 });
