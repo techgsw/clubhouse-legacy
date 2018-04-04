@@ -35,25 +35,12 @@
                                 @php
                                     $image_path = $session->getImagePath($image, 'medium');
                                 @endphp
-                                @if (preg_match('/\/uploads\//', $image_path))
-                                    <div class="session-image" style="background-image: url('{{ preg_replace('/\./', '-510x382.', $image_path) }}');">
-                                        <div class="overlay">
-                                            <span class="overlay-text">{{ $session->title }}</span>
-                                        </div>
-                                        @if (preg_match('/\/uploads\/2015\/10\/AHL-Meetings\.jpg/', $image_path))
-                                            <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ preg_replace('/\./', '-960x675.', $image_path) }}" />
-                                        @else
-                                            <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ preg_replace('/\./', '-1080x675.', $image_path) }}" />
-                                        @endif
+                                <div class="session-image" style="background-image: url('{{ Storage::disk('local')->url($image_path) }}')">
+                                    <div class="overlay">
+                                        <span class="overlay-text">{{ $session->title }}</span>
                                     </div>
-                                @else
-                                    <div class="session-image" style="background-image: url('{{ Storage::disk('local')->url($image_path) }}')">
-                                        <div class="overlay">
-                                            <span class="overlay-text">{{ $session->title }}</span>
-                                        </div>
-                                        <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ Storage::disk('local')->url($image_path) }}" />
-                                    </div>
-                                @endif
+                                    <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ Storage::disk('local')->url($image_path) }}" />
+                                </div>
                             @endforeach
                         @endforeach
                     @endif
