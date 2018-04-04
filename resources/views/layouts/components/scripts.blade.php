@@ -12,8 +12,10 @@
 
 <!--  Scripts-->
 <script type="text/javascript" src="/js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script type="text/javascript" src="https://player.vimeo.com/api/player.js"></script>
 <script type="text/javascript" src="/js/materialize.js"></script>
 <script type="text/javascript" src="/js/medium-editor.js"></script>
 <script type="text/javascript" src="/js/me-markdown.standalone.min.js"></script>
+<script type="text/javascript" src="/js/dropzone.js"></script>
 <script type="text/javascript" src="/js/sbs.js?v=15"></script>

@@ -78,4 +78,18 @@ class Message
         $this->url = $url;
         return $this;
     }
+
+    public function toArray()
+    {
+        foreach ($this as $key => $value) {
+            if (gettype($value) == "object" && get_class($value) == "DateTime") {
+                $array[$key] = $value->format('Y-m-d H:i:s');
+            } else if (gettype($value) == "boolean") {
+                $array[$key] = ($value) ? 1 : 0;
+            } else if (gettype($value) != "object" && gettype($value) != "array") {
+                $array[$key] = $value;
+            }
+        }
+        return $array;
+    }
 }

@@ -812,6 +812,33 @@ select.browser-default {
 }
 
 /**
+ * Dropzone 
+ */
+
+.dz-details, .dz-error-mark, .dz-success-mark, .dz-success-message, .dz-progress, .dz-error-message {
+    display: none;
+}
+
+.dz-preview-flex-container {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: -10px;
+}
+.dz-preview-flex-container .dz-image-preview {
+    display: flex;
+    flex-flow: column;
+    flex: 1 0 0;    /* grow; don't shrink; 0-basis (even-width, not content-rated) */
+    margin: 10px;
+    min-width: 200px;
+}
+
+.dz-preview-flex-container .dz-image-preview a {
+    border: none;
+}
+
+/**
  * Alert
  */
 

@@ -21,7 +21,7 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::search($request)->paginate(15);
+        $posts = Post::search($request)->where('post_type_code', 'blog')->paginate(15);
         $tags = Tag::orderBy('name', 'dec')->get();
 
         $tag = null;

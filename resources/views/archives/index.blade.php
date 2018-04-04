@@ -26,32 +26,23 @@
     </div>
     <div class="row" id="past-sessions">
         <div class="col s12">
+            <a name="sessions"></a>
             <h4>Past sessions</h4>
             <hr />
                 <div class="center">
                     @if (count($sessions) > 0)
                         @foreach ($sessions as $index => $session)
-                            @if (!is_null($session->image_url))
-                                @if (preg_match('/\/uploads\//', $session->image_url))
-                                    <div class="session-image" style="background-image: url('{{ preg_replace('/\./', '-510x382.', $session->image_url) }}');">
-                                        <div class="overlay">
-                                            <span class="overlay-text">{{ $session->title }}</span>
-                                        </div>
-                                        @if (preg_match('/\/uploads\/2015\/10\/AHL-Meetings\.jpg/', $session->image_url))
-                                            <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ preg_replace('/\./', '-960x675.', $session->image_url) }}" />
-                                        @else
-                                            <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ preg_replace('/\./', '-1080x675.', $session->image_url) }}" />
-                                        @endif
+                            @foreach ($session->images as $index => $image)
+                                @php
+                                    $image_path = $session->getImagePath($image, 'medium');
+                                @endphp
+                                <div class="session-image" style="background-image: url('{{ Storage::disk('local')->url($image_path) }}')">
+                                    <div class="overlay">
+                                        <span class="overlay-text">{{ $session->title }}</span>
                                     </div>
-                                @else
-                                    <div class="session-image" style="background-image: url('{{ Storage::disk('local')->url($session->image_url) }}')">
-                                        <div class="overlay">
-                                            <span class="overlay-text">{{ $session->title }}</span>
-                                        </div>
-                                        <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ Storage::disk('local')->url($session->image_url) }}" />
-                                    </div>
-                                @endif
-                            @endif
+                                    <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ Storage::disk('local')->url($image_path) }}" />
+                                </div>
+                            @endforeach
                         @endforeach
                     @endif
                 </div>

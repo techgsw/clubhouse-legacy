@@ -106,10 +106,13 @@ Route::group(['middleware' => ['web']], function () {
         return redirect('/archives');
     });
     Route::get('/session/create', 'SessionController@create');
+    Route::get('/session', 'SessionController@index');
     Route::post('/session', 'SessionController@store');
     Route::get('/session/{id}', 'SessionController@show');
     Route::get('/session/{id}/edit', 'SessionController@edit');
     Route::post('/session/{id}', 'SessionController@update');
+    Route::post('/session/{id}/add-image', 'SessionController@addImage');
+    Route::post('/session/{id}/image-order', 'SessionController@imageOrder');
 });
 
 /**

@@ -28,7 +28,8 @@ class IndexController extends Controller
         $question_count = Question::all()->count();
         $answer_count = Answer::all()->count();
         $job_count = Job::all()->count();
-        $post_count = Post::all()->count();
+        $post_count = Post::where('post_type_code', 'blog')->count();
+        $session_count = Post::where('post_type_code', 'session')->count();
 
         return view('admin.index', [
             'contact_count' => $contact_count,
@@ -37,6 +38,7 @@ class IndexController extends Controller
             'answer_count' => $question_count,
             'job_count' => $job_count,
             'post_count' => $post_count,
+            'session_count' => $session_count,
         ]);
     }
 }
