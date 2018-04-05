@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class Image extends Model
 {
@@ -79,6 +80,19 @@ class Image extends Model
         }
     }
 
+    public function getPath($quality=null)
+    {
+        $path = $this->path;
+        if ($quality && in_array($quality, ['main', 'full', 'small', 'medium,', 'large'])) {
+            $dirs = explode("/", $path);
+            $filename = array_pop($dirs);
+            $root = preg_replace("/^(main|full|small|medium|large)-/", "", $filename);
+            $dirs[] = "$quality-$root";
+            $path = implode("/", $dirs);
+        }
+        return $path;
+    }
+
     public function getWidth()
     {
         return $this->dimensions['width'];
@@ -115,7 +129,7 @@ class Image extends Model
                 break;
         }
 
-        // Storage::disk('s3')->putFileAs($dir, new File($path), $name);
+        // TODO Storage::disk('s3')->putFileAs($dir, new File($path), $name);
 
         return $dir.'/'.$name;
     }

@@ -317,26 +317,30 @@ class ProfileController extends Controller
             if ($headshot = request()->file('headshot_url')) {
                 $ext = strtolower($headshot->getClientOriginalExtension());
                 $dir = 'headshot/'.$user->id;
+                if (!Storage::exists("public/{$dir}")) {
+                    Storage::makeDirectory("public/{$dir}");
+                }
                 $filename = $user->first_name.'-'.$user->last_name.'-SportsBusinessSolutions.'.$ext;
 
                 // Store the original locally on disk
                 $path = $headshot->storeAs('headshot/temp', $filename, 'public');
 
-                // Clear user's S3 images
-                // $success = Storage::disk('s3')->deleteDirectory($dir);
+                // TODO 63 $success = Storage::disk('s3')->deleteDirectory($dir);
 
-                // Create variations, save locally, and upload to S3
-                // Full: 2000 x 2000, cropped square from center
-                $full = new Image($path);
-                $headshot_url = $full->cropFromCenter(2000)->saveAs($dir, 'full-'.$filename);
+                // Original image
+                $original = new Image($path);
+                $original->saveAs($dir, "original-".$filename)
+                // Main, cropped square from the center
+                $main = clone $original;
+                $headshot_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
                 // Large: 1000 x 1000
-                $large = clone $full;
+                $large = clone $main;
                 $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
                 // Medium: 500 x 500
-                $medium = clone $full;
+                $medium = clone $main;
                 $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
                 // Small: 250 x 250
-                $small = clone $full;
+                $small = clone $main;
                 $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
 
                 // Delete local temp image

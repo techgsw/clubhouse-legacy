@@ -66,18 +66,20 @@ class PostController extends Controller
                     // Store the original locally on disk
                     $path = $image->storeAs('post/temp', $filename, 'public');
 
-                    // Create variations, save locally, and upload to S3
-                    // Full: original image
-                    $full = new Image($path);
-                    $image_url = $full->saveAs($dir, 'full-'.$filename);
+                    // Original image
+                    $original = new Image($path);
+                    $original->saveAs($dir, "original-".$filename)
+                    // Main, cropped square from the center
+                    $main = clone $original;
+                    $image_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
                     // Large: 1000 x 1000
-                    $large = clone $full;
+                    $large = clone $main;
                     $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
                     // Medium: 500 x 500
-                    $medium = clone $full;
+                    $medium = clone $main;
                     $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
                     // Small: 250 x 250
-                    $small = clone $full;
+                    $small = clone $main;
                     $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
                     // Share: 1000 x 520, padded from 500 x 500, with white background
                     $share = clone $medium;
@@ -178,18 +180,20 @@ class PostController extends Controller
                     // Store the original locally on disk
                     $path = $image->storeAs('post/temp', $filename, 'public');
 
-                    // Create variations, save locally, and upload to S3
-                    // Full: original image
-                    $full = new Image($path);
-                    $image_url = $full->saveAs($dir, 'full-'.$filename);
+                    // Original image
+                    $original = new Image($path);
+                    $original->saveAs($dir, "original-".$filename)
+                    // Main, cropped square from the center
+                    $main = clone $original;
+                    $image_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
                     // Large: 1000 x 1000
-                    $large = clone $full;
+                    $large = clone $main;
                     $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
                     // Medium: 500 x 500
-                    $medium = clone $full;
+                    $medium = clone $main;
                     $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
                     // Small: 250 x 250
-                    $small = clone $full;
+                    $small = clone $main;
                     $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
                     // Share: 1000 x 520, padded from 500 x 500, with white background
                     $share = clone $medium;

@@ -150,15 +150,18 @@ class JobController extends Controller
         try {
             if ($image = request()->file('image_url')) {
                 $dir = 'job/'.$job->id;
+                if (!Storage::exists("public/{$dir}")) {
+                    Storage::makeDirectory("public/{$dir}");
+                }
                 $ext = strtolower($image->getClientOriginalExtension());
-                $filename = preg_replace('/\s/', '-', $job->organization).'-SportsBusinessSolutions.'.$ext;
+                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
 
                 // Store the original locally on disk
                 $path = $image->storeAs('job/temp', $filename, 'public');
 
-                // Full: original image
+                // Original image
                 $full = new Image($path);
-                $image_url = $full->saveAs($dir, 'full-'.$filename);
+                $image_url = $full->saveAs($dir, $filename);
                 // Large: 1000 x 1000
                 $large = clone $full;
                 $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);

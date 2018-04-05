@@ -39,8 +39,6 @@ class Post extends Model
 
     public static function search(Request $request)
     {
-        // TODO published, e.g. $posts = Post::where('published', true);
-
         if (request('tag')) {
             $tag = request('tag');
             $posts = Post::whereHas('tags', function ($query) use ($tag) {
