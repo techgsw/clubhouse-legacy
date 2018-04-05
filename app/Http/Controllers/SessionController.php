@@ -108,7 +108,7 @@ class SessionController extends Controller
                             $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
                             imagefill($background_fill_image, 0, 0, $white_color);
                             imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                            imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
+                            imagejpeg($background_fill_image, $storage_path.'/share-'.$filename, 100);
 
                             $post_image = new PostImage();
                             $post_image->post_id = $post->id;
