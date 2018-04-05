@@ -3,6 +3,11 @@
 @section('title', 'Contact')
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col s12">
+            @include('layouts.components.errors')
+        </div>
+    </div>
     @include('layouts.components.messages')
     @component('contact.header', ['contact' => $contact])
         @can ('view-contact-notes')
@@ -47,19 +52,16 @@
     <!-- TODO: CHANGE TO CORRECT CAN STATEMENT --!>
     @can ('add-contact-relationship')
         @if (is_null($contact->followUpUser))
-            <form id="create-contact-follow-up" action="/contact/{{ $contact->id }}/add-follow-up" method="post" class="compact">
+            <form id="create-contact-follow-up" action="/contact/{{ $contact->id }}/schedule-follow-up" method="post" class="compact">
                 {{ csrf_field() }}
                 <div class="row">
                     <div class="col s6 m4">
-                        <label>Follow Up</label>
-                        <input type="text" id="admin-user-autocomplete-input" class="admin-user-autocomplete compact">
+                        <label for="follow_up_date" data-error="{{ $errors->first('follow_up_date') }}">Follow Up Date</label>
+                        <input class="datepicker {{ $errors->has('follow_up_date') ? 'invalid' : '' }}" id="follow-up-date" type="text" name="follow_up_date" value="{{ $contact->follow_up_date }}" />
                     </div>
-                    <div class="col s6 m4">
-                        <label>Date</label>
-                        <input class="datepicker" id="follow-up-date" type="text" name="follow_up_date" value="{{ $contact->follow_up_date }}" />
-                    </div>
+                    <input class="hidden" type="text" name="contact_id" value="{{ $contact->id }}" />
                     <div class="col s12 m4">
-                        <button type="button" name="shedule" class="btn btn-small sbs-green submit-contact-follow-up-btn">Schedule</button>
+                        <button type="type" name="shedule" class="btn btn-small sbs-green submit-contact-follow-up-btn">Schedule</button>
                     </div>
                 </div>
             </form>
@@ -67,9 +69,16 @@
             <div class="col">
                 <label>Follow Up</label>
             </div>
-            <span class="flat-button sbs-green medium tag">
-                {{ $contact->followUpUser->getName() }} - {{ $contact->follow_up_date->format('m/d/Y') }}
-            </span>
+            <div class="row">
+                <div class="col s6 m4">
+                    <span class="flat-button sbs-green medium tag">
+                        {{ $contact->followUpUser->getName() }} - {{ $contact->follow_up_date->format('m/d/Y') }}
+                    </span>
+                </div>
+                <div class="col s6 m4">
+                    <button type="button" data-contact-id="{{ $contact->id }}" class="btn btn-small sbs-green complete-follow-up-btn">Complete</button>
+                </div>
+            </div>
         @endif
     @endcan
     <div style="margin-bottom: 30px;">
@@ -351,5 +360,6 @@
     </div>
 </div>
 @include('components.contact-notes-modal')
+@include('components.follow-up-note-modal')
 @include('components.pdf-view-modal')
 @endsection

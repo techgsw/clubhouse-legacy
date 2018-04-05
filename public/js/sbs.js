@@ -575,6 +575,14 @@ $.valHooks.textarea = {
         });
     }
 
+    Note.postFollowUpNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact/'+data.contact_id+'/complete-follow-up',
+            data: data
+        });
+    }
+
     $('body').on(
         {
             click: function (e, ui) {
@@ -705,6 +713,47 @@ $.valHooks.textarea = {
         },
         '.submit-inquiry-note-btn'
     );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var contact_id = parseInt($(this).data('contact-id'));
+                $('form#create-follow-up-note input[name="contact_id"]').val(contact_id);
+                $('.follow-up-note-modal').modal('open');
+            }
+        },
+        '.complete-follow-up-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-follow-up-note');
+                if (form.length == 0) {
+                    return;
+                }
+
+                var values = {};
+                data = form.serializeArray();
+                data.forEach(function (input) {
+                    values[input.name] = input.value;
+                });
+
+                form.find('input, textarea, button').attr('disabled', 'disabled');
+                Note.postFollowUpNote(values).done(function (response) {
+                    if (response.type != 'success') {
+                        // TODO better messaging for failure
+                        console.error('Failed to complete note');
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        return;
+                    }
+                    $('.follow-up-note-modal').modal('close');
+                });
+            }
+        },
+        '.submit-follow-up-note-btn'
+    );
+
     // end Notes
 
     // Contact

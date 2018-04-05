@@ -8,6 +8,8 @@ use App\Contact;
 use App\ContactRelationship;
 use App\Note;
 use App\Message;
+use App\Http\Requests\ScheduleFollowUp;
+use App\Http\Requests\CompleteFollowUp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -338,51 +340,72 @@ class ContactController extends Controller
         ]);
     }
 
-    /**
-     * @param  int  $user_id
-     * @param  int  $contact_id
-     * @param  date $follow_up_date
-     * @return \Illuminate\Http\Response
-     */
-    public function addFollowUp(Request $request)
+    ///**
+    // * @param  ScheduleFollowUp  $request
+    // * @return Response
+    // */
+    public function scheduleFollowUp(ScheduleFollowUp $request)
     {
-        $this->authorize('add-contact-follow-up');
-        $user_id = $request->user_id;
-        $contact_id = $request->id;
-        $follow_up_date = $request->follow_up_date;
-
+        $contact_id = request('contact_id');
         $contact = Contact::find($contact_id);
         if (!$contact) {
             return abort(404);
         }
 
-        $user = User::find($user_id);
-        if (!$user) {
-            return abort(404);
-        }
-
+        $follow_up_date = request('follow_up_date');
+        $follow_up_date = new \DateTime($follow_up_date);
 
         try {
-            $contact->follow_up_date = $follow_up_date;
-            $contact->follow_up_user_id = $user_id;
+            $contact->follow_up_date = $follow_up_date->format('Y-m-d 00:00:00');
+            $contact->follow_up_user_id = Auth::user()->id;
             $contact->save();
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $message = "Sorry, were unable to creat the follow up. Please contact support.";
+            $message = "Sorry, were unable to create the follow up. Please contact support.";
             $request->session()->flash('message', new Message(
                 $message,
                 "danger",
                 $code = null,
                 $icon = "error"
             ));
-            return response()->json([
-                'error' => $message,
-                'tag' => null
-            ]);
         }
+        return redirect()->action('ContactController@show', $contact);
+    }
 
+    public function completeFollowUp(CompleteFollowUp $request)
+    {
+        $contact_id = request('contact_id');
+        $contact = Contact::find($contact_id);
+        if (!$contact) {
+            return abort(404);
+        }
+        
+        try {
+            $contact = DB::transaction(function() use($request, $contact) {
+                $note = new Note();
+                $note->user_id = Auth::user()->id;
+                $note->notable_id = request('contact_id');
+                $note->notable_type = "App\Contact";
+                $note->content = request('note');
+                $note->save();
+
+                $contact->follow_up_date = null;
+                $contact->follow_up_user_id = null;
+                $contact->save();
+                return $contact;
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $message = "Sorry, were unable to complete the follow up. Please contact support.";
+            $request->session()->flash('message', new Message(
+                $message,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+        }
         return response()->json([
-            'error' => null
+            'type' => 'success'
         ]);
     }
 }
