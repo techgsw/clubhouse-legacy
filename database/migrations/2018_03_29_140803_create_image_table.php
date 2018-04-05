@@ -232,7 +232,11 @@ class CreateImageTable extends Migration
                 return;
             }
 
-            // TODO remove main-
+            if (!$post_image->legacy) {
+                // Save main without prefix
+                $image_path = $image->saveAs("post/$post_image->post_id", $post_image->filename);
+                $image->path = $image_path;
+            }
 
             $image->save();
             Storage::append('log/migration.log', "{$image->id} {$image->path}");
