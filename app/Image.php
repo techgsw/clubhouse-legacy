@@ -63,6 +63,8 @@ class Image extends Model
                 break;
             case 'png':
                 $this->resource = imagecreatefrompng($this->full_path);
+                imagealphablending($this->resource, true);
+                imagesavealpha($this->resource, true);
                 break;
         }
 
