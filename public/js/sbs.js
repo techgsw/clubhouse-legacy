@@ -748,6 +748,7 @@ $.valHooks.textarea = {
                         return;
                     }
                     $('.follow-up-note-modal').modal('close');
+                    location.reload();
                 });
             }
         },

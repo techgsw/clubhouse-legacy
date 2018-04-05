@@ -31,6 +31,9 @@
                 @can ('view-admin-questions')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/question">Q&amp;A</a></li>
                 @endcan
+                @can ('view-contacts')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/contact?term={{ Auth::user()->id }}&index=follow_up">Follow Up</a></li>
+                @endcan
             </ul>
         </div>
         <ul id="nav-mobile" class="side-nav">

@@ -20,6 +20,7 @@
     </div>
     <div class="col s12 m4">
         <div style="margin: 4px 0;">
+            <button class="complete-follow-up-btn flat-button small" data-contact-id="{{ $contact->id }}"><i class="fa fa-bell"></i></button>
             <button class="view-contact-notes-btn flat-button small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
             @if ($contact->resume_url)
                 @component('components.admin-resume-button', ['url' => $contact->resume_url, 'type' => 'contact'])@endcomponent

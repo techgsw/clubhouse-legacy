@@ -173,6 +173,10 @@ class Contact extends Model
         case 'email':
             $contacts = $contacts->where('contact.email', 'like', "%$term%");
             break;
+        case 'follow_up':
+            $term = (int)$term;
+            $contacts = $contacts->where('contact.follow_up_user_id', $term);
+            break;
         case 'name':
         default:
             $contacts = $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$term%");

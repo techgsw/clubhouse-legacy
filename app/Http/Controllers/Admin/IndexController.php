@@ -10,6 +10,7 @@ use App\Answer;
 use App\User;
 use App\Providers\EmailServiceProvider;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -30,6 +31,7 @@ class IndexController extends Controller
         $job_count = Job::all()->count();
         $post_count = Post::where('post_type_code', 'blog')->count();
         $session_count = Post::where('post_type_code', 'session')->count();
+        $follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
 
         return view('admin.index', [
             'contact_count' => $contact_count,
@@ -39,6 +41,8 @@ class IndexController extends Controller
             'job_count' => $job_count,
             'post_count' => $post_count,
             'session_count' => $session_count,
+            'follow_up_count' => $follow_up_count,
+            'user' => Auth::user()
         ]);
     }
 }
