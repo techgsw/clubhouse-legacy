@@ -11,7 +11,6 @@
                 <option value="organization" {{ request('index') == "organization" ? "selected" : "" }}>by organization</option>
                 <option value="email" {{ request('index') == "email" ? "selected" : "" }}>by email</option>
                 <option value="id" {{ request('index') == "id" ? "selected" : "" }}>by ID</option>
-                <option value="follow_up" {{ request('index') == "follow_up" ? "selected" : "" }}>by follow up ID</option>
             </select>
         </div>
         <div class="col s6 m3 center-align input-field">
