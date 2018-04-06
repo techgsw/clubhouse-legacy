@@ -49,7 +49,6 @@
             </div>
         </form>
     @endcan
-    <!-- TODO: CHANGE TO CORRECT CAN STATEMENT --!>
     @can ('follow-up')
         @if (is_null($contact->followUpUser))
             <form id="create-contact-follow-up" action="/contact/{{ $contact->id }}/schedule-follow-up" method="post" class="compact">
