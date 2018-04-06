@@ -14,8 +14,7 @@ class CompleteFollowUp extends FormRequest
      */
     public function authorize()
     {
-        //TODO: Add correct can
-        return $this->user()->can('add-contact-relationship');
+        return $this->user()->can('follow-up');
     }
 
     /**
