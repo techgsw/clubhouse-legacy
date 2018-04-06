@@ -33,10 +33,16 @@ class IndexController extends Controller
         $session_count = Post::where('post_type_code', 'session')->count();
         $follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
         $post_count = Post::all()->count();
-        // $today_follow_up_count = Contact::where(DB::raw('DATE(follow_up_date)'),)->where('follow_up_user_id', Auth::user()->id)->count();
-        $today_follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
-        $overdue_follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
-        $upcoming_follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
+        $today = (new \DateTime('now'))->format('Y-m-d 00:00:00');
+        if (Auth::user()->id == 1) {
+            $today_follow_up_count = Contact::where(\DB::raw('DATE(follow_up_date)'),'=',$today)->count();
+            $overdue_follow_up_count = Contact::where(\DB::raw('DATE(follow_up_date)'),'<' ,$today)->count();
+            $upcoming_follow_up_count = Contact::where(\DB::raw('DATE(follow_up_date)'),'>' ,$today)->count();
+        } else {
+            $today_follow_up_count = Contact::where('follow_up_user_id',Auth::user()->id)->where(\DB::raw('DATE(follow_up_date)'),'=',$today)->count();
+            $overdue_follow_up_count = Contact::where('follow_up_user_id',Auth::user()->id)->where(\DB::raw('DATE(follow_up_date)'),'<' ,$today)->count();
+            $upcoming_follow_up_count = Contact::where('follow_up_user_id',Auth::user()->id)->where(\DB::raw('DATE(follow_up_date)'),'>' ,$today)->count();
+        }
 
         return view('admin.index', [
             'contact_count' => $contact_count,
@@ -49,8 +55,7 @@ class IndexController extends Controller
             'follow_up_count' => $follow_up_count,
             'today_follow_up_count' => $today_follow_up_count,
             'overdue_follow_up_count' => $overdue_follow_up_count,
-            'upcoming_follow_up_count' => $upcoming_follow_up_count,
-            'user' => Auth::user()
+            'upcoming_follow_up_count' => $upcoming_follow_up_count
         ]);
     }
 }

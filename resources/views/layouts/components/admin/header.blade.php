@@ -31,8 +31,8 @@
                 @can ('view-admin-questions')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/question">Q&amp;A</a></li>
                 @endcan
-                @can ('view-contacts')
-                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/contact?term={{ Auth::user()->id }}&index=follow_up">Follow Up</a></li>
+                @can ('follow-up')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/follow-up">Follow Up</a></li>
                 @endcan
             </ul>
         </div>
@@ -51,6 +51,9 @@
             @endcan
             @can ('view-admin-questions')
                 <li><a href="/admin/question">Q&amp;A</a></li>
+            @endcan
+            @can ('follow-up')
+                <li><a href="/admin/follow-up">Follow Up</a></li>
             @endcan
             <li class="divider"></li>
             <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>

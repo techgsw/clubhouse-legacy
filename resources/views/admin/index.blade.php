@@ -77,23 +77,25 @@
             <a class="no-underline" href="/question/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> Ask Question</span></a>
         </div>
     </div>
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title"><a href="/admin/follow-up" class="no-underline">Follow Up</a></span>
-            <p style="text-transform: uppercase;">
-                <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $today_follow_up_count }}</span> today</a>
-            </p>
-            <p style="text-transform: uppercase;">
-                <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $overdue_follow_up_count }}</span> overdue</a>
-            </p>
-            <p style="text-transform: uppercase;">
-                <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $upcoming_follow_up_count }}</span> upcoming</a>
-            </p>
+    @can ('follow-up')
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"><a href="/admin/follow-up" class="no-underline">Follow Up</a></span>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $today_follow_up_count }}</span> today</a>
+                </p>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $overdue_follow_up_count }}</span> overdue</a>
+                </p>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $upcoming_follow_up_count }}</span> upcoming</a>
+                </p>
+            </div>
+            <div class="card-action">
+                <a class="no-underline" href="/admin/follow-up"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View All</span></a>
+            </div>
         </div>
-        <div class="card-action">
-            <a class="no-underline" href="/admin/contact?term={{$user->id}}&index=follow_up"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View All</span></a>
-        </div>
-    </div>
+    @endcan
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>

@@ -4,9 +4,10 @@
     if (count($notes) > 0) {
         $last_note = reset($notes);
     }
+    $today = (new \DateTime('now'))->format('Y-m-d 00:00:00');
 @endphp
 <div class="row admin-user-list-item">
-    <div class="col s12 m5">
+    <div class="col s12 m6">
         <a href="/contact/{{$contact->id}}">
             <p class="name">{{ $contact->first_name }} {{ $contact->last_name }}</p>
             <p class="email">
@@ -16,10 +17,10 @@
             <p class="title">{{ $contact->getTitle() }}</p>
         </a>
     </div>
-    <div class="col s12 m7">
+    <div class="col s12 m6">
         <div style="margin: 4px 0;">
-            @if ($contact->follow_up_date)
-                <button class="complete-follow-up-btn flat-button small {{ $contact->follow_up_date <= new \DateTime('now') ? 'red' : '' }}" data-contact-id="{{ $contact->id }}"><i class="fa fa-bell"></i> {{ $contact->follow_up_date->format('m/d/y') }}</button>
+            @if ($contact->follow_up_date && (Auth::user()->id == $contact->follow_up_user_id || Auth::user()->id == 1))
+                <button class="complete-follow-up-btn flat-button small {{ $contact->follow_up_date == $today ? 'green' : ($contact->follow_up_date < $today ? 'red' : '') }}" data-contact-id="{{ $contact->id }}"><i class="fa fa-bell"></i> {{ (Auth::user()->id == 1) ? $contact->followUpUser->getName() : '' }} {{ $contact->follow_up_date->format('m/d/y') }}</button>
             @endif
             <button class="view-contact-notes-btn flat-button small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
             @if ($contact->resume_url)
