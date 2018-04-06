@@ -24,7 +24,7 @@ class CreateImageTable extends Migration
             $table->increments('id');
             $table->text('path');
             $table->boolean('cdn')->default(false);
-            $table->integer('order')->unsigned()->nullable();
+            $table->integer('order')->unsigned()->default(1);
             $table->timestamps();
         });
 
@@ -231,6 +231,8 @@ class CreateImageTable extends Migration
                 $error++;
                 return;
             }
+
+            // TODO image order!
 
             if (!$post_image->legacy) {
                 // Save main without prefix

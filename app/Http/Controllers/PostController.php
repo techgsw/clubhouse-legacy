@@ -68,7 +68,7 @@ class PostController extends Controller
 
                     // Original image
                     $original = new Image($path);
-                    $original->saveAs($dir, "original-".$filename)
+                    $original->saveAs($dir, "original-".$filename);
                     // Main, cropped square from the center
                     $main = clone $original;
                     $image_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
@@ -182,7 +182,7 @@ class PostController extends Controller
 
                     // Original image
                     $original = new Image($path);
-                    $original->saveAs($dir, "original-".$filename)
+                    $original->saveAs($dir, "original-".$filename);
                     // Main, cropped square from the center
                     $main = clone $original;
                     $image_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);

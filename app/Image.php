@@ -22,57 +22,59 @@ class Image extends Model
     protected $resource;
     protected $type;
 
-    public function __construct($path)
+    public function __construct($path=null)
     {
-        if (!function_exists("gd_info")) {
-            throw new \Exception("GD Library is required.");
+        if (!is_null($path) && !is_array($path)) {
+            if (!function_exists("gd_info")) {
+                throw new \Exception("GD Library is required.");
+            }
+
+            $this->dimensions = array();
+            $this->path = $path;
+            $this->full_path = storage_path('app/public/'.$path);
+
+            // File must exist
+            if (!file_exists($this->full_path)) {
+                throw new \Exception("File ".$this->full_path." does not exist");
+            }
+
+            // File must be readable
+            if (!is_readable($this->full_path)) {
+                throw new \Exception("File ".$this->full_path." is not readable");
+            }
+
+            // Determine type
+            if (stristr(strtolower($this->full_path), '.gif')) {
+                $this->type = 'gif';
+            } elseif (stristr(strtolower($this->full_path),'.jpg') || stristr(strtolower($this->full_path),'.jpeg')) {
+                $this->type = 'jpeg';
+            } elseif (stristr(strtolower($this->full_path),'.png')) {
+                $this->type = 'png';
+            } else {
+                throw new \Exception("Image: unknown file type. Must be GIF, JPEG, or PNG.");
+            }
+
+            // initialize resources if no errors
+            switch ($this->type) {
+                case 'gif':
+                    $this->resource = imagecreatefromgif($this->full_path);
+                    break;
+                case 'jpeg':
+                    $this->resource = imagecreatefromjpeg($this->full_path);
+                    break;
+                case 'png':
+                    $this->resource = imagecreatefrompng($this->full_path);
+                    imagealphablending($this->resource, true);
+                    imagesavealpha($this->resource, true);
+                    break;
+            }
+
+            $size = getimagesize($this->full_path);
+            $this->dimensions = [
+                'width' => $size[0],
+                'height' => $size[1]
+            ];
         }
-
-        $this->dimensions = array();
-        $this->path = $path;
-        $this->full_path = storage_path('app/public/'.$path);
-
-        // File must exist
-        if (!file_exists($this->full_path)) {
-            throw new \Exception("File ".$this->full_path." does not exist");
-        }
-
-        // File must be readable
-        if (!is_readable($this->full_path)) {
-            throw new \Exception("File ".$this->full_path." is not readable");
-        }
-
-        // Determine type
-        if (stristr(strtolower($this->full_path), '.gif')) {
-            $this->type = 'gif';
-        } elseif (stristr(strtolower($this->full_path),'.jpg') || stristr(strtolower($this->full_path),'.jpeg')) {
-            $this->type = 'jpeg';
-        } elseif (stristr(strtolower($this->full_path),'.png')) {
-            $this->type = 'png';
-        } else {
-            throw new \Exception("Image: unknown file type. Must be GIF, JPEG, or PNG.");
-        }
-
-        // initialize resources if no errors
-        switch ($this->type) {
-            case 'gif':
-                $this->resource = imagecreatefromgif($this->full_path);
-                break;
-            case 'jpeg':
-                $this->resource = imagecreatefromjpeg($this->full_path);
-                break;
-            case 'png':
-                $this->resource = imagecreatefrompng($this->full_path);
-                imagealphablending($this->resource, true);
-                imagesavealpha($this->resource, true);
-                break;
-        }
-
-        $size = getimagesize($this->full_path);
-        $this->dimensions = [
-            'width' => $size[0],
-            'height' => $size[1]
-        ];
     }
 
     public function __destruct()
@@ -85,10 +87,10 @@ class Image extends Model
     public function getPath($quality=null)
     {
         $path = $this->path;
-        if ($quality && in_array($quality, ['main', 'full', 'small', 'medium,', 'large'])) {
+        if ($quality && in_array($quality, ['main', 'full', 'original', 'small', 'medium', 'large'])) {
             $dirs = explode("/", $path);
             $filename = array_pop($dirs);
-            $root = preg_replace("/^(main|full|small|medium|large)-/", "", $filename);
+            $root = preg_replace("/^(main|full|original|small|medium|large)-/", "", $filename);
             $dirs[] = "$quality-$root";
             $path = implode("/", $dirs);
         }
