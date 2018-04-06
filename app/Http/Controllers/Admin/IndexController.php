@@ -32,6 +32,11 @@ class IndexController extends Controller
         $post_count = Post::where('post_type_code', 'blog')->count();
         $session_count = Post::where('post_type_code', 'session')->count();
         $follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
+        $post_count = Post::all()->count();
+        // $today_follow_up_count = Contact::where(DB::raw('DATE(follow_up_date)'),)->where('follow_up_user_id', Auth::user()->id)->count();
+        $today_follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
+        $overdue_follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
+        $upcoming_follow_up_count = Contact::where('follow_up_user_id', Auth::user()->id)->count();
 
         return view('admin.index', [
             'contact_count' => $contact_count,
@@ -42,6 +47,9 @@ class IndexController extends Controller
             'post_count' => $post_count,
             'session_count' => $session_count,
             'follow_up_count' => $follow_up_count,
+            'today_follow_up_count' => $today_follow_up_count,
+            'overdue_follow_up_count' => $overdue_follow_up_count,
+            'upcoming_follow_up_count' => $upcoming_follow_up_count,
             'user' => Auth::user()
         ]);
     }

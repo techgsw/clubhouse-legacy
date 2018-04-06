@@ -79,9 +79,15 @@
     </div>
     <div class="card">
         <div class="card-content">
-            <span class="card-title"><a href="/admin/contact?term={{$user->id}}&index=follow_up" class="no-underline">Follow Up</a></span>
+            <span class="card-title"><a href="/admin/follow-up" class="no-underline">Follow Up</a></span>
             <p style="text-transform: uppercase;">
-                <a href="/admin/contact?term={{$user->id}}&index=follow_up" class="no-underline"><span class="sbs-red-text">{{ $follow_up_count }}</span> Incomplete</a>
+                <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $today_follow_up_count }}</span> today</a>
+            </p>
+            <p style="text-transform: uppercase;">
+                <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $overdue_follow_up_count }}</span> overdue</a>
+            </p>
+            <p style="text-transform: uppercase;">
+                <a href="/admin/follow-up" class="no-underline"><span class="sbs-red-text">{{ $upcoming_follow_up_count }}</span> upcoming</a>
             </p>
         </div>
         <div class="card-action">

@@ -6,21 +6,21 @@
     }
 @endphp
 <div class="row admin-user-list-item">
-    <div class="col s12 m4">
+    <div class="col s12 m5">
         <a href="/contact/{{$contact->id}}">
             <p class="name">{{ $contact->first_name }} {{ $contact->last_name }}</p>
+            <p class="email">
+                <a class="no-underline" href="mailto::{{ $contact->email }}">{{ $contact->email }}</a>
+            </p>
+            <p class="phone">@component('components.phone', ['phone' => $contact->profile ? $contact->profile->phone : null])@endcomponent</p>
             <p class="title">{{ $contact->getTitle() }}</p>
         </a>
     </div>
-    <div class="col s12 m4">
-        <p class="email">
-            <a class="no-underline" href="mailto::{{ $contact->email }}">{{ $contact->email }}</a>
-        </p>
-        <p class="phone">@component('components.phone', ['phone' => $contact->profile ? $contact->profile->phone : null])@endcomponent</p>
-    </div>
-    <div class="col s12 m4">
+    <div class="col s12 m7">
         <div style="margin: 4px 0;">
-            <button class="complete-follow-up-btn flat-button small" data-contact-id="{{ $contact->id }}"><i class="fa fa-bell"></i></button>
+            @if ($contact->follow_up_date)
+                <button class="complete-follow-up-btn flat-button small {{ $contact->follow_up_date <= new \DateTime('now') ? 'red' : '' }}" data-contact-id="{{ $contact->id }}"><i class="fa fa-bell"></i> {{ $contact->follow_up_date->format('m/d/y') }}</button>
+            @endif
             <button class="view-contact-notes-btn flat-button small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
             @if ($contact->resume_url)
                 @component('components.admin-resume-button', ['url' => $contact->resume_url, 'type' => 'contact'])@endcomponent

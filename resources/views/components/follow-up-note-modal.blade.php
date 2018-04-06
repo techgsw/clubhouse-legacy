@@ -1,5 +1,5 @@
 <div class="follow-up-note-modal modal">
-    <div class="modal-content"
+    <div class="modal-content">
         <form id="create-follow-up-note" method="post">
             {{ csrf_field() }}
             <div class="row">
