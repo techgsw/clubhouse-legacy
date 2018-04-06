@@ -25,15 +25,16 @@
                 @can ('view-contact')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/contact">Contacts</a></li>
                 @endcan
+                @can ('follow-up')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/follow-up">Follow Up</a></li>
+                @endcan
                 @can ('view-admin-jobs')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/job">Jobs</a></li>
                 @endcan
                 @can ('view-admin-questions')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/question">Q&amp;A</a></li>
                 @endcan
-                @can ('follow-up')
-                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/follow-up">Follow Up</a></li>
-                @endcan
+                <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/session">Sessions</a></li>
             </ul>
         </div>
         <ul id="nav-mobile" class="side-nav">

@@ -53,14 +53,14 @@
         @if (is_null($contact->followUpUser))
             <form id="create-contact-follow-up" action="/contact/{{ $contact->id }}/schedule-follow-up" method="post" class="compact">
                 {{ csrf_field() }}
+                <input class="hidden" type="text" name="contact_id" value="{{ $contact->id }}" />
                 <div class="row">
                     <div class="col s6 m4">
                         <label for="follow_up_date" data-error="{{ $errors->first('follow_up_date') }}">Follow Up Date</label>
                         <input class="datepicker {{ $errors->has('follow_up_date') ? 'invalid' : '' }}" id="follow-up-date" type="text" name="follow_up_date" value="{{ $contact->follow_up_date }}" />
                     </div>
-                    <input class="hidden" type="text" name="contact_id" value="{{ $contact->id }}" />
-                    <div class="col s12 m4">
-                        <button type="type" name="shedule" class="btn btn-small sbs-green submit-contact-follow-up-btn">Schedule</button>
+                    <div class="col s6 m4">
+                        <button type="type" name="shedule" class="flat-button submit-contact-follow-up-btn" style="margin-top: 20px;"><i class="fa fa-calendar"></i> Schedule</button>
                     </div>
                 </div>
             </form>
@@ -70,12 +70,9 @@
             </div>
             <div class="row">
                 <div class="col s6 m4">
-                    <span class="flat-button sbs-green medium tag">
-                        {{ $contact->followUpUser->getName() }} - {{ $contact->follow_up_date->format('m/d/Y') }}
+                    <button class="flat-button sbs-green medium tag complete-follow-up-btn {{ $contact->follow_up_date <= new \DateTime('now') ? 'red' : '' }}" data-contact-id="{{ $contact->id }}">
+                        <i class="fa fa-calendar"></i> {{ $contact->follow_up_date->format('m/d/Y') }}
                     </span>
-                </div>
-                <div class="col s6 m4">
-                    <button type="button" data-contact-id="{{ $contact->id }}" class="btn btn-small sbs-green complete-follow-up-btn">Complete</button>
                 </div>
             </div>
         @elseif (Auth::user()->id == 1)
@@ -89,6 +86,8 @@
                     </span>
                 </div>
             </div>
+        @else
+
         @endif
     @endcan
     <div style="margin-bottom: 30px;">
