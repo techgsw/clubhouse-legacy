@@ -68,9 +68,5 @@
         </div>
     </div>
 </div>
-@if ($post->user->id === 1 && is_null($post->authored_by))
-    @include('post.signatures.bob-hamer')
-@elseif ($post->user->id === 7 && is_null($post->authored_by))
-    @include('post.signatures.mike-rudner')
-@endif
+@include('post.signature')
 @endsection
