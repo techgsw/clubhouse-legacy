@@ -61,77 +61,77 @@
     </div>
     <div class="row center">
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2014/09/SBS-Final-Press-Release-09.12.14.pdf">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Final-Press-Release-09.12.14.pdf">
                 <p>09.12.14</p>
                 <h6>Launch of SBS</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2014/10/SBS-Press-Release-Combine-10.01.141.doc">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-Combine-10.01.141.doc">
                 <p>10.01.14</p>
                 <h6>Sales Combine Purchase</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2014/08/SBS-Press-Release-PHX-Combine-2014.doc">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-PHX-Combine-2014.doc">
                 <p>11.12.14</p>
                 <h6>PHX Sales Combine 2014</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2014/08/SBS-Press-Release-Minny-Combine-2014.doc">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-Minny-Combine-2014.doc">
                 <p>12.16.14</p>
                 <h6>MN Sales Combine 2014</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2014/08/SBS-Press-Release-Devils-Combine-2015.doc">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-Devils-Combine-2015.doc">
                 <p>03.09.15</p>
                 <h6>NJ Sales Combine 2015</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2014/08/SBS-Press-Release-50-Candidates-Placed.pdf">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-50-Candidates-Placed.pdf">
                 <p>08.31.15</p>
                 <h6>50 job candidates placed</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2015/10/SBS-Press-Release-Pistons-Combine-2015.doc">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-Pistons-Combine-2015.doc">
                 <p>12.07.15</p>
                 <h6>DET Sales Combine 2015</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2016/05/SBS-Press-Release-Training-Recruiting.pdf">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-Training-Recruiting.pdf">
                 <p>12.30.15</p>
                 <h6>SBS adding Recruiting & Training</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2015/10/SBS-Press-Release-Sharks-Combine-2016.pdf">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-Press-Release-Sharks-Combine-2016.pdf">
                 <p>02.29.16</p>
                 <h6>SJ Sales Combine 2016</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="http://www.sportsbusiness.solutions/wp-content/uploads/2016/05/SBS-New-Hire-Press-Release-Jason-Stein.pdf">
+            <a class="press-release" href="http://www.sportsbusiness.solutions/storage/press-release/SBS-New-Hire-Press-Release-Jason-Stein.pdf">
                 <p>03.30.16</p>
                 <h6>New hire Jason Stein</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
         <div class="col s6 m4 l3">
-            <a class="press-release" href="https://sportsbusiness.solutions/wp-content/uploads/2017/10/SBS-New-Hire-Press-Release-Mike-Rudner-Final.docx">
+            <a class="press-release" href="https://sportsbusiness.solutions/storage/press-release/SBS-New-Hire-Press-Release-Mike-Rudner-Final.docx">
                 <p>06.14.17</p>
                 <h6>New hire Mike Rudner</h6>
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
