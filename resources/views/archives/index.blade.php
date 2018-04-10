@@ -137,6 +137,13 @@
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
+        <div class="col s6 m4 l3">
+            <a class="press-release" target="_blank" href="https://sportsbusiness.solutions/storage/press-release/SBS-NewHirePressRelease-AdamVogel.pdf">
+                <p>03.26.18</p>
+                <h6>New hire Adam Vogel</h6>
+                <p class="icon fa fa-chevron-circle-right fa-2x"></p>
+            </a>
+        </div>
     </div>
     <div class="row" id="other-contributions">
         <div class="col s12">
@@ -145,14 +152,49 @@
         </div>
     </div>
     <div class="row center">
+        <div class="clearfix hide-on-small-only"></div>
         <div class="col s12 m4">
-            <a class="publication" target="_blank" href="http://collegead.com/roadmap-getting-job-sports/">
+            <a class="publication" target="_blank" href="https://www.bizjournals.com/phoenix/news/2018/04/03/pitching-baseball-to-younger-fans-as-sports.html">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
                 </div>
                 <div class="publication-text">
-                    <h6 class="venue">College AD</h6>
-                    <h6 class="title">How to get a job in sports</h6>
+                    <h6 class="venue">Phoenix Business Journal</h6>
+                    <h6 class="title">Pitching baseball to younger fans</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s12 m4">
+            <a class="publication" target="_blank" href="http://sportspr.com/sportsprnews/2016/12/8/how-curiosity-can-grow-your-sports-business-career">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">SportsPR.com</h6>
+                    <h6 class="title">How curiosity can grow your sports business career</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s12 m4">
+            <a class="publication" target="_blank" href="http://www.jakekelfer.com/blog/control-what-you-can-control">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">Jake Kelfer</h6>
+                    <h6 class="title">Success Spotlight with Bob Hamer</h6>
+                </div>
+            </a>
+        </div>
+        <div class="clearfix hide-on-small-only"></div>
+        <div class="col s12 m4">
+            <a class="publication" target="_blank" href="http://www.thebusinessofsports.com/2015/10/12/inside-the-sportsbiz-studio-bob-hamer/">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">Business of Sports</h6>
+                    <h6 class="title">Inside the SportsBiz Studio: Bob Hamer</h6>
                 </div>
             </a>
         </div>
@@ -168,18 +210,6 @@
             </a>
         </div>
         <div class="col s12 m4">
-            <a class="publication" target="_blank" href="http://sportscareers.about.com/od/interviews/fl/Sport-Sales-Combine-Your-Ticket-to-A-Sports-Sales-Career.htm">
-                <div class="publication-icon">
-                    <div class="icon fa fa-newspaper-o fa-2x"></div>
-                </div>
-                <div class="publication-text">
-                    <h6 class="venue">about.com</h6>
-                    <h6 class="title">Getting a job in sports</h6>
-                </div>
-            </a>
-        </div>
-        <div class="clearfix hide-on-small-only"></div>
-        <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://collegead.com/get-promoted-sports-business-job/">
                 <div class="publication-icon">
                     <div class="icon fa fa-newspaper-o fa-2x"></div>
@@ -187,6 +217,29 @@
                 <div class="publication-text">
                     <h6 class="venue">College AD</h6>
                     <h6 class="title">How to get promoted in your sports business job</h6>
+                </div>
+            </a>
+        </div>
+        <div class="clearfix hide-on-small-only"></div>
+        <div class="col s12 m4">
+            <a class="publication" target="_blank" href="http://collegead.com/roadmap-getting-job-sports/">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">College AD</h6>
+                    <h6 class="title">How to get a job in sports</h6>
+                </div>
+            </a>
+        </div>
+        <div class="col s12 m4">
+            <a class="publication" target="_blank" href="http://collegead.com/roadmap-getting-job-sports/">
+                <div class="publication-icon">
+                    <div class="icon fa fa-newspaper-o fa-2x"></div>
+                </div>
+                <div class="publication-text">
+                    <h6 class="venue">UW Madison SBC</h6>
+                    <h6 class="title">Speaker Spotlight: Bob Hamer</h6>
                 </div>
             </a>
         </div>
@@ -201,29 +254,7 @@
                 </div>
             </a>
         </div>
-        <div class="col s12 m4">
-            <a class="publication" target="_blank" href="http://www.frontofficesports.org/interviews/11/15/an-in-depth-look-at-the-sports-sales-combine-with-bob-hamer">
-                <div class="publication-icon">
-                    <div class="icon fa fa-newspaper-o fa-2x"></div>
-                </div>
-                <div class="publication-text">
-                    <h6 class="venue">Front Office Sports</h6>
-                    <h6 class="title">The Sports Sales Combine</h6>
-                </div>
-            </a>
-        </div>
         <div class="clearfix hide-on-small-only"></div>
-        <div class="col s12 m4">
-            <a class="publication" target="_blank" href="http://www.frontofficesports.org/interviews/12/18/from-one-side-of-the-desk-to-another-how-a-passion-for-helping-others-turned-an-idea-into-a-new-business-venture?rq=Bob%20Hamer">
-                <div class="publication-icon">
-                    <div class="icon fa fa-newspaper-o fa-2x"></div>
-                </div>
-                <div class="publication-text">
-                    <h6 class="venue">Front Office Sports</h6>
-                    <h6 class="title">Launching Sports Business Solutions</h6>
-                </div>
-            </a>
-        </div>
         <div class="col s12 m4">
             <a class="publication" target="_blank" href="http://sportsgeekhq.com/podcast/bob-hamer-sales-success-sports/">
                 <div class="publication-icon">
