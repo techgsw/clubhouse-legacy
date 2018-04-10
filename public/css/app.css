@@ -613,6 +613,11 @@ textarea#note:focus {
     box-shadow: none !important;
 }
 
+textarea.invalid,
+textarea#note.invalid {
+    border: 1px solid #F44336 !important;
+}
+
 main a.btn,
 main a.btn:hover,
 footer a.btn,
@@ -812,7 +817,7 @@ select.browser-default {
 }
 
 /**
- * Dropzone 
+ * Dropzone
  */
 
 .dz-details, .dz-error-mark, .dz-success-mark, .dz-success-message, .dz-progress, .dz-error-message {

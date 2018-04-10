@@ -8,8 +8,9 @@ use App\Contact;
 use App\ContactRelationship;
 use App\Note;
 use App\Message;
-use App\Http\Requests\ScheduleFollowUp;
 use App\Http\Requests\CompleteFollowUp;
+use App\Http\Requests\RescheduleFollowUp;
+use App\Http\Requests\ScheduleFollowUp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -340,10 +341,10 @@ class ContactController extends Controller
         ]);
     }
 
-    ///**
-    // * @param  ScheduleFollowUp  $request
-    // * @return Response
-    // */
+    /**
+     * @param  ScheduleFollowUp  $request
+     * @return Response
+     */
     public function scheduleFollowUp(ScheduleFollowUp $request)
     {
         $contact_id = request('contact_id');
@@ -372,6 +373,47 @@ class ContactController extends Controller
         return redirect()->action('ContactController@show', $contact);
     }
 
+    /**
+     * @param  RescheduleFollowUp  $request
+     * @return Response
+     */
+    public function rescheduleFollowUp(RescheduleFollowUp $request)
+    {
+        $contact_id = request('contact_id');
+        $contact = Contact::find($contact_id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        try {
+            $contact = DB::transaction(function() use($request, $contact) {
+                $follow_up_date = request('follow_up_date');
+                $follow_up_date = new \DateTime($follow_up_date);
+
+                $contact->follow_up_date = $follow_up_date->format('Y-m-d 00:00:00');
+                $contact->follow_up_user_id = Auth::user()->id;
+                $contact->save();
+
+                $note = new Note();
+                $note->user_id = Auth::user()->id;
+                $note->notable_id = request('contact_id');
+                $note->notable_type = "App\Contact";
+                $note->content = request('note');
+                $note->save();
+
+                return $contact;
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                "error" => "Failed to reschedule follow-up."
+            ]);
+        }
+        return response()->json([
+            "error" => null
+        ]);
+    }
+
     public function completeFollowUp(CompleteFollowUp $request)
     {
         $contact_id = request('contact_id');
@@ -379,7 +421,7 @@ class ContactController extends Controller
         if (!$contact) {
             return abort(404);
         }
-        
+
         try {
             $contact = DB::transaction(function() use($request, $contact) {
                 $note = new Note();

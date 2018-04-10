@@ -15,6 +15,7 @@ $.valHooks.textarea = {
 (function () {
     var Auth = {};
     var Blog = {};
+    var Contact = {};
     var Form = {
         unsaved: false
     };
@@ -28,78 +29,6 @@ $.valHooks.textarea = {
         map: {}
     };
     var UI = {};
-
-    UI.addMessage = function (response) {
-        var template = $('.message-template.hidden').clone();
-        if (!template) {
-            console.warning("Missing message template");
-            console.log(response);
-            return;
-        }
-        $(template).find('.message-text').html(response.message);
-        switch (response.type) {
-            case 'success':
-                $(template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
-                $(template).find('.material-icons').html('check_circle');
-                break;
-            case 'warning':
-                $(template).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
-                $(template).find('.material-icons').html('warning');
-                break;
-            case 'danger':
-                $(template).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
-                $(template).find('.material-icons').html('error');
-                break;
-            default:
-                break;
-        }
-        $(template).removeClass('hidden');
-        $('main div.container').first().prepend(template);
-    }
-
-    UI.displayMessage = function (response) {
-        var message = $('.message');
-        if (message.length == 0) {
-            message = $('.message-template.hidden').clone();
-            message.removeClass('message-template').addClass('message');
-            if (message.length == 0) {
-                console.warning("Missing message template");
-                console.log(response);
-                return;
-            }
-            $('main div.container').first().prepend(message);
-        }
-
-        $(message).find('.message-text').html(response.message);
-        switch (response.type) {
-            case 'success':
-                $(message).find('.alert').addClass('green lighten-4 green-text text-darken-4');
-                $(message).find('.material-icons').html('check_circle');
-                break;
-            case 'warning':
-                $(message).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
-                $(message).find('.material-icons').html('warning');
-                break;
-            case 'danger':
-                $(message).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
-                $(message).find('.material-icons').html('error');
-                break;
-            default:
-                break;
-        }
-
-        if ($(message).hasClass('hidden')) {
-            $(message).removeClass('hidden');
-        }
-    }
-
-    UI.removeMessage = function () {
-        var message = $('.message');
-        if (message.length == 0) {
-            return;
-        }
-        $(message).remove();
-    }
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -138,73 +67,12 @@ $.valHooks.textarea = {
         });
     }
 
-    Tag.create = function (name) {
+    Contact.rescheduleFollowUp = function (data) {
         return $.ajax({
-            'type': 'POST',
-            'url': '/tag',
-            'data': {
-                'name': name,
-                '_token': $('form#create-tag input[name="_token"]').val()
-            }
+            type: 'POST',
+            url: '/contact/'+data.contact_id+'/reschedule-follow-up',
+            data: data
         });
-    }
-
-    Tag.getOptions = function () {
-        return $.ajax({
-            'type': 'GET',
-            'url': '/tag/all',
-            'data': {}
-        });
-    }
-
-    Tag.addToPost = function (name, input, view) {
-        // Append to input
-        var tags = JSON.parse(input.val());
-        tags.push(name);
-        $(input).val(JSON.stringify(tags));
-        // Append to view
-        var tag =
-            `<span class="flat-button gray small tag">
-                <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
-            </span>`;
-        $(view).append(tag);
-    }
-
-    Tag.removeFromPost = function (name, input, view) {
-        // Remove from input
-        var tags = JSON.parse(input.val());
-        var i = tags.indexOf(name);
-        if (i > -1) {
-            tags.splice(i, 1);
-        }
-        input.val(JSON.stringify(tags));
-        // Remove from view
-        var button = $('button[tag-name="'+name+'"]');
-        if (button) {
-            button.parent().remove();
-        }
-    }
-
-    Tag.init = function () {
-        var tag_autocomplete = $('input.tag-autocomplete');
-        if (tag_autocomplete.length > 0) {
-            Tag.getOptions().done(function (data) {
-                var tags = {}
-                data.forEach(function (t) {
-                    Tag.map[t.name] = t.slug;
-                    tags[t.name] = "";
-                });
-                var x = tag_autocomplete.autocomplete({
-                    data: tags,
-                    limit: 10,
-                    onAutocomplete: function (val) {
-                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
-                        tag_autocomplete.val("");
-                    },
-                    minLength: 2,
-                });
-            });
-        }
     }
 
     ContactRelationship.create = function (user_id, contact_id) {
@@ -287,6 +155,204 @@ $.valHooks.textarea = {
                 });
             });
         }
+    }
+
+    Note.init = function () {
+        $('.contact-notes-modal').modal({
+            dismissible: true,  // Modal can be dismissed by clicking outside of the modal
+            opacity: .5,        // Opacity of modal background
+            inDuration: 300,    // Transition in duration
+            outDuration: 200,   // Transition out duration
+            startingTop: '4%',  // Starting top style attribute
+            endingTop: '10%',   // Ending top style attribute
+        });
+    };
+
+    Note.getContactNotes = function (contact_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/contact/'+contact_id+'/show-notes'
+        });
+    }
+
+    Note.deleteNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/note/'+data.note_id+'/delete',
+            data: data
+        });
+    }
+
+    Note.postContactNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact/'+data.contact_id+'/create-note',
+            data: data
+        });
+    }
+
+    Note.getInquiryNotes = function (inquiry_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/inquiry/'+inquiry_id+'/show-notes'
+        });
+    }
+
+    Note.postInquiryNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/inquiry/'+data.inquiry_id+'/create-note',
+            data: data
+        });
+    }
+
+    Note.postFollowUpNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact/'+data.contact_id+'/complete-follow-up',
+            data: data
+        });
+    }
+
+    Tag.create = function (name) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/tag',
+            'data': {
+                'name': name,
+                '_token': $('form#create-tag input[name="_token"]').val()
+            }
+        });
+    }
+
+    Tag.getOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/tag/all',
+            'data': {}
+        });
+    }
+
+    Tag.addToPost = function (name, input, view) {
+        // Append to input
+        var tags = JSON.parse(input.val());
+        tags.push(name);
+        $(input).val(JSON.stringify(tags));
+        // Append to view
+        var tag =
+            `<span class="flat-button gray small tag">
+                <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
+            </span>`;
+        $(view).append(tag);
+    }
+
+    Tag.removeFromPost = function (name, input, view) {
+        // Remove from input
+        var tags = JSON.parse(input.val());
+        var i = tags.indexOf(name);
+        if (i > -1) {
+            tags.splice(i, 1);
+        }
+        input.val(JSON.stringify(tags));
+        // Remove from view
+        var button = $('button[tag-name="'+name+'"]');
+        if (button) {
+            button.parent().remove();
+        }
+    }
+
+    Tag.init = function () {
+        var tag_autocomplete = $('input.tag-autocomplete');
+        if (tag_autocomplete.length > 0) {
+            Tag.getOptions().done(function (data) {
+                var tags = {}
+                data.forEach(function (t) {
+                    Tag.map[t.name] = t.slug;
+                    tags[t.name] = "";
+                });
+                var x = tag_autocomplete.autocomplete({
+                    data: tags,
+                    limit: 10,
+                    onAutocomplete: function (val) {
+                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
+                        tag_autocomplete.val("");
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
+
+    UI.addMessage = function (response) {
+        var template = $('.message-template.hidden').clone();
+        if (!template) {
+            console.warning("Missing message template");
+            console.log(response);
+            return;
+        }
+        $(template).find('.message-text').html(response.message);
+        switch (response.type) {
+            case 'success':
+                $(template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                $(template).find('.material-icons').html('check_circle');
+                break;
+            case 'warning':
+                $(template).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
+                $(template).find('.material-icons').html('warning');
+                break;
+            case 'danger':
+                $(template).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
+                $(template).find('.material-icons').html('error');
+                break;
+            default:
+                break;
+        }
+        $(template).removeClass('hidden');
+        $('main div.container').first().prepend(template);
+    }
+
+    UI.displayMessage = function (response) {
+        var message = $('.message');
+        if (message.length == 0) {
+            message = $('.message-template.hidden').clone();
+            message.removeClass('message-template').addClass('message');
+            if (message.length == 0) {
+                console.warning("Missing message template");
+                console.log(response);
+                return;
+            }
+            $('main div.container').first().prepend(message);
+        }
+
+        $(message).find('.message-text').html(response.message);
+        switch (response.type) {
+            case 'success':
+                $(message).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                $(message).find('.material-icons').html('check_circle');
+                break;
+            case 'warning':
+                $(message).find('.alert').addClass('alert card-panel yellow lighten-4 yellow-text text-darken-4');
+                $(message).find('.material-icons').html('warning');
+                break;
+            case 'danger':
+                $(message).find('.alert').addClass('alert card-panel red lighten-4 red-text text-darken-4');
+                $(message).find('.material-icons').html('error');
+                break;
+            default:
+                break;
+        }
+
+        if ($(message).hasClass('hidden')) {
+            $(message).removeClass('hidden');
+        }
+    }
+
+    UI.removeMessage = function () {
+        var message = $('.message');
+        if (message.length == 0) {
+            return;
+        }
+        $(message).remove();
     }
 
     $('body').on(
@@ -526,62 +592,6 @@ $.valHooks.textarea = {
     );
 
     // Notes
-    Note.init = function () {
-        $('.contact-notes-modal').modal({
-            dismissible: true,  // Modal can be dismissed by clicking outside of the modal
-            opacity: .5,        // Opacity of modal background
-            inDuration: 300,    // Transition in duration
-            outDuration: 200,   // Transition out duration
-            startingTop: '4%',  // Starting top style attribute
-            endingTop: '10%',   // Ending top style attribute
-        });
-    };
-
-    Note.getContactNotes = function (contact_id) {
-        return $.ajax({
-            type: 'GET',
-            url: '/contact/'+contact_id+'/show-notes'
-        });
-    }
-
-    Note.deleteNote = function (data) {
-        return $.ajax({
-            type: 'POST',
-            url: '/note/'+data.note_id+'/delete',
-            data: data
-        });
-    }
-
-    Note.postContactNote = function (data) {
-        return $.ajax({
-            type: 'POST',
-            url: '/contact/'+data.contact_id+'/create-note',
-            data: data
-        });
-    }
-
-    Note.getInquiryNotes = function (inquiry_id) {
-        return $.ajax({
-            type: 'GET',
-            url: '/inquiry/'+inquiry_id+'/show-notes'
-        });
-    }
-
-    Note.postInquiryNote = function (data) {
-        return $.ajax({
-            type: 'POST',
-            url: '/inquiry/'+data.inquiry_id+'/create-note',
-            data: data
-        });
-    }
-
-    Note.postFollowUpNote = function (data) {
-        return $.ajax({
-            type: 'POST',
-            url: '/contact/'+data.contact_id+'/complete-follow-up',
-            data: data
-        });
-    }
 
     $('body').on(
         {
@@ -718,7 +728,10 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var contact_id = parseInt($(this).data('contact-id'));
+                var name = $(this).data('contact-name');
+                $('.follow-up-note-modal .contact-name').html(name);
                 $('form#create-follow-up-note input[name="contact_id"]').val(contact_id);
+                $('form#reschedule-contact-follow-up input[name="contact_id"]').val(contact_id);
                 $('.follow-up-note-modal').modal('open');
             }
         },
@@ -753,6 +766,51 @@ $.valHooks.textarea = {
             }
         },
         '.submit-follow-up-note-btn'
+    );
+
+    $('body').on(
+        {
+            submit: function (e, ui) {
+                e.preventDefault();
+
+                var form = $(this);
+                var values = form.serializeArray().reduce(function (curr, input) {
+                    curr[input.name] = input.value;
+                    return curr;
+                }, {});
+
+                var note = "Meeting rescheduled for ";
+                var noteInput = $('form#create-follow-up-note').find('textarea#note');
+                if (noteInput) {
+                    note = noteInput.val();
+                }
+                values.note = note;
+
+                Contact.rescheduleFollowUp(values)
+                    .fail(function (response) {
+                        if (response.status !== 200) {
+                            if (response.responseJSON.follow_up_date) {
+                                $("form#reschedule-contact-follow-up #follow-up-date").addClass('invalid');
+                            }
+                            if (response.responseJSON.note) {
+                                $("form#create-follow-up-note #note").addClass('invalid');
+                                $("form#create-follow-up-note #note").attr('placeholder', 'Note is required');
+                            }
+                            return;
+                        }
+                    })
+                    .done(function (response) {
+                        if (response.error) {
+                            // TODO
+                            console.error(response.error);
+                            return;
+                        }
+                        $('.follow-up-note-modal').modal('close');
+                        location.reload();
+                    });
+            }
+        },
+        'form#reschedule-contact-follow-up'
     );
 
     // end Notes
@@ -1099,7 +1157,8 @@ $(document).ready(function () {
         selectMonths: true,
         selectYears: 100,
         close: 'Ok',
-        closeOnSelect: true
+        closeOnSelect: true,
+        container: 'body'
     });
 
     // Dropzone

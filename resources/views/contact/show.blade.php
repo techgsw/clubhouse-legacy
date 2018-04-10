@@ -60,7 +60,7 @@
                         <input class="datepicker {{ $errors->has('follow_up_date') ? 'invalid' : '' }}" id="follow-up-date" type="text" name="follow_up_date" value="{{ $contact->follow_up_date }}" />
                     </div>
                     <div class="col s6 m4">
-                        <button type="type" name="shedule" class="flat-button submit-contact-follow-up-btn" style="margin-top: 20px;"><i class="fa fa-calendar"></i> Schedule</button>
+                        <button type="type" name="schedule" class="flat-button submit-contact-follow-up-btn" style="margin-top: 20px;"><i class="fa fa-calendar"></i> Schedule</button>
                     </div>
                 </div>
             </form>

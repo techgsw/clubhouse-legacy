@@ -168,6 +168,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/contact/add-relationship', 'ContactController@addRelationship');
     Route::post('/contact/remove-relationship', 'ContactController@removeRelationship');
     Route::post('/contact/{id}/schedule-follow-up', 'ContactController@scheduleFollowUp');
+    Route::post('/contact/{id}/reschedule-follow-up', 'ContactController@rescheduleFollowUp');
     Route::post('/contact/{id}/complete-follow-up', 'ContactController@completeFollowUp');
     Route::get('/contact/{id}', 'ContactController@show');
     Route::post('/contact/{id}', 'ContactController@update');
