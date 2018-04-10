@@ -753,16 +753,25 @@ $.valHooks.textarea = {
                 });
 
                 form.find('input, textarea, button').attr('disabled', 'disabled');
-                Note.postFollowUpNote(values).done(function (response) {
-                    if (response.type != 'success') {
-                        // TODO better messaging for failure
-                        console.error('Failed to complete note');
+                Note.postFollowUpNote(values)
+                    .fail(function (response) {
+                        if (response.responseJSON.note) {
+                            $("form#create-follow-up-note #note").addClass('invalid');
+                            $("form#create-follow-up-note #note").attr('placeholder', 'Note is required');
+                        }
                         form.find('input, textarea, button').removeAttr('disabled');
                         return;
-                    }
-                    $('.follow-up-note-modal').modal('close');
-                    location.reload();
-                });
+                    })
+                    .done(function (response) {
+                        if (response.type != 'success') {
+                            // TODO better messaging for failure
+                            console.error('Failed to complete note');
+                            form.find('input, textarea, button').removeAttr('disabled');
+                            return;
+                        }
+                        $('.follow-up-note-modal').modal('close');
+                        location.reload();
+                    });
             }
         },
         '.submit-follow-up-note-btn'
