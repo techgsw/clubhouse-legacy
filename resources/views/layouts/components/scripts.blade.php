@@ -19,4 +19,4 @@
 <script type="text/javascript" src="/js/me-markdown.standalone.min.js"></script>
 <script type="text/javascript" src="/js/dropzone.js"></script>
 <script type="text/javascript" src="/js/moment.min.js"></script>
-<script type="text/javascript" src="/js/sbs.js?v=17"></script>
+<script type="text/javascript" src="/js/sbs.js?v=18"></script>
