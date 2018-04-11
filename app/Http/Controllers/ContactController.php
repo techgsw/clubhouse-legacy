@@ -8,7 +8,7 @@ use App\Contact;
 use App\ContactRelationship;
 use App\Note;
 use App\Message;
-use App\Http\Requests\CompleteFollowUp;
+use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
 use App\Http\Requests\ScheduleFollowUp;
 use Illuminate\Http\Request;
@@ -362,15 +362,14 @@ class ContactController extends Controller
             $contact->save();
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $message = "Sorry, were unable to create the follow up. Please contact support.";
-            $request->session()->flash('message', new Message(
-                $message,
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
+            return response()->json([
+                "error" => "Failed to schedule follow-up."
+            ]);
         }
-        return redirect()->action('ContactController@show', $contact);
+
+        return response()->json([
+            "error" => null
+        ]);
     }
 
     /**
@@ -409,12 +408,13 @@ class ContactController extends Controller
                 "error" => "Failed to reschedule follow-up."
             ]);
         }
+
         return response()->json([
             "error" => null
         ]);
     }
 
-    public function completeFollowUp(CompleteFollowUp $request)
+    public function closeFollowUp(CloseFollowUp $request)
     {
         $contact_id = request('contact_id');
         $contact = Contact::find($contact_id);
@@ -438,16 +438,13 @@ class ContactController extends Controller
             });
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $message = "Sorry, were unable to complete the follow up. Please contact support.";
-            $request->session()->flash('message', new Message(
-                $message,
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
+            return response()->json([
+                "error" => "Failed to close follow-up."
+            ]);
         }
+
         return response()->json([
-            'type' => 'success'
+            "error" => null
         ]);
     }
 }

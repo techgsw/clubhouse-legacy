@@ -19,10 +19,20 @@
     </div>
     <div class="col s12 m6">
         <div style="margin: 4px 0;">
-            @if ($contact->follow_up_date && (Auth::user()->id == $contact->follow_up_user_id || Auth::user()->id == 1))
-                <button class="complete-follow-up-btn flat-button small {{ $contact->follow_up_date == $today ? 'green' : ($contact->follow_up_date < $today ? 'red' : '') }}" data-contact-id="{{ $contact->id }}" data-contact-name="{{ $contact->getName() }}"><i class="fa fa-calendar"></i> {{ (Auth::user()->id == 1) ? $contact->followUpUser->getName() : '' }} {{ $contact->follow_up_date->format('m/d/y') }}</button>
+            <button class="view-contact-notes-btn flat-button small"
+                contact-id="{{ $contact->id }}"
+                contact-name="{{ $contact->getName() }}"
+                contact-follow-up="{{ $contact->follow_up_date ? $contact->follow_up_date->format('Y-m-d') : '' }}">
+                {{ $contact->getNoteCount() }} <i class="fa fa-comments"></i>
+            </button>
+            @if ($contact->follow_up_date)
+                <button class="view-contact-notes-btn flat-button small {{ $contact->follow_up_date == $today ? 'green' : ($contact->follow_up_date < $today ? 'red' : '') }}"
+                    contact-id="{{ $contact->id }}"
+                    contact-name="{{ $contact->getName() }}"
+                    contact-follow-up="{{ $contact->follow_up_date->format('Y-m-d') }}">
+                    <i class="fa fa-calendar"></i> {{ $contact->follow_up_date->format('m/d/y') }}
+                </button>
             @endif
-            <button class="view-contact-notes-btn flat-button small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
             @if ($contact->resume_url)
                 @component('components.admin-resume-button', ['url' => $contact->resume_url, 'type' => 'contact'])@endcomponent
             @elseif ($contact->user)

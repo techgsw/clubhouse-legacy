@@ -885,6 +885,19 @@ div.arrow.down {
     border-right: 20px solid #F2F2F2;
 }
 
+/* Modals */
+.modal.modal-large {
+    width: 70% !important;
+    height: 90% !important;
+    max-height: 100%;
+    top: 5% !important;
+}
+
+.modal .follow-up-controls {}
+.modal .follow-up-controls .btn {
+    float: none;
+}
+
 /**
  * Pagination
  */
@@ -895,13 +908,6 @@ div.arrow.down {
 }
 .pagination li.active {
     background-color: #898989;
-}
-
-.modal.modal-large {
-    width: 70% !important;
-    height: 90% !important;
-    max-height: 100%;
-    top: 5% !important;
 }
 
 @media only screen and (max-width: 992px) {
@@ -952,11 +958,16 @@ div.arrow.down {
  */
 
 .contact-notes-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
     max-height: 100%;
-    overflow-y:scroll;
-    padding: 15px;
+    overflow-y: scroll;
+}
+.contact-notes-container>.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.contact-notes-container>.row>.col {
+    padding: 0;
+    height: 100%;
 }
 
 /**

@@ -67,12 +67,171 @@ $.valHooks.textarea = {
         });
     }
 
+    Contact.scheduleFollowUp = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact/'+data.contact_id+'/schedule-follow-up',
+            data: data
+        });
+    }
+
     Contact.rescheduleFollowUp = function (data) {
         return $.ajax({
             type: 'POST',
             url: '/contact/'+data.contact_id+'/reschedule-follow-up',
             data: data
         });
+    }
+
+    Contact.closeFollowUp = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact/'+data.contact_id+'/close-follow-up',
+            data: data
+        });
+    }
+
+    Contact.handleSubmitNote = function (form, type) {
+        var actions = $('#note-actions');
+        var progress = $('#note-progress');
+
+        var values = form.serializeArray().reduce(function (values, curr) {
+            values[curr.name] = curr.value;
+            return values;
+        }, {});
+
+        actions.addClass('hidden');
+        progress.removeClass('hidden');
+
+        switch (type) {
+        case 'schedule-follow-up':
+            // Schedule a follow-up and (optionally) add a contact note
+            Contact.scheduleFollowUp(values)
+                .fail(function (response) {
+                    if (response.responseJSON.follow_up_date) {
+                        $(form).find('input#follow-up-date').addClass('invalid').val('Required');
+                    }
+                    progress.addClass('hidden');
+                    actions.removeClass('hidden');
+                    return;
+                })
+                .done(function (response) {
+                    $(form).find('input#follow-up-date').removeClass('invalid');
+                    if (response.error) {
+                        console.error(response.error);
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                        return;
+                    }
+                    $(form).find('button#schedule-follow-up').addClass('hidden');
+                    $(form).find('button#schedule-follow-up').addClass('hidden');
+                    $(form).find('button#reschedule-follow-up').removeClass('hidden');
+                    $(form).find('button#close-follow-up').removeClass('hidden');
+                    var view_notes_btn = $('.view-contact-notes-btn[contact-id="'+values.contact_id+'"]');
+                    if (view_notes_btn) {
+                        view_notes_btn.attr('contact-follow-up', moment(values.follow_up_date).format('YYYY-MM-DD'));
+                    }
+                    Note.getContactNotes(values.contact_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        $('.contact-notes-container').html(view);
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                    });
+                });
+            break;
+        case 'reschedule-follow-up':
+            // Reschedule a follow-up and add a contact note
+            Contact.rescheduleFollowUp(values)
+                .fail(function (response) {
+                    if (response.responseJSON.note) {
+                        $(form).find('textarea#note').addClass('invalid');
+                        $(form).find('textarea#note').attr('placeholder', 'Note is required.');
+                    }
+                    if (response.responseJSON.follow_up_date) {
+                        $(form).find('input#follow-up-date').addClass('invalid').val('Required');
+                    }
+                    progress.addClass('hidden');
+                    actions.removeClass('hidden');
+                    return;
+                })
+                .done(function (response) {
+                    $(form).find('input#follow-up-date').removeClass('invalid');
+                    $(form).find('textarea#note').removeClass('invalid').attr('placeholder', "What's the latest?");
+                    if (response.error) {
+                        console.error(response.error);
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                        return;
+                    }
+                    $(form).find('button#schedule-follow-up').addClass('hidden');
+                    $(form).find('button#reschedule-follow-up').removeClass('hidden');
+                    $(form).find('button#close-follow-up').removeClass('hidden');
+                    Note.getContactNotes(values.contact_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        $('.contact-notes-container').html(view);
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                    });
+                });
+            break;
+        case 'close-follow-up':
+            // Close a follow-up and add a contact note
+            Contact.closeFollowUp(values)
+                .fail(function (response) {
+                    if (response.responseJSON.note) {
+                        $(form).find('textarea#note').addClass('invalid');
+                        $(form).find('textarea#note').attr('placeholder', 'Note is required.');
+                    }
+                    progress.addClass('hidden');
+                    actions.removeClass('hidden');
+                    return;
+                })
+                .done(function (response) {
+                    $(form).find('textarea#note').removeClass('invalid').attr('placeholder', "What's the latest?");
+                    if (response.error) {
+                        console.error(response.error);
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                        return;
+                    }
+                    $(form).find('input#follow-up-date').val('');
+                    $(form).find('button#schedule-follow-up').removeClass('hidden');
+                    $(form).find('button#reschedule-follow-up').addClass('hidden');
+                    $(form).find('button#close-follow-up').addClass('hidden');
+                    Note.getContactNotes(values.contact_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        $('.contact-notes-container').html(view);
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                    });
+                });
+            break;
+        default:
+            // Just a contact note
+            Note.postContactNote(values)
+                .fail(function (response) {
+                    // TODO Error message
+                    progress.addClass('hidden');
+                    actions.removeClass('hidden');
+                    return;
+                })
+                .done(function (response) {
+                    if (response.type != 'success') {
+                        // TODO
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                        return;
+                    }
+                    Note.getContactNotes(values.contact_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        $('.contact-notes-container').html(view);
+                        progress.addClass('hidden');
+                        actions.removeClass('hidden');
+                    });
+                });
+        }
+
+        return;
     }
 
     ContactRelationship.create = function (user_id, contact_id) {
@@ -593,21 +752,51 @@ $.valHooks.textarea = {
 
     // Notes
 
+    // Open the contact notes modal
     $('body').on(
         {
             click: function (e, ui) {
+                // Reset modal state
+                $('#note-actions').removeClass("hidden");
+                $('#note-progress').addClass("hidden");
+                $('textarea#note').removeClass('invalid').attr('placeholder', "What's the latest?");
+                $('input#follow-up-date').val("");
+                $('input#follow-up-date').addClass('hidden').removeClass('invalid');
+                $('button#close-follow-up').addClass('hidden');
+                $('button#reschedule-follow-up').addClass('hidden');
+                $('button#schedule-follow-up').addClass('hidden');
+
                 var contact_id = parseInt($(this).attr('contact-id'));
+                var follow_up = $(this).attr('contact-follow-up') ? $(this).attr('contact-follow-up') : null;
+                if (follow_up) {
+                    follow_up = moment(follow_up);
+                }
+                var name = $(this).attr('contact-name');
                 Note.getContactNotes(contact_id).done(function (view) {
-                    //$('.contact-notes-modal .modal-content').html(view);
+                    if (name) {
+                        $('.contact-name').text(name).removeClass('hidden');
+                    }
+                    if (follow_up) {
+                        // Enable closing and re-scheduling
+                        $('input#follow-up-date').val(follow_up.format('D MMMM, YYYY'));
+                        $('input#follow-up-date').removeClass('hidden');
+                        $('button#close-follow-up').removeClass('hidden');
+                        $('button#reschedule-follow-up').removeClass('hidden');
+                    } else {
+                        // Enable scheduling
+                        $('input#follow-up-date').removeClass('hidden');
+                        $('button#schedule-follow-up').removeClass('hidden');
+                    }
+                    $('form#create-contact-note input[name="contact_id"]').val(contact_id);
                     $('.contact-notes-container').html(view);
                     $('.contact-notes-modal').modal('open');
-                    $('form#create-contact-note input[name="contact_id"]').val(contact_id);
                 });
             }
         },
         '.view-contact-notes-btn'
     );
 
+    // Submit contact note
     $('body').on(
         {
             click: function (e, ui) {
@@ -615,29 +804,52 @@ $.valHooks.textarea = {
                 if (form.length == 0) {
                     return;
                 }
-
-                var values = {};
-                data = form.serializeArray();
-                data.forEach(function (input) {
-                    values[input.name] = input.value;
-                });
-
-                form.find('input, textarea, button').attr('disabled', 'disabled');
-                Note.postContactNote(values).done(function (response) {
-                    if (response.type != 'success') {
-                        console.error('Failed to add note');
-                        form.find('input, textarea, button').removeAttr('disabled');
-                        return;
-                    }
-                    Note.getContactNotes(values.contact_id).done(function (view) {
-                        form.find('textarea#note').val("");
-                        form.find('input, textarea, button').removeAttr('disabled');
-                        $('.contact-notes-container').html(view);
-                    });
-                });
+                Contact.handleSubmitNote(form);
             }
         },
-        '.submit-contact-note-btn'
+        'button#submit-contact-note'
+    );
+
+    // Submit schedule-follow-up
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-contact-note');
+                if (form.length == 0) {
+                    return;
+                }
+                Contact.handleSubmitNote(form, 'schedule-follow-up');
+            }
+        },
+        'button#schedule-follow-up'
+    );
+
+    // Submit reschedule-follow-up
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-contact-note');
+                if (form.length == 0) {
+                    return;
+                }
+                Contact.handleSubmitNote(form, 'reschedule-follow-up');
+            }
+        },
+        'button#reschedule-follow-up'
+    );
+
+    // Submit close-follow-up
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-contact-note');
+                if (form.length == 0) {
+                    return;
+                }
+                Contact.handleSubmitNote(form, 'close-follow-up');
+            }
+        },
+        'button#close-follow-up'
     );
 
     $('body').on(
@@ -722,104 +934,6 @@ $.valHooks.textarea = {
             }
         },
         '.submit-inquiry-note-btn'
-    );
-
-    $('body').on(
-        {
-            click: function (e, ui) {
-                var contact_id = parseInt($(this).data('contact-id'));
-                var name = $(this).data('contact-name');
-                $('.follow-up-note-modal .contact-name').html(name);
-                $('form#create-follow-up-note input[name="contact_id"]').val(contact_id);
-                $('form#reschedule-contact-follow-up input[name="contact_id"]').val(contact_id);
-                $('.follow-up-note-modal').modal('open');
-            }
-        },
-        '.complete-follow-up-btn'
-    );
-
-    $('body').on(
-        {
-            click: function (e, ui) {
-                var form = $(this).parents('form#create-follow-up-note');
-                if (form.length == 0) {
-                    return;
-                }
-
-                var values = {};
-                data = form.serializeArray();
-                data.forEach(function (input) {
-                    values[input.name] = input.value;
-                });
-
-                form.find('input, textarea, button').attr('disabled', 'disabled');
-                Note.postFollowUpNote(values)
-                    .fail(function (response) {
-                        if (response.responseJSON.note) {
-                            $("form#create-follow-up-note #note").addClass('invalid');
-                            $("form#create-follow-up-note #note").attr('placeholder', 'Note is required');
-                        }
-                        form.find('input, textarea, button').removeAttr('disabled');
-                        return;
-                    })
-                    .done(function (response) {
-                        if (response.type != 'success') {
-                            // TODO better messaging for failure
-                            console.error('Failed to complete note');
-                            form.find('input, textarea, button').removeAttr('disabled');
-                            return;
-                        }
-                        $('.follow-up-note-modal').modal('close');
-                        location.reload();
-                    });
-            }
-        },
-        '.submit-follow-up-note-btn'
-    );
-
-    $('body').on(
-        {
-            submit: function (e, ui) {
-                e.preventDefault();
-
-                var form = $(this);
-                var values = form.serializeArray().reduce(function (curr, input) {
-                    curr[input.name] = input.value;
-                    return curr;
-                }, {});
-
-                var note = "Meeting rescheduled for ";
-                var noteInput = $('form#create-follow-up-note').find('textarea#note');
-                if (noteInput) {
-                    note = noteInput.val();
-                }
-                values.note = note;
-
-                Contact.rescheduleFollowUp(values)
-                    .fail(function (response) {
-                        if (response.status !== 200) {
-                            if (response.responseJSON.follow_up_date) {
-                                $("form#reschedule-contact-follow-up #follow-up-date").addClass('invalid');
-                            }
-                            if (response.responseJSON.note) {
-                                $("form#create-follow-up-note #note").addClass('invalid');
-                                $("form#create-follow-up-note #note").attr('placeholder', 'Note is required');
-                            }
-                            return;
-                        }
-                    })
-                    .done(function (response) {
-                        if (response.error) {
-                            // TODO
-                            console.error(response.error);
-                            return;
-                        }
-                        $('.follow-up-note-modal').modal('close');
-                        location.reload();
-                    });
-            }
-        },
-        'form#reschedule-contact-follow-up'
     );
 
     // end Notes
