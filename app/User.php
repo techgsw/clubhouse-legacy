@@ -306,4 +306,12 @@ class User extends Authenticatable
     {
         return count(Note::profile($this->id));
     }
+
+    public function authoredNoteCount($start_date, $end_date)
+    {
+        $notes = $this->hasMany(Note::class)
+            ->where('note.created_at', '>', $start_date->format('Y-m-d'))
+            ->where('note.created_at','<', $end_date->format('Y-m-d'));
+        return count($notes->get());
+    }
 }
