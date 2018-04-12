@@ -97,6 +97,27 @@ class Image extends Model
         return $path;
     }
 
+    public function getFullPath($quality=null)
+    {
+        return "storage/app/public/".$this->getPath($quality);
+    }
+
+    public function getDir()
+    {
+        $dirs = explode("/",$this->path);
+        array_pop($dirs);
+        if (count($dirs) == 0) {
+            return "";
+        }
+        return implode("/", $dirs);
+    }
+
+    public function getFilename($quality=null)
+    {
+        $dirs = explode("/",$this->getPath($quality));
+        return array_pop($dirs);
+    }
+
     public function getWidth()
     {
         return $this->dimensions['width'];
@@ -133,9 +154,29 @@ class Image extends Model
                 break;
         }
 
-        // TODO Storage::disk('s3')->putFileAs($dir, new File($path), $name);
-
         return $dir.'/'.$name;
+    }
+
+    public function pushToS3()
+    {
+        Storage::disk('s3')->putFileAs(
+            $this->getDir(),
+            new File($this->getFullPath()),
+            $this->getFilename()
+        );
+
+        foreach (['large', 'medium', 'small'] as $quality) {
+            Storage::disk('s3')->putFileAs(
+                $this->getDir(),
+                new File($this->getFullPath($quality)),
+                $this->getFilename($quality)
+            );
+        }
+
+        $this->cdn = true;
+        $this->save();
+
+        return $this;
     }
 
     public function crop($startX, $startY, $width, $height)

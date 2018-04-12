@@ -53,7 +53,7 @@ class CreateImageTable extends Migration
 
                 $dir = 'headshot/'.$profile->user_id;
                 $ext = $image->getType();
-                $filename = $profile->user->first_name.'-'.$profile->user->last_name.'-SportsBusinessSolutions.'.$ext;
+                $filename = $profile->user->first_name.'-'.$profile->user->last_name.'-Sports-Business-Solutions.'.$ext;
 
                 if (!Storage::exists("public/{$dir}")) {
                     Storage::makeDirectory("public/{$dir}");
@@ -95,7 +95,7 @@ class CreateImageTable extends Migration
 
                 $dir = 'headshot/'.$profile->user_id;
                 $ext = $image->getType();
-                $filename = $profile->user->first_name.'-'.$profile->user->last_name.'-SportsBusinessSolutions.'.$ext;
+                $filename = $profile->user->first_name.'-'.$profile->user->last_name.'-Sports-Business-Solutions.'.$ext;
 
                 if (!Storage::exists("public/{$dir}")) {
                     Storage::makeDirectory("public/{$dir}");
@@ -142,7 +142,7 @@ class CreateImageTable extends Migration
 
                 $dir = 'job/'.$job->id;
                 $ext = $image->getType();
-                $filename = preg_replace("/(\s|-|_)+/", '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
+                $filename = preg_replace("/(\s|-|_)+/", '-', str_replace("/", "", $job->organization)).'-Sports-Business-Solutions.'.$ext;
 
                 if (!Storage::exists("public/{$dir}")) {
                     Storage::makeDirectory("public/{$dir}");
@@ -187,7 +187,7 @@ class CreateImageTable extends Migration
 
                 $dir = 'job/'.$job->id;
                 $ext = $image->getType();
-                $filename = preg_replace("/(\s|-|_)+/", '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
+                $filename = preg_replace("/(\s|-|_)+/", '-', str_replace("/", "", $job->organization)).'-Sports-Business-Solutions.'.$ext;
 
                 if (!Storage::exists("public/{$dir}")) {
                     Storage::makeDirectory("public/{$dir}");
@@ -201,6 +201,7 @@ class CreateImageTable extends Migration
             $image->save();
             Storage::append('log/migration.log', "{$image->id} {$image->path}");
 
+            $job->image_url = $image->path;
             $job->image_id = $image->id;
             $job->save();
 
@@ -232,14 +233,13 @@ class CreateImageTable extends Migration
                 return;
             }
 
-            // TODO image order!
-
             if (!$post_image->legacy) {
                 // Save main without prefix
                 $image_path = $image->saveAs("post/$post_image->post_id", $post_image->filename);
                 $image->path = $image_path;
             }
 
+            $image->order = $post_image->image_order;
             $image->save();
             Storage::append('log/migration.log', "{$image->id} {$image->path}");
 

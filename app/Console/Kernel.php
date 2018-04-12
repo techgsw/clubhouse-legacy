@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
         Commands\FormatPhones::class,
         Commands\SendMigrationEmails::class,
         Commands\SendNewUserFollowUpEmails::class,
-        Commands\UploadContacts::class
+        Commands\UploadContacts::class,
+        Commands\PushToS3::class
     ];
 
     /**
@@ -35,8 +36,8 @@ class Kernel extends ConsoleKernel
         })->dailyAt('08:00');
 
         // $schedule->call(function () {
-        //     ImageServiceProvider::migrateToS3();
-        // })->everyMinute();
+        //     ImageServiceProvider::pushToS3();
+        // })->everyFifteenMinutes();
     }
 
     /**
