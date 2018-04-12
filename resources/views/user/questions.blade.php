@@ -5,7 +5,12 @@
 <div class="container">
     @component('user.header', ['user' => $user])
         @can ('view-contact-notes')
-            <button type="button" class="view-contact-notes-btn flat-button black" contact-id="{{ $user->contact->id }}">{{ $user->contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
+            <button type="button" class="view-contact-notes-btn flat-button black"
+                contact-id="{{ $user->contact->id }}"
+                contact-name="{{ $user->contact->getName() }}"
+                contact-follow-up="{{ $user->contact->follow_up_date ? $user->contact->follow_up_date->format('Y-m-d') : '' }}">
+                {{ $user->contact->getNoteCount() }} <i class="fa fa-comments"></i>
+            </button>
         @endif
         @if ($user->profile->resume_url)
             <a href="{{ Storage::disk('local')->url($user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
