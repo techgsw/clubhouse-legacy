@@ -353,13 +353,26 @@ class ContactController extends Controller
             return abort(404);
         }
 
-        $follow_up_date = request('follow_up_date');
-        $follow_up_date = new \DateTime($follow_up_date);
-
         try {
-            $contact->follow_up_date = $follow_up_date->format('Y-m-d 00:00:00');
-            $contact->follow_up_user_id = Auth::user()->id;
-            $contact->save();
+            $contact = DB::transaction(function() use($request, $contact) {
+                $follow_up_date = request('follow_up_date');
+                $follow_up_date = new \DateTime($follow_up_date);
+
+                $contact->follow_up_date = $follow_up_date->format('Y-m-d 00:00:00');
+                $contact->follow_up_user_id = Auth::user()->id;
+                $contact->save();
+
+                if (request('note')) {
+                    $note = new Note();
+                    $note->user_id = Auth::user()->id;
+                    $note->notable_id = request('contact_id');
+                    $note->notable_type = "App\Contact";
+                    $note->content = request('note');
+                    $note->save();
+                }
+
+                return $contact;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
