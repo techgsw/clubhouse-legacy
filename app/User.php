@@ -312,6 +312,6 @@ class User extends Authenticatable
         $notes = $this->hasMany(Note::class)
             ->where('note.created_at', '>', $start_date->format('Y-m-d'))
             ->where('note.created_at','<', $end_date->format('Y-m-d'));
-        return count($notes->get());
+        return $notes->count();
     }
 }
