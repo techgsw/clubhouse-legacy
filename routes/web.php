@@ -243,6 +243,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function 
     Route::get('/admin/job', 'JobController@index');
     Route::get('/admin/question', 'QuestionController@index');
     Route::get('/admin/admin-users', 'UserController@allAdminUsers');
+    Route::get('/admin/report', 'ReportController@index');
 });
 
 /**
