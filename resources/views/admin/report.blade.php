@@ -15,15 +15,22 @@
         </div>
     </div>
 </form>
-<div class="row">
-    @if (count($users) > 0)
-        @foreach ($users as $user)
-            <div class="row">
-                <p>{{ $user->first_name }} : {{ $user->authoredNoteCount($start_date, $end_date) }}</p>
-            </div>
-        @endforeach
-    @endif
-</div>
+@if (count($users) > 0)
+    <table class="striped">
+        <thead>
+            <th>Name</th>
+            <th>Notes</th>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+                <tr>
+                    <th>{{ $user->getName() }}</th>
+                    <td>{{ $user->authoredNoteCount($start_date, $end_date) }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
 @include('layouts.components.messages')
 <div class="row">
     <div class="col s12">

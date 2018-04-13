@@ -29,8 +29,8 @@ class ReportController extends Controller
             $start_date = new \DateTime($start_date);
         }
 
-        $users = User::join('role_user', 'role_user.user_id', '=', 'user.id')
-            ->where('role_user.role_code', '=', 'administrator');
+        $users = User::join('role_user', 'role_user.user_id', 'user.id')
+            ->where('role_user.role_code', 'sbs');
 
         return view('admin/report', [
             'start_date' => $start_date,
