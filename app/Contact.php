@@ -13,10 +13,18 @@ class Contact extends Model
     protected $table = 'contact';
     protected $guarded = [];
     protected $hidden = [];
+    protected $dates = [
+        'follow_up_date'
+    ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function followUpUser()
+    {
+        return $this->belongsTo(User::class, 'follow_up_user_id', 'id');
     }
 
     public function address()

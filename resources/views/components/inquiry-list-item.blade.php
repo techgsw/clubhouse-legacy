@@ -3,7 +3,12 @@
         <div class="col s12">
             <div class="float-right">
                 @component('components.resume-button', ['url' => $inquiry->resume])@endcomponent
-                <button class="view-contact-notes-btn flat-button small" contact-id="{{ $inquiry->user->contact->id }}">{{ $inquiry->user->contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
+                <button class="view-contact-notes-btn flat-button small"
+                    contact-id="{{ $inquiry->user->contact->id }}"
+                    contact-name="{{ $inquiry->user->contact->getName() }}"
+                    contact-follow-up="{{ $inquiry->user->contact->follow_up_date ? $inquiry->user->contact->follow_up_date->format('Y-m-d') : '' }}">
+                    {{ $inquiry->user->contact->getNoteCount() }} <i class="fa fa-comments"></i>
+                </button>
             </div>
             <a style="margin: 2px 0;" class="no-underline block" href="/user/{{ $inquiry->user->id }}">{{ $inquiry->name}}</a>
             <p style="margin: 2px 0;" class="small">

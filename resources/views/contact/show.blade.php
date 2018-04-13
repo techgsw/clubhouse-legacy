@@ -3,10 +3,20 @@
 @section('title', 'Contact')
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col s12">
+            @include('layouts.components.errors')
+        </div>
+    </div>
     @include('layouts.components.messages')
     @component('contact.header', ['contact' => $contact])
         @can ('view-contact-notes')
-            <button type="button" class="view-contact-notes-btn flat-button black small" contact-id="{{ $contact->id }}">{{ $contact->getNoteCount() }} <i class="fa fa-comments"></i></button>
+            <button type="button" class="view-contact-notes-btn flat-button black small"
+                contact-id="{{ $contact->id }}"
+                contact-name="{{ $contact->getName() }}"
+                contact-follow-up="{{ $contact->follow_up_date ? $contact->follow_up_date->format('Y-m-d') : '' }}">
+                {{ $contact->getNoteCount() }} <i class="fa fa-comments"></i>
+            </button>
         @endif
         @if ($contact->user)
             @include('components.resume-button', ['url' => $contact->user->profile->resume_url ?: null])
@@ -323,5 +333,6 @@
     </div>
 </div>
 @include('components.contact-notes-modal')
+@include('components.follow-up-note-modal')
 @include('components.pdf-view-modal')
 @endsection

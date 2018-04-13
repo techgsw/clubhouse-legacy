@@ -162,5 +162,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('remove-contact-relationship', function ($user) {
             return $user->hasAccess('contact_relationship_delete');
         });
+        Gate::define('follow-up', function ($user) {
+            return $user->hasAccess('follow_up');
+        });
     }
 }

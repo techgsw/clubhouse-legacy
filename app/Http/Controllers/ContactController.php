@@ -8,6 +8,9 @@ use App\Contact;
 use App\ContactRelationship;
 use App\Note;
 use App\Message;
+use App\Http\Requests\CloseFollowUp;
+use App\Http\Requests\RescheduleFollowUp;
+use App\Http\Requests\ScheduleFollowUp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -338,4 +341,123 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * @param  ScheduleFollowUp  $request
+     * @return Response
+     */
+    public function scheduleFollowUp(ScheduleFollowUp $request)
+    {
+        $contact_id = request('contact_id');
+        $contact = Contact::find($contact_id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        try {
+            $contact = DB::transaction(function() use($request, $contact) {
+                $follow_up_date = request('follow_up_date');
+                $follow_up_date = new \DateTime($follow_up_date);
+
+                $contact->follow_up_date = $follow_up_date->format('Y-m-d 00:00:00');
+                $contact->follow_up_user_id = Auth::user()->id;
+                $contact->save();
+
+                if (request('note')) {
+                    $note = new Note();
+                    $note->user_id = Auth::user()->id;
+                    $note->notable_id = request('contact_id');
+                    $note->notable_type = "App\Contact";
+                    $note->content = request('note');
+                    $note->save();
+                }
+
+                return $contact;
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                "error" => "Failed to schedule follow-up."
+            ]);
+        }
+
+        return response()->json([
+            "error" => null
+        ]);
+    }
+
+    /**
+     * @param  RescheduleFollowUp  $request
+     * @return Response
+     */
+    public function rescheduleFollowUp(RescheduleFollowUp $request)
+    {
+        $contact_id = request('contact_id');
+        $contact = Contact::find($contact_id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        try {
+            $contact = DB::transaction(function() use($request, $contact) {
+                $follow_up_date = request('follow_up_date');
+                $follow_up_date = new \DateTime($follow_up_date);
+
+                $contact->follow_up_date = $follow_up_date->format('Y-m-d 00:00:00');
+                $contact->follow_up_user_id = Auth::user()->id;
+                $contact->save();
+
+                $note = new Note();
+                $note->user_id = Auth::user()->id;
+                $note->notable_id = request('contact_id');
+                $note->notable_type = "App\Contact";
+                $note->content = request('note');
+                $note->save();
+
+                return $contact;
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                "error" => "Failed to reschedule follow-up."
+            ]);
+        }
+
+        return response()->json([
+            "error" => null
+        ]);
+    }
+
+    public function closeFollowUp(CloseFollowUp $request)
+    {
+        $contact_id = request('contact_id');
+        $contact = Contact::find($contact_id);
+        if (!$contact) {
+            return abort(404);
+        }
+
+        try {
+            $contact = DB::transaction(function() use($request, $contact) {
+                $note = new Note();
+                $note->user_id = Auth::user()->id;
+                $note->notable_id = request('contact_id');
+                $note->notable_type = "App\Contact";
+                $note->content = request('note');
+                $note->save();
+
+                $contact->follow_up_date = null;
+                $contact->follow_up_user_id = null;
+                $contact->save();
+                return $contact;
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                "error" => "Failed to close follow-up."
+            ]);
+        }
+
+        return response()->json([
+            "error" => null
+        ]);
+    }
 }
