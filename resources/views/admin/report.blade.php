@@ -24,7 +24,7 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <th>{{ $user->getName() }}</th>
+                    <td>{{ $user->getName() }}</td>
                     <td>{{ $user->authoredNoteCount($start_date, $end_date) }}</td>
                 </tr>
             @endforeach

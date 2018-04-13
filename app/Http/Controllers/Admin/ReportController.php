@@ -14,6 +14,8 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('view-admin-reports');
+
         $start_date = $request->query->get('start_date');
         $end_date = $request->query->get('end_date');
         if (is_null($end_date)) {

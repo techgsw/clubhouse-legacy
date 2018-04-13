@@ -38,6 +38,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-admin-jobs', function ($user) {
             return $user->hasAccess('admin_job');
         });
+        Gate::define('view-admin-reports', function ($user) {
+            return $user->hasAccess('reports_show');
+        });
 
         // User
         Gate::define('view-user', function ($auth_user, $user) {
@@ -118,7 +121,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('tag_create');
         });
 
-        // Archive sessions (session post type) 
+        // Archive sessions (session post type)
         Gate::define('create-post-session', function ($user) {
             return $user->hasAccess('post_session_create');
         });

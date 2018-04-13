@@ -66,13 +66,13 @@
                             </div>
                             <div class="col s8 m9">
                                 <h5 style="margin-top: 0; margin-bottom: 0;"><a href="/post/{{ $post->title_url }}" class="no-underline">{{ $post->title }}</a></h5>
-                                <p class="small light uppercase" style="margin-top: 3px;">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?></p>
-                                @php 
+                                <p class="small light" style="margin-top: 3px;">By <span style="text-transform: uppercase;"><?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?></span></p>
+                                @php
                                     // TODO I'm sure this could be more elegant.
                                     $parsedown = new Parsedown();
                                     $body = strip_tags($parsedown->text($post->body));
                                     $post_length = strlen($body);
-                                    $index = 200; 
+                                    $index = 200;
                                 @endphp
                                 @if ($post_length > $index)
                                     @while (!preg_match('/\s/', $body[$index]) && $post_length > $index)
