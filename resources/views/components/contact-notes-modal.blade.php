@@ -19,6 +19,11 @@
                         <button type="button" id="reschedule-follow-up" class="btn blue hidden">Reschedule</button>
                         <button type="button" id="close-follow-up" class="btn green hidden">Close</button>
                     </div>
+                    <div class="follow-up-controls">
+                        <h1>{{ $contact->id }}</h1>
+                        <select>
+                        </select>
+                    </div>
                 </form>
             </div>
         </div>
