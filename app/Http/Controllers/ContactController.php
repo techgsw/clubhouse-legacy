@@ -238,9 +238,24 @@ class ContactController extends Controller
         $inquiries = Contact::find($id)->user->inquiries;
 
         return view('contact/notes/show', [
-            'notes' => $notes,
-            'inquiries' => $inquiries
+            'notes' => $notes
         ]);
+    }
+
+    public function showNoteControl($id)
+    {
+        $this->authorize('view-contact-notes');
+
+        $notes = Note::contact($id);
+        $contact = Contact::find($id);
+        //$inquiries = Contact::find($id)->user->inquiries;
+
+        return view('contact/notes/control', [
+            'contact' => $contact,
+            'notes' => $notes
+            //'inquiries' => $inquiries
+        ]);
+        
     }
 
     /**

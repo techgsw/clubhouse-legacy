@@ -330,7 +330,8 @@ $.valHooks.textarea = {
     Note.getContactNotes = function (contact_id) {
         return $.ajax({
             type: 'GET',
-            url: '/contact/'+contact_id+'/show-notes'
+            //url: '/contact/'+contact_id+'/show-notes'
+            url: '/contact/'+contact_id+'/show-note-control'
         });
     }
 
@@ -757,6 +758,7 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 // Reset modal state
+                /*
                 $('#note-actions').removeClass("hidden");
                 $('#note-progress').addClass("hidden");
                 $('textarea#note').removeClass('invalid').attr('placeholder', "What's the latest?");
@@ -789,6 +791,12 @@ $.valHooks.textarea = {
                     }
                     $('form#create-contact-note input[name="contact_id"]').val(contact_id);
                     $('.contact-notes-container').html(view);
+                    $('.contact-notes-modal').modal('open');
+                });
+                */
+                var contact_id = parseInt($(this).attr('contact-id'));
+                Note.getContactNotes(contact_id).done(function (view) {
+                    $('.contact-notes-modal').html(view);
                     $('.contact-notes-modal').modal('open');
                 });
             }

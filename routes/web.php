@@ -173,6 +173,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/contact/{id}', 'ContactController@show');
     Route::post('/contact/{id}', 'ContactController@update');
     Route::get('/contact/{id}/show-notes', 'ContactController@showNotes');
+    Route::get('/contact/{id}/show-note-control', 'ContactController@showNoteControl');
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 });
 
