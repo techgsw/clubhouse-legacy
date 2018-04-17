@@ -6,6 +6,16 @@
                 <form id="create-follow-up-note" method="post">
                     {{ csrf_field() }}
                     <input type="hidden" name="contact_id" value="" />
+                    @if (!is_null($contact->user))
+                        <div>
+                            <select name="inquiry_id">
+                                <option value="">User</option>
+                                @foreach ($contact->user->inquiries as $inquiry)
+                                    <option value="{{ $inquiry->id }}">{{ $inquiry->job->organization }} - {{ $inquiry->job->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                     <textarea id="note" class="validate" rows="6" name="note" placeholder="How did the follow-up go?"></textarea>
                     <button type="button" name="save" class="btn sbs-red submit-follow-up-note-btn float-right">Close</button>
                 </form>

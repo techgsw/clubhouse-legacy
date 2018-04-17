@@ -235,9 +235,11 @@ class ContactController extends Controller
         $this->authorize('view-contact-notes');
 
         $notes = Note::contact($id);
+        $inquiries = Contact::find($id)->user->inquiries;
 
         return view('contact/notes/show', [
-            'notes' => $notes
+            'notes' => $notes,
+            'inquiries' => $inquiries
         ]);
     }
 
@@ -256,8 +258,15 @@ class ContactController extends Controller
 
         $note = new Note();
         $note->user_id = Auth::user()->id;
-        $note->notable_id = $id;
-        $note->notable_type = "App\Contact";
+
+        $inquiry_id = request('inquiry_id');
+        if (is_null($inquiry_id ) || $inquiry_id == '') {
+            $note->notable_id = $id;
+            $note->notable_type = "App\Contact";
+        } else {
+            $note->notable_id = $inquiry_id;
+            $note->notable_type = "App\Inquiry";
+        }
         $note->content = request("note");
         $note->save();
 

@@ -9,6 +9,16 @@
                 <form id="create-contact-note" method="post">
                     {{ csrf_field() }}
                     <input id="contact-id" type="hidden" name="contact_id" value="" />
+                    @if (!is_null($contact->user) && count($contact->user->inquiries) > 0)
+                        <div>
+                            <select name="inquiry_id">
+                                <option value="">User</option>
+                                @foreach ($contact->user->inquiries as $inquiry)
+                                    <option value="{{ $inquiry->id }}">{{ $inquiry->job->organization }} - {{ $inquiry->job->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                     <textarea id="note" name="note" placeholder="What's the latest?"></textarea>
                     <button type="button" id="submit-contact-note" name="save" class="btn sbs-red">Save</button>
                     <div class="follow-up-controls">
@@ -18,11 +28,6 @@
                         <button type="button" id="schedule-follow-up" class="btn blue hidden">Schedule</button>
                         <button type="button" id="reschedule-follow-up" class="btn blue hidden">Reschedule</button>
                         <button type="button" id="close-follow-up" class="btn green hidden">Close</button>
-                    </div>
-                    <div class="follow-up-controls">
-                        <h1>{{ $contact->id }}</h1>
-                        <select>
-                        </select>
                     </div>
                 </form>
             </div>
