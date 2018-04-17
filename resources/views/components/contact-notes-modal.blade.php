@@ -1,5 +1,5 @@
 <div class="contact-notes-modal modal modal-large modal-fixed-footer">
-    <div class="modal-content" style="height: calc(100% - 149.5px);">
+    <div class="modal-content">
         <h4 class="contact-name hidden" style="position: static;"></h4>
         <div class="contact-notes-container"></div>
     </div>

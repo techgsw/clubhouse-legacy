@@ -28,6 +28,5 @@
         @endif
     </div>
 </div>
-@include('components.follow-up-note-modal')
 @component('components.pdf-view-modal')@endcomponent
 @endsection

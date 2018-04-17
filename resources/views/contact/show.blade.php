@@ -333,6 +333,5 @@
     </div>
 </div>
 @include('components.contact-notes-modal')
-@include('components.follow-up-note-modal')
 @include('components.pdf-view-modal')
 @endsection
