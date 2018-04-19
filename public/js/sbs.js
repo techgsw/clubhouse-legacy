@@ -314,7 +314,6 @@ $.valHooks.textarea = {
     Note.getContactNotes = function (contact_id) {
         return $.ajax({
             type: 'GET',
-            //url: '/contact/'+contact_id+'/show-notes'
             url: '/contact/'+contact_id+'/show-note-control'
         });
     }

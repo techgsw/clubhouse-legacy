@@ -227,34 +227,16 @@ class ContactController extends Controller
         return redirect()->action('ContactController@show', [$contact]);
     }
 
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showNotes($id)
-    {
-        $this->authorize('view-contact-notes');
-
-        $notes = Note::contact($id);
-        $inquiries = Contact::find($id)->user->inquiries;
-
-        return view('contact/notes/show', [
-            'notes' => $notes
-        ]);
-    }
-
     public function showNoteControl($id)
     {
         $this->authorize('view-contact-notes');
 
         $notes = Note::contact($id);
         $contact = Contact::find($id);
-        //$inquiries = Contact::find($id)->user->inquiries;
 
         return view('contact/notes/control', [
             'contact' => $contact,
             'notes' => $notes
-            //'inquiries' => $inquiries
         ]);
         
     }
