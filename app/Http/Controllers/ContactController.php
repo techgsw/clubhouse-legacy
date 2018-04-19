@@ -8,6 +8,7 @@ use App\Contact;
 use App\ContactRelationship;
 use App\Note;
 use App\Message;
+use App\Http\Requests\CreateNote;
 use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
 use App\Http\Requests\ScheduleFollowUp;
@@ -262,11 +263,12 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function createNote($id)
+    public function createNote(CreateNote $request)
     {
         $this->authorize('create-contact-note');
 
-        $contact = Contact::find($id);
+        $contact_id = request('contact_id');
+        $contact = Contact::find($contact_id);
         if (!$contact) {
             return abort(404);
         }
@@ -276,7 +278,7 @@ class ContactController extends Controller
 
         $inquiry_id = request('inquiry_id');
         if (is_null($inquiry_id ) || $inquiry_id == '') {
-            $note->notable_id = $id;
+            $note->notable_id = $contact_id;
             $note->notable_type = "App\Contact";
         } else {
             $note->notable_id = $inquiry_id;

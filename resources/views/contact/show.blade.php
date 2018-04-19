@@ -10,14 +10,6 @@
     </div>
     @include('layouts.components.messages')
     @component('contact.header', ['contact' => $contact])
-        @can ('view-contact-notes')
-            <button type="button" class="view-contact-notes-btn flat-button black small"
-                contact-id="{{ $contact->id }}"
-                contact-name="{{ $contact->getName() }}"
-                contact-follow-up="{{ $contact->follow_up_date ? $contact->follow_up_date->format('Y-m-d') : '' }}">
-                {{ $contact->getNoteCount() }} <i class="fa fa-comments"></i>
-            </button>
-        @endif
         @if ($contact->user)
             @include('components.resume-button', ['url' => $contact->user->profile->resume_url ?: null])
             @can ('edit-profile', $contact->user)
@@ -58,7 +50,7 @@
         <ul class="collapsible" data-collapsible="accordion">
             @can ('view-contact-notes')
                 <li class="form-section">
-                    <div class="collapsible-header">
+                    <div id="contact-note-collapsible-header" contact-id="{{ $contact->id }}" class="collapsible-header">
                         <i class="fa fa-comments"></i>{{ $contact->getNoteCount() }} note{{ $contact->getNoteCount() == 1 ? "" : "s"}}
                         @php
                             $last_note = null;
@@ -70,31 +62,13 @@
                             <span style="float: right;">{{ $last_note->create_user_name }} {{ $last_note->created_at->format('m/d/Y') }}</span>
                         @endif
                     </div>
-                    <div class="collapsible-body">
-                        <div class="contact-notes-container" style="max-height: 300px; overflow-y: scroll; margin-bottom: 20px; padding:0px;">
-                            @if (count($notes) == 0)
-                                <div class="row">
-                                    <div class="col s12">
-                                        <p style="font-style: italic;">No notes</p>
-                                    </div>
+                    <div id="contact-note-collapsible-body" class="collapsible-body">
+                        <div id="note-progress" class="row hidden" style="height: 149.5px; margin: 0; padding: 40px;">
+                            <div class="input-field col s12">
+                                <div class="progress">
+                                    <div class="indeterminate"></div>
                                 </div>
-                            @else
-                                <div class="row">
-                                    <div class="col s12">
-                                        @foreach ($notes as $note)
-                                            @include('components.note')
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="input-field col s12" style="margin-top: 0; margin-bottom: 30px;">
-                            <form id="create-contact-note" method="post">
-                                {{ csrf_field() }}
-                                <textarea id="note" name="note" placeholder="New note"></textarea>
-                                <input type="hidden" name="contact_id" value="{{ $contact->id }}" />
-                                <button type="button" name="save" class="btn sbs-red submit-contact-note-btn">Submit</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -332,6 +306,5 @@
         </form>
     </div>
 </div>
-@include('components.contact-notes-modal')
 @include('components.pdf-view-modal')
 @endsection
