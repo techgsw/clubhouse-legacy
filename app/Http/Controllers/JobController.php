@@ -469,35 +469,40 @@ class JobController extends Controller
         }
         try {
             if ($image = request()->file('image_url')) {
-                $dir = 'job/'.$job->id;
                 $ext = strtolower($image->getClientOriginalExtension());
-                $filename = preg_replace('/\s/', '-', $job->organization).'-SportsBusinessSolutions.'.$ext;
+                $dir = 'job/'.$job->id;
+                if (!Storage::exists("public/{$dir}")) {
+                    Storage::makeDirectory("public/{$dir}");
+                }
+                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
 
                 // Store the original locally on disk
                 $path = $image->storeAs('job/temp', $filename, 'public');
 
                 // Create variations, save locally, and upload to S3
                 // Full: original image
-                $full = new Image($path);
-                $image_url = $full->saveAs($dir, 'full-'.$filename);
+                $original = new Image($path);
+                $image_url = $original->saveAs($dir, $filename);
                 // Large: 1000 x 1000
-                $large = clone $full;
+                $large = clone $original;
                 $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
                 // Medium: 500 x 500
-                $medium = clone $full;
+                $medium = clone $original;
                 $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
                 // Small: 250 x 250
-                $small = clone $full;
+                $small = clone $original;
                 $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
                 // Share: 1000 x 520, padded from 500 x 500, with white background
                 $share = clone $medium;
                 $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
-                $job->image_url = $image_url;
-                $job->save();
-
                 // Delete local temp image
                 Storage::delete('public/job/temp/'.$filename);
+
+                // Update image record, unset CDN flag
+                $job->image->cdn = 0;
+                $job->image->path = $original->getPath();
+                $job->image->save();
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());

@@ -142,7 +142,7 @@ class CreateImageTable extends Migration
 
                 $dir = 'job/'.$job->id;
                 $ext = $image->getType();
-                $filename = preg_replace("/(\s|-|_)+/", '-', str_replace("/", "", $job->organization)).'-Sports-Business-Solutions.'.$ext;
+                $filename = preg_replace("/(\s)+/", '-', str_replace("/", "", $job->organization)).'-Sports-Business-Solutions.'.$ext;
 
                 if (!Storage::exists("public/{$dir}")) {
                     Storage::makeDirectory("public/{$dir}");
@@ -187,7 +187,7 @@ class CreateImageTable extends Migration
 
                 $dir = 'job/'.$job->id;
                 $ext = $image->getType();
-                $filename = preg_replace("/(\s|-|_)+/", '-', str_replace("/", "", $job->organization)).'-Sports-Business-Solutions.'.$ext;
+                $filename = preg_replace("/(\s)+/", '-', str_replace("/", "", $job->organization)).'-Sports-Business-Solutions.'.$ext;
 
                 if (!Storage::exists("public/{$dir}")) {
                     Storage::makeDirectory("public/{$dir}");
