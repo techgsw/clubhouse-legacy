@@ -3,8 +3,8 @@
         <div style="display: flex; flex-flow: row;">
             <div style="flex: 0 0 auto;">
                 @if (!is_null($user))
-                    @if ($user->profile->headshot_url)
-                        <img src={{ Storage::disk('local')->url($user->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
+                    @if ($user->profile->headshotImage)
+                        <img src={{ $user->profile->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
                     @endif
                 @endif
             </div>

@@ -322,14 +322,11 @@ class ProfileController extends Controller
                 }
                 $filename = $user->first_name.'-'.$user->last_name.'-SportsBusinessSolutions.'.$ext;
 
-                // Store the original locally on disk
+                // Store the original temporarily
                 $path = $headshot->storeAs('headshot/temp', $filename, 'public');
-
-                // TODO 63 $success = Storage::disk('s3')->deleteDirectory($dir);
 
                 // Original image
                 $original = new Image($path);
-                $original->saveAs($dir, "original-".$filename)
                 // Main, cropped square from the center
                 $main = clone $original;
                 $headshot_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
@@ -345,12 +342,22 @@ class ProfileController extends Controller
 
                 // Delete local temp image
                 Storage::delete('public/headshot/temp/'.$filename);
-            } else {
-                $headshot_url = null;
+
+                // Update image record, unset CDN flag
+                $headshotImage = $profile->headshotImage;
+                if ($headshotImage) {
+                    $headshotImage->path = $main->getPath();
+                } else {
+                    $headshotImage = $main;
+                }
+                $headshotImage->cdn = 0;
+                $headshotImage->save();
+
+                $profile->headshot_image_id = $headshotImage->id;
+                $profile->save();
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $headshot_url = null;
             $image_error = true;
         }
 
@@ -368,7 +375,6 @@ class ProfileController extends Controller
         $profile->phone = request('phone')
             ? preg_replace("/[^\d]/", "", request('phone'))
             : null;
-        $profile->headshot_url = $headshot_url ?: $profile->headshot_url;
         $profile->resume_url = $r ?: $profile->resume_url;
         // Personal Information
         $birthday = new \DateTime(request('date_of_birth'));

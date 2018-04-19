@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m4">
-                    <img src={{ Storage::disk('local')->url($job->image_url) }}>
+                    <img src={{ $job->image->getURL('medium') }}>
                 </div>
                 <div class="col s12 m8">
                     <div class="file-field input-field">

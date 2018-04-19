@@ -3,7 +3,7 @@
 @section('title', "$job->title with $job->organization")
 @section('description', "$job->description")
 @section('url', Request::fullUrl())
-@section('image', url('/').Storage::disk('local')->url(str_replace('medium', 'share', $job->image_url)))
+@section('image', $job->image->cdn ? $job->image->getURL('share') : url('/').$job->image->getURL('share'))
 @section('content')
 <div class="container" style="padding-bottom: 40px;">
     <div class="row">
@@ -19,7 +19,7 @@
     <!-- Job -->
     <div class="row job-show">
         <div class="col s3">
-            <img src={{ Storage::disk('local')->url($job->image_url) }}>
+            <img src={{ $job->image->getURL('medium') }}>
         </div>
         <div class="col s9 job-description">
             <div class="right">

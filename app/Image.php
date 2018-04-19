@@ -44,11 +44,13 @@ class Image extends Model
             }
 
             // Determine type
-            if (stristr(strtolower($this->full_path), '.gif')) {
+            if (substr(strtolower($this->full_path), -4) == '.gif') {
                 $this->type = 'gif';
-            } elseif (stristr(strtolower($this->full_path),'.jpg') || stristr(strtolower($this->full_path),'.jpeg')) {
+            } elseif (substr(strtolower($this->full_path), -4) == '.jpg') {
+                $this->type = 'jpg';
+            } elseif (substr(strtolower($this->full_path), -5) == '.jpeg') {
                 $this->type = 'jpeg';
-            } elseif (stristr(strtolower($this->full_path),'.png')) {
+            } elseif (substr(strtolower($this->full_path), -4) == '.png') {
                 $this->type = 'png';
             } else {
                 throw new \Exception("Image: unknown file type. Must be GIF, JPEG, or PNG.");
@@ -59,6 +61,7 @@ class Image extends Model
                 case 'gif':
                     $this->resource = imagecreatefromgif($this->full_path);
                     break;
+                case 'jpg':
                 case 'jpeg':
                     $this->resource = imagecreatefromjpeg($this->full_path);
                     break;
@@ -84,10 +87,18 @@ class Image extends Model
         }
     }
 
+    public function getURL($quality=null)
+    {
+        if ($this->cdn) {
+            return Storage::disk('s3')->url($this->getPath($quality));
+        }
+        return Storage::disk('local')->url($this->getPath($quality));
+    }
+
     public function getPath($quality=null)
     {
         $path = $this->path;
-        if ($quality && in_array($quality, ['main', 'full', 'original', 'small', 'medium', 'large'])) {
+        if ($quality && in_array($quality, ['small', 'medium', 'large', 'share'])) {
             $dirs = explode("/", $path);
             $filename = array_pop($dirs);
             $root = preg_replace("/^(main|full|original|small|medium|large)-/", "", $filename);
@@ -146,6 +157,7 @@ class Image extends Model
             case 'gif':
                 imagegif($this->resource, $path);
                 break;
+            case 'jpg':
             case 'jpeg':
                 imagejpeg($this->resource, $path);
                 break;
@@ -154,7 +166,9 @@ class Image extends Model
                 break;
         }
 
-        return $dir.'/'.$name;
+        $this->path = $dir.'/'.$name;
+
+        return $this->path;
     }
 
     public function pushToS3()
@@ -162,15 +176,28 @@ class Image extends Model
         Storage::disk('s3')->putFileAs(
             $this->getDir(),
             new File($this->getFullPath()),
-            $this->getFilename()
+            $this->getFilename(),
+            'public'
         );
 
         foreach (['large', 'medium', 'small'] as $quality) {
             Storage::disk('s3')->putFileAs(
                 $this->getDir(),
                 new File($this->getFullPath($quality)),
-                $this->getFilename($quality)
+                $this->getFilename($quality),
+                'public'
             );
+        }
+
+        try {
+            Storage::disk('s3')->putFileAs(
+                $this->getDir(),
+                new File($this->getFullPath('share')),
+                $this->getFilename('share'),
+                'public'
+            );
+        } catch (Exception $e) {
+            // Some images don't have a share
         }
 
         $this->cdn = true;

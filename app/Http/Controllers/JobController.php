@@ -74,23 +74,9 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        try {
-            $image = request()->file('image_url');
-            if ($image) {
-                $job_image = $image->store('job', 'public');
-            } else {
-                $request->session()->flash('message', new Message(
-                    "You must upload an image.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
-                return back()->withInput();
-            }
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
+        if (!$image_path = request()->file('image_url')) {
             $request->session()->flash('message', new Message(
-                "Sorry, the image you tried to upload failed.",
+                "You must upload an image.",
                 "danger",
                 $code = null,
                 $icon = "error"
@@ -143,44 +129,46 @@ class JobController extends Controller
             'country' => request('country'),
             'rank' => $rank,
             'featured' => request('featured') ? true : false,
-            'image_url' => $job_image,
+             // TODO 63 remove
+            'image_url' => '123',
             'document' => $d ?: null,
         ]);
 
         try {
-            if ($image = request()->file('image_url')) {
-                $dir = 'job/'.$job->id;
-                if (!Storage::exists("public/{$dir}")) {
-                    Storage::makeDirectory("public/{$dir}");
-                }
-                $ext = strtolower($image->getClientOriginalExtension());
-                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
-
-                // Store the original locally on disk
-                $path = $image->storeAs('job/temp', $filename, 'public');
-
-                // Original image
-                $full = new Image($path);
-                $image_url = $full->saveAs($dir, $filename);
-                // Large: 1000 x 1000
-                $large = clone $full;
-                $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
-                // Medium: 500 x 500
-                $medium = clone $full;
-                $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
-                // Small: 250 x 250
-                $small = clone $full;
-                $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
-                // Share: 1000 x 520, padded from 500 x 500, with white background
-                $share = clone $medium;
-                $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
-
-                $job->image_url = $image_url;
-                $job->save();
-
-                // Delete local temp image
-                Storage::delete('public/job/temp/'.$filename);
+            $ext = strtolower($image_path->getClientOriginalExtension());
+            $dir = 'job/'.$job->id;
+            if (!Storage::exists("public/{$dir}")) {
+                Storage::makeDirectory("public/{$dir}");
             }
+            $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
+
+            // Store the original locally on disk
+            $path = $image_path->storeAs('job/temp', $filename, 'public');
+
+            // Original image
+            $image = new Image($path);
+            $image_url = $image->saveAs($dir, $filename);
+            // Large: 1000 x 1000
+            $large = clone $image;
+            $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+            // Medium: 500 x 500
+            $medium = clone $image;
+            $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+            // Small: 250 x 250
+            $small = clone $image;
+            $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+            // Share: 1000 x 520, padded from 500 x 500, with white background
+            $share = clone $medium;
+            $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
+
+            // Delete local temp image
+            Storage::delete('public/job/temp/'.$filename);
+
+            $image->cdn = 0;
+            $image->save();
+
+            $job->image_id = $image->id;
+            $job->save();
         } catch (Exception $e) {
             Log::error($e->getMessage());
             // TODO redirect with errors

@@ -15,7 +15,7 @@
                 @foreach ($images as $image)
                     <div class="col s4 m3 center-align" style="padding: 10px;">
                         <a href="/image/{{ $image->id }}" class="no-underline">
-                            <img src="{{ Storage::disk('local')->url($image->path) }}" alt="" style="max-height: 100px; box-shadow: 2px 2px #F2F2F2;">
+                            <img src="{{ $image->getURL('medium') }}" alt="" style="max-height: 100px; box-shadow: 2px 2px #F2F2F2;">
                         </a>
                     </div>
                 @endforeach
