@@ -33,6 +33,11 @@ class Job extends Model
         return $this->hasMany(Inquiry::class);
     }
 
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class);
+    }
+
     public function isNew()
     {
         $new = (new \DateTime('NOW'))->sub(new \DateInterval('P14D'));
