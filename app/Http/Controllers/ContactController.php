@@ -8,6 +8,7 @@ use App\Contact;
 use App\ContactRelationship;
 use App\Note;
 use App\Message;
+use App\Http\Requests\CreateNote;
 use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
 use App\Http\Requests\ScheduleFollowUp;
@@ -226,17 +227,15 @@ class ContactController extends Controller
         return redirect()->action('ContactController@show', [$contact]);
     }
 
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showNotes($id)
+    public function showNoteControl($id)
     {
         $this->authorize('view-contact-notes');
 
         $notes = Note::contact($id);
+        $contact = Contact::find($id);
 
-        return view('contact/notes/show', [
+        return view('contact/notes/control', [
+            'contact' => $contact,
             'notes' => $notes
         ]);
     }
@@ -245,19 +244,27 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function createNote($id)
+    public function createNote(CreateNote $request)
     {
         $this->authorize('create-contact-note');
 
-        $contact = Contact::find($id);
+        $contact_id = request('contact_id');
+        $contact = Contact::find($contact_id);
         if (!$contact) {
             return abort(404);
         }
 
         $note = new Note();
         $note->user_id = Auth::user()->id;
-        $note->notable_id = $id;
-        $note->notable_type = "App\Contact";
+
+        $inquiry_id = request('inquiry_id');
+        if (is_null($inquiry_id ) || $inquiry_id == '') {
+            $note->notable_id = $contact_id;
+            $note->notable_type = "App\Contact";
+        } else {
+            $note->notable_id = $inquiry_id;
+            $note->notable_type = "App\Inquiry";
+        }
         $note->content = request("note");
         $note->save();
 

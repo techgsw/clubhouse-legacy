@@ -94,6 +94,10 @@ $.valHooks.textarea = {
     Contact.handleSubmitNote = function (form, type) {
         var actions = $('#note-actions');
         var progress = $('#note-progress');
+        var contact_notes_container = $('.contact-notes-modal');
+        if (!contact_notes_container.hasClass('open')) {
+            contact_notes_container = $('#contact-note-collapsible-body');
+        }
 
         var values = form.serializeArray().reduce(function (values, curr) {
             values[curr.name] = curr.value;
@@ -123,19 +127,9 @@ $.valHooks.textarea = {
                         actions.removeClass('hidden');
                         return;
                     }
-                    $(form).find('button#schedule-follow-up').addClass('hidden');
-                    $(form).find('button#schedule-follow-up').addClass('hidden');
-                    $(form).find('button#reschedule-follow-up').removeClass('hidden');
-                    $(form).find('button#close-follow-up').removeClass('hidden');
-                    var view_notes_btn = $('.view-contact-notes-btn[contact-id="'+values.contact_id+'"]');
-                    if (view_notes_btn) {
-                        view_notes_btn.attr('contact-follow-up', moment(values.follow_up_date).format('YYYY-MM-DD'));
-                    }
                     Note.getContactNotes(values.contact_id).done(function (view) {
-                        form.find('textarea#note').val("");
-                        $('.contact-notes-container').html(view);
-                        progress.addClass('hidden');
-                        actions.removeClass('hidden');
+                        contact_notes_container.html(view);
+                        UI.initializeDatePicker();
                     });
                 });
             break;
@@ -163,14 +157,9 @@ $.valHooks.textarea = {
                         actions.removeClass('hidden');
                         return;
                     }
-                    $(form).find('button#schedule-follow-up').addClass('hidden');
-                    $(form).find('button#reschedule-follow-up').removeClass('hidden');
-                    $(form).find('button#close-follow-up').removeClass('hidden');
                     Note.getContactNotes(values.contact_id).done(function (view) {
-                        form.find('textarea#note').val("");
-                        $('.contact-notes-container').html(view);
-                        progress.addClass('hidden');
-                        actions.removeClass('hidden');
+                        contact_notes_container.html(view);
+                        UI.initializeDatePicker();
                     });
                 });
             break;
@@ -194,15 +183,9 @@ $.valHooks.textarea = {
                         actions.removeClass('hidden');
                         return;
                     }
-                    $(form).find('input#follow-up-date').val('');
-                    $(form).find('button#schedule-follow-up').removeClass('hidden');
-                    $(form).find('button#reschedule-follow-up').addClass('hidden');
-                    $(form).find('button#close-follow-up').addClass('hidden');
                     Note.getContactNotes(values.contact_id).done(function (view) {
-                        form.find('textarea#note').val("");
-                        $('.contact-notes-container').html(view);
-                        progress.addClass('hidden');
-                        actions.removeClass('hidden');
+                        contact_notes_container.html(view);
+                        UI.initializeDatePicker();
                     });
                 });
             break;
@@ -210,7 +193,10 @@ $.valHooks.textarea = {
             // Just a contact note
             Note.postContactNote(values)
                 .fail(function (response) {
-                    // TODO Error message
+                    if (response.responseJSON.note) {
+                        $(form).find('textarea#note').addClass('invalid');
+                        $(form).find('textarea#note').attr('placeholder', 'Note is required.');
+                    }
                     progress.addClass('hidden');
                     actions.removeClass('hidden');
                     return;
@@ -223,10 +209,8 @@ $.valHooks.textarea = {
                         return;
                     }
                     Note.getContactNotes(values.contact_id).done(function (view) {
-                        form.find('textarea#note').val("");
-                        $('.contact-notes-container').html(view);
-                        progress.addClass('hidden');
-                        actions.removeClass('hidden');
+                        contact_notes_container.html(view);
+                        UI.initializeDatePicker();
                     });
                 });
         }
@@ -330,7 +314,7 @@ $.valHooks.textarea = {
     Note.getContactNotes = function (contact_id) {
         return $.ajax({
             type: 'GET',
-            url: '/contact/'+contact_id+'/show-notes'
+            url: '/contact/'+contact_id+'/show-note-control'
         });
     }
 
@@ -441,6 +425,16 @@ $.valHooks.textarea = {
             });
         }
     }
+
+    UI.initializeDatePicker = function() {
+        $('.datepicker').pickadate({
+            selectMonths: true,
+            selectYears: 100,
+            close: 'Ok',
+            closeOnSelect: true,
+            container: 'body'
+        });
+    };
 
     UI.addMessage = function (response) {
         var template = $('.message-template.hidden').clone();
@@ -752,43 +746,31 @@ $.valHooks.textarea = {
 
     // Notes
 
+    // Open the contact notes on contact page collapse drawer
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var progress = $('#note-progress');
+                var contact_id = parseInt($(this).attr('contact-id'));
+
+                progress.removeClass('hidden');
+                Note.getContactNotes(contact_id).done(function (view) {
+                    $('#contact-note-collapsible-body').html(view);
+                    UI.initializeDatePicker();
+                });
+            }
+        },
+        '#contact-note-collapsible-header'
+    );
+
     // Open the contact notes modal
     $('body').on(
         {
             click: function (e, ui) {
-                // Reset modal state
-                $('#note-actions').removeClass("hidden");
-                $('#note-progress').addClass("hidden");
-                $('textarea#note').removeClass('invalid').attr('placeholder', "What's the latest?");
-                $('input#follow-up-date').val("");
-                $('input#follow-up-date').addClass('hidden').removeClass('invalid');
-                $('button#close-follow-up').addClass('hidden');
-                $('button#reschedule-follow-up').addClass('hidden');
-                $('button#schedule-follow-up').addClass('hidden');
-
                 var contact_id = parseInt($(this).attr('contact-id'));
-                var follow_up = $(this).attr('contact-follow-up') ? $(this).attr('contact-follow-up') : null;
-                if (follow_up) {
-                    follow_up = moment(follow_up);
-                }
-                var name = $(this).attr('contact-name');
                 Note.getContactNotes(contact_id).done(function (view) {
-                    if (name) {
-                        $('.contact-name').text(name).removeClass('hidden');
-                    }
-                    if (follow_up) {
-                        // Enable closing and re-scheduling
-                        $('input#follow-up-date').val(follow_up.format('D MMMM, YYYY'));
-                        $('input#follow-up-date').removeClass('hidden');
-                        $('button#close-follow-up').removeClass('hidden');
-                        $('button#reschedule-follow-up').removeClass('hidden');
-                    } else {
-                        // Enable scheduling
-                        $('input#follow-up-date').removeClass('hidden');
-                        $('button#schedule-follow-up').removeClass('hidden');
-                    }
-                    $('form#create-contact-note input[name="contact_id"]').val(contact_id);
-                    $('.contact-notes-container').html(view);
+                    $('.contact-notes-modal').html(view);
+                    UI.initializeDatePicker();
                     $('.contact-notes-modal').modal('open');
                 });
             }
@@ -880,7 +862,8 @@ $.valHooks.textarea = {
                         return;
                     }
                     Note.getContactNotes(contact_id).done(function (view) {
-                        $('.contact-notes-container').html(view);
+                        $('.contact-notes-modal').html(view);
+                        UI.initializeDatePicker();
                     });
                 });
             }
