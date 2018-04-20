@@ -257,8 +257,8 @@ class ContactController extends Controller
         $note = new Note();
         $note->user_id = Auth::user()->id;
 
-        $inquiry_id = request('inquiry_id');
-        if (is_null($inquiry_id ) || $inquiry_id == '') {
+        $inquiry_id = request('inquiry_id') ?: null;
+        if (is_null($inquiry_id)) {
             $note->notable_id = $contact_id;
             $note->notable_type = "App\Contact";
         } else {
@@ -372,9 +372,16 @@ class ContactController extends Controller
                 if (request('note')) {
                     $note = new Note();
                     $note->user_id = Auth::user()->id;
-                    $note->notable_id = request('contact_id');
-                    $note->notable_type = "App\Contact";
+                    $inquiry_id = request('inquiry_id') ?: null;
+                    if (is_null($inquiry_id)) {
+                        $note->notable_id = request('contact_id');
+                        $note->notable_type = "App\Contact";
+                    } else {
+                        $note->notable_id = $inquiry_id;
+                        $note->notable_type = "App\Inquiry";
+                    }
                     $note->content = request('note');
+                    $note->content .= "\nFollow-up scheduled for {$contact->follow_up_date->format('d F, Y')}";
                     $note->save();
                 }
 
@@ -415,9 +422,16 @@ class ContactController extends Controller
 
                 $note = new Note();
                 $note->user_id = Auth::user()->id;
-                $note->notable_id = request('contact_id');
-                $note->notable_type = "App\Contact";
+                $inquiry_id = request('inquiry_id') ?: null;
+                if (is_null($inquiry_id)) {
+                    $note->notable_id = request('contact_id');
+                    $note->notable_type = "App\Contact";
+                } else {
+                    $note->notable_id = $inquiry_id;
+                    $note->notable_type = "App\Inquiry";
+                }
                 $note->content = request('note');
+                $note->content .= "\nFollow-up rescheduled for {$contact->follow_up_date->format('d F, Y')}";
                 $note->save();
 
                 return $contact;
@@ -446,9 +460,16 @@ class ContactController extends Controller
             $contact = DB::transaction(function() use($request, $contact) {
                 $note = new Note();
                 $note->user_id = Auth::user()->id;
-                $note->notable_id = request('contact_id');
-                $note->notable_type = "App\Contact";
+                $inquiry_id = request('inquiry_id') ?: null;
+                if (is_null($inquiry_id)) {
+                    $note->notable_id = request('contact_id');
+                    $note->notable_type = "App\Contact";
+                } else {
+                    $note->notable_id = $inquiry_id;
+                    $note->notable_type = "App\Inquiry";
+                }
                 $note->content = request('note');
+                $note->content .= "\nFollow-up closed";
                 $note->save();
 
                 $contact->follow_up_date = null;
