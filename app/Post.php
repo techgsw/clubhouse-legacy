@@ -23,7 +23,7 @@ class Post extends Model
 
     public function images()
     {
-        return $this->hasMany(PostImage::class)->orderBy('image_order');
+        return $this->belongsToMany(Image::class, 'post_image', 'post_id', 'image_id')->orderBy('order');
     }
 
     public function tags()

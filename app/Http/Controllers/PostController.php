@@ -43,6 +43,7 @@ class PostController extends Controller
     public function store(StorePost $request)
     {
         $this->authorize('create-post');
+
         // TODO title_url must be unique. like wordpress add numeric value at the end if it already exists, or fail out.
 
         $post_tags = json_decode(request('post_tags_json'));
@@ -58,38 +59,48 @@ class PostController extends Controller
                     'body' => request('body')
                 ]);
 
-                if ($image = request()->file('image_url')) {
+                if ($image_url = request()->file('image_url')) {
+                    $ext = strtolower($image_url->getClientOriginalExtension());
                     $dir = 'post/'.$post->id;
-                    $ext = strtolower($image->getClientOriginalExtension());
-                    $filename = preg_replace('/\s/', '-', $post->title_url).'-SportsBusinessSolutions.'.$ext;
+                    if (!Storage::exists("public/{$dir}")) {
+                        Storage::makeDirectory("public/{$dir}");
+                    }
+                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions.'.$ext;
 
                     // Store the original locally on disk
-                    $path = $image->storeAs('post/temp', $filename, 'public');
+                    $path = $image_url->storeAs('post/temp', $filename, 'public');
 
                     // Original image
-                    $original = new Image($path);
-                    $original->saveAs($dir, "original-".$filename);
+                    $image = new Image($path);
                     // Main, cropped square from the center
-                    $main = clone $original;
-                    $image_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
+                    $image_url = $image->cropFromCenter(2000)->saveAs($dir, $filename);
                     // Large: 1000 x 1000
-                    $large = clone $main;
+                    $large = clone $image;
                     $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
                     // Medium: 500 x 500
-                    $medium = clone $main;
+                    $medium = clone $image;
                     $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
                     // Small: 250 x 250
-                    $small = clone $main;
+                    $small = clone $image;
                     $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
                     // Share: 1000 x 520, padded from 500 x 500, with white background
                     $share = clone $medium;
                     $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
+                    // Delete local temp image
+                    Storage::delete('public/post/temp/'.$filename);
+
+                    $image->order = 1;
+                    $image->cdn = 0;
+                    $image->save();
+
                     $post_image = new PostImage();
+                    $post_image->image_id = $image->id;
                     $post_image->post_id = $post->id;
+                    // TODO 63 remove
                     $post_image->filename = $filename;
                     $post_image->image_order = 1;
-
+                    // ////
                     $post_image->save();
                 }
 
@@ -172,20 +183,21 @@ class PostController extends Controller
                 $post->body = request('body');
                 $post->save();
 
-                if ($image = request()->file('image_url')) {
+                if ($image_url = request()->file('image_url')) {
+                    $ext = strtolower($image_url->getClientOriginalExtension());
                     $dir = 'post/'.$post->id;
-                    $ext = strtolower($image->getClientOriginalExtension());
-                    $filename = preg_replace('/\s/', '-', $post->title_url).'-SportsBusinessSolutions.'.$ext;
+                    if (!Storage::exists("public/{$dir}")) {
+                        Storage::makeDirectory("public/{$dir}");
+                    }
+                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions.'.$ext;
 
                     // Store the original locally on disk
-                    $path = $image->storeAs('post/temp', $filename, 'public');
+                    $path = $image_url->storeAs('post/temp', $filename, 'public');
 
                     // Original image
-                    $original = new Image($path);
-                    $original->saveAs($dir, "original-".$filename);
+                    $main = new Image($path);
                     // Main, cropped square from the center
-                    $main = clone $original;
-                    $image_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
+                    $main_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
                     // Large: 1000 x 1000
                     $large = clone $main;
                     $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
@@ -199,12 +211,22 @@ class PostController extends Controller
                     $share = clone $medium;
                     $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
-                    $post_image = count($post->images) > 0 ? $post->images[0] : new PostImage();
-                    $post_image->post_id = $post->id;
-                    $post_image->filename = $filename;
-                    $post_image->image_order = 1;
+                    // Delete local temp image
+                    Storage::delete('public/post/temp/'.$filename);
 
-                    $post_image->save();
+                    if ($post->images->count() > 0) {
+                        $image = $post->images->first();
+                        $image->cdn = 0;
+                        $image->path = $main->getPath();
+                        $image->save();
+                    } else {
+                        $image = $main;
+                        $image->order = 1;
+                        $image->cdn = 0;
+                        $image->save();
+
+                        $post->attach($image);
+                    }
                 }
 
                 $post->tags()->sync($post_tags);

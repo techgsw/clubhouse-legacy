@@ -21,6 +21,11 @@ class PostImage extends Model
         return $this->belongsTo(Post::class);
     }
 
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
+
     public function isNew()
     {
         $new = (new \DateTime('NOW'))->sub(new \DateInterval('P14D'));

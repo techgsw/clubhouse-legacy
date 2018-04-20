@@ -233,7 +233,32 @@ class CreateImageTable extends Migration
                 return;
             }
 
-            if (!$post_image->legacy) {
+            $dir = 'post/'.$post_image->post_id;
+            $ext = $image->getType();
+            $filename = $post_image->filename;
+
+            if (!Storage::exists("public/{$dir}")) {
+                Storage::makeDirectory("public/{$dir}");
+            }
+
+            if ($post_image->legacy) {
+                // Create suite of qualities
+                // Full: original image
+                $image_path = $image->saveAs($dir, $filename);
+                $image->path = $image_path;
+                // Large: 1000 x 1000
+                $large = clone $image;
+                $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
+                // Medium: 500 x 500
+                $medium = clone $image;
+                $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
+                // Small: 250 x 250
+                $small = clone $image;
+                $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+                // Share: 1000 x 520, padded from 500 x 500, with white background
+                $share = clone $medium;
+                $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
+            } else {
                 // Save main without prefix
                 $image_path = $image->saveAs("post/$post_image->post_id", $post_image->filename);
                 $image->path = $image_path;
