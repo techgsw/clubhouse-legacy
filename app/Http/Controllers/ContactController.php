@@ -238,7 +238,6 @@ class ContactController extends Controller
             'contact' => $contact,
             'notes' => $notes
         ]);
-        
     }
 
     /**
