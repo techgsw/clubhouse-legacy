@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Image;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
@@ -29,5 +30,83 @@ class ImageServiceProvider extends ServiceProvider
                 $cb($image);
             }
         });
+    }
+
+    /**
+     * saveFileAsImage takes a File or an UploadedFile (e.g. from an HTTP form)
+     * and saves it as an Image, along with different qualities.
+     */
+    public static function saveFileAsImage($file, $filename, $directory, array $options = null)
+    {
+        $classname = get_class($file);
+        if ($classname !== 'Illuminate\Http\UploadedFile' && $classname !== 'Illuminate\Http\File') {
+            throw new \Exception('saveFileAsImage: $file must be of type Illuminate\Http\File or Illuminate\Http\UploadedFile');
+        }
+
+        // List of qualities to save
+        $qualities = isset($options['qualities']) ? $options['qualities'] : null;
+        if (!$qualities) {
+            $qualities = ['large', 'medium', 'small', 'share'];
+        }
+
+        // Crop square from center?
+        $crop_center = isset($options['cropFromCenter']) ? $options['cropFromCenter'] : false;
+
+        // Image to update?
+        $update_image = isset($options['update']) ? $options['update'] : null;
+
+        // Dimensions
+        $dim_x = isset($options['dim_x']) ? $options['dim_x'] : 2000;
+        $dim_y = isset($options['dim_y']) ? $options['dim_y'] : 2000;
+
+        // Set filename and ensure
+        $ext = strtolower($file->getClientOriginalExtension());
+        $filename .= ".$ext";
+
+        // Ensure directory exists
+        if (!Storage::exists("public/{$directory}")) {
+            Storage::makeDirectory("public/{$directory}");
+        }
+
+        // Store the original temporarily
+        $path = $file->storeAs('temp', $filename);
+
+        $image = new Image($path);
+        if ($crop_center) {
+            $image_url = $image->cropFromCenter($dim_x);
+        }
+        $image_url = $image->saveAs($directory, $filename);
+        if (in_array('large', $qualities)) {
+            $large = clone $image;
+            $large_url = $large->resize($dim_x/2, $dim_y/2)->saveAs($directory, 'large-'.$filename);
+        }
+        if (in_array('medium', $qualities)) {
+            $medium = clone $image;
+            $medium_url = $medium->resize($dim_x/4, $dim_y/4)->saveAs($directory, 'medium-'.$filename);
+        }
+        if (in_array('small', $qualities)) {
+            $small = clone $image;
+            $small_url = $small->resize($dim_x/8, $dim_y/8)->saveAs($directory, 'small-'.$filename);
+        }
+        if (in_array('share', $qualities)) {
+            $white = [255, 255, 255, 0];
+            $share = clone $image;
+            $share_url = $share->resize(500, 500)->padTo(1000, 520, $white)->saveAs($directory, 'share-'.$filename);
+        }
+
+        // Delete local temp image
+        Storage::delete('temp/'.$filename);
+
+        // Update the given image, if necessary
+        if (!is_null($update_image)) {
+            // Update the given Image
+            $update_image->path = $image->getPath();
+            $update_image->cdn = 0;
+            $image = $update_image;
+        }
+
+        $image->save();
+
+        return $image;
     }
 }

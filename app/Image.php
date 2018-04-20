@@ -31,7 +31,7 @@ class Image extends Model
 
             $this->dimensions = array();
             $this->path = $path;
-            $this->full_path = storage_path('app/public/'.$path);
+            $this->full_path = storage_path('app/'.$path);
 
             // File must exist
             if (!file_exists($this->full_path)) {
@@ -67,7 +67,7 @@ class Image extends Model
                     break;
                 case 'png':
                     $this->resource = imagecreatefrompng($this->full_path);
-                    imagealphablending($this->resource, true);
+                    imagealphablending($this->resource, false);
                     imagesavealpha($this->resource, true);
                     break;
             }
@@ -234,6 +234,8 @@ class Image extends Model
         } else {
             $resource = imagecreate($width, $height);
         }
+        imagealphablending($resource, false);
+        imagesavealpha($resource, true);
 
         imagecopyresampled(
             $resource,
@@ -273,6 +275,8 @@ class Image extends Model
         } else {
             $resource = imagecreate($cropSize,$cropSize);
         }
+        imagealphablending($resource, false);
+        imagesavealpha($resource, true);
 
         // http://php.net/manual/en/function.imagecopyresampled.php
         // takes a rectangular area from src_image of width src_w and height
@@ -314,13 +318,21 @@ class Image extends Model
             throw new \Exception("Image.padTo given height must exceed or equal current height");
         }
 
-        if (is_null($color) || count($color) != 3) {
+        if (is_null($color) || count($color) != 4) {
             // White by default
-            $color = [255, 255, 255];
+            $color = [255, 255, 255, 0];
         }
 
         $resource = imagecreatetruecolor($width, $height);
-        $background_color = imagecolorallocate($resource, ...$color);
+        if ($color[3] == 127) {
+            // fill transparent
+            imagealphablending($resource, false);
+        } else {
+            imagealphablending($resource, true);
+        }
+        imagesavealpha($resource, true);
+
+        $background_color = imagecolorallocatealpha($resource, ...$color);
 
         $dest_x = (int)($width-$this->getWidth())/2;
         $dest_y = (int)($height-$this->getHeight())/2;
@@ -364,8 +376,8 @@ class Image extends Model
                 $h = $this->dimensions['height'];
             }
 
-            // Pad with white to maintain aspect ratio
-            $this->padTo($w, $h);
+            // Pad transparently (or with white) to maintain aspect ratio
+            $this->padTo($w, $h, [255, 255, 255, 127]);
         }
 
         if (function_exists("imagecreatetruecolor")) {
@@ -375,11 +387,12 @@ class Image extends Model
         }
         imagealphablending($resource, false);
         imagesavealpha($resource, true);
-        // http://php.net/manual/en/function.imagecopyresized.php
+
+        // http://php.net/manual/en/function.imagecopyresampled.php
         // If the source and destination coordinates and width and heights
         // differ, appropriate stretching or shrinking of the image fragment
         // will be performed.
-        imagecopyresized(
+        imagecopyresampled(
             $resource,                      // destination
             $this->resource,                // source
             0,
@@ -426,9 +439,9 @@ class Image extends Model
         } else {
             $working = imagecreate($width, $height);
         }
-
         imagealphablending($working, false);
         imagesavealpha($working, true);
+
         imagecopyresampled(
             $working,
             $this->resource,

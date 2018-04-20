@@ -6,6 +6,7 @@ use App\Image;
 use App\Inquiry;
 use App\Job;
 use App\Message;
+use App\Providers\ImageServiceProvider;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
 use Illuminate\Http\Request;
@@ -74,7 +75,7 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        if (!$image_path = request()->file('image_url')) {
+        if (!$image_file = request()->file('image_url')) {
             $request->session()->flash('message', new Message(
                 "You must upload an image.",
                 "danger",
@@ -135,44 +136,23 @@ class JobController extends Controller
         ]);
 
         try {
-            $ext = strtolower($image_path->getClientOriginalExtension());
-            $dir = 'job/'.$job->id;
-            if (!Storage::exists("public/{$dir}")) {
-                Storage::makeDirectory("public/{$dir}");
-            }
-            $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
-
-            // Store the original locally on disk
-            $path = $image_path->storeAs('job/temp', $filename, 'public');
-
-            // Original image
-            $image = new Image($path);
-            $image_url = $image->saveAs($dir, $filename);
-            // Large: 1000 x 1000
-            $large = clone $image;
-            $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
-            // Medium: 500 x 500
-            $medium = clone $image;
-            $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
-            // Small: 250 x 250
-            $small = clone $image;
-            $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
-            // Share: 1000 x 520, padded from 500 x 500, with white background
-            $share = clone $medium;
-            $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
-
-            // Delete local temp image
-            Storage::delete('public/job/temp/'.$filename);
-
-            $image->cdn = 0;
-            $image->save();
+            $image = ImageServiceProvider::saveFileAsImage(
+                $image_file,
+                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                $directory = 'job/'.$job->id
+            );
 
             $job->image_id = $image->id;
             $job->save();
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            // TODO redirect with errors
-            return redirect()->action('JobController@create');
+            $request->session()->flash('message', new Message(
+                "Sorry, the file(s) failed to upload. Please try again.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
         }
 
         return redirect()->action('JobController@show', [$job]);
@@ -468,36 +448,16 @@ class JobController extends Controller
             $job->document = $doc->store('document', 'public');
         }
         try {
-            if ($image = request()->file('image_url')) {
-                $ext = strtolower($image->getClientOriginalExtension());
-                $dir = 'job/'.$job->id;
-                if (!Storage::exists("public/{$dir}")) {
-                    Storage::makeDirectory("public/{$dir}");
-                }
-                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions.'.$ext;
-
-                // Store the original locally on disk
-                $path = $image->storeAs('job/temp', $filename, 'public');
-
-                // Create variations, save locally, and upload to S3
-                // Full: original image
-                $original = new Image($path);
-                $image_url = $original->saveAs($dir, $filename);
-                // Large: 1000 x 1000
-                $large = clone $original;
-                $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
-                // Medium: 500 x 500
-                $medium = clone $original;
-                $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
-                // Small: 250 x 250
-                $small = clone $original;
-                $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
-                // Share: 1000 x 520, padded from 500 x 500, with white background
-                $share = clone $medium;
-                $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
-
-                // Delete local temp image
-                Storage::delete('public/job/temp/'.$filename);
+            if ($image_file = request()->file('image_url')) {
+                $image = ImageServiceProvider::saveFileAsImage(
+                    $image_file,
+                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                    $directory = 'job/'.$job->id,
+                    $options = [
+                        // 'cropFromCenter' => true,
+                        'update' => $job->image
+                    ]
+                );
 
                 // Update image record, unset CDN flag
                 $job->image->cdn = 0;

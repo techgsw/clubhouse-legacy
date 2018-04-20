@@ -9,6 +9,7 @@ use App\Message;
 use App\Note;
 use App\Profile;
 use App\User;
+use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -315,45 +316,17 @@ class ProfileController extends Controller
 
         try {
             if ($headshot = request()->file('headshot_url')) {
-                $ext = strtolower($headshot->getClientOriginalExtension());
-                $dir = 'headshot/'.$user->id;
-                if (!Storage::exists("public/{$dir}")) {
-                    Storage::makeDirectory("public/{$dir}");
-                }
-                $filename = $user->first_name.'-'.$user->last_name.'-SportsBusinessSolutions.'.$ext;
+                $image = ImageServiceProvider::saveFileAsImage(
+                    $headshot,
+                    $filename = $user->first_name.'-'.$user->last_name.'-SportsBusinessSolutions',
+                    $directory = 'headshot/'.$user->id,
+                    $options = [
+                        'cropFromCenter' => true,
+                        'update' => $profile->headshotImage ?: null
+                    ]
+                );
 
-                // Store the original temporarily
-                $path = $headshot->storeAs('headshot/temp', $filename, 'public');
-
-                // Original image
-                $original = new Image($path);
-                // Main, cropped square from the center
-                $main = clone $original;
-                $headshot_url = $main->cropFromCenter(2000)->saveAs($dir, $filename);
-                // Large: 1000 x 1000
-                $large = clone $main;
-                $large_url = $large->resize(1000, 1000)->saveAs($dir, 'large-'.$filename);
-                // Medium: 500 x 500
-                $medium = clone $main;
-                $medium_url = $medium->resize(500, 500)->saveAs($dir, 'medium-'.$filename);
-                // Small: 250 x 250
-                $small = clone $main;
-                $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
-
-                // Delete local temp image
-                Storage::delete('public/headshot/temp/'.$filename);
-
-                // Update image record, unset CDN flag
-                $headshotImage = $profile->headshotImage;
-                if ($headshotImage) {
-                    $headshotImage->path = $main->getPath();
-                } else {
-                    $headshotImage = $main;
-                }
-                $headshotImage->cdn = 0;
-                $headshotImage->save();
-
-                $profile->headshot_image_id = $headshotImage->id;
+                $profile->headshot_image_id = $image->id;
                 $profile->save();
             }
         } catch (Exception $e) {
