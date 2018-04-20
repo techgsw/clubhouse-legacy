@@ -1,4 +1,4 @@
-<!-- /resources/views/post/create.blade.php -->
+<!-- /resources/views/session/edit.blade.php -->
 @extends('layouts.default')
 @section('title', "Edit Session | " . $post->title)
 @section('content')
@@ -27,10 +27,7 @@
                                     @foreach ($post->images as $index => $image)
                                         <div id="{{ $image->id }}" class="dz-preview dz-image-preview">
                                             <div class="dz-image">
-                                                @php
-                                                    $image_path = $post->getImagePath($image, 'small');
-                                                @endphp
-                                                <img class="" src="{{ Storage::disk('local')->url($image_path) }}" />
+                                                <img class="" src="{{ $image->getURL('medium') }}" />
                                             </div>
                                             <a href="javascript: void(0);" data-image-id="{{ $image->id }}" class="image-remove-link" data-dz-remove>Remove Image</a>
                                         </div>

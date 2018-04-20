@@ -33,14 +33,11 @@
                     @if (count($sessions) > 0)
                         @foreach ($sessions as $index => $session)
                             @foreach ($session->images as $index => $image)
-                                @php
-                                    $image_path = $session->getImagePath($image, 'medium');
-                                @endphp
-                                <div class="session-image" style="background-image: url('{{ Storage::disk('local')->url($image_path) }}')">
+                                <div class="session-image" style="background-image: url('{{ $image->getURL('medium') }}')">
                                     <div class="overlay">
                                         <span class="overlay-text">{{ $session->title }}</span>
                                     </div>
-                                    <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ Storage::disk('local')->url($image_path) }}" />
+                                    <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ $image->getURL('large') }}" />
                                 </div>
                             @endforeach
                         @endforeach

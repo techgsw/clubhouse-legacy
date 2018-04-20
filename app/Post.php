@@ -61,34 +61,4 @@ class Post extends Model
     {
         return "/blog/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->title)));
     }
-
-    public function getImagePath(PostImage $image=null, $size='medium')
-    {
-        if (is_null($image)) {
-            return null;
-        }
-
-        $image_path = 'post/'.$image->post_id.'/';
-
-        if ($image->cdn_upload) {
-        } else {
-            if ($image->legacy) {
-                switch ($size) {
-                    case 'medium':
-                        $image_path .= preg_replace('/\./', '-200x150.', $image->filename);
-                        break;
-                    default:
-                        $image_path .= $image->filename;
-                }
-            } else {
-                if ($size) {
-                    $image_path .= $size.'-'.$image->filename;
-                } else {
-                    $image_path .= $image->filename;
-                }
-            }
-        }
-
-        return $image_path;
-    }
 }
