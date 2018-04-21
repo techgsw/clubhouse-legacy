@@ -9,7 +9,7 @@
             @include('layouts.components.errors')
         </div>
     </div>
-    <form method="post" id="session-edit-dropzone" class="dropzone" action="/session/{{$post->id}}/image" enctype="multipart/form-data">
+    <form method="post" id="session-edit-dropzone" class="dropzone" action="/session/{{$post->id}}/image" enctype="multipart/form-data" data-post-id={{ $post->id }}>
         {{ csrf_field() }}
         <div class="row">
             <div class="col s12 center-align">

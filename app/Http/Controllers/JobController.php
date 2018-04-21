@@ -453,16 +453,8 @@ class JobController extends Controller
                     $image_file,
                     $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
                     $directory = 'job/'.$job->id,
-                    $options = [
-                        // 'cropFromCenter' => true,
-                        'update' => $job->image
-                    ]
+                    $options = ['update' => $job->image]
                 );
-
-                // Update image record, unset CDN flag
-                $job->image->cdn = 0;
-                $job->image->path = $original->getPath();
-                $job->image->save();
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());

@@ -44,7 +44,7 @@ class CreateImageTable extends Migration
 
             if (!preg_match("/^headshot\/{$profile->user_id}\//", $profile->headshot_url)) {
                 try {
-                    $image = new Image($profile->headshot_url);
+                    $image = new Image('public/'.$profile->headshot_url);
                 } catch (\Exception $e) {
                     Storage::append('log/migration.log', "ERROR: {$e->getMessage()}");
                     $error++;
@@ -71,14 +71,17 @@ class CreateImageTable extends Migration
                 // Small: 250 x 250
                 $small = clone $image;
                 $small_url = $small->resize(250, 250)->saveAs($dir, 'small-'.$filename);
+                // Share: 1000 x 520, padded from 500 x 500, with white background
+                $share = clone $medium;
+                $share_url = $share->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
 
                 // Delete original headshot image
                 Storage::delete('public/'.$profile->headshot_url);
             } else {
-                $path = $profile->headshot_url;
-                if (preg_match("/^headshot\/{$profile->user_id}\/medium-/", $profile->headshot_url)) {
+                $path = 'public/'.$profile->headshot_url;
+                if (preg_match("/^headshot\/{$profile->user_id}\/medium-/", $path)) {
                     // Use main instead of medium
-                    $dirs = explode("/", $profile->headshot_url);
+                    $dirs = explode("/", $path);
                     $fn = array_pop($dirs);
                     $root = preg_replace("/^(medium-)/", "main-", $fn);
                     $dirs[] = $root;
@@ -133,7 +136,7 @@ class CreateImageTable extends Migration
 
             if (!preg_match("/^job\/{$job->id}\//", $job->image_url)) {
                 try {
-                    $image = new Image($job->image_url);
+                    $image = new Image('public/'.$job->image_url);
                 } catch (\Exception $e) {
                     Storage::append('log/migration.log', "ERROR: {$e->getMessage()}");
                     $error++;
@@ -167,10 +170,10 @@ class CreateImageTable extends Migration
                 // Delete original image
                 Storage::delete('public/'.$job->image_url);
             } else {
-                $path = $job->image_url;
-                if (preg_match("/^job\/{$job->id}\/medium-/", $job->image_url)) {
+                $path = 'public/'.$job->image_url;
+                if (preg_match("/^job\/{$job->id}\/medium-/", $path)) {
                     // Use main instead of medium
-                    $dirs = explode("/", $job->image_url);
+                    $dirs = explode("/", $path);
                     $fn = array_pop($dirs);
                     $root = preg_replace("/^(medium-)/", "original-", $fn);
                     $dirs[] = $root;
@@ -220,9 +223,9 @@ class CreateImageTable extends Migration
         Storage::append('log/migration.log', "POST-IMAGE--------------");
         PostImage::whereNull('image_id')->each(function ($post_image) use (&$success, &$error) {
             if ($post_image->legacy) {
-                $path = "post/$post_image->post_id/$post_image->filename";
+                $path = "public/post/$post_image->post_id/$post_image->filename";
             } else {
-                $path = "post/$post_image->post_id/main-$post_image->filename";
+                $path = "public/post/$post_image->post_id/main-$post_image->filename";
             }
 
             try {
@@ -274,6 +277,24 @@ class CreateImageTable extends Migration
             $success++;
         });
         Storage::append('log/migration.log', "{$success} successes\n{$error} errors\n------------------------");
+
+        // Drop deprecated columns
+        Schema::table('post_image', function (Blueprint $table) {
+            $table->dropColumn('filename');
+            $table->dropColumn('image_order');
+            $table->dropColumn('legacy');
+            $table->dropColumn('cdn_upload');
+        });
+
+        // Drop deprecated columns
+        Schema::table('job', function (Blueprint $table) {
+            $table->dropColumn('image_url');
+        });
+
+        // Drop deprecated columns
+        Schema::table('profile', function (Blueprint $table) {
+            $table->dropColumn('headshot_url');
+        });
     }
 
     /**

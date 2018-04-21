@@ -180,24 +180,13 @@ class Image extends Model
             'public'
         );
 
-        foreach (['large', 'medium', 'small'] as $quality) {
+        foreach (['large', 'medium', 'small', 'share'] as $quality) {
             Storage::disk('s3')->putFileAs(
                 $this->getDir(),
                 new File($this->getFullPath($quality)),
                 $this->getFilename($quality),
                 'public'
             );
-        }
-
-        try {
-            Storage::disk('s3')->putFileAs(
-                $this->getDir(),
-                new File($this->getFullPath('share')),
-                $this->getFilename('share'),
-                'public'
-            );
-        } catch (Exception $e) {
-            // Some images don't have a share
         }
 
         $this->cdn = true;
@@ -325,8 +314,14 @@ class Image extends Model
 
         $resource = imagecreatetruecolor($width, $height);
         if ($color[3] == 127) {
-            // fill transparent
-            imagealphablending($resource, false);
+            if ($this->type == 'png') {
+                // fill transparent
+                imagealphablending($resource, false);
+            } else {
+                // set to white
+                $color = [255, 255, 255, 0];
+                imagealphablending($resource, true);
+            }
         } else {
             imagealphablending($resource, true);
         }
