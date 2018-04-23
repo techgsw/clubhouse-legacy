@@ -8,6 +8,7 @@ use App\PostImage;
 use App\Message;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
+use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
