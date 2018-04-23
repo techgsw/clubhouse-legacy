@@ -104,6 +104,10 @@ class CreateImageTable extends Migration
                     Storage::makeDirectory("public/{$dir}");
                 }
 
+                // Share: 1000 x 520, padded from 500 x 500, with white background
+                $share = clone $image;
+                $share_url = $share->resize(500, 500)->padTo(1000, 520, $white=[255, 255, 255])->saveAs($dir ,'share-'.$filename);
+
                 // Save main without prefix
                 $image_path = $image->saveAs($dir, $filename);
                 $image->path = $image_path;

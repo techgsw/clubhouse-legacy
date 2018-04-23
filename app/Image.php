@@ -173,14 +173,7 @@ class Image extends Model
 
     public function pushToS3()
     {
-        Storage::disk('s3')->putFileAs(
-            $this->getDir(),
-            new File($this->getFullPath()),
-            $this->getFilename(),
-            'public'
-        );
-
-        foreach (['large', 'medium', 'small', 'share'] as $quality) {
+        foreach ([null, 'large', 'medium', 'small', 'share'] as $quality) {
             Storage::disk('s3')->putFileAs(
                 $this->getDir(),
                 new File($this->getFullPath($quality)),
@@ -191,6 +184,10 @@ class Image extends Model
 
         $this->cdn = true;
         $this->save();
+
+        foreach ([null, 'large', 'medium', 'small', 'share'] as $quality) {
+            Storage::disk('local')->delete("public/{$this->getDir()}/{$this->getFilename($quality)}");
+        }
 
         return $this;
     }
