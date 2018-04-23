@@ -62,7 +62,7 @@ class PostController extends Controller
 
                 if ($image_url = request()->file('image_url')) {
                     $image = ImageServiceProvider::saveFileAsImage(
-                        $image,
+                        $image_url,
                         $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions',
                         $directory = 'post/'.$post->id,
                         $options = [ 'cropFromCenter' => true ]
@@ -151,7 +151,7 @@ class PostController extends Controller
 
                 if ($image_url = request()->file('image_url')) {
                     $image = ImageServiceProvider::saveFileAsImage(
-                        $image,
+                        $image_url,
                         $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions',
                         $directory = 'post/'.$post->id,
                         $options = [
