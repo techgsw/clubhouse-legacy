@@ -130,8 +130,6 @@ class JobController extends Controller
             'country' => request('country'),
             'rank' => $rank,
             'featured' => request('featured') ? true : false,
-             // TODO 63 remove
-            'image_url' => '123',
             'document' => $d ?: null,
         ]);
 
