@@ -14,7 +14,7 @@ class ImageController extends Controller
      */
     public function index(Request $request)
     {
-        // TODO $this->authorize('view-contact');
+        $this->authorize('admin-image');
 
         $images = Image::orderBy('id', 'desc');
         $count = $images->count();
@@ -31,7 +31,7 @@ class ImageController extends Controller
      */
     public function show(Request $request, $id)
     {
-        // TODO $this->authorize('view-contact');
+        $this->authorize('admin-image');
 
         $image = Image::find($id);
         if (!$image) {

@@ -112,14 +112,16 @@
             </div>
         </div>
     @endcan
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title"><a href="/admin/image" class="no-underline">Images</a></span>
-            <p style="text-transform: uppercase;">
-                <a href="/admin/image" class="no-underline"><span class="sbs-red-text">{{ $image_count }}</span> images</a>
-            </p>
+    @can ('admin-image')
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"><a href="/admin/image" class="no-underline">Images</a></span>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/image" class="no-underline"><span class="sbs-red-text">{{ $image_count }}</span> images</a>
+                </p>
+            </div>
         </div>
-    </div>
+    @endcan
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>

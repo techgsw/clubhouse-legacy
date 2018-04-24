@@ -22,6 +22,8 @@ class User extends Authenticatable
 
     public static function boot() {
         static::created(function (User $user) {
+            // TODO review this use of attach
+            // https://laravel.com/docs/5.5/eloquent-relationships#updating-many-to-many-relationships
             $roles = Role::where('code', 'user')->get();
             $user->roles()->attach($roles);
         });

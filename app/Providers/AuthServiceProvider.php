@@ -165,5 +165,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('follow-up', function ($user) {
             return $user->hasAccess('follow_up');
         });
+
+        // Images
+        Gate::define('admin-image', function ($user) {
+            return $user->hasAccess('image_admin');
+        });
     }
 }
