@@ -6,8 +6,8 @@
     <h5>Apply for this job</h5>
     <div class="row">
         <div class="col s4 m3 center-align">
-            @if (Auth::user()->profile->headshot_url)
-                <img src={{ Storage::disk('local')->url(Auth::user()->profile->headshot_url) }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px;" />
+            @if (Auth::user()->profile->headshotImage)
+                <img src={{ Auth::user()->profile->headshotImage->getURL('small') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px;" />
             @else
                 <i class="material-icons large">person</i>
             @endif

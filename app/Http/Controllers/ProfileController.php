@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProfile;
 use App\Http\Requests\UpdateProfile;
+use App\Image;
 use App\Message;
 use App\Note;
 use App\Profile;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use League\Flysystem\Filesystem;
 use \Exception;
 
 class ProfileController extends Controller
@@ -313,37 +315,22 @@ class ProfileController extends Controller
         $image_error = false;
 
         try {
-            $headshot = request()->file('headshot_url');
+            if ($headshot = request()->file('headshot_url')) {
+                $image = ImageServiceProvider::saveFileAsImage(
+                    $headshot,
+                    $filename = $user->first_name.'-'.$user->last_name.'-SportsBusinessSolutions',
+                    $directory = 'headshot/'.$user->id,
+                    $options = [
+                        'cropFromCenter' => true,
+                        'update' => $profile->headshotImage ?: null
+                    ]
+                );
 
-            if ($headshot) {
-                $storage_path = storage_path().'/app/public/headshot/'.$user->id.'/';
-                $filename = $user->first_name.'-'.$user->last_name.'-Sports-Business-Solutions.'.strtolower($headshot->getClientOriginalExtension());
-
-                $image_relative_path = $headshot->storeAs('headshot/'.$user->id, 'original-'.$filename, 'public');
-
-                $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $main_image->cropFromCenter(2000);
-                $main_image->save($storage_path.'/main-'.$filename);
-
-                $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                $large_image->resize(1000, 1000);
-                $large_image->save($storage_path.'/large-'.$filename);
-
-                $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                $medium_image->resize(500, 500);
-                $medium_image->save($storage_path.'/medium-'.$filename);
-
-                $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                $small_image->resize(250, 250);
-                $small_image->save($storage_path.'/small-'.$filename);
-
-                $profile_image = str_replace('original', 'medium', $image_relative_path);
-            } else {
-                $profile_image = null;
+                $profile->headshot_image_id = $image->id;
+                $profile->save();
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $profile_image = null;
             $image_error = true;
         }
 
@@ -361,7 +348,6 @@ class ProfileController extends Controller
         $profile->phone = request('phone')
             ? preg_replace("/[^\d]/", "", request('phone'))
             : null;
-        $profile->headshot_url = $profile_image ?: $profile->headshot_url;
         $profile->resume_url = $r ?: $profile->resume_url;
         // Personal Information
         $birthday = new \DateTime(request('date_of_birth'));

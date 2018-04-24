@@ -57,11 +57,8 @@
                     <div class="blog-list-item">
                         <div class="row">
                             <div class="col s4 m3">
-                                @php
-                                    $image_path = $post->getImagePath($post->images->where('image_order', 1)->first(), 'medium');
-                                @endphp
                                 <a href="/post/{{ $post->title_url}}" class="no-underline">
-                                        <img src={{ Storage::disk('local')->url($image_path) }} />
+                                    <img src={{ $post->images->first()->getURL('medium') }} />
                                 </a>
                             </div>
                             <div class="col s8 m9">

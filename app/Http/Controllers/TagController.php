@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Tag;
 use App\Message;
 use App\Http\Requests\StoreTag;
-use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

@@ -1,7 +1,7 @@
 <div class="row user-inquiry-list-item">
     <div class="col s3 m2">
         <a href="/job/{{ $inquiry->job->id }}" class="no-underline">
-            <img src={{ Storage::disk('local')->url($inquiry->job->image_url) }} class="no-border job-image">
+            <img src={{ $inquiry->job->image->getURL('small') }} class="no-border job-image">
         </a>
     </div>
     <div class="col s9 m10 info">

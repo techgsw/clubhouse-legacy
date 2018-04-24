@@ -52,7 +52,7 @@
             </div>
             <div class="input-field col s12">
                 <select name="job_type">
-                    <option value="" {{ old("state") == "" ? "selected" : is_null($job->state) ? "selected" : "" }}>None</option>
+                    <option value="" {{ old("job_type") == "" ? "selected" : is_null($job->job_type) ? "selected" : "" }}>None</option>
                     <option value="ticket-sales" {{ old("job_type") == "ticket-sales" ? "selected" : $job->job_type == "ticket-sales" ? "selected" : "" }}>Ticket Sales</option>
                     <option value="sponsorship-sales" {{ old("job_type") == "sponsorship-sales" ? "selected" : $job->job_type == "sponsorship-sales" ? "selected" : "" }}>Sponsorship Sales</option>
                     <option value="marketing" {{ old("job_type") == "marketing" ? "selected" : $job->job_type == "marketing" ? "selected" : "" }}>Marketing</option>
@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col s12 m4">
-                    <img src={{ Storage::disk('local')->url($job->image_url) }}>
+                    <img src={{ $job->image->getURL('medium') }}>
                 </div>
                 <div class="col s12 m8">
                     <div class="file-field input-field">
@@ -88,7 +88,7 @@
             </div>
             <div class="input-field col s6">
                 <select name="state">
-                    <option value="" {{ old('state') == "" ? "selected" : '' }} disabled>U.S.A.</option>
+                    <option value="" {{ old("state") == "" ? "selected" : is_null($job->state) ? "selected" : "" }} disabled>U.S.A.</option>
                     <option value="AL" {{ old('state') == "AL" ? "selected" : $job->state == "AL" ? 'selected' : '' }}>Alabama</option>
                 	<option value="AK" {{ old('state') == "AK" ? 'selected' : $job->state == "AK" ? 'selected' : '' }}>Alaska</option>
                 	<option value="AZ" {{ old('state') == "AZ" ? 'selected' : $job->state == "AZ" ? 'selected' : '' }}>Arizona</option>
@@ -156,7 +156,7 @@
                 	<option value="YT" {{ old('state') == "YT" ? 'selected' : $job->state == "YT" ? 'selected' : '' }}>Yukon</option>
                     <option disabled>U.K.</option>
                     <option value="England" {{ old('state') == "England" ? 'selected' : $job->state == "England" ? 'selected' : '' }}>England</option>
-                    <option value="Northern Ireland" {{ old('state') == "Nothern Ireland" ? 'selected' : $job->state == "Nothern Ireland" ? 'selected' : '' }}>Northern Ireland</option>
+                    <option value="Northern Ireland" {{ old('state') == "Northern Ireland" ? 'selected' : $job->state == "Northern Ireland" ? 'selected' : '' }}>Northern Ireland</option>
                     <option value="Scotland" {{ old('state') == "Scotland" ? 'selected' : $job->state == "Scotland" ? 'selected' : '' }}>Scotland</option>
                     <option value="Wales" {{ old('state') == "Wales" ? 'selected' : $job->state == "Wales" ? 'selected' : '' }}>Wales</option>
                 </select>

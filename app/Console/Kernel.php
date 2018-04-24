@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
         Commands\FormatPhones::class,
         Commands\SendMigrationEmails::class,
         Commands\SendNewUserFollowUpEmails::class,
-        Commands\UploadContacts::class
+        Commands\UploadContacts::class,
+        Commands\PushToS3::class
     ];
 
     /**
@@ -33,6 +34,10 @@ class Kernel extends ConsoleKernel
             $date->sub(new \DateInterval('P2D'));
             EmailServiceProvider::sendNewUserFollowUpEmails($date);
         })->dailyAt('08:00');
+
+        // $schedule->call(function () {
+        //     ImageServiceProvider::pushToS3();
+        // })->everyFifteenMinutes();
     }
 
     /**

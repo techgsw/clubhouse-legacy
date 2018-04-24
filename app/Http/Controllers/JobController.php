@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\Inquiry;
 use App\Job;
 use App\Message;
+use App\Providers\ImageServiceProvider;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
-use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -74,23 +75,9 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        try {
-            $image = request()->file('image_url');
-            if ($image) {
-                $job_image = $image->store('job', 'public');
-            } else {
-                $request->session()->flash('message', new Message(
-                    "You must upload an image.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
-                return back()->withInput();
-            }
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
+        if (!$image_file = request()->file('image_url')) {
             $request->session()->flash('message', new Message(
-                "Sorry, the image you tried to upload failed.",
+                "You must upload an image.",
                 "danger",
                 $code = null,
                 $icon = "error"
@@ -143,52 +130,27 @@ class JobController extends Controller
             'country' => request('country'),
             'rank' => $rank,
             'featured' => request('featured') ? true : false,
-            'image_url' => $job_image,
             'document' => $d ?: null,
         ]);
 
         try {
-            $image = request()->file('image_url');
-            if ($image) {
-                $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
-                $filename = preg_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
+            $image = ImageServiceProvider::saveFileAsImage(
+                $image_file,
+                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                $directory = 'job/'.$job->id
+            );
 
-                $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
-
-                $large_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $large_image->resize(1000, 1000);
-                $large_image->save($storage_path.'/large-'.$filename);
-
-                $medium_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $medium_image->resize(500, 500);
-                $medium_image->save($storage_path.'/medium-'.$filename);
-
-                $small_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $small_image->resize(250, 250);
-                $small_image->save($storage_path.'/small-'.$filename);
-
-                $width = $medium_image->getCurrentWidth();
-                $height = $medium_image->getCurrentHeight();
-                $dest_x = (1000-$width)/2;
-                $dest_y = (520-$height)/2;
-
-                $background_fill_image = imagecreatetruecolor(1000, 520);
-                $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                imagefill($background_fill_image, 0, 0, $white_color);
-                imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
-
-                $job_image = str_replace('original', 'medium', $image_relative_path);
-
-                $job->image_url = $job_image;
-                $job->save();
-
-                Storage::delete($job_image);
-            }
+            $job->image_id = $image->id;
+            $job->save();
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            // TODO redirect with errors
-            return redirect()->action('JobController@create');
+            $request->session()->flash('message', new Message(
+                "Sorry, the file(s) failed to upload. Please try again.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
         }
 
         return redirect()->action('JobController@show', [$job]);
@@ -484,47 +446,23 @@ class JobController extends Controller
             $job->document = $doc->store('document', 'public');
         }
         try {
-            $image = request()->file('image_url');
-            if ($image) {
-                $storage_path = storage_path().'/app/public/job/'.$job->id.'/';
-                $filename = preg_replace('/\s/', '-', $job->organization).'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
-
-                $image_relative_path = $image->storeAs('job/'.$job->id, 'original-'.$filename, 'public');
-
-                $large_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $large_image->resize(1000, 1000);
-                $large_image->save($storage_path.'/large-'.$filename);
-
-                $medium_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $medium_image->resize(500, 500);
-                $medium_image->save($storage_path.'/medium-'.$filename);
-
-                $small_image= new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                $small_image->resize(250, 250);
-                $small_image->save($storage_path.'/small-'.$filename);
-
-                $width = $medium_image->getCurrentWidth();
-                $height = $medium_image->getCurrentHeight();
-                $dest_x = (1000-$width)/2;
-                $dest_y = (520-$height)/2;
-
-                $background_fill_image = imagecreatetruecolor(1000, 520);
-                $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                imagefill($background_fill_image, 0, 0, $white_color);
-                imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                imagejpeg($background_fill_image, $storage_path.'share-'.$filename, 100);
-
-                $job_image = str_replace('original', 'medium', $image_relative_path);
-
-                $job->image_url = $job_image;
-                $job->save();
-
-                Storage::delete($job_image);
+            if ($image_file = request()->file('image_url')) {
+                $image = ImageServiceProvider::saveFileAsImage(
+                    $image_file,
+                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                    $directory = 'job/'.$job->id,
+                    $options = ['update' => $job->image]
+                );
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            // TODO redirect with errors
-            return redirect()->action('JobController@create');
+            $request->session()->flash('message', new Message(
+                "Sorry, the image failed to upload. Please try a different image.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return redirect()->back();
         }
         $job->edited_at = new \DateTime('NOW');
         $job->save();

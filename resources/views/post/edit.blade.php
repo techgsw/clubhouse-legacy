@@ -35,15 +35,12 @@
     <form method="post" action="/post/{{$post->title_url}}" enctype="multipart/form-data">
         <div class="row">
             <div class="col s6">
-                @php
-                    $image_path = $post->getImagePath($post->images->where('image_order', 1)->first());
-                @endphp
-                @if ($image_path)
+                @if ($post->images->count() > 0)
                     <p class="hide-on-med-and-up" style="text-align: center;">
-                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($image_path) }} />
+                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $post->images->first()->getURL('medium') }} />
                     </p>
                     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($image_path) }} />
+                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $post->images->first()->getURL('medium') }} />
                     </p>
                 @endif
             </div>

@@ -7,7 +7,8 @@
     $meta_body = strip_tags($parsedown->text($post->body));
     $post_length = strlen($body);
     $index = 200;
-    $image_path = $post->getImagePath($post->images->where('image_order', 1)->first());
+    $image = $post->images->first();
+    $image_path = $image->getURL();
 @endphp
 @if ($post_length > $index)
     @while (!preg_match('/\s/', $meta_body[$index]) && $post_length > $index)
@@ -20,7 +21,7 @@
 @endif
 @section('url', Request::fullUrl())
 @if ($image_path)
-    @section('image', url('/').Storage::disk('local')->url(str_replace('medium', 'share', $image_path)))
+    @section('image', $image->cdn ? $image->getURL('share') : url('/').$image->getURL('share'))
 @endif
 @section('title', $post->title)
 @section('content')
@@ -52,15 +53,12 @@
                     <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                 </div>
                 <p class="small light uppercase">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> | {{ $post->created_at->format('F d, Y') }}</p>
-                @php
-                    $image_path = $post->getImagePath($post->images->where('image_order', 1)->first());
-                @endphp
                 @if ($image_path)
                     <p class="hide-on-med-and-up" style="text-align: center;">
-                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($image_path) }} />
+                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL() }} />
                     </p>
                     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ Storage::disk('local')->url($image_path) }} />
+                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL() }} />
                     </p>
                 @endif
                 {!! $body !!}

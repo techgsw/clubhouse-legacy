@@ -237,6 +237,14 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 /**
+ * Q&A
+ */
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/admin/image', 'ImageController@index');
+    Route::get('/image/{id}', 'ImageController@show');
+});
+
+/**
  * Admin
  */
 Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function () {

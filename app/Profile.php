@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     protected $table = 'profile';
-    protected $guarded = [
-        // TODO
-    ];
+    protected $guarded = [];
     protected $dates = [
         'created_at',
         'updated_at',
@@ -25,6 +23,11 @@ class Profile extends Model
     public function address()
     {
         return $this->belongsToMany(Address::class);
+    }
+
+    public function headshotImage()
+    {
+        return $this->belongsTo(Image::class);
     }
 
     public function notes()

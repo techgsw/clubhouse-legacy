@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\Message;
 use App\Post;
 use App\PostImage;
@@ -72,53 +73,28 @@ class SessionController extends Controller
                     'body' => request('body') ?: request('title'),
                     'post_type_code' => 'session'
                 ]);
+                $post = Post::find($post->id);
 
                 $image_list = request('image_list');
-
                 if (is_array($image_list)) {
+                    $dir = 'post/'.$post->id;
+                    if (!Storage::exists("public/{$dir}")) {
+                        Storage::makeDirectory("public/{$dir}");
+                    }
+                    $images = [];
                     foreach ($image_list as $index => $image) {
                         if ($image) {
-                            $storage_path = storage_path().'/app/public/post/'.$post->id.'/';
-                            $filename = $index.time().'-'.$title_url.'-Sports-Business-Solutions.'.strtolower($image->getClientOriginalExtension());
-
-                            $image_relative_path = $image->storeAs('post/'.$post->id, 'original-'.$filename, 'public');
-
-                            $main_image = new ImageServiceProvider(storage_path().'/app/public/'.$image_relative_path);
-                            $main_image->cropFromCenter(2000);
-                            $main_image->save($storage_path.'/main-'.$filename);
-
-                            $large_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                            $large_image->resize(1000, 1000);
-                            $large_image->save($storage_path.'/large-'.$filename);
-
-                            $medium_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                            $medium_image->resize(500, 500);
-                            $medium_image->save($storage_path.'/medium-'.$filename);
-
-                            $small_image = new ImageServiceProvider($storage_path.'/main-'.$filename);
-                            $small_image->resize(250, 250);
-                            $small_image->save($storage_path.'/small-'.$filename);
-
-                            $width = $medium_image->getCurrentWidth();
-                            $height = $medium_image->getCurrentHeight();
-                            $dest_x = (1000-$width)/2;
-                            $dest_y = (520-$height)/2;
-
-                            $background_fill_image = imagecreatetruecolor(1000, 520);
-                            $white_color = imagecolorallocate($background_fill_image, 255, 255, 255);
-                            imagefill($background_fill_image, 0, 0, $white_color);
-                            imagecopy($background_fill_image, $medium_image->getNewImage(), $dest_x, $dest_y, 0, 0, $width, $height);
-                            imagejpeg($background_fill_image, $storage_path.'/share-'.$filename, 100);
-
-                            $post_image = new PostImage();
-                            $post_image->post_id = $post->id;
-                            $post_image->filename = $filename;
-                            $post_image->image_order = $index + 1;
-
-                            $post_image->save();
+                            $image = ImageServiceProvider::saveFileAsImage(
+                                $image,
+                                $filename = $index.time().'-'.$title_url.'-SportsBusinessSolutions',
+                                $directory = 'post/'.$post->id,
+                                $options = [ 'cropFromCenter' => true ]
+                            );
+                            $images[] = $image;
                         }
                     }
                 }
+                $post->images()->saveMany($images);
 
                 return $post;
             });
@@ -206,12 +182,18 @@ class SessionController extends Controller
             $code = 200,
             $icon = "check_circle"
         );
+
+        $images = $post->images;
+        $image_map = [];
+        foreach ($images as $image) {
+            $image_map[$image->id] = $image;
+        }
+
         for ($i = 0; $i < count($image_order); $i++) {
             try {
-                $post_image = PostImage::where('id', $image_order[$i])->first();
-                $post_image->image_order = $i + 1;
-
-                $post_image->save();
+                $image = $image_map[$image_order[$i]];
+                $image->order = $i+1;
+                $image->save();
             } catch (Exception $e) {
                 Log::error($e->getMessage());
                 $response->setMessage("Sorry, we were unable to update the image order.");

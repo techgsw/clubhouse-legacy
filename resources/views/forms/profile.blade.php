@@ -2,8 +2,8 @@
     {{ csrf_field() }}
     <div class="row">
         <div class="col s12 m4 l3 center-align">
-            @if ($profile->headshot_url)
-                <img src={{ Storage::disk('local')->url($profile->headshot_url) }} style="width: 80%; max-width: 150px; border-radius: 50%;" />
+            @if ($profile->headshotImage)
+                <img src={{ $profile->headshotImage->getURL('medium') }} style="width: 80%; max-width: 150px; border-radius: 50%;" />
             @else
                 <i class="material-icons large">person</i>
             @endif
