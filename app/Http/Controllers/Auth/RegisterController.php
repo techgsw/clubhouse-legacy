@@ -13,6 +13,7 @@ use App\Message;
 use App\Profile;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Providers\EmailServiceProvider;
 use App\Traits\ReCaptchaTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -126,41 +127,20 @@ class RegisterController extends Controller
             return $user;
         });
 
-        // TODO can we script this?
-        // No reason to block here if we can avoid it
-        // Mailchimp signup
-        $api_key = env("MAILCHIMP_API_KEY");
-        $list_id = env("MAILCHIMP_LIST_ID");
-        $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members";
-        $fields = array(
-            "email_address" => $data['email'],
-            "email_type" => "html",
-            "status" => "subscribed",
-            "merge_fields" => [
-                "FNAME" => $data['first_name'],
-                "LNAME" => $data['last_name'],
-            ]
-        );
-        $json = json_encode($fields);
-        // cURL
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Content-Type: application/json",
-            "Authorization: apikey {$api_key}"
-        ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        $response = curl_exec($ch);
+        // TODO Use a Queue so as not to block
+        // https://laravel.com/docs/5.5/queues
+        try {
+            $response = EmailServiceProvider::addToMailchimp($user);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
 
+        // TODO Use a Queue so as not to block
+        // https://laravel.com/docs/5.5/queues
         try {
             Mail::to($user)->send(new UserRegistered($user));
-            Mail::to('bob@sportsbusiness.solutions')->cc('josh@sportsbusiness.solutions')
-                ->send(new InternalAlert('emails.internal.registration', array(
-                    'user' => $user
-            )));
-        } catch (Exception $e) {
-            // TODO log exception
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
 
         return $user;

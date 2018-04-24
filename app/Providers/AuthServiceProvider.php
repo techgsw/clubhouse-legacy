@@ -170,5 +170,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin-image', function ($user) {
             return $user->hasAccess('image_admin');
         });
+
+        // Emails
+        Gate::define('edit-email', function ($user) {
+            return $user->hasAccess('email_edit');
+        });
     }
 }

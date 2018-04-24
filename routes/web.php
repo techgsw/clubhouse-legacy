@@ -256,6 +256,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function 
     Route::get('/admin/admin-users', 'UserController@allAdminUsers');
     Route::get('/admin/report', 'ReportController@index');
     Route::get('/admin/follow-up', 'FollowUpController@index');
+    Route::get('/admin/email', 'EmailController@index');
 });
 
 /**

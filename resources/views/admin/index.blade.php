@@ -122,6 +122,13 @@
             </div>
         </div>
     @endcan
+    @can ('edit-email')
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"><a href="/admin/image" class="no-underline">Email</a></span>
+            </div>
+        </div>
+    @endcan
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>

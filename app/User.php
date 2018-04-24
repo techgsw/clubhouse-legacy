@@ -22,8 +22,6 @@ class User extends Authenticatable
 
     public static function boot() {
         static::created(function (User $user) {
-            // TODO review this use of attach
-            // https://laravel.com/docs/5.5/eloquent-relationships#updating-many-to-many-relationships
             $roles = Role::where('code', 'user')->get();
             $user->roles()->attach($roles);
         });
@@ -31,9 +29,9 @@ class User extends Authenticatable
         parent::boot();
     }
 
-    public function questions()
+    public function address()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasOne(Address::class);
     }
 
     public function answers()
@@ -41,19 +39,19 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
-    public function inquiries()
-    {
-        return $this->hasMany(Inquiry::class);
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
     public function contact()
     {
         return $this->hasOne(Contact::class);
+    }
+
+    public function emails()
+    {
+        return $this->belongsToMany(Email::class);
+    }
+
+    public function inquiries()
+    {
+        return $this->hasMany(Inquiry::class);
     }
 
     public function profile()
@@ -61,9 +59,14 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function address()
+    public function questions()
     {
-        return $this->hasOne(Address::class);
+        return $this->hasMany(Question::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     public function hasAccess($resource_code)
