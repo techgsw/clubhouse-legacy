@@ -40,6 +40,6 @@ class RegistrationSummary extends Mailable
     {
         return $this
             ->from('app@sportsbusiness.solutions')
-            ->markdown('emails.internal.registration');
+            ->markdown('emails.internal.registration-summary');
     }
 }

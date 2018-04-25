@@ -43,7 +43,7 @@ class Kernel extends ConsoleKernel
             $end = clone $start;
             $end->setTime(23, 59, 59);
             EmailServiceProvider::sendInquirySummaryEmail($start, $end);
-        })->dailyAt('09:00');
+        })->dailyAt('07:30');
 
         $schedule->call(function () {
             $start = new \DateTime('yesterday');
@@ -51,7 +51,7 @@ class Kernel extends ConsoleKernel
             $end = clone $start;
             $end->setTime(23, 59, 59);
             EmailServiceProvider::sendRegistrationSummaryEmail($start, $end);
-        })->dailyAt('09:00');
+        })->dailyAt('07:30');
 
         // $schedule->call(function () {
         //     ImageServiceProvider::pushToS3();

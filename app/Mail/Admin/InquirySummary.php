@@ -43,6 +43,6 @@ class InquirySummary extends Mailable
     {
         return $this
             ->from('app@sportsbusiness.solutions')
-            ->markdown('emails.internal.inquiries');
+            ->markdown('emails.internal.inquiry-summary');
     }
 }

@@ -1,4 +1,7 @@
 @component('emails.layout')
+    @slot ('title')
+        Welcome to Sports Business Solutions
+    @endslot
     @slot('body')
         <p>{{ ucwords($user->first_name) }},</p>
         <p>Welcome to the Sports Business Solutions community. You’ve joined a group of current and aspiring sports business professionals who are committed to succeeding in the sports industry. Congratulations!</p>

@@ -7,7 +7,7 @@
     {{ csrf_field() }}
     <div class="card-flex-container">
         @foreach ($users as $user)
-            <div class="card">
+            <div class="card large">
                 <div class="card-content">
                     <span class="card-title" style="font-size: 20px;">{{ $user->getName() }}</span>
                     @foreach ($emails as $email)
@@ -23,12 +23,12 @@
                 </div>
             </div>
         @endforeach
-        <div class="card-placeholder"></div>
-        <div class="card-placeholder"></div>
-        <div class="card-placeholder"></div>
-        <div class="card-placeholder"></div>
-        <div class="card-placeholder"></div>
-        <div class="card-placeholder"></div>
+        <div class="card-placeholder large"></div>
+        <div class="card-placeholder large"></div>
+        <div class="card-placeholder large"></div>
+        <div class="card-placeholder large"></div>
+        <div class="card-placeholder large"></div>
+        <div class="card-placeholder large"></div>
     </div>
     <div class="input-field">
         <button type="submit" class="btn sbs-red">Save</button>

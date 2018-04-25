@@ -9,6 +9,7 @@ use App\Job;
 use App\User;
 use App\Mail\NewUserFollowUp;
 use App\Mail\Admin\InquirySummary;
+use App\Mail\Admin\RegistrationNotification;
 use App\Mail\Admin\RegistrationSummary;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,11 +18,23 @@ use Illuminate\Support\ServiceProvider;
 
 class EmailServiceProvider extends ServiceProvider
 {
+    public static function sendRegistrationNotificationEmail(User $registrant)
+    {
+        $users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'registration_individual')
+            ->select('user.*')
+            ->get();
+
+        Mail::to($users)->send(new RegistrationNotification($registrant));
+    }
+
     public static function sendRegistrationSummaryEmail(\DateTime $start, \DateTime $end)
     {
         $users = User::join('email_user', 'user.id', 'email_user.user_id')
             ->join('email', 'email_user.email_id', 'email.id')
-            ->where('email.code', 'registration')
+            ->where('email.code', 'registration_summary')
+            ->select('user.*')
             ->get();
 
         $registrants = User::whereBetween('created_at', [$start, $end]);
@@ -33,7 +46,8 @@ class EmailServiceProvider extends ServiceProvider
     {
         $users = User::join('email_user', 'user.id', 'email_user.user_id')
             ->join('email', 'email_user.email_id', 'email.id')
-            ->where('email.code', 'inquiries')
+            ->where('email.code', 'inquiry_summary')
+            ->select('user.*')
             ->get();
 
         $inquiries = Inquiry::whereBetween('created_at', [$start, $end]);

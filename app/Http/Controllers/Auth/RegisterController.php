@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\EmailServiceProvider;
 use App\Traits\ReCaptchaTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -138,6 +139,7 @@ class RegisterController extends Controller
         // https://laravel.com/docs/5.5/queues
         try {
             Mail::to($user)->send(new UserRegistered($user));
+            EmailServiceProvider::sendRegistrationNotificationEmail($user);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

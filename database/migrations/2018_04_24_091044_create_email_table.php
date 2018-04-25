@@ -33,26 +33,43 @@ class CreateEmailTable extends Migration
             $table->timestamps();
         });
 
-        $registration_email = new Email;
-        $registration_email->code = "registration";
-        $registration_email->name = "Registrations";
-        $registration_email->save();
+        $registration_summary_email = new Email;
+        $registration_summary_email->code = "registration_summary";
+        $registration_summary_email->name = "Registrations (Summary)";
+        $registration_summary_email->save();
 
-        $registration_emails = [
+        $registration_summary_emails = [
             'bob@sportsbusiness.solutions',
             'joshbelkoff@gmail.com',
             'adam@sportsbusiness.solutions'
         ];
 
-        User::whereIn('email', $registration_emails)->each(
-            function ($user) use ($registration_email) {
-                $user->emails()->attach($registration_email);
+        User::whereIn('email', $registration_summary_emails)->each(
+            function ($user) use ($registration_summary_email) {
+                $user->emails()->attach($registration_summary_email);
+            }
+        );
+
+        $registration_individual_email = new Email;
+        $registration_individual_email->code = "registration_individual";
+        $registration_individual_email->name = "Registrations (Individual)";
+        $registration_individual_email->save();
+
+        $registration_individual_emails = [
+            'bob@sportsbusiness.solutions',
+            'joshbelkoff@gmail.com',
+            'adam@sportsbusiness.solutions'
+        ];
+
+        User::whereIn('email', $registration_individual_emails)->each(
+            function ($user) use ($registration_individual_email) {
+                $user->emails()->attach($registration_individual_email);
             }
         );
 
         $inquiry_email = new Email;
-        $inquiry_email->code = "inquiries";
-        $inquiry_email->name = "Job Inquiries";
+        $inquiry_email->code = "inquiry_summary";
+        $inquiry_email->name = "Job Applications (Summary)";
         $inquiry_email->save();
 
         $inquiry_emails = [
