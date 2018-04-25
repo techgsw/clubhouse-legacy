@@ -237,11 +237,19 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 /**
- * Q&A
+ * Images
  */
 Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/image', 'ImageController@index');
     Route::get('/image/{id}', 'ImageController@show');
+});
+
+/**
+ * Email
+ */
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/email', 'EmailController@index');
+    Route::post('/email/update', 'EmailController@update');
 });
 
 /**

@@ -32,6 +32,7 @@ class UserRegistered extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-                    ->markdown('emails.registration');
+            ->subject('Welcome to Sports Business Solutions')
+            ->markdown('emails.registration');
     }
 }

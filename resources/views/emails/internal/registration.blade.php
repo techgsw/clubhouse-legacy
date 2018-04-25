@@ -1,5 +1,5 @@
 @component('emails.layout')
     @slot('body')
-	    <p>{{ ucwords($user->first_name) }} {{ ucwords($user->last_name) }} (<a href="mailto:{{ $user->email }}">{{ $user->email }}</a>) just registred.</p>
+        <p><a href="{{ config('app.url') }}/user/{{ $registrant->id }}/profile">{{ $registrant->getName() }}</a> just registered.</p>
     @endslot
 @endcomponent

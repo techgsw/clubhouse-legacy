@@ -732,6 +732,19 @@ hr {
     flex: 1 0 0;    /* grow; don't shrink; 0-basis (even-width, not content-rated) */
     margin: 10px;
     min-width: 200px;
+    height: auto;
+}
+.card-flex-container .card.small,
+.card-flex-container .card-placeholder.small  {
+    min-width: 150px;
+}
+.card-flex-container .card.large,
+.card-flex-container .card-placeholder.large  {
+    min-width: 300px;
+}
+.card-flex-container .card-placeholder {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 .card-flex-container .card .card-content {
     flex: 1 0 auto;

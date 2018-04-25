@@ -15,10 +15,12 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\FormatPhones::class,
+        Commands\PushToS3::class,
         Commands\SendMigrationEmails::class,
         Commands\SendNewUserFollowUpEmails::class,
-        Commands\UploadContacts::class,
-        Commands\PushToS3::class
+        Commands\SendInquirySummaryEmail::class,
+        Commands\SendRegistrationSummaryEmail::class,
+        Commands\UploadContacts::class
     ];
 
     /**
@@ -34,6 +36,22 @@ class Kernel extends ConsoleKernel
             $date->sub(new \DateInterval('P2D'));
             EmailServiceProvider::sendNewUserFollowUpEmails($date);
         })->dailyAt('08:00');
+
+        $schedule->call(function () {
+            $start = new \DateTime('yesterday');
+            $start->setTime(0, 0, 0);
+            $end = clone $start;
+            $end->setTime(23, 59, 59);
+            EmailServiceProvider::sendInquirySummaryEmail($start, $end);
+        })->dailyAt('07:30');
+
+        $schedule->call(function () {
+            $start = new \DateTime('yesterday');
+            $start->setTime(0, 0, 0);
+            $end = clone $start;
+            $end->setTime(23, 59, 59);
+            EmailServiceProvider::sendRegistrationSummaryEmail($start, $end);
+        })->dailyAt('07:30');
 
         // $schedule->call(function () {
         //     ImageServiceProvider::pushToS3();
