@@ -260,9 +260,6 @@ class ProfileController extends Controller
 
         $education_complete =
             $profile->education_level &&
-            $profile->college_name &&
-            $profile->college_graduation_year &&
-            $profile->college_gpa &&
             !is_null($profile->has_school_plans);
 
         if ($profile->phone && strlen($profile->phone) == 10) {
@@ -318,7 +315,7 @@ class ProfileController extends Controller
             if ($headshot = request()->file('headshot_url')) {
                 $image = ImageServiceProvider::saveFileAsImage(
                     $headshot,
-                    $filename = $user->first_name.'-'.$user->last_name.'-SportsBusinessSolutions',
+                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $user->first_name.'-'.$user->last_name)).'-SportsBusinessSolutions',
                     $directory = 'headshot/'.$user->id,
                     $options = [
                         'cropFromCenter' => true,

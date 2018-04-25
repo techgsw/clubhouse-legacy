@@ -177,11 +177,6 @@ class User extends Authenticatable
 
         $education_complete =
             $this->profile->education_level &&
-            $this->profile->college_name &&
-            $this->profile->college_graduation_year &&
-            $this->profile->college_gpa &&
-            $this->profile->college_organizations &&
-            $this->profile->college_sports_clubs &&
             !is_null($this->profile->has_school_plans);
 
         $complete =
