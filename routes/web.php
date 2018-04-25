@@ -237,11 +237,19 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 /**
- * Q&A
+ * Images
  */
 Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/image', 'ImageController@index');
     Route::get('/image/{id}', 'ImageController@show');
+});
+
+/**
+ * Email
+ */
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/email', 'EmailController@index');
+    Route::post('/email/update', 'EmailController@update');
 });
 
 /**
@@ -256,7 +264,6 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function 
     Route::get('/admin/admin-users', 'UserController@allAdminUsers');
     Route::get('/admin/report', 'ReportController@index');
     Route::get('/admin/follow-up', 'FollowUpController@index');
-    Route::get('/admin/email', 'EmailController@index');
 });
 
 /**

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use Mail;
-use App\Mail\InternalAlert;
 use App\Mail\UserRegistered;
 use App\Address;
 use App\AddressContact;

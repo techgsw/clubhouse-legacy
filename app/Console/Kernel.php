@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\PushToS3::class,
         Commands\SendMigrationEmails::class,
         Commands\SendNewUserFollowUpEmails::class,
+        Commands\SendInquirySummaryEmail::class,
         Commands\SendRegistrationSummaryEmail::class,
         Commands\UploadContacts::class
     ];
@@ -35,6 +36,14 @@ class Kernel extends ConsoleKernel
             $date->sub(new \DateInterval('P2D'));
             EmailServiceProvider::sendNewUserFollowUpEmails($date);
         })->dailyAt('08:00');
+
+        $schedule->call(function () {
+            $start = new \DateTime('yesterday');
+            $start->setTime(0, 0, 0);
+            $end = clone $start;
+            $end->setTime(23, 59, 59);
+            EmailServiceProvider::sendInquirySummaryEmail($start, $end);
+        })->dailyAt('09:00');
 
         $schedule->call(function () {
             $start = new \DateTime('yesterday');

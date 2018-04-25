@@ -9,7 +9,6 @@ use App\Message;
 use App\Note;
 use App\User;
 use App\Http\Requests\StoreJob;
-use App\Mail\InternalAlert;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
@@ -71,13 +70,6 @@ class InquiryController extends Controller
 
         try {
             Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
-
-            $bob = User::find(1);
-            Mail::to($bob)->cc('jason@sportsbusiness.solutions')
-                ->send(new InternalAlert('emails.internal.inquiry-submitted', array(
-                    'job' => $job,
-                    'user' => Auth::user()
-            )));
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

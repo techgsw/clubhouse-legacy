@@ -125,7 +125,10 @@
     @can ('edit-email')
         <div class="card">
             <div class="card-content">
-                <span class="card-title"><a href="/admin/image" class="no-underline">Email</a></span>
+                <span class="card-title"><a href="/email" class="no-underline">Email</a></span>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/image" class="no-underline"><span class="sbs-red-text">{{ $email_count }}</span> emails</a>
+                </p>
             </div>
         </div>
     @endcan

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contact;
+use App\Email;
 use App\Image;
 use App\Job;
 use App\Post;
@@ -49,6 +50,7 @@ class IndexController extends Controller
             $upcoming_follow_up_count = Contact::where('follow_up_user_id',Auth::user()->id)->where(\DB::raw('DATE(follow_up_date)'),'>' ,$today)->count();
         }
         $image_count = Image::all()->count();
+        $email_count = Email::all()->count();
 
         return view('admin.index', [
             'contact_count' => $contact_count,
@@ -65,6 +67,7 @@ class IndexController extends Controller
             'overdue_follow_up_count' => $overdue_follow_up_count,
             'upcoming_follow_up_count' => $upcoming_follow_up_count,
             'image_count' => $image_count,
+            'email_count' => $email_count,
         ]);
     }
 }

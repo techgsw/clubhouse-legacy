@@ -4,37 +4,49 @@ namespace App\Providers;
 
 use Mail;
 use App\Email;
+use App\Inquiry;
+use App\Job;
 use App\User;
 use App\Mail\NewUserFollowUp;
+use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\RegistrationSummary;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class EmailServiceProvider extends ServiceProvider
 {
-    public static function sendSummaryEmails(\DateTime $start, \DateTime $end)
-    {
-        // Make DateTimes inclusive
-        $start->setTime(0, 0);
-        $end->setTime(23, 59);
-
-        self::sendRegistrationSummaryEmail($start, $end);
-        // TODO self::sendInquirySummaryEmail($start, $end);
-    }
-
     public static function sendRegistrationSummaryEmail(\DateTime $start, \DateTime $end)
     {
         $users = User::join('email_user', 'user.id', 'email_user.user_id')
             ->join('email', 'email_user.email_id', 'email.id')
-            ->where('email.name', 'Registration');
+            ->where('email.code', 'registration')
+            ->get();
+
         $registrants = User::whereBetween('created_at', [$start, $end]);
-        Mail::to($users->get())->send(new RegistrationSummary($start, $end, $registrants));
+
+        Mail::to($users)->send(new RegistrationSummary($start, $end, $registrants));
     }
 
     public static function sendInquirySummaryEmail(\DateTime $start, \DateTime $end)
     {
-        // TODO
+        $users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'inquiries')
+            ->get();
+
+        $inquiries = Inquiry::whereBetween('created_at', [$start, $end]);
+
+        $jobs = Job::join('inquiry', 'inquiry.job_id', 'job.id')
+            ->whereBetween('inquiry.created_at', [$start, $end])
+            ->groupBy('job.id')
+            ->select(DB::raw('job.*, COUNT(1) as inquiry_count'))
+            ->having('inquiry_count', '>', 0)
+            ->orderBy('inquiry_count', 'desc')
+            ->get();
+
+        Mail::to($users)->send(new InquirySummary($start, $end, $inquiries, $jobs));
     }
 
     public static function sendNewUserFollowUpEmails(\DateTime $date)

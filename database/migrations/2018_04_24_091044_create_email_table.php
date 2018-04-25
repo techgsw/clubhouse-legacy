@@ -18,6 +18,7 @@ class CreateEmailTable extends Migration
         Schema::create('email', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->text('code');
             $table->text('name');
             $table->timestamps();
         });
@@ -33,7 +34,8 @@ class CreateEmailTable extends Migration
         });
 
         $registration_email = new Email;
-        $registration_email->name = "Registration";
+        $registration_email->code = "registration";
+        $registration_email->name = "Registrations";
         $registration_email->save();
 
         $registration_emails = [
@@ -45,6 +47,25 @@ class CreateEmailTable extends Migration
         User::whereIn('email', $registration_emails)->each(
             function ($user) use ($registration_email) {
                 $user->emails()->attach($registration_email);
+            }
+        );
+
+        $inquiry_email = new Email;
+        $inquiry_email->code = "inquiries";
+        $inquiry_email->name = "Job Inquiries";
+        $inquiry_email->save();
+
+        $inquiry_emails = [
+            'bob@sportsbusiness.solutions',
+            'joshbelkoff@gmail.com',
+            'adam@sportsbusiness.solutions',
+            'Jason@sportsbusiness.solutions',
+            'mike@sportsbusiness.solutions'
+        ];
+
+        User::whereIn('email', $inquiry_emails)->each(
+            function ($user) use ($inquiry_email) {
+                $user->emails()->attach($inquiry_email);
             }
         );
 
