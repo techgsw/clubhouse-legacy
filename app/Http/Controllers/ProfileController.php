@@ -434,7 +434,18 @@ class ProfileController extends Controller
         $profile->email_preference_career_advice = request('email_preference_career_advice') ? true : false;
         // Timestamp(s)
         $profile->updated_at = new \DateTime('NOW');
-        $profile->save();
+
+        try {
+            $profile->save();
+        } catch (\Exception $e) {
+            $request->session()->flash('message', new Message(
+                "There was an error saving your profile. Please check your submission and try again.",
+                "warning",
+                $code = null,
+                $icon = "warning"
+            ));
+            return redirect()->back()->withInput();
+        }
 
         // Contact
         // Fill in fields if they are not set
@@ -455,7 +466,17 @@ class ProfileController extends Controller
         if (is_null($contact->job_seeking_status)) {
             $contact->job_seeking_status = request('job_seeking_status');
         }
-        $contact->save();
+        try {
+            $contact->save();
+        } catch (\Exception $e) {
+            $request->session()->flash('message', new Message(
+                "There was an error saving your profile. Please check your submission and try again.",
+                "warning",
+                $code = null,
+                $icon = "warning"
+            ));
+            return redirect()->back()->withInput();
+        }
 
         // Address
         if (is_null($contact->address[0]->line1)) {
@@ -476,7 +497,17 @@ class ProfileController extends Controller
         if (is_null($contact->address[0]->country)) {
             $contact->address[0]->country = request('country');
         }
-        $contact->address[0]->save();
+        try {
+            $contact->address[0]->save();
+        } catch (\Exception $e) {
+            $request->session()->flash('message', new Message(
+                "There was an error saving your address. Please check your submission and try again.",
+                "warning",
+                $code = null,
+                $icon = "warning"
+            ));
+            return redirect()->back()->withInput();
+        }
 
         if ($image_error) {
             $request->session()->flash('message', new Message(
