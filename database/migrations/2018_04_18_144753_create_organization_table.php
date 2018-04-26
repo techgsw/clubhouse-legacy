@@ -1,8 +1,10 @@
 <?php
 
+use App\Image;
 use App\Job;
 use App\League;
 use App\Organization;
+use App\Providers\ImageServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -47,8 +49,10 @@ class CreateOrganizationTable extends Migration
 
         Schema::create('organization', function (Blueprint $table) {
             $table->increments('id');
-            // TODO $table->integer('image_id')->unsigned()->nullable()->default(null);
-            // TODO $table->foreign('image_id')->references('id')->on('image');
+            $table->integer('image_id')->unsigned()->nullable()->default(null);
+            $table->foreign('image_id')->references('id')->on('image');
+            $table->integer('parent_organization_id')->unsigned()->nullable()->default(null);
+            $table->foreign('parent_organization_id')->references('id')->on('organization');
             $table->string('name');
             $table->string('city');
             $table->string('state');
@@ -65,18 +69,69 @@ class CreateOrganizationTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('job_organization', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('job_id')->unsigned();
-            $table->foreign('job_id')->references('id')->on('job');
-            $table->integer('organization_id')->unsigned();
+        Schema::table('job', function (Blueprint $table) {
+            $table->integer('organization_id')->unsigned()->after('organization')->nullable()->default(null);
             $table->foreign('organization_id')->references('id')->on('organization');
-            $table->timestamps();
         });
+
+        $parent_organizations = [
+            "Marquee Sports & Entertainment" => [
+                "id" => null,
+                "parent_organization_id" => null,
+                "city" => "Chicago",
+                "state" => "IL",
+                "country" => "US",
+                "leagues" => []
+            ],
+            "Mohegan" => [
+                "id" => null,
+                "parent_organization_id" => null,
+                "city" => "Uncasville",
+                "state" => "CT",
+                "country" => "US",
+                "leagues" => []
+            ],
+            "Monumental Sports & Entertainment" => [
+                "id" => null,
+                "parent_organization_id" => null,
+                "city" => "Washington",
+                "state" => "DC",
+                "country" => "US",
+                "leagues" => []
+            ],
+            "Phoenix Suns Legacy Partners" => [
+                "id" => null,
+                "parent_organization_id" => null,
+                "city" => "Phoenix",
+                "state" => "AZ",
+                "country" => "US",
+                "leagues" => ["NBA"]
+            ],
+        ];
+
+        foreach ($parent_organizations as $name => $fields) {
+            $organization = new Organization([
+                'name' => $name,
+                'city' => $fields['city'],
+                'state' => $fields['state'],
+                'country' => $fields['country']
+            ]);
+            $organization->save();
+
+            $league_ids = [];
+            foreach ($fields['leagues'] as $league_name) {
+                $league_ids[] = $league_to_id[$league_name];
+            }
+            $organization->leagues()->attach($league_ids);
+            $organization->save();
+
+            $parent_organizations[$name] = $organization;
+        }
 
         $organizations = [
             "Brooklyn Sports & Entertainment" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Brooklyn",
                 "state" => "NY",
                 "country" => "US",
@@ -84,13 +139,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Chicago Cubs" => [
                 "id" => null,
-                "city" => "Chicago",
-                "state" => "IL",
-                "country" => "US",
-                "leagues" => ["MLB"]
-            ],
-            "Marquee Sports & Entertainment" => [
-                "id" => null,
+                "parent_organization_id" => $parent_organizations["Marquee Sports & Entertainment"]["id"],
                 "city" => "Chicago",
                 "state" => "IL",
                 "country" => "US",
@@ -98,6 +147,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Cincinnati Bengals" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Cincinnati",
                 "state" => "OH",
                 "country" => "US",
@@ -105,6 +155,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Cleveland Cavaliers" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Cleveland",
                 "state" => "OH",
                 "country" => "US",
@@ -112,6 +163,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Connecticut Sun" => [
                 "id" => null,
+                "parent_organization_id" => $parent_organizations["Mohegan"]["id"],
                 "city" => "Hartford",
                 "state" => "CT",
                 "country" => "US",
@@ -119,6 +171,7 @@ class CreateOrganizationTable extends Migration
             ],
             "New England Black Wolves" => [
                 "id" => null,
+                "parent_organization_id" => $parent_organizations["Mohegan"]["id"],
                 "city" => "Uncasville",
                 "state" => "CT",
                 "country" => "US",
@@ -126,6 +179,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Dallas Stars" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Dallas",
                 "state" => "TX",
                 "country" => "US",
@@ -133,6 +187,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Denver Nuggets" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Denver",
                 "state" => "CO",
                 "country" => "US",
@@ -140,6 +195,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Detroit Pistons" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Detroit",
                 "state" => "MI",
                 "country" => "US",
@@ -147,6 +203,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Eventia Sports & Entertainment Group" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Las Vegas",
                 "state" => "NV",
                 "country" => "US",
@@ -154,6 +211,7 @@ class CreateOrganizationTable extends Migration
             ],
             "FC Dallas" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Frisco",
                 "state" => "TX",
                 "country" => "US",
@@ -161,6 +219,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Florida Panthers" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Sunrise",
                 "state" => "FL",
                 "country" => "US",
@@ -168,6 +227,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Florida Tarpons" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Lakeland",
                 "state" => "FL",
                 "country" => "US",
@@ -175,6 +235,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Grabyo" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "New York",
                 "state" => "NY",
                 "country" => "US",
@@ -182,6 +243,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Los Angeles Rams" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Agoura Hills",
                 "state" => "CA",
                 "country" => "US",
@@ -189,6 +251,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Lake Erie Crushers" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Lake Erie",
                 "state" => "OH",
                 "country" => "US",
@@ -196,6 +259,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Legends Global Sales - One World Observatory" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "New York",
                 "state" => "NY",
                 "country" => "US",
@@ -203,6 +267,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Living Sport" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Dublin",
                 "state" => "Northern Ireland",
                 "country" => "UK",
@@ -210,6 +275,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Long Island Ducks" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Central Islip",
                 "state" => "NY",
                 "country" => "US",
@@ -217,6 +283,7 @@ class CreateOrganizationTable extends Migration
             ],
             "New Jersey Devils" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Camden",
                 "state" => "NJ",
                 "country" => "US",
@@ -224,6 +291,7 @@ class CreateOrganizationTable extends Migration
             ],
             "New York Jets" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "New York",
                 "state" => "NY",
                 "country" => "US",
@@ -231,6 +299,7 @@ class CreateOrganizationTable extends Migration
             ],
             "New York Mets" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "New York",
                 "state" => "NY",
                 "country" => "US",
@@ -238,6 +307,7 @@ class CreateOrganizationTable extends Migration
             ],
             "New York Yankees" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "New York",
                 "state" => "NY",
                 "country" => "US",
@@ -245,6 +315,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Norfolk Admirals" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Norfolk",
                 "state" => "VA",
                 "country" => "US",
@@ -252,6 +323,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Oakland Athletics" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Oakland",
                 "state" => "CA",
                 "country" => "US",
@@ -259,6 +331,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Oilers Entertainment Group" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Edmonton",
                 "state" => "AB",
                 "country" => "CA",
@@ -266,6 +339,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Omnigon" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "New York",
                 "state" => "NY",
                 "country" => "US",
@@ -273,6 +347,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Orange County Soccer Club" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Irvine",
                 "state" => "CA",
                 "country" => "US",
@@ -280,27 +355,31 @@ class CreateOrganizationTable extends Migration
             ],
             "Orlando Magic" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Orlando",
                 "state" => "FL",
                 "country" => "US",
                 "leagues" => ["NBA"]
             ],
-            "Phoenix Suns" => [
-                "id" => null,
-                "city" => "Phoenix",
-                "state" => "AZ",
-                "country" => "US",
-                "leagues" => ["NBA"]
-            ],
             "Phoenix Mercury" => [
                 "id" => null,
+                "parent_organization_id" => $parent_organizations["Phoenix Suns Legacy Partners"]["id"],
                 "city" => "Phoenix",
                 "state" => "AZ",
                 "country" => "US",
                 "leagues" => ["WNBA"]
             ],
+            "Phoenix Suns" => [
+                "id" => null,
+                "parent_organization_id" => $parent_organizations["Phoenix Suns Legacy Partners"]["id"],
+                "city" => "Phoenix",
+                "state" => "AZ",
+                "country" => "US",
+                "leagues" => ["NBA"]
+            ],
             "Portland Timbers" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Portland",
                 "state" => "OR",
                 "country" => "US",
@@ -308,6 +387,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Sacramento Kings" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Sacramento",
                 "state" => "CA",
                 "country" => "US",
@@ -315,6 +395,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Sacramento Republic FC" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Sacramento",
                 "state" => "CA",
                 "country" => "US",
@@ -322,6 +403,7 @@ class CreateOrganizationTable extends Migration
             ],
             "San Francisco 49ers" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Santa Clara",
                 "state" => "CA",
                 "country" => "US",
@@ -329,6 +411,7 @@ class CreateOrganizationTable extends Migration
             ],
             "San Jose Sharks" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "San Jose",
                 "state" => "CA",
                 "country" => "US",
@@ -336,6 +419,7 @@ class CreateOrganizationTable extends Migration
             ],
             "San Jose Earthquakes" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "San Jose",
                 "state" => "CA",
                 "country" => "US",
@@ -343,6 +427,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Sports Business Solutions" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Phoenix",
                 "state" => "AZ",
                 "country" => "US",
@@ -350,6 +435,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Tampa Bay Sports & Entertainment" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Tampa",
                 "state" => "FL",
                 "country" => "US",
@@ -357,6 +443,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Tampa Bay Rays" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "St. Petersburg",
                 "state" => "FL",
                 "country" => "US",
@@ -364,6 +451,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Tough Mudder HQ" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Brooklyn",
                 "state" => "NY",
                 "country" => "US",
@@ -371,6 +459,7 @@ class CreateOrganizationTable extends Migration
             ],
             "Viwa Ticket Management Solutions" => [
                 "id" => null,
+                "parent_organization_id" => null,
                 "city" => "Scottsdale",
                 "state" => "AZ",
                 "country" => "US",
@@ -378,17 +467,11 @@ class CreateOrganizationTable extends Migration
             ],
             "Wizards District Gaming" => [
                 "id" => null,
+                "parent_organization_id" => $parent_organizations["Monumental Sports & Entertainment"]["id"],
                 "city" => "Washington",
                 "state" => "DC",
                 "country" => "US",
-                "leagues" => ["NBA"]
-            ],
-            "Monumental Sports & Entertainment" => [
-                "id" => null,
-                "city" => "Washington",
-                "state" => "DC",
-                "country" => "US",
-                "leagues" => ["NHL", "NBA", "WNBA", "AFL"]
+                "leagues" => []
             ],
         ];
 
@@ -399,9 +482,8 @@ class CreateOrganizationTable extends Migration
                 'state' => $fields['state'],
                 'country' => $fields['country']
             ]);
+            $organization->parent_organization_id = $fields['parent_organization_id'];
             $organization->save();
-
-            $organizations[$name]['id'] = $organization->id;
 
             $league_ids = [];
             foreach ($fields['leagues'] as $league_name) {
@@ -409,70 +491,86 @@ class CreateOrganizationTable extends Migration
             }
             $organization->leagues()->attach($league_ids);
             $organization->save();
+
+            // Replace associative array of fields with actual organization instance
+            $organizations[$name] = $organization;
         }
 
-        $job_to_organizations = [
-            "Brooklyn Nets (BSE)" => ["Brooklyn Sports & Entertainment"],
-            "Brooklyn Sports & Entertainment" => ["Brooklyn Sports & Entertainment"],
-            "Brooklyn Sports & Entertainment (NBA)" => ["Brooklyn Sports & Entertainment"],
-            "Chicago Cubs - Marquee Sports & Entertainment (MLB)" => ["Chicago Cubs", "Marquee Sports & Entertainment"],
-            "Chicago Cubs // Marquee Sports & Entertainment" => ["Chicago Cubs", "Marquee Sports & Entertainment"],
-            "Marquee Sports & Entertainment // Chicago Cubs (MLB)" => ["Chicago Cubs", "Marquee Sports & Entertainment"],
-            "Cincinnati Bengals (NFL)" => ["Cincinnati Bengals"],
-            "Cleveland Cavaliers" => ["Cleveland Cavaliers"],
-            "Connecticut Sun (WNBA) & New England Black Wolves (NLL)" => ["Connecticut Sun", "New England Black Wolves"],
-            "Connecticut Sun / New England Black Wolves" => ["Connecticut Sun", "New England Black Wolves"],
-            "Dallas Stars (NHL)" => ["Dallas Stars"],
-            "Denver Nuggets (NBA)" => ["Denver Nuggets"],
-            "Detroit Pistons (NBA)" => ["Detroit Pistons"],
-            "Eventia Sports & Entertainment Group" => ["Eventia Sports & Entertainment Group"],
-            "FC Dallas (MLS)" => ["FC Dallas"],
-            "Florida Panthers (NHL)" => ["Florida Panthers"],
-            "Florida Tarpons (AFL)" => ["Florida Tarpons"],
-            "Grabyo" => ["Grabyo"],
-            "LA Rams (NFL)" => ["Los Angeles Rams"],
-            "Lake Erie Crushers" => ["Lake Erie Crushers"],
-            "Legends Global Sales - One World Observatory" => ["Legends Global Sales - One World Observatory"],
-            "Living Sport" => ["Living Sport"],
-            "Long Island Ducks (Atlantic League)" => ["Long Island Ducks"],
-            "New Jersey Devils (NHL)" => ["New Jersey Devils"],
-            "New York Jets (NFL)" => ["New York Jets"],
-            "NY Jets (NFL)" => ["New York Jets"],
-            "New York Mets" => ["New York Mets"],
-            "New York Yankees (MLB)" => ["New York Yankees"],
-            "Norfolk Admirals" => ["Norfolk Admirals"],
-            "Oakland Athletics" => ["Oakland Athletics"],
-            "Oakland Athletics (MLB)" => ["Oakland Athletics"],
-            "Oilers Entertainment Group (Edmonton, CAN)" => ["Oilers Entertainment Group"],
-            "Omnigon" => ["Omnigon"],
-            "Orange County Soccer Club (USL)" => ["Orange County Soccer Club"],
-            "Orlando Magic (NBA)" => ["Orlando Magic"],
-            "Phoenix Suns, Mercury, Talking Stick Resort Arena" => ["Phoenix Suns", "Phoenix Mercury"],
-            "Portland Timbers" => ["Portland Timbers"],
-            "Sacramento Kings" => ["Sacramento Kings"],
-            "Sacramento Republic FC (USL)" => ["Sacramento Republic FC"],
-            "San Francisco 49ers" => ["San Francisco 49ers"],
-            "San Francisco 49ers (NFL)" => ["San Francisco 49ers"],
-            "San Jose Sharks" => ["San Jose Sharks"],
-            "San Jose Sharks (NHL)" => ["San Jose Sharks"],
-            "SJ Earthquakes (MLS)" => ["San Jose Earthquakes"],
-            "Sports Business Solutions" => ["Sports Business Solutions"],
-            "Sports Business Solutions, LLC" => ["Sports Business Solutions"],
-            "Tampa Bay Lightning" => ["Tampa Bay Sports & Entertainment"],
-            "Tampa Bay Sports & Entertainment (NHL)" => ["Tampa Bay Sports & Entertainment"],
-            "Tampa Bay Rays (MLB)" => ["Tampa Bay Rays"],
-            "Tough Mudder HQ" => ["Tough Mudder HQ"],
-            "Viwa Ticket Management Solutions" => ["Viwa Ticket Management Solutions"],
-            "Wizards District Gaming // Monumental Sports & Entertainment" => ["Wizards District Gaming", "Monumental Sports & Entertainment"]
+        // Add parent organizations to organization list
+        foreach ($parent_organizations as $org) {
+            $organizations[$org->name] = $org;
+        }
+
+        $job_to_organization = [
+            "Brooklyn Nets (BSE)" => "Brooklyn Sports & Entertainment",
+            "Brooklyn Sports & Entertainment" => "Brooklyn Sports & Entertainment",
+            "Brooklyn Sports & Entertainment (NBA)" => "Brooklyn Sports & Entertainment",
+            "Chicago Cubs - Marquee Sports & Entertainment (MLB)" => "Marquee Sports & Entertainment",
+            "Chicago Cubs // Marquee Sports & Entertainment" => "Marquee Sports & Entertainment",
+            "Marquee Sports & Entertainment // Chicago Cubs (MLB)" => "Marquee Sports & Entertainment",
+            "Cincinnati Bengals (NFL)" => "Cincinnati Bengals",
+            "Cleveland Cavaliers" => "Cleveland Cavaliers",
+            "Connecticut Sun (WNBA) & New England Black Wolves (NLL)" => "Mohegan",
+            "Connecticut Sun / New England Black Wolves" => "Mohegan",
+            "Dallas Stars (NHL)" => "Dallas Stars",
+            "Denver Nuggets (NBA)" => "Denver Nuggets",
+            "Detroit Pistons (NBA)" => "Detroit Pistons",
+            "Eventia Sports & Entertainment Group" => "Eventia Sports & Entertainment Group",
+            "FC Dallas (MLS)" => "FC Dallas",
+            "Florida Panthers (NHL)" => "Florida Panthers",
+            "Florida Tarpons (AFL)" => "Florida Tarpons",
+            "Grabyo" => "Grabyo",
+            "LA Rams (NFL)" => "Los Angeles Rams",
+            "Lake Erie Crushers" => "Lake Erie Crushers",
+            "Legends Global Sales - One World Observatory" => "Legends Global Sales - One World Observatory",
+            "Living Sport" => "Living Sport",
+            "Long Island Ducks (Atlantic League)" => "Long Island Ducks",
+            "New Jersey Devils (NHL)" => "New Jersey Devils",
+            "New York Jets (NFL)" => "New York Jets",
+            "NY Jets (NFL)" => "New York Jets",
+            "New York Mets" => "New York Mets",
+            "New York Yankees (MLB)" => "New York Yankees",
+            "Norfolk Admirals" => "Norfolk Admirals",
+            "Oakland Athletics" => "Oakland Athletics",
+            "Oakland Athletics (MLB)" => "Oakland Athletics",
+            "Oilers Entertainment Group (Edmonton, CAN)" => "Oilers Entertainment Group",
+            "Omnigon" => "Omnigon",
+            "Orange County Soccer Club (USL)" => "Orange County Soccer Club",
+            "Orlando Magic (NBA)" => "Orlando Magic",
+            "Phoenix Suns, Mercury, Talking Stick Resort Arena" => "Phoenix Suns",
+            "Portland Timbers" => "Portland Timbers",
+            "Sacramento Kings" => "Sacramento Kings",
+            "Sacramento Republic FC (USL)" => "Sacramento Republic FC",
+            "San Francisco 49ers" => "San Francisco 49ers",
+            "San Francisco 49ers (NFL)" => "San Francisco 49ers",
+            "San Jose Sharks" => "San Jose Sharks",
+            "San Jose Sharks (NHL)" => "San Jose Sharks",
+            "SJ Earthquakes (MLS)" => "San Jose Earthquakes",
+            "Sports Business Solutions" => "Sports Business Solutions",
+            "Sports Business Solutions, LLC" => "Sports Business Solutions",
+            "Tampa Bay Lightning" => "Tampa Bay Sports & Entertainment",
+            "Tampa Bay Sports & Entertainment (NHL)" => "Tampa Bay Sports & Entertainment",
+            "Tampa Bay Rays (MLB)" => "Tampa Bay Rays",
+            "Tough Mudder HQ" => "Tough Mudder HQ",
+            "Viwa Ticket Management Solutions" => "Viwa Ticket Management Solutions",
+            "Wizards District Gaming // Monumental Sports & Entertainment" => "Wizards District Gaming",
         ];
 
-        Job::all()->each(function ($job) use ($job_to_organizations, $organizations) {
-            $organization_ids = [];
-            foreach ($job_to_organizations[$job->organization] as $name) {
-                $organization_ids[] = $organizations[$name]['id'];
-            }
-            $job->organizations()->attach($organization_ids);
+        Job::all()->each(function ($job) use ($job_to_organization, $organizations) {
+            $organization_name = $job_to_organization[$job->organization];
+            $organization = $organizations[$organization_name];
+            $job->organization_id = $organization->id;
             $job->save();
+
+            if ($job->image && !$organization->image_id) {
+                $image = ImageServiceProvider::clone(
+                    $job->image,
+                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $organization->name)).'-SportsBusinessSolutions',
+                    "organization/{$organization->id}"
+                );
+                $organization->image_id = $image->id;
+                $organization->save();
+            }
         });
 
         Schema::create('address_organization', function (Blueprint $table) {

@@ -43,6 +43,8 @@ class Image extends Model
                 throw new \Exception("File ".$this->full_path." is not readable");
             }
 
+            dump($this->full_path);
+
             // Determine type
             if (substr(strtolower($this->full_path), -4) == '.gif') {
                 $this->type = 'gif';
@@ -126,8 +128,18 @@ class Image extends Model
 
     public function getFilename($quality=null)
     {
-        $dirs = explode("/",$this->getPath($quality));
+        $dirs = explode("/", $this->getPath($quality));
         return array_pop($dirs);
+    }
+
+    public function getExtension()
+    {
+        $filename = $this->getFilename();
+        $tokens = explode(".", $filename);
+        if (count($tokens) == 0) {
+            return null;
+        }
+        return array_pop($tokens);
     }
 
     public function getWidth()
