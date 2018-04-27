@@ -1273,21 +1273,23 @@ $(document).ready(function () {
         if ($('input#date-range.drp').length > 0) {
             var start, end;
             if ($('input#date-range-start').val()) {
-                start = moment($('input#date-range-start').val(), "YYYY/MM/DD");
+                start = moment($('input#date-range-start').val(), "D MMMM, YYYY");
             } else {
                 start = moment().subtract(3, "month");
             }
             if ($('input#date-range-end').val()) {
-                end = moment($('input#date-range-end').val(), "YYYY/MM/DD");
+                end = moment($('input#date-range-end').val(), "D MMMM, YYYY");
             } else {
-                end = moment().add(3, "month");
+                end = moment();
             }
             $('input#date-range').daterangepicker({
-                "startDate": start.format('MM/DD/YYYY'),
-                "endDate": end.format('MM/DD/YYYY')
+                "startDate": start.format('D MMMM, YYYY'),
+                "endDate": end.format('D MMMM, YYYY')
             });
-            $('input#date-range-start').val(start.format('YYYY/MM/DD'));
-            $('input#date-range-end').val(end.format('YYYY/MM/DD'));
+            console.log(start);
+            console.log(end);
+            $('input#date-range-start').val(start.format('D MMMM, YYYY'));
+            $('input#date-range-end').val(end.format('D MMMM, YYYY'));
         }
     })();
 
@@ -1295,10 +1297,10 @@ $(document).ready(function () {
         {
             change: function() {
                 var start, end;
-                start = $('input#date-range').data('daterangepicker').startDate.format('YYYY/MM/DD');
-                end = $('input#date-range').data('daterangepicker').endDate.format('YYYY/MM/DD');
-                $('input#date-range-start').val(start);
-                $('input#date-range-end').val(end);
+                ///.start = $('input#date-range').data('daterangepicker').startDate.format('YYYY/MM/DD');
+                ///.end = $('input#date-range').data('daterangepicker').endDate.format('YYYY/MM/DD');
+                ///.$('input#date-range-start').val(start);
+                ///.$('input#date-range-end').val(end);
             }
         },
         'input#date-range.drp'

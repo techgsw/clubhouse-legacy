@@ -1534,6 +1534,26 @@ p.icon {
 }
 
 /**
+ * Daterangepicker
+ */
+
+.dropdown-menu {
+    display: none;
+}
+
+/*  Larger Screen Styling */
+@media (min-width: 564px) {
+  .daterangepicker .ranges,
+  .daterangepicker .calendar {
+    float: left !important;
+  }
+}
+
+.daterangepicker .input-mini {
+    width: 84% !important;
+}
+
+/**
  * Admin / User
  */
 .admin-user-list-item {

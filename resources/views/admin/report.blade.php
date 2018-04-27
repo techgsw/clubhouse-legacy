@@ -4,15 +4,15 @@
 @section('content')
 <form action="report">
     <div class="row">
-        <div class="col s4" style="display: flex; flex-flow: row; margin-top: 10px;">
+        <div class="col s12 m4">
             <div class="form-group">
                 <label for="date-range">Date range</label>
                 <input class="drp" type="text" name="date_range" id="date-range" />
-                <input class="hidden" type="text" name="date_range_start" id="date-range-start" value="{{ $start_date->format('Y-m-d') }}"/>
-                <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('Y-m-d') }}"/>
+                <input class="hidden" type="text" name="date_range_start" id="date-range-start" value="{{ $start_date->format('j F, Y') }}"/>
+                <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('j F, Y') }}"/>
             </div>
         </div>
-        <div class="col s4">
+        <div class="col s12 m4">
             <button class="btn sbs-red" type="submit">Submit</button>
         </div>
     </div>
