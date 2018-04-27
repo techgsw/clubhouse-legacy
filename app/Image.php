@@ -43,8 +43,6 @@ class Image extends Model
                 throw new \Exception("File ".$this->full_path." is not readable");
             }
 
-            dump($this->full_path);
-
             // Determine type
             if (substr(strtolower($this->full_path), -4) == '.gif') {
                 $this->type = 'gif';

@@ -27,4 +27,9 @@ class Organization extends Model
     {
         return $this->belongsToMany(League::class);
     }
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
 }

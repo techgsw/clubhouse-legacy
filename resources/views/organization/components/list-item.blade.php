@@ -1,0 +1,22 @@
+<div class="card large">
+    <div class="card-content">
+        <div style="display: flex; flex-flow: row; max-width: 100%;">
+            @if ($organization->image)
+                <div style="flex: 0 0 auto; width: 100px; padding: 4px 20px 4px 0;">
+                    <a href="/organization/{{$organization->id}}" class="no-underline">
+                        <img src={{ $organization->image->getURL('medium') }} class="no-border">
+                    </a>
+                </div>
+            @endif
+            <div style="flex: 1 1 auto;">
+                <p style="font-size: 22px; line-height: 1.1;"><a class="no-underline" href="/organization/{{$organization->id}}">{{ $organization->name }}</a></p>
+                <p>{{ $organization->city }}, {{ $organization->state }}, {{ $organization->country }}</p>
+                <div class="small" style="margin-top: 6px;">
+                    @can ('edit-organization')
+                        <a href="/organization/{{ $organization->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
+                    @endcan
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

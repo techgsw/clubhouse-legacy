@@ -590,6 +590,79 @@ class CreateOrganizationTable extends Migration
             $table->foreign('organization_id')->references('id')->on('organization');
             $table->timestamps();
         });
+
+        DB::table('resource')->insert(
+            array(
+                'code' => 'admin_organization',
+                'description' => "Can administrate any organization."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'admin_organization',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'admin_organization',
+                'role_code' => 'administrator'
+            )
+        );
+        DB::table('resource')->insert(
+            array(
+                'code' => 'organization_show',
+                'description' => "Can view any organization."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'organization_show',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'organization_show',
+                'role_code' => 'administrator'
+            )
+        );
+        DB::table('resource')->insert(
+            array(
+                'code' => 'organization_create',
+                'description' => "Can create an organization."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'organization_create',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'organization_create',
+                'role_code' => 'administrator'
+            )
+        );
+        DB::table('resource')->insert(
+            array(
+                'code' => 'organization_edit',
+                'description' => "Can edit any organization."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'organization_edit',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'organization_edit',
+                'role_code' => 'administrator'
+            )
+        );
     }
 
     /**
@@ -599,6 +672,22 @@ class CreateOrganizationTable extends Migration
      */
     public function down()
     {
-        //
+        DB::table('resource_role')->where('resource_code', 'admin_organization')->delete();
+        DB::table('resource')->where('code', 'admin_organization')->delete();
+        DB::table('resource_role')->where('resource_code', 'organization_edit')->delete();
+        DB::table('resource')->where('code', 'organization_edit')->delete();
+        DB::table('resource_role')->where('resource_code', 'organization_create')->delete();
+        DB::table('resource')->where('code', 'organization_create')->delete();
+        DB::table('resource_role')->where('resource_code', 'organization_show')->delete();
+        DB::table('resource')->where('code', 'organization_show')->delete();
+        Schema::dropIfExists('contact_organization');
+        Schema::dropIfExists('address_organization');
+        Schema::dropIfExists('league_organization');
+        Schema::table('job', function (Blueprint $table) {
+            $table->dropForeign('organization_id');
+            $table->dropColumn('organization_id');
+        });
+        Schema::dropIfExists('organization');
+        Schema::dropIfExists('league');
     }
 }
