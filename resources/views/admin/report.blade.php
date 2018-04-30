@@ -12,9 +12,6 @@
                 <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('Y-m-d') }}"/>
             </div>
         </div>
-        <div class="col s12 m4">
-            <button class="btn sbs-red" type="submit">Submit</button>
-        </div>
     </div>
 </form>
 @if (count($users) > 0)
