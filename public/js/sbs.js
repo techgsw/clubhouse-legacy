@@ -1273,23 +1273,21 @@ $(document).ready(function () {
         if ($('input#date-range.drp').length > 0) {
             var start, end;
             if ($('input#date-range-start').val()) {
-                start = moment($('input#date-range-start').val(), "D MMMM, YYYY");
+                start = moment($('input#date-range-start').val(), "YYYY-MM-DD");
             } else {
                 start = moment().subtract(3, "month");
             }
             if ($('input#date-range-end').val()) {
-                end = moment($('input#date-range-end').val(), "D MMMM, YYYY");
+                end = moment($('input#date-range-end').val(), "YYYY-MM-DD");
             } else {
                 end = moment();
             }
             $('input#date-range').daterangepicker({
-                "startDate": start.format('D MMMM, YYYY'),
-                "endDate": end.format('D MMMM, YYYY')
+                "startDate": start.format('MM-DD-YYYY'),
+                "endDate": end.format('MM-DD-YYYY')
             });
-            console.log(start);
-            console.log(end);
-            $('input#date-range-start').val(start.format('D MMMM, YYYY'));
-            $('input#date-range-end').val(end.format('D MMMM, YYYY'));
+            $('input#date-range-start').val(start.format('YYYY-MM-DD'));
+            $('input#date-range-end').val(end.format('YYYY-MM-DD'));
         }
     })();
 

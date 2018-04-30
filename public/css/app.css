@@ -1553,6 +1553,15 @@ p.icon {
     width: 84% !important;
 }
 
+.daterangepicker {
+    border: 1px solid #ccc;
+}
+
+.daterangepicker td,
+.daterangepicker th {
+    padding: 5px;
+}
+
 /**
  * Admin / User
  */

@@ -8,8 +8,8 @@
             <div class="form-group">
                 <label for="date-range">Date range</label>
                 <input class="drp" type="text" name="date_range" id="date-range" />
-                <input class="hidden" type="text" name="date_range_start" id="date-range-start" value="{{ $start_date->format('j F, Y') }}"/>
-                <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('j F, Y') }}"/>
+                <input class="hidden" type="text" name="date_range_start" id="date-range-start" value="{{ $start_date->format('Y-m-d') }}"/>
+                <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('Y-m-d') }}"/>
             </div>
         </div>
         <div class="col s12 m4">
