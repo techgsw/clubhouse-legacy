@@ -19,7 +19,8 @@
     <link href="/css/font-awesome.min.css" type="text/css" rel="stylesheet">
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
     <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
-    <link href="/css/app.css?v=17" type="text/css" rel="stylesheet"/>
+    <link href="/css/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="/css/app.css?v=18" type="text/css" rel="stylesheet"/>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),

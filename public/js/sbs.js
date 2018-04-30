@@ -1267,6 +1267,56 @@ $(document).ready(function () {
         container: 'body'
     });
 
+    //Daterange Picker
+    // Initialize date range picker
+    (function() {
+        if ($('input#date-range.drp').length > 0) {
+            var start, end;
+            if ($('input#date-range-start').val()) {
+                start = moment($('input#date-range-start').val(), "YYYY-MM-DD");
+            } else {
+                start = moment().subtract(3, "month");
+            }
+            if ($('input#date-range-end').val()) {
+                end = moment($('input#date-range-end').val(), "YYYY-MM-DD");
+            } else {
+                end = moment();
+            }
+            $('input#date-range').daterangepicker({
+                "startDate": start.format('MM-DD-YYYY'),
+                "endDate": end.format('MM-DD-YYYY'),
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            });
+            $('input#date-range-start').val(start.format('YYYY-MM-DD'));
+            $('input#date-range-end').val(end.format('YYYY-MM-DD'));
+        }
+    })();
+
+    $('body').on(
+        {
+            change: function() {
+                var start, end;
+                start = $('input#date-range').data('daterangepicker').startDate.format('YYYY-MM-DD');
+                end = $('input#date-range').data('daterangepicker').endDate.format('YYYY-MM-DD');
+                $('input#date-range-start').val(start);
+                $('input#date-range-end').val(end);
+                var form = $(this).parents('form');
+                if (form.length == 0) {
+                    return;
+                }
+                form.submit();
+            }
+        },
+        'input#date-range.drp'
+    );
+
     // Dropzone
     // Create dropzone
     Dropzone.options.sessionCreateDropzone = {

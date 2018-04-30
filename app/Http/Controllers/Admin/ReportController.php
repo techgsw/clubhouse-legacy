@@ -16,8 +16,8 @@ class ReportController extends Controller
     {
         $this->authorize('view-admin-reports');
 
-        $start_date = $request->query->get('start_date');
-        $end_date = $request->query->get('end_date');
+        $start_date = $request->query->get('date_range_start');
+        $end_date = $request->query->get('date_range_end');
         if (is_null($end_date)) {
             $end_date = new \DateTime('now');
         } else {

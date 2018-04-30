@@ -4,14 +4,12 @@
 @section('content')
 <form action="report">
     <div class="row">
-        <div class="col s4" style="display: flex; flex-flow: row; margin-top: 10px;">
-            <input class="datepicker" id="start-date" type="text" name="start_date" value="{{ $start_date->format('j F, Y') }}" />
-        </div>
-        <div class="col s4" style="display: flex; flex-flow: row; margin-top: 10px;">
-            <input class="datepicker" id="end-date" type="text" name="end_date" value="{{ $end_date->format('j F, Y') }}" />
-        </div>
-        <div class="col s4">
-            <button class="btn sbs-red" type="submit">Submit</button>
+        <div class="col s12 m4">
+            <div class="form-group">
+                <input class="drp center-align" type="text" name="date_range" id="date-range" />
+                <input class="hidden" type="text" name="date_range_start" id="date-range-start" value="{{ $start_date->format('Y-m-d') }}"/>
+                <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('Y-m-d') }}"/>
+            </div>
         </div>
     </div>
 </form>

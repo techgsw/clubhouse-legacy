@@ -1534,6 +1534,76 @@ p.icon {
 }
 
 /**
+ * Daterangepicker
+ */
+
+.dropdown-menu {
+    display: none;
+}
+
+/*  Larger Screen Styling */
+@media (min-width: 564px) {
+  .daterangepicker .ranges,
+  .daterangepicker .calendar {
+    float: left;
+  }
+
+  .daterangepicker .ranges ul {
+      width: auto;
+  }
+}
+
+.daterangepicker {
+    border: 1px solid #ccc;
+}
+.daterangepicker td,
+.daterangepicker th {
+    padding: 5px;
+}
+.daterangepicker .ranges ul {
+    width: auto;
+}
+.daterangepicker .input-mini {
+    width: 84% !important;
+}
+.daterangepicker .ranges li {
+    color: #303030;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 0;
+    padding-left: 8px;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    font-size: 11px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.daterangepicker .ranges li.active, .daterangepicker .ranges li:hover {
+    background: #357ebd;
+    border: 1px solid #357ebd;
+    color: #fff;
+}
+.daterangepicker .ranges li.active, .daterangepicker .ranges li:hover {
+    background: #357ebd;
+    border: 1px solid #357ebd;
+    color: #fff;
+}
+.daterangepicker .ranges .range_inputs button {
+    height: 30px;
+    line-height: 30px;
+}
+.daterangepicker .ranges .range_inputs button.cancelBtn {
+    color: #333;
+    background-color: #fff;
+}
+.daterangepicker .ranges .range_inputs button.applyBtn {
+    color: #fff;
+    background-color: #357ebd;
+}
+
+
+/**
  * Admin / User
  */
 .admin-user-list-item {
