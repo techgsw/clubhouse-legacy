@@ -67,9 +67,9 @@ class PostController extends Controller
                         $directory = 'post/'.$post->id,
                         $options = [ 'cropFromCenter' => true ]
                     );
+                    $post->images()->save($image);
                 }
 
-                $post->images()->save($image);
                 $post->tags()->sync($post_tags);
 
                 return $title_url;
@@ -159,9 +159,9 @@ class PostController extends Controller
                             'update' => $post->images->first()
                         ]
                     );
+                    $post->images()->save($image);
                 }
 
-                $post->images()->save($image);
                 $post->tags()->sync($post_tags);
             });
         } catch (Exception $e) {
