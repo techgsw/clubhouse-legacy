@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
         Commands\SendNewUserFollowUpEmails::class,
         Commands\SendInquirySummaryEmail::class,
         Commands\SendRegistrationSummaryEmail::class,
-        Commands\UploadContacts::class
+        Commands\UploadContacts::class,
+        Commands\GenerateInstagramToken::class,
     ];
 
     /**
