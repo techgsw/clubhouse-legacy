@@ -11,9 +11,13 @@
             <div style="flex: 1 1 auto;">
                 <p style="font-size: 22px; line-height: 1.1;"><a class="no-underline" href="/organization/{{$organization->id}}">{{ $organization->name }}</a></p>
                 @if ($organization->addresses->count() > 0)
-                    <p>{{ $organization->addresses->first()->city }}, {{ $organization->addresses->first()->state }}, {{ $organization->addresses->first()->country }}</p>
+                    <p style="margin: 8px 0;">{{ $organization->addresses->first()->city }}, {{ $organization->addresses->first()->state }}, {{ $organization->addresses->first()->country }}</p>
                 @endif
-                <div class="small" style="margin-top: 6px;">
+                <div class="small" style="margin-top: 12px;">
+                    <a href="/organization/{{ $organization->id }}" class="small flat-button black"><i class="fa fa-briefcase"></i> {{ $organization->jobs()->count() }} Jobs</a>
+                    @can ('create-job')
+                        <a href="/job/create?organization={{ $organization->id }}" class="small flat-button blue"><i class="fa fa-plus"></i> New Job</a>
+                    @endcan
                     @can ('edit-organization')
                         <a href="/organization/{{ $organization->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
                     @endcan

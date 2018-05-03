@@ -29,7 +29,7 @@ class Organization extends Model
 
     public function jobs()
     {
-        return $this->belongsToMany(Jobs::class);
+        return $this->hasMany(Job::class);
     }
 
     public function leagues()

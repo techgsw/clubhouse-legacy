@@ -26,7 +26,7 @@ class OrganizationController extends Controller
     {
         $this->authorize('view-admin-organizations');
 
-        $organizations = Organization::with(['addresses'])
+        $organizations = Organization::with(['addresses', 'jobs'])
             ->search($request)
             ->orderBy('name', 'desc')
             ->paginate(24);
@@ -99,13 +99,16 @@ class OrganizationController extends Controller
     {
         $this->authorize('view-organization');
 
-        $organization = Organization::find($id);
+        $organization = Organization::with(['addresses', 'jobs'])->find($id);
         if (!$organization) {
             return abort(404);
         }
 
+        $jobs = $organization->jobs()->paginate(10);
+
         return view('organization/show', [
             'organization' => $organization,
+            'jobs' => $jobs,
             'breadcrumb' => [
                 'Admin' => '/admin',
                 'Organization' => '/admin/organization',

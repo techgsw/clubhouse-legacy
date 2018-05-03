@@ -502,6 +502,10 @@ a.hover-outline:hover {
     border: 2px solid #F2F2F2;
 }
 
+address {
+    font-style: normal;
+}
+
 .flat-button {
     background: none !important;
     border: 2px solid #555;
