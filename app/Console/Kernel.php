@@ -41,17 +41,17 @@ class Kernel extends ConsoleKernel
             $start = new \DateTime('yesterday');
             $start->setTime(17, 0, 0);
             $end = new \DateTime('today');
-            $end->setTime(16, 59, 59);
+            $end->setTime(17, 0, 0);
             EmailServiceProvider::sendInquirySummaryEmail($start, $end);
-        })->dailyAt('17:00');
+        })->dailyAt('17:30');
 
         $schedule->call(function () {
             $start = new \DateTime('yesterday');
             $start->setTime(17, 0, 0);
             $end = new \DateTime('today');
-            $end->setTime(16, 59, 59);
+            $end->setTime(17, 0, 0);
             EmailServiceProvider::sendRegistrationSummaryEmail($start, $end);
-        })->dailyAt('17:00');
+        })->dailyAt('17:30');
 
         // $schedule->call(function () {
         //     ImageServiceProvider::pushToS3();
