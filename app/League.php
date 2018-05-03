@@ -11,7 +11,10 @@ class League extends Model
         'created_at',
         'updated_at'
     ];
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'code'
+    ];
 
     public function organizations()
     {

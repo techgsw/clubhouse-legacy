@@ -38,6 +38,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-admin-jobs', function ($user) {
             return $user->hasAccess('admin_job');
         });
+        Gate::define('view-admin-leagues', function ($user) {
+            return $user->hasAccess('admin_league');
+        });
         Gate::define('view-admin-organizations', function ($user) {
             return $user->hasAccess('admin_organization');
         });
@@ -106,6 +109,17 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('edit-inquiry', function ($user) {
             return $user->hasAccess('inquiry_edit');
+        });
+
+        // Leagues
+        Gate::define('view-league', function ($user) {
+            return $user->hasAccess('league_show');
+        });
+        Gate::define('create-league', function ($user) {
+            return $user->hasAccess('league_create');
+        });
+        Gate::define('edit-league', function ($user) {
+            return $user->hasAccess('league_edit');
         });
 
         // Organizations

@@ -12,11 +12,20 @@ class Organization extends Model
         'updated_at'
     ];
     protected $fillable = [
-        'name',
-        'city',
-        'state',
-        'country'
+        'name'
     ];
+
+    // Relationships
+
+    public function addresses()
+    {
+        return $this->belongsToMany(Address::class);
+    }
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
 
     public function jobs()
     {
@@ -28,8 +37,26 @@ class Organization extends Model
         return $this->belongsToMany(League::class);
     }
 
-    public function image()
+    public function parentOrganization()
     {
-        return $this->belongsTo(Image::class);
+        return $this->belongsTo(Organization::class);
+    }
+
+    // Scopes
+
+    public function scopeSearch($query, $request)
+    {
+        // Match term on name and city
+        $term = $request->term;
+        if (!empty($term)) {
+            $query->where(function ($q) use ($term) {
+                $q->where('name', 'like', "%{$term}%");
+                $q->orWhereHas('addresses', function ($query) use ($term) {
+                    $query->where('city', 'like', "%{$term}%");
+                });
+            });
+        }
+
+        return $query;
     }
 }

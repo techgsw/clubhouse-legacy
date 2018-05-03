@@ -6,8 +6,9 @@ use App\Image;
 use App\Organization;
 use App\Message;
 use App\Providers\ImageServiceProvider;
-use App\Http\Requests\StoreOrganization;
-use App\Http\Requests\UpdateOrganization;
+use App\Providers\UtilityServiceProvider;
+use App\Http\Requests\Organization\Store;
+use App\Http\Requests\Organization\Update;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -25,7 +26,10 @@ class OrganizationController extends Controller
     {
         $this->authorize('view-admin-organizations');
 
-        $organizations = Organization::orderBy('name', 'desc')->paginate(24);
+        $organizations = Organization::with(['addresses'])
+            ->search($request)
+            ->orderBy('name', 'desc')
+            ->paginate(24);
 
         return view('organization/index', [
             'breadcrumb' => [
@@ -56,10 +60,8 @@ class OrganizationController extends Controller
      * @param  StoreOrganization  $request
      * @return Response
      */
-    public function store(StoreOrganization $request)
+    public function store(Store $request)
     {
-        $this->authorize('create-organization');
-
         $organization = Organization::create([
             // TODO
         ]);
@@ -122,7 +124,7 @@ class OrganizationController extends Controller
 
         $organization = Organization::find($id);
         if (!$organization) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find organization ' . $id]);
+            return redirect()->back()->withErrors(['msg' => 'Could not find organization']);
         }
 
         return view('organization/edit', [
@@ -140,15 +142,61 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateOrganization $request, $id)
+    public function update(Update $request, $id)
     {
-        $organization = Organization::find($id);
+        $organization = Organization::with(['addresses'])->find($id);
+        if (empty($organization)) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find organization']);
+        }
 
-        // TODO
-        // $organization->name = request('name');
-        // ...
+        $organization->name = request('name');
+        $organization->parent_organization_id = request('parent_organization_id');
         $organization->save();
 
-        return redirect()->action('OrganizationController@show', [$organization]);
+        $address = $organization->addresses->first();
+        $address->line1 = request('line1');
+        $address->line2 = request('line2');
+        $address->city = request('city');
+        $address->state = request('state');
+        $address->postal_code = request('postal_code');
+        $address->country = request('country');
+        $address->save();
+
+        if ($image_file = request('image_url')) {
+            try {
+                $image = ImageServiceProvider::saveFileAsImage(
+                    $image_file,
+                    $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
+                    $directory = 'organization/'.$organization->id
+                );
+
+                if ($old_image = $organization->image) {
+                    $organization->image()->dissociate($old_image);
+                    $old_image->delete();
+                }
+
+                $organization->image()->associate($image);
+                $organization->save();
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                $request->session()->flash('message', new Message(
+                    "Sorry, the image failed to upload. Please try again.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
+            }
+        }
+
+        return redirect()->action('OrganizationController@edit', [$organization]);
+    }
+
+    public function all()
+    {
+        $this->authorize('view-organization');
+        return response()->json([
+            'organizations' => Organization::all()
+        ]);
     }
 }

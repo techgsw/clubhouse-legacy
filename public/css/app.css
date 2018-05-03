@@ -670,6 +670,11 @@ hr {
     color: #CCC;
 }
 
+/* Autocomplete */
+.autocomplete-content {
+    position: absolute;
+}
+
 /**
  * Buttons
  */

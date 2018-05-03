@@ -10,7 +10,9 @@
             @endif
             <div style="flex: 1 1 auto;">
                 <p style="font-size: 22px; line-height: 1.1;"><a class="no-underline" href="/organization/{{$organization->id}}">{{ $organization->name }}</a></p>
-                <p>{{ $organization->city }}, {{ $organization->state }}, {{ $organization->country }}</p>
+                @if ($organization->addresses->count() > 0)
+                    <p>{{ $organization->addresses->first()->city }}, {{ $organization->addresses->first()->state }}, {{ $organization->addresses->first()->country }}</p>
+                @endif
                 <div class="small" style="margin-top: 6px;">
                     @can ('edit-organization')
                         <a href="/organization/{{ $organization->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>

@@ -1,10 +1,12 @@
 <?php
 
+use App\Address;
 use App\Image;
 use App\Job;
 use App\League;
 use App\Organization;
 use App\Providers\ImageServiceProvider;
+use App\Providers\UtilityServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -21,6 +23,7 @@ class CreateOrganizationTable extends Migration
         Schema::create('league', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('code')->unique();
             $table->timestamps();
         });
 
@@ -40,8 +43,10 @@ class CreateOrganizationTable extends Migration
         ];
 
         foreach ($league_to_id as $name => $id) {
+            $code = UtilityServiceProvider::encode($name);
             $league = new League([
-                'name' => $name
+                'name' => $name,
+                'code' => $code
             ]);
             $league->save();
             $league_to_id[$name] = $league->id;
@@ -54,9 +59,15 @@ class CreateOrganizationTable extends Migration
             $table->integer('parent_organization_id')->unsigned()->nullable()->default(null);
             $table->foreign('parent_organization_id')->references('id')->on('organization');
             $table->string('name');
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
+            $table->timestamps();
+        });
+
+        Schema::create('address_organization', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('address_id')->unsigned();
+            $table->foreign('address_id')->references('id')->on('address');
+            $table->integer('organization_id')->unsigned();
+            $table->foreign('organization_id')->references('id')->on('organization');
             $table->timestamps();
         });
 
@@ -111,12 +122,18 @@ class CreateOrganizationTable extends Migration
 
         foreach ($parent_organizations as $name => $fields) {
             $organization = new Organization([
+                'name' => $name
+            ]);
+            $organization->save();
+
+            $address = new Address([
                 'name' => $name,
                 'city' => $fields['city'],
                 'state' => $fields['state'],
                 'country' => $fields['country']
             ]);
-            $organization->save();
+            $address->save();
+            $organization->addresses()->attach($address->id);
 
             $league_ids = [];
             foreach ($fields['leagues'] as $league_name) {
@@ -477,13 +494,18 @@ class CreateOrganizationTable extends Migration
 
         foreach ($organizations as $name => $fields) {
             $organization = new Organization([
+                'name' => $name
+            ]);
+            $organization->save();
+
+            $address = new Address([
                 'name' => $name,
                 'city' => $fields['city'],
                 'state' => $fields['state'],
                 'country' => $fields['country']
             ]);
-            $organization->parent_organization_id = $fields['parent_organization_id'];
-            $organization->save();
+            $address->save();
+            $organization->addresses()->attach($address->id);
 
             $league_ids = [];
             foreach ($fields['leagues'] as $league_name) {
@@ -571,15 +593,6 @@ class CreateOrganizationTable extends Migration
                 $organization->image_id = $image->id;
                 $organization->save();
             }
-        });
-
-        Schema::create('address_organization', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('address_id')->unsigned();
-            $table->foreign('address_id')->references('id')->on('address');
-            $table->integer('organization_id')->unsigned();
-            $table->foreign('organization_id')->references('id')->on('organization');
-            $table->timestamps();
         });
 
         Schema::create('contact_organization', function (Blueprint $table) {
