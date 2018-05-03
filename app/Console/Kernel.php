@@ -39,19 +39,19 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             $start = new \DateTime('yesterday');
-            $start->setTime(0, 0, 0);
-            $end = clone $start;
-            $end->setTime(23, 59, 59);
+            $start->setTime(17, 0, 0);
+            $end = new \DateTime('today');
+            $end->setTime(16, 59, 59);
             EmailServiceProvider::sendInquirySummaryEmail($start, $end);
-        })->dailyAt('07:30');
+        })->dailyAt('17:00');
 
         $schedule->call(function () {
             $start = new \DateTime('yesterday');
-            $start->setTime(0, 0, 0);
-            $end = clone $start;
-            $end->setTime(23, 59, 59);
+            $start->setTime(17, 0, 0);
+            $end = new \DateTime('today');
+            $end->setTime(16, 59, 59);
             EmailServiceProvider::sendRegistrationSummaryEmail($start, $end);
-        })->dailyAt('07:30');
+        })->dailyAt('17:00');
 
         // $schedule->call(function () {
         //     ImageServiceProvider::pushToS3();
