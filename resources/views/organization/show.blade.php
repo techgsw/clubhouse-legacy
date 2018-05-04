@@ -5,9 +5,15 @@
 <div class="container" style="padding-bottom: 40px;">
     <div class="row organization-show">
         <div class="col s12">
-            <div class="small" style="float: right; margin-top: 6px;">
+            <div style="float: right; margin-top: 6px;">
                 @can ('edit-organization')
-                    <a href="/organization/{{ $organization->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
+                    <a href="/organization/{{ $organization->id }}/edit" class="flat-button blue"><i class="icon-left fa fa-pencil"></i>Edit</a>
+                @endcan
+                @can ('create-job')
+                    <a href="/job/create?organization={{ $organization->id }}" class="flat-button blue"><i class="icon-left fa fa-briefcase"></i>List job</a>
+                @endcan
+                @can ('create-contact')
+                    <a href="/job/create?organization={{ $organization->id }}" class="flat-button blue"><i class="icon-left fa fa-user"></i>Add contact</a>
                 @endcan
             </div>
             <h3>{{ $organization->name }}</h3>
@@ -35,14 +41,16 @@
                     <p style="margin-top: 6px;">contacts</p>
                 </div>
             </div>
-            <div style="margin-top: 20px">
-                @foreach ($jobs as $job)
-                    @include('job.components.list-item', ['job' => $job])
-                @endforeach
-                <div class="center-align">
-                    {{ $jobs->appends(request()->all())->links('components.pagination') }}
+            @if ($jobs->count() > 0)
+                <div style="margin-top: 20px">
+                    @foreach ($jobs as $job)
+                        @include('job.components.list-item', ['job' => $job])
+                    @endforeach
+                    <div class="center-align">
+                        {{ $jobs->appends(request()->all())->links('components.pagination') }}
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </div>

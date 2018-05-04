@@ -25,6 +25,7 @@ class StoreJob extends FormRequest
     public function rules()
     {
         return [
+            'organization_id' => 'required',
             'title' => 'required',
             'description' => 'required',
             'organization' => 'required',
@@ -43,6 +44,7 @@ class StoreJob extends FormRequest
     public function messages()
     {
         return [
+            'organization_id.required' => 'Organization is required',
             'title.required' => 'Title is a required field',
             'description.required' => 'Description is a required field',
             'organization.required' => 'Organization is a required field',

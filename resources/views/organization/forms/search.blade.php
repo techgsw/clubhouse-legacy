@@ -7,7 +7,7 @@
             </div>
             <div style="flex: 0 0 auto;">
                 <button type="submit" class="btn sbs-red">Search</button>
-                <a href="/admin/organization" type="button" class="btn white black-text">Clear</a>
+                <a href="/organization/create" type="button" class="btn white black-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i>New</a>
             </div>
         </div>
     </div>

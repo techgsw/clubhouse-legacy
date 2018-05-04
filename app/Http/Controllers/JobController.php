@@ -6,6 +6,7 @@ use App\Image;
 use App\Inquiry;
 use App\Job;
 use App\Message;
+use App\Organization;
 use App\Providers\ImageServiceProvider;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
@@ -57,11 +58,17 @@ class JobController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $this->authorize('create-job');
 
+        $organization = false;
+        if ($organization_id = (int)$request->organization) {
+            $organization = Organization::find($organization_id);
+        }
+
         return view('job/create', [
+            'organization' => $organization,
             'breadcrumb' => [
                 'Home' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
@@ -76,7 +83,20 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        if (!$image_file = request()->file('image_url')) {
+        $organization = Organization::find($request->organization_id);
+        if (!$organization) {
+            $request->session()->flash('message', new Message(
+                "Failed to find organization " . $request->organization_id,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
+        $image = $organization->image;
+        $image_file = request()->file('image_url');
+        if (is_null($image) && !$image_file) {
             $request->session()->flash('message', new Message(
                 "You must upload an image.",
                 "danger",
@@ -120,7 +140,6 @@ class JobController extends Controller
                         $rank = $last_job->rank+1;
                     }
                 }
-
 
                 $job = Job::create([
                     'user_id' => Auth::user()->id,

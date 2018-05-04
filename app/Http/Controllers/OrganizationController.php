@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Image;
 use App\Organization;
 use App\Message;
@@ -63,18 +64,34 @@ class OrganizationController extends Controller
     public function store(Store $request)
     {
         $organization = Organization::create([
-            // TODO
+            'name' => $request->name,
         ]);
+        $organization->parent_organization_id = $request->parent_organization_id;
+        $organization->save();
+
+        $address = new Address([
+            'name' => $request->name ?: null,
+            'line1' => $request->line1 ?: null,
+            'line2' => $request->line2 ?: null,
+            'city' => $request->city ?: null,
+            'state' => $request->state ?: null,
+            'postal_code' => $request->postal_code ?: null,
+            'country' => $request->country ?: null,
+        ]);
+        $address->save();
+
+        $organization->addresses()->attach($address);
+        $organization->save();
 
         if ($image_file = request()->file('image_url')) {
             try {
                 $image = ImageServiceProvider::saveFileAsImage(
                     $image_file,
-                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $organization->name)).'-SportsBusinessSolutions',
+                    $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
                     $directory = 'organization/'.$organization->id
                 );
 
-                $organization->image_id = $image->id;
+                $organization->image()->associate($image);
                 $organization->save();
             } catch (Exception $e) {
                 Log::error($e->getMessage());
@@ -167,19 +184,24 @@ class OrganizationController extends Controller
 
         if ($image_file = request('image_url')) {
             try {
-                $image = ImageServiceProvider::saveFileAsImage(
-                    $image_file,
-                    $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
-                    $directory = 'organization/'.$organization->id
-                );
+                if ($organization->image) {
+                    $image = ImageServiceProvider::saveFileAsImage(
+                        $image_file,
+                        $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
+                        $directory = 'organization/'.$organization->id,
+                        $options = ['update' => $organization->image]
+                    );
+                } else {
+                    $image = ImageServiceProvider::saveFileAsImage(
+                        $image_file,
+                        $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
+                        $directory = 'organization/'.$organization->id,
+                        $options = ['update' => $organization->image]
+                    );
 
-                if ($old_image = $organization->image) {
-                    $organization->image()->dissociate($old_image);
-                    $old_image->delete();
+                    $organization->image()->associate($image);
+                    $organization->save();
                 }
-
-                $organization->image()->associate($image);
-                $organization->save();
             } catch (Exception $e) {
                 Log::error($e->getMessage());
                 $request->session()->flash('message', new Message(
