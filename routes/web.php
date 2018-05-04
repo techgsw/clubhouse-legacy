@@ -198,6 +198,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/organization/all', 'OrganizationController@all');
     Route::get('/organization/{id}', 'OrganizationController@show');
     Route::get('/organization/{id}/edit', 'OrganizationController@edit');
+    Route::get('/organization/{id}/preview', 'OrganizationController@preview');
     Route::post('/organization/{id}', 'OrganizationController@update');
 });
 

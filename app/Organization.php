@@ -22,6 +22,11 @@ class Organization extends Model
         return $this->belongsToMany(Address::class);
     }
 
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class);
+    }
+
     public function image()
     {
         return $this->belongsTo(Image::class);

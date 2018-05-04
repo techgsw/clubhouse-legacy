@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col s12 m9">
-            @include('organization.components.forms.edit')
+            @include('organization.forms.edit')
         </div>
         <div class="col s12 m3">
             <form id="create-league" action="/league" method="post">

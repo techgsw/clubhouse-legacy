@@ -27,11 +27,11 @@
                 </div>
                 <!-- Stats -->
                 <div class="card" style="flex: 0 0 120px; padding: 10px 24px; text-align: center; margin: 12px; text-transform: uppercase; letter-spacing: 0.6px;">
-                    <p style="font-size: 22px; color: #EB2935; margin-bottom: 6px;">10</p>
+                    <p style="font-size: 22px; color: #EB2935; margin-bottom: 6px;">{{ $organization->jobs()->count() }}</p>
                     <p style="margin-top: 6px;">jobs</p>
                 </div>
                 <div class="card" style="flex: 0 0 120px; padding: 10px 24px; text-align: center; margin: 12px; text-transform: uppercase; letter-spacing: 0.6px;">
-                    <p style="font-size: 22px; color: #EB2935; margin-bottom: 6px;">211</p>
+                    <p style="font-size: 22px; color: #EB2935; margin-bottom: 6px;">{{ $organization->contacts()->count() }}</p>
                     <p style="margin-top: 6px;">contacts</p>
                 </div>
             </div>

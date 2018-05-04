@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            @include('organization.components.forms.search')
+            @include('organization.forms.search')
         </div>
     </div>
     <div class="row">

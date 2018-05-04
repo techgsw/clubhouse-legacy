@@ -202,4 +202,24 @@ class OrganizationController extends Controller
             'organizations' => Organization::all()
         ]);
     }
+
+    public function preview($id)
+    {
+        $this->authorize('view-organization');
+
+        $quality = request('quality') ?: null;
+
+        $organization = Organization::find($id);
+
+        return response()->json([
+            'id' => $organization->id,
+            'name' => $organization->name,
+            'address' => [
+                'city' => $organization->addresses->first()->city,
+                'state' => $organization->addresses->first()->state,
+                'country' => $organization->addresses->first()->country
+            ],
+            'image_url' => $organization->image->getURL($quality)
+        ]);
+    }
 }

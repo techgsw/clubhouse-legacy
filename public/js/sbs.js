@@ -445,8 +445,8 @@ $.valHooks.textarea = {
                     data: options,
                     limit: 10,
                     onAutocomplete: function (name) {
-                        console.log(name, Organization.map[name]);
                         target_input.val(Organization.map[name]);
+                        target_input.trigger('change');
                     },
                     minLength: 2,
                 });
@@ -467,6 +467,39 @@ $.valHooks.textarea = {
             'data': {}
         });
     }
+
+    Organization.getPreview = function (id, quality) {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/organization/'+id+'/preview?quality='+quality,
+            'data': {}
+        });
+    }
+
+    //  TODO Move this
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var org_id = parseInt($(this).val());
+                $('img#organization-image').attr('src', '/images/progress.gif');
+                $('div.organization-image-preview').removeClass('hidden');
+                Organization.getPreview(org_id, 'medium')
+                    .done(function (resp) {
+                        $('img#organization-image').attr('src', resp.image_url);
+                        $('form#create-job-form input[name="city"]').val(resp.address.city);
+                        $('form#create-job-form input[name="city"]').trigger('change');
+                        $('form#create-job-form select[name="state"]').val(resp.address.state);
+                        $('form#create-job-form select[name="state"]').trigger('change');
+                        $('form#create-job-form select[name="country"]').val(resp.address.country);
+                        $('form#create-job-form select[name="country"]').trigger('change');
+                    })
+                    .fail(function (resp) {
+                        console.error(resp);
+                    });
+            }
+        },
+        'form#create-job-form input#organization-id'
+    );
 
     Tag.create = function (name) {
         return $.ajax({

@@ -32,6 +32,11 @@ class Contact extends Model
         return $this->belongsToMany(Address::class);
     }
 
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class);
+    }
+
     public function relationships()
     {
         return $this->belongsToMany('App\User', 'contact_relationship');
