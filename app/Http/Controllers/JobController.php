@@ -11,6 +11,7 @@ use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -88,7 +89,7 @@ class JobController extends Controller
         try {
             $document = request()->file('document');
             if ($document) {
-                $d = $document->store('document', 'public');
+                $document = $document->store('document', 'public');
             } else {
                 $request->session()->flash('message', new Message(
                     "You must upload a document.",
@@ -109,43 +110,48 @@ class JobController extends Controller
             return back()->withInput();
         }
 
-        $rank = 0;
-        if (request('featured')) {
-            $rank = 1;
-            $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-            if ($last_job) {
-                $rank = $last_job->rank+1;
-            }
-        }
-
-        $job = Job::create([
-            'user_id' => Auth::user()->id,
-            'title' => request('title'),
-            'description' => request('description'),
-            'organization' => request('organization'),
-            'league' => request('league'),
-            'job_type' => request('job_type'),
-            'city' => request('city'),
-            'state' => request('state'),
-            'country' => request('country'),
-            'rank' => $rank,
-            'featured' => request('featured') ? true : false,
-            'document' => $d ?: null,
-        ]);
-
         try {
-            $image = ImageServiceProvider::saveFileAsImage(
-                $image_file,
-                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
-                $directory = 'job/'.$job->id
-            );
+            $job = DB::transaction(function () use ($image_file, $document, $request) {
+                $rank = 0;
+                if (request('featured')) {
+                    $rank = 1;
+                    $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+                    if ($last_job) {
+                        $rank = $last_job->rank+1;
+                    }
+                }
 
-            $job->image_id = $image->id;
-            $job->save();
-        } catch (Exception $e) {
+
+                $job = Job::create([
+                    'user_id' => Auth::user()->id,
+                    'title' => request('title'),
+                    'description' => request('description'),
+                    'organization' => request('organization'),
+                    'league' => request('league'),
+                    'job_type' => request('job_type'),
+                    'city' => request('city'),
+                    'state' => request('state'),
+                    'country' => request('country'),
+                    'rank' => $rank,
+                    'featured' => request('featured') ? true : false,
+                    'document' => $document ?: null,
+                ]);
+
+                $image = ImageServiceProvider::saveFileAsImage(
+                    $image_file,
+                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                    $directory = 'job/'.$job->id
+                );
+
+                $job->image_id = $image->id;
+                $job->save();
+
+                return $job;
+            });
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
-                "Sorry, the file(s) failed to upload. Please try again.",
+                "Sorry, failed to save the job. Please try again.",
                 "danger",
                 $code = null,
                 $icon = "error"
@@ -418,54 +424,70 @@ class JobController extends Controller
     {
         $job = Job::find($id);
 
-        $job->title = request('title');
-        $job->featured = request('featured') ? true : false;
-        if (!$job->featured) {
-            $job->rank = 0;
-        }
-        $job->description = request('description');
-        $job->organization = request('organization');
-        $job->league = request('league');
-        $job->job_type = request('job_type');
-        $job->city = request('city');
-        $job->state = request('state');
-        $job->country = request('country');
-        $job->featured = request('featured') ? true : false;
-        // Set rank if newly featured
-        if ($job->featured && $job->rank == 0) {
-            $rank = 1;
-            $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-            if ($last_job) {
-                $rank = $last_job->rank+1;
-            }
-            $job->rank = $rank;
-        }
-
-        if (request('document')) {
-            $doc = request()->file('document');
-            $job->document = $doc->store('document', 'public');
-        }
         try {
-            if ($image_file = request()->file('image_url')) {
-                $image = ImageServiceProvider::saveFileAsImage(
-                    $image_file,
-                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
-                    $directory = 'job/'.$job->id,
-                    $options = ['update' => $job->image]
-                );
-            }
+            $job = DB::transaction(function () use ($job) {
+                $job->title = request('title');
+                $job->featured = request('featured') ? true : false;
+                if (!$job->featured) {
+                    $job->rank = 0;
+                }
+                $job->description = request('description');
+                $job->organization = request('organization');
+                $job->league = request('league');
+                $job->job_type = request('job_type');
+                $job->city = request('city');
+                $job->state = request('state');
+                $job->country = request('country');
+                $job->featured = request('featured') ? true : false;
+                // Set rank if newly featured
+                if ($job->featured && $job->rank == 0) {
+                    $rank = 1;
+                    $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+                    if ($last_job) {
+                        $rank = $last_job->rank+1;
+                    }
+                    $job->rank = $rank;
+                }
+
+                if (request('document')) {
+                    $doc = request()->file('document');
+                    $job->document = $doc->store('document', 'public');
+                }
+
+                if ($image_file = request()->file('image_url')) {
+                    if ($job->image) {
+                        $image = ImageServiceProvider::saveFileAsImage(
+                            $image_file,
+                            $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                            $directory = 'job/'.$job->id,
+                            $options = ['update' => $job->image]
+                        );
+                    } else {
+                        $image = ImageServiceProvider::saveFileAsImage(
+                            $image_file,
+                            $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                            $directory = 'job/'.$job->id
+                        );
+                        $job->image_id = $image->id;
+                        $job->save();
+                    }
+                }
+
+                $job->edited_at = new \DateTime('NOW');
+                $job->save();
+
+                return $job;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
-                "Sorry, the image failed to upload. Please try a different image.",
+                "Sorry, the failed to save job. Please try again.",
                 "danger",
                 $code = null,
                 $icon = "error"
             ));
             return redirect()->back();
         }
-        $job->edited_at = new \DateTime('NOW');
-        $job->save();
 
         return redirect()->action('JobController@show', [$job]);
     }
