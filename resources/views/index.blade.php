@@ -22,7 +22,7 @@
     </div>
     <div class="row hide-on-med-and-up">
         <div class="col s12 center-align">
-            <a href="/job" class="btn sbs-red">I'm a job seeker</a>
+            <a href="/career-services" class="btn sbs-red">I'm a job seeker</a>
         </div>
     </div>
     <div class="row hide-on-small-only">
@@ -30,7 +30,7 @@
             <a href="/services" class="btn btn-large sbs-red">I'm at a sports team</a>
         </div>
         <div class="col m6 left-align">
-            <a href="/job" class="btn btn-large sbs-red">I'm a job seeker</a>
+            <a href="/career-services" class="btn btn-large sbs-red">I'm a job seeker</a>
         </div>
     </div>
     <div class="row">
