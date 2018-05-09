@@ -68,7 +68,9 @@
             </div>
             <div class="row">
                 <div class="col s12 m4">
-                    <img src={{ $job->image->getURL('medium') }}>
+                    @if (!is_null($job->image))
+                        <img src={{ $job->image->getURL('medium') }}>
+                    @endif
                 </div>
                 <div class="col s12 m8">
                     <div class="file-field input-field">

@@ -3,7 +3,9 @@
 @section('title', "$job->title with $job->organization")
 @section('description', "$job->description")
 @section('url', Request::fullUrl())
+@if (!is_null($job->image))
 @section('image', $job->image->cdn ? $job->image->getURL('share') : url('/').$job->image->getURL('share'))
+@endif
 @section('content')
 <div class="container" style="padding-bottom: 40px;">
     <div class="row">
@@ -19,7 +21,9 @@
     <!-- Job -->
     <div class="row job-show">
         <div class="col s3">
-            <img src={{ $job->image->getURL('medium') }}>
+            @if (!is_null($job->image))
+                <img src={{ $job->image->getURL('medium') }}>
+            @endif
         </div>
         <div class="col s9 job-description">
             <div class="right">

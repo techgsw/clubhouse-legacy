@@ -1,7 +1,9 @@
 <a href="{{ $job->getURL() }}">
     <div class="row job-index {{ $job->featured ? 'featured-job' : '' }}">
         <div class="col s3 m2 center-align">
+            @if (!is_null($job->image))
             <img style="margin-top: 12px;" src={{ $job->image->getURL('medium') }} class="thumb">
+            @endif
         </div>
         <div class="col s9 m7">
             <h5>{{ $job->title }}</h5>

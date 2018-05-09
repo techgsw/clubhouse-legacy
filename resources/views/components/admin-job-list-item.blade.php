@@ -1,7 +1,9 @@
 <div class="row job-admin">
     <div class="col s3 m2">
         <a href="/job/{{$job->id}}" class="no-underline">
+            @if (!is_null($job->image))
             <img src={{ $job->image->getURL('medium') }} class="no-border">
+            @endif
         </a>
     </div>
     <div class="col s9 m10">
