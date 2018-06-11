@@ -179,7 +179,7 @@
             <h3 id="recruiting-clients">Our recruiting clients</h3>
         </div>
         <div class="col s12">
-            <img src="/images/recruiting/recruiting-clients.png?v=2" alt="">
+            <img src="/images/recruiting/recruiting-clients.png?v=3" alt="">
         </div>
     </div>
 </div>
