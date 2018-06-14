@@ -30,8 +30,8 @@ class UpdateProfile extends FormRequest
     {
         return [
             'college_graduation_year' => 'nullable|integer',
-            'headshot_url' => 'image|mimes:jpg,jpeg,png,gif|max:2000',
-            'resume_url' => 'mimes:pdf,doc,docx|max:2000',
+            'headshot_url' => 'image|mimes:jpg,jpeg,png,gif|max:1500',
+            'resume_url' => 'mimes:pdf,doc,docx|max:1500',
         ];
     }
 
@@ -46,10 +46,9 @@ class UpdateProfile extends FormRequest
             'college_graduation_year.integer' => 'Please enter a valid year (and only the year) of your college graduation.',
             'headshot_url.image' => 'Headshot must be a valid image.',
             'headshot_url.mimes' => 'Please upload a headshot that is a jpg, png, or gif.',
-            'headshot_url.max.file' => 'Maximum allowed file size for a headshot image is 2MB.',
+            'headshot_url.max' => 'Maximum allowed file size for a headshot image is 2MB.',
             'resume_url.mimes' => 'Resume is an invalid type. Please upload a valid PDF or DOC.',
-            'resume_url.max' => 'Maximum allowed file size for a resume is 2MB.',
-            'validation.max' => 'Maximum allowed file size is 2MB.'
+            'resume_url.max' => 'Maximum allowed file size for a resume is 2MB.'
         ];
     }
 }
