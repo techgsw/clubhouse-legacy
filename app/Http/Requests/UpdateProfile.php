@@ -30,6 +30,7 @@ class UpdateProfile extends FormRequest
     {
         return [
             'college_graduation_year' => 'nullable|integer',
+            'college_gpa' => 'nullable|numeric',
             'headshot_url' => 'image|mimes:jpg,jpeg,png,gif|max:1500',
             'resume_url' => 'mimes:pdf,doc,docx|max:1500',
         ];
@@ -44,6 +45,7 @@ class UpdateProfile extends FormRequest
     {
         return [
             'college_graduation_year.integer' => 'Please enter a valid year (and only the year) of your college graduation.',
+            'college_gpa.numeric' => 'Please enter a number (only) for your college GPA.',
             'headshot_url.image' => 'Headshot must be a valid image.',
             'headshot_url.mimes' => 'Please upload a headshot that is a jpg, png, or gif.',
             'headshot_url.max' => 'Maximum allowed file size for a headshot image is 2MB.',
