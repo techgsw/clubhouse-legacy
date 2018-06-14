@@ -29,7 +29,7 @@ class UpdateProfile extends FormRequest
     public function rules()
     {
         return [
-            'college_graduation_year' => 'integer',
+            'college_graduation_year' => 'nullable|integer',
             'headshot_url' => 'image|mimes:jpg,jpeg,png,gif|max:2000',
             'resume_url' => 'mimes:pdf,doc,docx|max:2000',
         ];
