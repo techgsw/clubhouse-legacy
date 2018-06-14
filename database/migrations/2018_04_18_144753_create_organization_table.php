@@ -146,6 +146,14 @@ class CreateOrganizationTable extends Migration
         }
 
         $organizations = [
+            "Atlanta Hawks" => [
+                "id" => null,
+                "parent_organization_id" => null,
+                "city" => "Atlanta",
+                "state" => "GA",
+                "country" => "US",
+                "leagues" => ["NBA"]
+            ],
             "Brooklyn Sports & Entertainment" => [
                 "id" => null,
                 "parent_organization_id" => null,
@@ -258,6 +266,14 @@ class CreateOrganizationTable extends Migration
                 "country" => "US",
                 "leagues" => []
             ],
+            "International Speedway Corporation" => [
+                "id" => null,
+                "parent_organization_id" => null,
+                "city" => "Daytona Beach",
+                "state" => "FL",
+                "country" => "US",
+                "leagues" => []
+            ],
             "Los Angeles Rams" => [
                 "id" => null,
                 "parent_organization_id" => null,
@@ -274,7 +290,7 @@ class CreateOrganizationTable extends Migration
                 "country" => "US",
                 "leagues" => ["Frontier League"]
             ],
-            "Legends Global Sales - One World Observatory" => [
+            "Legends Global Sales" => [
                 "id" => null,
                 "parent_organization_id" => null,
                 "city" => "New York",
@@ -474,6 +490,14 @@ class CreateOrganizationTable extends Migration
                 "country" => "US",
                 "leagues" => []
             ],
+            "viagogo" => [
+                "id" => null,
+                "parent_organization_id" => null,
+                "city" => "New York",
+                "state" => "NY",
+                "country" => "US",
+                "leagues" => []
+            ],
             "Viwa Ticket Management Solutions" => [
                 "id" => null,
                 "parent_organization_id" => null,
@@ -524,9 +548,11 @@ class CreateOrganizationTable extends Migration
         }
 
         $job_to_organization = [
+            "Atlanta Hawks" => "Atlanta Hawks",
             "Brooklyn Nets (BSE)" => "Brooklyn Sports & Entertainment",
             "Brooklyn Sports & Entertainment" => "Brooklyn Sports & Entertainment",
             "Brooklyn Sports & Entertainment (NBA)" => "Brooklyn Sports & Entertainment",
+            "Chicago Cubs" => "Chicago Cubs",
             "Chicago Cubs - Marquee Sports & Entertainment (MLB)" => "Marquee Sports & Entertainment",
             "Chicago Cubs // Marquee Sports & Entertainment" => "Marquee Sports & Entertainment",
             "Marquee Sports & Entertainment // Chicago Cubs (MLB)" => "Marquee Sports & Entertainment",
@@ -540,14 +566,18 @@ class CreateOrganizationTable extends Migration
             "Eventia Sports & Entertainment Group" => "Eventia Sports & Entertainment Group",
             "FC Dallas (MLS)" => "FC Dallas",
             "Florida Panthers (NHL)" => "Florida Panthers",
+            "Florida Panthers" => "Florida Panthers",
             "Florida Tarpons (AFL)" => "Florida Tarpons",
             "Grabyo" => "Grabyo",
+            "International Speedway Corporation" => "International Speedway Corporation",
             "LA Rams (NFL)" => "Los Angeles Rams",
             "Lake Erie Crushers" => "Lake Erie Crushers",
-            "Legends Global Sales - One World Observatory" => "Legends Global Sales - One World Observatory",
+            "Legends Global Sales - One World Observatory" => "Legends Global Sales",
+            "Legends Global Sales" => "Legends Global Sales",
             "Living Sport" => "Living Sport",
             "Long Island Ducks (Atlantic League)" => "Long Island Ducks",
             "New Jersey Devils (NHL)" => "New Jersey Devils",
+            "New Jersey Devils" => "New Jersey Devils",
             "New York Jets (NFL)" => "New York Jets",
             "NY Jets (NFL)" => "New York Jets",
             "New York Mets" => "New York Mets",
@@ -563,6 +593,7 @@ class CreateOrganizationTable extends Migration
             "Portland Timbers" => "Portland Timbers",
             "Sacramento Kings" => "Sacramento Kings",
             "Sacramento Republic FC (USL)" => "Sacramento Republic FC",
+            "Sacramento Republic FC" => "Sacramento Republic FC",
             "San Francisco 49ers" => "San Francisco 49ers",
             "San Francisco 49ers (NFL)" => "San Francisco 49ers",
             "San Jose Sharks" => "San Jose Sharks",
@@ -574,11 +605,16 @@ class CreateOrganizationTable extends Migration
             "Tampa Bay Sports & Entertainment (NHL)" => "Tampa Bay Sports & Entertainment",
             "Tampa Bay Rays (MLB)" => "Tampa Bay Rays",
             "Tough Mudder HQ" => "Tough Mudder HQ",
+            "viagogo" => "viagogo",
             "Viwa Ticket Management Solutions" => "Viwa Ticket Management Solutions",
             "Wizards District Gaming // Monumental Sports & Entertainment" => "Wizards District Gaming",
         ];
 
         Job::all()->each(function ($job) use ($job_to_organization, $organizations) {
+            if (!array_key_exists($job->organization, $job_to_organization)) {
+                dump("Unhandled organization: {$job->organization}");
+                return;
+            }
             $organization_name = $job_to_organization[$job->organization];
             $organization = $organizations[$organization_name];
             $job->organization_id = $organization->id;

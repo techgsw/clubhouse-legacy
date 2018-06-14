@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\FormatPhones::class,
+        Commands\MapContactsToOrganizations::class,
         Commands\PushToS3::class,
         Commands\SendMigrationEmails::class,
         Commands\SendNewUserFollowUpEmails::class,
