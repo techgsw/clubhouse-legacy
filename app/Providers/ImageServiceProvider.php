@@ -55,10 +55,6 @@ class ImageServiceProvider extends ServiceProvider
         // Image to update?
         $update_image = isset($options['update']) ? $options['update'] : null;
 
-        // Dimensions
-        $dim_x = isset($options['dim_x']) ? $options['dim_x'] : 2000;
-        $dim_y = isset($options['dim_y']) ? $options['dim_y'] : 2000;
-
         // Set filename and ensure
         $ext = strtolower($file->getClientOriginalExtension());
         $filename .= ".$ext";
@@ -70,12 +66,27 @@ class ImageServiceProvider extends ServiceProvider
 
         // Store the original temporarily
         $path = $file->storeAs('temp', $filename);
+        $original = new Image($path);
 
-        $image = new Image($path);
+        // Dimensions
+        $dim_x = isset($options['dim_x']) ? $options['dim_x'] : $original->getWidth();
+        $dim_y = isset($options['dim_y']) ? $options['dim_y'] : $original->getHeight();
         if ($crop_center) {
-            $image_url = $image->cropFromCenter($dim_x);
+            $dim_x = min($dim_x, $dim_y);
+            $dim_y = $dim_x;
         }
-        $image_url = $image->saveAs($directory, $filename);
+
+        // Ensure dimensions are large enough
+        while ($dim_x < 1500 || $dim_y < 1500) {
+            $dim_x *= 1.25;
+            $dim_y *= 1.25;
+        }
+
+        $image_url = $original->saveAs($directory, $filename);
+        $image = clone $original;
+        if ($crop_center) {
+            $image->cropFromCenter($dim_x);
+        }
         if (in_array('large', $qualities)) {
             $large = clone $image;
             $large_url = $large->resize($dim_x/2, $dim_y/2)->saveAs($directory, 'large-'.$filename);
@@ -100,7 +111,7 @@ class ImageServiceProvider extends ServiceProvider
         // Update the given image, if necessary
         if (!is_null($update_image)) {
             // Update the given Image
-            $update_image->path = $image->getPath();
+            $update_image->path = $original->getPath();
             $update_image->cdn = 0;
             $image = $update_image;
         }

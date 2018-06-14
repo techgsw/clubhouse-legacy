@@ -7,7 +7,7 @@
         <div class="col s12">
             <div class="row">
                 <div class="col s4">
-                    <img src={{ $image->getURL('medium') }} style="max-height: 200px;">
+                    <img src={{ $image->getURL() }} style="max-height: 200px;">
                 </div>
                 <div class="col s8">
                     <p>{{ $image->path }}</p>
