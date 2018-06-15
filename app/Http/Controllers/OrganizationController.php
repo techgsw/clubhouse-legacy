@@ -7,11 +7,13 @@ use App\Image;
 use App\Organization;
 use App\Message;
 use App\Providers\ImageServiceProvider;
+use App\Providers\OrganizationServiceProvider;
 use App\Providers\UtilityServiceProvider;
 use App\Http\Requests\Organization\Store;
 use App\Http\Requests\Organization\Update;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -63,46 +65,59 @@ class OrganizationController extends Controller
      */
     public function store(Store $request)
     {
-        $organization = Organization::create([
-            'name' => $request->name,
-        ]);
-        $organization->parent_organization_id = $request->parent_organization_id;
-        $organization->save();
-
-        $address = new Address([
-            'name' => $request->name ?: null,
-            'line1' => $request->line1 ?: null,
-            'line2' => $request->line2 ?: null,
-            'city' => $request->city ?: null,
-            'state' => $request->state ?: null,
-            'postal_code' => $request->postal_code ?: null,
-            'country' => $request->country ?: null,
-        ]);
-        $address->save();
-
-        $organization->addresses()->attach($address);
-        $organization->save();
-
-        if ($image_file = request()->file('image_url')) {
-            try {
-                $image = ImageServiceProvider::saveFileAsImage(
-                    $image_file,
-                    $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
-                    $directory = 'organization/'.$organization->id
-                );
-
-                $organization->image()->associate($image);
+        try {
+            $organization = DB::transaction(function () use ($request) {
+                $organization = Organization::create([
+                    'name' => $request->name,
+                ]);
+                $organization->parent_organization_id = $request->parent_organization_id;
                 $organization->save();
-            } catch (Exception $e) {
-                Log::error($e->getMessage());
-                $request->session()->flash('message', new Message(
-                    "Sorry, the file(s) failed to upload. Please try again.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
-                return back()->withInput();
-            }
+
+                $address = new Address([
+                    'name' => $request->name ?: null,
+                    'line1' => $request->line1 ?: null,
+                    'line2' => $request->line2 ?: null,
+                    'city' => $request->city ?: null,
+                    'state' => $request->state ?: null,
+                    'postal_code' => $request->postal_code ?: null,
+                    'country' => $request->country ?: null,
+                ]);
+                $address->save();
+
+                $organization->addresses()->attach($address);
+                $organization->save();
+
+                if ($image_file = request()->file('image_url')) {
+                    $image = ImageServiceProvider::saveFileAsImage(
+                        $image_file,
+                        $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
+                        $directory = 'organization/'.$organization->id
+                    );
+
+                    $organization->image()->associate($image);
+                    $organization->save();
+                }
+
+                return $organization;
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        if (empty($organization)) {
+            $request->session()->flash('message', new Message(
+                "Sorry, failed to create the organization. Please check all fields and try again.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInputs();
+        }
+
+        try {
+            OrganizationServiceProvider::mapContacts($organization);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
 
         return redirect()->action('OrganizationController@show', [$organization]);
@@ -242,6 +257,29 @@ class OrganizationController extends Controller
                 'country' => $organization->addresses->first()->country
             ],
             'image_url' => $organization->image->getURL($quality)
+        ]);
+    }
+
+    public function matchContacts($id)
+    {
+        $this->authorize('edit-organization');
+
+        $organization = Organization::find($id);
+        if (empty($organization)) {
+            return back();
+        }
+
+        $count = 0;
+        try {
+            $count = OrganizationServiceProvider::mapContacts($organization);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        return response()->json([
+            'id' => $organization->id,
+            'name' => $organization->name,
+            'count' => $count
         ]);
     }
 }

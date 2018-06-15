@@ -200,6 +200,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/organization/{id}/edit', 'OrganizationController@edit');
     Route::get('/organization/{id}/preview', 'OrganizationController@preview');
     Route::post('/organization/{id}', 'OrganizationController@update');
+    Route::get('/organization/{id}/match-contacts', 'OrganizationController@matchContacts');
 });
 
 // Leagues
