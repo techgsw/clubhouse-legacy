@@ -12,12 +12,16 @@ class League extends Model
         'updated_at'
     ];
     protected $fillable = [
-        'name',
-        'code'
+        'abbreviation'
     ];
 
     public function organizations()
     {
         return $this->belongsToMany(Organization::class);
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

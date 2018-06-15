@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Image;
+use App\League;
 use App\Organization;
 use App\Message;
 use App\Providers\ImageServiceProvider;
@@ -29,9 +30,9 @@ class OrganizationController extends Controller
     {
         $this->authorize('view-admin-organizations');
 
-        $organizations = Organization::with(['addresses', 'jobs'])
+        $organizations = Organization::with(['addresses', 'jobs', 'contacts'])
             ->search($request)
-            ->orderBy('name', 'desc')
+            ->orderBy('name', 'asc')
             ->paginate(24);
 
         return view('organization/index', [
@@ -286,6 +287,23 @@ class OrganizationController extends Controller
             'id' => $organization->id,
             'name' => $organization->name,
             'count' => $count
+        ]);
+    }
+
+    public function leagues()
+    {
+        $resp = [];
+        $leagues = League::with('organization')->each(function ($league) use (&$resp) {
+            $resp[] = [
+                'id' => $league->id,
+                'abbreviation' => $league->abbreviation,
+                'name' => $league->organization->name,
+                'organization_id' => $league->organization_id
+            ];
+        });
+
+        return response()->json([
+            'leagues' => $resp
         ]);
     }
 }

@@ -373,7 +373,7 @@ $.valHooks.textarea = {
     League.getOptions = function () {
         return $.ajax({
             'type': 'GET',
-            'url': '/league/all',
+            'url': '/organization/leagues',
             'data': {}
         });
     }
@@ -410,16 +410,18 @@ $.valHooks.textarea = {
         var league_autocomplete = $('input.league-autocomplete');
         if (league_autocomplete.length > 0) {
             League.getOptions().done(function (data) {
-                var leagues = {}
-                data.forEach(function (t) {
-                    League.map[t.name] = t.slug;
-                    leagues[t.name] = "";
-                });
+                League.map = {};
+                var options = data.leagues.reduce(function (options, league, key) {
+                    League.map[league.abbreviation] = league.id;
+                    options[league.abbreviation] = null;
+                    return options;
+                }, {});
                 var x = league_autocomplete.autocomplete({
-                    data: leagues,
+                    data: options,
                     limit: 10,
                     onAutocomplete: function (val) {
-                        League.addToOrganization(val, $('input#organization-leagues-json'), $('.organization-leagues'));
+                        // TODO 113
+                        // League.addToOrganization(val, $('input#organization-leagues-json'), $('.organization-leagues'));
                         league_autocomplete.val("");
                     },
                     minLength: 2,
@@ -1362,6 +1364,7 @@ $.valHooks.textarea = {
         Blog.init();
         Instagram.init();
         Note.init();
+        League.init();
         Organization.init();
         Video.init();
         Tag.init();

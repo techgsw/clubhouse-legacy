@@ -196,17 +196,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/organization/create', 'OrganizationController@create');
     Route::post('/organization', 'OrganizationController@store');
     Route::get('/organization/all', 'OrganizationController@all');
+    Route::get('/organization/leagues', 'OrganizationController@leagues');
     Route::get('/organization/{id}', 'OrganizationController@show');
     Route::get('/organization/{id}/edit', 'OrganizationController@edit');
     Route::get('/organization/{id}/preview', 'OrganizationController@preview');
     Route::post('/organization/{id}', 'OrganizationController@update');
     Route::get('/organization/{id}/match-contacts', 'OrganizationController@matchContacts');
-});
-
-// Leagues
-Route::group(['middleware' => ['web']], function () {
-    Route::post('/league', 'OrganizationController@store');
-    Route::get('/league/all', 'OrganizationController@all');
 });
 
 // Q&A

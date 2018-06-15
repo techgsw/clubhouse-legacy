@@ -29,6 +29,22 @@ class MapContactsToOrganizations extends Command
         });
 
         // Add exceptions, etc. to avoid dupes
+        // Leagues
+        $this->link("MLB", "Major League Baseball");
+        $this->link("MLS", "Major League Soccer");
+        $this->link("NBA", "National Basketball Association");
+        $this->link("NFL", "National Football League");
+        $this->link("NHL", "National Hockey League");
+        $this->link("WNBA", "Women's National Basketball League");
+        $this->link("NLL", "National Lacrosse League");
+        $this->link("AAL", "American Arena League");
+        $this->link("ALPB", "Atlantic League");
+        $this->link("ECHL", "East Coast Hockey League");
+        $this->link("USL", "United Soccer League");
+        $this->link("FL", "Frontier League");
+        $this->link("AHL", "AHL");
+        $this->link("NASCAR", "NASCAR");
+        // Other
         $this->link('Brooklyn Nets', 'Brooklyn Sports & Entertainment');
         $this->link('Cincinatti Bengals', 'Cincinnati Bengals');
         $this->link('Edmonton Oilers', 'Oilers Entertainment Group');
@@ -37,18 +53,6 @@ class MapContactsToOrganizations extends Command
         $this->link('International Speedway Corp.', 'International Speedway Corporation');
         $this->link('International Speedway Corporation - kansas speedway', 'International Speedway Corporation');
         $this->link("LA Rams", "Los Angeles Rams");
-        $this->link("Legends", "Legends Global Sales");
-        $this->link("Legends - Atlanta Falcons", "Legends Global Sales");
-        $this->link("Legends - Global Sales", "Legends Global Sales");
-        $this->link("Legends - LA Chargers", "Legends Global Sales");
-        $this->link("Legends - LA Stadium", "Legends Global Sales");
-        $this->link("Legends - LAFC", "Legends Global Sales");
-        $this->link("Legends - Las Vegas Raiders", "Legends Global Sales");
-        $this->link("Legends - Louisville", "Legends Global Sales");
-        $this->link("Legends - One World Observatory", "Legends Global Sales");
-        $this->link("Legends - OWO", "Legends Global Sales");
-        $this->link("Legends - Skyspace LA", "Legends Global Sales");
-        $this->link("Legends - Tours & Events", "Legends Global Sales");
         $this->link("Oakland A's", "Oakland Athletics");
         $this->link("One World Observatory", "Legends Global Sales");
         $this->link("Suns", "Phoenix Suns");

@@ -37,9 +37,19 @@ class Organization extends Model
         return $this->hasMany(Job::class);
     }
 
+    public function league()
+    {
+        return $this->hasOne(League::class);
+    }
+
     public function leagues()
     {
         return $this->belongsToMany(League::class);
+    }
+
+    public function organizationType()
+    {
+        return $this->belongsTo(OrganizationType::class);
     }
 
     public function parentOrganization()

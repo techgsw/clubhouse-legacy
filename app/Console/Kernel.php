@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
         Commands\SendRegistrationSummaryEmail::class,
         Commands\UploadContacts::class,
         Commands\GenerateInstagramToken::class,
+        Commands\UploadOrganizations::class
     ];
 
     /**

@@ -13,20 +13,29 @@
             @include('organization.forms.edit')
         </div>
         <div class="col s12 m3">
-            <form id="create-league" action="/league" method="post">
-                {{ csrf_field() }}
-                <div class="input-field">
-                    <input type="text" id="league-autocomplete-input" class="league-autocomplete">
-                    <label for="league-autocomplete-input">Leagues</label>
-                </div>
-            </form>
-            <ul class="organization-leagues">
-                @foreach ($organization->leagues as $league)
-                    <li class="flat-button gray small tag">
-                        <button type="button" name="button" class="x" tag-name="{{ $league->name }}">&times;</button>{{ $league->name }}
-                    </li>
-                @endforeach
-            </ul>
+            <div class="row">
+                @if ($organization->organizationType->code == 'league')
+                    <div class="col s12 input-field">
+                        <input type="text" id="abbreviation" name="abbreviation" value="{{ $organization->league->abbreviation }}">
+                        <label for="abbreviation">Abbreviation</label>
+                    </div>
+                @else
+                    <form id="create-league" action="/organization/{{ $organization->id }}/add-league" method="post">
+                        {{ csrf_field() }}
+                        <div class="input-field">
+                            <input type="text" id="league-autocomplete-input" class="league-autocomplete">
+                            <label for="league-autocomplete-input">Leagues</label>
+                        </div>
+                    </form>
+                    <ul class="organization-leagues">
+                        @foreach ($organization->leagues as $league)
+                            <li class="flat-button gray small tag">
+                                <button type="button" name="button" class="x" tag-name="{{ $league->name }}">&times;</button>{{ $league->name }}
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
         </div>
     </div>
 </div>

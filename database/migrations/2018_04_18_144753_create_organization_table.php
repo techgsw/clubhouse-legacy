@@ -5,6 +5,7 @@ use App\Image;
 use App\Job;
 use App\League;
 use App\Organization;
+use App\OrganizationType;
 use App\Providers\ImageServiceProvider;
 use App\Providers\UtilityServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -20,44 +21,30 @@ class CreateOrganizationTable extends Migration
      */
     public function up()
     {
-        Schema::create('league', function (Blueprint $table) {
+        Schema::create('organization_type', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('code')->unique();
             $table->timestamps();
         });
 
-        $league_to_id = [
-            "MLB" => null,
-            "MLS" => null,
-            "NBA" => null,
-            "NFL" => null,
-            "NHL" => null,
-            "WNBA" => null,
-            "NLL" => null,
-            "AFL" => null,
-            "Atlantic League" => null,
-            "ECHL" => null,
-            "USL" => null,
-            "Frontier League" => null
-        ];
+        $default_ot = OrganizationType::create([
+            'name' => 'Default',
+            'code' => 'default'
+        ]);
+        $league_ot = OrganizationType::create([
+            'name' => 'League',
+            'code' => 'league'
+        ]);
 
-        foreach ($league_to_id as $name => $id) {
-            $code = UtilityServiceProvider::encode($name);
-            $league = new League([
-                'name' => $name,
-                'code' => $code
-            ]);
-            $league->save();
-            $league_to_id[$name] = $league->id;
-        }
-
-        Schema::create('organization', function (Blueprint $table) {
+        Schema::create('organization', function (Blueprint $table) use ($default_ot) {
             $table->increments('id');
             $table->integer('image_id')->unsigned()->nullable()->default(null);
             $table->foreign('image_id')->references('id')->on('image');
             $table->integer('parent_organization_id')->unsigned()->nullable()->default(null);
             $table->foreign('parent_organization_id')->references('id')->on('organization');
+            $table->integer('organization_type_id')->unsigned()->default($default_ot->id);
+            $table->foreign('organization_type_id')->references('id')->on('organization_type');
             $table->string('name');
             $table->timestamps();
         });
@@ -70,6 +57,60 @@ class CreateOrganizationTable extends Migration
             $table->foreign('organization_id')->references('id')->on('organization');
             $table->timestamps();
         });
+
+        Schema::create('league', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('organization_id')->unsigned()->unique();
+            $table->foreign('organization_id')->references('id')->on('organization');
+            $table->string('abbreviation');
+            $table->timestamps();
+        });
+
+        $leagues = [
+            "MLB" => "Major League Baseball",
+            "MLS" => "Major League Soccer",
+            "NBA" => "National Basketball Association",
+            "NFL" => "National Football League",
+            "NHL" => "National Hockey League",
+            "WNBA" => "Women's National Basketball League",
+            "NLL" => "National Lacrosse League",
+            "AAL" => "American Arena League",
+            "ALPB" => "Atlantic League",
+            "ECHL" => "East Coast Hockey League",
+            "USL" => "United Soccer League",
+            "FL" => "Frontier League"
+        ];
+
+        $league_to_id = [
+            "MLB" => null,
+            "MLS" => null,
+            "NBA" => null,
+            "NFL" => null,
+            "NHL" => null,
+            "WNBA" => null,
+            "NLL" => null,
+            "AAL" => null,
+            "ALPB" => null,
+            "ECHL" => null,
+            "USL" => null,
+            "FL" => null
+        ];
+
+        foreach ($leagues as $abbr => $name) {
+            $organization = new Organization([
+                'name' => $name
+            ]);
+            $organization->organization_type_id = $league_ot->id;
+            $organization->save();
+
+            $league = new League([
+                'abbreviation' => $abbr
+            ]);
+            $league->organization_id = $organization->id;
+            $league->save();
+
+            $league_to_id[$abbr] = $organization->id;
+        }
 
         Schema::create('league_organization', function (Blueprint $table) {
             $table->increments('id');
@@ -256,7 +297,7 @@ class CreateOrganizationTable extends Migration
                 "city" => "Lakeland",
                 "state" => "FL",
                 "country" => "US",
-                "leagues" => ["AFL"]
+                "leagues" => ["AAL"]
             ],
             "Grabyo" => [
                 "id" => null,
@@ -288,7 +329,7 @@ class CreateOrganizationTable extends Migration
                 "city" => "Lake Erie",
                 "state" => "OH",
                 "country" => "US",
-                "leagues" => ["Frontier League"]
+                "leagues" => ["FL"]
             ],
             "Legends Global Sales" => [
                 "id" => null,
@@ -312,7 +353,7 @@ class CreateOrganizationTable extends Migration
                 "city" => "Central Islip",
                 "state" => "NY",
                 "country" => "US",
-                "leagues" => ["Atlantic League"]
+                "leagues" => ["ALPB"]
             ],
             "New Jersey Devils" => [
                 "id" => null,
