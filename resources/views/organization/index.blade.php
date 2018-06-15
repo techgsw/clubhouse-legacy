@@ -21,10 +21,18 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col s12 center-align">
-            {{ $organizations->appends(request()->all())->links('components.pagination') }}
+    @if ($organizations->count() > 0)
+        <div class="row">
+            <div class="col s12 center-align">
+                {{ $organizations->appends(request()->all())->links('components.pagination') }}
+            </div>
         </div>
-    </div>
+    @else
+        <div class="row">
+            <div class="col s12 center-align">
+                <p><i>No results</i></p>
+            </div>
+        </div>
+    @endif
 </div>
 @endsection

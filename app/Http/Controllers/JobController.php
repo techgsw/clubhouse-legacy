@@ -95,8 +95,8 @@ class JobController extends Controller
         }
 
         $image = $organization->image;
-        $image_file = request()->file('image_url');
-        if (is_null($image) && !$image_file) {
+        $alt_image_file = request()->file('alt_image_url');
+        if (is_null($image) && !$alt_image_file) {
             $request->session()->flash('message', new Message(
                 "You must upload an image.",
                 "danger",
@@ -131,7 +131,7 @@ class JobController extends Controller
         }
 
         try {
-            $job = DB::transaction(function () use ($image_file, $document, $request) {
+            $job = DB::transaction(function () use ($alt_image_file, $document, $request) {
                 $rank = 0;
                 if (request('featured')) {
                     $rank = 1;
@@ -145,7 +145,8 @@ class JobController extends Controller
                     'user_id' => Auth::user()->id,
                     'title' => request('title'),
                     'description' => request('description'),
-                    'organization' => request('organization'),
+                    'organization' => request('alt_organization') ?: request('organization'),
+                    'organization_id' => request('organization_id'),
                     'league' => request('league'),
                     'job_type' => request('job_type'),
                     'city' => request('city'),
@@ -153,19 +154,23 @@ class JobController extends Controller
                     'country' => request('country'),
                     'rank' => $rank,
                     'featured' => request('featured') ? true : false,
-                    'document' => $document ?: null,
+                    'document' => $d ?: null,
                 ]);
 
-                $image = ImageServiceProvider::saveFileAsImage(
-                    $image_file,
-                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
-                    $directory = 'job/'.$job->id
-                );
+                // If no image file is given, we're reusing the organization's image
+                if ($alt_image_file) {
+                    // Override image
+                    $image = ImageServiceProvider::saveFileAsImage(
+                        $alt_image_file,
+                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
+                        $directory = 'job/'.$job->id
+                    );
 
-                $job->image_id = $image->id;
-                $job->save();
+                    $job->image_id = $image->id;
+                    $job->save();
 
-                return $job;
+                    return $job;
+                };
             });
         } catch (\Exception $e) {
             Log::error($e->getMessage());

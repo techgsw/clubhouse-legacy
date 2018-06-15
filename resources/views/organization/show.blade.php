@@ -3,6 +3,12 @@
 @section('title', "$organization->name")
 @section('content')
 <div class="container" style="padding-bottom: 40px;">
+    <div class="row">
+        <div class="col s12">
+            @include('layouts.components.errors')
+        </div>
+    </div>
+    @include('layouts.components.messages')
     <div class="row organization-show">
         <div class="col s12">
             <div style="float: right; margin-top: 6px;">

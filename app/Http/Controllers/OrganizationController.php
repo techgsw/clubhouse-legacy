@@ -115,7 +115,13 @@ class OrganizationController extends Controller
         }
 
         try {
-            OrganizationServiceProvider::mapContacts($organization);
+            $count = OrganizationServiceProvider::mapContacts($organization);
+            $request->session()->flash('message', new Message(
+                "Found {$count} contacts belonging to {$organization->name}",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

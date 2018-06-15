@@ -824,6 +824,9 @@ textarea:focus,
 .input-field input:focus:not([readonly]) + label {
     color: #9e9e9e !important;
 }
+.input-field>p>label {
+    top: 0;
+}
 
 .switch label input[type=checkbox]:checked + .lever {
     background-color: #FF7981;

@@ -1240,6 +1240,15 @@ $.valHooks.textarea = {
     $('body').on(
         {
             change: function (e, ui) {
+                // TODO 113
+            }
+        },
+        'input[type="checkbox"].show-hide'
+    );
+
+    $('body').on(
+        {
+            change: function (e, ui) {
                 var form = $(this).parents('form');
                 form.submit();
             }
