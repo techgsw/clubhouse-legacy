@@ -219,7 +219,7 @@ class OrganizationController extends Controller
 
     public function all()
     {
-        $this->authorize('view-organization');
+        // $this->authorize('view-organization');
         return response()->json([
             'organizations' => Organization::all()
         ]);

@@ -366,7 +366,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="current_organization" type="text" name="current_organization" value="{{ old('current_organization') ?: $profile->current_organization ?: null }}" />
+                        <input id="current_organization" class="organization-autocomplete" type="text" name="current_organization" value="{{ old('current_organization') ?: $profile->current_organization ?: null }}" />
                         <label for="current_organization">What organization do you currently work for?</label>
                     </div>
                 </div>

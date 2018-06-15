@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProfile;
 use App\Image;
 use App\Message;
 use App\Note;
+use App\Organization;
 use App\Profile;
 use App\User;
 use App\Providers\ImageServiceProvider;
@@ -346,11 +347,13 @@ class ProfileController extends Controller
             ? preg_replace("/[^\d]/", "", request('phone'))
             : null;
         $profile->resume_url = $r ?: $profile->resume_url;
+
         // Personal Information
         $birthday = new \DateTime(request('date_of_birth'));
         $profile->date_of_birth = $birthday->format('Y-m-d');
         $profile->ethnicity = request('ethnicity');
         $profile->gender = request('gender');
+
         // Address
         $address->line1 = request('line1');
         $address->line2 = request('line2');
@@ -360,6 +363,7 @@ class ProfileController extends Controller
         $address->country = request('country');
         $address->updated_at = new \DateTime('NOW');
         $address->save();
+
         // Job-seeking status
         $profile->job_seeking_status = request('job_seeking_status');
         $profile->job_seeking_type = request('job_seeking_type');
@@ -391,6 +395,7 @@ class ProfileController extends Controller
         $profile->job_factors_organization = request('job_factors_organization') ? true : false;
         $profile->job_seeking_organizations = request('job_seeking_organizations');
         $profile->job_factors_other = request('job_factors_other');
+
         // Employment history
         $profile->works_in_sports = request('works_in_sports') ? true : false;
         $profile->current_organization = request('current_organization');
@@ -417,6 +422,7 @@ class ProfileController extends Controller
         $profile->department_experience_entertainment = request('department_experience_entertainment') ? true : false;
         $profile->department_experience_legal = request('department_experience_legal') ? true : false;
         $profile->department_experience_other = request('department_experience_other');
+
         // Education history
         $profile->education_level = request('education_level');
         $profile->college_name = request('college_name');
@@ -425,6 +431,7 @@ class ProfileController extends Controller
         $profile->college_organizations = request('college_organizations');
         $profile->college_sports_clubs = request('college_sports_clubs');
         $profile->has_school_plans = request('has_school_plans');
+
         // Email preferences
         $profile->email_preference_entry_job = request('email_preference_entry_job') ? true : false;
         $profile->email_preference_new_job = request('email_preference_new_job') ? true : false;
@@ -432,6 +439,7 @@ class ProfileController extends Controller
         $profile->email_preference_leadership = request('email_preference_leadership') ? true : false;
         $profile->email_preference_best_practices = request('email_preference_best_practices') ? true : false;
         $profile->email_preference_career_advice = request('email_preference_career_advice') ? true : false;
+
         // Timestamp(s)
         $profile->updated_at = new \DateTime('NOW');
 
