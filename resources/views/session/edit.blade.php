@@ -27,7 +27,7 @@
                                     @foreach ($post->images as $index => $image)
                                         <div id="{{ $image->id }}" class="dz-preview dz-image-preview">
                                             <div class="dz-image">
-                                                <img class="" src="{{ $image->getURL('medium') }}" />
+                                                <img class="" src="{{ $image->getURL('small') }}" />
                                             </div>
                                             <a href="javascript: void(0);" data-image-id="{{ $image->id }}" class="image-remove-link" data-dz-remove>Remove Image</a>
                                         </div>

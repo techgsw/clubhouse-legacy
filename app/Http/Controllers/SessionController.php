@@ -87,8 +87,7 @@ class SessionController extends Controller
                             $image = ImageServiceProvider::saveFileAsImage(
                                 $image,
                                 $filename = $index.time().'-'.$title_url.'-SportsBusinessSolutions',
-                                $directory = 'post/'.$post->id,
-                                $options = [ 'cropFromCenter' => true ]
+                                $directory = 'post/'.$post->id
                             );
                             $images[] = $image;
                         }
@@ -200,6 +199,86 @@ class SessionController extends Controller
                 $response->setType("danger");
                 $response->setCode(500);
             }
+        }
+
+        return response()->json($response->toArray());
+    }
+
+    public function addImage(Request $request, $id)
+    {
+        $this->authorize('admin-image');
+        $response = new Message(
+            "Success! Image added.",
+            "success",
+            $code = 200,
+            $icon = "check_circle"
+        );
+
+        try {
+            DB::transaction(function () use ($id) {
+                $image_list = request('image_list');
+                if (is_array($image_list)) {
+                    $post = Post::find($id);
+                    $dir = 'post/'.$post->id;
+                    if (!Storage::exists("public/{$dir}")) {
+                        Storage::makeDirectory("public/{$dir}");
+                    }
+                    $images = [];
+                    foreach ($image_list as $index => $image) {
+                        if ($image) {
+                            $image = ImageServiceProvider::saveFileAsImage(
+                                $image,
+                                $filename = $index.time().'-'.$post->title_url.'-SportsBusinessSolutions',
+                                $directory = 'post/'.$post->id
+                            );
+                            $images[] = $image;
+                        }
+                    }
+                    $post->images()->saveMany($images);
+                }
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $response->setMessage("Sorry, we were unable to update the image order.");
+            $response->setType("danger");
+            $response->setCode(500);
+        }
+
+        return response()->json($response->toArray());
+    }
+
+    public function deleteImage(Request $request, $id, $image_id)
+    {
+        $this->authorize('admin-image');
+        $response = new Message(
+            "Success! Image deleted.",
+            "success",
+            $code = 200,
+            $icon = "check_circle"
+        );
+
+        $post_image = PostImage::where('post_id', $id)->where('image_id', $image_id);
+        if (!$post_image) {
+            $response->setMessage("Sorry, we were unable to delete the image.");
+            $response->setType("danger");
+            $response->setCode(500);
+        }
+
+        $post_images = PostImage::where('post_id', $id)->get();
+
+        if (count($post_images) >= 2) {
+            try {
+                $post_image->delete();
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                $response->setMessage("Sorry, we were unable to delete the image.");
+                $response->setType("danger");
+                $response->setCode(500);
+            }
+        } else {
+            $response->setMessage("Sorry, sessions must have at least one image. Please add another image before deleting this one.");
+            $response->setType("danger");
+            $response->setCode(500);
         }
 
         return response()->json($response->toArray());
