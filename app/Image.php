@@ -185,9 +185,9 @@ class Image extends Model
         $this->cdn = true;
         $this->save();
 
-        foreach ([null, 'large', 'medium', 'small', 'share'] as $quality) {
-            Storage::disk('local')->delete("public/{$this->getDir()}/{$this->getFilename($quality)}");
-        }
+        // foreach ([null, 'large', 'medium', 'small', 'share'] as $quality) {
+        //     Storage::disk('local')->delete("public/{$this->getDir()}/{$this->getFilename($quality)}");
+        // }
 
         return $this;
     }
