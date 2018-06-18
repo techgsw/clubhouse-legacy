@@ -91,7 +91,7 @@ class Image extends Model
     {
         $timestamp = $this->updated_at->getTimestamp();
         if ($this->cdn) {
-            return Storage::disk('s3')->url($this->getPath($quality))."?v=$timestamp";
+            return env('AWS_ROOT_URL').$this->getPath($quality)."?v=$timestamp";
         }
         return Storage::disk('local')->url($this->getPath($quality))."?v=$timestamp";
     }
