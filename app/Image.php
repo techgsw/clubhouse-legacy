@@ -111,7 +111,7 @@ class Image extends Model
 
     public function getFullPath($quality=null)
     {
-        return "storage/app/public/".$this->getPath($quality);
+        return base_path("storage/app/public/".$this->getPath($quality));
     }
 
     public function getDir()
