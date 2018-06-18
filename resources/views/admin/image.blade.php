@@ -17,6 +17,13 @@
                         <a href="/image/{{ $image->id }}" class="no-underline">
                             <img src="{{ $image->getURL('medium') }}" alt="" style="max-height: 100px; box-shadow: 2px 2px #F2F2F2;">
                         </a>
+                        <div style="color: #000; border: solid 2px #000; width: 26px; height: 26px; border-radius: 50%; margin-top: -20px; margin-left: 40px; position: absolute; background: #FFF;">
+                            @if ($image->cdn)
+                                <i class="fa fa-cloud-upload"></i>
+                            @else
+                                <i class="fa fa-hdd-o"></i>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
             <div class="row">
