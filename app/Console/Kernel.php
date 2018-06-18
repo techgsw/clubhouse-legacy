@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Providers\EmailServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -54,9 +55,11 @@ class Kernel extends ConsoleKernel
             EmailServiceProvider::sendRegistrationSummaryEmail($start, $end);
         })->dailyAt('17:30');
 
-        // $schedule->call(function () {
-        //     ImageServiceProvider::pushToS3();
-        // })->everyFifteenMinutes();
+        if (env('APP_ENV') == 'production') {
+            $schedule->call(function () {
+                ImageServiceProvider::pushToS3();
+            })->hourly();
+        }
     }
 
     /**

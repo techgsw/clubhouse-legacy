@@ -89,10 +89,11 @@ class Image extends Model
 
     public function getURL($quality=null)
     {
+        $timestamp = $this->updated_at->getTimestamp();
         if ($this->cdn) {
-            return Storage::disk('s3')->url($this->getPath($quality));
+            return Storage::disk('s3')->url($this->getPath($quality))."?v=$timestamp";
         }
-        return Storage::disk('local')->url($this->getPath($quality));
+        return Storage::disk('local')->url($this->getPath($quality))."?v=$timestamp";
     }
 
     public function getPath($quality=null)

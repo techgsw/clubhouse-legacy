@@ -22,7 +22,8 @@ class ImageController extends Controller
 
         return view('admin/image', [
             'images' => $images,
-            'count' => $count
+            'count' => $count,
+            'local' => Image::where('cdn', false)->count()
         ]);
     }
 
