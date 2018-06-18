@@ -182,7 +182,7 @@ class SessionController extends Controller
             $icon = "check_circle"
         );
 
-        $images = $post->images;
+        $images = $post->images->count() > 0 ? $post->images : array();
         $image_map = [];
         foreach ($images as $image) {
             $image_map[$image->id] = $image;
@@ -239,7 +239,7 @@ class SessionController extends Controller
             });
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $response->setMessage("Sorry, we were unable to update the image order.");
+            $response->setMessage("Sorry, we were unable to add the image.");
             $response->setType("danger");
             $response->setCode(500);
         }
