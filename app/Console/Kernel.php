@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Providers\EmailServiceProvider;
+use App\Providers\ImageServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
