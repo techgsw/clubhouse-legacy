@@ -35,7 +35,7 @@ class InquiryRated extends Mailable
     public function build()
     {
         $mail = $this->from('app@sportsbusiness.solutions');
-        $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization}");
+        $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
         switch ($this->rating) {
             case 'up':
                 return $mail->markdown('emails.inquiry.rated-up');

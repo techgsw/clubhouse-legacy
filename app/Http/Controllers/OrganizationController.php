@@ -351,6 +351,7 @@ class OrganizationController extends Controller
         return response()->json([
             'id' => $organization->id,
             'name' => $organization->name,
+            'league' => $organization->leagues->count() > 0 ? $organization->leagues->first()->abbreviation : null,
             'address' => [
                 'city' => $organization->addresses->first()->city,
                 'state' => $organization->addresses->first()->state,

@@ -55,7 +55,7 @@ class Note extends Model
                     ->join('job', 'inquiry.job_id', '=', 'job.id')
                     ->join('user', 'user.id', '=', 'note.user_id')
                     ->whereIn('notable_id', $inquiry_ids)
-                    ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'job.id as job_id', 'job.title as job_title', 'job.organization as job_organization', 'note.*')
+                    ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'job.id as job_id', 'job.title as job_title', 'job.organization_name as job_organization', 'note.*')
                     ->get();
                 foreach ($inquiry_notes as $note) {
                     $notes[$note->created_at->getTimestamp()] = $note;

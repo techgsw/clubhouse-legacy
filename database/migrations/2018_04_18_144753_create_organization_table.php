@@ -124,6 +124,7 @@ class CreateOrganizationTable extends Migration
         Schema::table('job', function (Blueprint $table) {
             $table->integer('organization_id')->unsigned()->after('organization')->nullable()->default(null);
             $table->foreign('organization_id')->references('id')->on('organization');
+            $table->renameColumn('organization', 'organization_name');
         });
 
         $parent_organizations = [
@@ -652,11 +653,11 @@ class CreateOrganizationTable extends Migration
         ];
 
         Job::all()->each(function ($job) use ($job_to_organization, $organizations) {
-            if (!array_key_exists($job->organization, $job_to_organization)) {
-                dump("Unhandled organization: {$job->organization}");
+            if (!array_key_exists($job->organization_name, $job_to_organization)) {
+                dump("Unhandled organization: {$job->organization_name}");
                 return;
             }
-            $organization_name = $job_to_organization[$job->organization];
+            $organization_name = $job_to_organization[$job->organization_name];
             $organization = $organizations[$organization_name];
             $job->organization_id = $organization->id;
             $job->save();

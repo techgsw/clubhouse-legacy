@@ -1,4 +1,4 @@
-<form id="create-job-form" method="post" action="/job" enctype="multipart/form-data">
+<form id="create-job-form" method="post" action="/job" enctype="multipart/form-data" class="organization-field-autocomplete">
     {{ csrf_field() }}
     <div class="row">
         <div class="col s12 m8">
@@ -15,7 +15,7 @@
                     <textarea id="description" class="materialize-textarea {{ $errors->has('description') ? 'invalid' : '' }}" name="description" required style="min-height: 8rem;">{{ old('description') }}</textarea>
                     <label for="description" data-error="{{ $errors->first('description') }}">Description</label>
                 </div>
-                <div class="input-field col s12 m5">
+                <div class="input-field col s12">
                     <label for="job-type" class="active">Type</label>
                     <select id="job-type" name="job_type" class="browser-default">
                         <option value="" {{ old('job_type') == "" ? "selected" : "" }}>None</option>
@@ -31,7 +31,7 @@
                         <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
                     </select>
                 </div>
-                <div class="file-field input-field col s12 m7">
+                <div class="file-field input-field col s12">
                     <div class="btn white black-text">
                         <span>Document</span>
                         <input type="file" name="document" value="{{ old('document') }}">
@@ -42,11 +42,11 @@
                 </div>
                 <div class="input-field col s12">
                     <p>
-                        <input type="checkbox" class="show-hide" name="reuse_organization_fields" id="reuse-organization-fields" value="1" />
-                        <label for="reuse-organization-fields">Use organization name and logo</label>
+                        <input type="checkbox" class="show-hide" show-hide-target-id="organization-fields" name="reuse_organization_fields" id="reuse_organization_fields" value="1" checked />
+                        <label for="reuse_organization_fields">Use organization name and logo</label>
                     </p>
                 </div>
-                <div class="col s12 show-hide" show-hide-id="reuse-organization-fields">
+                <div class="col s12 hidden" id="organization-fields">
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="alt-organization" type="text" name="alt_organization" value="{{ old('alt_organization') ?: '' }}">
@@ -74,6 +74,15 @@
                     <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
                     <input id="organization" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
                     <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
+                </div>
+                <div class="input-field col s12">
+                    <label for="league" class="active">League</label>
+                    <select id="league" name="league" class="browser-default">
+                        <option value="" {{ old('job_type') == "" ? "selected" : "" }}>None</option>
+                        @foreach ($leagues as $league)
+                            <option value="{{ $league->abbreviation }}" {{ old('league') == $league->abbreviation ? "selected" : "" }}>{{ $league->abbreviation }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="organization-image-preview center-align {{ empty($organization) ? "hidden" : "" }}">
                     <img id="organization-image" src="{{ empty($organization) || empty($organization->image) ? "" : $organization->image->getURL('medium') }}" style="padding: 16px; max-width: 100px;" />

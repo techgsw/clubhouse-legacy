@@ -33,9 +33,9 @@ class Job extends Model
         return $this->hasMany(Inquiry::class);
     }
 
-    public function organizations()
+    public function organization()
     {
-        return $this->belongsToMany(Organization::class);
+        return $this->belongsTo(Organization::class);
     }
 
     public function isNew()

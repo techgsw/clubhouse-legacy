@@ -16,7 +16,7 @@
                     <select name="inquiry_id" style="display: block; margin-bottom: 8px;">
                         <option value="">Select a job (optional)</option>
                         @foreach ($contact->user->inquiries as $inquiry)
-                            <option value="{{ $inquiry->id }}">{{ $inquiry->job->organization }} - {{ $inquiry->job->title }}</option>
+                            <option value="{{ $inquiry->id }}">{{ $inquiry->job->organization_name }} - {{ $inquiry->job->title }}</option>
                         @endforeach
                     </select>
                 @endif

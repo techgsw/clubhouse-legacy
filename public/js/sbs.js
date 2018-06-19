@@ -359,6 +359,23 @@ $.valHooks.textarea = {
         });
     }
 
+    // Job
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var target_id = $(this).attr('show-hide-target-id');
+                var target = $("#"+target_id);
+                if (target.length === 0) {
+                    return;
+                }
+
+                target.toggleClass('hidden');
+            }
+        },
+        'input[type="checkbox"].show-hide'
+    );
+
     League.create = function (name) {
         return $.ajax({
             'type': 'POST',
@@ -510,19 +527,21 @@ $.valHooks.textarea = {
                 Organization.getPreview(org_id, 'medium')
                     .done(function (resp) {
                         $('img#organization-image').attr('src', resp.image_url);
-                        $('form#create-job-form input[name="city"]').val(resp.address.city);
-                        $('form#create-job-form input[name="city"]').trigger('change');
-                        $('form#create-job-form select[name="state"]').val(resp.address.state);
-                        $('form#create-job-form select[name="state"]').trigger('change');
-                        $('form#create-job-form select[name="country"]').val(resp.address.country);
-                        $('form#create-job-form select[name="country"]').trigger('change');
+                        $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                        $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                        $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                        $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                        $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                        $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                        $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                        $('form.organization-field-autocomplete select[name="country"]').trigger('change');
                     })
                     .fail(function (resp) {
                         console.error(resp);
                     });
             }
         },
-        'form#create-job-form input#organization-id'
+        'form.organization-field-autocomplete input#organization-id'
     );
 
     Tag.create = function (name) {
