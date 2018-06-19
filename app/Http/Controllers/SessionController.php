@@ -215,8 +215,9 @@ class SessionController extends Controller
         );
 
         try {
-            DB::transaction(function () use ($id) {
+            $images = DB::transaction(function () use ($id) {
                 $image_list = request('image_list');
+                $image_order = request('count');
                 if (is_array($image_list)) {
                     $post = Post::find($id);
                     $dir = 'post/'.$post->id;
@@ -229,14 +230,17 @@ class SessionController extends Controller
                             $image = ImageServiceProvider::saveFileAsImage(
                                 $image,
                                 $filename = $index.time().'-'.$post->title_url.'-SportsBusinessSolutions',
-                                $directory = 'post/'.$post->id
+                                $directory = 'post/'.$post->id,
+                                array('image_order' => $image_order)
                             );
                             $images[] = $image;
                         }
                     }
                     $post->images()->saveMany($images);
+                    return $images;
                 }
             });
+            $response->setValues(array('images' => $images));
         } catch (Exception $e) {
             Log::error($e->getMessage());
             $response->setMessage("Sorry, we were unable to add the image.");

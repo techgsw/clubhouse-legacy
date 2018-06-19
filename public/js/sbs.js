@@ -1459,9 +1459,11 @@ $(document).ready(function () {
         previewsContainer: '#dropzone-previews .dz-preview-flex-container',
         clickable: ".dropzone-clickable",
         dictDefaultMessage: "",
+        params: { count: $('.dz-image-preview').length },
         init: function() {
             var thedrop = this, i, files_copy, order, index, count;
             this.on("addedfile", function(file) {
+                Dropzone.options.sessionEditDropzone.params.count += 1;
                 $(file.previewElement).attr('id', this.files.length);
                 $("#dropzone-previews .dz-preview-flex-container").sortable({
                     items:'.dz-preview',
@@ -1483,8 +1485,15 @@ $(document).ready(function () {
                     SBS.UI.displayMessage(response);
                     return false;
                 }
+                $('.dz-complete').each(function(index, image) {
+                    $(image).attr('id', response.values['images'][index].id);
+                    $(image).find('.dz-remove').remove();
+                });
             });
             this.on("errormultiple", function(files, response) {
+                $(files).each(function(file) {
+                    $(file.previewElement).remove();
+                });
                 if (response.message) {
                     SBS.UI.displayMessage(response);
                 } else {
