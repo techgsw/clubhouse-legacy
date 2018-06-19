@@ -420,15 +420,37 @@ $.valHooks.textarea = {
                     data: options,
                     limit: 10,
                     onAutocomplete: function (val) {
-                        // TODO 113
+                        // TODO Multi-select league tagging
                         // League.addToOrganization(val, $('input#organization-leagues-json'), $('.organization-leagues'));
-                        league_autocomplete.val("");
+                        // league_autocomplete.val("");
                     },
                     minLength: 2,
                 });
             });
         }
     }
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var league_type_id = null;
+                $(this).find('option').each(function (i, o) {
+                    if ($(o).html() == "League") {
+                        league_type_id = $(o).val();
+                    }
+                });
+
+                if ($(this).val() == league_type_id) {
+                    $(".organization-type-default").hide();
+                    $(".organization-type-league").show();
+                } else {
+                    $(".organization-type-league").hide();
+                    $(".organization-type-default").show();
+                }
+            }
+        },
+        'select#organization_type_id'
+    );
 
     Organization.init = function () {
         var organization_autocomplete = $('input.organization-autocomplete');
@@ -478,7 +500,7 @@ $.valHooks.textarea = {
         });
     }
 
-    //  TODO Move this
+    // TODO Move this
     $('body').on(
         {
             change: function (e, ui) {

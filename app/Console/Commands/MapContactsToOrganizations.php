@@ -10,8 +10,8 @@ use Illuminate\Console\Command;
 
 class MapContactsToOrganizations extends Command
 {
-    protected $signature = 'map-contacts-to-organizations';
-    protected $description = 'Map contacts to existing organizations based on organization name.';
+    protected $signature = 'contacts:assignOrganizations';
+    protected $description = 'Assign contacts to existing organizations based on organization name.';
     protected $organization_map = array();
     protected $success_count = 0;
     protected $failure_count = 0;

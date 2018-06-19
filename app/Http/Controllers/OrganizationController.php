@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Address;
 use App\Image;
 use App\League;
+use App\LeagueOrganization;
 use App\Organization;
+use App\OrganizationType;
 use App\Message;
 use App\Providers\ImageServiceProvider;
 use App\Providers\OrganizationServiceProvider;
@@ -51,7 +53,12 @@ class OrganizationController extends Controller
     {
         $this->authorize('create-organization');
 
+        $organization_types = OrganizationType::all();
+        $leagues = League::all();
+
         return view('organization/create', [
+            'organization_types' => $organization_types,
+            'leagues' => $leagues,
             'breadcrumb' => [
                 'Home' => '/admin',
                 'Organization' => '/admin/organization',
@@ -66,13 +73,41 @@ class OrganizationController extends Controller
      */
     public function store(Store $request)
     {
+        $league_ot = OrganizationType::where('code', 'league')->first();
+
+        $duplicate = Organization::where('name', $request->name)->first();
+        if ($duplicate) {
+            $request->session()->flash('message', new Message(
+                "Found an existing $request->name",
+                "warning",
+                $code = null,
+                $icon = "error"
+            ));
+            return redirect()->action('OrganizationController@show', [$duplicate]);
+        }
+
         try {
-            $organization = DB::transaction(function () use ($request) {
+            $organization = DB::transaction(function () use ($request, $league_ot) {
                 $organization = Organization::create([
                     'name' => $request->name,
                 ]);
                 $organization->parent_organization_id = $request->parent_organization_id;
+                $organization->organization_type_id = (int)$request->organization_type_id;
                 $organization->save();
+
+                if ($request->organization_type_id == $league_ot->id) {
+                    // Create
+                    $league = new League();
+                    $league->abbreviation = request('abbreviation') ?: $organization->name;
+                    $league->organization_id = $organization->id;
+                    $league->save();
+                } else {
+                    // Not a league
+                    $league = League::where('id', request('league_id'))->first();
+                    if ($league) {
+                        $organization->leagues()->sync([$league->id]);
+                    }
+                }
 
                 $address = new Address([
                     'name' => $request->name ?: null,
@@ -169,12 +204,18 @@ class OrganizationController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find organization']);
         }
 
+        $organization_types = OrganizationType::all();
+        $leagues = League::all();
+
         return view('organization/edit', [
             'organization' => $organization,
+            'organization_types' => $organization_types,
+            'leagues' => $leagues,
             'breadcrumb' => [
                 'Admin' => '/',
                 'Organization' => '/admin/organization',
-                "Edit {$organization->name}" => "/organization/{$organization->id}/edit"
+                $organization->name => "/organization/{$organization->id}",
+                "Edit" => "/organization/{$organization->id}/edit"
             ]
         ]);
     }
@@ -191,49 +232,101 @@ class OrganizationController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find organization']);
         }
 
-        $organization->name = request('name');
-        $organization->parent_organization_id = request('parent_organization_id');
-        $organization->save();
-
-        $address = $organization->addresses->first();
-        $address->line1 = request('line1');
-        $address->line2 = request('line2');
-        $address->city = request('city');
-        $address->state = request('state');
-        $address->postal_code = request('postal_code');
-        $address->country = request('country');
-        $address->save();
-
-        if ($image_file = request('image_url')) {
-            try {
-                if ($organization->image) {
-                    $image = ImageServiceProvider::saveFileAsImage(
-                        $image_file,
-                        $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
-                        $directory = 'organization/'.$organization->id,
-                        $options = ['update' => $organization->image]
-                    );
-                } else {
-                    $image = ImageServiceProvider::saveFileAsImage(
-                        $image_file,
-                        $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
-                        $directory = 'organization/'.$organization->id,
-                        $options = ['update' => $organization->image]
-                    );
-
-                    $organization->image()->associate($image);
-                    $organization->save();
-                }
-            } catch (Exception $e) {
-                Log::error($e->getMessage());
+        $league_ot = OrganizationType::where('code', 'league')->first();
+        $delete_league = false;
+        if (request('organization_type_id') != $league_ot->id && $organization->organization_type_id == $league_ot->id) {
+            // Confirm that league can be deleted
+            $org_league_count = LeagueOrganization::where('league_id', $organization->league->id)->count();
+            if ($org_league_count > 0) {
                 $request->session()->flash('message', new Message(
-                    "Sorry, the image failed to upload. Please try again.",
+                    "Sorry, this organization must remain a league while other organizations are filed under it.",
                     "danger",
                     $code = null,
                     $icon = "error"
                 ));
                 return back()->withInput();
             }
+            $delete_league = true;
+        }
+
+        try {
+            DB::transaction(function () use ($request, $organization, $league_ot, $delete_league) {
+                $organization->name = request('name');
+                $organization->parent_organization_id = request('parent_organization_id');
+                $organization->organization_type_id = (int)request('organization_type_id');
+                $organization->save();
+
+                if ($request->organization_type_id == $league_ot->id) {
+                    if (!$organization->league) {
+                        // Create
+                        $league = new League();
+                        $league->abbreviation = request('abbreviation') ?: $organization->name;
+                        $league->organization_id = $organization->id;
+                        $league->save();
+                    } else {
+                        // Update
+                        $organization->league->abbreviation = request('abbreviation') ?: $organization->name;
+                        $organization->league->save();
+                    }
+                } else {
+                    // Not a league
+                    if (request('league_id') == '') {
+                        $organization->leagues()->sync([]);
+                    } else {
+                        $league = League::where('id', request('league_id'))->first();
+                        if ($league) {
+                            $organization->leagues()->sync([$league->id]);
+                        }
+                    }
+                }
+
+                $address = $organization->addresses->first();
+                $address->line1 = request('line1');
+                $address->line2 = request('line2');
+                $address->city = request('city');
+                $address->state = request('state');
+                $address->postal_code = request('postal_code');
+                $address->country = request('country');
+                $address->save();
+
+                if ($image_file = request('image_url')) {
+                    if ($organization->image) {
+                        $image = ImageServiceProvider::saveFileAsImage(
+                            $image_file,
+                            $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
+                            $directory = 'organization/'.$organization->id,
+                            $options = ['update' => $organization->image]
+                        );
+                    } else {
+                        $image = ImageServiceProvider::saveFileAsImage(
+                            $image_file,
+                            $filename = UtilityServiceProvider::encode($organization->name).'-sports-business-solutions',
+                            $directory = 'organization/'.$organization->id,
+                            $options = ['update' => $organization->image]
+                        );
+
+                        $organization->image()->associate($image);
+                        $organization->save();
+                    }
+                }
+
+                if ($delete_league) {
+                    if ($league = $organization->league) {
+                        // There are already no LeagueOrganizations (checked above)
+                        // Just delete the League record
+                        $league->delete();
+                    }
+                }
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $request->session()->flash('message', new Message(
+                "Sorry, we failed to update the organization. Please try again.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
         }
 
         return redirect()->action('OrganizationController@edit', [$organization]);

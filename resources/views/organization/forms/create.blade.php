@@ -1,14 +1,37 @@
 <form id="create-organization" method="POST" action="/organization" enctype="multipart/form-data">
     <div class="row">
         {{ csrf_field() }}
-        <div class="input-field col s12">
-            <input id="name" type="text" class="{{ $errors->has('name') ? 'invalid' : '' }}" name="name" value="{{ old('name') }}" required>
+        <div class="input-field col s12 l7">
+            <input id="name" type="text" class="{{ $errors->has('name') ? 'invalid' : '' }}" name="name" value="{{ old('name') ?: '' }}" required>
             <label for="name" data-error="{{ $errors->first('name') }}">Name</label>
         </div>
-        <div class="input-field col s12">
-            <input id="parent-organization-id" type="hidden" name="parent_organization_id" value="{{ old('parent_organization_id') }}">
-            <input id="parent_organization" name="parent_organization" type="text" class="organization-autocomplete {{ $errors->has('parent_organization') ? 'invalid' : '' }}" target-input-id="parent-organization-id" value="{{ old('parent_organization') }}">
+        <div class="input-field col s12 l5">
+            <input id="parent-organization-id" type="hidden" name="parent_organization_id" value="{{ old('parent_organization_id') ?: '' }}">
+            <input id="parent_organization" name="parent_organization" type="text" class="organization-autocomplete {{ $errors->has('parent_organization') ? 'invalid' : '' }}" target-input-id="parent-organization-id" value="{{ old('parent_organization') ?: '' }}">
             <label for="parent_organization" data-error="{{ $errors->first('parent_organization') }}">Parent organization</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <select id="organization_type_id" name="organization_type_id">
+                @foreach ($organization_types as $type)
+                    <option value="{{$type->id}}" {{ old("organization_type_id") == $type->id ? "selected" : ""}}>{{ $type->name }}</option>
+                @endforeach
+            </select>
+            <label for="organization_type_id">Type</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <div class="organization-type-league hidden">
+                <input type="text" id="abbreviation" name="abbreviation" value="{{ old('abbreviation') }}">
+                <label for="abbreviation">Abbreviation</label>
+            </div>
+            <div class="organization-type-default">
+                <select id="league_id" name="league_id">
+                    <option value="" {{ !old("league_id") ? "selected" : ""}}></option>
+                    @foreach ($leagues as $l)
+                        <option value="{{$l->id}}" {{ old("league_id") == $l->id ? "selected" : ""}}>{{ $l->abbreviation }}</option>
+                    @endforeach
+                </select>
+                <label for="league_id">League</label>
+            </div>
         </div>
         <div class="col s12 m3 center-align">
             <i class="material-icons medium">add_a_photo</i>

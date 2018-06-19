@@ -25,17 +25,21 @@
             <h3>{{ $organization->name }}</h3>
             <div style="display: flex; flex-flow: row;">
                 <!-- Logo & Address -->
-                <div class="card" style="display: flex; flex-flow: row; padding: 10px 24px; margin: 12px; margin-left: 0;">
-                    @if ($organization->image)
-                        <div style="flex: 0 0 80px; text-align: center; margin: 15px 0; padding-right: 10px;">
+                <div class="card" style="flex: 1 0 auto; display: flex; flex-flow: row; padding: 10px 24px; margin: 12px; margin-left: 0;">
+                    <div style="flex: 0 0 80px; text-align: center; margin: 15px 0; padding-right: 10px;">
+                        @if ($organization->image)
                             <img src={{ $organization->image->getURL('medium') }} style="max-height: 80px;">
-                        </div>
-                    @endif
-                    @if ($organization->addresses->count() > 0)
-                        <div style="flex: 0 0 auto;">
+                        @else
+                            <div class="center-align"><i class="fa fa-building fa-2x"></i></div>
+                        @endif
+                    </div>
+                    <div style="flex: 0 0 auto;">
+                        @if ($organization->addresses->count() > 0)
                             @include('address.components.address', ['address' => $organization->addresses->first()])
-                        </div>
-                    @endif
+                        @else
+                            <p><i>No address</i></p>
+                        @endif
+                    </div>
                 </div>
                 <!-- Stats -->
                 <div class="card" style="flex: 0 0 120px; padding: 10px 24px; text-align: center; margin: 12px; text-transform: uppercase; letter-spacing: 0.6px;">

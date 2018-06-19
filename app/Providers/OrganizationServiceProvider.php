@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contact;
 use App\Organization;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class OrganizationServiceProvider extends ServiceProvider
@@ -23,8 +24,10 @@ class OrganizationServiceProvider extends ServiceProvider
 
                 $contact_organization_name = trim(strtolower($contact->organization));
                 $organization_name = trim(strtolower($organization->name));
+                Log::debug("{$contact_organization_name} == {$organization_name}?");
 
                 if ($contact_organization_name == $organization_name) {
+                    Log::debug("TRUE");
                     $contact->organizations()->attach($organization->id);
                     $match_count++;
                     return true;

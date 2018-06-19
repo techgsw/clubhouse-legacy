@@ -74,4 +74,11 @@ class Organization extends Model
 
         return $query;
     }
+
+    // Utilities
+
+    public function isLeague()
+    {
+        return $this->organizationType->code == 'league';
+    }
 }
