@@ -43,7 +43,7 @@
                 </div>
                 <!-- Stats -->
                 <div class="card" style="flex: 0 0 120px; padding: 10px 24px; text-align: center; margin: 12px; text-transform: uppercase; letter-spacing: 0.6px;">
-                    <a href="/admin/job">
+                    <a href="/admin/job?organization={{urlencode($organization->name)}}">
                         <p style="font-size: 22px; color: #EB2935; margin-bottom: 6px;">{{ $organization->jobs()->count() }}</p>
                         <p style="margin-top: 6px;">jobs</p>
                     </a>

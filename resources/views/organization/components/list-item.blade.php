@@ -16,7 +16,7 @@
                     <p style="margin: 8px 0;">{{ $organization->addresses->first()->city }}, {{ $organization->addresses->first()->state }}, {{ $organization->addresses->first()->country }}</p>
                 @endif
                 <div class="small" style="margin-top: 12px;">
-                    <a href="/admin/job" style="margin-left: 2px;" class="small flat-button black"><i class="fa fa-briefcase"></i> {{ $organization->jobs()->count() }} jobs</a>
+                    <a href="/admin/job?organization={{urlencode($organization->name)}}" style="margin-left: 2px;" class="small flat-button black"><i class="fa fa-briefcase"></i> {{ $organization->jobs()->count() }} jobs</a>
                     <a href="/admin/contact?organization_name={{urlencode($organization->name)}}" style="margin-left: 2px;" class="small flat-button black"><i class="fa fa-user"></i> {{ $organization->contacts()->count() }} contacts</a>
                     <div style="margin-top: 4px">
                         @can ('create-job')
