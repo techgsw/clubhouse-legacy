@@ -18,9 +18,6 @@
                 @can ('create-job')
                     <a href="/job/create?organization={{ $organization->id }}" class="flat-button blue"><i class="icon-left fa fa-briefcase"></i>List job</a>
                 @endcan
-                @can ('create-contact')
-                    <a href="/job/create?organization={{ $organization->id }}" class="flat-button blue"><i class="icon-left fa fa-user"></i>Add contact</a>
-                @endcan
             </div>
             <h3>{{ $organization->name }}</h3>
             <div style="display: flex; flex-flow: row;">

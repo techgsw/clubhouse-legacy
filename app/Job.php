@@ -154,7 +154,7 @@ class Job extends Model
         }
 
         if ($org = request('organization')) {
-            $jobs->where('organization', 'like', "%{$org}%");
+            $jobs->where('organization_name', 'like', "%{$org}%");
         }
 
         if ($state = request('state')) {

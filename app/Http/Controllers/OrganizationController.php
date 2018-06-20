@@ -281,6 +281,7 @@ class OrganizationController extends Controller
                 }
 
                 $address = $organization->addresses->first();
+                $address->name = request('name');
                 $address->line1 = request('line1');
                 $address->line2 = request('line2');
                 $address->city = request('city');
