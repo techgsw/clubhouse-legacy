@@ -100,8 +100,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/session', 'SessionController@store');
     Route::get('/session/{id}', 'SessionController@show');
     Route::get('/session/{id}/edit', 'SessionController@edit');
+    Route::get('/session/{id}/delete-image/{image_id}', 'SessionController@deleteImage');
     Route::post('/session/{id}', 'SessionController@update');
-    Route::post('/session/{id}/add-image', 'SessionController@addImage');
+    Route::post('/session/{id}/image', 'SessionController@addImage');
     Route::post('/session/{id}/image-order', 'SessionController@imageOrder');
 });
 

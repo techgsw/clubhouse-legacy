@@ -45,6 +45,9 @@ class ImageServiceProvider extends ServiceProvider
             $qualities = ['large', 'medium', 'small', 'share'];
         }
 
+        // Image order 
+        $image_order = isset($options['image_order']) ? (int)$options['image_order'] : 1;
+
         // Crop square from center?
         $crop_center = isset($options['cropFromCenter']) ? $options['cropFromCenter'] : false;
 
@@ -80,6 +83,7 @@ class ImageServiceProvider extends ServiceProvider
 
         $image_url = $original->saveAs($directory, $filename);
         $image = clone $original;
+        $image->order = $image_order;
         if ($crop_center) {
             $image->cropFromCenter($dim_x);
         }
