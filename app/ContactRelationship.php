@@ -10,5 +10,4 @@ class ContactRelationship extends Model
     protected $table = 'contact_relationship';
     protected $guarded = [];
     protected $hidden = [];
-
 }

@@ -18,7 +18,7 @@
         @endcan
         <a href="/job/{{ $inquiry->job->id }}" class="no-underline">
             <h6>{{ $inquiry->job->title }}</h6>
-            <p><span class="heavy">{{ $inquiry->job->organization }}</span> in {{ $inquiry->job->city }}, {{ $inquiry->job->state }}</p>
+            <p><span class="heavy">{{ $inquiry->job->organization_name }}</span> in {{ $inquiry->job->city }}, {{ $inquiry->job->state }}</p>
             <p class="small">submitted {{ $inquiry->created_at->format('F j, Y g:ia') }}</p>
         </a>
         @can ('edit-inquiry', $inquiry)

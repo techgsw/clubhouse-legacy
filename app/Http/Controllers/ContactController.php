@@ -6,8 +6,9 @@ use App\Address;
 use App\AddressContact;
 use App\Contact;
 use App\ContactRelationship;
-use App\Note;
 use App\Message;
+use App\Note;
+use App\Organization;
 use App\Http\Requests\CreateNote;
 use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
@@ -205,6 +206,20 @@ class ContactController extends Controller
         // TODO 101 allow this?
         // $contact->email = request('email');
         $contact->title = request('title');
+        // ContactOrganization relationship
+        $current_org = $contact->organizations->first();
+        $new_org = Organization::where('name', request('organization'))->first();
+        if (!empty($new_org) && (empty($current_org) || $current_org->id != $new_org->id)) {
+            $contact->organizations()->attach($new_org->id);
+            if (!empty($current_org)) {
+                $contact->organizations()->detach($current_org->id);
+            }
+        } elseif ($contact->organization == request('current_organization')) {
+            // No change, no action
+        } else {
+            dump($current_org);
+            $contact->organizations()->detach($current_org->id);
+        }
         $contact->organization = request('organization');
         $contact->job_seeking_type = request('job_seeking_type');
         $contact->job_seeking_status = request('job_seeking_status');

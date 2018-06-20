@@ -183,7 +183,7 @@
                             <div class="row">
                                 <div class="col s6">
                                     <label>Organization</label>
-                                    <input type="text" id="organization" name="organization" value="{{ $contact->organization }}">
+                                    <input type="text" id="organization" class="organization-autocomplete" name="organization" value="{{ $contact->organization }}">
                                 </div>
                                 <div class="col s6" style="padding-top: 22px;">
                                     @if ($contact->user && $contact->user->profile->current_organization && $contact->user->profile->current_organization != $contact->organization)

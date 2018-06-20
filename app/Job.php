@@ -33,6 +33,11 @@ class Job extends Model
         return $this->hasMany(Inquiry::class);
     }
 
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
     public function isNew()
     {
         $new = (new \DateTime('NOW'))->sub(new \DateInterval('P14D'));
@@ -149,7 +154,7 @@ class Job extends Model
         }
 
         if ($org = request('organization')) {
-            $jobs->where('organization', 'like', "%{$org}%");
+            $jobs->where('organization_name', 'like', "%{$org}%");
         }
 
         if ($state = request('state')) {

@@ -11,6 +11,7 @@ use App\Question;
 use App\Answer;
 use App\User;
 use App\Note;
+use App\Organization;
 use App\Providers\EmailServiceProvider;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,7 @@ class IndexController extends Controller
         }
         $image_count = Image::all()->count();
         $email_count = Email::all()->count();
+        $organization_count = Organization::all()->count();
 
         return view('admin.index', [
             'contact_count' => $contact_count,
@@ -68,6 +70,7 @@ class IndexController extends Controller
             'upcoming_follow_up_count' => $upcoming_follow_up_count,
             'image_count' => $image_count,
             'email_count' => $email_count,
+            'organization_count' => $organization_count,
         ]);
     }
 }

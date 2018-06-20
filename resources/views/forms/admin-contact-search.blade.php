@@ -8,10 +8,13 @@
             <select name="index">
                 <option value="name" {{ request('index') == "name" ? "selected" : "" }}>by name</option>
                 <option value="title" {{ request('index') == "title" ? "selected" : "" }}>by title</option>
-                <option value="organization" {{ request('index') == "organization" ? "selected" : "" }}>by organization</option>
                 <option value="email" {{ request('index') == "email" ? "selected" : "" }}>by email</option>
                 <option value="id" {{ request('index') == "id" ? "selected" : "" }}>by ID</option>
             </select>
+        </div>
+        <div class="col s12 input-field">
+            <input id="organization_name" type="text" name="organization_name" class="organization-autocomplete" value="{{ request('organization_name') }}">
+            <label for="organization_name">Organization</label>
         </div>
         <div class="col s6 m3 center-align input-field">
             <select class="browser-default" name="job_seeking_type" style="margin-top: 0; height: 36px;">

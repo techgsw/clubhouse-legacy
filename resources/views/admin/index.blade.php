@@ -65,6 +65,17 @@
     </div>
     <div class="card">
         <div class="card-content">
+            <span class="card-title"><a href="/admin/organization" class="no-underline">Organizations</a></span>
+            <p style="text-transform: uppercase;">
+                <a href="/admin/organization" class="no-underline"><span class="sbs-red-text">{{ $organization_count }}</span> organizations</a>
+            </p>
+        </div>
+        <div class="card-action">
+            <a class="no-underline" href="/organization/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> new org</span></a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
             <span class="card-title"><a href="/admin/question" class="no-underline">Questions</a></span>
             <p style="text-transform: uppercase;">
                 <a href="/admin/question" class="no-underline"><span class="sbs-red-text">{{ $question_count }}</span> questions</a>

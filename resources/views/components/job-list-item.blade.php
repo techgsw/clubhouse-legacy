@@ -7,7 +7,7 @@
         </div>
         <div class="col s9 m7">
             <h5>{{ $job->title }}</h5>
-            <p style="font-size: 16px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization }}</p>
+            <p style="font-size: 16px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization_name }}</p>
             <p style="margin: 0 0 6px 0;"><i class="fa fa-map-pin icon-left" aria-hidden="true"></i>{{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
             <p class="small tags">
                 @if ($job->isNew())

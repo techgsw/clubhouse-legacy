@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\FormatPhones::class,
+        // TODO 113 un-commend and run this after migrating (causes error otherwise)
+        // Commands\MapContactsToOrganizations::class,
         Commands\PushToS3::class,
         Commands\SendMigrationEmails::class,
         Commands\SendNewUserFollowUpEmails::class,
@@ -24,6 +26,7 @@ class Kernel extends ConsoleKernel
         Commands\SendRegistrationSummaryEmail::class,
         Commands\UploadContacts::class,
         Commands\GenerateInstagramToken::class,
+        Commands\UploadOrganizations::class
     ];
 
     /**

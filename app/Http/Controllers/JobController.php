@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Image;
 use App\Inquiry;
 use App\Job;
+use App\League;
 use App\Message;
+use App\Organization;
 use App\Providers\ImageServiceProvider;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
@@ -50,18 +52,26 @@ class JobController extends Controller
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
             'jobs' => $jobs,
-            'searching' => $searching
+            'searching' => $searching,
+            'leagues' => League::all()
         ]);
     }
 
     /**
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $this->authorize('create-job');
 
+        $organization = false;
+        if ($organization_id = (int)$request->organization) {
+            $organization = Organization::find($organization_id);
+        }
+
         return view('job/create', [
+            'organization' => $organization,
+            'leagues' => League::all(),
             'breadcrumb' => [
                 'Home' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
@@ -76,7 +86,20 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        if (!$image_file = request()->file('image_url')) {
+        $organization = Organization::find($request->organization_id);
+        if (!$organization) {
+            $request->session()->flash('message', new Message(
+                "Failed to find organization " . $request->organization_id,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
+        $image = $organization->image;
+        $alt_image_file = request()->file('alt_image_url');
+        if (is_null($image) && !$alt_image_file) {
             $request->session()->flash('message', new Message(
                 "You must upload an image.",
                 "danger",
@@ -111,7 +134,7 @@ class JobController extends Controller
         }
 
         try {
-            $job = DB::transaction(function () use ($image_file, $document, $request) {
+            $job = DB::transaction(function () use ($alt_image_file, $image, $document, $request) {
                 $rank = 0;
                 if (request('featured')) {
                     $rank = 1;
@@ -121,12 +144,12 @@ class JobController extends Controller
                     }
                 }
 
-
-                $job = Job::create([
+                $job = new Job([
                     'user_id' => Auth::user()->id,
                     'title' => request('title'),
                     'description' => request('description'),
-                    'organization' => request('organization'),
+                    'organization_name' => request('alt_organization') ?: request('organization'),
+                    'organization_id' => request('organization_id'),
                     'league' => request('league'),
                     'job_type' => request('job_type'),
                     'city' => request('city'),
@@ -137,11 +160,15 @@ class JobController extends Controller
                     'document' => $document ?: null,
                 ]);
 
-                $image = ImageServiceProvider::saveFileAsImage(
-                    $image_file,
-                    $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
-                    $directory = 'job/'.$job->id
-                );
+                // If no image file is given, we're reusing the organization's image
+                if ($alt_image_file) {
+                    // Override image
+                    $image = ImageServiceProvider::saveFileAsImage(
+                        $alt_image_file,
+                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
+                        $directory = 'job/'.$job->id
+                    );
+                }
 
                 $job->image_id = $image->id;
                 $job->save();
@@ -198,7 +225,7 @@ class JobController extends Controller
             'breadcrumb' => [
                 'Home' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
-                "$job->title with $job->organization" => "/job/{$job->id}"
+                "$job->title with $job->organization_name" => "/job/{$job->id}"
             ]
         ]);
     }
@@ -405,11 +432,18 @@ class JobController extends Controller
         }
         $this->authorize('edit-job', $job);
 
+        $reuse_organization_fields =
+            $job->organization_name == $job->organization->name &&
+            $job->image_id == $job->organization->image_id;
+
         return view('job/edit', [
             'job' => $job,
+            'leagues' => League::all(),
+            'reuse_organization_fields' => $reuse_organization_fields,
             'breadcrumb' => [
                 'Home' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                "{$job->organization_name} - {$job->title}" => "/job/{$job->id}",
                 "Edit" => "/job/{$job->id}/edit"
             ]
         ]);
@@ -424,15 +458,64 @@ class JobController extends Controller
     {
         $job = Job::find($id);
 
+        $organization = Organization::find($request->organization_id);
+        if (!$organization) {
+            $request->session()->flash('message', new Message(
+                "Failed to find organization " . $request->organization_id,
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
+        if (request('reuse_organization_fields') && !$job->organization->image) {
+            $request->session()->flash('message', new Message(
+                "The selected organization does not have an image to use. Please upload one.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return redirect()->back();
+        }
+
         try {
-            $job = DB::transaction(function () use ($job) {
+            $job = DB::transaction(function () use ($job, $organization, $request) {
+                $job->organization_id = $organization->id;
+
+                if (request('reuse_organization_fields')) {
+                    // Already confirmed the org has an image
+                    $organization_name = $organization->name;
+                    $job->image_id = $organization->image_id;
+                    $job->save();
+                } else {
+                    $organization_name = request('organization_name') ?: $organization->name;
+                    if ($image_file = request()->file('image_url')) {
+                        if ($job->image) {
+                            $image = ImageServiceProvider::saveFileAsImage(
+                                $image_file,
+                                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
+                                $directory = 'job/'.$job->id
+                            );
+                        } else {
+                            $image = ImageServiceProvider::saveFileAsImage(
+                                $image_file,
+                                $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
+                                $directory = 'job/'.$job->id
+                            );
+                        }
+                        $job->image_id = $image->id;
+                        $job->save();
+                    }
+                }
+
                 $job->title = request('title');
                 $job->featured = request('featured') ? true : false;
                 if (!$job->featured) {
                     $job->rank = 0;
                 }
                 $job->description = request('description');
-                $job->organization = request('organization');
+                $job->organization_name = $organization_name;
                 $job->league = request('league');
                 $job->job_type = request('job_type');
                 $job->city = request('city');
@@ -454,25 +537,6 @@ class JobController extends Controller
                     $job->document = $doc->store('document', 'public');
                 }
 
-                if ($image_file = request()->file('image_url')) {
-                    if ($job->image) {
-                        $image = ImageServiceProvider::saveFileAsImage(
-                            $image_file,
-                            $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
-                            $directory = 'job/'.$job->id,
-                            $options = ['update' => $job->image]
-                        );
-                    } else {
-                        $image = ImageServiceProvider::saveFileAsImage(
-                            $image_file,
-                            $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization)).'-SportsBusinessSolutions',
-                            $directory = 'job/'.$job->id
-                        );
-                        $job->image_id = $image->id;
-                        $job->save();
-                    }
-                }
-
                 $job->edited_at = new \DateTime('NOW');
                 $job->save();
 
@@ -489,6 +553,12 @@ class JobController extends Controller
             return redirect()->back();
         }
 
-        return redirect()->action('JobController@show', [$job]);
+        $request->session()->flash('message', new Message(
+            "Job updated",
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
+        return redirect()->back();
     }
 }

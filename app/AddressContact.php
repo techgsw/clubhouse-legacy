@@ -10,5 +10,4 @@ class AddressContact extends Model
     protected $table = 'address_contact';
     protected $guarded = [];
     protected $hidden = [];
-
 }

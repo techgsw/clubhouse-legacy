@@ -20,7 +20,9 @@ $.valHooks.textarea = {
         unsaved: false
     };
     var Instagram = {};
+    var League = {};
     var Note = {};
+    var Organization = {};
     var Tag = {
         map: {}
     };
@@ -287,7 +289,7 @@ $.valHooks.textarea = {
                     ContactRelationship.map[full_name] = u.id;
                     users[full_name] = "";
                 });
-                var x = admin_user_autocomplete.autocomplete({
+                admin_user_autocomplete.autocomplete({
                     data: users,
                     limit: 10,
                     onAutocomplete: function (val) {
@@ -356,6 +358,191 @@ $.valHooks.textarea = {
             data: data
         });
     }
+
+    // Job
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var target_id = $(this).attr('show-hide-target-id');
+                var target = $("#"+target_id);
+                if (target.length === 0) {
+                    return;
+                }
+
+                target.toggleClass('hidden');
+            }
+        },
+        'input[type="checkbox"].show-hide'
+    );
+
+    League.create = function (name) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/league',
+            'data': {
+                'name': name,
+                '_token': $('form#create-league input[name="_token"]').val()
+            }
+        });
+    }
+
+    League.getOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/organization/leagues',
+            'data': {}
+        });
+    }
+
+    League.addToOrganization = function (name, input, view) {
+        // Append to input
+        var leagues = JSON.parse(input.val());
+        leagues.push(name);
+        $(input).val(JSON.stringify(leagues));
+        // Append to view
+        var league =
+            `<span class="flat-button gray small league">
+                <button type="button" name="button" class="x" league-name=${name}>&times;</button>${name}
+            </span>`;
+        $(view).append(league);
+    }
+
+    League.removeFromOrganization = function (name, input, view) {
+        // Remove from input
+        var leagues = JSON.parse(input.val());
+        var i = leagues.indexOf(name);
+        if (i > -1) {
+            leagues.splice(i, 1);
+        }
+        input.val(JSON.stringify(leagues));
+        // Remove from view
+        var button = $('button[league-name="'+name+'"]');
+        if (button) {
+            button.parent().remove();
+        }
+    }
+
+    League.init = function () {
+        var league_autocomplete = $('input.league-autocomplete');
+        if (league_autocomplete.length > 0) {
+            League.getOptions().done(function (data) {
+                League.map = {};
+                var options = data.leagues.reduce(function (options, league, key) {
+                    League.map[league.abbreviation] = league.id;
+                    options[league.abbreviation] = null;
+                    return options;
+                }, {});
+                var x = league_autocomplete.autocomplete({
+                    data: options,
+                    limit: 10,
+                    onAutocomplete: function (val) {
+                        // TODO Multi-select league tagging
+                        // League.addToOrganization(val, $('input#organization-leagues-json'), $('.organization-leagues'));
+                        // league_autocomplete.val("");
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var league_type_id = null;
+                $(this).find('option').each(function (i, o) {
+                    if ($(o).html() == "League") {
+                        league_type_id = $(o).val();
+                    }
+                });
+
+                if ($(this).val() == league_type_id) {
+                    $(".organization-type-default").hide();
+                    $(".organization-type-league").show();
+                } else {
+                    $(".organization-type-league").hide();
+                    $(".organization-type-default").show();
+                }
+            }
+        },
+        'select#organization_type_id'
+    );
+
+    Organization.init = function () {
+        var organization_autocomplete = $('input.organization-autocomplete');
+        if (organization_autocomplete.length > 0) {
+            var target_input_id = organization_autocomplete.attr('target-input-id');
+            var target_input = $('input#'+target_input_id);
+            Organization.getOptions().done(function (data) {
+                Organization.map = {};
+                var options = data.organizations.reduce(function (options, org, key) {
+                    Organization.map[org.name] = org.id;
+                    options[org.name] = null;
+                    return options;
+                }, {});
+                // Initialize autocompletes
+                organization_autocomplete.autocomplete({
+                    data: options,
+                    limit: 10,
+                    onAutocomplete: function (name) {
+                        target_input.val(Organization.map[name]);
+                        target_input.trigger('change');
+                    },
+                    minLength: 2,
+                });
+            });
+            // Empty the target input if the field is emptied
+            organization_autocomplete.on('change', function (e, ui) {
+                if ($(this).val() === '') {
+                    target_input.val('');
+                }
+            });
+        }
+    }
+
+    Organization.getOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/organization/all',
+            'data': {}
+        });
+    }
+
+    Organization.getPreview = function (id, quality) {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/organization/'+id+'/preview?quality='+quality,
+            'data': {}
+        });
+    }
+
+    // TODO Move this
+    $('body').on(
+        {
+            change: function (e, ui) {
+                var org_id = parseInt($(this).val());
+                $('img#organization-image').attr('src', '/images/progress.gif');
+                $('div.organization-image-preview').removeClass('hidden');
+                Organization.getPreview(org_id, 'medium')
+                    .done(function (resp) {
+                        $('img#organization-image').attr('src', resp.image_url);
+                        $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                        $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                        $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                        $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                        $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                        $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                        $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                        $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+                    })
+                    .fail(function (resp) {
+                        console.error(resp);
+                    });
+            }
+        },
+        'form.organization-field-autocomplete input#organization-id'
+    );
 
     Tag.create = function (name) {
         return $.ajax({
@@ -1096,6 +1283,15 @@ $.valHooks.textarea = {
     $('body').on(
         {
             change: function (e, ui) {
+                // TODO 113
+            }
+        },
+        'input[type="checkbox"].show-hide'
+    );
+
+    $('body').on(
+        {
+            change: function (e, ui) {
                 var form = $(this).parents('form');
                 form.submit();
             }
@@ -1209,6 +1405,8 @@ $.valHooks.textarea = {
         Blog.init();
         Instagram.init();
         Note.init();
+        League.init();
+        Organization.init();
         Video.init();
         Tag.init();
         ContactRelationship.init();

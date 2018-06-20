@@ -32,6 +32,11 @@ class Contact extends Model
         return $this->belongsToMany(Address::class);
     }
 
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class);
+    }
+
     public function relationships()
     {
         return $this->belongsToMany('App\User', 'contact_relationship');
@@ -164,9 +169,6 @@ class Contact extends Model
             $term = (int)$term;
             $contacts = $contacts->where('contact.id', $term);
             break;
-        case 'organization':
-            $contacts = $contacts->where('contact.organization', 'like', "%$term%");
-            break;
         case 'title':
             $contacts = $contacts->where('contact.title', 'like', "%$term%");
             break;
@@ -177,6 +179,9 @@ class Contact extends Model
         default:
             $contacts = $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$term%");
         }
+
+        $organization_name = $request->query->get('organization_name');
+        $contacts = $contacts->where('contact.organization', $organization_name);
 
         $sort = $request->query->get('sort');
         switch ($sort) {

@@ -2,10 +2,7 @@
 
 use App\Post;
 
-/**
- * Static
- */
-
+// Static
 Route::get('/', function () {
     return view('index');
 });
@@ -79,16 +76,12 @@ Route::get('/videos', function () {
     return view('videos');
 });
 
-/**
- * Contact
- */
+// Contact
 Route::get('/contact', 'ContactUsController@index');
 Route::post('/contact', 'ContactUsController@send');
 Route::get('/contact/thanks', 'ContactUsController@thanks');
 
-/**
- * Auth
- */
+// Auth
 Route::group(['namespace' => 'Auth'], function () {
     Route::get('login', 'LoginController@login')->name('login');
     Route::get('logout', 'LoginController@logout')->name('logout');
@@ -96,10 +89,7 @@ Route::group(['namespace' => 'Auth'], function () {
 });
 Auth::routes();
 
-/**
- * Archives
-*/
-
+// Archives
 Route::group(['middleware' => ['web']], function () {
     Route::get('/archives', 'ArchivesController@index');
     Route::get('/session', function () {
@@ -115,10 +105,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/session/{id}/image-order', 'SessionController@imageOrder');
 });
 
-/**
- * Blog
- */
-
+// Blog
 Route::group(['middleware' => ['web']], function () {
     Route::get('/blog', 'BlogController@index');
     Route::get('/blog/{id}', 'BlogController@show');
@@ -132,21 +119,17 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/post/{id}', 'PostController@update');
 
     // Dynamic routes for post slugs
-    // TODO can we cache this query!?
-    $posts = Post::all();
-    foreach ($posts as $post) {
+    Post::each(function ($post) {
         Route::get('/'.$post->title_url, function() {
             return redirect('/post/'.$this->current->uri);
         });
-    }
+    });
 
     Route::post('/tag', 'TagController@store');
     Route::get('/tag/all', 'TagController@all');
 });
 
-/**
- * User
- */
+// User
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/user/{id}', 'UserController@show');
     Route::get('/user/{id}/jobs', 'UserController@jobs');
@@ -159,9 +142,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/user/{id}/create-note', 'ProfileController@createNote');
 });
 
-/**
- * Contact
- */
+// Contact
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/contact/create', 'ContactController@create');
     Route::post('/contact', 'ContactController@store');
@@ -176,16 +157,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 });
 
-/**
- * Notes
- */
+// Notes
 Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/note/{id}/delete', 'NoteController@delete');
 });
 
-/**
- * Job Board
- */
+// Jobs
 Route::group(['middleware' => ['web']], function () {
     Route::get('/job', 'JobController@index');
     Route::get('/job/create', 'JobController@create');
@@ -213,9 +190,21 @@ Route::group(['middleware' => ['web']], function () {
     });
 });
 
-/**
- * Q&A
- */
+// Organizations
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/admin/organization', 'OrganizationController@index');
+    Route::get('/organization/create', 'OrganizationController@create');
+    Route::post('/organization', 'OrganizationController@store');
+    Route::get('/organization/all', 'OrganizationController@all');
+    Route::get('/organization/leagues', 'OrganizationController@leagues');
+    Route::get('/organization/{id}', 'OrganizationController@show');
+    Route::get('/organization/{id}/edit', 'OrganizationController@edit');
+    Route::get('/organization/{id}/preview', 'OrganizationController@preview');
+    Route::post('/organization/{id}', 'OrganizationController@update');
+    Route::get('/organization/{id}/match-contacts', 'OrganizationController@matchContacts');
+});
+
+// Q&A
 Route::group(['middleware' => ['web']], function () {
     Route::get('/question', 'QuestionController@index');
     Route::get('/question/create', 'QuestionController@create');
@@ -236,25 +225,19 @@ Route::group(['middleware' => ['web']], function () {
     });
 });
 
-/**
- * Images
- */
+// Images
 Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/image', 'ImageController@index');
     Route::get('/image/{id}', 'ImageController@show');
 });
 
-/**
- * Email
- */
+// Email
 Route::group(['middleware' => ['web']], function () {
     Route::get('/email', 'EmailController@index');
     Route::post('/email/update', 'EmailController@update');
 });
 
-/**
- * Admin
- */
+// Admin
 Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function () {
     Route::get('/admin', 'IndexController@index');
     Route::get('/admin/contact', 'ContactController@index');
@@ -266,7 +249,5 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function 
     Route::get('/admin/follow-up', 'FollowUpController@index');
 });
 
-/**
- * Social media
- */
+// Social Media
 Route::get('/social/instagram', 'SocialMediaController@instagram');

@@ -1,6 +1,6 @@
 <!-- /resources/views/admin/contact.blade.php -->
 @extends('layouts.admin')
-@section('title', 'Users')
+@section('title', 'Contacts')
 @section('content')
 @include('forms.admin-contact-search')
 <div class="row">

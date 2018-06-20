@@ -502,6 +502,10 @@ a.hover-outline:hover {
     border: 2px solid #F2F2F2;
 }
 
+address {
+    font-style: normal;
+}
+
 .flat-button {
     background: none !important;
     border: 2px solid #555;
@@ -670,6 +674,11 @@ hr {
     color: #CCC;
 }
 
+/* Autocomplete */
+.autocomplete-content {
+    position: absolute;
+}
+
 /**
  * Buttons
  */
@@ -814,6 +823,9 @@ textarea:focus,
 
 .input-field input:focus:not([readonly]) + label {
     color: #9e9e9e !important;
+}
+.input-field>p>label {
+    top: 0;
 }
 
 .switch label input[type=checkbox]:checked + .lever {

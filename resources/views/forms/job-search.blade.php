@@ -21,14 +21,9 @@
                 <label class="active">League</label>
                 <select name="league" class="browser-default">
                     <option value="all" {{ (!request('league') || request('league') == 'all') ? "selected" : "" }}>All</option>
-                    <option value="mlb" {{ request('league') == "mlb" ? "selected" : "" }}>MLB</option>
-                    <option value="mls" {{ request('league') == "mls" ? "selected" : "" }}>MLS</option>
-                    <option value="nba" {{ request('league') == "nba" ? "selected" : "" }}>NBA</option>
-                    <option value="ncaa" {{ request('league') == "ncaa" ? "selected" : "" }}>NCAA</option>
-                    <option value="nfl" {{ request('league') == "nfl" ? "selected" : "" }}>NFL</option>
-                    <option value="nhl" {{ request('league') == "nhl" ? "selected" : "" }}>NHL</option>
-                    <option value="wnba" {{ request('league') == "wnba" ? "selected" : "" }}>WNBA</option>
-                    <option value="other" {{ request('league') == "other" ? "selected" : "" }}>Other</option>
+                    @foreach ($leagues as $league)
+                        <option value="{{ $league->abbreviation }}" {{ request('league') == $league->abbreviation ? "selected" : "" }}>{{ $league->abbreviation }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col s4 input-field">
