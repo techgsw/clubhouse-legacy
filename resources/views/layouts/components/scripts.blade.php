@@ -20,4 +20,4 @@
 <script type="text/javascript" src="/js/dropzone.js"></script>
 <script type="text/javascript" src="/js/moment.min.js"></script>
 <script type="text/javascript" src="/js/daterangepicker.js"></script>
-<script type="text/javascript" src="/js/sbs.js?v=21"></script>
+<script type="text/javascript" src="/js/sbs.js?v=22"></script>
