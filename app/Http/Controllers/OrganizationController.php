@@ -358,7 +358,7 @@ class OrganizationController extends Controller
                 'state' => $organization->addresses->first()->state,
                 'country' => $organization->addresses->first()->country
             ],
-            'image_url' => $organization->image->getURL($quality)
+            'image_url' => $organization->image ? $organization->image->getURL($quality) : null
         ]);
     }
 
