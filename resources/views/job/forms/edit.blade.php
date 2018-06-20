@@ -42,7 +42,7 @@
                 </div>
                 <div class="input-field col s12">
                     <p>
-                        <input type="checkbox" class="show-hide" show-hide-target-id="organization-fields" name="reuse_organization_fields" id="reuse_organization_fields" value="1" checked />
+                        <input type="checkbox" class="show-hide" show-hide-target-id="organization-fields" name="reuse_organization_fields" id="reuse_organization_fields" value="1" {{ $reuse_organization_fields ? "checked" : ''}} />
                         <label for="reuse_organization_fields">Use organization name and logo</label>
                     </p>
                 </div>

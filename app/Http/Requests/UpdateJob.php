@@ -29,7 +29,7 @@ class UpdateJob extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'organization' => 'required',
+            'organization_name' => 'required',
             'city' => 'required',
             'state' => 'required',
             'document' => 'mimes:pdf|max:2000',
@@ -47,7 +47,7 @@ class UpdateJob extends FormRequest
         return [
             'title.required' => 'Title is a required field',
             'description.required' => 'Description is a required field',
-            'organization.required' => 'Organization is a required field',
+            'organization_name.required' => 'Organization is a required field',
             'city.required' => 'City is a required field',
             'state.required' => 'State is a required field',
             'document.mimes' => 'Document must be a PDF',

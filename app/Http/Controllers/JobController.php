@@ -148,7 +148,7 @@ class JobController extends Controller
                     'user_id' => Auth::user()->id,
                     'title' => request('title'),
                     'description' => request('description'),
-                    'organization' => request('alt_organization') ?: request('organization'),
+                    'organization_name' => request('alt_organization') ?: request('organization'),
                     'organization_id' => request('organization_id'),
                     'league' => request('league'),
                     'job_type' => request('job_type'),
@@ -432,8 +432,9 @@ class JobController extends Controller
         }
         $this->authorize('edit-job', $job);
 
-        $reuse_organization_fields = $job->organization_name == $job->organization->name
-            && $job->image_id = $job->organization->image_id;
+        $reuse_organization_fields =
+            $job->organization_name == $job->organization->name &&
+            $job->image_id == $job->organization->image_id;
 
         return view('job/edit', [
             'job' => $job,
@@ -494,8 +495,7 @@ class JobController extends Controller
                             $image = ImageServiceProvider::saveFileAsImage(
                                 $image_file,
                                 $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
-                                $directory = 'job/'.$job->id,
-                                $options = ['update' => $job->image]
+                                $directory = 'job/'.$job->id
                             );
                         } else {
                             $image = ImageServiceProvider::saveFileAsImage(
@@ -503,9 +503,9 @@ class JobController extends Controller
                                 $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
                                 $directory = 'job/'.$job->id
                             );
-                            $job->image_id = $image->id;
-                            $job->save();
                         }
+                        $job->image_id = $image->id;
+                        $job->save();
                     }
                 }
 
