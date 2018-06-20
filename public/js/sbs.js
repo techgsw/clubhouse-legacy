@@ -1391,6 +1391,11 @@ $(document).ready(function () {
 
                 thedrop.processQueue();
             });
+            this.on("removedfile", function(file) {
+                $('.dz-preview').each(function(index, element) {
+                    $(element).attr('id', (index + 1));
+                });
+            });
             this.on("addedfile", function(file) {
                 $(file.previewElement).attr('id', this.files.length);
                 $("#dropzone-previews .dz-preview-flex-container").sortable({
