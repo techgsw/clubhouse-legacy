@@ -181,7 +181,9 @@ class Contact extends Model
         }
 
         $organization_name = $request->query->get('organization_name');
-        $contacts = $contacts->where('contact.organization', $organization_name);
+        if (!empty($organization_name)) {
+            $contacts = $contacts->where('contact.organization', $organization_name);
+        }
 
         $sort = $request->query->get('sort');
         switch ($sort) {
