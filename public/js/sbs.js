@@ -1349,6 +1349,34 @@ $.valHooks.textarea = {
         '#dropzone-previews .dz-preview-flex-container'
     );
 
+    // Session Image Remove 
+    $('body').on(
+        {
+            click: function() {
+                var post_id = $('#session-edit-dropzone').attr('data-post-id'),
+                    image_id = $(this).attr('data-image-id')
+                    element = $(this);
+
+                $.ajax({
+                    type: "GET",
+                    url: "/session/" + post_id + "/delete-image/" + image_id
+                })
+                .done(function(response) {
+                    SBS.UI.displayMessage(response);
+
+                    if (response.type == "success") {
+                        $(element).parent().remove();
+                    }
+                })
+                .fail(function() {
+                })
+                .always(function() {
+                });
+            }
+        },
+        '#dropzone-previews .dz-preview-flex-container .image-remove-link'
+    );
+
     /**
      * PDF viewer modal.
      *
@@ -1561,6 +1589,11 @@ $(document).ready(function () {
 
                 thedrop.processQueue();
             });
+            this.on("removedfile", function(file) {
+                $('.dz-preview').each(function(index, element) {
+                    $(element).attr('id', (index + 1));
+                });
+            });
             this.on("addedfile", function(file) {
                 $(file.previewElement).attr('id', this.files.length);
                 $("#dropzone-previews .dz-preview-flex-container").sortable({
@@ -1629,9 +1662,11 @@ $(document).ready(function () {
         previewsContainer: '#dropzone-previews .dz-preview-flex-container',
         clickable: ".dropzone-clickable",
         dictDefaultMessage: "",
+        params: { count: $('.dz-image-preview').length },
         init: function() {
             var thedrop = this, i, files_copy, order, index, count;
             this.on("addedfile", function(file) {
+                Dropzone.options.sessionEditDropzone.params.count += 1;
                 $(file.previewElement).attr('id', this.files.length);
                 $("#dropzone-previews .dz-preview-flex-container").sortable({
                     items:'.dz-preview',
@@ -1653,10 +1688,15 @@ $(document).ready(function () {
                     SBS.UI.displayMessage(response);
                     return false;
                 }
-
-                window.location = response.url;
+                $('.dz-complete').each(function(index, image) {
+                    $(image).attr('id', response.values['images'][index].id);
+                    $(image).find('.dz-remove').remove();
+                });
             });
             this.on("errormultiple", function(files, response) {
+                $(files).each(function(file) {
+                    $(file.previewElement).remove();
+                });
                 if (response.message) {
                     SBS.UI.displayMessage(response);
                 } else {

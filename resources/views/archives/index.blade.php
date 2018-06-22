@@ -37,7 +37,7 @@
                                     <div class="overlay">
                                         <span class="overlay-text">{{ $session->title }}</span>
                                     </div>
-                                    <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ $image->getURL() }}" />
+                                    <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ $image->getURL('large') }}" />
                                 </div>
                             @endforeach
                         @endforeach

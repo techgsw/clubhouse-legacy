@@ -9,19 +9,22 @@ class Message
     protected $message;
     protected $type;
     protected $url;
+    protected $values;
 
     public function __construct(
         string $message,
         string $type,
         int $code = null,
         string $icon = null,
-        string $url = null
+        string $url = null,
+        array $values = array()
     ) {
         $this->code = $code;
         $this->icon = $icon;
         $this->message = $message;
         $this->type = $type;
         $this->url = $url;
+        $this->values = $values;
     }
 
     public function getCode()
@@ -79,13 +82,33 @@ class Message
         return $this;
     }
 
-    public function toArray()
+    public function getValues()
     {
-        foreach ($this as $key => $value) {
+        return $this->values;
+    }
+
+    public function setValues(array $values)
+    {
+        $this->values= $values;
+        return $this;
+    }
+
+    public function toArray($property = null)
+    {
+        $input = (is_null($property)) ? $this : $property;
+
+        $array = array();
+        foreach ($input as $key => $value) {
             if (gettype($value) == "object" && get_class($value) == "DateTime") {
                 $array[$key] = $value->format('Y-m-d H:i:s');
             } else if (gettype($value) == "boolean") {
                 $array[$key] = ($value) ? 1 : 0;
+            } else if (gettype($value) == "array") {
+                $array[$key] = $this->toArray($value);
+            } else if (gettype($value) == "object" && is_a($value, 'Illuminate\Database\Eloquent\Model')) {
+                $array[$key] = $this->toArray($value->toArray());
+            } else if (gettype($value) == "object") {
+                $array[$key] = $this->toArray($value);
             } else if (gettype($value) != "object" && gettype($value) != "array") {
                 $array[$key] = $value;
             }
