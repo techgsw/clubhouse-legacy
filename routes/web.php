@@ -158,6 +158,14 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/contact/{id}/create-note', 'ContactController@createNote');
 });
 
+// Mentor
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('/mentor', 'MentorController@index');
+    Route::get('/mentor/{id}', 'MentorController@show');
+    Route::get('/contact/{id}/mentor', 'MentorController@edit');
+    Route::post('/mentor/{id}', 'MentorController@update');
+});
+
 // Notes
 Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/note/{id}/delete', 'NoteController@delete');

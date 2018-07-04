@@ -203,5 +203,16 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-email', function ($user) {
             return $user->hasAccess('email_edit');
         });
+
+        // Mentor
+        Gate::define('view-mentor', function ($auth_user) {
+            return $auth_user->hasAccess('mentor_show');
+        });
+        Gate::define('edit-mentor', function ($auth_user) {
+            return $auth_user->hasAccess('mentor_edit');
+        });
+        Gate::define('create-mentor', function ($auth_user) {
+            return $auth_user->hasAccess('mentor_create');
+        });
     }
 }

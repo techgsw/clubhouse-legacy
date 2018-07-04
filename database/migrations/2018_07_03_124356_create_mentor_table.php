@@ -16,7 +16,8 @@ class CreateMentorTable extends Migration
         Schema::create('mentor', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('contact_id')->unsigned();
-            $table->string('description');
+            $table->boolean('active')->default(true);
+            $table->string('description')->default("");
             $table->timestamps();
         });
 

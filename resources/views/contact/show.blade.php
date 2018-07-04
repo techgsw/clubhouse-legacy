@@ -21,6 +21,11 @@
         @can ('view-contact')
             <li class="tab"><a class="active" href="/contact/{{ $contact->id }}">Contact</a></li>
         @endcan
+        @can ('view-mentor')
+            @if ($contact->mentor)
+                <li class="tab"><a href="/contact/{{ $contact->id }}/mentor">Mentor</a></li>
+            @endif
+        @endcan
         @if ($contact->user)
             <li class="tab"><a href="/user/{{ $contact->user->id }}/profile">Profile</a></li>
             <li class="tab"><a href="/user/{{ $contact->user->id }}/jobs">Jobs</a></li>
@@ -132,6 +137,14 @@
                                 @endif
                             </div>
                         </div>
+                        @can ('create-mentor')
+                            <div class="input-field col s12">
+                                <p>
+                                    <input type="checkbox" name="mentor" id="mentor" value="1" {{ is_null(old('mentor')) ? ($contact->mentor ? "checked" : "") : (old('mentor') ? "checked" : "") }} />
+                                    <label for="mentor">Mentor</label>
+                                </p>
+                            </div>
+                        @endcan
                     </div>
                 </li>
             </ul>
