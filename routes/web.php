@@ -143,6 +143,13 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/user/{id}/create-note', 'ProfileController@createNote');
 });
 
+
+// Checkout
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('/checkout', 'CheckoutController@index');
+    Route::post('/checkout', 'ProfileController@store');
+});
+
 // Contact
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/contact/create', 'ContactController@create');
