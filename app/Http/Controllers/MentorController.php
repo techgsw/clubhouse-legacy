@@ -9,6 +9,21 @@ use Illuminate\Support\Facades\Auth;
 
 class MentorController extends Controller
 {
+    public function index(Request $request)
+    {
+        $this->authorize('view-mentor');
+
+        $mentors = Mentor::with('contact')->paginate(12);
+
+        return view('mentor/index', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Mentorship' => "/mentor"
+            ],
+            'mentors' => $mentors
+        ]);
+    }
+
     public function show(Request $request, $id)
     {
         $mentor = Mentor::find($id);
