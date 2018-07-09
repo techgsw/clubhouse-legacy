@@ -162,8 +162,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/mentor', 'MentorController@index');
     Route::get('/mentor/{id}', 'MentorController@show');
-    Route::get('/contact/{id}/mentor', 'MentorController@edit');
     Route::post('/mentor/{id}', 'MentorController@update');
+    Route::post('/mentor/{id}/add-tag', 'MentorController@addTag');
+    Route::post('/mentor/{id}/remove-tag', 'MentorController@removeTag');
+    Route::get('/contact/{id}/mentor', 'MentorController@edit');
 });
 
 // Notes
@@ -203,6 +205,9 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/organization', 'OrganizationController@index');
     Route::get('/organization/create', 'OrganizationController@create');
+    Route::get('/organization', function () {
+        return redirect('/admin/organization');
+    });
     Route::post('/organization', 'OrganizationController@store');
     Route::get('/organization/all', 'OrganizationController@all');
     Route::get('/organization/leagues', 'OrganizationController@leagues');

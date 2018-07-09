@@ -21,6 +21,7 @@ $.valHooks.textarea = {
     };
     var Instagram = {};
     var League = {};
+    var Mentor = {};
     var Note = {};
     var Organization = {};
     var Tag = {
@@ -300,6 +301,28 @@ $.valHooks.textarea = {
                 });
             });
         }
+    }
+
+    Mentor.addTag = function (mentor_id, name) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/mentor/'+mentor_id+'/add-tag',
+            'data': {
+                'name': name,
+                '_token': $('form#mentor-tag input[name="_token"]').val()
+            }
+        });
+    }
+
+    Mentor.removeTag = function (mentor_id, name) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/mentor/'+mentor_id+'/remove-tag',
+            'data': {
+                'name': name,
+                '_token': $('form#mentor-tag input[name="_token"]').val()
+            }
+        });
     }
 
     Note.init = function () {
@@ -591,9 +614,48 @@ $.valHooks.textarea = {
         }
     }
 
+    Tag.addToMentor = function (mentor_id, name, view) {
+        console.log("addToMentor: ", mentor_id, name);
+        Mentor.addTag(mentor_id, name).done(function (resp) {
+            console.log(resp);
+            if (!resp.success) {
+                console.error("Failed to add tag to mentor");
+            }
+            // Append to view
+            var tag =
+                `<span class="flat-button gray small tag">
+                    <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
+                </span>`;
+            $(view).append(tag);
+        });
+    }
+
+    Tag.removeFromMentor = function (mentor_id, name, view) {
+        Mentor.addTag(mentor_id, slug).done(function (resp) {
+            console.log(resp);
+            if (!resp.success) {
+                console.error("Failed to add tag to mentor");
+            }
+            // Remove from view
+            var button = $('button[tag-name="'+name+'"]');
+            if (button) {
+                button.parent().remove();
+            }
+        });
+    }
+
     Tag.init = function () {
         var tag_autocomplete = $('input.tag-autocomplete');
         if (tag_autocomplete.length > 0) {
+            // Target to tag. Defaults to post.
+            var tag_target = tag_autocomplete.attr('tag-target')
+                ? tag_autocomplete.attr('tag-target')
+                : 'post';
+            if (tag_target === 'mentor') {
+                var mentor_id = tag_autocomplete.attr('mentor-id');
+            }
+            console.log(mentor_id);
+
             Tag.getOptions().done(function (data) {
                 var tags = {}
                 data.forEach(function (t) {
@@ -604,7 +666,11 @@ $.valHooks.textarea = {
                     data: tags,
                     limit: 10,
                     onAutocomplete: function (val) {
-                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
+                        if (tag_target === 'mentor') {
+                            Tag.addToMentor(mentor_id, val, $('div.mentor-tags'));
+                        } else if (tag_target === 'post') {
+                            Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
+                        }
                         tag_autocomplete.val("");
                     },
                     minLength: 2,
@@ -701,7 +767,7 @@ $.valHooks.textarea = {
                 e.preventDefault();
             }
         },
-        'form#create-tag'
+        'form#create-tag, form#mentor-tag'
     )
 
     $('body').on(
@@ -1349,7 +1415,7 @@ $.valHooks.textarea = {
         '#dropzone-previews .dz-preview-flex-container'
     );
 
-    // Session Image Remove 
+    // Session Image Remove
     $('body').on(
         {
             click: function() {

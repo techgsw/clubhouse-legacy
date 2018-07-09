@@ -21,6 +21,15 @@ class CreateMentorTable extends Migration
             $table->timestamps();
         });
 
+        Schema::create('mentor_tag', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('mentor_id')->unsigned();
+            $table->string('tag_name');
+            $table->foreign('mentor_id')->references('id')->on('mentor');
+            $table->foreign('tag_name')->references('name')->on('tag');
+            $table->timestamps();
+        });
+
         DB::table('resource')->insert(
             array(
                 'code' => 'mentor_show',
@@ -84,6 +93,7 @@ class CreateMentorTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('mentor_tag');
         Schema::dropIfExists('mentor');
         DB::table('resource_role')->where('resource_code', 'mentor_show')->delete();
         DB::table('resource')->where('code', 'mentor_show')->delete();

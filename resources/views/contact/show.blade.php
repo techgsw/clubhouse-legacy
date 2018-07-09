@@ -140,7 +140,7 @@
                         @can ('create-mentor')
                             <div class="input-field col s12">
                                 <p>
-                                    <input type="checkbox" name="mentor" id="mentor" value="1" {{ is_null(old('mentor')) ? ($contact->mentor ? "checked" : "") : (old('mentor') ? "checked" : "") }} />
+                                    <input type="checkbox" name="mentor" id="mentor" value="1" {{ is_null(old('mentor')) ? ($contact->mentor && $contact->mentor->active ? "checked" : "") : (old('mentor') ? "checked" : "") }} />
                                     <label for="mentor">Mentor</label>
                                 </p>
                             </div>

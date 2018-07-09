@@ -32,6 +32,7 @@
             <li class="tab"><a href="/user/{{ $contact->user->id }}/questions">Q&A</a></li>
         @endif
     </ul>
+    @include('mentor.forms.tag', ['mentor' => $contact->mentor])
     <form class="compact" action="/mentor/{{ $contact->mentor->id }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="row">

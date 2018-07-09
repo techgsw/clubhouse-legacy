@@ -17,4 +17,9 @@ class Mentor extends Model
     {
         return $this->belongsTo(Contact::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'mentor_tag');
+    }
 }

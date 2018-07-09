@@ -3,7 +3,11 @@
 @section('title', 'Mentors')
 @section('content')
 <div class="container">
-    <!-- TODO search -->
+    <div class="row">
+        <div class="col s12">
+            @include('mentor.forms.search', ['options' => $tags])
+        </div>
+    </div>
     <div class="row">
         <div class="col s12">
             <div class="card-flex-container">

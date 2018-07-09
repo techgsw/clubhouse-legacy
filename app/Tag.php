@@ -14,6 +14,11 @@ class Tag extends Model
     public $incrementing = false;
     public $timestamps = false;
 
+    public function mentors()
+    {
+        return $this->belongsToMany(Mentor::class, 'mentor_tag');
+    }
+
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'post_tag');
