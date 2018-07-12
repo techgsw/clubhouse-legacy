@@ -1,15 +1,18 @@
-<form id="mentor-tag" class="compact">
+<!--
+Place this in the mentor form:
+<input type="hidden" id="mentor-tags-json" name="mentor_tags_json">
+-->
+<form id="create-tag" action="/tag" method="post" class="compact">
     {{ csrf_field() }}
-    <input type="hidden" id="mentor_id" value="{{ $mentor->id }}" />
     <div class="row">
         <div class="col">
-            <label>Tag</label>
-            <input type="text" id="tag-autocomplete-input" class="tag-autocomplete compact" tag-target="mentor" mentor-id="{{ $mentor->id }}">
+            <label for="tag-autocomplete-input">Tags</label>
+            <input type="text" id="tag-autocomplete-input" class="tag-autocomplete" target-input-id="mentor-tags-json" target-view-id="mentor-tags">
         </div>
-        <div class="col mentor-tags" style="padding-top: 20px;">
+        <div id="mentor-tags" class="col mentor-tags" style="padding-top: 20px;">
             @foreach ($mentor->tags as $tag)
                 <span class="flat-button gray small tag">
-                    <button type="button" name="button" class="x" admin-user-id="{{ $tag->slug }}">&times;</button>{{ $tag->name }}
+                    <button type="button" name="button" class="x remove-tag" tag-name="{{ $tag->name }}" target-input-id="mentor-tags-json">&times;</button>{{ $tag->name }}
                 </span>
             @endforeach
         </div>

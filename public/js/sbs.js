@@ -304,6 +304,7 @@ $.valHooks.textarea = {
     }
 
     Mentor.addTag = function (mentor_id, name) {
+        console.log("Mentor.addTag("+mentor_id+", "+name+")");
         return $.ajax({
             'type': 'POST',
             'url': '/mentor/'+mentor_id+'/add-tag',
@@ -586,11 +587,11 @@ $.valHooks.textarea = {
         });
     }
 
-    Tag.addToPost = function (name, input, view) {
-        // Append to input
-        var tags = JSON.parse(input.val());
+    Tag.addToEntity = function (name, json_input, view) {
+        // Append to JSON input
+        var tags = JSON.parse(json_input.val());
         tags.push(name);
-        $(input).val(JSON.stringify(tags));
+        $(json_input).val(JSON.stringify(tags));
         // Append to view
         var tag =
             `<span class="flat-button gray small tag">
@@ -599,14 +600,14 @@ $.valHooks.textarea = {
         $(view).append(tag);
     }
 
-    Tag.removeFromPost = function (name, input, view) {
-        // Remove from input
-        var tags = JSON.parse(input.val());
+    Tag.removeFromEntity = function (name, json_input, view) {
+        // Remove from JSON input
+        var tags = JSON.parse(json_input.val());
         var i = tags.indexOf(name);
         if (i > -1) {
             tags.splice(i, 1);
         }
-        input.val(JSON.stringify(tags));
+        json_input.val(JSON.stringify(tags));
         // Remove from view
         var button = $('button[tag-name="'+name+'"]');
         if (button) {
@@ -614,66 +615,36 @@ $.valHooks.textarea = {
         }
     }
 
-    Tag.addToMentor = function (mentor_id, name, view) {
-        console.log("addToMentor: ", mentor_id, name);
-        Mentor.addTag(mentor_id, name).done(function (resp) {
-            console.log(resp);
-            if (!resp.success) {
-                console.error("Failed to add tag to mentor");
-            }
-            // Append to view
-            var tag =
-                `<span class="flat-button gray small tag">
-                    <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
-                </span>`;
-            $(view).append(tag);
-        });
-    }
-
-    Tag.removeFromMentor = function (mentor_id, name, view) {
-        Mentor.addTag(mentor_id, slug).done(function (resp) {
-            console.log(resp);
-            if (!resp.success) {
-                console.error("Failed to add tag to mentor");
-            }
-            // Remove from view
-            var button = $('button[tag-name="'+name+'"]');
-            if (button) {
-                button.parent().remove();
-            }
-        });
-    }
-
     Tag.init = function () {
         var tag_autocomplete = $('input.tag-autocomplete');
         if (tag_autocomplete.length > 0) {
-            // Target to tag. Defaults to post.
-            var tag_target = tag_autocomplete.attr('tag-target')
-                ? tag_autocomplete.attr('tag-target')
-                : 'post';
-            if (tag_target === 'mentor') {
-                var mentor_id = tag_autocomplete.attr('mentor-id');
-            }
-            console.log(mentor_id);
+            tag_autocomplete.each(function (i, element) {
+                var autocomplete = $(element);
+                var json_input = $("#"+$(autocomplete).attr('target-input-id'));
+                if (json_input.length === 0) {
+                    console.warn("Missing JSON input element for tags");
+                }
 
-            Tag.getOptions().done(function (data) {
-                var tags = {}
-                data.forEach(function (t) {
-                    Tag.map[t.name] = t.slug;
-                    tags[t.name] = "";
-                });
-                var x = tag_autocomplete.autocomplete({
-                    data: tags,
-                    limit: 10,
-                    onAutocomplete: function (val) {
-                        if (tag_target === 'mentor') {
-                            Tag.addToMentor(mentor_id, val, $('div.mentor-tags'));
-                        } else if (tag_target === 'post') {
-                            Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
-                        }
-                        tag_autocomplete.val("");
-                    },
-                    minLength: 2,
+                var view_element = $("#"+$(autocomplete).attr('target-view-id'));
+                if (view_element.length === 0) {
+                    console.warn("Missing view element for tags");
+                }
+
+                Tag.getOptions().done(function (data) {
+                    var tags = {}
+                    data.forEach(function (t) {
+                        Tag.map[t.name] = t.slug;
+                        tags[t.name] = "";
+                    });
+                    var x = autocomplete.autocomplete({
+                        data: tags,
+                        limit: 10,
+                        onAutocomplete: function (val) {
+                            Tag.addToEntity(val, json_input, view_element);
+                            autocomplete.val("");
+                        },
+                        minLength: 2,
+                    });
                 });
             });
         }
@@ -776,21 +747,33 @@ $.valHooks.textarea = {
                 if (e.keyCode != 13) {
                     return;
                 }
+
+                var json_input = $("#"+$(this).attr('target-input-id'));
+                if (json_input.length === 0) {
+                    console.warn("Missing JSON input element for tags");
+                }
+
+                var view_element = $("#"+$(this).attr('target-view-id'));
+                if (view_element.length === 0) {
+                    console.warn("Missing view element for tags");
+                }
+
                 var input = $(this);
                 var name = $(this).val();
                 if (!name || name == "") {
                     return;
                 }
+
                 // Tag already exists in map. Add it and clear input.
                 if (Tag.map[name] !== undefined) {
-                    Tag.addToPost(name, $('input#post-tags-json'), $('.post-tags'));
+                    Tag.addToEntity(name, json_input, view_element);
                     tag_autocomplete.val("");
                     return;
                 }
                 // Create new tag, add it, and clear input.
                 Tag.create(name).done(function (resp) {
                     var tag_name = resp.tag.name;
-                    Tag.addToPost(tag_name, $('input#post-tags-json'), $('.post-tags'));
+                    Tag.addToEntity(tag_name, json_input, view_element);
                     input.val("");
                 });
             }
@@ -802,11 +785,21 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var name = $(this).attr('tag-name');
+                var json_input = $("#"+$(this).attr('target-input-id'));
+                var view_element = $(this).parent().parent();
+                Tag.removeFromEntity(name, json_input, view_element);
+            }
+        },
+        'span.tag button.remove-tag'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var name = $(this).attr('tag-name');
                 if (name == null) {
                     var user_id = $(this).attr('admin-user-id');
                     ContactRelationship.removeRelationship(user_id);
-                } else {
-                    Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
                 }
             }
         },

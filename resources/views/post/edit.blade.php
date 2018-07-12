@@ -16,15 +16,15 @@
                     <form id="create-tag" action="/tag" method="post">
                         {{ csrf_field() }}
                         <i class="fa fa-tags fa-small prefix" style="font-size: 1.5rem; margin-top: 12px;" aria-hidden="true"></i>
-                        <input type="text" id="tag-autocomplete-input" class="tag-autocomplete">
+                        <input type="text" id="tag-autocomplete-input" class="tag-autocomplete" target-input-id="post-tags-json" target-view-id="post-tags">
                         <label for="tag-autocomplete-input">Tags</label>
                     </form>
                 </div>
                 <div class="col s12 m8 l9">
-                    <div class="post-tags" style="position: relative; margin-top: 26px;">
+                    <div id="post-tags" class="post-tags" style="position: relative; margin-top: 26px;">
                         @foreach ($post->tags as $tag)
                             <span class="flat-button gray small tag">
-                                <button type="button" name="button" class="x" tag-name="{{ $tag->name }}">&times;</button>{{ $tag->name }}
+                                <button type="button" name="button" class="x" tag-name="{{ $tag->name }}" target-input-id="post-tags-json">&times;</button>{{ $tag->name }}
                             </span>
                         @endforeach
                     </div>
