@@ -137,6 +137,19 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col s6 center-align">
+                                <div class="file-field input-field very-small">
+                                    <div class="btn white black-text">
+                                        <span>Headshot</span></span>
+                                        <input type="file" name="headshot_url" value="{{ old('headshot_url') }}">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" name="headshot_url_text" value="{{ old('headshot_url_text') }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         @can ('create-mentor')
                             <div class="input-field col s12">
                                 <p>

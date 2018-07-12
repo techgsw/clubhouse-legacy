@@ -25,6 +25,11 @@
         @can ('view-contact')
             <li class="tab"><a href="/contact/{{ $user->contact->id }}">Contact</a></li>
         @endcan
+        @can ('view-mentor')
+            @if ($user->contact->mentor)
+                <li class="tab"><a href="/contact/{{ $user->contact->id }}/mentor">Mentor</a></li>
+            @endif
+        @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a class="active" href="/user/{{ $user->id }}/jobs">Jobs</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>

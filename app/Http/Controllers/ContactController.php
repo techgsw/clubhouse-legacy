@@ -14,6 +14,7 @@ use App\Http\Requests\CreateNote;
 use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
 use App\Http\Requests\ScheduleFollowUp;
+use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -174,6 +175,30 @@ class ContactController extends Controller
         }
         $this->authorize('edit-contact', $contact);
 
+        $image_error = false;
+
+        try {
+            DB::transaction(function () use ($request, $contact) {
+                if ($headshot = request()->file('headshot_url')) {
+                    $image = ImageServiceProvider::saveFileAsImage(
+                        $headshot,
+                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $contact->first_name.'-'.$contact->last_name)).'-SportsBusinessSolutions',
+                        $directory = 'contact/'.$contact->id,
+                        $options = [
+                            'cropFromCenter' => true,
+                            'update' => $contact->headshotImage ?: null
+                        ]
+                    );
+
+                    $contact->headshot_image_id = $image->id;
+                    $contact->save();
+                }
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $image_error = true;
+        }
+
         $contact = DB::transaction(function () use ($request, $contact) {
             $address = $contact->address[0];
             if (!$address) {
@@ -263,6 +288,22 @@ class ContactController extends Controller
 
             return $contact;
         });
+
+        if ($image_error) {
+            $request->session()->flash('message', new Message(
+                "Sorry, the image failed to upload. Please try a different image.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+        } else {
+            $request->session()->flash('message', new Message(
+                "Contact saved",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
+        }
 
         return redirect()->action('ContactController@show', [$contact]);
     }
