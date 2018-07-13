@@ -10,6 +10,11 @@
     </div>
     <div class="row">
         <div class="col s12">
+            @include('layouts.components.messages')
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
             <div class="card-flex-container">
                 @foreach ($mentors as $mentor)
                     @include('mentor.components.list-item', ['mentor' => $mentor])

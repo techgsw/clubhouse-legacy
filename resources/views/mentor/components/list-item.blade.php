@@ -17,7 +17,7 @@
             <div class="small" style="margin-top: 12px; text-align: center;">
                 <div style="margin-top: 4px">
                     @can ('view-mentor')
-                        <a href="/mentor/{{ $mentor->id }}" style="margin: 0 2px;" class="small flat-button black"><i class="fa fa-calendar"></i> Contact</a>
+                        <a href="/mentor/{{ $mentor->id }}/request" style="margin: 0 2px;" class="small flat-button black"><i class="fa fa-handshake-o"></i> Meet</a>
                     @endcan
                     @can ('edit-mentor')
                         <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 0 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>

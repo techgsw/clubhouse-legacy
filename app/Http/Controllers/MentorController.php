@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use App\Mentor;
+use App\Message;
 use App\Tag;
+use App\User;
+use App\Mail\MentorshipRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Mail;
 
 class MentorController extends Controller
 {
@@ -18,6 +22,7 @@ class MentorController extends Controller
 
         $mentors = Mentor::with('contact')
             ->search($request)
+            ->select('contact.*', 'mentor.*')
             ->paginate(12);
 
         $tags = Tag::has('mentors')->get();
@@ -93,5 +98,38 @@ class MentorController extends Controller
         $mentor->save();
 
         return redirect()->action('MentorController@edit', [$mentor->contact_id]);
+    }
+
+    public function request(Request $request, $id)
+    {
+        $this->authorize('view-mentor');
+
+        $mentor = Mentor::find($id);
+        if (!$mentor) {
+            $request->session()->flash('message', new Message(
+                "Failed to find mentor.",
+                "warning",
+                $code = null,
+                $icon = "error"
+            ));
+            return redirect()->back();
+        }
+
+        try {
+            Mail::to(Auth::user())->send(new MentorshipRequest($mentor, Auth::user()));
+
+            $bob = User::where('id', 1)->first();
+            Mail::to($bob)->send(new \App\Mail\Admin\MentorshipRequest($mentor, Auth::user()));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        $request->session()->flash('message', new Message(
+            "Meeting requested. Check your email for further details.",
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
+        return redirect()->back();
     }
 }

@@ -163,8 +163,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/mentor', 'MentorController@index');
     Route::get('/mentor/{id}', 'MentorController@show');
     Route::post('/mentor/{id}', 'MentorController@update');
-    Route::post('/mentor/{id}/add-tag', 'MentorController@addTag');
-    Route::post('/mentor/{id}/remove-tag', 'MentorController@removeTag');
+    Route::get('/mentor/{id}/request', 'MentorController@request');
     Route::get('/contact/{id}/mentor', 'MentorController@edit');
 });
 
