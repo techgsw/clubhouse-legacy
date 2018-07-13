@@ -1394,6 +1394,7 @@ $.valHooks.textarea = {
                     } else {
                         $('.cc-form.scale-transition').addClass('scale-out');
                         $('#add-cc-button').removeClass('hidden');
+                        $('#add-cc-button').removeClass('blue-grey darken-1');
                         $('#add-cc-button').html('Add Card');
                         $('#checkout-submit-button').removeClass('hidden');
                         $('.cc-form.scale-transition').addClass('scale-out');

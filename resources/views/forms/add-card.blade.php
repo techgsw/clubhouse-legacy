@@ -4,6 +4,21 @@
         $address = Auth::user()->profile->address[0];
     @endphp
     <div class="row">
+        <div class="col s12">
+            <h5>Billing Information</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
+            <input id="first-name" type="text" name="first_name" value="{{ old('first_name') ?: Auth::user()->first_name }}" required>
+            <label for="first-name">First Name</label>
+        </div>
+        <div class="input-field col s12 m6 {{ $errors->has('last_name') ? 'invalid' : '' }}">
+            <input id="last-name" type="text" name="last_name" value="{{ old('last_name') ?: Auth::user()->last_name }}" required>
+            <label for="last-name">Last name</label>
+        </div>
+    </div>
+    <div class="row">
         <div class="input-field col s12 m6 {{ $errors->has('cc_number') ? 'invalid' : '' }}">
             <input id="cc-number" type="text" name="cc_number" value="{{ old('cc_number') }}" required>
             <label for="cc-number">Credit Card Number</label>
@@ -24,16 +39,6 @@
     <div class="row">
         <div class="col s12">
             <h5>Billing Address</h5>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
-            <input id="first-name" type="text" name="first_name" value="{{ old('first_name') ?: Auth::user()->first_name }}" required>
-            <label for="first-name">First Name</label>
-        </div>
-        <div class="input-field col s12 m6 {{ $errors->has('last_name') ? 'invalid' : '' }}">
-            <input id="last-name" type="text" name="last_name" value="{{ old('last_name') ?: Auth::user()->last_name }}" required>
-            <label for="last-name">Last name</label>
         </div>
     </div>
     <div class="row">
