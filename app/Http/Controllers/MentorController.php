@@ -16,7 +16,10 @@ class MentorController extends Controller
     {
         $this->authorize('view-mentor');
 
-        $mentors = Mentor::with('contact')->paginate(12);
+        $mentors = Mentor::with('contact')
+            ->search($request)
+            ->paginate(12);
+
         $tags = Tag::has('mentors')->get();
 
         return view('mentor/index', [
