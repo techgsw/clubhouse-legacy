@@ -4,7 +4,7 @@
             <div class="row">
                 {{ csrf_field() }}
                 <div class="input-field col s12 m9">
-                    <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" value="{{ old('title') ?: $job->title }}" required autofocus>
+                    <input id="title" type="text" class="" name="title" value="{{ old('title') ?: $job->title }}" required autofocus>
                     <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
                 </div>
                 <div class="input-field col s12 m3">
@@ -12,8 +12,12 @@
                     <label for="featured">Featured</label>
                 </div>
                 <div class="input-field col s12">
-                    <textarea id="description" class="materialize-textarea validate {{ $errors->has('description') ? 'invalid' : '' }}" name="description" style="min-height: 8rem;" required>{{ old('description') ?: $job->description }}</textarea>
-                    <label for="description" data-error="{{ $errors->first('description') }}">Description</label>
+                    <div class="markdown-editor" style="outline: none; margin-bottom: 30px; border-bottom: 1px solid #9e9e9e;">
+                        {!! $description !!}
+                    </div>
+                    <div class="hidden">
+                        <textarea class="markdown-input" name="description" value="{{ $job->description }}"></textarea>
+                    </div>
                 </div>
                 <div class="input-field col s12">
                     <label class="active">Type</label>
@@ -37,7 +41,7 @@
                         <input type="file" name="document" value="{{ old('document') }}">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="document_text" value="{{ old('document_text') }}">
+                        <input class="file-path" type="text" name="document_text" value="{{ old('document_text') }}">
                     </div>
                 </div>
                 <div class="input-field col s12">
@@ -64,7 +68,7 @@
                                     <input type="file" name="image_url" value="{{ old('image_url') }}">
                                 </div>
                                 <div class="file-path-wrapper">
-                                    <input class="file-path validate" type="text" name="image_url_text" value="{{ old('image_url_text') }}">
+                                    <input class="file-path" type="text" name="image_url_text" value="{{ old('image_url_text') }}">
                                 </div>
                             </div>
                         </div>
@@ -95,7 +99,7 @@
                     <img id="organization-image" src="{{ $job->organization->image ? $job->organization->image->getURL('medium') : '' }}" style="padding: 16px; max-width: 100px;" />
                 </div>
                 <div class="input-field col s12">
-                    <input id="city" type="text" class="validate {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') ?: $job->city }}" required autofocus>
+                    <input id="city" type="text" class="" name="city" value="{{ old('city') ?: $job->city }}" required autofocus>
                     <label for="city" data-error="{{ $errors->first('city') }}">City</label>
                 </div>
                 <div class="input-field col s6">

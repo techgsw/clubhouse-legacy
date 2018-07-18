@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Parsedown;
 use \Exception;
 
 class JobController extends Controller
@@ -218,7 +219,9 @@ class JobController extends Controller
             $profile_complete = $user->hasCompleteProfile();
         }
 
+        $pd = new Parsedown;
         return view('job/show', [
+            'description' => $pd->text($job->description),
             'job' => $job,
             'inquiries' => $inquiries,
             'profile_complete' => $profile_complete,
@@ -436,10 +439,12 @@ class JobController extends Controller
             $job->organization_name == $job->organization->name &&
             $job->image_id == $job->organization->image_id;
 
+        $pd = new Parsedown;
         return view('job/edit', [
             'job' => $job,
             'leagues' => League::all(),
             'reuse_organization_fields' => $reuse_organization_fields,
+            'description' => $pd->text($job->description),
             'breadcrumb' => [
                 'Home' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',

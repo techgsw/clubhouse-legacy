@@ -55,7 +55,7 @@
                 <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode($job->getURL($absolute=true))?>&title=<?=urlencode($job->title)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$job->title?> | Sports Business Solutions&body=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
             </div>
-            <p>{!! nl2br(e($job->description)) !!}</p>
+            {!! $description !!}
             @if ($job->document)
                 <p><a target="_blank" href="{{ Storage::disk('local')->url($job->document) }}">View job description</a></p>
             @endif
