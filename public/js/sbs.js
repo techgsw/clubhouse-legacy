@@ -49,6 +49,10 @@ $.valHooks.textarea = {
         if (!input) {
             return;
         }
+        var placeholder = editor.attr('placeholder');
+        if (placeholder === undefined) {
+            placeholder = 'Write here';
+        }
         new MediumEditor(editor, {
             extensions: {
                 markdown: new MeMarkdown(function (md) {
@@ -63,8 +67,11 @@ $.valHooks.textarea = {
                 cleanTags: ['meta', 'span']
             },
             placeholder: {
-                text: 'Write here',
+                text: placeholder,
                 hideOnClick: true
+            },
+            toolbar: {
+                buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
             }
         });
     }
@@ -1349,7 +1356,7 @@ $.valHooks.textarea = {
         '#dropzone-previews .dz-preview-flex-container'
     );
 
-    // Session Image Remove 
+    // Session Image Remove
     $('body').on(
         {
             click: function() {

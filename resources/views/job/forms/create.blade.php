@@ -12,8 +12,10 @@
                     <label for="featured">Featured</label>
                 </div>
                 <div class="input-field col s12">
-                    <textarea id="description" class="materialize-textarea {{ $errors->has('description') ? 'invalid' : '' }}" name="description" required style="min-height: 8rem;">{{ old('description') }}</textarea>
-                    <label for="description" data-error="{{ $errors->first('description') }}">Description</label>
+                    <div id="description" class="markdown-editor" placeholder="Description" style="outline: none; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid #9e9e9e;"></div>
+                    <div class="hidden">
+                        <textarea class="markdown-input" name="description" value=""></textarea>
+                    </div>
                 </div>
                 <div class="input-field col s12">
                     <label for="job-type" class="active">Type</label>
