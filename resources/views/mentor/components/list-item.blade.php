@@ -5,6 +5,8 @@
                 <div class="center-align">
                     @if ($mentor->contact->headshotImage)
                         <img src={{ $mentor->contact->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
+                    @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
+                        <img src={{ $mentor->contact->user->profile->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
                     @else
                         <i class="fa fa-user fa-2x"></i>
                     @endif

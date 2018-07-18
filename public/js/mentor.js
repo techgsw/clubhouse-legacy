@@ -24,12 +24,18 @@ if (!SBS) {
     $('body').on(
         {
             click: function (e, ui) {
+                var form = $('form#mentor-request');
+                var modal = $('div#mentor-request-modal');
+                var messages = modal.find('#messages');
                 var mentor_name = $(this).attr('mentor-name');
                 var mentor_id = $(this).attr('mentor-id');
 
                 $('div#mentor-request-modal').find('span.mentor-name').html(mentor_name);
                 $('div#mentor-request-modal').find('input#mentor_id').val(mentor_id);
                 $('form#mentor-request').attr('action', "/mentor/"+mentor_id+"/request");
+
+                messages.find('.success-message, .error-message').addClass('hidden');
+                form.find('button[type="submit"]').removeClass('hidden');
             }
         },
         'a.mentor-request-trigger'
@@ -55,6 +61,7 @@ if (!SBS) {
                 submit.toggleClass('hidden');
                 progress.toggleClass('hidden');
                 messages.find('.success-message, .error-message').addClass('hidden');
+                form.find('button[type="submit"]').removeClass('hidden');
 
                 Mentor.submitRequest(values)
                     .fail(function (res) {
@@ -64,8 +71,6 @@ if (!SBS) {
                         progress.toggleClass('hidden');
                     })
                     .done(function (res) {
-                        console.log(res);
-
                         if (res.error) {
                             messages.find('.error-message').html(res.error).removeClass('hidden');
                             form.find('input, select').removeAttr('disabled');
@@ -78,6 +83,7 @@ if (!SBS) {
                         form.find('input, select').removeAttr('disabled');
                         submit.toggleClass('hidden');
                         progress.toggleClass('hidden');
+                        form.find('button[type="submit"]').addClass('hidden');
                     });
             }
         },
