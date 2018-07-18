@@ -303,29 +303,6 @@ $.valHooks.textarea = {
         }
     }
 
-    Mentor.addTag = function (mentor_id, name) {
-        console.log("Mentor.addTag("+mentor_id+", "+name+")");
-        return $.ajax({
-            'type': 'POST',
-            'url': '/mentor/'+mentor_id+'/add-tag',
-            'data': {
-                'name': name,
-                '_token': $('form#mentor-tag input[name="_token"]').val()
-            }
-        });
-    }
-
-    Mentor.removeTag = function (mentor_id, name) {
-        return $.ajax({
-            'type': 'POST',
-            'url': '/mentor/'+mentor_id+'/remove-tag',
-            'data': {
-                'name': name,
-                '_token': $('form#mentor-tag input[name="_token"]').val()
-            }
-        });
-    }
-
     Note.init = function () {
         $('.contact-notes-modal').modal({
             dismissible: true,  // Modal can be dismissed by clicking outside of the modal
@@ -738,7 +715,7 @@ $.valHooks.textarea = {
                 e.preventDefault();
             }
         },
-        'form#create-tag, form#mentor-tag'
+        'form.prevent-default'
     )
 
     $('body').on(

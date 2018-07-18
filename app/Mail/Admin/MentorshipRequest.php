@@ -13,13 +13,15 @@ class MentorshipRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $dates;
     public $mentor;
     public $user;
 
-    public function __construct(Mentor $mentor, User $user)
+    public function __construct(Mentor $mentor, User $user, array $dates)
     {
         $this->mentor = $mentor;
         $this->user = $user;
+        $this->dates = $dates;
     }
 
     public function build()

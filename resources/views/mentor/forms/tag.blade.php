@@ -2,7 +2,7 @@
 Place this in the mentor form:
 <input type="hidden" id="mentor-tags-json" name="mentor_tags_json">
 -->
-<form id="create-tag" action="/tag" method="post" class="compact">
+<form id="create-tag" action="/tag" method="post" class="compact prevent-default">
     {{ csrf_field() }}
     <div class="row">
         <div class="col">

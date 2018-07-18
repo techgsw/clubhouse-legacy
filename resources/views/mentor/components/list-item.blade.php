@@ -17,10 +17,10 @@
             <div class="small" style="margin-top: 12px; text-align: center;">
                 <div style="margin-top: 4px">
                     @can ('view-mentor')
-                        <a href="/mentor/{{ $mentor->id }}/request" style="margin: 0 2px;" class="small flat-button black"><i class="fa fa-handshake-o"></i> Meet</a>
+                        <a class="small flat-button black mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" style="margin: 2px;"><i class="fa fa-handshake-o"></i> Schedule a meeting</a>
                     @endcan
                     @can ('edit-mentor')
-                        <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 0 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
+                        <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
                     @endcan
                 </div>
             </div>

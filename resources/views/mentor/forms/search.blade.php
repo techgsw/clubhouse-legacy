@@ -6,7 +6,7 @@
         </div>
         <div class="input-field col s6 m4">
             <select id="tag" class="browser-default" name="tag">
-                <option value="" {{ !request('tag') ? "selected" : "" }}>All tags</option>
+                <option value="" {{ !request('tag') ? "selected" : "" }}>All specialties</option>
                 @foreach ($options as $tag)
                     <option value="{{ $tag->name }}" {{ request('tag') == $tag->name ? "selected" : "" }}>{{ $tag->name }}</option>
                 @endforeach

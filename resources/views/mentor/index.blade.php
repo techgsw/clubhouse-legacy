@@ -1,6 +1,9 @@
 <!-- /resources/views/mentor/index.blade.php -->
 @extends('layouts.default')
 @section('title', 'Mentors')
+@section('scripts')
+    @include('mentor.components.scripts')
+@endsection
 @section('content')
 <div class="container">
     <div class="row">
@@ -39,5 +42,6 @@
             </div>
         </div>
     @endif
+    @include('mentor.components.request-modal')
 </div>
 @endsection

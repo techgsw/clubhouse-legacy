@@ -106,30 +106,55 @@ class MentorController extends Controller
 
         $mentor = Mentor::find($id);
         if (!$mentor) {
-            $request->session()->flash('message', new Message(
-                "Failed to find mentor.",
-                "warning",
-                $code = null,
-                $icon = "error"
-            ));
-            return redirect()->back();
+            return response()->json([
+                'error' => 'Please confirm dates are valid and try again',
+                'success' => null
+            ]);
+        }
+
+        $now = new \DateTime('NOW');
+        try {
+            $date1 = new \DateTime($request->date_1);
+            $date1->setTime(substr($request->time_1, 0, 2), substr($request->time_1, 2, 2));
+
+            $date2 = new \DateTime($request->date_2);
+            $date2->setTime(substr($request->time_2, 0, 2), substr($request->time_2, 2, 2));
+
+            $date3 = new \DateTime($request->date_3);
+            $date3->setTime(substr($request->time_3, 0, 2), substr($request->time_3, 2, 2));
+
+            if ($date1 < $now || $date2 < $now || $date3 < $now) {
+                throw new \Exception("At least one date is invalid");
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Please confirm dates are valid and try again',
+                'success' => null
+            ]);
         }
 
         try {
-            Mail::to(Auth::user())->send(new MentorshipRequest($mentor, Auth::user()));
+            // Confirm request with user
+            Mail::to(Auth::user())->send(new MentorshipRequest(
+                $mentor,
+                Auth::user(),
+                $dates = [$date1, $date2, $date3]
+            ));
 
+            // Alert Bob about request
             $bob = User::where('id', 1)->first();
-            Mail::to($bob)->send(new \App\Mail\Admin\MentorshipRequest($mentor, Auth::user()));
+            Mail::to($bob)->send(new \App\Mail\Admin\MentorshipRequest(
+                $mentor,
+                Auth::user(),
+                $dates = [$date1, $date2, $date3]
+            ));
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
 
-        $request->session()->flash('message', new Message(
-            "Meeting requested. Check your email for further details.",
-            "success",
-            $code = null,
-            $icon = "check_circle"
-        ));
-        return redirect()->back();
+        return response()->json([
+            'error' => null,
+            'success' => "Meeting requested. Check your email for details."
+        ]);
     }
 }

@@ -29,6 +29,10 @@
  * 5 Col Row
 **/
 
+.datepicker {
+    z-index: 10000;
+}
+
 .s5ths,
 .m5ths,
 .l5ths,

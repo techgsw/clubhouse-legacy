@@ -12,5 +12,6 @@
         </main>
         @include('layouts.components.footer')
         @include('layouts.components.scripts')
+        @yield('scripts')
     </body>
 </html>
