@@ -7,12 +7,11 @@ use App\Mentor;
 use App\Message;
 use App\Tag;
 use App\User;
-use App\Mail\MentorshipRequest;
+use App\Providers\EmailServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Mail;
 
 class MentorController extends Controller
 {
@@ -134,20 +133,11 @@ class MentorController extends Controller
         }
 
         try {
-            // Confirm request with user
-            Mail::to(Auth::user())->send(new MentorshipRequest(
+            EmailServiceProvider::sendMentorshipRequestEmails(
                 $mentor,
                 Auth::user(),
                 $dates = [$date1, $date2, $date3]
-            ));
-
-            // Alert Bob about request
-            $bob = User::where('id', 1)->first();
-            Mail::to($bob)->send(new \App\Mail\Admin\MentorshipRequest(
-                $mentor,
-                Auth::user(),
-                $dates = [$date1, $date2, $date3]
-            ));
+            );
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

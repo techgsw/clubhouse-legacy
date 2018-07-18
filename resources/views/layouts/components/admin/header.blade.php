@@ -31,6 +31,9 @@
                 @can ('view-admin-jobs')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/job">Jobs</a></li>
                 @endcan
+                @can ('view-mentor')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/mentor">Mentors</a></li>
+                @endcan
                 @can ('view-admin-organizations')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/organization">Organizations</a></li>
                 @endcan
@@ -52,6 +55,12 @@
             @endcan
             @can ('view-admin-jobs')
                 <li><a href="/admin/job">Jobs</a></li>
+            @endcan
+            @can ('view-mentor')
+                <li><a href="/mentor">Mentors</a></li>
+            @endcan
+            @can ('view-admin-organizations')
+                <li><a href="/admin/organization">Organizations</a></li>
             @endcan
             @can ('view-admin-questions')
                 <li><a href="/admin/question">Q&amp;A</a></li>
