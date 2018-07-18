@@ -12,7 +12,7 @@
                     <label for="featured">Featured</label>
                 </div>
                 <div class="input-field col s12">
-                    <div class="markdown-editor" style="outline: none; margin-bottom: 30px; border-bottom: 1px solid #9e9e9e;">
+                    <div class="markdown-editor" style="outline: none; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid #9e9e9e;">
                         {!! $description !!}
                     </div>
                     <div class="hidden">
