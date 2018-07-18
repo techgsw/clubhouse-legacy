@@ -20,8 +20,6 @@ class CheckoutController extends Controller
 {
     public function create()
     {
-        $this->authorize('create-post-session');
-
         return view('session/create', [
             'breadcrumb' => [
                 'Home' => '/',
@@ -33,8 +31,6 @@ class CheckoutController extends Controller
 
     public function index()
     {
-        $this->authorize('create-post-session');
-
         return view('checkout/index', [
             'breadcrumb' => [
                 'Home' => '/',
@@ -45,8 +41,6 @@ class CheckoutController extends Controller
 
     public function store(StoreSession $request)
     {
-        $this->authorize('create-post-session');
-
         $response = new Message(
             "Success! New session created.",
             "success",
@@ -61,7 +55,7 @@ class CheckoutController extends Controller
             $request->session()->flash('message', $response);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            $response->setMessage("Sorry, we were unable to create the session. Please contact support.");
+            $response->setMessage("Sorry, we were unable to process your payment. Please contact support.");
             $response->setType("danger");
             $response->setCode(500);
         }

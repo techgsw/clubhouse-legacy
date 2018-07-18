@@ -37,6 +37,14 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => ['logout', 'header']]);
     }
 
+    public function showLoginForm()
+    {
+        if(!session()->has('url.intended')) {
+            session(['url.intended' => url()->previous()]);
+        }
+        return view('auth.login');    
+    }
+
     public function header()
     {
         return view('layouts.components.auth-header');
