@@ -161,7 +161,6 @@ Route::group(['middleware' => ['web','auth']], function () {
 // Mentor
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/mentor', 'MentorController@index');
-    Route::get('/mentor/{id}', 'MentorController@show');
     Route::post('/mentor/{id}', 'MentorController@update');
     Route::post('/mentor/{id}/request', 'MentorController@request');
     Route::get('/contact/{id}/mentor', 'MentorController@edit');
