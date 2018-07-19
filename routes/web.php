@@ -171,6 +171,17 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/note/{id}/delete', 'NoteController@delete');
 });
 
+// Product
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/product', 'ProductController@index');
+    Route::get('/product/admin', 'ProductController@admin');
+    Route::get('/product/create', 'ProductController@create');
+    Route::post('/product', 'ProductController@store');
+    Route::get('/product/edit', 'ProductController@edit');
+    Route::post('/product/{id}', 'ProductController@update');
+    Route::get('/product/{id}', 'ProductController@show');
+});
+
 // Jobs
 Route::group(['middleware' => ['web']], function () {
     Route::get('/job', 'JobController@index');

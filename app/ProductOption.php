@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductOption extends Model
 {
-    protected $table = 'product';
+    protected $table = 'product_option';
     protected $guarded = [];
     protected $dates = [
         'created_at',
@@ -20,6 +20,6 @@ class ProductOption extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'product_option_role')
+        return $this->belongsToMany(Role::class, 'product_option_role');
     }
 }

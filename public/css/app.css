@@ -840,6 +840,16 @@ textarea:focus,
     left: 24px;
 }
 
+div.markdown-editor {
+    outline: none;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #9e9e9e;
+}
+div.markdown-editor p:first-child{
+    margin-top: 0;
+}
+
 /* Fix for labels being offset */
 select.browser-default {
     margin-top: 4px;

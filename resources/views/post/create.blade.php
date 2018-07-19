@@ -53,9 +53,9 @@
                         <span class="prefix" style="color: #b3b3b1; position: absolute; width: 1.5rem; font-size: 0.8rem; margin-top: 14px; transition: color .2s;">BY</span>
                         <input class="authored" style="margin-left: 1.5rem; width: calc(100% - 1.5rem); text-transform: uppercase; border-bottom: none; font-size: 0.8em; margin-bottom: 6px;" placeholder="Author (optional)" id="authored-by" type="text" name="authored_by" value="{{ old('authored_by') }}">
                     </div>
-                    <div class="markdown-editor" style="outline: none;"></div>
+                    <div id="body-editor" class="markdown-editor"></div>
                     <div class="hidden">
-                        <textarea class="markdown-input" name="body" value=""></textarea>
+                        <textarea class="markdown-input" editor-id="body-editor" name="body" value=""></textarea>
                     </div>
                 </div>
                 <div class="input-field" style="margin-top: 40px;">

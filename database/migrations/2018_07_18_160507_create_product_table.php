@@ -13,6 +13,7 @@ class CreateProductTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
 
@@ -58,10 +59,95 @@ class CreateProductTable extends Migration
             $table->foreign('tag_name')->references('name')->on('tag');
             $table->foreign('product_id')->references('id')->on('product');
         });
+
+        DB::table('resource')->insert(
+            array(
+                'code' => 'product_show',
+                'description' => "Can view products."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_show',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_show',
+                'role_code' => 'administrator'
+            )
+        );
+
+        DB::table('resource')->insert(
+            array(
+                'code' => 'product_edit',
+                'description' => "Can edit products."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_edit',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_edit',
+                'role_code' => 'administrator'
+            )
+        );
+
+        DB::table('resource')->insert(
+            array(
+                'code' => 'product_create',
+                'description' => "Can create products."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_create',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_create',
+                'role_code' => 'administrator'
+            )
+        );
+
+        DB::table('resource')->insert(
+            array(
+                'code' => 'product_admin',
+                'description' => "Can access admin view of products."
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_admin',
+                'role_code' => 'superuser'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'product_admin',
+                'role_code' => 'administrator'
+            )
+        );
     }
 
     public function down()
     {
+        DB::table('resource_role')->where('resource_code', 'product_admin')->delete();
+        DB::table('resource')->where('code', 'product_admin')->delete();
+        DB::table('resource_role')->where('resource_code', 'product_show')->delete();
+        DB::table('resource')->where('code', 'product_show')->delete();
+        DB::table('resource_role')->where('resource_code', 'product_create')->delete();
+        DB::table('resource')->where('code', 'product_create')->delete();
+        DB::table('resource_role')->where('resource_code', 'product_edit')->delete();
+        DB::table('resource')->where('code', 'product_edit')->delete();
+
         Schema::dropIfExists('product_tag');
         Schema::dropIfExists('product_image');
         Schema::dropIfExists('product_option_role');
