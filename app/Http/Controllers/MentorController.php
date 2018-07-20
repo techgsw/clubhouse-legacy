@@ -117,8 +117,8 @@ class MentorController extends Controller
 
         try {
             EmailServiceProvider::sendMentorshipRequestEmails(
-                $mentor,
                 Auth::user(),
+                $mentor,
                 $dates = [$date1, $date2, $date3]
             );
         } catch (Exception $e) {
