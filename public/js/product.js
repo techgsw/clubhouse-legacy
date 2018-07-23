@@ -6,9 +6,10 @@ if (!SBS) {
 (function () {
     var Product = {};
     Product.Form = {};
+    Product.View = {}
 
     Product.Form.indexOptions = function () {
-        var form = $('form#create-product');
+        var form = $('form#product');
         var options = form.find('div.product-option');
 
         options.each(function (i, option) {
@@ -18,12 +19,18 @@ if (!SBS) {
             // Index values
             option.attr('index', i);
             option.find('.product-option-index').html(i);
+            // ID
+            option.find('.option-id').attr('name', 'option['+i+'][id]');
+            option.find('.option-id').attr('id', 'option-'+i+'-id');
             // Name
             option.find('.option-name').attr('name', 'option['+i+'][name]');
             option.find('.option-name').attr('id', 'option-'+i+'-name');
             // Price
             option.find('.option-price').attr('name', 'option['+i+'][price]');
             option.find('.option-price').attr('id', 'option-'+i+'-price');
+            // Quantity
+            option.find('.option-quantity').attr('name', 'option['+i+'][quantity]');
+            option.find('.option-quantity').attr('id', 'option-'+i+'-quantity');
             // Clubhouse
             option.find('.option-clubhouse').attr('name', 'option['+i+'][clubhouse]');
             option.find('.option-clubhouse').attr('id', 'option-'+i+'-clubhouse');
@@ -42,7 +49,7 @@ if (!SBS) {
     }
 
     Product.Form.addOption = function () {
-        var form = $('form#create-product');
+        var form = $('form#product');
         var option = Product.Form.optionTemplate.clone();
         // Add markdown editor classes
         option.find('.option-description').addClass('markdown-input');
@@ -57,7 +64,7 @@ if (!SBS) {
     }
 
     Product.Form.removeOption = function (i) {
-        var form = $('form#create-product');
+        var form = $('form#product');
         form.find('.product-option[index='+i+']').remove();
         Product.Form.indexOptions();
     }
@@ -87,6 +94,28 @@ if (!SBS) {
             }
         },
         '.product-option-delete'
+    );
+
+    Product.View.showOption = function (id) {
+        var option = $("div.product-option-description[option-id="+id+"]");
+        if (option.length == 0) {
+            console.warn("Failed to find option "+id);
+            return;
+        }
+
+        // Hide all options, then show the selected one
+        $("div.product-option-description").addClass('hidden');
+        option.removeClass('hidden');
+    }
+
+    // Show only the selected product option upon changing the selection
+    $('body').on(
+        {
+            change: function (e, ui) {
+                Product.View.showOption($(this).val());
+            }
+        },
+        'select.product-option-select'
     );
 })();
 

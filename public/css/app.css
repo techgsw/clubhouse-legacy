@@ -283,8 +283,14 @@ nav.nav-admin {
     line-height: 40px;
     background: #3F3E3E;
 }
-nav.nav-admin ul {}
-nav.nav-admin ul li {}
+nav.nav-admin ul:not(#nav-mobile) {
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+nav.nav-admin ul:not(#nav-mobile) li {
+    display: inline-block;
+    float: none;
+}
 nav.nav-admin ul li a {}
 nav.nav-admin a.button-collapse {
     color: #D3D3D3;
@@ -1652,6 +1658,51 @@ p.icon {
 .admin-user-list-item p.title {
     font-weight: 400;
 }
+
+/**
+ * Product
+ */
+ p.checkbox {
+     margin-top: 0;
+ }
+
+ div.product-option {
+     border-bottom: 1px dotted #9e9e9e;
+     padding-bottom: 10px;
+ }
+ div.product-option:last-of-type {
+     border-bottom: none;
+ }
+ div.product-option .product-option-button {
+     margin-top: 20px;
+     height: 40px;
+     width: 40px;
+     border: 1px solid #9e9e9e;
+     border-radius: 50%;
+     color: #6e6e6e;
+     display: flex;
+     flex-flow: column;
+     justify-content: center;
+     cursor: pointer;
+     transition: all 0.2s;
+ }
+ div.product-option .product-option-button:hover {
+     border: 1px solid #6e6e6e;
+     color: #303030;
+     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+ }
+ div.product-option .product-option-button .product-option-index {
+     display: block;
+ }
+ div.product-option .product-option-button .product-option-delete {
+     display: none;
+ }
+ div.product-option .product-option-button:hover .product-option-index {
+     display: none;
+ }
+ div.product-option .product-option-button:hover .product-option-delete {
+     display: block;
+ }
 
 /**
  * Media queries

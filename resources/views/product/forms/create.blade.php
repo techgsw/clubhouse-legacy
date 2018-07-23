@@ -1,4 +1,4 @@
-<form id="create-product" method="post" action="/product" enctype="multipart/form-data">
+<form id="product" method="post" action="/product" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="row">
         <div class="input-field col s12">
@@ -15,14 +15,23 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s12" style="margin: 0 0 20px 0;">
+        <div class="file-field input-field col s12 m6">
+            <div class="btn white black-text">
+                <span>Image</span>
+                <input type="file" name="image_url" value="{{ old('image_url') }}">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path " type="text" name="image_url_text" value="">
+            </div>
+        </div>
+        <div class="input-field col s12 m6">
             <p class="checkbox">
                 <input type="checkbox" name="active" id="active" value="1" {{ old('active') ? "checked" : "" }} />
                 <label for="active">Active</label>
             </p>
         </div>
     </div>
-    <h5>Options</h5>
+    <h5 style="margin: 20px 0 0 0;">Options</h5>
     <div class="options">
         @include('product.forms.option', ['i'=>1, 'option'=>null])
     </div>

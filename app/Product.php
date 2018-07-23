@@ -27,4 +27,13 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class, 'product_tag');
     }
+
+    public function primaryImage()
+    {
+        if ($this->images->count() == 0) {
+            return null;
+        }
+
+        return $this->images[0];
+    }
 }

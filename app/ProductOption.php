@@ -22,4 +22,15 @@ class ProductOption extends Model
     {
         return $this->belongsToMany(Role::class, 'product_option_role');
     }
+
+    public function hasRole($role_code)
+    {
+        foreach ($this->roles as $role) {
+            if ($role->code == $role_code) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

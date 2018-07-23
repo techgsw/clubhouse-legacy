@@ -25,6 +25,9 @@
                 @can ('view-contact')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/contact">Contacts</a></li>
                 @endcan
+                @can ('edit-email')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/email">Email</a></li>
+                @endcan
                 @can ('follow-up')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/follow-up">Follow Up</a></li>
                 @endcan
@@ -55,6 +58,9 @@
             <li><a href="/admin/job">Blog</a></li>
             @can ('view-contact')
                 <li><a href="/admin/contact">Contacts</a></li>
+            @endcan
+            @can ('edit-email')
+                <li><a href="/email">Email</a></li>
             @endcan
             @can ('view-admin-jobs')
                 <li><a href="/admin/job">Jobs</a></li>
