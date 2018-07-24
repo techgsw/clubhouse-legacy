@@ -14,13 +14,13 @@ $.valHooks.textarea = {
 
 (function () {
     var Auth = {};
-    var Blog = {};
     var Contact = {};
     var Form = {
         unsaved: false
     };
     var Instagram = {};
     var League = {};
+    var Markdown = {};
     var Mentor = {};
     var Note = {};
     var Organization = {};
@@ -41,14 +41,19 @@ $.valHooks.textarea = {
         });
     }
 
-    Blog.init = function () {
-        var editor = $(".markdown-editor");
-        if (!editor) {
+    Markdown.createEditor = function (input) {
+        input = $(input);
+        var editor = $("#"+input.attr('editor-id'));
+        if (editor.length === 0) {
+            editor = $(".markdown-editor");
+        }
+        if (editor.length === 0) {
+            console.error("No markdown editor for input", input);
             return;
         }
-        var input = $("textarea.markdown-input");
-        if (!input) {
-            return;
+        var placeholder = editor.attr('placeholder');
+        if (placeholder === undefined) {
+            placeholder = 'Write here';
         }
         new MediumEditor(editor, {
             extensions: {
@@ -64,10 +69,29 @@ $.valHooks.textarea = {
                 cleanTags: ['meta', 'span']
             },
             placeholder: {
-                text: 'Write here',
+                text: placeholder,
                 hideOnClick: true
+            },
+            toolbar: {
+                buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
             }
         });
+    }
+
+    Markdown.init = function () {
+        var inputs = $("textarea.markdown-input");
+        if (inputs.length === 0) {
+            return;
+        }
+        inputs.each(function (i, input) {
+            Markdown.createEditor(input);
+        });
+    }
+    SBS.initializeMarkdownEditors = function () {
+        Markdown.init();
+    }
+    SBS.createMarkdownEditor = function (input) {
+        Markdown.createEditor(input);
     }
 
     Contact.scheduleFollowUp = function (data) {
@@ -1466,7 +1490,7 @@ $.valHooks.textarea = {
     SBS.UI.removeMessage = UI.removeMessage;
 
     SBS.init = function () {
-        Blog.init();
+        Markdown.init();
         Instagram.init();
         Note.init();
         League.init();

@@ -6,6 +6,7 @@ use Mail;
 use App\Email;
 use App\Inquiry;
 use App\Job;
+use App\Mentor;
 use App\User;
 use App\Mail\NewUserFollowUp;
 use App\Mail\Admin\InquirySummary;
@@ -76,12 +77,12 @@ class EmailServiceProvider extends ServiceProvider
     public static function sendMentorshipRequestEmails(User $mentee, Mentor $mentor, array $dates)
     {
         // Confirm request with user
-        Mail::to(Auth::user())->send(new MentorshipRequest($mentor, $mentee, $dates));
+        Mail::to($mentee)->send(new MentorshipRequest($mentor, $mentee, $dates));
 
         // Alert admins about request
         $users = User::join('email_user', 'user.id', 'email_user.user_id')
             ->join('email', 'email_user.email_id', 'email.id')
-            ->where('email.code', 'registration_individual')
+            ->where('email.code', 'mentorship_requests')
             ->select('user.*')
             ->get();
 

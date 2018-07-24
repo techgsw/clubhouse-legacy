@@ -214,5 +214,19 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-mentor', function ($auth_user) {
             return $auth_user->hasAccess('mentor_create');
         });
+
+        // Product
+        Gate::define('admin-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_admin');
+        });
+        Gate::define('view-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_show');
+        });
+        Gate::define('edit-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_edit');
+        });
+        Gate::define('create-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_create');
+        });
     }
 }

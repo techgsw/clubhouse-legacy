@@ -25,6 +25,9 @@
                 @can ('view-contact')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/contact">Contacts</a></li>
                 @endcan
+                @can ('edit-email')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/email">Email</a></li>
+                @endcan
                 @can ('follow-up')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/follow-up">Follow Up</a></li>
                 @endcan
@@ -36,6 +39,9 @@
                 @endcan
                 @can ('view-admin-organizations')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/organization">Organizations</a></li>
+                @endcan
+                @can ('admin-product')
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/product">Products</a></li>
                 @endcan
                 @can ('view-admin-questions')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/question">Q&amp;A</a></li>
@@ -53,6 +59,9 @@
             @can ('view-contact')
                 <li><a href="/admin/contact">Contacts</a></li>
             @endcan
+            @can ('edit-email')
+                <li><a href="/email">Email</a></li>
+            @endcan
             @can ('view-admin-jobs')
                 <li><a href="/admin/job">Jobs</a></li>
             @endcan
@@ -61,6 +70,9 @@
             @endcan
             @can ('view-admin-organizations')
                 <li><a href="/admin/organization">Organizations</a></li>
+            @endcan
+            @can ('admin-product')
+                <li><a href="/admin/product">Products</a></li>
             @endcan
             @can ('view-admin-questions')
                 <li><a href="/admin/question">Q&amp;A</a></li>
