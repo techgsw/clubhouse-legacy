@@ -77,6 +77,13 @@ class MentorController extends Controller
         $mentor->tags()->sync($tag_names);
         $mentor->description = request('description') ?: "";
         $mentor->active = request('active') === '1';
+        $mentor->timezone = request('timezone') ?: "";
+        $mentor->day_preference_1 = request('day_preference_1') ?: "";
+        $mentor->time_preference_1 = request('time_preference_1') ?: "";
+        $mentor->day_preference_2 = request('day_preference_2') ?: "";
+        $mentor->time_preference_2 = request('time_preference_2') ?: "";
+        $mentor->day_preference_3 = request('day_preference_3') ?: "";
+        $mentor->time_preference_3 = request('time_preference_3') ?: "";
         $mentor->save();
 
         return redirect()->action('MentorController@edit', [$mentor->contact_id]);
@@ -90,6 +97,13 @@ class MentorController extends Controller
         if (!$mentor) {
             return response()->json([
                 'error' => 'Please confirm dates are valid and try again',
+                'success' => null
+            ]);
+        }
+
+        if (!$mentor->active) {
+            return response()->json([
+                'error' => 'Sorry, that mentor is not available right now',
                 'success' => null
             ]);
         }

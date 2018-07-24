@@ -4,7 +4,7 @@
         <p>You requested a mentorship meeting with {{ $mentor->contact->getName() }}, preferably on the following dates:</p>
         <ul>
             @foreach ($dates as $date)
-                <li>{{ $date->format('m/d/Y') }} at {{ $date->format('h:iA') }} PST</li>
+                <li>{{ $date->format('m/d/Y') }} at {{ $date->format('h:iA') }}</li>
             @endforeach
         </ul>
         <p>We will reach out to you soon to schedule a meeting.</p>

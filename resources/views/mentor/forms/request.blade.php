@@ -12,23 +12,23 @@
         </div>
         <div class="input-field col s6">
             <select id="time_1" name="time_1" class="browser-default">
-                <option value="0900">9:00 AM (PST)</option>
-                <option value="0930">9:30 AM (PST)</option>
-                <option value="1000">10:00 AM (PST)</option>
-                <option value="1030">10:30 AM (PST)</option>
-                <option value="1100">11:00 AM (PST)</option>
-                <option value="1130">11:30 AM (PST)</option>
-                <option value="1200">12:00 AM (PST)</option>
-                <option value="1230">12:30 AM (PST)</option>
-                <option value="1300">1:00 PM (PST)</option>
-                <option value="1330">1:30 PM (PST)</option>
-                <option value="1400">2:00 PM (PST)</option>
-                <option value="1430">2:30 PM (PST)</option>
-                <option value="1500">3:00 PM (PST)</option>
-                <option value="1530">3:30 PM (PST)</option>
-                <option value="1600">4:00 PM (PST)</option>
-                <option value="1630">4:30 PM (PST)</option>
-                <option value="1700">5:00 PM (PST)</option>
+                <option value="0900">9:00 AM</option>
+                <option value="0930">9:30 AM</option>
+                <option value="1000">10:00 AM</option>
+                <option value="1030">10:30 AM</option>
+                <option value="1100">11:00 AM</option>
+                <option value="1130">11:30 AM</option>
+                <option value="1200">12:00 AM</option>
+                <option value="1230">12:30 AM</option>
+                <option value="1300">1:00 PM</option>
+                <option value="1330">1:30 PM</option>
+                <option value="1400">2:00 PM</option>
+                <option value="1430">2:30 PM</option>
+                <option value="1500">3:00 PM</option>
+                <option value="1530">3:30 PM</option>
+                <option value="1600">4:00 PM</option>
+                <option value="1630">4:30 PM</option>
+                <option value="1700">5:00 PM</option>
             </select>
         </div>
     </div>
@@ -38,23 +38,23 @@
         </div>
         <div class="input-field col s6">
             <select id="time_2" name="time_2" class="browser-default">
-                <option value="0900">9:00 AM (PST)</option>
-                <option value="0930">9:30 AM (PST)</option>
-                <option value="1000">10:00 AM (PST)</option>
-                <option value="1030">10:30 AM (PST)</option>
-                <option value="1100">11:00 AM (PST)</option>
-                <option value="1130">11:30 AM (PST)</option>
-                <option value="1200">12:00 AM (PST)</option>
-                <option value="1230">12:30 AM (PST)</option>
-                <option value="1300">1:00 PM (PST)</option>
-                <option value="1330">1:30 PM (PST)</option>
-                <option value="1400">2:00 PM (PST)</option>
-                <option value="1430">2:30 PM (PST)</option>
-                <option value="1500">3:00 PM (PST)</option>
-                <option value="1530">3:30 PM (PST)</option>
-                <option value="1600">4:00 PM (PST)</option>
-                <option value="1630">4:30 PM (PST)</option>
-                <option value="1700">5:00 PM (PST)</option>
+                <option value="0900">9:00 AM</option>
+                <option value="0930">9:30 AM</option>
+                <option value="1000">10:00 AM</option>
+                <option value="1030">10:30 AM</option>
+                <option value="1100">11:00 AM</option>
+                <option value="1130">11:30 AM</option>
+                <option value="1200">12:00 AM</option>
+                <option value="1230">12:30 AM</option>
+                <option value="1300">1:00 PM</option>
+                <option value="1330">1:30 PM</option>
+                <option value="1400">2:00 PM</option>
+                <option value="1430">2:30 PM</option>
+                <option value="1500">3:00 PM</option>
+                <option value="1530">3:30 PM</option>
+                <option value="1600">4:00 PM</option>
+                <option value="1630">4:30 PM</option>
+                <option value="1700">5:00 PM</option>
             </select>
         </div>
     </div>
@@ -64,23 +64,23 @@
         </div>
         <div class="input-field col s6">
             <select id="time_3" name="time_3" class="browser-default">
-                <option value="0900">9:00 AM (PST)</option>
-                <option value="0930">9:30 AM (PST)</option>
-                <option value="1000">10:00 AM (PST)</option>
-                <option value="1030">10:30 AM (PST)</option>
-                <option value="1100">11:00 AM (PST)</option>
-                <option value="1130">11:30 AM (PST)</option>
-                <option value="1200">12:00 AM (PST)</option>
-                <option value="1230">12:30 AM (PST)</option>
-                <option value="1300">1:00 PM (PST)</option>
-                <option value="1330">1:30 PM (PST)</option>
-                <option value="1400">2:00 PM (PST)</option>
-                <option value="1430">2:30 PM (PST)</option>
-                <option value="1500">3:00 PM (PST)</option>
-                <option value="1530">3:30 PM (PST)</option>
-                <option value="1600">4:00 PM (PST)</option>
-                <option value="1630">4:30 PM (PST)</option>
-                <option value="1700">5:00 PM (PST)</option>
+                <option value="0900">9:00 AM</option>
+                <option value="0930">9:30 AM</option>
+                <option value="1000">10:00 AM</option>
+                <option value="1030">10:30 AM</option>
+                <option value="1100">11:00 AM</option>
+                <option value="1130">11:30 AM</option>
+                <option value="1200">12:00 AM</option>
+                <option value="1230">12:30 AM</option>
+                <option value="1300">1:00 PM</option>
+                <option value="1330">1:30 PM</option>
+                <option value="1400">2:00 PM</option>
+                <option value="1430">2:30 PM</option>
+                <option value="1500">3:00 PM</option>
+                <option value="1530">3:30 PM</option>
+                <option value="1600">4:00 PM</option>
+                <option value="1630">4:30 PM</option>
+                <option value="1700">5:00 PM</option>
             </select>
         </div>
     </div>
