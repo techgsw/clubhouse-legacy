@@ -484,7 +484,7 @@ a>img {
 a>img.no-border {
     border: none;
 }
-a:hover>img {
+a:not(.no-underline):hover>img {
     border: 3px solid #EB2935;
 }
 a:hover>img.no-border {

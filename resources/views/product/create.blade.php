@@ -14,6 +14,7 @@
     </div>
     <div class="row">
         <div class="col s12">
+            @include('product.forms.tag', ['product' => null])
             @include('product.forms.create')
         </div>
     </div>

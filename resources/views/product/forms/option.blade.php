@@ -1,7 +1,5 @@
 @php
-    if (is_null($pd)) {
-        $pd = new Parsedown();
-    }
+    $pd = new Parsedown();
 @endphp
 <div class="product-option row" index="{{ $i ?: ""}}">
     <input type="hidden" id="option-{{ $i ?: "" }}-id" name="option[{{ $i ?: "" }}][id]" value="{{ $option ? $option->id : '' }}">

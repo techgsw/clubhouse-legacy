@@ -26,7 +26,7 @@
     <div class="row product-show">
         <div class="col s12 m5">
             @if (!is_null($product->primaryImage()))
-                <img src={{ $product->primaryImage()->getURL('medium') }}>
+                <img style="padding: 18px 24px;" src={{ $product->primaryImage()->getURL('medium') }}>
             @endif
         </div>
         <div class="col s12 m7 product-description">

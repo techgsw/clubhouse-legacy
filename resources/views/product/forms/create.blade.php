@@ -1,5 +1,6 @@
 <form id="product" method="post" action="/product" enctype="multipart/form-data">
     {{ csrf_field() }}
+    <input type="hidden" id="product-tags-json" name="product_tags_json" value="[]">
     <div class="row">
         <div class="input-field col s12">
             <input id="name" name="name" type="text" value="{{ old('name') }}" required>

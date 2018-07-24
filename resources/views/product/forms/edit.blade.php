@@ -1,6 +1,7 @@
 @php $pd = new Parsedown(); @endphp
 <form id="product" method="post" action="/product/{{$product->id}}" enctype="multipart/form-data">
     {{ csrf_field() }}
+    <input type="hidden" id="product-tags-json" name="product_tags_json" value="{{ $product_tags_json }}">
     <div class="row">
         <div class="input-field col s12">
             <input id="name" name="name" type="text" value="{{ old('name') ?: $product->name }}" required>

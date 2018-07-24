@@ -6,6 +6,7 @@ use \Exception;
 use App\Message;
 use App\Product;
 use App\ProductOption;
+use App\Tag;
 // TODO use App\Http\Requests\StoreProduct;
 // TODO use App\Http\Requests\UpdateProduct;
 use App\Providers\ImageServiceProvider;
@@ -26,15 +27,23 @@ class ProductController extends Controller
         ]);
     }
 
-    public function admin()
+    public function admin(Request $request)
     {
         $this->authorize('admin-product');
+
+        $products = Product::with('options')
+            ->filter($request->all())
+            ->paginate(15);
+
+        $tags = Tag::has('products')->get();
 
         return view('product/admin', [
             'breadcrumb' => [
                 'Home' => '/',
-                'Product' => '/admin/product'
-            ]
+                'Product' => '/product/admin'
+            ],
+            'products' => $products,
+            'tags' => $tags,
         ]);
     }
 
@@ -45,7 +54,7 @@ class ProductController extends Controller
         return view('product/create', [
             'breadcrumb' => [
                 'Home' => '/',
-                'Product' => '/admin/product',
+                'Product' => '/product/admin',
                 'New Product' => '/product/create'
             ]
         ]);
@@ -60,7 +69,7 @@ class ProductController extends Controller
                 $product = new Product;
                 $product->name = request('name');
                 $product->description = request('description');
-                $product->active = request('active');
+                $product->active = request('active') ? true : false;
                 $product->save();
 
                 foreach (request('option') as $i => $params) {
@@ -91,8 +100,15 @@ class ProductController extends Controller
                     );
                     $product->images()->attach($image->id);
                 }
+
+                $tag_json = request('product_tags_json');
+                $tag_names = json_decode($tag_json);
+                $product->tags()->sync($tag_names);
+
+                return $product;
             });
         } catch (Exception $e) {
+            Log::error($e);
             $request->session()->flash('message', new Message(
                 "Failed to save product. Please try again.",
                 "danger",
@@ -121,11 +137,18 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
         }
 
+        $tags = [];
+        foreach ($product->tags as $tag) {
+            $tags[] = $tag->name;
+        }
+        $product_tags_json = json_encode($tags);
+
         return view('product/edit', [
             'product' => $product,
+            'product_tags_json' => $product_tags_json,
             'breadcrumb' => [
                 'Home' => '/',
-                'Product' => '/admin/product',
+                'Product' => '/product/admin',
                 "{$product->name}" => "/product/{$product->id}",
                 "Edit" => "/product/{$product->id}/edit"
             ]
@@ -145,7 +168,7 @@ class ProductController extends Controller
             $product = DB::transaction(function () use ($product, $request) {
                 $product->name = request('name');
                 $product->description = request('description');
-                $product->active = request('active');
+                $product->active = request('active') ? true : false;
                 $product->save();
 
                 $options = [];
@@ -186,6 +209,10 @@ class ProductController extends Controller
                     $product->images()->detach();
                     $product->images()->attach($image->id);
                 }
+
+                $tag_json = request('product_tags_json');
+                $tag_names = json_decode($tag_json);
+                $product->tags()->sync($tag_names);
 
                 return $product;
             });
@@ -240,7 +267,7 @@ class ProductController extends Controller
             'product' => $product,
             'breadcrumb' => [
                 'Home' => '/',
-                'Product' => Auth::user() && Auth::user()->can('admin-product') ? '/admin/product' : '/product',
+                'Product' => Auth::user() && Auth::user()->can('admin-product') ? '/product/admin' : '/product',
                 "{$product->name}" => "/product/{$product->id}"
             ]
         ]);

@@ -123,13 +123,13 @@
     @can ('admin-product')
         <div class="card">
             <div class="card-content">
-                <span class="card-title"><a href="/admin/product" class="no-underline">Products</a></span>
+                <span class="card-title"><a href="/product/admin" class="no-underline">Products</a></span>
                 <p style="text-transform: uppercase;">
                     <span class="sbs-red-text">{{ $product_count }}</span> product{{ $product_count == 1 ? "" : "s" }}
                 </p>
             </div>
             <div class="card-action">
-                <a class="no-underline" href="/admin/product"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Products</span></a>
+                <a class="no-underline" href="/product/admin"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Products</span></a>
             </div>
             <div class="card-action">
                 <a class="no-underline" href="/product/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> New Product</span></a>

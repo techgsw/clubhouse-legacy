@@ -14,6 +14,7 @@
     </div>
     <div class="row">
         <div class="col s12">
+            @include('product.forms.tag', ['product' => $product])
             @include('product.forms.edit')
         </div>
     </div>

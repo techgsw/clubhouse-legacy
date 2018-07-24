@@ -25,7 +25,6 @@
                 <div class="card-placeholder large"></div>
                 <div class="card-placeholder large"></div>
                 <div class="card-placeholder large"></div>
-                <div class="card-placeholder large"></div>
             </div>
         </div>
     </div>

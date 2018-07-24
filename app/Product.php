@@ -36,4 +36,43 @@ class Product extends Model
 
         return $this->images[0];
     }
+
+    // Scopes
+
+    public function scopeFilter($query, $params)
+    {
+        // Match term on name, description, and option names and descriptions
+        $term = array_key_exists('term', $params) ? $params['term'] : null;
+        if (strlen($term) > 0) {
+            $query->where(function ($q) use ($term) {
+                $q->where('name', 'like', "%{$term}%");
+                $q->orWhere('description', 'like', "%{$term}%");
+                $q->orWhereHas('options', function ($query) use ($term) {
+                    $query->where('name', 'like', "%{$term}%");
+                    $query->orWhere('description', 'like', "%{$term}%");
+                });
+            });
+        }
+
+        $status = array_key_exists('status', $params) ? $params['status'] : null;
+        switch ($status) {
+            case 'active':
+                $query->where('active', true);
+                break;
+            case 'inactive':
+                $query->where('active', false);
+                break;
+            default:
+                break;
+        }
+
+        $tag = array_key_exists('tag', $params) ? urldecode($params['tag']) : null;
+        if (strlen($tag) > 0 && $tag !== 'all') {
+            $query->whereHas('tags', function ($query) use ($tag) {
+                $query->where('name', $tag);
+            });
+        }
+
+        return $query;
+    }
 }
