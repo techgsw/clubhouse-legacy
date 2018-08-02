@@ -217,8 +217,9 @@ class ContactController extends Controller
         } elseif ($contact->organization == request('current_organization')) {
             // No change, no action
         } else {
-            dump($current_org);
-            $contact->organizations()->detach($current_org->id);
+            if ($current_org) {
+                $contact->organizations()->detach($current_org->id);
+            }
         }
         $contact->organization = request('organization');
         $contact->job_seeking_type = request('job_seeking_type');
