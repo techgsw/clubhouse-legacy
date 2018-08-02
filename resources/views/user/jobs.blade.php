@@ -1,5 +1,5 @@
 <!-- /resources/views/user/jobs.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Job Applications')
 @section('content')
 <div class="container">

@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Career Services')
 @section('hero')
     <div class="row hero bg-image career-services">
@@ -169,7 +169,7 @@
                             <p>A good friend of mine introduced me to Bob and Sports Business Solutions and from there we hopped on a phone call. I told him what I was passionate about, why I wanted to do what I wanted to do, and he was so helpful in explaining to me what kind opportunities I should be looking for. Within a week, I received an email from the San Francisco 49ers saying they got my information from Bob and that they wanted me to apply to their Event Marketing Internship. After three rounds of interviews, I was offered the internship and I accepted it. The internship gave me every opportunity to do what I was passionate about; coaching and working with young kids while representing an NFL organization. I met so many great people and made so many amazing memories from this internship and I cannot thank Bob enough for his help. Without him, I don’t know where my career path would be at this point; he has helped me in ways I did not think anybody could.</p>
                             <p class="heavy">
                                 Jason Sass<br/>
-                                San Francisco 49ers 
+                                San Francisco 49ers
                             </p>
                         </div>
                     </div>

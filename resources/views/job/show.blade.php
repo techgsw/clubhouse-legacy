@@ -1,5 +1,5 @@
 <!-- /resources/views/job/show.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', "$job->title with $job->organization_name")
 @section('description', "$job->description")
 @section('url', Request::fullUrl())

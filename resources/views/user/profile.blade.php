@@ -1,5 +1,5 @@
 <!-- /resources/views/user/profile.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Profile')
 @section('content')
 <div class="container">

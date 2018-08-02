@@ -1,5 +1,5 @@
 <!-- /resources/views/post/show.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', strip_tags($post->title))
 @php
     // TODO I'm sure this could be more elegant.

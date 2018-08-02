@@ -34,9 +34,6 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/blog', function () {
         return redirect('https://blog.sportsbusiness.solutions/');
     });
-    Route::get('/career-services', function () {
-        return view('career-services');
-    });
     Route::get('/gallery', function () {
         return view('gallery');
     });
@@ -49,20 +46,11 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/privacy-policy', function () {
         return view('privacy-policy');
     });
-    Route::get('/recruiting-3', function () {
-        return redirect('recruiting');
-    });
-    Route::get('/recruiting', function () {
-        return view('recruiting');
-    });
     Route::get('/refund-policy-2', function () {
         return redirect('refund-policy');
     });
     Route::get('/refund-policy', function () {
         return view('refund-policy');
-    });
-    Route::get('/services', function () {
-        return view('services');
     });
     Route::get('/sports-business-solutions-career-success-stories', function () {
         return redirect('success-stories');
@@ -72,9 +60,6 @@ Route::domain(env('APP_URL'))->group(function () {
     });
     Route::get('/terms-of-service', function () {
         return view('terms-of-service');
-    });
-    Route::get('/training-consulting', function () {
-        return view('training-consulting');
     });
     Route::get('/video', function () {
         return redirect('videos');
@@ -111,6 +96,14 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::post('/session/{id}/image', 'SessionController@addImage');
         Route::post('/session/{id}/image-order', 'SessionController@imageOrder');
     });
+
+    // Auth
+    Route::group(['namespace' => 'Auth'], function () {
+        Route::get('login', 'LoginController@login')->name('login');
+        Route::get('logout', 'LoginController@logout')->name('logout');
+        Route::get('/auth/login/header', 'LoginController@header');
+    });
+    Auth::routes();
 
     // Blog
     Route::group(['middleware' => ['web']], function () {
@@ -244,6 +237,23 @@ Route::domain(env('APP_URL'))->group(function () {
 // Clubhouse-domain routes
 $domain = "clubhouse." . substr(env('APP_URL'), strpos(env('APP_URL'), "://")+3);
 Route::domain($domain)->group(function () {
+    // Static
+    Route::get('/career-services', function () {
+        return view('career-services');
+    });
+    Route::get('/recruiting-3', function () {
+        return redirect('recruiting');
+    });
+    Route::get('/recruiting', function () {
+        return view('recruiting');
+    });
+    Route::get('/services', function () {
+        return view('services');
+    });
+    Route::get('/training-consulting', function () {
+        return view('training-consulting');
+    });
+
     // Auth
     Route::group(['namespace' => 'Auth'], function () {
         Route::get('login', 'LoginController@login')->name('login');
@@ -286,6 +296,7 @@ Route::domain($domain)->group(function () {
 
     // Product
     Route::group(['middleware' => ['web']], function () {
+        // TODO Route::get('/product', 'ProductController@index');
         Route::get('/product/{id}', 'ProductController@show');
     });
 

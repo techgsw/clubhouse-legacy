@@ -1,5 +1,5 @@
 <!-- /resources/views/user/questions.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Questions')
 @section('content')
 <div class="container">

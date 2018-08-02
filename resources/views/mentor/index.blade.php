@@ -1,5 +1,5 @@
 <!-- /resources/views/mentor/index.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Mentors')
 @section('scripts')
     @include('mentor.components.scripts')
