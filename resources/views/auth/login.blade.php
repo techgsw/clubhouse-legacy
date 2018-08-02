@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Log In')
 @section('content')
 <div class="container">

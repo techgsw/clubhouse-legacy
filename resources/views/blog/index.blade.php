@@ -1,5 +1,5 @@
 <!-- /resources/views/blog/index.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Blog')
 @section('hero')
     <div class="row hero bg-image blog">
