@@ -4,6 +4,7 @@
             @can ('view-admin-dashboard')
                 <li><a href="/admin">ADMIN</a></li>
             @endif
+            <li><a href="{{ env('APP_URL') }}"><img style="height: 30px; margin-top: 5px;" src="/images/logo.png" alt="Sports Business Solutions"></a></li>
         </ul>
         <ul class="right">
             <li><a href="https://facebook.com/sportsbusinesssolutions"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a></li>
@@ -12,7 +13,7 @@
             <li><a href="https://www.linkedin.com/company/sports-business-solutions"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a></li>
             @if (Auth::guest())
                 <li><a href="{{ route('login') }}">Login</a></li>
-                <li><a href="{{ route('register') }}">Register</a></li>
+                <li><a href="{{ route('register') }}" class="sbs-red white-text">Register</a></li>
             @else
                 <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>
                 <li>
@@ -22,7 +23,6 @@
                     </form>
                 </li>
             @endif
-            <li><a class="sbs-red white-text" href="/contact">Contact</a></li>
         </ul>
     </div>
 </nav>

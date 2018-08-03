@@ -238,6 +238,10 @@ Route::domain(env('APP_URL'))->group(function () {
 $domain = "clubhouse." . substr(env('APP_URL'), strpos(env('APP_URL'), "://")+3);
 Route::domain($domain)->group(function () {
     // Static
+    Route::get('/', function () {
+        return view('clubhouse');
+    });
+    // Static
     Route::get('/career-services', function () {
         return view('career-services');
     });

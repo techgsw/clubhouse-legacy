@@ -1,4 +1,3 @@
-<!-- /resources/views/job/edit.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', 'Job Board')
 @section('content')
