@@ -7,8 +7,10 @@
             </a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="/about">About</a></li>
-                <li><a href="{{env('CLUBHOUSE_URL')}}">Clubhouse</a></li>
-                <li><a href="{{env('CLUBHOUSE_URL')}}/question">Q&A Forum</a></li>
+                <li><a href="/service">Services</a></li>
+                <li><a href="/archives">Archives</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/job-board">Job Board</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li class="social-media">

@@ -115,6 +115,33 @@ div.row.bg-image {
     background-size: cover;
     position: relative;
 }
+
+#clubhouse-title-text {
+    margin-top: 100px;
+}
+
+div.row.bg-image.clubhouse {
+    background-image: url("/images/clubhouse/clubhouse-hero.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    text-align: left;
+}
+
+div.row.bg-image.clubhouse h4 {
+    font-size: 2rem;
+}
+
+div.row.bg-image.clubhouse p {
+    font-size: 16px;
+    line-height: inherit;
+}
+
+div.row.bg-image.clubhouse input {
+    margin-bottom: 0;
+}
+
 div.row.bg-image a.btn.sbs-red {
     margin-left: 3px;
     margin-right: 3px;
@@ -372,6 +399,8 @@ ul.nav-tabs li.tab a.active {
 /**
  * Type
  */
+
+.font-black { color: #000!important; }
 
 h1 { font-size: 3.4rem; }
 h2 { font-size: 2.8rem; }
@@ -669,6 +698,13 @@ ul.footer-nav li a {
     display: inline-block;
     margin: 0 10px;
 }
+
+/* Fills */
+
+.fill-grey {
+    background-color: #F2F2F2;
+}
+
 @media only screen and (max-width: 992px) {
     ul.footer-nav li {
         display: block;
@@ -797,6 +833,9 @@ hr {
     .about-cards .about-card {
         flex: 0 0 auto;
         width: 110px;
+    }
+    #clubhouse-title-text {
+        margin-top: 0;
     }
 }
 

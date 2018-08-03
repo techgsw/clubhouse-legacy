@@ -67,6 +67,21 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/videos', function () {
         return view('videos');
     });
+    Route::get('/career-services', function () {
+        return view('career-services');
+    });
+    Route::get('/recruiting-3', function () {
+        return redirect('recruiting');
+    });
+    Route::get('/recruiting', function () {
+        return view('recruiting');
+    });
+    Route::get('/services', function () {
+        return view('services');
+    });
+    Route::get('/training-consulting', function () {
+        return view('training-consulting');
+    });
 
     // Admin
     Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function () {
@@ -222,22 +237,7 @@ Route::domain($domain)->group(function () {
     Route::get('/', function () {
         return view('clubhouse');
     });
-    // Static
-    Route::get('/career-services', function () {
-        return view('career-services');
-    });
-    Route::get('/recruiting-3', function () {
-        return redirect('recruiting');
-    });
-    Route::get('/recruiting', function () {
-        return view('recruiting');
-    });
-    Route::get('/services', function () {
-        return view('services');
-    });
-    Route::get('/training-consulting', function () {
-        return view('training-consulting');
-    });
+
 
     // Auth
     Route::group(['namespace' => 'Auth'], function () {
