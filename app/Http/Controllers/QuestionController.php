@@ -21,7 +21,7 @@ class QuestionController extends Controller
         $questions = Question::search($request)->paginate(10);
 
         $breadcrumb = [
-            'Home' => '/',
+            'Clubhouse' => '/',
             'Q&A' => '/question',
         ];
         if ($search = request('search')) {
@@ -43,7 +43,7 @@ class QuestionController extends Controller
 
         return view('question/create', [
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Q&A' => '/question',
                 'Ask a question' => '/question/create'
             ]
@@ -94,7 +94,7 @@ class QuestionController extends Controller
             'question' => $question,
             'answers' => $answers,
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Q&A' => '/question',
                 "{$question->title}" => "/question/{$question->id}"
             ]
@@ -149,7 +149,7 @@ class QuestionController extends Controller
         return view('question/edit', [
             'question' => $question,
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Q&A' => '/question',
                 "Edit" => "/question/{$question->id}/edit"
             ]
