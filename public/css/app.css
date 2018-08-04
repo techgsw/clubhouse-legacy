@@ -116,9 +116,6 @@ div.row.bg-image {
     position: relative;
 }
 
-#clubhouse-title-text {
-    margin-top: 100px;
-}
 
 div.row.bg-image.clubhouse {
     background-image: url("/images/clubhouse/clubhouse-hero.jpg");
@@ -1760,6 +1757,10 @@ p.icon {
         width: 100px;
         height: 100px;
     }
+
+    #clubhouse-title-text {
+        margin-top: 100px;
+    }
 }
 @media only screen and (max-width: 601px) {
     .sbs-row {
@@ -1781,6 +1782,10 @@ p.icon {
         width: 100px;
         height: 100px;
     }
+
+    #clubhouse-title-text {
+        margin-top: 100px;
+    }
 }
 @media only screen and (min-width: 993px) {
     .row .col.l5ths {
@@ -1790,9 +1795,17 @@ p.icon {
         width: 200px;
         height: 200px;
     }
+
+    #clubhouse-title-text {
+        margin-top: 100px;
+    }
 }
 @media only screen and (min-width: 1201px) {
     .row .col.xl5ths {
         width: 20%;
+    }
+
+    #clubhouse-title-text {
+        margin-top: 200px;
     }
 }

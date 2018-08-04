@@ -233,9 +233,9 @@ Route::domain(env('APP_URL'))->group(function () {
 // Clubhouse-domain routes
 $domain = "clubhouse." . substr(env('APP_URL'), strpos(env('APP_URL'), "://")+3);
 Route::domain($domain)->group(function () {
-    // Static
-    Route::get('/', function () {
-        return view('clubhouse');
+    // Clubhouse
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/', 'ClubhouseController@index');
     });
 
 
