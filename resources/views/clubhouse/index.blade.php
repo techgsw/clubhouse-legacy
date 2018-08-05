@@ -92,15 +92,15 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <div class="carousel carousel-slider center" data-indicators="true">
+                    <div class="carousel carousel-slider center" data-indicators="true" style="height: 300px;">
                         @if (count($mentors) > 0)
                             @foreach ($mentors as $index => $mentor)
                                 @if ($index == 0 || $index % 2) 
-                                    <div class="carousel-item" href="#">
+                                    <div class="carousel-item" style="min-height: 300px;" href="#">
                                         <div class="row">
                                 @endif
                                 <div class="col s6">
-                                    <div class="col m4">
+                                    <div class="col m5">
                                         @if ($mentor->contact->headshotImage)
                                             <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" class="responsive-img circle"/>
                                         @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
@@ -109,11 +109,10 @@
                                             <i class="fa fa-user fa-2x"></i>
                                         @endif
                                     </div>
-                                    <div class="col m8 left-align">
-                                        <h4><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
-                                        <p>{{ $mentor->title }}</p>
-                                        <br />
-                                        <p>{{ $mentor->description }}</p>
+                                    <div class="col m7 left-align">
+                                        <h4 style="margin-bottom: 0px;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
+                                        <p style="margin-top: 0px; margin-bottom: 0px;"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
+                                        <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                     </div>
                                 </div>
                                 @if ($index == 0 || $index % 2) 
@@ -123,6 +122,11 @@
                             @endforeach
                         @endif
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 center-align" style="padding-bottom: 50px;">
+                    <a href="/blog" class="btn sbs-red" style="margin-top: 0px;"> Find you mentor</a>
                 </div>
             </div>
         </div>

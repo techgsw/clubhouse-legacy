@@ -20,7 +20,6 @@
                     <li><a href="/recruiting">Recruiting</a></li>
                     <li><a href="/career-services">Career Services</a></li>
                 </ul>
-                <li><a href="#">Resources</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li class="social-media">
@@ -36,7 +35,6 @@
                 <li><a href="/training-consulting">&mdash;Training &amp; Consulting</a></li>
                 <li><a href="/recruiting">&mdash;Recruiting</a></li>
                 <li><a href="/career-services">&mdash;Career Services</a></li>
-                <li><a href="#">Resources</a></li>
                 <li class="divider"></li>
                 <li><a href="/contact" class="sbs-red white-text">Contact</a></li>
                 @if (Auth::guest())

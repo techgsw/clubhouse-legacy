@@ -1,4 +1,4 @@
-@extends('layouts.clubhouse')
+@extends('layouts.default')
 @section('title', 'Services')
 @section('hero')
     <div class="row hero bg-image services">
