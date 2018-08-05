@@ -83,6 +83,30 @@ Route::domain(env('APP_URL'))->group(function () {
         return view('training-consulting');
     });
 
+
+
+
+    // Email
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/email', 'EmailController@index');
+        Route::post('/email/update', 'EmailController@update');
+    });
+
+
+
+});
+
+// Clubhouse-domain routes
+$domain = "clubhouse." . substr(env('APP_URL'), strpos(env('APP_URL'), "://")+3);
+Route::domain($domain)->group(function () {
+    // Auth
+    Route::group(['namespace' => 'Auth'], function () {
+        Route::get('login', 'LoginController@login')->name('login');
+        Route::get('logout', 'LoginController@logout')->name('logout');
+        Route::get('/auth/login/header', 'LoginController@header');
+    });
+    Auth::routes();
+
     // Admin
     Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth']], function () {
         Route::get('/admin', 'IndexController@index');
@@ -112,14 +136,6 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::post('/session/{id}/image-order', 'SessionController@imageOrder');
     });
 
-    // Auth
-    Route::group(['namespace' => 'Auth'], function () {
-        Route::get('login', 'LoginController@login')->name('login');
-        Route::get('logout', 'LoginController@logout')->name('logout');
-        Route::get('/auth/login/header', 'LoginController@header');
-    });
-    Auth::routes();
-
     // Blog
     Route::group(['middleware' => ['web']], function () {
         Route::get('/post/create', 'PostController@create');
@@ -131,10 +147,34 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::get('/tag/all', 'TagController@all');
     });
 
+    // Blog
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/blog', 'BlogController@index');
+        Route::get('/blog/{id}', 'BlogController@show');
+        Route::get('/post', function () {
+            return redirect('/blog');
+        });
+        Route::get('/post/{id}', 'PostController@show');
+
+        // Dynamic routes for post slugs
+        Post::each(function ($post) {
+            Route::get('/'.$post->title_url, function() {
+                return redirect('/post/'.$this->current->uri);
+            });
+        });
+    });
+
+    // Clubhouse
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/', 'ClubhouseController@index');
+    });
+
     // Contact
-    Route::get('/contact', 'ContactUsController@index');
-    Route::post('/contact', 'ContactUsController@send');
-    Route::get('/contact/thanks', 'ContactUsController@thanks');
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/contact', 'ContactUsController@index');
+        Route::post('/contact', 'ContactUsController@send');
+        Route::get('/contact/thanks', 'ContactUsController@thanks');
+    });
 
     // Contacts
     Route::group(['middleware' => ['web','auth']], function () {
@@ -151,11 +191,6 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::post('/contact/{id}/create-note', 'ContactController@createNote');
     });
 
-    // Email
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/email', 'EmailController@index');
-        Route::post('/email/update', 'EmailController@update');
-    });
 
     // Images
     Route::group(['middleware' => ['web']], function () {
@@ -184,6 +219,8 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');
         Route::post('/inquiry/{id}/create-note', 'InquiryController@createNote');
 
+        Route::get('/job', 'JobController@index');
+        Route::get('/job/{id}', 'JobController@show');
         Route::get('/jobs', function () {
             return redirect('/job');
         });
@@ -191,6 +228,8 @@ Route::domain(env('APP_URL'))->group(function () {
 
     // Mentor
     Route::group(['middleware' => ['web','auth']], function () {
+        Route::get('/mentor', 'MentorController@index');
+        Route::post('/mentor/{id}/request', 'MentorController@request');
         Route::post('/mentor/{id}', 'MentorController@update');
         Route::get('/contact/{id}/mentor', 'MentorController@edit');
     });
@@ -224,64 +263,6 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::post('/product', 'ProductController@store');
         Route::get('/product/{id}/edit', 'ProductController@edit');
         Route::post('/product/{id}', 'ProductController@update');
-        Route::get('/product/{id}', 'ProductController@show');
-    });
-
-
-});
-
-// Clubhouse-domain routes
-$domain = "clubhouse." . substr(env('APP_URL'), strpos(env('APP_URL'), "://")+3);
-Route::domain($domain)->group(function () {
-    // Clubhouse
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/', 'ClubhouseController@index');
-    });
-
-
-    // Auth
-    Route::group(['namespace' => 'Auth'], function () {
-        Route::get('login', 'LoginController@login')->name('login');
-        Route::get('logout', 'LoginController@logout')->name('logout');
-        Route::get('/auth/login/header', 'LoginController@header');
-    });
-    Auth::routes();
-
-    // Blog
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/blog', 'BlogController@index');
-        Route::get('/blog/{id}', 'BlogController@show');
-        Route::get('/post', function () {
-            return redirect('/blog');
-        });
-        Route::get('/post/{id}', 'PostController@show');
-
-        // Dynamic routes for post slugs
-        Post::each(function ($post) {
-            Route::get('/'.$post->title_url, function() {
-                return redirect('/post/'.$this->current->uri);
-            });
-        });
-    });
-
-    // Jobs
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/job', 'JobController@index');
-        Route::get('/job/{id}', 'JobController@show');
-        Route::get('/jobs', function () {
-            return redirect('/job');
-        });
-    });
-
-    // Mentor
-    Route::group(['middleware' => ['web','auth']], function () {
-        Route::get('/mentor', 'MentorController@index');
-        Route::post('/mentor/{id}/request', 'MentorController@request');
-    });
-
-    // Product
-    Route::group(['middleware' => ['web']], function () {
-        // TODO Route::get('/product', 'ProductController@index');
         Route::get('/product/{id}', 'ProductController@show');
     });
 

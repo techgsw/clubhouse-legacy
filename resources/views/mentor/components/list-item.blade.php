@@ -13,7 +13,7 @@
         </div>
         <div>
             <h4 style="text-align: center;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
-            <p style="text-align: center;">{{ $mentor->description }}</p>
+            <p style="text-align: center;">{{ $mentor->getTitle() }}</p>
             <div class="small" style="margin-top: 12px; text-align: center;">
                 <div style="margin-top: 4px">
                     @can ('view-mentor')

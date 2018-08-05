@@ -25,7 +25,6 @@ class ClubhouseController extends Controller
 
         $mentors = Mentor::with('contact')
             ->where('active', true)
-            ->select('contact.*', 'mentor.*')
             ->get();
         
 

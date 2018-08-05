@@ -93,55 +93,35 @@
             <div class="row">
                 <div class="col s12">
                     <div class="carousel carousel-slider center" data-indicators="true">
-                        <div class="carousel-item" href="#">
-                            <div class="row">
-                                <div class="col s12 m4">
-                                    <img class="logo" src="/images/about/testimonials/seat-geek.png" alt="">
-                                </div>
-                                <div class="col s12 m8 left-align">
-                                    <div class="testimonial-content">
-                                        <p>I had the pleasure of hiring Bob Hamer and working with him in Phoenix for the better part of seven years. Bob has a sharp eye for revenue generation and creating systems that enhance results. His ability to identify and hire great talent, as well as teaching this talent to succeed, is first class. I consider Bob a trusted advisor and would want him as part of my team.</p>
-                                        <p class="heavy">
-                                            Jeff Ianello<br/>
-                                            Executive Vice President, Client Partnerships<br/>
-                                        </p>
+                        @if (count($mentors) > 0)
+                            @foreach ($mentors as $index => $mentor)
+                                @if ($index == 0 || $index % 2) 
+                                    <div class="carousel-item" href="#">
+                                        <div class="row">
+                                @endif
+                                <div class="col s6">
+                                    <div class="col m4">
+                                        @if ($mentor->contact->headshotImage)
+                                            <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" class="responsive-img circle"/>
+                                        @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
+                                            <img src="{{ $mentor->contact->user->profile->headshotImage->getURL('medium') }}" class="responsive-img circle" />
+                                        @else
+                                            <i class="fa fa-user fa-2x"></i>
+                                        @endif
+                                    </div>
+                                    <div class="col m8 left-align">
+                                        <h4><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
+                                        <p>{{ $mentor->title }}</p>
+                                        <br />
+                                        <p>{{ $mentor->description }}</p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item" href="#">
-                            <div class="row">
-                                <div class="col s12 m4">
-                                    <img class="logo" src="/images/about/testimonials/usf-bulls.png" alt="">
-                                </div>
-                                <div class="col s12 m8 left-align">
-                                    <div class="testimonial-content">
-                                        <p>Bob Hamer has a unique perspective to offer young men and women hoping to work in the sport industry. He has progressed from an entry level sales person to a Vice President responsible for generating millions of dollars in revenue. In his role he has recruited, trained and developed successful professionals and has a real understanding of what it takes to be successful in sport business. His experience, concern, empathy and ability to communicate effectively make him uniquely qualified to provide direction and career advice. I can think of very few people with the credibility and interest in helping young people more than Bob Hamer. He will make a difference in people’s lives.</p>
-                                        <p class="heavy">
-                                            Dr. William (Bill) Sutton<br/>
-                                            Professor & Director, Sports Management<br/>
-                                            University South Florida
-                                        </p>
+                                @if ($index == 0 || $index % 2) 
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item" href="#">
-                            <div class="row">
-                                <div class="col s12 m4">
-                                    <img class="logo" src="/images/about/testimonials/arizona-diamondbacks.png" alt="">
-                                </div>
-                                <div class="col s12 m8 left-align">
-                                    <div class="testimonial-content">
-                                        <p>I’ve had the pleasure of knowing and working with Bob Hamer for the last ten years, in that time he has continued to grow and learn each and every day. Now all those lessons he’s learned while working in sports and traveling to visit teams are ready to be passed onto the next generation of industry leaders. The sports business field is highly competitive, and everyone looking for a start should also be looking for an advantage. I cannot think of a better professional to teach, train, recruit, and help place individuals in sports than Bob. His passion to help others learn, grow, and succeed are second to none. I highly recommend Bob to any individuals or teams. If you work with him, I promise you’ll be ahead of the game from that moment on.</p>
-                                        <p class="heavy">
-                                            Ryan Holmstedt<br/>
-                                            Sr. Director, Ticket Sales, Arizona Diamondbacks (MLB)
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
