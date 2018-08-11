@@ -1,5 +1,5 @@
 <!-- /resources/views/product/create.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'New Product')
 @section('scripts')
     @include('product.components.scripts')

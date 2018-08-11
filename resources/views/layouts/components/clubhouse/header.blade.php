@@ -13,13 +13,8 @@
                 <li><a href="/mentor">Mentorship</a></li>
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/product?tag=webinar">Webinars</a></li>
-                <li><a href="/services" class="dropdown-button" data-activates="services-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Services</a></li>
-                <!-- Dropdown Structure -->
-                <ul id="services-dropdown" class="dropdown-content">
-                    <li><a href="/training-consulting">Training &amp; Consulting</a></li>
-                    <li><a href="/recruiting">Recruiting</a></li>
-                    <li><a href="/career-services">Career Services</a></li>
-                </ul>
+                <li><a href="/career-services">Career Services</a></li>
+                <li><a href="/resources">Resources</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li class="social-media">
@@ -32,9 +27,8 @@
                 <li><a href="/mentor">Mentorship</a></li>
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/product?tag=webinar">Webinars</a></li>
-                <li><a href="/training-consulting">&mdash;Training &amp; Consulting</a></li>
-                <li><a href="/recruiting">&mdash;Recruiting</a></li>
-                <li><a href="/career-services">&mdash;Career Services</a></li>
+                <li><a href="/career-services">Career Services</a></li>
+                <li><a href="/resources">Resources</a></li>
                 <li class="divider"></li>
                 <li><a href="/contact" class="sbs-red white-text">Contact</a></li>
                 @if (Auth::guest())

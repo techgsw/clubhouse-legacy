@@ -95,7 +95,7 @@
                     <div class="carousel carousel-slider center" data-indicators="true" style="height: 300px;">
                         @if (count($mentors) > 0)
                             @foreach ($mentors as $index => $mentor)
-                                @if ($index == 0 || $index % 2) 
+                                @if ($index == 0 || $index % 2 == 0) 
                                     <div class="carousel-item" style="min-height: 300px;" href="#">
                                         <div class="row">
                                 @endif
@@ -115,7 +115,7 @@
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                     </div>
                                 </div>
-                                @if ($index == 0 || $index % 2) 
+                                @if ($index != 0 && $index % 2 == 0) 
                                         </div>
                                     </div>
                                 @endif
@@ -128,6 +128,30 @@
                 <div class="col s12 center-align" style="padding-bottom: 50px;">
                     <a href="/blog" class="btn sbs-red" style="margin-top: 0px;"> Find you mentor</a>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/event.png" />
+                <h3>Webinars</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m6 offset-m3 center-align">
+                <h5>Learn and network with sports professionals in a fun and interactive way!</h5>
+            </div>
+        </div>
+        <div class="row center-align valign-wrapper">
+            <div class="col s2 m4">
+                <hr style="border: 1px solid;" />
+            </div>
+            <div class="col s8 m4">
+                <p style="font-size: 20px; color: #9E9E9E;">Upcoming Events</p>
+            </div>
+            <div class="col s2 m4">
+                <hr style="border: 1px solid;" />
             </div>
         </div>
     </div>

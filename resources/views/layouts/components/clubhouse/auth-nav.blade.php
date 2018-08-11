@@ -1,10 +1,10 @@
 <nav class="nav-user hide-on-med-and-down" role="navigation">
     <div class="nav-wrapper container">
         <ul>
+            <li><a href="{{ env('APP_URL') }}" class="no-underline"><img style="height: 30px; margin-top: 5px;" src="/images/logo.png" alt="Sports Business Solutions"></a></li>
             @can ('view-admin-dashboard')
                 <li><a href="/admin">ADMIN</a></li>
             @endif
-            <li><a href="{{ env('APP_URL') }}" class="no-underline"><img style="height: 30px; margin-top: 5px;" src="/images/logo.png" alt="Sports Business Solutions"></a></li>
         </ul>
         <ul class="right">
             <li><a href="https://facebook.com/sportsbusinesssolutions"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a></li>

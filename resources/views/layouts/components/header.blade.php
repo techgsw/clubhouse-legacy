@@ -7,7 +7,13 @@
             </a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="/about">About</a></li>
-                <li><a href="/services">Services</a></li>
+                <li><a href="/services" class="dropdown-button" data-activates="services-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Services</a></li>
+                <!-- Dropdown Structure -->
+                <ul id="services-dropdown" class="dropdown-content">
+                    <li><a href="/training-consulting">Training &amp; Consulting</a></li>
+                    <li><a href="/recruiting">Recruiting</a></li>
+                    <li><a href="{{ env('CLUBHOUSE_URL') }}/career-services">Career Services</a></li>
+                </ul>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/archives">Archives</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/blog">Blog</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/job-board">Job Board</a></li>
@@ -21,7 +27,12 @@
                 </li>
                 <li><a href="/contact" class="sbs-red white-text">Contact</a></li>
                 <li><a href="/about">About</a></li>
+                <li class="divider"></li>
                 <li><a href="/services">Services</a></li>
+                <li><a href="/training-consulting">&mdash;Training &amp; Consulting</a></li>
+                <li><a href="/recruiting">&mdash;Recruiting</a></li>
+                <li><a href="{{ env('CLUBHOUSE_URL') }}/career-services">&mdash;Career Services</a></li>
+                <li class="divider"></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/archives">Archives</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/blog">Blog</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/job-board">Job Board</a></li>

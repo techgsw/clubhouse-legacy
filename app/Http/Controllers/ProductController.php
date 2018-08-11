@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         return view('product/index', [
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Product' => '/product'
             ]
         ]);
@@ -39,7 +39,7 @@ class ProductController extends Controller
 
         return view('product/admin', [
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Product' => '/product/admin'
             ],
             'products' => $products,
@@ -53,7 +53,7 @@ class ProductController extends Controller
 
         return view('product/create', [
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Product' => '/product/admin',
                 'New Product' => '/product/create'
             ]
@@ -147,7 +147,7 @@ class ProductController extends Controller
             'product' => $product,
             'product_tags_json' => $product_tags_json,
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Product' => '/product/admin',
                 "{$product->name}" => "/product/{$product->id}",
                 "Edit" => "/product/{$product->id}/edit"
@@ -266,7 +266,7 @@ class ProductController extends Controller
         return view('product/show', [
             'product' => $product,
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Product' => Auth::user() && Auth::user()->can('admin-product') ? '/product/admin' : '/product',
                 "{$product->name}" => "/product/{$product->id}"
             ]

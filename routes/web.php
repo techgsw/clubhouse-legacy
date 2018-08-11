@@ -67,9 +67,6 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/videos', function () {
         return view('videos');
     });
-    Route::get('/career-services', function () {
-        return view('career-services');
-    });
     Route::get('/recruiting-3', function () {
         return redirect('recruiting');
     });
@@ -162,6 +159,11 @@ Route::domain($domain)->group(function () {
                 return redirect('/post/'.$this->current->uri);
             });
         });
+    });
+
+    // Career services
+    Route::get('/career-services', function () {
+        return view('career-services');
     });
 
     // Clubhouse
