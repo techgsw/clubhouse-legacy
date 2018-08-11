@@ -95,7 +95,11 @@
                     <div class="carousel carousel-slider center" data-indicators="true" style="height: 300px;">
                         @if (count($mentors) > 0)
                             @foreach ($mentors as $index => $mentor)
-                                @if ($index == 0 || $index % 2 == 0) 
+                                @if ($index % 2 == 0) 
+                                    @if ($index != 0) 
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="carousel-item" style="min-height: 300px;" href="#">
                                         <div class="row">
                                 @endif
@@ -115,10 +119,6 @@
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                     </div>
                                 </div>
-                                @if ($index != 0 && $index % 2 == 0) 
-                                        </div>
-                                    </div>
-                                @endif
                             @endforeach
                         @endif
                     </div>
