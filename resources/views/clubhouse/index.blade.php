@@ -96,10 +96,6 @@
                         @if (count($mentors) > 0)
                             @foreach ($mentors as $index => $mentor)
                                 @if ($index % 2 == 0) 
-                                    @if ($index != 0) 
-                                            </div>
-                                        </div>
-                                    @endif
                                     <div class="carousel-item" style="min-height: 300px;" href="#">
                                         <div class="row">
                                 @endif
@@ -119,6 +115,10 @@
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                     </div>
                                 </div>
+                                @if ($index != 0 || $index == count($mentors) - 1) 
+                                        </div>
+                                    </div>
+                                @endif
                             @endforeach
                         @endif
                     </div>
@@ -143,7 +143,7 @@
                 <h5>Learn and network with sports professionals in a fun and interactive way!</h5>
             </div>
         </div>
-        <div class="row center-align valign-wrapper">
+        <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
             <div class="col s2 m4">
                 <hr style="border: 1px solid;" />
             </div>
@@ -152,6 +152,32 @@
             </div>
             <div class="col s2 m4">
                 <hr style="border: 1px solid;" />
+            </div>
+        </div>
+        <div class="row">
+            @if (count($webinars) > 0)
+                @foreach ($webinars as $index => $webinar)
+                    <div class="col m4 bg-image dark-circle">
+                        @if ($webinar->primaryImage())
+                            <a href="/product/{{ $webinar->id }}" style="flex: 1 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
+                                <img style="width: 120px; margin: 0 auto;" src="{{ $webinar->primaryImage()->getURL('medium') }}" />
+                            </a>
+                        @endif
+                        <div class="col s8 offset-s2 center-align" style="padding: 10px 0 50px 0;">
+                            <p><strong>{{ $webinar->name}} plus even longer title</strong></p>
+                            <p>{{ $webinar->description }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="col s12 center-align">
+                    <h4>Coming soon.</h4>
+                </div>
+            @endif
+        </div>
+        <div class="row">
+            <div class="col s12 center-align" style="padding-bottom: 50px;">
+                <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
             </div>
         </div>
     </div>

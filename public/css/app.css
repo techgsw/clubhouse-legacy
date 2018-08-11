@@ -56,6 +56,7 @@
 .sbs-red {
     background-color: #EB2935;
 }
+
 .sbs-red-text {
     color: #EB2935;
 }
@@ -108,6 +109,17 @@ div.gray {
     background-color: #F2F2F2;
 }
 
+
+div.bg-image.dark-circle {
+    background-image: url("/images/clubhouse/dark-circle.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    color: #FFF;
+    padding: 0;
+}
+
 div.row.bg-image {
     background-image: url("/images/hero.jpg");
     background-position: center;
@@ -115,7 +127,6 @@ div.row.bg-image {
     background-size: cover;
     position: relative;
 }
-
 
 div.row.bg-image.clubhouse {
     background-image: url("/images/clubhouse/clubhouse-hero.jpg");

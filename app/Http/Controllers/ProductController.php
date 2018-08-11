@@ -35,6 +35,8 @@ class ProductController extends Controller
             ->filter($request->all())
             ->paginate(15);
 
+        $products = Product::with('options')->get();
+
         $tags = Tag::has('products')->get();
 
         return view('product/admin', [

@@ -28,7 +28,7 @@ class ClubhouseController extends Controller
             ->where('active', true)
             ->get();
 
-        $webinars = Product::join('product_tag', 'product_id', 'product.id')->where('tag_name', 'webinar')->limit(3)->get();
+        $webinars = Product::with('options')->limit(3)->get();
         
 
         return view('clubhouse/index', [
