@@ -80,8 +80,13 @@ Route::domain(env('APP_URL'))->group(function () {
         return view('training-consulting');
     });
 
-
-
+    // Archives
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/archives', 'ArchivesController@index');
+        Route::get('/session', function () {
+            return redirect('/archives');
+        });
+    });
 
     // Email
     Route::group(['middleware' => ['web']], function () {
@@ -118,10 +123,6 @@ Route::domain($domain)->group(function () {
 
     // Archives
     Route::group(['middleware' => ['web']], function () {
-        Route::get('/archives', 'ArchivesController@index');
-        Route::get('/session', function () {
-            return redirect('/archives');
-        });
         Route::get('/session/create', 'SessionController@create');
         Route::get('/session', 'SessionController@index');
         Route::post('/session', 'SessionController@store');

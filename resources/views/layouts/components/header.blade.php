@@ -14,7 +14,7 @@
                     <li><a href="/recruiting">Recruiting</a></li>
                     <li><a href="{{ env('CLUBHOUSE_URL') }}/career-services">Career Services</a></li>
                 </ul>
-                <li><a href="{{ env('CLUBHOUSE_URL') }}/archives">Archives</a></li>
+                <li><a href="/archives">Archives</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/blog">Blog</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/job-board">Job Board</a></li>
             </ul>
