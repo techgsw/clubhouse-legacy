@@ -715,6 +715,10 @@ ul.footer-nav li a {
     background-color: #F2F2F2;
 }
 
+.fill-dark-grey {
+    background-color: #DBDBDB;
+}
+
 @media only screen and (max-width: 992px) {
     ul.footer-nav li {
         display: block;
@@ -908,6 +912,18 @@ div.markdown-editor p:first-child{
 /* Fix for labels being offset */
 select.browser-default {
     margin-top: 4px;
+}
+
+/**
+ * Misc 
+ */
+
+.border-right {
+    border-right: solid 1px #000;
+}
+
+.border-left{
+    border-left: solid 1px #000;
 }
 
 /**

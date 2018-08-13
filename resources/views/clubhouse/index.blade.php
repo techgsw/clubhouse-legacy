@@ -223,9 +223,45 @@
                     </div>
                 @endif
             </div>
-            <div class="row">
+            <div class="row" style="margin-bottom: 0;">
                 <div class="col s12 center-align" style="padding-bottom: 50px;">
                     <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fill-dark-grey">
+        <div class="container" style="padding-top: 50px; padding-bottom: 50px;">
+            <div class="row center-align">
+                <div class="col s12 m6 border-right">
+                    <div class="col s12 m4 offset-m4">
+                        <img class="responsive-img" src="/images/clubhouse/career-services.png" />
+                    </div>
+                    <div class="col s12">
+                        <h4>Career Services</h4>
+                        <p>Want some 1:1 individual and customized career coaching? Our Clubhouse members are seasoned industry professionals and committed helping you achieve success in sports.</p>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="col s12 m4 offset-m4">
+                        <img class="responsive-img" src="/images/clubhouse/resources.png" />
+                    </div>
+                    <div class="col s12">
+                        <h4>Resources</h4>
+                        <p>There's some cool stuff out there that helped us, and others achieve success in sports. We wanted to share those with you in hopes that they help you too!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="col s12 center-align" style="padding-bottom: 50px;">
+                        <a href="/career-services" class="btn sbs-red" style=""> Browse career services</a>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="col s12 center-align" style="padding-bottom: 50px;">
+                        <a href="/resources" class="btn sbs-red" style=""> Sports industry resources</a>
+                    </div>
                 </div>
             </div>
         </div>
