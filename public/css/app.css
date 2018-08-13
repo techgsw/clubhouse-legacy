@@ -112,12 +112,14 @@ div.gray {
 
 div.bg-image.dark-circle {
     background-image: url("/images/clubhouse/dark-circle.png");
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
     background-size: contain;
     position: relative;
     color: #FFF;
     padding: 0;
+    min-height: 250px;
+    box-shadow: none;
 }
 
 div.row.bg-image {
@@ -1796,6 +1798,13 @@ p.icon {
 
     #clubhouse-title-text {
         margin-top: 100px;
+    }
+
+    div.bg-image.dark-circle {
+        min-height: 300px;
+    }
+    div.bg-image.dark-circle img {
+        max-height: 100px;
     }
 }
 @media only screen and (min-width: 993px) {

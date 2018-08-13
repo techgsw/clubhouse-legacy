@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
 use App\Mentor;
 use App\Post;
 use App\Product;
@@ -29,12 +30,19 @@ class ClubhouseController extends Controller
             ->get();
 
         $webinars = Product::with('options')->limit(3)->get();
+
+        $jobs = Job::orderBy('featured', 'desc')
+            ->orderBy('rank', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
         
 
         return view('clubhouse/index', [
             'posts' => $posts,
             'mentors' => $mentors,
-            'webinars' => $webinars
+            'webinars' => $webinars,
+            'jobs' => $jobs
         ]);
     }
 }

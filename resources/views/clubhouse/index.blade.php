@@ -134,38 +134,33 @@
     <div class="container">
         <div class="row">
             <div class="col s12 center-align">
-                <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/event.png" />
-                <h3>Webinars</h3>
+                <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/job-board.png" />
+                <h3>Job Board</h3>
             </div>
         </div>
         <div class="row">
             <div class="col s12 m6 offset-m3 center-align">
-                <h5>Learn and network with sports professionals in a fun and interactive way!</h5>
-            </div>
-        </div>
-        <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
-            <div class="col s2 m4">
-                <hr style="border: 1px solid;" />
-            </div>
-            <div class="col s8 m4">
-                <p style="font-size: 20px; color: #9E9E9E;">Upcoming Events</p>
-            </div>
-            <div class="col s2 m4">
-                <hr style="border: 1px solid;" />
+                <h5>There are many opportunities when it comes to careers in sports. That's why we've gathered all possiblities just for you.</h5>
             </div>
         </div>
         <div class="row">
-            @if (count($webinars) > 0)
-                @foreach ($webinars as $index => $webinar)
-                    <div class="col m4 bg-image dark-circle">
-                        @if ($webinar->primaryImage())
-                            <a href="/product/{{ $webinar->id }}" style="flex: 1 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
-                                <img style="width: 120px; margin: 0 auto;" src="{{ $webinar->primaryImage()->getURL('medium') }}" />
-                            </a>
-                        @endif
-                        <div class="col s8 offset-s2 center-align" style="padding: 10px 0 50px 0;">
-                            <p><strong>{{ $webinar->name}} plus even longer title</strong></p>
-                            <p>{{ $webinar->description }}</p>
+            @if (count($jobs) > 0)
+                @foreach ($jobs as $index => $job)
+                    <div class="col s12 m4">
+                        <div class="card">
+                            <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: space-between;">
+                                <a href="/job/{{ $job->id }}" style="flex: 1 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
+                                    <img style="width: 120px; margin: 0 auto;" src="{{ $job->image->getURL('medium') }}" />
+                                </a>
+                                <div class="col s12 center-align" style="padding: 10px 0 50px 0;">
+                                    <a href="/job/{{$job->id}}">
+                                        <h5>{{ $job->title }}</h5>
+                                        <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
+                                    </a>
+                                    <p><strong>{{ $job->name}}</strong></p>
+                                    <a href="/job/{{$job->id}}" class="btn sbs-red" style="margin-top: 20px;"> Apply now</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -177,7 +172,61 @@
         </div>
         <div class="row">
             <div class="col s12 center-align" style="padding-bottom: 50px;">
-                <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
+                <a href="/job" class="btn sbs-red" style="margin-top: 20px;"> Browse open jobs</a>
+            </div>
+        </div>
+    </div>
+    <div class="fill-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 center-align">
+                    <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/event.png" />
+                    <h3>Webinars</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6 offset-m3 center-align">
+                    <h5>Learn and network with sports professionals in a fun and interactive way!</h5>
+                </div>
+            </div>
+            <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
+                <div class="col s2 m4">
+                    <hr style="border: 1px solid;" />
+                </div>
+                <div class="col s8 m4">
+                    <p style="font-size: 20px; color: #9E9E9E;">Upcoming Events</p>
+                </div>
+                <div class="col s2 m4">
+                    <hr style="border: 1px solid;" />
+                </div>
+            </div>
+            <div class="row center-align">
+                @if (count($webinars) > 0)
+                    @foreach ($webinars as $index => $webinar)
+                        <div class="col s12 m4">
+                            <div class="card bg-image dark-circle fill-grey">
+                                <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: space-between;">
+                                @if ($webinar->primaryImage())
+                                    <a href="/product/{{ $webinar->id }}" style="flex: 1 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
+                                        <img class="responsive-img" style="max-height: 80px; margin: -20px auto 0 auto;" src="{{ $webinar->primaryImage()->getURL('medium') }}" />
+                                    </a>
+                                @endif
+                                    <p><strong>{{ $webinar->name}}</strong></p>
+                                    <p>{{ $webinar->description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="col s12 center-align">
+                        <h4>Coming soon.</h4>
+                    </div>
+                @endif
+            </div>
+            <div class="row">
+                <div class="col s12 center-align" style="padding-bottom: 50px;">
+                    <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
+                </div>
             </div>
         </div>
     </div>
