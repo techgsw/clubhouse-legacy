@@ -212,7 +212,8 @@
                                     </a>
                                 @endif
                                     <p><strong>{{ $webinar->name}}</strong></p>
-                                    <p>{{ $webinar->description }}</p>
+                                    <p style="margin-bottom: 20px;">{{ $webinar->description }}</p>
+                                    <a href="" class="no-underline"><strong>RSVP NOW </strong><i class="material-icons small" style="vertical-align: bottom; font-size: 22px;">chevron_right</i></a>
                                 </div>
                             </div>
                         </div>
