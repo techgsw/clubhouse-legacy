@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/pricing';
 
     /**
      * Create a new controller instance.
@@ -67,7 +67,7 @@ class RegisterController extends Controller
             'unique' => 'That :attribute has already been taken.',
             'required' => 'Sorry, :attribute is a required field.',
             'password.min.string' => 'Passwords must be at least 6 characters long',
-            'confirm' => 'Sorry, it looks like your passwords do not match.',
+            'confirmed' => 'Sorry, it looks like your passwords do not match.',
             'min' => 'Sorry, :attribute must be at least 6 characters long',
         ];
 

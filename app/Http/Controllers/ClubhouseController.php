@@ -45,4 +45,10 @@ class ClubhouseController extends Controller
             'jobs' => $jobs
         ]);
     }
+
+    public function pricing(Request $request)
+    {
+        return view('clubhouse/pricing', [
+        ]);
+    }
 }

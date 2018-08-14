@@ -259,6 +259,11 @@ Route::domain($domain)->group(function () {
         Route::get('/organization/{id}/match-contacts', 'OrganizationController@matchContacts');
     });
 
+    // Pricing 
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/pricing', 'ClubhouseController@pricing');
+    });
+
     // Product
     Route::group(['middleware' => ['web']], function () {
         Route::get('/product/admin', 'ProductController@admin');
