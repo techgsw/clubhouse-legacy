@@ -29,7 +29,7 @@ class MentorController extends Controller
 
         return view('mentor/index', [
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Mentorship' => "/mentor"
             ],
             'mentors' => $mentors,
@@ -54,7 +54,7 @@ class MentorController extends Controller
 
         return view('contact/mentor', [
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Mentorship' => "/mentor",
                 "{$contact->getName()}" => "/contact/{$contact->id}/mentor"
             ],
