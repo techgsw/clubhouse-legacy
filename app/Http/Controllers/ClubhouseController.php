@@ -49,6 +49,10 @@ class ClubhouseController extends Controller
     public function pricing(Request $request)
     {
         return view('clubhouse/pricing', [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Pricing' => '/pricing'
+            ],
         ]);
     }
 }

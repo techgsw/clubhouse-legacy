@@ -1,6 +1,14 @@
 <!-- /resources/views/mentor/index.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', 'Mentors')
+@section('hero')
+    <div class="row hero bg-image services">
+        <div class="col s12">
+            <h4 class="header">Mentorships</h4>
+            <p>Mentorship copy. Says something about mentorships and how you can set that jazz up.</p>
+        </div>
+    </div>
+@endsection
 @section('scripts')
     @include('mentor.components.scripts')
 @endsection

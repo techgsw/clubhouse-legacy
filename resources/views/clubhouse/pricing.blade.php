@@ -1,14 +1,15 @@
 @extends('layouts.clubhouse')
 @section('title', 'Clubhouse Pricing')
 @section('hero')
+    <div class="row hero bg-image services">
+        <div class="col s12">
+            <h4 class="header">Clubhouse</h4>
+            <p>Welcome to the Clubhouse. Take a look below to checkout our product offerings.</p>
+        </div>
+    </div>
 @endsection
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col s12 center-align">
-                <h2>Pricing</h2>
-            </div>
-        </div>
         <div class="row">
             <div class="col s12 center-align">
                 <h5>There are many opportunities when it comes to careers in sports. That's why we've gathered all possiblities just for you.</h5>

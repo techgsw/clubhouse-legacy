@@ -1,5 +1,13 @@
 @extends('layouts.clubhouse')
 @section('title', 'Job Board')
+@section('hero')
+    <div class="row hero bg-image services">
+        <div class="col s12">
+            <h4 class="header">Jobs</h4>
+            <p>Job board copy. Says something about the job board and how you can set that jazz up.</p>
+        </div>
+    </div>
+@endsection
 @section('content')
 <div class="container">
     <div style="margin-bottom: 12px;">
