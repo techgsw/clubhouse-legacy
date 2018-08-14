@@ -88,6 +88,13 @@ Route::domain(env('APP_URL'))->group(function () {
         });
     });
 
+    // Contact
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/contact', 'ContactUsController@index');
+        Route::post('/contact', 'ContactUsController@send');
+        Route::get('/contact/thanks', 'ContactUsController@thanks');
+    });
+
     // Email
     Route::group(['middleware' => ['web']], function () {
         Route::get('/email', 'EmailController@index');
@@ -170,13 +177,6 @@ Route::domain($domain)->group(function () {
     // Clubhouse
     Route::group(['middleware' => ['web']], function () {
         Route::get('/', 'ClubhouseController@index');
-    });
-
-    // Contact
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/contact', 'ContactUsController@index');
-        Route::post('/contact', 'ContactUsController@send');
-        Route::get('/contact/thanks', 'ContactUsController@thanks');
     });
 
     // Contacts
