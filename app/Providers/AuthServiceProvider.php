@@ -205,6 +205,9 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // Mentor
+        Gate::define('view-mentor', function ($auth_user) {
+            return $auth_user->hasAccess('mentor_show');
+        });
         Gate::define('edit-mentor', function ($auth_user) {
             return $auth_user->hasAccess('mentor_edit');
         });

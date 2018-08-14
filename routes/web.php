@@ -232,6 +232,7 @@ Route::domain($domain)->group(function () {
     // Mentor
     Route::group(['middleware' => ['web']], function () {
         Route::get('/mentor', 'MentorController@index');
+        Route::get('/mentor/{id}/show', 'MentorController@show');
     });
     Route::group(['middleware' => ['web','auth']], function () {
         Route::post('/mentor/{id}/request', 'MentorController@request');
