@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col s12 center">
             <h4>Check out all the places we’ve been!</h4>
-            <img src="/images/archives/client-map.jpg" alt="Client Map" />
+            <img src="/images/archives/client-map.jpg?v=1" alt="Client Map" />
         </div>
     </div>
     <div class="row" id="past-sessions">
