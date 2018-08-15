@@ -170,9 +170,7 @@ Route::domain($domain)->group(function () {
     });
 
     // Career services
-    Route::get('/career-services', function () {
-        return view('career-services');
-    });
+    Route::get('/career-services', 'ProductController@careerServices');
 
     // Clubhouse
     Route::group(['middleware' => ['web']], function () {
@@ -261,7 +259,7 @@ Route::domain($domain)->group(function () {
         Route::get('/organization/{id}/match-contacts', 'OrganizationController@matchContacts');
     });
 
-    // Pricing 
+    // Pricing
     Route::group(['middleware' => ['web']], function () {
         Route::get('/pricing', 'ClubhouseController@pricing');
     });

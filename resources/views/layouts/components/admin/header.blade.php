@@ -41,7 +41,7 @@
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/organization">Organizations</a></li>
                 @endcan
                 @can ('admin-product')
-                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/product">Products</a></li>
+                    <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/product/admin">Products</a></li>
                 @endcan
                 @can ('view-admin-questions')
                     <li><a style="font-size: 0.9em; text-transform: uppercase;" href="/admin/question">Q&amp;A</a></li>
@@ -72,7 +72,7 @@
                 <li><a href="/admin/organization">Organizations</a></li>
             @endcan
             @can ('admin-product')
-                <li><a href="/admin/product">Products</a></li>
+                <li><a href="/product/admin">Products</a></li>
             @endcan
             @can ('view-admin-questions')
                 <li><a href="/admin/question">Q&amp;A</a></li>

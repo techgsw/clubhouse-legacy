@@ -6,6 +6,7 @@ use \Exception;
 use App\Message;
 use App\Product;
 use App\ProductOption;
+use App\ProductOptionRole;
 use App\Tag;
 // TODO use App\Http\Requests\StoreProduct;
 // TODO use App\Http\Requests\UpdateProduct;
@@ -34,8 +35,6 @@ class ProductController extends Controller
         $products = Product::with('options')
             ->filter($request->all())
             ->paginate(15);
-
-        $products = Product::with('options')->get();
 
         $tags = Tag::has('products')->get();
 
@@ -199,6 +198,18 @@ class ProductController extends Controller
                         $roles[] = 'user';
                     }
                     $option->roles()->sync($roles);
+
+                    // Remove option from options array so that it doesn't get deleted
+                    unset($options[$params['id']]);
+                }
+
+                // Delete options that are not posted
+                foreach ($options as $id => $opt) {
+                    dump($id);
+                    dump($opt);
+                    // ProductOption::delete($id);
+                    ProductOptionRole::where('product_option_id', $id)->delete();
+                    $opt->delete();
                 }
 
                 $image_file = request()->file('image_url');
@@ -219,6 +230,7 @@ class ProductController extends Controller
                 return $product;
             });
         } catch (Exception $e) {
+            Log::error($e);
             $request->session()->flash('message', new Message(
                 "Failed to save product. Please try again.",
                 "danger",
@@ -269,8 +281,22 @@ class ProductController extends Controller
             'product' => $product,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Product' => Auth::user() && Auth::user()->can('admin-product') ? '/product/admin' : '/product',
                 "{$product->name}" => "/product/{$product->id}"
+            ]
+        ]);
+    }
+
+    public function careerServices()
+    {
+        $products = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Career Service');
+        })->get();
+
+        return view('product/career-services', [
+            'products' => $products,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Career Services' => '/career-services'
             ]
         ]);
     }
