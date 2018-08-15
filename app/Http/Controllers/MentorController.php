@@ -17,6 +17,8 @@ class MentorController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('view-mentor');
+
         $mentors = Mentor::with('contact')
             ->where('active', true)
             ->search($request)
@@ -32,6 +34,24 @@ class MentorController extends Controller
             ],
             'mentors' => $mentors,
             'tags' => $tags
+        ]);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $mentor = Mentor::with('contact')->find($id);
+
+        if (!$mentor) {
+            return abort(404);
+        }
+
+        return view('mentor/show', [
+            'mentor' => $mentor,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Mentorship' => '/mentor',
+                $mentor->contact->getName() => '/mentor/{{$id}}/show'
+            ]
         ]);
     }
 

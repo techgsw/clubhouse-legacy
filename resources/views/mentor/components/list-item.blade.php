@@ -1,3 +1,4 @@
+<a href="/mentor/{{$mentor->id}}/show" class="no-underline">
 <div class="card">
     <div class="card-content text-center">
         <div>
@@ -11,13 +12,17 @@
                 @endif
             </div>
         </div>
-        <div>
-            <h4 style="text-align: center;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
-            <p style="text-align: center;">{{ $mentor->description }}</p>
+        <div class="center-align">
+            <h4><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
+            <p class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
+            <br />
+            <p>{{ $mentor->description }}</p>
             <div class="small" style="margin-top: 12px; text-align: center;">
                 <div style="margin-top: 4px">
                     @can ('view-mentor')
                         <a class="small flat-button black mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" style="margin: 2px;"><i class="fa fa-handshake-o"></i> Schedule a meeting</a>
+                    @else
+                        <a class="small flat-button black" href="/"><i class="fa fa-handshake-o"></i> Schedule a meeting</a>
                     @endcan
                     @can ('edit-mentor')
                         <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
@@ -27,3 +32,4 @@
         </div>
     </div>
 </div>
+</a>

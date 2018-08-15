@@ -126,7 +126,7 @@
             </div>
             <div class="row">
                 <div class="col s12 center-align" style="padding-bottom: 50px;">
-                    <a href="/blog" class="btn sbs-red" style="margin-top: 0px;"> Find you mentor</a>
+                    <a href="/mentor" class="btn sbs-red" style="margin-top: 0px;"> Find you mentor</a>
                 </div>
             </div>
         </div>
