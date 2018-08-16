@@ -300,4 +300,19 @@ class ProductController extends Controller
             ]
         ]);
     }
+
+    public function webinars()
+    {
+        $products = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Webinar');
+        })->get();
+
+        return view('product/webinars', [
+            'products' => $products,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Webinars' => '/webinars'
+            ]
+        ]);
+    }
 }

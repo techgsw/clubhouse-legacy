@@ -226,7 +226,7 @@
             </div>
             <div class="row" style="margin-bottom: 0;">
                 <div class="col s12 center-align" style="padding-bottom: 50px;">
-                    <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
+                    <a href="/webinarss" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
                 </div>
             </div>
         </div>

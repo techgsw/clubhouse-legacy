@@ -12,7 +12,7 @@
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentorship</a></li>
                 <li><a href="/job">Job Board</a></li>
-                <li><a href="/product?tag=webinar">Webinars</a></li>
+                <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
                 <li><a href="/resources">Resources</a></li>
             </ul>
@@ -26,7 +26,7 @@
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentorship</a></li>
                 <li><a href="/job">Job Board</a></li>
-                <li><a href="/product?tag=webinar">Webinars</a></li>
+                <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
                 <li><a href="/resources">Resources</a></li>
                 <li class="divider"></li>

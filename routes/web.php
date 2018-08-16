@@ -308,4 +308,7 @@ Route::domain($domain)->group(function () {
         Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
         Route::post('/user/{id}/create-note', 'ProfileController@createNote');
     });
+
+    // Webinars
+    Route::get('/webinars', 'ProductController@webinars');
 });
