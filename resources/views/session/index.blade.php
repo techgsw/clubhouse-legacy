@@ -30,7 +30,7 @@
                                     $index = 200;
                                 @endphp
                                 @if ($post_length > $index)
-                                    @while (!preg_match('/\s/', $body[$index]) && $post_length > $index)
+                                    @while ($post_length > $index && !preg_match('/\s/', $body[$index]))
                                         @php $index++; @endphp
                                     @endwhile
                                     <p class="">{{ substr($body, 0, $index) }}...</p>
