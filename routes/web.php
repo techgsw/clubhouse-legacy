@@ -170,7 +170,10 @@ Route::domain($domain)->group(function () {
     });
 
     // Career services
-    Route::get('/career-services', 'ProductController@careerServices');
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/career-services', 'ProductController@careerServices');
+        Route::get('/career-services/{id}', 'ProductController@showCareerServices');
+    });
 
     // Clubhouse
     Route::group(['middleware' => ['web']], function () {
@@ -310,5 +313,8 @@ Route::domain($domain)->group(function () {
     });
 
     // Webinars
-    Route::get('/webinars', 'ProductController@webinars');
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/webinars', 'ProductController@webinars');
+        Route::get('/webinars/{id}', 'ProductController@showWebinars');
+    });
 });

@@ -292,11 +292,65 @@ class ProductController extends Controller
             $query->where('name', 'Career Service');
         })->get();
 
+        $categories = [
+            'Career Coaching' => [],
+            'Sales Training' => [],
+            'Leadership Development' => [],
+            'Other' => []
+        ];
+
+        foreach ($products as $product) {
+            foreach ($categories as $cat => $list) {
+                foreach ($product->tags as $tag) {
+                    if ($tag->name == $cat) {
+                        $categories[$cat][] = $product;
+                    }
+                }
+            }
+        }
+
         return view('product/career-services', [
-            'products' => $products,
+            'categories' => $categories,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Career Services' => '/career-services'
+            ]
+        ]);
+    }
+
+    public function showCareerServices($id)
+    {
+        $this->authorize('view-product');
+
+        $product = Product::with('options.roles')->where('id', $id)->first();
+        if (!$product) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
+        }
+
+        // TODO make this resource-driven
+        $role = 'user';
+        foreach (Auth::user()->roles as $r) {
+            if ($r->code == 'clubhouse') {
+                $role = 'clubhouse';
+            }
+        }
+
+        foreach ($product->options as $i => $option) {
+            $option_role_codes = [];
+            foreach ($option->roles as $r) {
+                $option_role_codes[] = $r->code;
+            }
+            if (count(array_intersect($option_role_codes, [$role])) == 0) {
+                $product->options->forget($i);
+            }
+        }
+
+        return view('product/career-services/show', [
+            'product' => $product,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Career Services' => '/career-services',
+                "{$product->name}" => "/career-services/{$product->id}"
             ]
         ]);
     }
@@ -312,6 +366,43 @@ class ProductController extends Controller
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Webinars' => '/webinars'
+            ]
+        ]);
+    }
+
+    public function showWebinars($id)
+    {
+        $this->authorize('view-product');
+
+        $product = Product::with('options.roles')->where('id', $id)->first();
+        if (!$product) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
+        }
+
+        // TODO make this resource-driven
+        $role = 'user';
+        foreach (Auth::user()->roles as $r) {
+            if ($r->code == 'clubhouse') {
+                $role = 'clubhouse';
+            }
+        }
+
+        foreach ($product->options as $i => $option) {
+            $option_role_codes = [];
+            foreach ($option->roles as $r) {
+                $option_role_codes[] = $r->code;
+            }
+            if (count(array_intersect($option_role_codes, [$role])) == 0) {
+                $product->options->forget($i);
+            }
+        }
+
+        return view('product/webinars/show', [
+            'product' => $product,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Webinars' => '/webinars',
+                "{$product->name}" => "/webinars/{$product->id}"
             ]
         ]);
     }

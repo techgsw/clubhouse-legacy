@@ -21,7 +21,7 @@
         <div class="col s12">
             <div class="card-flex-container">
                 @foreach ($products as $product)
-                    @include('product.components.list-item', ['product' => $product])
+                    @include('product.webinars.components.list-item', ['product' => $product])
                 @endforeach
                 <div class="card-placeholder large"></div>
                 <div class="card-placeholder large"></div>
