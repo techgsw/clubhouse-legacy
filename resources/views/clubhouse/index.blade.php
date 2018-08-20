@@ -95,7 +95,7 @@
                     <div class="carousel carousel-slider center" data-indicators="true" style="height: 300px;">
                         @if (count($mentors) > 0)
                             @foreach ($mentors as $index => $mentor)
-                                @if ($index % 2 == 0) 
+                                @if ($index % 2 == 0)
                                     <div class="carousel-item" style="min-height: 300px;" href="#">
                                         <div class="row">
                                 @endif
@@ -115,7 +115,7 @@
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                     </div>
                                 </div>
-                                @if ($index != 0 || $index == count($mentors) - 1) 
+                                @if ($index != 0 || $index == count($mentors) - 1)
                                         </div>
                                     </div>
                                 @endif
@@ -202,22 +202,14 @@
             </div>
             <div class="row center-align">
                 @if (count($webinars) > 0)
-                    @foreach ($webinars as $index => $webinar)
-                        <div class="col s12 m4">
-                            <div class="card bg-image dark-circle fill-grey">
-                                <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: space-between;">
-                                @if ($webinar->primaryImage())
-                                    <a href="/product/{{ $webinar->id }}" style="flex: 1 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
-                                        <img class="responsive-img" style="max-height: 80px; margin: -20px auto 0 auto;" src="{{ $webinar->primaryImage()->getURL('medium') }}" />
-                                    </a>
-                                @endif
-                                    <p><strong>{{ $webinar->name}}</strong></p>
-                                    <p style="margin-bottom: 20px;">{{ $webinar->description }}</p>
-                                    <a href="" class="no-underline"><strong>RSVP NOW </strong><i class="material-icons small" style="vertical-align: bottom; font-size: 22px;">chevron_right</i></a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="card-flex-container">
+                        @foreach ($webinars as $index => $webinar)
+                            @include('product.webinars.components.list-item', ['product' => $webinar])
+                        @endforeach
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                        <div class="card-placeholder"></div>
+                    </div>
                 @else
                     <div class="col s12 center-align">
                         <h4>Coming soon.</h4>

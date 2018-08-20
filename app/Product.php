@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -35,6 +36,37 @@ class Product extends Model
         }
 
         return $this->images[0];
+    }
+
+    public function availableOptions($role_code = null)
+    {
+        if (is_null($role_code)) {
+            if (!Auth::user() || !Auth::user()->roles) {
+                return [];
+            }
+
+            // TODO make this resource-driven, rather than role-driven
+            $role = 'user';
+            foreach (Auth::user()->roles as $r) {
+                if ($r->code == 'clubhouse') {
+                    $role = 'clubhouse';
+                }
+            }
+        }
+
+        $options = clone $this->options;
+
+        foreach ($options as $i => $option) {
+            $option_role_codes = [];
+            foreach ($option->roles as $r) {
+                $option_role_codes[] = $r->code;
+            }
+            if (count(array_intersect($option_role_codes, [$role])) == 0) {
+                $options->forget($i);
+            }
+        }
+
+        return $options;
     }
 
     // Scopes

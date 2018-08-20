@@ -29,14 +29,16 @@ class ClubhouseController extends Controller
             ->where('active', true)
             ->get();
 
-        $webinars = Product::with('options')->limit(3)->get();
+        $webinars = Product::with('options')->whereHas('tags', function ($query) {
+            $query->where('name', 'Webinar');
+        })->limit(3)->get();
 
         $jobs = Job::orderBy('featured', 'desc')
             ->orderBy('rank', 'asc')
             ->orderBy('created_at', 'desc')
             ->limit(3)
             ->get();
-        
+
 
         return view('clubhouse/index', [
             'posts' => $posts,

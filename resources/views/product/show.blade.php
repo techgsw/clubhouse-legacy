@@ -41,7 +41,7 @@
             <h4>{{ $product->name }}</h4>
             {!! $pd->text($product->description) !!}
             <select class="browser-default product-option-select" name="option">
-                @foreach ($product->options as $option)
+                @foreach ($product->availableOptions() as $option)
                     @if ($option->price > 0)
                         <option value="{{$option->id}}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
                     @else
