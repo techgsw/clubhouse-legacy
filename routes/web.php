@@ -100,9 +100,6 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::get('/email', 'EmailController@index');
         Route::post('/email/update', 'EmailController@update');
     });
-
-
-
 });
 
 // Clubhouse-domain routes
@@ -173,6 +170,12 @@ Route::domain($domain)->group(function () {
     Route::group(['middleware' => ['web']], function () {
         Route::get('/career-services', 'ProductController@careerServices');
         Route::get('/career-services/{id}', 'ProductController@showCareerServices');
+    });
+
+    // Checkout
+    Route::group(['middleware' => ['web','auth']], function () {
+        Route::get('/checkout', 'CheckoutController@index');
+        Route::post('/checkout', 'ProfileController@store');
     });
 
     // Clubhouse
