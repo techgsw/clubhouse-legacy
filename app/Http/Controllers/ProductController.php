@@ -259,24 +259,6 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
         }
 
-        // TODO make this resource-driven
-        $role = 'user';
-        foreach (Auth::user()->roles as $r) {
-            if ($r->code == 'clubhouse') {
-                $role = 'clubhouse';
-            }
-        }
-
-        foreach ($product->options as $i => $option) {
-            $option_role_codes = [];
-            foreach ($option->roles as $r) {
-                $option_role_codes[] = $r->code;
-            }
-            if (count(array_intersect($option_role_codes, [$role])) == 0) {
-                $product->options->forget($i);
-            }
-        }
-
         return view('product/show', [
             'product' => $product,
             'breadcrumb' => [

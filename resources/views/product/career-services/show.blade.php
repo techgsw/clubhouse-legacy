@@ -24,12 +24,12 @@
     </div>
     <!-- Product -->
     <div class="row product-show">
-        <div class="col s12 m5">
+        <div class="col s12 m3">
             @if (!is_null($product->primaryImage()))
                 <img style="padding: 18px 24px;" src={{ $product->primaryImage()->getURL('medium') }}>
             @endif
         </div>
-        <div class="col s12 m7 product-description">
+        <div class="col s12 m9 product-description">
             <div class="right">
                 <!-- Job controls -->
                 <p class="small">
