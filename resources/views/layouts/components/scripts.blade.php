@@ -20,8 +20,8 @@
 <script src="/js/dropzone.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/js/daterangepicker.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
-@if (Request::is('checkout'))
+@if (Request::is('checkout/*'))
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="/js/checkout.js?v=1"></script>
 @endif
 <script src="/js/sbs.js?v=23"></script>

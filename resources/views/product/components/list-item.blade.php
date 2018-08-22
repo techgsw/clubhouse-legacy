@@ -1,3 +1,4 @@
+@php $pd = new Parsedown(); @endphp
 <div class="card large">
     <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: space-between;">
         @if ($product->primaryImage())
@@ -9,7 +10,7 @@
         @endif
         <a href="/product/{{ $product->id }}" class="no-underline" style="flex: 0 0 auto;">
             <h4>{{ $product->name }}</h4>
-            <p>{{ $product->description }}</p>
+            <p>{{ strip_tags($pd->text($product->description)) }}</p>
             @foreach ($product->options as $option)
                 <div class="option" style="margin: 12px 0;">
                     <h6 style="font-weight: bold;">{{ $option->name }}</h6>

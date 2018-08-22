@@ -1,3 +1,4 @@
+@php $pd = new Parsedown(); @endphp
 <div class="card">
     <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: space-between;">
         <div>
@@ -10,7 +11,7 @@
             @endif
             <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline" style="flex: 0 0 auto;">
                 <h4>{{ $product->name }}</h4>
-                <p>{{ $product->description }}</p>
+                <p>{{ strip_tags($pd->text($product->description)) }}</p>
             </a>
         </div>
         <div>

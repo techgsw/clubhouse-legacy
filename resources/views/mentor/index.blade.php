@@ -30,9 +30,9 @@
                 @foreach ($mentors as $mentor)
                     @include('mentor.components.list-item', ['mentor' => $mentor])
                 @endforeach
-                <div class="card-placeholder large"></div>
-                <div class="card-placeholder large"></div>
-                <div class="card-placeholder large"></div>
+                <div class="card-placeholder"></div>
+                <div class="card-placeholder"></div>
+                <div class="card-placeholder"></div>
             </div>
         </div>
     </div>

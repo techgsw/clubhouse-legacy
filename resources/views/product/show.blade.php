@@ -39,7 +39,7 @@
                 </p>
             </div>
             <h4>{{ $product->name }}</h4>
-            {!! $pd->text($product->description) !!}
+            {!! strip_tags($pd->text($product->description)) !!}
             <select class="browser-default product-option-select" name="option">
                 @foreach ($product->availableOptions() as $option)
                     @if ($option->price > 0)
@@ -53,7 +53,7 @@
                 @php $first = true; @endphp
                 @foreach ($product->options as $option)
                     <div class="product-option-description {{ $first ? "" : "hidden"}}" option-id="{{$option->id}}">
-                        {!! $pd->text($option->description) !!}
+                        {!! strip_tags($pd->text($option->description)) !!}
                     </div>
                     @php $first = false; @endphp
                 @endforeach
