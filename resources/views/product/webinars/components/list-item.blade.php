@@ -2,19 +2,19 @@
     <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: space-between;">
         <div>
             @if ($product->primaryImage())
-                <a href="/webinars/{{ $product->id }}" style="flex: 0 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
+                <a href="{{ $product->getURL(false, 'webinars') }}" style="flex: 0 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
                     <img style="height: 120px; margin: 0 auto;" src={{ $product->primaryImage()->getURL('medium') }} />
                 </a>
             @else
                 <div></div>
             @endif
-            <a href="/webinars/{{ $product->id }}" class="no-underline" style="flex: 0 0 auto;">
+            <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline" style="flex: 0 0 auto;">
                 <h4>{{ $product->name }}</h4>
                 <p>{{ $product->description }}</p>
             </a>
         </div>
         <div>
-            <a href="/webinars/{{ $product->id }}" class="no-underline" style="flex: 0 0 auto;">
+            <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline" style="flex: 0 0 auto;">
                 @foreach ($product->availableOptions() as $option)
                     <div class="option" style="margin: 12px 0;">
                         <h6 style="font-weight: bold;">{{ $option->name }}</h6>

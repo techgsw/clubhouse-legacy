@@ -70,7 +70,6 @@ class Product extends Model
     }
 
     // Scopes
-
     public function scopeFilter($query, $params)
     {
         // Match term on name, description, and option names and descriptions
@@ -106,5 +105,14 @@ class Product extends Model
         }
 
         return $query;
+    }
+
+    public function getURL($absolute = false, $root = 'product')
+    {
+        $url = "/".$root."/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->name)));
+        if ($absolute) {
+            $url = url($url);
+        }
+        return $url;
     }
 }
