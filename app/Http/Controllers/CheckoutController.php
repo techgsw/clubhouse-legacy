@@ -18,48 +18,13 @@ use \Exception;
 
 class CheckoutController extends Controller
 {
-    public function create()
-    {
-        return view('session/create', [
-            'breadcrumb' => [
-                'Home' => '/',
-                'Archives' => '/archives',
-                'New Session' => '/session/create'
-            ]
-        ]);
-    }
-
     public function index()
     {
         return view('checkout/index', [
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Checkout' => '/checkout'
             ]
         ]);
-    }
-
-    public function store(StoreSession $request)
-    {
-        $response = new Message(
-            "Success! New session created.",
-            "success",
-            $code = 200,
-            $icon = "check_circle"
-        );
-
-        try {
-            $post = DB::transaction(function () {
-            });
-            $response->setUrl('/session/'.$post->id.'/edit');
-            $request->session()->flash('message', $response);
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-            $response->setMessage("Sorry, we were unable to process your payment. Please contact support.");
-            $response->setType("danger");
-            $response->setCode(500);
-        }
-
-        return response()->json($response->toArray());
     }
 }

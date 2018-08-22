@@ -1,4 +1,4 @@
-<a href="/mentor/{{$mentor->id}}/show" class="no-underline">
+<a href="{{ $mentor->getUrl() }}" class="no-underline">
 <div class="card">
     <div class="card-content text-center">
         <div>

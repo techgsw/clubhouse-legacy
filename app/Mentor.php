@@ -25,7 +25,6 @@ class Mentor extends Model
     }
 
     // Scopes
-
     public function scopeSearch($query, $request)
     {
         $query->join('contact', 'mentor.contact_id', '=', 'contact.id');
@@ -48,5 +47,14 @@ class Mentor extends Model
         }
 
         return $query;
+    }
+
+    public function getURL($absolute = false)
+    {
+        $url = "/mentor/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->contact->getName())));
+        if ($absolute) {
+            $url = url($url);
+        }
+        return $url;
     }
 }
