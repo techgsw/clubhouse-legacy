@@ -113,6 +113,7 @@ if (!SBS) {
         {
             change: function (e, ui) {
                 Product.View.showOption($(this).val());
+                $('#buy-now').attr('href', $('option[value="'+ $(this).val() + '"]').attr('data-link'));
             }
         },
         'select.product-option-select'

@@ -29,7 +29,7 @@
             </a>
         </div>
         <div class="controls" style="flex: 0 0 auto;">
-            <button type="button" class="buy-now btn sbs-red" style="margin-top: 18px;">REGISTER</button>
+            <a href="{{ $product->getURL(false, 'webinars') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">REGISTER</a>
             @can ('edit-product')
                 <div class="small" style="margin-top: 20px;">
                     <a href="/product/{{ $product->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>

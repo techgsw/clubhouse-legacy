@@ -23,9 +23,9 @@
                 @foreach ($products as $product)
                     @include('product.webinars.components.list-item', ['product' => $product])
                 @endforeach
-                <div class="card-placeholder large"></div>
-                <div class="card-placeholder large"></div>
-                <div class="card-placeholder large"></div>
+                <div class="card-placeholder"></div>
+                <div class="card-placeholder"></div>
+                <div class="card-placeholder"></div>
             </div>
         </div>
     </div>

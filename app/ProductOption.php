@@ -33,4 +33,13 @@ class ProductOption extends Model
 
         return false;
     }
+
+    public function getURL($absolute = false, $root = 'product')
+    {
+        $url = "/".$root."/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->name)));
+        if ($absolute) {
+            $url = url($url);
+        }
+        return $url;
+    }
 }

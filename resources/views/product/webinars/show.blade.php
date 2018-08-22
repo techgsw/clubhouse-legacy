@@ -43,9 +43,9 @@
             <select class="browser-default product-option-select" name="option">
                 @foreach ($product->options as $option)
                     @if ($option->price > 0)
-                        <option value="{{$option->id}}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
+                        <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
                     @else
-                        <option value="{{$option->id}}">{{$option->name}}</option>
+                        <option value="{{$option->id}}" data-link="{{ $options->getURL(false, 'checkout') }}">{{$option->name}}</option>
                     @endif
                 @endforeach
             </select>
@@ -59,7 +59,7 @@
                 @endforeach
             </div>
             <div class="input-field" style="margin-top: 30px;">
-                <button id="buy-now" type="button" class="btn sbs-red">REGISTER</button>
+                <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
             </div>
         </div>
     </div>

@@ -31,7 +31,24 @@
     <div class="row">
         <div class="col s12">
             <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row valign-wrapper">
+                <div class="row hide-on-med-and-up">
+                    <div class="col s12 center-align">
+                        <img style="width: 120px; margin: 0 auto;" class="responsive-img" src={{ $product_option->product->primaryImage()->getURL('medium') }} />
+                    </div>
+                </div>
+                <div class="row hide-on-med-and-up">
+                    <div class="col s12">
+                        <p class="black-text">{{ $product_option->product->name }}</p>
+                        <p class="black-text">{{ $product_option->name }}</p>
+                        <p class="black-text">{{ $product_option->description }}</p>
+                    </div>
+                </div>
+                <div class="row hide-on-med-and-up center-align">
+                    <div class="col s12">
+                        <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                    </div>
+                </div>
+                <div class="row valign-wrapper hide-on-small-only">
                     <div class="col s2">
                         <img style="width: 120px; margin: 0 auto;" class="responsive-img" src={{ $product_option->product->primaryImage()->getURL('medium') }} />
                     </div>
