@@ -174,7 +174,7 @@ Route::domain($domain)->group(function () {
 
     // Checkout
     Route::group(['middleware' => ['web','auth']], function () {
-        Route::get('/checkout', 'CheckoutController@index');
+        Route::get('/checkout/{id}', 'CheckoutController@index');
         Route::post('/checkout', 'ProfileController@store');
     });
 

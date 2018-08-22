@@ -33,13 +33,15 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row valign-wrapper">
                     <div class="col s2">
-                        <img src="images/home/training.jpg" alt="" class="responsive-img"> <!-- notice the "circle" class -->
+                        <img style="width: 120px; margin: 0 auto;" class="responsive-img" src={{ $product_option->product->primaryImage()->getURL('medium') }} />
                     </div>
                     <div class="col s8">
-                        <span class="black-text">Clubhouse membership. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed urna quis ex euismod faucibus. Ut dignissim risus at semper fringilla. Maecenas vel tincidunt eros. Cras vitae fringilla leo, non luctus risus.</span>
+                        <p class="black-text">{{ $product_option->product->name }}</p>
+                        <p class="black-text">{{ $product_option->name }}</p>
+                        <p class="black-text">{{ $product_option->description }}</p>
                     </div>
                     <div class="col s2">
-                        <h4><strong>$60.00*</strong></h4>
+                        <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
                     </div>
                 </div>
             </div>
