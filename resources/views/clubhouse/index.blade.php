@@ -115,7 +115,7 @@
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                     </div>
                                 </div>
-                                @if ($index != 0 || $index == count($mentors) - 1) 
+                                @if (($index == count($mentors) - 1) || (($index + 1) % 2 == 0)) 
                                         </div>
                                     </div>
                                 @endif
