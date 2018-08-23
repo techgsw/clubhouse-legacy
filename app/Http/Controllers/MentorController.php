@@ -17,8 +17,6 @@ class MentorController extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('view-mentor');
-
         $mentors = Mentor::with('contact')
             ->where('active', true)
             ->search($request)

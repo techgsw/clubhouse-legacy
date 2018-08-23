@@ -19,11 +19,6 @@
                 @foreach ($product->availableOptions() as $option)
                     <div class="option" style="margin: 12px 0;">
                         <h6 style="font-weight: bold;">{{ $option->name }}</h6>
-                        @if ($option->price > 0)
-                            <p>${{ number_format($option->price, 2) }}</p>
-                        @else
-                            <p>FREE</p>
-                        @endif
                     </div>
                 @endforeach
             </a>
