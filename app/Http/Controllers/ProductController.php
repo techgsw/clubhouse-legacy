@@ -11,6 +11,7 @@ use App\Tag;
 // TODO use App\Http\Requests\StoreProduct;
 // TODO use App\Http\Requests\UpdateProduct;
 use App\Providers\ImageServiceProvider;
+use App\Providers\StripeServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -71,6 +72,7 @@ class ProductController extends Controller
                 $product->name = request('name');
                 $product->description = request('description');
                 $product->active = request('active') ? true : false;
+                $product->type = request('type') ? 'service' : 'good';
                 $product->save();
 
                 foreach (request('option') as $i => $params) {
@@ -106,10 +108,57 @@ class ProductController extends Controller
                 $tag_names = json_decode($tag_json);
                 $product->tags()->sync($tag_names);
 
+                try {
+                    $stripe_product = StripeServiceProvider::createProduct($product);
+                    $product->stripe_product_id = $stripe_product->id;
+                    $product->save();
+                } catch (Exception $e) {
+                    Log::error($e);
+                    if (!is_null($stripe_product)) {
+                        StripeServiceProvider::deleteProduct($stripe_product);
+                    }
+                    throw new Exception('Unable to update product with stripe id.');
+                }
+
+                foreach ($product->options as $key => $option) {
+                    if ($product->type == 'service') {
+                        try {
+                            $stripe_plan = StripeServiceProvider::createPlan($stripe_product, $option);
+                            $option->stripe_plan_id = $stripe_plan->id;
+                            $option->save();
+                        } catch (Exception $e) {
+                            Log::error($e);
+                            if (!is_null($stripe_product)) {
+                                StripeServiceProvider::deleteProduct($stripe_product);
+                            }
+                            if (!is_null($stripe_plan)) {
+                                StripeServiceProvider::deletePlan($stripe_plan);
+                            }
+                            throw new Exception('Unable to update product option with stripe plan id.');
+                        }
+                    } else {
+                        try {
+                            $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
+                            $option->stripe_sku_id = $stripe_sku->id;
+                            $option->save();
+                        } catch (Exception $e) {
+                            Log::error($e);
+                            if (!is_null($stripe_product)) {
+                                StripeServiceProvider::deleteProduct($stripe_product);
+                            }
+                            if (!is_null($stripe_sku)) {
+                                StripeServiceProvider::deleteSku($stripe_sku);
+                            }
+                            throw new Exception('Unable to update product option with stripe sku id.');
+                        }
+                    }
+                }
+
                 return $product;
             });
         } catch (Exception $e) {
             Log::error($e);
+
             $request->session()->flash('message', new Message(
                 "Failed to save product. Please try again.",
                 "danger",
@@ -205,9 +254,6 @@ class ProductController extends Controller
 
                 // Delete options that are not posted
                 foreach ($options as $id => $opt) {
-                    dump($id);
-                    dump($opt);
-                    // ProductOption::delete($id);
                     ProductOptionRole::where('product_option_id', $id)->delete();
                     $opt->delete();
                 }
@@ -226,6 +272,16 @@ class ProductController extends Controller
                 $tag_json = request('product_tags_json');
                 $tag_names = json_decode($tag_json);
                 $product->tags()->sync($tag_names);
+
+                $stripe_product = StripeServiceProvider::updateProduct($product);
+
+                foreach ($product->options as $key => $option) {
+                    if ($product->type == 'service') {
+                        StripeServiceProvider::updatePlan($option);
+                    } else {
+                        StripeServiceProvider::updateSku($option);
+                    }
+                }
 
                 return $product;
             });

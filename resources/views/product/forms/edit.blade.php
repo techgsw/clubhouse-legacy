@@ -33,10 +33,16 @@
                 </div>
             </div>
         </div>
-        <div class="input-field col s12 m6">
+        <div class="input-field col s6 m3">
             <p class="checkbox">
                 <input type="checkbox" name="active" id="active" value="1" {{ old('active') ? "checked" : $product->active ? "checked" : "" }} />
                 <label for="active">Active</label>
+            </p>
+        </div>
+        <div class="input-field col s6 m3">
+            <p class="checkbox">
+                <input type="checkbox" name="type" id="type" value="{{ $product->type }}" disabled {{ $product->type == 'service' ? "checked" : "" }} />
+                <label for="type">Service</label>
             </p>
         </div>
     </div>
