@@ -8,8 +8,6 @@ use App\Product;
 use App\ProductOption;
 use App\ProductOptionRole;
 use App\Tag;
-// TODO use App\Http\Requests\StoreProduct;
-// TODO use App\Http\Requests\UpdateProduct;
 use App\Providers\ImageServiceProvider;
 use App\Providers\StripeServiceProvider;
 use Illuminate\Http\Request;
@@ -222,40 +220,52 @@ class ProductController extends Controller
                 $product->save();
 
                 $options = [];
+                $updated_options = [];
                 foreach ($product->options as $opt) {
                     $options[$opt->id] = $opt;
                 }
 
-                foreach (request('option') as $i => $params) {
-                    if ($params['id']) {
-                        $option = $options[$params['id']] ?: new ProductOption;
-                    } else {
-                        $option = new ProductOption;
-                    }
-                    $option->name = $params['name'];
-                    $option->price = $params['price'];
-                    $option->quantity = $params['quantity'];
-                    $option->description = $params['description'];
-                    $option->product_id = $product->id;
-                    $option->save();
+                if (count(request('option')) > 0) {
+                    foreach (request('option') as $i => $params) {
+                        if ($params['id']) {
+                            $option = $options[$params['id']] ?: new ProductOption;
+                        } else {
+                            $option = new ProductOption;
+                        }
+                        $option->name = $params['name'];
+                        if ($product->type == 'good' || $option->id < 1) {
+                            $option->price = $params['price'];
+                            $option->quantity = $params['quantity'];
+                        }
+                        $option->description = $params['description'];
+                        $option->product_id = $product->id;
+                        $option->save();
 
-                    $roles = [];
-                    if (array_key_exists('clubhouse', $params)) {
-                        $roles[] = 'clubhouse';
-                    }
-                    if (array_key_exists('user', $params)) {
-                        $roles[] = 'user';
-                    }
-                    $option->roles()->sync($roles);
+                        $roles = [];
+                        if (array_key_exists('clubhouse', $params)) {
+                            $roles[] = 'clubhouse';
+                        }
+                        if (array_key_exists('user', $params)) {
+                            $roles[] = 'user';
+                        }
+                        $option->roles()->sync($roles);
 
-                    // Remove option from options array so that it doesn't get deleted
-                    unset($options[$params['id']]);
+                        // Remove option from options array so that it doesn't get deleted
+                        $updated_options[$option->id] = $option;
+                        unset($options[$params['id']]);
+                    }
                 }
 
                 // Delete options that are not posted
                 foreach ($options as $id => $opt) {
                     ProductOptionRole::where('product_option_id', $id)->delete();
                     $opt->delete();
+
+                    if ($product->type == 'service') {
+                        StripeServiceProvider::deletePlan($opt);
+                    } else {
+                        StripeServiceProvider::deleteSku($opt);
+                    }
                 }
 
                 $image_file = request()->file('image_url');
@@ -275,18 +285,22 @@ class ProductController extends Controller
 
                 $stripe_product = StripeServiceProvider::updateProduct($product);
 
-                foreach ($product->options as $key => $option) {
+                foreach ($updated_options as $key => $option) {
                     if ($product->type == 'service') {
-                        StripeServiceProvider::updatePlan($option);
+                        $stripe_plan = StripeServiceProvider::updatePlan($stripe_product, $option);
+                        $option->stripe_plan_id = $stripe_plan->id;
                     } else {
-                        StripeServiceProvider::updateSku($option);
+                        $stripe_sku = StripeServiceProvider::updateSku($stripe_product, $option);
+                        $option->stripe_sku_id = $stripe_sku->id;
                     }
+                    $option->save();
                 }
 
                 return $product;
             });
         } catch (Exception $e) {
             Log::error($e);
+            dd($e->getMessage());
             $request->session()->flash('message', new Message(
                 "Failed to save product. Please try again.",
                 "danger",

@@ -10,15 +10,13 @@ if (!SBS) {
 
     Product.Form.indexOptions = function () {
         var form = $('form#product');
-        var options = form.find('div.product-option');
+        var options = form.find('.options div.product-option');
 
         options.each(function (i, option) {
             option = $(option);
-            i++;
-            console.log(i);
             // Index values
             option.attr('index', i);
-            option.find('.product-option-index').html(i);
+            option.find('.product-option-index').html(i + 1);
             // ID
             option.find('.option-id').attr('name', 'option['+i+'][id]');
             option.find('.option-id').attr('id', 'option-'+i+'-id');
