@@ -17,6 +17,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if (preg_match('/career-service/', $request->headers->get('referer')) || preg_match('/webinar/', $request->headers->get('referer'))) {
+            return redirect('/');
+        }
         return $next($request);
     }
 }

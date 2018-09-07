@@ -14,7 +14,7 @@ class AddStripeIdToUser extends Migration
     public function up()
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->string('stripe_customer_id')->null();
+            $table->string('stripe_customer_id')->nullable()->default(null);
         });
     }
 

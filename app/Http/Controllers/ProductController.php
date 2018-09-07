@@ -372,8 +372,6 @@ class ProductController extends Controller
 
     public function showCareerServices($id)
     {
-        $this->authorize('view-product');
-
         $product = Product::with('options.roles')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
@@ -381,9 +379,11 @@ class ProductController extends Controller
 
         // TODO make this resource-driven
         $role = 'user';
-        foreach (Auth::user()->roles as $r) {
-            if ($r->code == 'clubhouse') {
-                $role = 'clubhouse';
+        if (Auth::user()) {
+            foreach (Auth::user()->roles as $r) {
+                if ($r->code == 'clubhouse') {
+                    $role = 'clubhouse';
+                }
             }
         }
 
@@ -424,8 +424,6 @@ class ProductController extends Controller
 
     public function showWebinars($id)
     {
-        $this->authorize('view-product');
-
         $product = Product::with('options.roles')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
@@ -433,9 +431,11 @@ class ProductController extends Controller
 
         // TODO make this resource-driven
         $role = 'user';
-        foreach (Auth::user()->roles as $r) {
-            if ($r->code == 'clubhouse') {
-                $role = 'clubhouse';
+        if (Auth::user()) {
+            foreach (Auth::user()->roles as $r) {
+                if ($r->code == 'clubhouse') {
+                    $role = 'clubhouse';
+                }
             }
         }
 
