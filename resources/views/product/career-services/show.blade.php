@@ -59,7 +59,7 @@
                 @endforeach
             </div>
             <div class="input-field" style="margin-top: 30px;">
-                <button id="buy-now" type="button" class="btn sbs-red">BUY NOW</button>
+                <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
             </div>
         </div>
     </div>

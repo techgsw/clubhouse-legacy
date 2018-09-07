@@ -12,6 +12,7 @@
             @include('layouts.components.errors')
         </div>
     </div>
+    @include('product.components.instructions')
     <div class="row">
         <div class="col s12">
             @include('product.forms.tag', ['product' => $product])

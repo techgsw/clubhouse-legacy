@@ -23,7 +23,6 @@
             @endforeach
         </a>
         <div class="controls" style="flex: 0 0 auto;">
-            <button type="button" class="buy-now btn sbs-red" style="margin-top: 18px;">BUY NOW</button>
             @can ('edit-product')
                 <div class="small" style="margin-top: 20px;">
                     <a href="/product/{{ $product->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
