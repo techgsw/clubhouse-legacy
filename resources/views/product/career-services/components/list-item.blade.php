@@ -16,19 +16,19 @@
         <div>
             <a href="/career-services/{{ $product->id }}" class="no-underline" style="flex: 0 0 auto;">
                 @foreach ($product->availableOptions() as $option)
-                    <div class="option" style="margin: 12px 0;">
+                    <!--<div class="option" style="margin: 12px 0;">
                         <h6 style="font-weight: bold;">{{ $option->name }}</h6>
                         @if ($option->price > 0)
                             <p>${{ number_format($option->price, 2) }}</p>
                         @else
                             <p>FREE</p>
                         @endif
-                    </div>
+                    </div>-->
                 @endforeach
             </a>
         </div>
         <div class="controls" style="flex: 0 0 auto;">
-            <button type="button" class="buy-now btn sbs-red" style="margin-top: 18px;">BUY NOW</button>
+            <a href="/career-services/{{ $product->id }}" class="buy-now btn sbs-red" style="margin-top: 18px;">LEARN MORE</a>
             @can ('edit-product')
                 <div class="small" style="margin-top: 20px;">
                     <a href="/product/{{ $product->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>

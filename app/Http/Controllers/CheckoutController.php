@@ -7,6 +7,7 @@ use App\ProductOption;
 use App\Http\Requests\StoreSession;
 use App\Http\Requests\UpdateSession;
 use App\Providers\ImageServiceProvider;
+use App\Providers\StripeServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,42 @@ use \Exception;
 
 class CheckoutController extends Controller
 {
-    public function index($id)
+    public function index(Request $request, $id)
     {
+        $user = Auth::user();
+
+        if (!$user) {
+            return abort(404);
+        }
+
+        if (!$user->stripe_customer_id) {
+            try {
+                $stripe_user = StripeServiceProvider::createCustomer($user);
+                $user->stripe_customer_id = $stripe_user->id;
+                $user->update();
+            } catch (Exception $e) {
+                Log::error($e);
+                $request->session()->flash('message', new Message(
+                    "We are sorry. Currently we are unable to complete your customer profile.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+            }
+        } else {
+            try {
+                $stripe_user = StripeServiceProvider::getCustomer($user);
+            } catch (Exception $e) {
+                Log::error($e);
+                $request->session()->flash('message', new Message(
+                    "We are sorry. Currently we are unable to retrieve your payment profile.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+            }
+        }
+
         $product_option = ProductOption::with('product')->where('id', $id)->first();
         if (!$product_option) {
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
@@ -28,12 +63,35 @@ class CheckoutController extends Controller
 
         return view('checkout/index', [
             'product_option' => $product_option,
+            'payment_methods' => $stripe_user->sources->data,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Checkout' => '/checkout',
                 "{$product_option->product->name}" => "/product/{$product_option->product->id}",
                 "{$product_option->name}" => ""
             ]
+        ]);
+    }
+
+    public function addCard(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return abort(404);
+        }
+
+        try {
+            $stripe_customer = StripeServiceProvider::getCustomer($user);
+            $stripe_customer->sources->create(array('source' => $request['stripe_token']));
+            $stripe_customer = StripeServiceProvider::getCustomer($user);
+        } Catch (Exception $e) {
+            Log::error($e);
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'payment_methods' => $stripe_customer->sources->data
         ]);
     }
 }

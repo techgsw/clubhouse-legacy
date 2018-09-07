@@ -340,7 +340,7 @@ class ProductController extends Controller
 
     public function careerServices()
     {
-        $products = Product::with('tags')->whereHas('tags', function ($query) {
+        $products = Product::with('tags')->where('active', 1)->whereHas('tags', function ($query) {
             $query->where('name', 'Career Service');
         })->get();
 

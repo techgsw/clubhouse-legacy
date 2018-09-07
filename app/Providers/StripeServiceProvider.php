@@ -4,12 +4,36 @@ namespace App\Providers;
 
 use App\Product;
 use App\ProductOption;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 use Stripe;
 
 
 class StripeServiceProvider extends ServiceProvider
 {
+    public static function getCustomer(User $user)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+
+        $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
+
+        return $stripe_customer;
+    }
+
+    public static function createCustomer(User $user)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+
+        $stripe_customer = Stripe\Customer::create(
+            array(
+                'email' => $user->email,
+                'description' => $user->first_name.' '.$user->last_name,
+            )
+        );
+
+        return $stripe_customer;
+    }
+
     public static function createProduct(Product $product)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));

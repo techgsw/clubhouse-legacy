@@ -11,14 +11,14 @@
             @endif
             <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline" style="flex: 0 0 auto;">
                 <h4>{{ $product->name }}</h4>
-                <p>{{ strip_tags($pd->text($product->description)) }}</p>
+                <h6>{{ strip_tags($pd->text($product->description)) }}</h6>
             </a>
         </div>
         <div>
             <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline" style="flex: 0 0 auto;">
                 @foreach ($product->availableOptions() as $option)
                     <div class="option" style="margin: 12px 0;">
-                        <h6 style="font-weight: bold;">{{ $option->name }}</h6>
+                        <p>{{ $option->name }}</p>
                     </div>
                 @endforeach
             </a>
