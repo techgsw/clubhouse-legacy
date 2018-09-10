@@ -85,7 +85,7 @@
             @php
                 $date = new DateTime('NOW');
             @endphp
-            <p style="color: #EB2935;">*Your membership will be billed monthly begging on the {{ $date->format('jS') }} of this month.</p>
+            <!--<p style="color: #EB2935;">*Your membership will be billed monthly begging on the {{ $date->format('jS') }} of this month.</p>-->
         </div>
     </div>
     <div class="row">
