@@ -6,6 +6,7 @@ use App\Product;
 use App\ProductOption;
 use App\User;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Log;
 use Stripe;
 
 
@@ -46,6 +47,7 @@ class StripeServiceProvider extends ServiceProvider
         if ($product->type == 'good') {
             $product_array['description'] = $product->description;
             $product_array['attributes'] = array('product_option_id', 'name', 'description');
+            $product_array['shippable'] = false;
         }
 
         $stripe_product = Stripe\Product::create($product_array);
@@ -160,5 +162,35 @@ class StripeServiceProvider extends ServiceProvider
         $stripe_sku = Stripe\SKU::retrieve($product_option->stripe_sku_id);
 
         $stripe_sku->delete();
+    }
+
+    public static function purchaseSku(User $user, string $source_token, string $sku_id)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+
+        $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
+
+        $stripe_order = Stripe\Order::create(
+            array(
+                'currency' => 'usd',
+                'items' => array(
+                    array(
+                        'type' => 'sku',
+                        'parent' => $sku_id 
+                    )
+                ),
+                'customer' => $stripe_customer->id
+                
+            )
+        );
+
+        try {
+            $stripe_order = $stripe_order->pay(array('customer' => $stripe_customer->id, 'source' => $source_token));
+        } catch (Exception $e) {
+            Log::error($e);
+            throw Exception('Unable to process transaction at this time.');
+        }
+
+        return $stripe_order;
     }
 }

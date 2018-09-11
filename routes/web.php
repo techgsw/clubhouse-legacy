@@ -174,9 +174,10 @@ Route::domain($domain)->group(function () {
 
     // Checkout
     Route::group(['middleware' => ['web','auth']], function () {
-        Route::get('/checkout/{id}', 'CheckoutController@index');
         Route::post('/checkout/add-card', 'CheckoutController@addCard');
-        Route::post('/checkout', 'ProfileController@store');
+        Route::post('/checkout', 'CheckoutController@store');
+        Route::get('/checkout/thanks', 'CheckoutController@thanks');
+        Route::get('/checkout/{id}', 'CheckoutController@index');
     });
 
     // Clubhouse

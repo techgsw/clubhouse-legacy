@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\ProductOption;
-use App\Http\Requests\StoreSession;
-use App\Http\Requests\UpdateSession;
-use App\Providers\ImageServiceProvider;
+use App\Http\Requests\StoreCheckout;
 use App\Providers\StripeServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,10 +21,6 @@ class CheckoutController extends Controller
     public function index(Request $request, $id)
     {
         $user = Auth::user();
-
-        if (!$user) {
-            return abort(404);
-        }
 
         if (!$user->stripe_customer_id) {
             try {
@@ -47,12 +41,7 @@ class CheckoutController extends Controller
                 $stripe_user = StripeServiceProvider::getCustomer($user);
             } catch (Exception $e) {
                 Log::error($e);
-                $request->session()->flash('message', new Message(
-                    "We are sorry. Currently we are unable to retrieve your payment profile.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
+                return redirect()->back()->withErrors(['msg' => 'We are sorry. Currently, we are unable to retrieve your payment profile.']);
             }
         }
 
@@ -63,7 +52,7 @@ class CheckoutController extends Controller
 
         return view('checkout/index', [
             'product_option' => $product_option,
-            'payment_methods' => $stripe_user->sources->data,
+            'payment_methods' => (!is_null($stripe_user) ? $stripe_user->sources->data : array()),
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Checkout' => '/checkout',
@@ -73,13 +62,30 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function addCard(Request $request)
+    public function store(StoreCheckout $request)
     {
         $user = Auth::user();
 
-        if (!$user) {
-            return abort(404);
+        try {
+            if (preg_match('/sku/', $request['stripe_product_id'])) {
+                $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
+            } else if (preg_match('/plan/', $request['stripe_product_id'])) {
+                $stripe_checkout = StripeServiceProvider::purchasePlan();
+            } else {
+                return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
+            }
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
         }
+
+
+        return redirect()->action('CheckoutController@thanks');
+    }
+
+    public function addCard(Request $request)
+    {
+        $user = Auth::user();
 
         try {
             $stripe_customer = StripeServiceProvider::getCustomer($user);
@@ -92,6 +98,19 @@ class CheckoutController extends Controller
         return response()->json([
             'type' => 'success',
             'payment_methods' => $stripe_customer->sources->data
+        ]);
+    }
+
+    public function thanks(Request $request)
+    {
+        $user = Auth::user();
+
+        return view('checkout/thanks', [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Checkout' => '/checkout',
+                'Thanks' => ''
+            ]
         ]);
     }
 }
