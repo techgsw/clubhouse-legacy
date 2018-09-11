@@ -45,9 +45,15 @@ class CheckoutController extends Controller
             }
         }
 
-        $product_option = ProductOption::with('product')->where('id', $id)->first();
-        if (!$product_option) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
+        $product_option = ProductOption::with(['product' => function ($query) { $query->where('active', true); }])->find($id);
+        if (!$product_option || !$product_option->product) {
+            $request->session()->flash('message', new Message(
+                "We were unable to find the product you were looking for.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return abort(404);
         }
 
         return view('checkout/index', [
@@ -70,7 +76,7 @@ class CheckoutController extends Controller
             if (preg_match('/sku/', $request['stripe_product_id'])) {
                 $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
             } else if (preg_match('/plan/', $request['stripe_product_id'])) {
-                $stripe_checkout = StripeServiceProvider::purchasePlan();
+                $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
             } else {
                 return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
             }

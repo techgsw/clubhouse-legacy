@@ -164,7 +164,28 @@ class StripeServiceProvider extends ServiceProvider
         $stripe_sku->delete();
     }
 
-    public static function purchaseSku(User $user, string $source_token, string $sku_id)
+    public static function purchasePlan(User $user, string $source_token, string $plan_id)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+
+        $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
+
+        $stripe_subscription = Stripe\Subscription::create(
+            array(
+                'customer' => $stripe_customer->id,
+                'items' => array(
+                    array(
+                        'plan' => $plan_id,
+                    )
+                ),
+                'trial_period_days' => 30
+            )
+        );
+
+        return $stripe_subscription;
+    }
+
+    public static function purchaseSku(User $user, string $source_token, string $sku)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
@@ -188,6 +209,8 @@ class StripeServiceProvider extends ServiceProvider
             $stripe_order = $stripe_order->pay(array('customer' => $stripe_customer->id, 'source' => $source_token));
         } catch (Exception $e) {
             Log::error($e);
+            $stripe_order->status = 'canceled';
+            $stripe_order->save();
             throw Exception('Unable to process transaction at this time.');
         }
 
