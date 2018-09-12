@@ -206,9 +206,6 @@
                         @foreach ($webinars as $index => $webinar)
                             @include('product.webinars.components.list-item', ['product' => $webinar])
                         @endforeach
-                        <div class="card-placeholder"></div>
-                        <div class="card-placeholder"></div>
-                        <div class="card-placeholder"></div>
                     </div>
                 @else
                     <div class="col s12 center-align">
@@ -218,7 +215,7 @@
             </div>
             <div class="row" style="margin-bottom: 0;">
                 <div class="col s12 center-align" style="padding-bottom: 50px;">
-                    <a href="/webinarss" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
+                    <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
                 </div>
             </div>
         </div>

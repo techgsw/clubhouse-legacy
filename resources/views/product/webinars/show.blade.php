@@ -45,7 +45,7 @@
                     @if ($option->price > 0)
                         <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
                     @else
-                        <option value="{{$option->id}}" data-link="{{ $options->getURL(false, 'checkout') }}">{{$option->name}}</option>
+                        <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}}</option>
                     @endif
                 @endforeach
             </select>
