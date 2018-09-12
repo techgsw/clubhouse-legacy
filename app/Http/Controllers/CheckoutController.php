@@ -58,7 +58,7 @@ class CheckoutController extends Controller
 
         return view('checkout/index', [
             'product_option' => $product_option,
-            'payment_methods' => (!is_null($stripe_user) ? $stripe_user->sources->data : array()),
+            'payment_methods' => (!is_null($stripe_user) && !is_null($stripe_user->sources) ? $stripe_user->sources->data : array()),
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Checkout' => '/checkout',

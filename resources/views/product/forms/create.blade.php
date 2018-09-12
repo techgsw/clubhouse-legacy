@@ -27,7 +27,7 @@
         </div>
         <div class="input-field col s6 m3">
             <p class="checkbox">
-                <input type="checkbox" name="type" id="type" value="service" {{ old('active') ? "checked" : "" }} />
+                <input type="checkbox" name="type" id="type" value="service" {{ old('type') ? "checked" : "" }} />
                 <label for="type">Service</label>
             </p>
         </div>

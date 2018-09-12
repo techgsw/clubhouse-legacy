@@ -51,6 +51,7 @@
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             <a href="#" class="btn sbs-red" style="margin-top: 20px;"> Checkout now</a>
+                            <a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Member</a>
                         </div>
                     </div>
                 </div>
