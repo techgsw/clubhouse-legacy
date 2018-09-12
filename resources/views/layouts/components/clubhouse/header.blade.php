@@ -2,12 +2,10 @@
     @include('layouts.components.clubhouse.auth-nav')
     <nav class="nav-main" role="navigation">
         <div class="nav-wrapper container">
-            <a href="/" style="color: #3F3E3E; left: 0; margin-top: 25px;" class="brand-logo">CLUBHOUSE</a>
-            <!--
+            <!--<a href="/" style="color: #3F3E3E; left: 0; margin-top: 25px;" class="brand-logo">CLUBHOUSE</a>-->
             <a id="" href="/" class="brand-logo left-align">
-                <img src="/images/logo.png" alt="Sports Business Solutions">
+                <img src="/images/logos/full/CH_logo_color.jpg" alt="Sports Business Solutions">
             </a>
-            -->
             <ul class="right hide-on-med-and-down">
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentorship</a></li>

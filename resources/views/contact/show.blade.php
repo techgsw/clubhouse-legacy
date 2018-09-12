@@ -18,6 +18,7 @@
         @endif
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
+        <li class="tab"><a class="" href="/user/{{ $contact->user->id }}/account">Account</a></li>
         @can ('view-contact')
             <li class="tab"><a class="active" href="/contact/{{ $contact->id }}">Contact</a></li>
         @endcan
@@ -29,7 +30,7 @@
         @if ($contact->user)
             <li class="tab"><a href="/user/{{ $contact->user->id }}/profile">Profile</a></li>
             <li class="tab"><a href="/user/{{ $contact->user->id }}/jobs">Jobs</a></li>
-            <li class="tab"><a href="/user/{{ $contact->user->id }}/questions">Q&A</a></li>
+            <!--<li class="tab"><a href="/user/{{ $contact->user->id }}/questions">Q&A</a></li>-->
         @endif
     </ul>
     @can ('add-contact-relationship')

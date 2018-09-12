@@ -307,6 +307,7 @@ Route::domain($domain)->group(function () {
     // User
     Route::group(['middleware' => ['web','auth']], function () {
         Route::get('/user/{id}', 'UserController@show');
+        Route::get('/user/{id}/account', 'UserController@account');
         Route::get('/user/{id}/jobs', 'UserController@jobs');
         Route::get('/user/{id}/questions', 'UserController@questions');
 

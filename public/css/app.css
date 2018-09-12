@@ -208,6 +208,10 @@ nav {
     -moz-osx-font-smoothing: auto;
 }
 
+nav .brand-logo {
+    padding-top: 12px;
+}
+
 nav.nav-main {
     height: 120px;
     line-height: 120px;
