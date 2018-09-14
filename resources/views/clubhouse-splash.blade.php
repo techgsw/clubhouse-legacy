@@ -7,7 +7,7 @@
     </div>
     <div class="row" style="margin-bottom: 0;">
         <div class="col s12 center-align">
-            <h4 style="font-weight: 700; color: #424242;">The <i>new</i> destination for everything you need to succeed in sports business. Mentorship, Industry Best Practices, Career Growth & More.</h4>
+            <h4 style="font-weight: 700; color: #424242;">The <i>new</i> destination for everything you need to succeed in sports business.<br /><br />Mentorship, Industry Best Practices, Career Growth & More.</h4>
             <h5 class="sbs-red-text" style="margin-bottom: 0;"><strong>Launching Fall 2018.</strong></h5>
             <p style="margin-top: 5px; font-weight: 400; color: #424242;">Brought to you by the team at <a style="color: #9C9C9C;" href="https://sportsbusiness.solutions">Sports Business Solutions</a></p>
         </div>
