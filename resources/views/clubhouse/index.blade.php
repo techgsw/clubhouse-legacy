@@ -139,27 +139,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s12 m6 offset-m3 center-align">
-                <h5>There are many opportunities when it comes to careers in sports. That's why we've gathered all possiblities just for you.</h5>
-            </div>
-        </div>
-        <div class="row">
+            <div class="card-flex-container">
             @if (count($jobs) > 0)
                 @foreach ($jobs as $index => $job)
-                    <div class="col s12 m4">
-                        <div class="card">
-                            <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: space-between;">
-                                <a href="/job/{{ $job->id }}" style="flex: 1 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
-                                    <img style="width: 120px; margin: 0 auto;" src="{{ $job->image->getURL('medium') }}" />
+                    <div class="card">
+                        <div class="card-content center-align" style="display: flex; flex-flow: column; justify-content: center;">
+                            <a href="/job/{{ $job->id }}" style="flex: 1 0 auto; display: flex; flex-flow: column; justify-content: center;" class="no-underline">
+                                <img style="width: 120px; margin: 0 auto;" src="{{ $job->image->getURL('medium') }}" />
+                            </a>
+                            <div class="col s12 center-align" style="padding: 10px 0 50px 0;">
+                                <a href="/job/{{$job->id}}">
+                                    <h5>{{ $job->title }}</h5>
+                                    <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
                                 </a>
-                                <div class="col s12 center-align" style="padding: 10px 0 50px 0;">
-                                    <a href="/job/{{$job->id}}">
-                                        <h5>{{ $job->title }}</h5>
-                                        <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
-                                    </a>
-                                    <p><strong>{{ $job->name}}</strong></p>
-                                    <a href="/job/{{$job->id}}" class="btn sbs-red" style="margin-top: 20px;"> Apply now</a>
-                                </div>
+                                <p><strong>{{ $job->name}}</strong></p>
+                                <a href="/job/{{$job->id}}" class="btn sbs-red" style="margin-top: 20px;"> Apply now</a>
                             </div>
                         </div>
                     </div>
@@ -169,6 +163,7 @@
                     <h4>Coming soon.</h4>
                 </div>
             @endif
+            </div>
         </div>
         <div class="row">
             <div class="col s12 center-align" style="padding-bottom: 50px;">
