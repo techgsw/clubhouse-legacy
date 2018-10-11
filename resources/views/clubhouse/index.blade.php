@@ -176,12 +176,7 @@
             <div class="row">
                 <div class="col s12 center-align">
                     <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/event.png" />
-                    <h3>Webinars</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12 m6 offset-m3 center-align">
-                    <h5>Learn and network with sports professionals in a fun and interactive way!</h5>
+                    <h3>Educational Webinars</h3>
                 </div>
             </div>
             <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
@@ -210,7 +205,7 @@
             </div>
             <div class="row" style="margin-bottom: 0;">
                 <div class="col s12 center-align" style="padding-bottom: 50px;">
-                    <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all events</a>
+                    <a href="/webinars" class="btn sbs-red" style="margin-top: 20px;"> See all webinars</a>
                 </div>
             </div>
         </div>
