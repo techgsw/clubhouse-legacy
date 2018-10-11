@@ -1509,6 +1509,21 @@ $.valHooks.textarea = {
 })();
 
 $(document).ready(function () {
+    // Rotating words
+    var rotate = function() {
+        var rotating_words = ['learn', 'give back', 'connect', 'share', 'grow'];
+        var rotating_word = $('#rotating-word');
+        var index = rotating_words.indexOf($(rotating_word).html());
+        if (index == rotating_words.length -1) {
+            index = 0;
+        } else {
+            index += 1;
+        }
+        $(rotating_word).html(rotating_words[index]);
+    }
+
+    setInterval(rotate, 3000);
+
     // Carousels
     var Carousel = {}
     Carousel.autoplay_id;

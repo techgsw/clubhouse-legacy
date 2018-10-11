@@ -5,9 +5,10 @@
         <div class="container">
             <div class="row">
                 <div class="col m6">
-                    <h4 class="header" style="margin-top: 0;">Welcome to the Clubhouse!</h4>
-                    <p>The Clubhouse is a destination for current and aspiring sports business professionals who are committed to achieving success in sports. People in this community have a desire to learn, share industry best practices, and network with each other in an effort to grow individually and elevate the sports industry as a whole.</p>
-                    <p>Whether you want to meet industry pros, you want to give back and help others, or you want a job, we’re confident this platform is your ticket to sports industry success.</p>
+                    <h4 class="" style="margin-top: 0; font-weight: 300;">Welcome to theClubhouse!</h4>
+                    <h5><i>The voice of the sports industry</i></h5>
+                    <p>theClubhouse is a place where current and aspiring sports business professionals can go to learn, network, browse career opportunities, and share best practices in an effort to grow their career in sports.</p>
+                    <p>Whether you want to meet industry pros, you have a desire to give back, or you’re looking for a job in sports, we’re confident that this platform is your ticket to sports industry success.</p>
                 </div>
                 <div class="col m6">
                     <div class="fill-grey hide-on-small-only" style="position: absolute;">
@@ -16,9 +17,8 @@
                         <ul class="browser-default">
                             <li>Talk to sports industry mentors</li>
                             <li>Learn industry best practices</li>
-                            <li>Join us for private events and webinars</li>
-                            <li>Gain a competitive edge when job seeking</li>
-                            <li>Apply for new jobs in sports</li>
+                            <li>Attend private events and webinars</li>
+                            <li>Find jobs in sports</li>
                             <li>Flexible membership options available</li>
                         </ul>
                         <div style="padding-left: 20px; padding-right: 20px;">
@@ -49,7 +49,7 @@
         </div>
         <div class="row">
             <div id="clubhouse-title-text" class="col s12 center-align">
-                <h2>Where the sports industry goes to <strong><u>learn</u></strong>.<h2>
+                <h2>Where the sports industry goes to <span><strong><u id="rotating-word">learn</u></strong></span>.<h2>
                 <hr class="sbs-red" style="color: #EB2935;" />
             </div>
         </div>
