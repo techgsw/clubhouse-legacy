@@ -238,7 +238,7 @@
                     </div>
                     <div class="col s12">
                         <h4>Resources</h4>
-                        <p>There's some cool stuff out there that helped us, and others achieve success in sports. We wanted to share those with you in hopes that they help you too!</p>
+                        <p>There are some things out there that have helped us achieve success in sports and we wanted to share them with all of you too!</p>
                     </div>
                 </div>
             </div>
