@@ -87,7 +87,7 @@
             <div class="row">
                 <div class="col s12 center-align">
                     <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/mentorship.png" />
-                    <h3>Mentorship</h3>
+                    <h3>Sports Industry Mentors</h3>
                 </div>
             </div>
             <div class="row">
@@ -113,6 +113,9 @@
                                         <h4 style="margin-bottom: 0px;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
                                         <p style="margin-top: 0px; margin-bottom: 0px;"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
+                                        @if ($mentor->contact->organizations()->first())
+                                            <!--<img src="{{ $mentor->contact->organizations()->first()->image->getURL('share') }}" class="responsive-img" />-->
+                                        @endif
                                     </div>
                                 </div>
                                 @if (($index == count($mentors) - 1) || (($index + 1) % 2 == 0)) 
@@ -126,7 +129,7 @@
             </div>
             <div class="row">
                 <div class="col s12 center-align" style="padding-bottom: 50px;">
-                    <a href="/mentor" class="btn sbs-red" style="margin-top: 0px;"> Find you mentor</a>
+                    <a href="/mentor" class="btn sbs-red" style="margin-top: 0px;"> Find your mentor</a>
                 </div>
             </div>
         </div>
