@@ -1524,18 +1524,22 @@ $(document).ready(function () {
     }
     var carousel = $('.carousel.carousel-slider');
     if (carousel) {
-        carousel.carousel({
-            fullWidth: true,
-            indicators: true,
-            duration: 300,
-            onCycleTo : function(item, dragged) {
-                Carousel.stopAutoplay();
-                Carousel.startAutoplay(carousel);
-            }
-        });
+        try {
+            carousel.carousel({
+                fullWidth: true,
+                indicators: true,
+                duration: 300,
+                onCycleTo : function(item, dragged) {
+                    Carousel.stopAutoplay();
+                    Carousel.startAutoplay(carousel);
+                }
+            });
+        } catch (e) {
+        }
     }
-    // Size Nav
-    $('.button-collapse').sideNav();
+    // Side Nav
+    $('.button-collapse-default').sideNav();
+    $('.button-collapse-custom').sideNav();
     // Select fields
     $('select').material_select();
     // Collapsible elements

@@ -1851,6 +1851,11 @@ p.icon {
         margin-top: 100px;
     }
 }
+@media only screen and (max-width: 1185px) {
+    .nav-custom-desktop { display: none; }
+    nav .brand-logo.custom-brand-logo { left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); }
+    nav a.button-collapse.button-collapse-custom { display: inherit; }
+}
 @media only screen and (min-width: 1201px) {
     .row .col.xl5ths {
         width: 20%;
