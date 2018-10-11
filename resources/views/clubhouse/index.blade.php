@@ -229,7 +229,7 @@
                     </div>
                     <div class="col s12">
                         <h4>Career Services</h4>
-                        <p>Want some 1:1 individual and customized career coaching? Our Clubhouse members are seasoned industry professionals and committed helping you achieve success in sports.</p>
+                        <p>Want some 1:1 career coaching? Our team is comprised of former successful industry professionals and they’re committed to helping you any way that they can.</p>
                     </div>
                 </div>
                 <div class="col s12 m6">
