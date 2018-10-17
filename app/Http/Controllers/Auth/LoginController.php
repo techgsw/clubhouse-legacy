@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\RoleUser;
 use App\Providers\StripeServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -43,6 +44,12 @@ class LoginController extends Controller
     protected function authenticated(Request $request, User $user)
     {
         // TODO Check membership status
+        $stripe_user = StripeServiceProvider::getCustomer($user);
+        if ($stripe_user->delinquent || $stripe_user->subscriptions->total_count < 1) {
+            // Remove clubhouse role from user
+            $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
+            $role->delete();
+        }
     }
 
     public function showLoginForm()

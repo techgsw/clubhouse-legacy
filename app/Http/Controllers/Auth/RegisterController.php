@@ -17,6 +17,7 @@ use App\Traits\ReCaptchaTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -126,6 +127,13 @@ class RegisterController extends Controller
                 'address_id' => $address->id,
                 'contact_id' => $contact->id
             ]);
+
+            Session::flash('message', new Message(
+                "Welcome to theClubhouse! We are very excited to have you, more copy here...",
+                "success",
+                $code = null,
+                $icon = "check-circle"
+            ));
 
             return $user;
         });
