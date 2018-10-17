@@ -17,6 +17,9 @@
                         case "danger":
                             $msg_class = "alert card-panel red lighten-4 red-text text-darken-4";
                             break;
+                        case "info":
+                            $msg_class = "alert card-panel blue lighten-4 blue-text text-darken-4";
+                            break;
                         default:
                             $msg_class = "alert card-panel";
                             break;

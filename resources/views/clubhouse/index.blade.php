@@ -11,20 +11,18 @@
                     <p>Whether you want to meet industry pros, you have a desire to give back, or you’re looking for a job in sports, we’re confident that this platform is your ticket to sports industry success.</p>
                 </div>
                 <div class="col m6" style="position: relative;">
-                    <div class="fill-grey hide-on-small-only" style="position: absolute; top: -40px; max-width: 100%;">
-                        <img src="/images/clubhouse/medal.png" style="float: right; max-width: 100px; margin-top: 20px; margin-right: 40px; padding-right: 20px;" />
-                        <p class="header font-black" style="font-size: 24px; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
-                        <!--<ul class="browser-default">
-                            <li>Talk to sports industry mentors</li>
-                            <li>Learn industry best practices</li>
-                            <li>Attend private events and webinars</li>
-                            <li>Find jobs in sports</li>
-                            <li>Flexible membership options available</li>
-                        </ul>-->
-                        <div id="registration-form-wrapper-top" style="padding-left: 20px; padding-right: 20px;">
-                            @include('components.register-clubhouse')
+                    @if (Auth::guest())
+                        <div class="fill-grey hide-on-small-only" style="position: absolute; top: -40px; max-width: 100%;">
+                            <img src="/images/clubhouse/medal.png" style="float: right; max-width: 100px; margin-top: 20px; margin-right: 40px; padding-right: 20px;" />
+                            <p class="header font-black" style="font-size: 24px; margin-bottom: 0; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
+                            <p class="font-black" style="margin-top: 0; margin-left: 20px; font-size: 12px;"><a class="no-underline" href="/login">Already a member? Login!</a></p>
+                            <div id="registration-form-wrapper-top" style="padding-left: 20px; padding-right: 20px;">
+                                @include('components.register-clubhouse')
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <h1>Call to action here</h1>
+                    @endif
                 </div>
             </div>
         </div>

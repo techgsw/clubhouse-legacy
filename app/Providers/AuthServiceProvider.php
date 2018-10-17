@@ -62,6 +62,12 @@ class AuthServiceProvider extends ServiceProvider
             return $auth_user->id == $user->id || $auth_user->hasAccess('profile_edit');
         });
 
+
+        // Clubhouse member 
+        Gate::define('view-clubhouse', function ($auth_user) {
+            return $auth_user->hasAccess('clubhouse_view');
+        });
+
         // Q&A
         Gate::define('view-question-index', function ($user) {
             return $user->hasAccess('question_index');

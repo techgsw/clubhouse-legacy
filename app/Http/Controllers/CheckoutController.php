@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
+use App\Mail\UserPaidClubhousePro;
 use App\Message;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
@@ -46,6 +48,7 @@ class CheckoutController extends Controller
         }
 
         $product_option = ProductOption::with(['product' => function ($query) { $query->where('active', true); }])->find($id);
+        
         if (!$product_option || !$product_option->product) {
             $request->session()->flash('message', new Message(
                 "We were unable to find the product you were looking for.",
@@ -54,6 +57,10 @@ class CheckoutController extends Controller
                 $icon = "error"
             ));
             return abort(404);
+        }
+
+        if (!is_null($product_option->stripe_plan_id) && $user->can('view-clubhouse')) {
+            return redirect()->back()->withErrors(['msg' => 'You are already a Clubhouse Pro member!']);
         }
 
         return view('checkout/index', [
@@ -80,11 +87,19 @@ class CheckoutController extends Controller
             } else {
                 return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
             }
+
+            $roles = Role::where('code', 'clubhouse')->get();
+            $user->roles()->attach($roles);
         } catch (Exception $e) {
             Log::error($e);
             return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
         }
 
+        try {
+            Mail::to($user)->send(new UserPaidClubhousePro($user));
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
 
         return redirect()->action('CheckoutController@thanks');
     }
