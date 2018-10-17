@@ -56,6 +56,7 @@ class RegisterController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:user',
             'password' => 'required|min:6|confirmed',
+            'terms' => 'required',
             'g-recaptcha-response' => 'required',
             'recaptcha' => 'required|min:1'
         ];
@@ -65,6 +66,7 @@ class RegisterController extends Controller
             'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
             'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
             'unique' => 'That :attribute has already been taken.',
+            'terms' => 'Sorry, you must agree to our terms of service.',
             'required' => 'Sorry, :attribute is a required field.',
             'password.min.string' => 'Passwords must be at least 6 characters long',
             'confirmed' => 'Sorry, it looks like your passwords do not match.',

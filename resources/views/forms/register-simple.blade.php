@@ -1,4 +1,4 @@
-<form method="post" action="{{ route('register') }}">
+<form id="registration-simple" method="post" action="{{ route('register') }}">
     {{ csrf_field() }}
     <div class="row">
         <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <div class="input-field col s12 {{ $errors->has('email') ? 'invalid' : '' }}">
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+            <input class="browser-default" id="email" type="email" name="email" value="{{ old('email') }}" required>
             <label for="email">Email Address</label>
         </div>
     </div>
@@ -27,12 +27,16 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 m6">
-            <div class="g-recaptcha" style="transform:scale(0.65);-webkit-transform:scale(0.65);transform-origin:0 0;-webkit-transform-origin:0 0;" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+        <div class="col s12">
+            <input id="terms" name="terms" type="checkbox" required>
+            <label for="terms">I agree to the terms of service.</label>
+        </div>
+        <div class="col s12">
+            <div class="g-recaptcha" style="transform:scale(0.65);-webkit-transform:scale(0.65);transform-origin:0 0;-webkit-transform-origin:0 0; margin-top: 10px;" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s12 center-align" style="margin-top: -20px;">
+        <div class="input-field col s12 center-align" style="margin-top: -20px; padding-bottom: 10px;">
             <button type="submit" class="btn sbs-red">Join Today</button>
         </div>
     </div>

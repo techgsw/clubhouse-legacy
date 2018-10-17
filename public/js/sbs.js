@@ -1506,6 +1506,24 @@ $.valHooks.textarea = {
             );
         }
     }
+
+    // Move Registration Form
+    $(window).resize(function() {
+        var wrapper_top = $('#registration-form-wrapper-top'),
+            wrapper_bottom = $('#registration-form-wrapper-bottom'),
+            registration_form = $('#registration-form-wrapper');
+        if ($(window).width() <= 585 && $(wrapper_bottom).html() == '') {
+            $(registration_form).detach(); 
+            $(wrapper_top).html('');
+            $(wrapper_bottom).append(registration_form);
+        }
+        if ($(window).width() > 585 && $(wrapper_top).html() == '') {
+            $(registration_form).detach(); 
+            $(wrapper_bottom).html('');
+            $(wrapper_top).append(registration_form);
+        }
+    });
+    $(window).resize();
 })();
 
 $(document).ready(function () {

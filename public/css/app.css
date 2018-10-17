@@ -143,9 +143,14 @@ div.row.bg-image.clubhouse h4 {
     font-size: 2rem;
 }
 
+div.row.bg-image.clubhouse h5 {
+    font-weight: 400;
+}
+
 div.row.bg-image.clubhouse p {
     font-size: 16px;
     line-height: inherit;
+    font-weight: 400;
 }
 
 div.row.bg-image.clubhouse input {
@@ -1803,7 +1808,7 @@ p.icon {
     }
 
     #clubhouse-title-text {
-        margin-top: 100px;
+        margin-top: 50px;
     }
 }
 @media only screen and (max-width: 601px) {
@@ -1828,7 +1833,7 @@ p.icon {
     }
 
     #clubhouse-title-text {
-        margin-top: 100px;
+        margin-top: 10px;
     }
 
     div.bg-image.dark-circle {
@@ -1848,7 +1853,7 @@ p.icon {
     }
 
     #clubhouse-title-text {
-        margin-top: 100px;
+        margin-top: 50px;
     }
 }
 @media only screen and (max-width: 1185px) {
@@ -1862,6 +1867,6 @@ p.icon {
     }
 
     #clubhouse-title-text {
-        margin-top: 200px;
+        margin-top: 80px;
     }
 }

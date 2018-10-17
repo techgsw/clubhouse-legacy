@@ -10,18 +10,18 @@
                     <p>theClubhouse is a place where current and aspiring sports business professionals can go to learn, network, browse career opportunities, and share best practices in an effort to grow their career in sports.</p>
                     <p>Whether you want to meet industry pros, you have a desire to give back, or you’re looking for a job in sports, we’re confident that this platform is your ticket to sports industry success.</p>
                 </div>
-                <div class="col m6">
-                    <div class="fill-grey hide-on-small-only" style="position: absolute;">
-                        <img src="/images/clubhouse/medal.png" style="float: right; margin-top: 20px; margin-right: 20px;" />
+                <div class="col m6" style="position: relative;">
+                    <div class="fill-grey hide-on-small-only" style="position: absolute; top: -40px; max-width: 100%;">
+                        <img src="/images/clubhouse/medal.png" style="float: right; max-width: 100px; margin-top: 20px; margin-right: 40px; padding-right: 20px;" />
                         <p class="header font-black" style="font-size: 24px; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
-                        <ul class="browser-default">
+                        <!--<ul class="browser-default">
                             <li>Talk to sports industry mentors</li>
                             <li>Learn industry best practices</li>
                             <li>Attend private events and webinars</li>
                             <li>Find jobs in sports</li>
                             <li>Flexible membership options available</li>
-                        </ul>
-                        <div style="padding-left: 20px; padding-right: 20px;">
+                        </ul>-->
+                        <div id="registration-form-wrapper-top" style="padding-left: 20px; padding-right: 20px;">
                             @include('components.register-clubhouse')
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                     <li>Apply for new jobs in sports</li>
                     <li>Flexible membership options available</li>
                 </ul>
-                @include('components.register-clubhouse')
+                <div id="registration-form-wrapper-bottom"></div>
             </div>
         </div>
         <div class="row">
@@ -114,7 +114,7 @@
                                         <p style="margin-top: 0px; margin-bottom: 0px;"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                         @if ($mentor->contact->organizations()->first())
-                                            <!--<img src="{{ $mentor->contact->organizations()->first()->image->getURL('share') }}" class="responsive-img" />-->
+                                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" />
                                         @endif
                                     </div>
                                 </div>
