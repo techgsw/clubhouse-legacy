@@ -36,7 +36,7 @@
         <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
     </ul>
     <div class="row">
-        <div class="col s12 m6">
+        <div class="col s12 m12 l6">
             <h4>Subscriptions</h4>
             @if (count($stripe_user->subscriptions->data) > 0)
                 <table>
@@ -60,8 +60,9 @@
                 <p>No active subscriptions.</p>
             @endif
         </div>
-        <div class="col s12 m6">
-            <h4>Cards</h4>
+        <div class="col s12 m12 l6">
+            <h4 style="display: inline-block;">Cards</h4>
+            <a class="btn btn-small sbs-red right" style="margin-top: 15px;" href="javascript: void(0);"><li class="fa fa-plus"></li> CARD</a>
             @if (count($stripe_user->sources) > 0)
                 <table>
                     <thead>
@@ -99,6 +100,32 @@
                 </table>
             @else
                 <p>No cards on file.</p>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <h4>Transaction History</h4>
+            @if (count($stripe_user->subscriptions->data) > 0)
+                <table>
+                    <thead>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Card</th>
+                    </thead>
+                    @foreach ($stripe_user->subscriptions->data as $key => $value)
+                        @php $next_bill = date('m/d/Y', $value->current_period_end); @endphp
+                        <tr>
+                            <td>{{ $next_bill }}</td>
+                            <td>{{ $value->items->data[0]->plan->nickname }}</td>
+                            <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / Month</td>
+                            <td><a class="btn btn-small sbs-red" href="">Cancel</a></td>
+                        </tr>
+                    @endforeach
+                </table>
+            @else
+                <p>No active subscriptions.</p>
             @endif
         </div>
     </div>

@@ -112,7 +112,7 @@
                                         <p style="margin-top: 0px; margin-bottom: 0px;"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
                                         <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                         @if ($mentor->contact->organizations()->first())
-                                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" />
+                                            <!--<img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" />-->
                                         @endif
                                     </div>
                                 </div>
