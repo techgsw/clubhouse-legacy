@@ -130,6 +130,10 @@ div.row.bg-image {
     position: relative;
 }
 
+div.row.bg-image img {
+    max-width: 75px;
+}
+
 div.row.bg-image.clubhouse {
     background-image: url("/images/clubhouse/clubhouse-hero.jpg");
     background-position: center;
@@ -194,7 +198,7 @@ div.row.bg-image h5,
 div.row.bg-image h6,
 div.row.bg-image p {
     color: #FFFFFF;
-    font-weight: 200;
+    font-weight: 300;
     line-height: 35px;
     font-size: 20px;
 }

@@ -62,4 +62,14 @@ class ClubhouseController extends Controller
             ],
         ]);
     }
+
+    public function resources(Request $request)
+    {
+        return view('clubhouse/resources', [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Resources' => '/resources'
+            ],
+        ]);
+    }
 }

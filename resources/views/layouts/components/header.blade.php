@@ -25,7 +25,9 @@
                     <a href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
                     <a href="https://www.linkedin.com/in/bob-hamer-b1ab703"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 </li>
-                <li><a href="/contact" class="sbs-red white-text">Contact</a></li>
+                <li><a href="{{ env('CLUBHOUSE_URL') }}" style="text-transform: none; font-size: 18px;"><span class="sbs-red-text">the</span>Clubhouse</a></li>
+                <li class="divider"></li>
+                <li><a href="/contact" class="">Contact</a></li>
                 <li><a href="/about">About</a></li>
                 <li class="divider"></li>
                 <li><a href="/services">Services</a></li>

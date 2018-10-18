@@ -273,6 +273,11 @@ Route::domain($domain)->group(function () {
         Route::get('/pricing', 'ClubhouseController@pricing');
     });
 
+    // Resources 
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/resources', 'ClubhouseController@resources');
+    });
+
     // Product
     Route::group(['middleware' => ['web']], function () {
         Route::get('/product/admin', 'ProductController@admin');
