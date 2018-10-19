@@ -417,7 +417,7 @@ class ProductController extends Controller
             'products' => $products,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Webinars' => '/webinars'
+                'Educational Webinars' => '/webinars'
             ]
         ]);
     }

@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col s12 center-align">
                 <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/digital-marketing.png" />
-                <h3>Sports industry blog</h3>
+                <h3>Sports Industry Blog</h3>
             </div>
         </div>
         <div class="row">
@@ -136,7 +136,7 @@
         <div class="row">
             <div class="col s12 center-align">
                 <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/job-board.png" />
-                <h3>Job Board</h3>
+                <h3>Sports Job Board</h3>
             </div>
         </div>
         <div class="row">

@@ -49,7 +49,7 @@ class JobController extends Controller
         return view('job/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
+                'Sports Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
             'jobs' => $jobs,
             'searching' => $searching,

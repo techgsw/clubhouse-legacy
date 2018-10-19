@@ -3,7 +3,9 @@
 @section('hero')
     <div class="row hero bg-image career-services">
         <div class="col s12">
-            <h4 class="header">Webinars</h4>
+            <img class="responsive-img" src="/images/clubhouse/event-white.png" />
+            <h4 class="header">Educational Webinars</h4>
+            <p>Join these live events and listen in as industry professionals discuss the topics of the day and share advice on achieving success in sports.</p>
         </div>
     </div>
 @endsection
@@ -11,10 +13,10 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <p>Bob & the team at Sports Business Solutions host FREE regularly scheduled webinar video sessions. They’re perfect for seasoned industry professionals and those looking to enter the sports industry!</p>
-            <p>These sessions are LIVE and run for 30-45 minutes, covering a variety of topics related to sports business. Topics will include: sports sales, marketing, sponsorship, analytics, leadership development and more for current and aspiring sports industry pros. They’ll also cover sports job search, resume & interview tips, educational sessions on sports business basics and FAQ sessions for sports business job seekers.</p>
-            <p>Some sessions are private, and some are open, but one thing is for sure, we have something for everyone!</p>
-            <p style="font-weight: bold; text-align: center;">Please find our upcoming webinar schedule below</p>
+            <h5>Reserved for our <strong><a class="no-underline" href="/pricing">Clubhouse Pro</a></strong> memebers, these live virtual webinars are a chance for you to interact with some of the most respected sports industry professionals in the business.</h5>
+            <p>The guest speakers and members of the Clubhouse leadership team will have a conversation about topics in sports business, and you can follow along from the comfort of your phone or home computer!  You can email in questions and we’ll ask them on air in real time. After, you will be emailed a recording of the show to keep on file for future reference.</p>
+            <p>This is the most affordable way to meet, and learn from, some of the very best in the sports business industry. Hope to see you there!</p>
+            <p style="font-weight: bold; text-align: center;">UPCOMING WEBINAR EVENTS</p>
         </div>
     </div>
     <div class="row">

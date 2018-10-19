@@ -4,8 +4,9 @@
 @section('hero')
     <div class="row hero bg-image blog">
         <div class="col s12">
-            <h4 class="header">Sports Business Blog</h4>
-            <p>Knowledge is power and we believe in sharing our industry knowledge to help you succeed.</p>
+            <img class="responsive-img" src="/images/clubhouse/digital-marketing-white.png" />
+            <h4 class="header">Sports Industry Blog</h4>
+            <p>These blog articles are created for the industry, by the industry. Our hope is you can learn about these topics from some of the best in the business.</p>
         </div>
     </div>
 @endsection

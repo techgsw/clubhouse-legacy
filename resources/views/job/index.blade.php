@@ -3,8 +3,9 @@
 @section('hero')
     <div class="row hero bg-image services">
         <div class="col s12">
-            <h4 class="header">Jobs</h4>
-            <p>Job board copy. Says something about the job board and how you can set that jazz up.</p>
+            <img class="responsive-img" src="/images/clubhouse/job-board-white.png" />
+            <h4 class="header">Sports Job Board</h4>
+            <p>Here are some of the most sought-after jobs in sports. Apply today!.</p>
         </div>
     </div>
 @endsection

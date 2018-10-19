@@ -35,7 +35,7 @@ class BlogController extends Controller
         return view('blog/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Blog' => '/blog'
+                'Sports Industry Blog' => '/blog'
             ],
             'posts' => $posts,
             'tags' => $tags,
@@ -61,7 +61,7 @@ class BlogController extends Controller
             'body' => $pd->text($post->body),
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Blog' => '/blog',
+                'Sports Industry Blog' => '/blog',
                 "$post->title" => "/post/{$post->id}"
             ]
         ]);

@@ -38,7 +38,7 @@ class UserController extends Controller
 
         try {
             $stripe_user = StripeServiceProvider::getCustomer($user);
-            //dd($stripe_user);
+            dd($stripe_user);
         } catch (Exception $e) {
             Log::error($e);
             $request->session()->flash('message', new Message(

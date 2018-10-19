@@ -3,6 +3,7 @@
 @section('hero')
     <div class="row hero bg-image career-services">
         <div class="col s12">
+            <img class="responsive-img" src="/images/clubhouse/career-services-white.png" />
             <h4 class="header">Career Services</h4>
             <p>Using our industry experience and strong network our goal is to help you get to the next step in your sports business career.</p>
             <a href="#Career+Coaching" class="btn btn-large sbs-red">CAREER COACHING</a>
