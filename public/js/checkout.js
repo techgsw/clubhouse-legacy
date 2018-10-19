@@ -77,7 +77,6 @@
     $('body').on(
         {
             click: function() {
-                console.log("HERE");
                 $(this).addClass('hidden');
                 $('#checkout-submit-button').addClass('hidden');
                 $('.cc-form.scale-transition').removeClass('hidden');
@@ -113,6 +112,7 @@
 
                 stripe.createToken(card).then(function(result) {
                     if (result.error) {
+                        //TODO call log service
                         console.log(result);
                     } else {
                         try {
