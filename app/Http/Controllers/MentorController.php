@@ -28,7 +28,7 @@ class MentorController extends Controller
         return view('mentor/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Mentorship' => "/mentor"
+                'Sports Industry Mentors' => "/mentor"
             ],
             'mentors' => $mentors,
             'tags' => $tags
@@ -47,7 +47,7 @@ class MentorController extends Controller
             'mentor' => $mentor,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Mentorship' => '/mentor',
+                'Sports Industry Mentors' => '/mentor',
                 $mentor->contact->getName() => '/mentor/{{$id}}/show'
             ]
         ]);
@@ -71,7 +71,7 @@ class MentorController extends Controller
         return view('contact/mentor', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Mentorship' => "/mentor",
+                'Sports Industry Mentors' => "/mentor",
                 "{$contact->getName()}" => "/contact/{$contact->id}/mentor"
             ],
             'contact' => $contact,

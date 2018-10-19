@@ -2,10 +2,11 @@
 @extends('layouts.clubhouse')
 @section('title', 'Mentors')
 @section('hero')
-    <div class="row hero bg-image services">
+    <div class="row hero bg-image mentorship">
         <div class="col s12">
-            <h4 class="header">Mentorships</h4>
-            <p>Mentorship copy. Says something about mentorships and how you can set that jazz up.</p>
+            <img class="responsive-img" src="/images/clubhouse/mentorship-white.png" />
+            <h4 class="header">Sports Industry Mentors</h4>
+            <p>All of the individuals within this network are current sports industry professionals and have been gracious enough to give back and help you however they can.</p>
         </div>
     </div>
 @endsection
@@ -14,6 +15,11 @@
 @endsection
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h4>Find a mentor by searching below and begin a conversation today!</h4>
+        </div>
+    </div>
     <div class="row">
         <div class="col s12">
             @include('mentor.forms.search', ['options' => $tags])

@@ -1,7 +1,7 @@
 @extends('layouts.clubhouse')
 @section('title', 'Job Board')
 @section('hero')
-    <div class="row hero bg-image services">
+    <div class="row hero bg-image job-board">
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/job-board-white.png" />
             <h4 class="header">Sports Job Board</h4>

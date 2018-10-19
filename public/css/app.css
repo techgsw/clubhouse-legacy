@@ -136,6 +136,7 @@ div.row.bg-image img {
 
 div.row.bg-image.clubhouse {
     background-image: url("/images/clubhouse/clubhouse-hero.jpg");
+    background-image: url("/images/clubhouse/Clubhouse-Home.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -176,16 +177,25 @@ div.row.bg-image.about {
     background-image: url("/images/about/hero.jpg");
 }
 div.row.bg-image.blog {
-    background-image: url("/images/blog/hero.jpg");
+    background-image: url("/images/clubhouse/SBS-Blog.jpg");
 }
 div.row.bg-image.career-services {
     background-image: url("/images/career-services/hero.jpg");
+}
+div.row.bg-image.webinars {
+    background-image: url("/images/clubhouse/SBS-Webinars.jpg");
+}
+div.row.bg-image.job-board {
+    background-image: url("/images/clubhouse/SBS-Jobs.jpg");
 }
 div.row.bg-image.recruiting {
     background-image: url("/images/recruiting/hero.jpg");
 }
 div.row.bg-image.services {
     background-image: url("/images/services/hero.jpg");
+}
+div.row.bg-image.mentorship {
+    background-image: url("/images/clubhouse/SBS-Mentorship.jpg");
 }
 div.row.bg-image.training-consulting {
     background-image: url("/images/training-consulting/hero.jpg");

@@ -34,14 +34,7 @@
             <div class="col s12">
                 <img src="/images/clubhouse/medal.png" style="float: right; margin-top: 20px;" />
                 <p class="header font-black" style="font-size: 24px; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
-                <ul class="browser-default">
-                    <li>Talk to sports industry mentors</li>
-                    <li>Learn industry best practices</li>
-                    <li>Join us for private events and webinars</li>
-                    <li>Gain a competitive edge when job seeking</li>
-                    <li>Apply for new jobs in sports</li>
-                    <li>Flexible membership options available</li>
-                </ul>
+                <p class="font-black" style="margin-top: 0; margin-left: 20px; font-size: 12px;"><a class="no-underline" href="/login">Already a member? Login!</a></p>
                 <div id="registration-form-wrapper-bottom"></div>
             </div>
         </div>

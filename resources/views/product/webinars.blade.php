@@ -1,7 +1,7 @@
 @extends('layouts.clubhouse')
 @section('title', 'Webinars')
 @section('hero')
-    <div class="row hero bg-image career-services">
+    <div class="row hero bg-image webinars">
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/event-white.png" />
             <h4 class="header">Educational Webinars</h4>
