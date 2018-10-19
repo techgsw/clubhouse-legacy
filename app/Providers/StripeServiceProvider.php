@@ -185,6 +185,15 @@ class StripeServiceProvider extends ServiceProvider
         return $stripe_subscription;
     }
 
+    public static function cancelUserPlan(string $plan_id)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+
+        $subscription = Stripe\Subscription::retrieve($plan_id);
+
+        $subscription->cancel();
+    }
+
     public static function purchaseSku(User $user, string $source_token, string $sku)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
