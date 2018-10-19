@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Mail;
 use App\Mail\UserPaidClubhousePro;
 use App\Message;
+use App\Role;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
 use App\Providers\StripeServiceProvider;
