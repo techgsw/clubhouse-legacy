@@ -53,7 +53,6 @@ class ClubhouseController extends Controller
         $product = Product::with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Membership');
         })->first();
-        //dd($product);
 
         return view('clubhouse/pricing', [
             'product' => $product,

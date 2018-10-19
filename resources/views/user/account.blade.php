@@ -64,9 +64,6 @@
         <div class="col s12 m12 l6">
             <h4 style="display: inline-block;">Cards</h4>
             <a id="add-cc-button" class="btn btn-small sbs-red right" style="margin-top: 15px;"><li class="fa fa-plus"></li> CARD</a>
-            <div class="cc-form scale-transition scale-out hidden">
-                @include('forms.add-card')
-            </div>
             @if (count($stripe_user->sources) > 0)
                 <table>
                     <thead>
@@ -105,6 +102,13 @@
             @else
                 <p>No cards on file.</p>
             @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="cc-form scale-transition scale-out hidden">
+                @include('forms.add-card')
+            </div>
         </div>
     </div>
     <div class="row">
