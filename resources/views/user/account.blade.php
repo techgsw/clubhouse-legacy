@@ -37,6 +37,7 @@
     </ul>
     <div class="row">
         <div class="col s12 m12 l6">
+            {{ csrf_field() }}
             <h4>Subscriptions</h4>
             @if (count($stripe_user->subscriptions->data) > 0)
                 <table>
@@ -52,7 +53,7 @@
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
                             <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / Month</td>
                             <td>{{ $next_bill }}</td>
-                            <td><a class="btn btn-small sbs-red" href="">Cancel</a></td>
+                            <td><a class="btn btn-small sbs-red" id="cancel-plan-button" data-plan-id="{{ $value->id }}">Cancel</a></td>
                         </tr>
                     @endforeach
                 </table>
@@ -62,7 +63,10 @@
         </div>
         <div class="col s12 m12 l6">
             <h4 style="display: inline-block;">Cards</h4>
-            <a class="btn btn-small sbs-red right" style="margin-top: 15px;" href="javascript: void(0);"><li class="fa fa-plus"></li> CARD</a>
+            <a id="add-cc-button" class="btn btn-small sbs-red right" style="margin-top: 15px;"><li class="fa fa-plus"></li> CARD</a>
+            <div class="cc-form scale-transition scale-out hidden">
+                @include('forms.add-card')
+            </div>
             @if (count($stripe_user->sources) > 0)
                 <table>
                     <thead>
@@ -120,7 +124,7 @@
                             <td>{{ $next_bill }}</td>
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
                             <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / Month</td>
-                            <td><a class="btn btn-small sbs-red" href="">Cancel</a></td>
+                            <td><a class="btn btn-small sbs-red" data-sub-id="{{ $key }}">Cancel</a></td>
                         </tr>
                     @endforeach
                 </table>

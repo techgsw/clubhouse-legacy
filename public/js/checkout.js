@@ -54,6 +54,30 @@
     $('body').on(
         {
             click: function() {
+                $(this).attr('disabled', true);
+                var csrf = $(this).parents('div').find('input[name="_token"]').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/checkout/cancel-plan',
+                    data: { 
+                        plan_id: $(this).data('plan-id'),
+                        _token: csrf
+                    }
+                }).done(function (response) {
+                    if (response.type == 'success') {
+                        location.reload()
+                    }
+                    $(this).attr('disabled', false);
+                });
+            }
+        },
+        '#cancel-plan-button'
+    );
+
+    $('body').on(
+        {
+            click: function() {
+                console.log("HERE");
                 $(this).addClass('hidden');
                 $('#checkout-submit-button').addClass('hidden');
                 $('.cc-form.scale-transition').removeClass('hidden');

@@ -122,6 +122,24 @@ class CheckoutController extends Controller
         ]);
     }
 
+    public function cancelPlan(Request $request)
+    {
+        $user = Auth::user();
+
+        try {
+            $stripe_customer = StripeServiceProvider::getCustomer($user);
+            StripeServiceProvider::cancelUserPlan($request['plan_id']);
+            $plans = StripeServiceProvider::getCustomer($user)->subscriptions;
+        } Catch (Exception $e) {
+            Log::error($e);
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'plans' => $plans
+        ]);
+    }
+
     public function thanks(Request $request)
     {
         $user = Auth::user();
