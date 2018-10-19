@@ -48,7 +48,9 @@ class LoginController extends Controller
         if ($stripe_user->delinquent || $stripe_user->subscriptions->total_count < 1) {
             // Remove clubhouse role from user
             $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
-            $role->delete();
+            if ($role) {
+                $role->delete();
+            }
         }
     }
 
