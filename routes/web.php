@@ -175,7 +175,7 @@ Route::domain($domain)->group(function () {
     // Checkout
     Route::group(['middleware' => ['web','auth']], function () {
         Route::post('/checkout/add-card', 'CheckoutController@addCard');
-        Route::post('/checkout/cancel-plan', 'CheckoutController@cancelPlan');
+        Route::post('/checkout/cancel-subscription', 'CheckoutController@cancelSubscription');
         Route::post('/checkout', 'CheckoutController@store');
         Route::get('/checkout/thanks', 'CheckoutController@thanks');
         Route::get('/checkout/{id}', 'CheckoutController@index');

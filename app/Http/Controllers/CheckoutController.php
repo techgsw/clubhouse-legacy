@@ -129,7 +129,7 @@ class CheckoutController extends Controller
         try {
             $stripe_customer = StripeServiceProvider::getCustomer($user);
             StripeServiceProvider::cancelUserSubscription($request['subscription_id']);
-            $plans = StripeServiceProvider::getCustomer($user)->subscriptions;
+            $subscriptions = StripeServiceProvider::getCustomer($user)->subscriptions;
         } Catch (Exception $e) {
             Log::error($e);
         }
