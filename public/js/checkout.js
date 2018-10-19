@@ -58,9 +58,9 @@
                 var csrf = $(this).parents('div').find('input[name="_token"]').val();
                 $.ajax({
                     type: 'POST',
-                    url: '/checkout/cancel-plan',
+                    url: '/checkout/cancel-subscription',
                     data: { 
-                        plan_id: $(this).data('plan-id'),
+                        subscription_id: $(this).data('subscription-id'),
                         _token: csrf
                     }
                 }).done(function (response) {
@@ -71,7 +71,7 @@
                 });
             }
         },
-        '#cancel-plan-button'
+        '#cancel-subscription-button'
     );
 
     $('body').on(

@@ -16,7 +16,7 @@
                 </ul>
                 <li><a href="/archives">Archives</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/blog">Blog</a></li>
-                <li><a href="{{ env('CLUBHOUSE_URL') }}/job-board">Job Board</a></li>
+                <li><a href="{{ env('CLUBHOUSE_URL') }}/job">Job Board</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li class="social-media">
@@ -37,7 +37,7 @@
                 <li class="divider"></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/archives">Archives</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/blog">Blog</a></li>
-                <li><a href="{{ env('CLUBHOUSE_URL') }}/job-board">Job Board</a></li>
+                <li><a href="{{ env('CLUBHOUSE_URL') }}/job">Job Board</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse button-collapse-default"><i class="fa fa-bars fa-lg" aria-hidden="true"></i></a>
         </div>

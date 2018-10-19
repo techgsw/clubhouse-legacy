@@ -53,7 +53,7 @@
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
                             <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / Month</td>
                             <td>{{ $next_bill }}</td>
-                            <td><a class="btn btn-small sbs-red" id="cancel-plan-button" data-plan-id="{{ $value->id }}">Cancel</a></td>
+                            <td><a class="btn btn-small sbs-red" id="cancel-subscription-button" data-subscription-id="{{ $value->id }}">Cancel</a></td>
                         </tr>
                     @endforeach
                 </table>
@@ -114,7 +114,7 @@
     <div class="row">
         <div class="col s12">
             <h4>Transaction History</h4>
-            @if (count($stripe_user->subscriptions->data) > 0)
+            @if (count($transaction_history->data) > 0)
                 <table>
                     <thead>
                         <th>Date</th>
@@ -122,18 +122,19 @@
                         <th>Price</th>
                         <th>Card</th>
                     </thead>
-                    @foreach ($stripe_user->subscriptions->data as $key => $value)
-                        @php $next_bill = date('m/d/Y', $value->current_period_end); @endphp
+                    @foreach ($transaction_history->data as $key => $value)
+                        @php $bill_date = date('m/d/Y', $value->date); @endphp
+                        @foreach ($value->lines->data as $invoice_item_key => $item)
                         <tr>
-                            <td>{{ $next_bill }}</td>
-                            <td>{{ $value->items->data[0]->plan->nickname }}</td>
-                            <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / Month</td>
-                            <td><a class="btn btn-small sbs-red" data-sub-id="{{ $key }}">Cancel</a></td>
+                            <td>{{ $bill_date }}</td>
+                            <td>{{ $item->description }}</td>
+                            <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
                         </tr>
+                        @endforeach
                     @endforeach
                 </table>
             @else
-                <p>No active subscriptions.</p>
+                <p>No Trasnactions.</p>
             @endif
         </div>
     </div>
