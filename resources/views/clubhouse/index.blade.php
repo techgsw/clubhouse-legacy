@@ -186,7 +186,7 @@
             </div>
             <div class="row center-align">
                 @if (count($webinars) > 0)
-                    <div class="card-flex-container">
+                    <div class="col l6">
                         @foreach ($webinars as $index => $webinar)
                             @include('product.webinars.components.list-item', ['product' => $webinar])
                         @endforeach

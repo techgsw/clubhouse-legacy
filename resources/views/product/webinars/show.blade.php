@@ -58,9 +58,17 @@
                     @php $first = false; @endphp
                 @endforeach
             </div>
-            <div class="input-field" style="margin-top: 30px;">
-                <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
-            </div>
+            @if (count($product->options) > 0)
+                <div class="input-field" style="margin-top: 30px;">
+                    <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
+                </div>
+            @else
+                @can ('view-clubhouse')
+                    <h1>yes</h1>
+                @else
+                    <h1>no</h1>
+                @endcan
+            @endif
         </div>
     </div>
 </div>
