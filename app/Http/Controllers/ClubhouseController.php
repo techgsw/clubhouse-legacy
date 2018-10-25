@@ -48,17 +48,17 @@ class ClubhouseController extends Controller
         ]);
     }
 
-    public function pricing(Request $request)
+    public function membershipOptions(Request $request)
     {
         $product = Product::with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Membership');
         })->first();
 
-        return view('clubhouse/pricing', [
+        return view('clubhouse/membership-options', [
             'product' => $product,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Pricing' => '/pricing'
+                'Membership Options' => '/membership-options'
             ],
         ]);
     }

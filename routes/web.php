@@ -271,7 +271,7 @@ Route::domain($domain)->group(function () {
 
     // Pricing
     Route::group(['middleware' => ['web']], function () {
-        Route::get('/pricing', 'ClubhouseController@pricing');
+        Route::get('/membership-options', 'ClubhouseController@membershipOptions');
     });
 
     // Resources 

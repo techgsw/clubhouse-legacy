@@ -453,7 +453,7 @@ class ProductController extends Controller
             'product' => $product,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Webinars' => '/webinars',
+                'Educational Webinars' => '/webinars',
                 "{$product->name}" => "/webinars/{$product->id}"
             ]
         ]);

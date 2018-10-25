@@ -24,12 +24,16 @@
     </div>
     <!-- Product -->
     <div class="row product-show">
-        <div class="col s12 m5">
+        <div class="col s12 m7">
             @if (!is_null($product->primaryImage()))
-                <img style="padding: 18px 24px;" src={{ $product->primaryImage()->getURL('medium') }}>
+                <div class="card">
+                    <div class="card-image">
+                        <img style="responsive-img" src={{ $product->primaryImage()->getURL('large') }}>
+                    </div>
+                </div>
             @endif
         </div>
-        <div class="col s12 m7 product-description">
+        <div class="col s12 m5 product-description">
             <div class="right">
                 <!-- Job controls -->
                 <p class="small">
@@ -40,15 +44,17 @@
             </div>
             <h4>{{ $product->name }}</h4>
             {!! $pd->text($product->description) !!}
-            <select class="browser-default product-option-select" name="option">
-                @foreach ($product->options as $option)
-                    @if ($option->price > 0)
-                        <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
-                    @else
-                        <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}}</option>
-                    @endif
-                @endforeach
-            </select>
+            @if (count($product->options) > 0)
+                <select class="browser-default product-option-select" name="option">
+                    @foreach ($product->options as $option)
+                        @if ($option->price > 0)
+                            <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
+                        @else
+                            <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}}</option>
+                        @endif
+                    @endforeach
+                </select>
+            @endif
             <div class="options">
                 @php $first = true; @endphp
                 @foreach ($product->options as $option)
@@ -64,9 +70,12 @@
                 </div>
             @else
                 @can ('view-clubhouse')
-                    <h1>yes</h1>
+                    <p>There are no options at this time.</p>
                 @else
-                    <h1>no</h1>
+                    <p>There are only Clubhouse Pro options available at this time.</p>
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="/pricing" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                    </div>
                 @endcan
             @endif
         </div>

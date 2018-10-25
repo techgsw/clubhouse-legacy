@@ -433,6 +433,21 @@ ul.nav-tabs li.tab a.active {
  * Type
  */
 
+ ul.fa-check-override {
+    padding-left: 20px
+ }
+
+ ul.fa-check-override li:before {
+    font-family: 'FontAwesome';
+    content: '\f00c';
+    margin:0 5px 0 -20px;
+    color: #000;
+ }
+
+ ul.fa-check-override li {
+    padding-bottom: 10px;
+ }
+
 .font-black { color: #000!important; }
 
 h1 { font-size: 3.4rem; }
@@ -833,6 +848,9 @@ hr {
 .card-flex-container .card.large,
 .card-flex-container .card-placeholder.large  {
     min-width: 300px;
+}
+.card-flex-container.webinars .card.large .card-image {
+    max-height: 100%;
 }
 .card-flex-container .card-placeholder {
     margin-top: 0;
