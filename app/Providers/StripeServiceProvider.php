@@ -21,6 +21,18 @@ class StripeServiceProvider extends ServiceProvider
         return $stripe_customer;
     }
 
+    public static function getUserTransactions(User $user)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+
+        return Stripe\Invoice::all(
+            array(
+                "customer" => $user->stripe_customer_id
+            )
+        );
+
+    }
+
     public static function createCustomer(User $user)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
@@ -178,18 +190,18 @@ class StripeServiceProvider extends ServiceProvider
                         'plan' => $plan_id,
                     )
                 ),
-                'trial_period_days' => 30
+                //'trial_period_days' => 30
             )
         );
 
         return $stripe_subscription;
     }
 
-    public static function cancelUserPlan(string $plan_id)
+    public static function cancelUserSubscription(string $subscription_id)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
-        $subscription = Stripe\Subscription::retrieve($plan_id);
+        $subscription = Stripe\Subscription::retrieve($subscription_id);
 
         $subscription->cancel();
     }

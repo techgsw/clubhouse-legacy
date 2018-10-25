@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Mail;
 use App\Mail\UserPaidClubhousePro;
 use App\Message;
+use App\Role;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
 use App\Providers\StripeServiceProvider;
@@ -122,21 +123,21 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function cancelPlan(Request $request)
+    public function cancelSubscription(Request $request)
     {
         $user = Auth::user();
 
         try {
             $stripe_customer = StripeServiceProvider::getCustomer($user);
-            StripeServiceProvider::cancelUserPlan($request['plan_id']);
-            $plans = StripeServiceProvider::getCustomer($user)->subscriptions;
+            StripeServiceProvider::cancelUserSubscription($request['subscription_id']);
+            $subscriptions = StripeServiceProvider::getCustomer($user)->subscriptions;
         } Catch (Exception $e) {
             Log::error($e);
         }
 
         return response()->json([
             'type' => 'success',
-            'plans' => $plans
+            'subscriptions' => $subscriptions
         ]);
     }
 

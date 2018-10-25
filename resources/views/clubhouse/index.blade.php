@@ -55,7 +55,7 @@
         <div class="row">
             @if (count($posts) > 0)
                 @foreach ($posts as $post)
-                    <div class="col s4">
+                    <div class="col s4" style="padding: 0 30px;">
                         <div class="col s12 about-cards">
                             <a href="/post/{{ $post->title_url}}" class="no-underline"><img class="img-responsive" src="{{ $post->images->first()->getURL('medium') }}" /></a>
                         </div>

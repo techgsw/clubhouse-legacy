@@ -48,6 +48,8 @@ class UserController extends Controller
             ));
         }
 
+        $transaction_history = StripeServiceProvider::getUserTransactions($user);
+
         return view('user/account', [
             'breadcrumb' => [
                 'Home' => '/',
@@ -55,6 +57,7 @@ class UserController extends Controller
             ],
             'user' => $user,
             'stripe_user' => $stripe_user,
+            'transaction_history' => $transaction_history
         ]);
     }
 
