@@ -40,27 +40,29 @@
             </div>
             <h4>{{ $product->name }}</h4>
             {!! $pd->text($product->description) !!}
-            <select class="browser-default product-option-select" name="option">
-                @foreach ($product->options as $option)
-                    @if ($option->price > 0)
-                        <option value="{{$option->id}}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
-                    @else
-                        <option value="{{$option->id}}">{{$option->name}}</option>
-                    @endif
-                @endforeach
-            </select>
-            <div class="options">
-                @php $first = true; @endphp
-                @foreach ($product->options as $option)
-                    <div class="product-option-description {{ $first ? "" : "hidden"}}" option-id="{{$option->id}}">
-                        {!! $pd->text($option->description) !!}
+            @if (count($product->options) > 0)
+                <select class="browser-default product-option-select" name="option">
+                    @foreach ($product->options as $option)
+                        @if ($option->price > 0)
+                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}}</option>
+                        @else
+                            <option value="{{$option->id}}">{{$option->name}}</option>
+                        @endif
+                    @endforeach
+                </select>
+                <div class="input-field" style="margin-top: 30px;">
+                    <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
+                </div>
+            @else
+                @can ('view-clubhouse')
+                    <p>This career service is currently unavailable.</p>
+                @else
+                    <p>There are only Clubhouse Pro options available at this time.</p>
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="/pricing" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                     </div>
-                    @php $first = false; @endphp
-                @endforeach
-            </div>
-            <div class="input-field" style="margin-top: 30px;">
-                <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
-            </div>
+                @endcan
+            @endif
         </div>
     </div>
 </div>

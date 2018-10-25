@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Mail;
 use App\Mail\UserPaidClubhousePro;
+use App\Mail\UserPaidCareerService;
 use App\Message;
 use App\Role;
 use App\ProductOption;
@@ -82,25 +83,38 @@ class CheckoutController extends Controller
 
         try {
             if (preg_match('/sku/', $request['stripe_product_id'])) {
-                $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
+                //$order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
+                $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
+                try {
+                    foreach ($product_option->product->tags as $tag) {
+                        if ($tag->slug == 'career-service') {
+                            Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                            break;
+                        } else if ($tag->slug == 'webinar') {
+                            //Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                            break;
+                        }
+                    }
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
             } else if (preg_match('/plan/', $request['stripe_product_id'])) {
                 $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
+                $roles = Role::where('code', 'clubhouse')->get();
+                $user->roles()->attach($roles);
+                try {
+                    Mail::to($user)->send(new UserPaidClubhousePro($user));
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
             } else {
                 return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
             }
-
-            $roles = Role::where('code', 'clubhouse')->get();
-            $user->roles()->attach($roles);
         } catch (Exception $e) {
             Log::error($e);
             return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
         }
 
-        try {
-            Mail::to($user)->send(new UserPaidClubhousePro($user));
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
 
         return redirect()->action('CheckoutController@thanks');
     }

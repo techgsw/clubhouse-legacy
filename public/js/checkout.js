@@ -54,21 +54,23 @@
     $('body').on(
         {
             click: function() {
-                $(this).attr('disabled', true);
-                var csrf = $(this).parents('div').find('input[name="_token"]').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/checkout/cancel-subscription',
-                    data: { 
-                        subscription_id: $(this).data('subscription-id'),
-                        _token: csrf
-                    }
-                }).done(function (response) {
-                    if (response.type == 'success') {
-                        location.reload()
-                    }
-                    $(this).attr('disabled', false);
-                });
+                if (window.confirm('Are you sure you want to cancel?')) {
+                    $(this).attr('disabled', true);
+                    var csrf = $(this).parents('div').find('input[name="_token"]').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/checkout/cancel-subscription',
+                        data: { 
+                            subscription_id: $(this).data('subscription-id'),
+                            _token: csrf
+                        }
+                    }).done(function (response) {
+                        if (response.type == 'success') {
+                            location.reload()
+                        }
+                        $(this).attr('disabled', false);
+                    });
+                }
             }
         },
         '#cancel-subscription-button'

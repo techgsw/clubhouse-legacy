@@ -53,7 +53,7 @@
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
                             <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / Month</td>
                             <td>{{ $next_bill }}</td>
-                            <td><a class="btn btn-small sbs-red" id="cancel-subscription-button" data-subscription-id="{{ $value->id }}">Cancel</a></td>
+                            <td><a class="flat-button black" id="cancel-subscription-button" data-subscription-id="{{ $value->id }}">Cancel</a></td>
                         </tr>
                     @endforeach
                 </table>
@@ -114,7 +114,7 @@
     <div class="row">
         <div class="col s12">
             <h4>Transaction History</h4>
-            @if (count($transaction_history->data) > 0)
+            @if (count($transactions) > 0)
                 <table>
                     <thead>
                         <th>Date</th>
@@ -122,13 +122,17 @@
                         <th>Price</th>
                         <th>Card</th>
                     </thead>
-                    @foreach ($transaction_history->data as $key => $value)
-                        @php $bill_date = date('m/d/Y', $value->date); @endphp
-                        @foreach ($value->lines->data as $invoice_item_key => $item)
+                    @foreach ($transactions as $key => $value)
+                        @php $bill_date = date('m/d/Y', $value['invoice']->date); @endphp
+                        @php
+                            $card_icon = ((array_key_exists($value['charge_object']->source->brand, $cc)) ? $cc[$value['charge_object']->source->brand] : 'credit-card');
+                        @endphp
+                        @foreach ($value['invoice']->lines->data as $invoice_item_key => $item)
                         <tr>
                             <td>{{ $bill_date }}</td>
                             <td>{{ $item->description }}</td>
                             <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
+                            <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['charge_object']->source->last4 }}</td>
                         </tr>
                         @endforeach
                     @endforeach

@@ -25,12 +25,26 @@ class StripeServiceProvider extends ServiceProvider
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
-        return Stripe\Invoice::all(
+        $stripe_transactions = Stripe\Invoice::all(
             array(
                 "customer" => $user->stripe_customer_id
             )
         );
 
+        $transactions = array();
+        
+
+        foreach ($stripe_transactions->data as $key => $invoice) {
+            if (!is_null($invoice->charge)) {
+                $stripe_charge = Stripe\Charge::retrieve($invoice->charge);
+                $transactions[] = array(
+                    'invoice' => $invoice,
+                    'charge_object' => $stripe_charge
+                );
+            }
+        }
+
+        return $transactions;
     }
 
     public static function createCustomer(User $user)

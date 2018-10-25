@@ -70,7 +70,7 @@
                 </div>
             @else
                 @can ('view-clubhouse')
-                    <p>There are no options at this time.</p>
+                    <p>This webinar is currently unavailbable.</p>
                 @else
                     <p>There are only Clubhouse Pro options available at this time.</p>
                     <div class="input-field" style="margin-top: 30px;">
