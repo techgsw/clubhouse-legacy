@@ -124,15 +124,19 @@
                     </thead>
                     @foreach ($transactions as $key => $value)
                         @php $bill_date = date('m/d/Y', $value['invoice']->date); @endphp
-                        @php
-                            $card_icon = ((array_key_exists($value['charge_object']->source->brand, $cc)) ? $cc[$value['charge_object']->source->brand] : 'credit-card');
-                        @endphp
                         @foreach ($value['invoice']->lines->data as $invoice_item_key => $item)
                         <tr>
                             <td>{{ $bill_date }}</td>
                             <td>{{ $item->description }}</td>
                             <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
-                            <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['charge_object']->source->last4 }}</td>
+                            @if (array_key_exists('charge_object', $value))
+                                @php
+                                    $card_icon = ((array_key_exists($value['charge_object']->source->brand, $cc)) ? $cc[$value['charge_object']->source->brand] : 'credit-card');
+                                 @endphp
+                                <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['charge_object']->source->last4 }}</td>
+                            @else
+                                <td>N/A</td>
+                            @endif
                         </tr>
                         @endforeach
                     @endforeach

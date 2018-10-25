@@ -20,11 +20,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col l6">
             @foreach ($products as $product)
-                @include('product.webinars.components.list-item', ['product' => $product])
+                <div class="col l6">
+                    @include('product.webinars.components.list-item', ['product' => $product])
+                </div>
             @endforeach
-        </div>
     </div>
 </div>
 @endsection

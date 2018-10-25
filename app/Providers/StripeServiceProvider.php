@@ -41,6 +41,10 @@ class StripeServiceProvider extends ServiceProvider
                     'invoice' => $invoice,
                     'charge_object' => $stripe_charge
                 );
+            } else {
+                $transactions[] = array(
+                    'invoice' => $invoice
+                );
             }
         }
 
