@@ -1,6 +1,6 @@
 @php $pd = new Parsedown(); @endphp
 @if ($product->primaryImage())
-    <div class="card large hoverable">
+    <div class="card hoverable">
         <div class="card-image">
             <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline">
                 <img class="" src={{ $product->primaryImage()->getURL('large') }} />

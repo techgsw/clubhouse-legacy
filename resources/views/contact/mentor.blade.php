@@ -1,5 +1,5 @@
 <!-- /resources/views/contact/mentor.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Mentor')
 @section('content')
 <div class="container">

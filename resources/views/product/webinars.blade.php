@@ -20,12 +20,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12">
-            <div class="card-flex-container webinars">
-                @foreach ($products as $product)
-                    @include('product.webinars.components.list-item', ['product' => $product])
-                @endforeach
-            </div>
+        <div class="col l6">
+            @foreach ($products as $product)
+                @include('product.webinars.components.list-item', ['product' => $product])
+            @endforeach
         </div>
     </div>
 </div>

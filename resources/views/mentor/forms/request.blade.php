@@ -2,8 +2,17 @@
     {{ csrf_field() }}
     <input id="mentor_id" name="mentor_id" type="hidden" value="" />
     <div class="row">
-        <div class="col s12">
-            <p>Please select three dates and times that work for you and we'll do our best to match you up with <span class="mentor-name"></span>.</p>
+        <div class="col m4 mentor-img center-align">
+           <p style="text-align: center;"><strong><span class="mentor-name"></span></strong></p>
+        </div>
+        <div class="col m8">
+            <p style="font-size: 18px; margin: 0px; line-height: 1;">Please select three dates and times that work for you and your mentor.</p>
+            <p style="marign: 0px; line-height: 1;"><strong><span class="mentor-name"></span>'s</strong> pefered times (<span class="mentor-timezone"></span>):</p>
+            <ul class="">
+                <li><span class="mentor-day-preference-1"></span> - <span class="mentor-time-preference-1"></span></li>
+                <li><span class="mentor-day-preference-2"></span> - <span class="mentor-time-preference-2"></span></li>
+                <li><span class="mentor-day-preference-3"></span> - <span class="mentor-time-preference-3"></span></li>
+            </ul>
         </div>
     </div>
     <div class="row">

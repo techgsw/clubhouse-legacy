@@ -27,11 +27,30 @@ if (!SBS) {
                 var form = $('form#mentor-request');
                 var modal = $('div#mentor-request-modal');
                 var messages = modal.find('#messages');
-                var mentor_name = $(this).attr('mentor-name');
                 var mentor_id = $(this).attr('mentor-id');
+                var mentor_name = $(this).attr('mentor-name');
+                var mentor_img = $(this).parents('.card-content').find('img').clone();
+                var mentor_timezone = $(this).attr('mentor-timezone');
+                var mentor_day_preference_1 = $(this).attr('mentor-day-preference-1');
+                var mentor_day_preference_2 = $(this).attr('mentor-day-preference-2');
+                var mentor_day_preference_3 = $(this).attr('mentor-day-preference-3');
+                var mentor_time_preference_1 = $(this).attr('mentor-time-preference-1');
+                var mentor_time_preference_2 = $(this).attr('mentor-time-preference-2');
+                var mentor_time_preference_3 = $(this).attr('mentor-time-preference-3');
 
-                $('div#mentor-request-modal').find('span.mentor-name').html(mentor_name);
+                console.log(mentor_img);
+
+                $('div#mentor-request-modal').find('.mentor-img img').remove();
+                $('div#mentor-request-modal').find('.mentor-img').prepend(mentor_img);
                 $('div#mentor-request-modal').find('input#mentor_id').val(mentor_id);
+                $('div#mentor-request-modal').find('span.mentor-name').html(mentor_name);
+                $('div#mentor-request-modal').find('span.mentor-timezone').html(mentor_timezone);
+                $('div#mentor-request-modal').find('span.mentor-day-preference-1').html(mentor_day_preference_1);
+                $('div#mentor-request-modal').find('span.mentor-day-preference-2').html(mentor_day_preference_2);
+                $('div#mentor-request-modal').find('span.mentor-day-preference-3').html(mentor_day_preference_3);
+                $('div#mentor-request-modal').find('span.mentor-time-preference-1').html(mentor_time_preference_1);
+                $('div#mentor-request-modal').find('span.mentor-time-preference-2').html(mentor_time_preference_2);
+                $('div#mentor-request-modal').find('span.mentor-time-preference-3').html(mentor_time_preference_3);
                 $('form#mentor-request').attr('action', "/mentor/"+mentor_id+"/request");
 
                 messages.find('.success-message, .error-message').addClass('hidden');

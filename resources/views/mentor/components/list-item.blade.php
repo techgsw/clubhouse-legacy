@@ -19,8 +19,19 @@
             <p>{{ $mentor->description }}</p>
             <div class="small" style="margin-top: 12px; text-align: center;">
                 <div style="margin-top: 4px">
-                    @can ('view-mentor')
-                        <a class="small flat-button black mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" style="margin: 2px;"><i class="fa fa-handshake-o"></i> Schedule a meeting</a>
+                    @can ('view-clubhouse')
+                        @php
+                            $timezones = array(
+                                'hst' => 'Hawaii (GMT-10:00)',
+                                'akdt' => 'Alaska (GMT-09:00)',
+                                'pst' => 'Pacific Time (US & Canada) (GMT-08:00)',
+                                'azt' => 'Arizona (GMT-07:00)',
+                                'mst' => 'Mountain Time (US & Canada) (GMT-07:00)',
+                                'cdt' => 'Central Time (US & Canada) (GMT-06:00)',
+                                'est' => 'Eastern Time (US & Canada) (GMT-05:00)'
+                            );
+                        @endphp
+                        <a class="small flat-button black mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-handshake-o"></i> Schedule a meeting</a>
                     @else
                         <a class="small flat-button black" href="/"><i class="fa fa-handshake-o"></i> Schedule a meeting</a>
                     @endcan
