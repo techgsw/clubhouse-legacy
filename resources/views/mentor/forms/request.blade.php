@@ -16,10 +16,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s6">
-            <input id="date_1" class="datepicker" name="date_1" type="text" value="" placeholder="First option" />
+        <div class="input-field col s6" style="margin-top: 0;">
+            <input id="date_1" style="margin-bottom: 0;" class="datepicker" name="date_1" type="text" value="" placeholder="First option" />
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s6" style="margin-top: 0;">
             <select id="time_1" name="time_1" class="browser-default">
                 <option value="0900">9:00 AM</option>
                 <option value="0930">9:30 AM</option>
@@ -42,10 +42,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s6">
-            <input id="date_2" class="datepicker" name="date_2" type="text" value="" placeholder="Second option" />
+        <div class="input-field col s6" style="margin-top: 0;">
+            <input id="date_2" style="margin-bottom: 0;" class="datepicker" name="date_2" type="text" value="" placeholder="Second option" />
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s6" style="margin-top: 0;">
             <select id="time_2" name="time_2" class="browser-default">
                 <option value="0900">9:00 AM</option>
                 <option value="0930">9:30 AM</option>
@@ -68,10 +68,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s6">
-            <input id="date_3" class="datepicker" name="date_3" type="text" value="" placeholder="Third option" />
+        <div class="input-field col s6" style="margin-top: 0;">
+            <input id="date_3" style="margin-bottom: 0;" class="datepicker" name="date_3" type="text" value="" placeholder="Third option" />
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s6" style="margin-top: 0;">
             <select id="time_3" name="time_3" class="browser-default">
                 <option value="0900">9:00 AM</option>
                 <option value="0930">9:30 AM</option>
