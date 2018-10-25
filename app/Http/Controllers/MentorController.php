@@ -107,7 +107,7 @@ class MentorController extends Controller
 
     public function request(Request $request, $id)
     {
-        $this->authorize('view-mentor');
+        //$this->authorize('view-mentor');
 
         $mentor = Mentor::find($id);
         if (!$mentor) {

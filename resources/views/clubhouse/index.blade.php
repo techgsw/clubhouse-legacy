@@ -186,11 +186,11 @@
             </div>
             <div class="row center-align">
                 @if (count($webinars) > 0)
-                    <div class="col l6">
                         @foreach ($webinars as $index => $webinar)
-                            @include('product.webinars.components.list-item', ['product' => $webinar])
+                            <div class="col l6">
+                                @include('product.webinars.components.list-item', ['product' => $webinar])
+                            </div>
                         @endforeach
-                    </div>
                 @else
                     <div class="col s12 center-align">
                         <h4>Coming soon.</h4>
