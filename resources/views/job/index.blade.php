@@ -28,15 +28,15 @@
             @php
                 $featured = true;
             @endphp
-            <div style="border: 3px solid #EB2935; border-radius: 4px; margin-bottom: 16px; padding: 0;">
-                <h3 style="text-transform: uppercase; letter-spacing: 0.6px; font-size: 16px; color: #EB2935; margin: 0; padding: 20px 0 18px 18px;">Featured jobs</h3>
+            <!--<div style="border: 3px solid #EB2935; border-radius: 4px; margin-bottom: 16px; padding: 0;">
+                <h3 style="text-transform: uppercase; letter-spacing: 0.6px; font-size: 16px; color: #EB2935; margin: 0; padding: 20px 0 18px 18px;">Featured jobs</h3>-->
         @endif
         @foreach ($jobs as $job)
             @if ($featured && !$job->featured)
                 @php
                     $featured = false;
                 @endphp
-                </div>
+                <!--</div>-->
             @endif
             @include('components.job-list-item', ['job' => $job])
         @endforeach

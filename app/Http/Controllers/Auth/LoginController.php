@@ -45,11 +45,13 @@ class LoginController extends Controller
     {
         // TODO Check membership status
         $stripe_user = StripeServiceProvider::getCustomer($user);
-        if ($stripe_user->delinquent || $stripe_user->subscriptions->total_count < 1) {
-            // Remove clubhouse role from user
-            $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
-            if ($role) {
-                $role->delete();
+        if (!is_null($stripe_user)) {
+            if ($stripe_user->delinquent || $stripe_user->subscriptions->total_count < 1) {
+                // Remove clubhouse role from user
+                $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
+                if ($role) {
+                    $role->delete();
+                }
             }
         }
     }

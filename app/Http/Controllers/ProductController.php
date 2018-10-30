@@ -409,12 +409,17 @@ class ProductController extends Controller
 
     public function webinars()
     {
-        $products = Product::with('tags')->whereHas('tags', function ($query) {
+        $active_products = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Webinar');
+        })->get();
+
+        $inactive_products = Product::where('active', false)->with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Webinar');
         })->get();
 
         return view('product/webinars', [
-            'products' => $products,
+            'active_products' => $active_products,
+            'inactive_products' => $inactive_products,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Educational Webinars' => '/webinars'

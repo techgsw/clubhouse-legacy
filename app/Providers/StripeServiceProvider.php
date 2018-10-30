@@ -16,7 +16,11 @@ class StripeServiceProvider extends ServiceProvider
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
-        $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
+        if (is_null($user->stripe_customer_id)) {
+            return null;
+        } else {
+            $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
+        }
 
         return $stripe_customer;
     }

@@ -29,7 +29,7 @@ class ClubhouseController extends Controller
             ->where('active', true)
             ->get();
 
-        $webinars = Product::with('options')->whereHas('tags', function ($query) {
+        $webinars = Product::where('active', true)->with('options')->whereHas('tags', function ($query) {
             $query->where('name', 'Webinar');
         })->limit(3)->get();
 

@@ -74,7 +74,7 @@
                 @else
                     <p>There are only Clubhouse Pro options available at this time.</p>
                     <div class="input-field" style="margin-top: 30px;">
-                        <a href="/pricing" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                        <a href="/membership-options" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                     </div>
                 @endcan
             @endif

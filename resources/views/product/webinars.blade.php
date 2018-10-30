@@ -20,11 +20,23 @@
         </div>
     </div>
     <div class="row">
-            @foreach ($products as $product)
-                <div class="col l6">
-                    @include('product.webinars.components.list-item', ['product' => $product])
-                </div>
-            @endforeach
+        @foreach ($active_products as $product)
+            <div class="col l6">
+                @include('product.webinars.components.list-item', ['product' => $product])
+            </div>
+        @endforeach
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <h4 style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS</h4>
+        </div>
+    </div>
+    <div class="row">
+        @foreach ($inactive_products as $product)
+            <div class="col l6">
+                @include('product.webinars.components.list-item', ['product' => $product])
+            </div>
+        @endforeach
     </div>
 </div>
 @endsection
