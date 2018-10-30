@@ -7,7 +7,7 @@
         </div>
         <div class="col s12 m8">
             <p style="font-size: 16px; margin: 0px; line-height: 1;">Please select three dates and times that work for you and your mentor.</p>
-            <p style="marign: 0px; line-height: 1;"><strong><span class="mentor-name"></span>'s</strong> pefered times (<span class="mentor-timezone"></span>):</p>
+            <p style="marign: 0px; line-height: 1;"><strong><span class="mentor-name"></span>'s</strong> preferred times (<span class="mentor-timezone"></span>):</p>
             <ul class="">
                 <li><span class="mentor-day-preference-1"></span> - <span class="mentor-time-preference-1"></span></li>
                 <li><span class="mentor-day-preference-2"></span> - <span class="mentor-time-preference-2"></span></li>

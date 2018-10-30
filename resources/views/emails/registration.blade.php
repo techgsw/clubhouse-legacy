@@ -24,6 +24,6 @@
             </ul>
         </p>
         <p>We started <strong>theClubhouse</strong> to give our community members the edge they need to accomplish their goals in sports business. If you have ideas for other ways we can help you do that, feel free to email us. Your input will be valuable in shaping the future of this industry.</p>
-        <p>Regards,<br/>Sports Business Solutions</p>
+        <p>Thanks,<br/>theClubhouse Team</p>
     @endslot
 @endcomponent

@@ -35,6 +35,9 @@
             @if ($mentor->document)
                 <p><a target="_blank" href="{{ Storage::disk('local')->url($mentor->document) }}">View mentor description</a></p>
             @endif
+            @if ($mentor->contact->organizations()->first())
+                <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" style="margin-top: -50px; margin-left: -35px; max-width: 200px; max-height: 200px;" />
+            @endif
         </div>
     </div>
     <div class="row">

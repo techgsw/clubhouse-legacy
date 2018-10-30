@@ -91,7 +91,7 @@ class CheckoutController extends Controller
                             Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
                             break;
                         } else if ($tag->slug == 'webinar') {
-                            //Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                            Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
                             break;
                         }
                     }

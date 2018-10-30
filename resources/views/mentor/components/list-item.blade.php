@@ -16,9 +16,12 @@
                 <h4 style="min-height: 60px;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
                 <p style="min-height: 70px;" class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
                 <br />
+                @if ($mentor->contact->organizations()->first())
+                    <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" style="margin-top: -65px; margin-left: -10px; max-width: 200px; max-height: 200px;" />
+                @endif
                 <!--<p>{{ $mentor->description }}</p>-->
                 <div class="small" style="margin-top: 12px; text-align: center;">
-                    <div style="margin-top: 4px">
+                    <div style="margin-top: -40px">
                         @can ('view-clubhouse')
                             @php
                                 $timezones = array(

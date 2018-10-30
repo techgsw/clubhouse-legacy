@@ -100,13 +100,13 @@
                                             <i class="fa fa-user fa-2x"></i>
                                         @endif
                                     </div>
-                                    <div class="col m7 left-align">
+                                    <div class="col m7 left-align" style="">
                                         <h4 style="margin-bottom: 0px;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
                                         <p style="margin-top: 0px; margin-bottom: 0px;"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
-                                        <p style="margin-top: 5px;">{{ $mentor->description }}</p>
                                         @if ($mentor->contact->organizations()->first())
-                                            <!--<img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" />-->
+                                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" style="margin-top: -30px; margin-left: -55px; max-width: 200px; max-height: 200px;" />
                                         @endif
+                                        <!--<p style="margin-top: 5px;">{{ $mentor->description }}</p>-->
                                     </div>
                                 </div>
                                 @if (($index == count($mentors) - 1) || (($index + 1) % 2 == 0)) 

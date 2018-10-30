@@ -13,7 +13,7 @@
             <li><a href="https://www.linkedin.com/company/sports-business-solutions"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a></li>
             @if (Auth::guest())
                 <li><a href="{{ route('login') }}">Login</a></li>
-                <li><a href="{{ route('register') }}" class="sbs-red white-text">Register</a></li>
+                <li><a href="{{ env('CLUBHOUSE_URL') }}" class="sbs-red white-text">Register</a></li>
             @else
                 <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>
                 <li>
