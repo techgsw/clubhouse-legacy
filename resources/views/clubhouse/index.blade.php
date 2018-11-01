@@ -11,18 +11,50 @@
                     <p>Whether you want to meet industry pros, you have a desire to give back, or you’re looking for a job in sports, we’re confident that this platform is your ticket to sports industry success.</p>
                 </div>
                 <div class="col m6" style="position: relative;">
-                    @if (Auth::guest())
-                        <div class="fill-grey hide-on-small-only" style="position: absolute; top: -40px; max-width: 100%;">
+                    <div class="fill-grey hide-on-small-only" style="position: absolute; top: -40px; width: 100%;">
                             <img src="/images/clubhouse/medal.png" style="float: right; max-width: 100px; margin-top: 20px; margin-right: 40px; padding-right: 20px;" />
+                        @if (Auth::guest())
                             <p class="header font-black" style="font-size: 24px; margin-bottom: 0; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
                             <p class="font-black" style="margin-top: 0; margin-left: 20px; font-size: 12px;"><a class="no-underline" href="/login">Already a member? Login!</a></p>
                             <div id="registration-form-wrapper-top" style="padding-left: 20px; padding-right: 20px;">
                                 @include('components.register-clubhouse')
                             </div>
-                        </div>
-                    @else
-                        <h1>Call to action here</h1>
-                    @endif
+                        @else
+                            <div style="padding: 25px">
+                                @can ('view-clubhouse')
+                                    <h1 class="black-text">{{ Auth::user()->first_name }},</h1>
+                                    <p class="black-text">Thanks for being a Clubhouse Pro! Make the most out of your premium membership by completing your profile, talking with industry professionals and participating in our live webinars.</p>
+                                    <div class="col s6 center-align">
+                                        <a href="/mentor" class="no-underline">
+                                            <img class="" style="width: 100px; margin-top: 0px;" src="/images/clubhouse/mentorship.png" />
+                                            <h5 class="black-text" style="margin-top: 0;">Mentors</h5>
+                                        </a>
+                                    </div>
+                                    <div class="col s6 center-align">
+                                        <a href="/webinars" class="no-underline">
+                                            <img class="" style="width: 100px; margin-top: 0px;" src="/images/clubhouse/event.png" />
+                                            <h5 class="black-text" style="margin-top: 0;">Webinars</h5>
+                                        </a>
+                                    </div>
+                                    <div class="col s12 center-align">
+                                        <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red" style="margin-top: 20px; margin-bottom: 20px;"> My Profile</a>
+                                    </div>
+                                @else
+                                    <h1 class="black-text">{{ Auth::user()->first_name }},</h1>
+                                    <p class="black-text">Thanks for being a part of <span class="sbs-red-text">the</span>Clubhouse community! Learn how you can become a Clubhouse Pro and take your game to the next level!</p>
+                                    <p class="black-text">Some of the benefits include:</p>
+                                    <ul class="browser-default">
+                                        <li>Exclusive 1:1 mentorship with industry professionals</li>
+                                        <li>Exclusive access to webinars and events, featuring hot industry topics and hosted by some of the best and brightest minds in sports biz</li>
+                                        <li>50% off all 1:1 career services (save $15 to $150!)</li>
+                                    </ul>
+                                    <div class="center-align">
+                                        <a href="/membership-options" class="btn sbs-red" style="margin-top: 20px;"> Become a Clubhouse Pro</a>
+                                    </div>
+                                @endcan
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,10 +64,12 @@
     <div class="container">
         <div class="row show-on-small hidden">
             <div class="col s12">
-                <img src="/images/clubhouse/medal.png" style="float: right; margin-top: 20px;" />
-                <p class="header font-black" style="font-size: 24px; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
-                <p class="font-black" style="margin-top: 0; margin-left: 20px; font-size: 12px;"><a class="no-underline" href="/login">Already a member? Login!</a></p>
-                <div id="registration-form-wrapper-bottom"></div>
+                @if (Auth::guest())
+                    <img src="/images/clubhouse/medal.png" style="float: right; margin-top: 20px;" />
+                    <p class="header font-black" style="font-size: 24px; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
+                    <p class="font-black" style="margin-top: 0; margin-left: 20px; font-size: 12px;"><a class="no-underline" href="/login">Already a member? Login!</a></p>
+                    <div id="registration-form-wrapper-bottom"></div>
+                @endif
             </div>
         </div>
         <div class="row">
