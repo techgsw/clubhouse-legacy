@@ -39,7 +39,7 @@
                     <li><a target="_blank" href="https://bleacherreport.com/">Bleacher Report</a> - leading sports news and highlights company</li>
                     <li><a target="_blank" href="http://www.thebusinessofsports.com/">Business of Sports</a> - website focused on content for the business of sports</li>
                 </ul>
-                <h4 id="groups">Groups</h4>
+                <h4 id="groups"><span class="sbs-red-text">Groups</span></h4>
                 <h5>Local and national groups for those interested in or working in sports</h5>
                 <ul class="browser-default">
                     <li><a target="_blank" href="https://sportsmarketingnetwork.com/">Sports Marketing Network</a> - more than 11,000 individual and corporate members with chapters in major markets and members in more than 50 U.S. cities</li>
@@ -51,7 +51,7 @@
                         </ul>
                     </li>
                 </ul>
-                <h4 id="events">Events</h4>
+                <h4 id="events"><span class="sbs-red-text">Events</span></h4>
                 <h5>Sports industry conferences for networking, education, and personal development</h5>
                 <ul class="browser-default">
                     <li><a target="_blank" href="https://websummit.com/sports-trade">Sports Trade</a> - SportsTrade is the world’s largest sports business conference, connecting the owners of the world’s leading franchises, media companies, sports stars, retailers, brands and tech companies</li>
@@ -70,12 +70,12 @@
                     <li><a target="_blank" href="http://www.mountunion.edu/sport-sales-workshop-and-job-fair">Mount Union Sales Workshop</a> - top tickets sales recruiting event and workshop in the industry</li>
                     <li><a target="_blank" href="https://danielsummit.com/faith-sports-conference">The Daniel Summit</a> - Faith based sport leadership conference</li>
                 </ul>
-                <h4 id="education">Education</h4>
+                <h4 id="education"><span class="sbs-red-text">Education</span></h4>
                 <ul class="browser-default">
                     <li><a target="_blank" href="https://www.sportsbusinessdaily.com/College-University/Sports-Management-Programs.aspx">Sports Business Journal</a> - list of educational programs, complete with contact information</li>
                     <li><a target="_blank" href="https://www.nassm.com/node/128">North American Society for Sport Management</a> - comprehensive list of undergraduate, graduate, and doctoral programs in sports related fields</li>
                 </ul>
-                <h4 id="books">Books</h4>
+                <h4 id="books"><span class="sbs-red-text">Books</span></h4>
                 <ul class="browser-default">
                     <li><a target="_blank" href="https://sportsbusinessbookstore.com/">Sports Business Bookstore</a> - a pretty insane list of sports business related reads</li>
                     <li>General / Leadership
@@ -116,7 +116,7 @@
                         </ul>
                     </li>
                 </ul>
-                <h4 id="career-advice">Career Advice</h4>
+                <h4 id="career-advice"><span class="sbs-red-text">Career Advice</span></h4>
                 <h5>Salary tools, general tips, and more</h5>
                 <ul class="browser-default">
                     <li><a target="_blank" href="http://themuse.com/">theMuse</a> - great resource for career development</li>
@@ -130,7 +130,7 @@
                     <li><a target="_blank" href="https://grantcardone.com/">Grant Cardone</a> - content to grow your business, income and life</li>
                     <li><a target="_blank" href="https://ryanestis.com/">Ryan Estis</a> - business performance trends, best practices</li>
                 </ul>
-                <h4 id="sports-tech">Sports Tech</h4>
+                <h4 id="sports-tech"><span class="sbs-red-text">Sports Tech</span></h4>
                 <h5>Groups, accelerators, VC’s and others focused on technology within sports</h5>
                 <ul class="browser-default">
                     <li><a target="_blank" href="http://womeninsportstech.org/">Women in Sports Tech</a> - community providing women in sports with growth opportunities</li>
@@ -142,11 +142,11 @@
                     <li><a target="_blank" href="http://www.blacklabsports.com/">Black Lab Sports</a> - invest in and ecosystem for sports startups</li>
                     <li><a target="_blank" href="https://www.geekwire.com/sports/">Geekwire Sports</a> - media company focused on sports tech</li>
                 </ul>
-                <h4 id="whitepapers">Whitepapers/Resources</h4>
+                <h4 id="whitepapers"><span class="sbs-red-text">Whitepapers/Resources</span></h4>
                 <ul class="browser-default">
                     <li><a target="_blank" href="https://www.sports-management-degrees.com/business-careers/">Complete Guide to Careers in Sports Management</a></li>
                 </ul>
-                <h4 id="organizations">Professional Organizations/Associations</h4>
+                <h4 id="organizations"><span class="sbs-red-text">Professional Organizations/Associations</span></h4>
                 <h5>There are many professional opportunities beyond the “Big 4”</h5>
                 <ul class="browser-default">
                     <li><a target="_blank" href="http://www.nba.com/">NBA</a></li>
