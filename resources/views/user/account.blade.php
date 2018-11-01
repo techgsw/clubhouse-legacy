@@ -123,22 +123,34 @@
                         <th>Card</th>
                     </thead>
                     @foreach ($transactions as $key => $value)
-                        @php $bill_date = date('m/d/Y', $value['invoice']->date); @endphp
-                        @foreach ($value['invoice']->lines->data as $invoice_item_key => $item)
-                        <tr>
-                            <td>{{ $bill_date }}</td>
-                            <td>{{ $item->description }}</td>
-                            <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
-                            @if (array_key_exists('charge_object', $value))
-                                @php
-                                    $card_icon = ((array_key_exists($value['charge_object']->source->brand, $cc)) ? $cc[$value['charge_object']->source->brand] : 'credit-card');
-                                 @endphp
-                                <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['charge_object']->source->last4 }}</td>
-                            @else
+                        @if (array_key_exists('invoice', $value))
+                            @php $bill_date = date('m/d/Y', $value['invoice']->date); @endphp
+                            @foreach ($value['invoice']->lines->data as $invoice_item_key => $item)
+                            <tr>
+                                <td>{{ $bill_date }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
+                                @if (array_key_exists('charge_object', $value))
+                                    @php
+                                        $card_icon = ((array_key_exists($value['charge_object']->source->brand, $cc)) ? $cc[$value['charge_object']->source->brand] : 'credit-card');
+                                     @endphp
+                                    <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['charge_object']->source->last4 }}</td>
+                                @else
+                                    <td>N/A</td>
+                                @endif
+                            </tr>
+                            @endforeach
+                        @else
+                            @php $created = date('m/d/Y', $value['order']->created); @endphp
+                            @foreach ($value['order']->items as $order_key => $item)
+                            <tr>
+                                <td>{{ $created }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
                                 <td>N/A</td>
-                            @endif
-                        </tr>
-                        @endforeach
+                            </tr>
+                            @endforeach
+                        @endif
                     @endforeach
                 </table>
             @else

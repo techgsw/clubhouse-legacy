@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Mail;
 use App\Mail\UserPaidClubhousePro;
 use App\Mail\UserPaidCareerService;
+use App\Mail\UserPaidWebinar;
 use App\Message;
 use App\Role;
 use App\ProductOption;
@@ -83,7 +84,7 @@ class CheckoutController extends Controller
 
         try {
             if (preg_match('/sku/', $request['stripe_product_id'])) {
-                //$order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
+                $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
                 $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
                 try {
                     foreach ($product_option->product->tags as $tag) {

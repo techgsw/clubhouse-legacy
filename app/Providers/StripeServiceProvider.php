@@ -35,8 +35,15 @@ class StripeServiceProvider extends ServiceProvider
             )
         );
 
+        $stripe_orders = Stripe\Order::all(
+            array(
+                "customer" => $user->stripe_customer_id
+            )
+        );
+
         $transactions = array();
         
+        //dd($stripe_orders);
 
         foreach ($stripe_transactions->data as $key => $invoice) {
             if (!is_null($invoice->charge)) {
@@ -49,6 +56,16 @@ class StripeServiceProvider extends ServiceProvider
                 $transactions[] = array(
                     'invoice' => $invoice
                 );
+            }
+        }
+
+        foreach ($stripe_orders->data as $key => $order_item) {
+            foreach ($order_item->items as $key => $item) {
+                if (!is_null($item->parent) && $item->parent != 'ship_free-shipping') {
+                    $transactions[] = array(
+                        'order' => $order_item
+                    );
+                }
             }
         }
 
@@ -228,7 +245,7 @@ class StripeServiceProvider extends ServiceProvider
         $subscription->cancel();
     }
 
-    public static function purchaseSku(User $user, string $source_token, string $sku)
+    public static function purchaseSku(User $user, string $source_token, string $sku_id)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 

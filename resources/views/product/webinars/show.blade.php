@@ -72,10 +72,10 @@
                 @can ('view-clubhouse')
                     <p>This webinar is currently unavailbable.</p>
                 @else
-                    <p>There are only Clubhouse Pro options available at this time.</p>
                     <div class="input-field" style="margin-top: 30px;">
                         <a href="/membership-options" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                     </div>
+                    <p><strong>*Only Clubhouse Pro options available at this time.</strong></p>
                 @endcan
             @endif
         </div>

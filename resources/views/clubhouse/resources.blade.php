@@ -24,7 +24,7 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <h4 id="sports-media">Sports Media</h4>
+                <h4 id="sports-media"><span class="sbs-red-text">Sports Media</span></h4>
                 <h5>Publications, podcasts, newsletters and more</h5>
                 <ul class="browser-default">
                     <li><a target="_blank" href="https://www.sportsbusinessdaily.com/Journal.aspx">Sports Business Journal</a> - the go to publication and daily resource for leaders across the sports industry</li>
