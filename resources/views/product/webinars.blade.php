@@ -1,3 +1,4 @@
+@php $pd = new Parsedown(); @endphp
 @extends('layouts.clubhouse')
 @section('title', 'Webinars')
 @section('hero')
@@ -33,8 +34,8 @@
     </div>
     <div class="row">
         @foreach ($inactive_products as $product)
-            <div class="col l6">
-                @include('product.webinars.components.list-item', ['product' => $product])
+            <div class="col s12">
+                <span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> - {{ strip_tags($pd->text($product->description)) }}</span>
             </div>
         @endforeach
     </div>
