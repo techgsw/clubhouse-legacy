@@ -83,6 +83,7 @@ class CheckoutController extends Controller
         $user = Auth::user();
 
         try {
+            $checkout_type;
             if (preg_match('/sku/', $request['stripe_product_id'])) {
                 $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
                 $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
@@ -90,12 +91,15 @@ class CheckoutController extends Controller
                     foreach ($product_option->product->tags as $tag) {
                         if ($tag->slug == 'career-service') {
                             Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                            $checkout_type = 'career-service';
                             break;
                         } else if ($tag->slug == 'webinar') {
                             Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
+                            $checkout_type = 'webinar';
                             break;
                         }
                     }
+                    return redirect()->action('CheckoutController@membership-thanks');
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
@@ -105,6 +109,7 @@ class CheckoutController extends Controller
                 $user->roles()->attach($roles);
                 try {
                     Mail::to($user)->send(new UserPaidClubhousePro($user));
+                    $checkout_type = 'membership';
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
@@ -116,8 +121,7 @@ class CheckoutController extends Controller
             return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
         }
 
-
-        return redirect()->action('CheckoutController@thanks');
+        return redirect()->action('CheckoutController@thanks', array('type' => $checkout_type, 'product_option_id' => $product_option->id));
     }
 
     public function addCard(Request $request)
@@ -160,12 +164,35 @@ class CheckoutController extends Controller
     {
         $user = Auth::user();
 
-        return view('checkout/thanks', [
+        $product_option = ProductOption::with('product')->find($request['product_option_id']);
+
+        switch ($request['type']) {
+            case 'career-service':
+                $view = 'career-service-thanks';
+                $breadcrumb = 'Career Service';
+                break;
+            case 'webinar':
+                $view = 'webinar-thanks';
+                $breadcrumb = 'Webinar';
+                break;
+            case 'membership':
+                $view = 'membership-thanks';
+                $breadcrumb = 'Membership';
+                break;
+            default:
+                $view = 'thanks';
+                $breadcrumb = 'Product';
+                break;
+        }
+
+        return view('checkout/'.$view, [
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Checkout' => '/checkout',
+                $breadcrumb => '/checkout',
                 'Thanks' => ''
-            ]
+            ],
+            'product_option' => $product_option
         ]);
     }
 }

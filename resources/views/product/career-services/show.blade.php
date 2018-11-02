@@ -55,8 +55,8 @@
                     @endforeach
                 </select>
                 @cannot ('view-clubhouse')
-                @endcannot
                     <p>Want to save <strong>50%</strong> on Career Services? <a href="/membership-options">Click here to become a <strong>Clubhouse Pro</strong></a></p>
+                @endcannot
                 <div class="input-field" style="margin-top: 30px;">
                     <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
                 </div>
