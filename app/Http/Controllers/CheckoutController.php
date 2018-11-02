@@ -155,6 +155,23 @@ class CheckoutController extends Controller
         ]);
     }
 
+    public function makeCardPrimary(Request $request)
+    {
+        $user = Auth::user();
+
+        try {
+            $stripe_customer = StripeServiceProvider::getCustomer($user);
+            $stripe_customer->default_source = $request['card_id'];
+            $stripe_customer->save();
+        } Catch (Exception $e) {
+            Log::error($e);
+        }
+
+        return response()->json([
+            'type' => 'success'
+        ]);
+    }
+
     public function cancelSubscription(Request $request)
     {
         $user = Auth::user();

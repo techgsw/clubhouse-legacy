@@ -62,6 +62,7 @@
             @endif
         </div>
         <div class="col s12 m12 l6">
+            {{ csrf_field() }}
             <h4 style="display: inline-block;">Cards</h4>
             <a id="add-cc-button" class="btn btn-small sbs-red right" style="margin-top: 15px;"><li class="fa fa-plus"></li> CARD</a>
             @if (count($stripe_user->sources) > 0)
@@ -93,7 +94,7 @@
                             @else
                                 <td class="right-align">
                                     <a class="btn btn-small red text-right" href="">X</a>
-                                    <a class="btn btn-small blue text-right" href="javascript: void(0);"><li class="fa fa-credit-card"></li></a>
+                                    <a class="btn btn-small blue text-right make-primary-button" data-card-id="{{ $value->id }}"><li class="fa fa-credit-card"></li></a>
                                 </td>
                             @endif
                         </tr>
