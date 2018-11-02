@@ -66,13 +66,26 @@ class CheckoutController extends Controller
             return redirect()->back()->withErrors(['msg' => 'You are already a Clubhouse Pro member!']);
         }
 
+        if (in_array('career-service', array_column($product_option->product->tags->toArray(), 'slug'))) {
+            $product_type = 'career-service';
+            $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
+        } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
+            $product_type = 'webinar';
+            $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
+        } else {
+            $product_type = 'membership';
+            $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
+        }
+
         return view('checkout/index', [
             'product_option' => $product_option,
             'payment_methods' => (!is_null($stripe_user) && !is_null($stripe_user->sources) ? $stripe_user->sources->data : array()),
+            'product_type' => $product_type,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Checkout' => '/checkout',
-                "{$product_option->product->name}" => "/product/{$product_option->product->id}",
+                $breadcrumb['name'] => $breadcrumb['link'],
+                'Checkout' => null,
+                "{$product_option->product->name}" => "{$breadcrumb['link']}/{$product_option->product->id}",
                 "{$product_option->name}" => ""
             ]
         ]);

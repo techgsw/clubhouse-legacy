@@ -11,9 +11,9 @@
     <div class="row">
         <div class="col s12">
             <h5><strong>{{ Auth::user()->first_name }},</strong></h5>
-            @if (in_array('career-service', array_column($product_option->product->tags->toArray(), 'slug')))
+            @if ($product_type == 'career-service')
                 <p><strong>Thank you for your interest in our {{ $product_option->name }}. Just a few more steps and you are all set.</strong></p>
-            @elseif (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug')))
+            @elseif ($product_type == 'webinar')
                 <p><strong>Thank you for your interest in {{ $product_option->product->name }}. Just a few more steps and you are all set.</strong></p>
             @else
                 <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you are all set.</strong></p>
