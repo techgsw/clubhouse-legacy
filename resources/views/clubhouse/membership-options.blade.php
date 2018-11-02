@@ -40,7 +40,11 @@
                             </div>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
-                            <a href="/" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
+                            @if (Auth::guest())
+                                <a href="/" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
+                            @else
+                                <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
+                            @endif
                         </div>
                     </div>
                 </div>
