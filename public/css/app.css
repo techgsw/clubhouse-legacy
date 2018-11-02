@@ -1868,6 +1868,10 @@ p.icon {
         margin-top: 10px;
     }
 
+    .clubhouse-blog img {
+        max-height: 200px;
+    }
+
     div.bg-image.dark-circle {
         min-height: 300px;
     }

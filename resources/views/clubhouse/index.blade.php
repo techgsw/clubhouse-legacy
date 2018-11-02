@@ -86,12 +86,12 @@
                 <h3>Sports Industry Blog</h3>
             </div>
         </div>
-        <div class="row">
+        <div class="row clubhouse-blog">
             @if (count($posts) > 0)
                 @foreach ($posts as $post)
-                    <div class="col s4" style="padding: 0 30px;">
+                    <div class="col s12 m4" style="padding: 0 30px;">
                         <div class="col s12 about-cards">
-                            <a href="/post/{{ $post->title_url}}" class="no-underline"><img class="img-responsive" src="{{ $post->images->first()->getURL('medium') }}" /></a>
+                            <a href="/post/{{ $post->title_url}}" class="no-underline"><img class="img-responsive" style="" src="{{ $post->images->first()->getURL('medium') }}" /></a>
                         </div>
                         <div class="col s12">
                             <h5 style="margin-top: 0; margin-bottom: 10px; display: block;"><a href="/post/{{ $post->title_url }}" class="no-underline">{{ $post->title }}</a></h5>
