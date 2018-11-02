@@ -64,7 +64,15 @@
                     </div>
                     <div class="row hide-on-med-and-up center-align">
                         <div class="col s12">
-                            <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                            @if ($product_option->price > 0)
+                                @can ('view-clubhouse')
+                                    <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
+                                @else
+                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                                @endcan
+                            @else
+                                <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                            @endif
                         </div>
                     </div>
                     <div class="row valign-wrapper hide-on-small-only">
@@ -77,7 +85,15 @@
                             <p class="black-text">{{ $product_option->description }}</p>
                         </div>
                         <div class="col s2">
-                            <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                            @if ($product_option->price > 0)
+                                @can ('view-clubhouse')
+                                    <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
+                                @else
+                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                                @endcan
+                            @else
+                                <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                            @endif
                         </div>
                     </div>
                 </div>

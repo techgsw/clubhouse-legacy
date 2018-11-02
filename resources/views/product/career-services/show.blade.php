@@ -44,12 +44,19 @@
                 <select class="browser-default product-option-select" name="option">
                     @foreach ($product->options as $option)
                         @if ($option->price > 0)
-                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}}</option>
+                            @can ('view-clubhouse')
+                                <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format(round($option->price / 2), 2)}} (50% Off / Clubhouse Pro)</option>
+                            @else
+                                <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}}</option>
+                            @endcan
                         @else
                             <option value="{{$option->id}}">{{$option->name}}</option>
                         @endif
                     @endforeach
                 </select>
+                @cannot ('view-clubhouse')
+                @endcannot
+                    <p>Want to save <strong>50%</strong> on Career Services? <a href="/membership-options">Click here to become a <strong>Clubhouse Pro</strong></a></p>
                 <div class="input-field" style="margin-top: 30px;">
                     <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
                 </div>
@@ -57,7 +64,7 @@
                 @can ('view-clubhouse')
                     <p>This career service is currently unavailable.</p>
                 @else
-                    <p>There are only Clubhouse Pro options available at this time.</p>
+                    <p>There are only <strong>Clubhouse Pro</strong> options available at this time.</p>
                     <div class="input-field" style="margin-top: 30px;">
                         <a href="/pricing" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                     </div>

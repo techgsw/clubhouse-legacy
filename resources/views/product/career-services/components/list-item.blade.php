@@ -10,7 +10,6 @@
             @endif
             <a href="/career-services/{{ $product->id }}" class="no-underline" style="flex: 0 0 auto;">
                 <h4>{{ $product->name }}</h4>
-                <p>{{ $product->description }}</p>
             </a>
         </div>
         <div>

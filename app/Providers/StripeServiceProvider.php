@@ -41,32 +41,47 @@ class StripeServiceProvider extends ServiceProvider
             )
         );
 
-        $transactions = array();
+        $transactions = array('subscription' => array(), 'order' => array());
         
         //dd($stripe_orders);
 
         foreach ($stripe_transactions->data as $key => $invoice) {
             if (!is_null($invoice->charge)) {
                 $stripe_charge = Stripe\Charge::retrieve($invoice->charge);
-                $transactions[] = array(
+                $transactions['subscriptions'][] = array(
                     'invoice' => $invoice,
                     'charge_object' => $stripe_charge
                 );
             } else {
-                $transactions[] = array(
+                $transactions['subscription'][] = array(
                     'invoice' => $invoice
                 );
             }
         }
 
         foreach ($stripe_orders->data as $key => $order_item) {
+            $items = array();
+            $total_amount = 0;
             foreach ($order_item->items as $key => $item) {
-                if (!is_null($item->parent) && $item->parent != 'ship_free-shipping') {
-                    $transactions[] = array(
-                        'order' => $order_item
-                    );
+                if (!in_array($item->type, array('shipping', 'tax'))) {
+                    if ($item->type != 'discount') {
+                        $items[] = $item;
+                    }
+                    $total_amount += $item->amount;
                 }
             }
+            $transaction = array(
+                'order' => array(
+                    'total_amount' => $total_amount,
+                    'created' => $order_item->created,
+                    'items' => $items
+                )
+            );
+            if (!is_null($order_item->charge)) {
+                $stripe_charge = Stripe\Charge::retrieve($order_item->charge);
+                $transaction['order']['charge_object'] = $stripe_charge;
+            }
+            $transactions['orders'][] = $transaction;
         }
 
         return $transactions;
@@ -251,17 +266,32 @@ class StripeServiceProvider extends ServiceProvider
 
         $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
 
+        $items = array(
+            array(
+                'type' => 'sku',
+                'parent' => $sku_id 
+            )
+        );
+
+        if (!is_null($stripe_customer)) {
+            if (!$stripe_customer->delinquent && $stripe_customer->subscriptions->total_count > 0) {
+                $sku = Stripe\Sku::retrieve($sku_id);
+                if ($sku->price > 0) {
+                    $items[] = array(
+                        'type' => 'discount',
+                        'currency' => 'usd',
+                        'description' => 'Clubhouse Pro discount',
+                        'amount' => (int)(round($sku->price / 2) * -1)
+                    );
+                }
+            }
+        }
+
         $stripe_order = Stripe\Order::create(
             array(
                 'currency' => 'usd',
-                'items' => array(
-                    array(
-                        'type' => 'sku',
-                        'parent' => $sku_id 
-                    )
-                ),
+                'items' => $items,
                 'customer' => $stripe_customer->id
-                
             )
         );
 
