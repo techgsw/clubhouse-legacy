@@ -5,7 +5,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/job-board-white.png" />
             <h4 class="header">Sports Job Board</h4>
-            <p>Here are some of the most sought-after jobs in sports. Apply today!.</p>
+            <p>Here are some of the most sought-after jobs in sports. Apply today!</p>
         </div>
     </div>
 @endsection

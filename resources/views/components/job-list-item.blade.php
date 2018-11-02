@@ -20,7 +20,7 @@
                 @can ('create-inquiry')
                     <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply now</a>
                 @else
-                    <a style="margin-top: 12px;" href="/register" class="btn white black-text">Join to apply</a>
+                    <a style="margin-top: 12px;" href="/" class="btn white black-text">Join to apply</a>
                 @endcan
             </div>
             @can ('edit-job', $job)
