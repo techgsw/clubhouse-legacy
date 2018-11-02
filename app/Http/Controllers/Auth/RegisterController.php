@@ -129,7 +129,7 @@ class RegisterController extends Controller
             ]);
 
             Session::flash('message', new Message(
-                "Welcome to theClubhouse! We are very excited to have you, more copy here...",
+                "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.",
                 "success",
                 $code = null,
                 $icon = "check-circle"
