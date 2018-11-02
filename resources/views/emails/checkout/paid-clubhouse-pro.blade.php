@@ -14,6 +14,6 @@
             </ul>
         </p>
         <p>You can manage your account and billing preferences within your <a href="{{ config('app.url') }}/user/{{ $user->id }}/profile">Clubhouse profile</a> on our site. Should you have any questions, need assistance or have ideas to share, please feel free to contact us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a>.</p>
-        <p>Regards,<br/>theClubhouse Team</p>
+        <p>Regards,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
     @endslot
 @endcomponent

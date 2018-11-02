@@ -12,6 +12,6 @@
         </ul>
         <p>As you start to get to know your personal coach, it’s great to share additional thoughts on what you’d like to focus on and/or achieve during your 1:1 session(s). The more we know, the better we can help you!</p>
         <p>We’re looking forward to helping you achieve your goals in sports business. Talk soon!</p>
-        <p>Thanks,<br/>theClubhouse Team</p>
+        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
     @endslot
 @endcomponent

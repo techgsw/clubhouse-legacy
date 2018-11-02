@@ -1,11 +1,11 @@
 @component('emails.layout')
     @slot ('title')
-        Welcome to theClubhouse
+        Welcome to <span style="color: #EB2935;">the</span>Clubhouse
     @endslot
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
-        <p>I’m Bob Hamer, former Vice President at the Phoenix Suns, current President and Founder of Sports Business Solutions, and creator of <strong>theClubhouse</strong>. We’re so excited to have you as part of our community! Our goal for <strong>theClubhouse</strong> is to create a destination for current and aspiring sports business professionals where they can network, learn, and share industry best practices in an effort to grow their career and elevate the sports industry as a whole.</p>
-        <p>Now that you’re a member of our community, here are some ways you can get the most out of <strong>theClubhouse</strong>:</p>
+        <p>I’m Bob Hamer, former Vice President at the Phoenix Suns, current President and Founder of Sports Business Solutions, and creator of <span style="color: #EB2935;">the</span>Clubhouse. We’re so excited to have you as part of our community! Our goal for <span style="color: #EB2935;">the</span>Clubhouse is to create a destination for current and aspiring sports business professionals where they can network, learn, and share industry best practices in an effort to grow their career and elevate the sports industry as a whole.</p>
+        <p>Now that you’re a member of our community, here are some ways you can get the most out of <span style="color: #EB2935;">the</span>Clubhouse:</p>
         <p>
             <ul>
                 <li>Complete <a href="{{ config('app.url') }}/user/{{ $user->id }}">your profile</a>. Upload your resume and your career preferences, so you can connect with the right people and be kept in mind for career opportunities down the road.</li>
@@ -23,7 +23,7 @@
                 <li>Coming soon! - Gain access to hands on sports team projects to bolster your resume.</li>
             </ul>
         </p>
-        <p>We started <strong>theClubhouse</strong> to give our community members the edge they need to accomplish their goals in sports business. If you have ideas for other ways we can help you do that, feel free to email us. Your input will be valuable in shaping the future of this industry.</p>
-        <p>Thanks,<br/>theClubhouse Team</p>
+        <p>We started <span style="color: #EB2935;">the</span>Clubhouse to give our community members the edge they need to accomplish their goals in sports business. If you have ideas for other ways we can help you do that, feel free to email us. Your input will be valuable in shaping the future of this industry.</p>
+        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
     @endslot
 @endcomponent
