@@ -5,7 +5,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/career-services-white.png" />
             <h4 class="header">Career Services</h4>
-            <p>Using our industry experience and strong network our goal is to help you get to the next step in your sports business career.</p>
+            <p>Get some 1 on 1 training and coaching from <a class="" href="{{ env('APP_URL') }}/about">theClubhouse team</a> of sports industry professionals</p>
             <a href="#Career+Coaching" class="btn btn-large sbs-red">CAREER COACHING</a>
             <a href="#Sales+Training" class="btn btn-large sbs-red">SALES TRAINING</a>
             <a href="#Leadership+Development" class="btn btn-large sbs-red">LEADERSHIP DEVELOPMENT</a>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col s12">
                     <a name="{{ urlencode($category) }}">
-                        <h4>{{ $category }}</h4>
+                        <h4 style="margin-top: 50px;">{{ $category }}</h4>
                     </a>
                     <div class="card-flex-container">
                         @foreach ($products as $product)

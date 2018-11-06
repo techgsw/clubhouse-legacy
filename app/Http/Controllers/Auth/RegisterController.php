@@ -132,7 +132,7 @@ class RegisterController extends Controller
                 "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.",
                 "success",
                 $code = null,
-                $icon = "check-circle"
+                $icon = "check_circle"
             ));
 
             return $user;

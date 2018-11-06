@@ -50,20 +50,11 @@
                         @if ($option->price > 0)
                             <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
                         @else
-                            <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}}</option>
+                            <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}} {{ $option->description }}</option>
                         @endif
                     @endforeach
                 </select>
             @endif
-            <div class="options">
-                @php $first = true; @endphp
-                @foreach ($product->options as $option)
-                    <div class="product-option-description {{ $first ? "" : "hidden"}}" option-id="{{$option->id}}">
-                        {!! $pd->text($option->description) !!}
-                    </div>
-                    @php $first = false; @endphp
-                @endforeach
-            </div>
             @if (count($product->options) > 0)
                 <div class="input-field" style="margin-top: 30px;">
                     <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>

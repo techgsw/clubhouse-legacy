@@ -35,7 +35,10 @@
     <div class="row">
         @foreach ($inactive_products as $product)
             <div class="col s12">
-                <span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> - {{ strip_tags($pd->text($product->description)) }}</span>
+                <ul class="browser-default">
+                    <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->description) !!}</span></li>
+                </ul>
+                
             </div>
         @endforeach
     </div>

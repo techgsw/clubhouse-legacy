@@ -109,6 +109,31 @@
 
     $('body').on(
         {
+            click: function() {
+                $(this).attr('disabled', true);
+                $(this).siblings('a').attr('disabled', true);
+                var csrf = $(this).parents('div').find('input[name="_token"]').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/checkout/make-card-primary',
+                    data: { 
+                        card_id: $(this).data('card-id'),
+                        _token: csrf
+                    }
+                }).done(function (response) {
+                    if (response.type == 'success') {
+                        location.reload()
+                    }
+                }).always(function () {
+                    $(this).attr('disabled', false);
+                });
+            }
+        },
+        'a.make-primary-button'
+    );
+
+    $('body').on(
+        {
             submit: function(e) {
                 e.preventDefault();
 
