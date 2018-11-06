@@ -6,7 +6,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/mentorship-white.png" />
             <h4 class="header">Sports Industry Mentors</h4>
-            <p>All of the individuals within this network are current sports industry professionals and have been gracious enough to give back and help you however they can.</p>
+            <p>Everyone here is currently working in sports and is willing to talk with you.</p>
         </div>
     </div>
 @endsection
@@ -16,7 +16,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col s12">
+        <div class="col s12 center-align">
             <h4>Find a mentor by searching below and begin a conversation today!</h4>
         </div>
     </div>

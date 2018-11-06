@@ -38,7 +38,7 @@ if (!SBS) {
                 var mentor_time_preference_2 = $(this).attr('mentor-time-preference-2');
                 var mentor_time_preference_3 = $(this).attr('mentor-time-preference-3');
 
-                console.log(mentor_img);
+                console.log($(this).parents('.card-content'));
 
                 $('div#mentor-request-modal').find('.mentor-img img').remove();
                 $('div#mentor-request-modal').find('.mentor-img').prepend(mentor_img);

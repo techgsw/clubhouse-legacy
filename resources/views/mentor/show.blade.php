@@ -7,8 +7,11 @@
 @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
 @section('image', $mentor->contact->user->profile->headshotImage->getURL('share'))
 @endif
+@section('scripts')
+    @include('mentor.components.scripts')
+@endsection
 @section('content')
-<div class="container" style="padding-bottom: 40px;">
+<div class="container card-content" style="padding-bottom: 40px;">
     <div class="row">
         <div class="col s12">
             @include('layouts.components.messages')
@@ -23,9 +26,9 @@
     <div class="row mentor-show">
         <div class="col s8 offset-s2 m3">
             @if ($mentor->contact->headshotImage)
-                <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" style="border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
+                <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" style="width: 80%; margin-left: 10%; border-radius: 50%; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="responsive-img headshot" />
             @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
-                <img src="{{ $mentor->contact->user->profile->headshotImage->getURL('medium') }}" style="border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
+                <img src="{{ $mentor->contact->user->profile->headshotImage->getURL('medium') }}" style="width: 80%; margin-left: 10%; border-radius: 50%; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="responsive-img headshot" />
             @endif
             @if ($mentor->contact->organizations()->first())
                 <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" style="margin-top: -60px; margin-bottom: -60px;" />
@@ -59,13 +62,8 @@
     </div>
     <div class="row">
         <div class="col s12 m9 offset-m3 mentor-inquire">
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 m9 offset-m3 mentor-inquire">
             @can ('view-clubhouse')
-                <a class="small flat-button black mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
+                <a class="small flat-button black mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
             @else
                 <a class="small flat-button black" href="/">Become a ClubhousePro</a>
             @endcan
@@ -75,4 +73,5 @@
         </div>
     </div>
 </div>
+@include('mentor.components.request-modal')
 @endsection
