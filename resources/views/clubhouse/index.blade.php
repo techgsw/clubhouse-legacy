@@ -22,8 +22,8 @@
                         @else
                             <div style="padding: 25px">
                                 @can ('view-clubhouse')
-                                    <h1 class="black-text">{{ Auth::user()->first_name }},</h1>
-                                    <p class="black-text">Thanks for being a Clubhouse Pro! Make the most out of your premium membership by completing your profile, talking with industry professionals and participating in our live webinars.</p>
+                                    <h5 class="black-text" style="margin-top: 20px">Thanks for being a ClubhousePro!</h5>
+                                    <p class="black-text">Make the most out of your premium membership by completing your profile, talking with industry professionals and participating in our live webinars.</p>
                                     <div class="col s6 center-align">
                                         <a href="/mentor" class="no-underline">
                                             <img class="" style="width: 100px; margin-top: 0px;" src="/images/clubhouse/mentorship.png" />
@@ -40,12 +40,12 @@
                                         <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red" style="margin-top: 20px; margin-bottom: 20px;"> My Profile</a>
                                     </div>
                                 @else
-                                    <h1 class="black-text">{{ Auth::user()->first_name }},</h1>
-                                    <p class="black-text">Thanks for being a part of <span class="sbs-red-text">the</span>Clubhouse community! Learn how you can become a Clubhouse Pro and take your game to the next level!</p>
+                                    <h5 class="black-text" style="margin-top: 20px;">Welcome to <span class="sbs-red-text">the</span>Clubhouse community!</h5>
+                                    <p class="black-text">Learn how you can become a Clubhouse Pro and take your game to the next level!</p>
                                     <p class="black-text">Some of the benefits include:</p>
                                     <ul class="browser-default">
                                         <li>Exclusive 1:1 mentorship with industry professionals</li>
-                                        <li>Exclusive access to webinars and events, featuring hot industry topics and hosted by some of the best and brightest minds in sports biz</li>
+                                        <li>Access to webinars and events, featuring hot industry topics and hosted by some of the best and brightest minds in sports biz</li>
                                         <li>50% off all 1:1 career services (save $15 to $150!)</li>
                                     </ul>
                                     <div class="center-align">

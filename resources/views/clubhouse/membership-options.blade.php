@@ -57,7 +57,7 @@
                                 <p style="font-size: 16px; min-height: 80px;">Ideal for those looking for hands on opportunities and networking access to launch or transform their career in sports.</p>
                                 <ul class="fa-check-override">
                                     <li>Exclusive 1:1 mentorship with industry professionals</li>
-                                    <li>Exclusive access to webinars and events, featuring hot industry topics and hosted by some of the best and brightest minds in sports biz</li>
+                                    <li>Access to webinars and events, featuring hot industry topics and hosted by some of the best and brightest minds in sports biz</li>
                                     <li>50% off all 1:1 career services (save $15 to $150!)</li>
                                     <li>One free 30 minute career Q&A with a member of our executive team</li>
                                     <li>Access to our monthly webinar for career coaching, hosted by the Sports Business Solutions team</li>
