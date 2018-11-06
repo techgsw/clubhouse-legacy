@@ -7,23 +7,25 @@
                 <img src="/images/logos/full/CH_logo_color.jpg" alt="Sports Business Solutions">
             </a>
             <ul class="right hide-on-med-and-down nav-custom-desktop">
+                <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
-                <li><a href="/mentor">Mentorship</a></li>
                 <li><a href="/job">Job Board</a></li>
+                <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
                 <li><a href="/resources">Resources</a></li>
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
                 <li class="social-media">
-                    <a href="https://facebook.com/sportsbusinesssolutions"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://facebook.com/sportsbusinesssolutions" style="max-width: 20px"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                     <a href="https://twitter.com/SportsBizBob"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
                     <a href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
                     <a href="https://www.linkedin.com/in/bob-hamer-b1ab703"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 </li>
+                <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
-                <li><a href="/mentor">Mentorship</a></li>
                 <li><a href="/job">Job Board</a></li>
+                <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
                 <li><a href="/resources">Resources</a></li>
