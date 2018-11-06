@@ -29,7 +29,7 @@ if (!SBS) {
                 var messages = modal.find('#messages');
                 var mentor_id = $(this).attr('mentor-id');
                 var mentor_name = $(this).attr('mentor-name');
-                var mentor_img = $(this).parents('.card-content').find('img').clone();
+                var mentor_img = $(this).parents('.card-content').find('img.headshot').clone();
                 var mentor_timezone = $(this).attr('mentor-timezone');
                 var mentor_day_preference_1 = $(this).attr('mentor-day-preference-1');
                 var mentor_day_preference_2 = $(this).attr('mentor-day-preference-2');

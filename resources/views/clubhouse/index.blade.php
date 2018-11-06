@@ -138,7 +138,7 @@
                                         <h4 style="margin-bottom: 0px;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
                                         <p style="margin-top: 0px; margin-bottom: 0px;"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
                                         @if ($mentor->contact->organizations()->first())
-                                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img" style="margin-top: -30px; margin-left: -55px; max-width: 200px; max-height: 200px;" />
+                                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img hide-on-small-only" style="margin-top: -30px; margin-left: -55px; max-width: 200px; max-height: 200px;" />
                                         @endif
                                         <!--<p style="margin-top: 5px;">{{ $mentor->description }}</p>-->
                                     </div>
