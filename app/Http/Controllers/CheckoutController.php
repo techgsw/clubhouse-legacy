@@ -112,12 +112,12 @@ class CheckoutController extends Controller
                             break;
                         }
                     }
-                    return redirect()->action('CheckoutController@membership-thanks');
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
             } else if (preg_match('/plan/', $request['stripe_product_id'])) {
                 $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
+                $product_option = ProductOption::with('product')->where('stripe_plan_id', $request['stripe_product_id'])->first();
                 $roles = Role::where('code', 'clubhouse')->get();
                 $user->roles()->attach($roles);
                 try {
