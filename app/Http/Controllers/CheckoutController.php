@@ -155,6 +155,22 @@ class CheckoutController extends Controller
         ]);
     }
 
+    public function removeCard(Request $request)
+    {
+        $user = Auth::user();
+
+        try {
+            $stripe_customer = StripeServiceProvider::getCustomer($user);
+            $stripe_customer->sources->retrieve($request['card_id'])->delete();
+        } Catch (Exception $e) {
+            Log::error($e);
+        }
+
+        return response()->json([
+            'type' => 'success'
+        ]);
+    }
+
     public function makeCardPrimary(Request $request)
     {
         $user = Auth::user();

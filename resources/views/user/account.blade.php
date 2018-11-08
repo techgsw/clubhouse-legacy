@@ -93,7 +93,7 @@
                                 <td class="right-align"><a class="flat-button blue" href="javascript: void(0);">Primary</a></td>
                             @else
                                 <td class="right-align">
-                                    <a class="btn btn-small red text-right" href="">X</a>
+                                    <a class="btn btn-small red text-right remove-card-button" data-card-id="{{ $value->id }}">X</a>
                                     <a class="btn btn-small blue text-right make-primary-button" data-card-id="{{ $value->id }}"><li class="fa fa-credit-card"></li></a>
                                 </td>
                             @endif
