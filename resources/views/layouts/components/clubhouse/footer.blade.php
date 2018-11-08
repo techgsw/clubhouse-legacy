@@ -1,8 +1,14 @@
 <footer class="page-footer">
     <div class="container">
         <div class="row">
-            <div class="col s12 m8 offset-m2 center-align">
+            <div class="col m4 s12">
                 @include('layouts.components.newsletter')
+            </div>
+            <div class="col m4 s12">
+                @include('layouts.components.instagram')
+            </div>
+            <div class="col m4 s12">
+                @include('layouts.components.clubhouse.twitter')
             </div>
         </div>
     </div>

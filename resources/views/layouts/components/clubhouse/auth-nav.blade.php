@@ -1,7 +1,7 @@
 <nav class="nav-user hide-on-med-and-down nav-custom-desktop" role="navigation">
     <div class="nav-wrapper container">
         <ul>
-            <li><a href="{{ env('APP_URL') }}" class="no-underline"><img style="height: 30px; margin-top: 5px;" src="/images/logo.png" alt="Sports Business Solutions"></a></li>
+            <li><a href="{{ env('APP_URL') }}" class="no-underline"><img style="height: 30px; margin-top: 5px;" src="/images/logo-simple.png" alt="Sports Business Solutions"></a></li>
             @can ('view-admin-dashboard')
                 <li><a href="/admin">ADMIN</a></li>
             @endif
