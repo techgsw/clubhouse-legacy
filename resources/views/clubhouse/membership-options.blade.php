@@ -66,7 +66,11 @@
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($product)
-                            <a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Member</a>
+                                @if (Auth::guest())
+                                    <a href="/" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Member</a>
+                                @else
+                                    <a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Member</a>
+                                @endif
                             @endif
                         </div>
                     </div>
