@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col s12 center-align">
-                <h5>There are many opportunities when it comes to careers in sports. That's why we've gathered all possiblities just for you.</h5>
+                <h5>Become a Clubhouse Pro and start your 30-day free trial.</h5>
             </div>
         </div>
         <div class="row">
@@ -30,12 +30,12 @@
                             <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Community - <span class="sbs-red-text">Free</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
-                                <p style="font-size: 16px; min-height: 80px;">Get into the game and be a part of our sports business community.</p>
+                                <p style="font-size: 16px; min-height: 80px;">Get into the game and join our sports business community.</p>
                                 <ul class="fa-check-override">
                                     <li>Apply to open jobs</li>
                                     <li>Access our blog content and industry resources</li>
-                                    <li>Purchase career services</li>
-                                    <li>Receive our periodic e-Newsletter</li>
+                                    <li>Sign up for personalized career services</li>
+                                    <li>Get our e-Newsletter with sports industry updates</li>
                                 </ul>
                             </div>
                         </div>
@@ -54,22 +54,23 @@
                             <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Pro - <span class="sbs-red-text">$7/month</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
-                                <p style="font-size: 16px; min-height: 80px;">Ideal for those looking for hands on opportunities and networking access to launch or transform their career in sports.</p>
+                                <p style="font-size: 16px; min-height: 80px;">Take your skills to the next level! Connect with industry pros and gain insight you can’t get anywhere else.</p>
                                 <ul class="fa-check-override">
-                                    <li>Exclusive 1:1 mentorship with industry professionals</li>
-                                    <li>Access to webinars and events, featuring hot industry topics and hosted by some of the best and brightest minds in sports biz</li>
-                                    <li>50% off all 1:1 career services (save $15 to $150!)</li>
-                                    <li>One free 30 minute career Q&A with a member of our executive team</li>
-                                    <li>Access to our monthly webinar for career coaching, hosted by the Sports Business Solutions team</li>
+                                    <li>Gain exclusive 1:1 mentorship with industry professionals</li>
+                                    <li>Access webinars and events featuring hot industry topics discussed by some of the best and brightest in sports business</li>
+                                    <li>Save 50% on all 1:1 career services ($15 to $150 off!)</li>
+                                    <li>Receive one free 30 minute career consultation</li>
+                                    <li>Attend our free monthly “career chat” and get real time advice</li>
+                                    <li>Get pre-access to new jobs in sports and get your application moved to the top of the list</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($product)
                                 @if (Auth::guest())
-                                    <a href="/" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Member</a>
+                                    <a href="/" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>
                                 @else
-                                    <a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Member</a>
+                                    <a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>
                                 @endif
                             @endif
                         </div>
