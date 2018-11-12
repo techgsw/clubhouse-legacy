@@ -56,9 +56,16 @@
                 </select>
             @endif
             @if (count($product->options) > 0)
-                <div class="input-field" style="margin-top: 30px;">
-                    <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
-                </div>
+                @can ('view-clubhouse')
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
+                    </div>
+                @else
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="/membership-options" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                    </div>
+                    <p><strong>*Only Clubhouse Pro options available at this time.</strong></p>
+                @endcan
             @else
                 @can ('view-clubhouse')
                     <p>This webinar is currently unavailbable.</p>
