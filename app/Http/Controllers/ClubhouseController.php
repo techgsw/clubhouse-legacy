@@ -31,7 +31,7 @@ class ClubhouseController extends Controller
 
         $webinars = Product::where('active', true)->with('options')->whereHas('tags', function ($query) {
             $query->where('name', 'Webinar');
-        })->limit(3)->get();
+        })->limit(2)->get();
 
         $jobs = Job::orderBy('featured', 'desc')
             ->orderBy('rank', 'asc')

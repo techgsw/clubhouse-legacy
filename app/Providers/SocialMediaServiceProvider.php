@@ -19,10 +19,16 @@ class SocialMediaServiceProvider extends ServiceProvider
         });
     }
 
-    public static function getInstagramFeed($view) {
-        $access_token = env('INSTAGRAM_ACCESS_TOKEN');
-        $client_id = env('INSTAGRAM_CLIENT_ID');
-        $user_id = env('INSTAGRAM_USER_ID');
+    public static function getInstagramFeed($view, $context = null) {
+        if ($context == 'clubhouse') {
+            $access_token = env('CLUBHOUSE_INSTAGRAM_ACCESS_TOKEN');
+            $client_id = env('CLUBHOUSE_INSTAGRAM_CLIENT_ID');
+            $user_id = env('CLUBHOUSE_INSTAGRAM_USER_ID');
+        } else {
+            $access_token = env('INSTAGRAM_ACCESS_TOKEN');
+            $client_id = env('INSTAGRAM_CLIENT_ID');
+            $user_id = env('INSTAGRAM_USER_ID');
+        }
 
         // Get user
         $url = "https://api.instagram.com/v1/users/self?access_token={$access_token}";
@@ -50,17 +56,21 @@ class SocialMediaServiceProvider extends ServiceProvider
 
         // Process data
         $feed = [];
-        for ($i = 0; $i < 9; $i++) {
-            $item = $response->data[$i];
-            if (!$item) {
-                break;
+        $post_count = count($response->data);
+        if ($post_count > 0) {
+            $limit = ($post_count > 8 ? 9 : $post_count);
+            for ($i = 0; $i < $limit; $i++) {
+                $item = $response->data[$i];
+                if (!$item) {
+                    break;
+                }
+                $image = $item->images->thumbnail->url;
+                $link = $item->link;
+                $feed[] = [
+                    "url" => $link,
+                    "src" => $image,
+                ];
             }
-            $image = $item->images->thumbnail->url;
-            $link = $item->link;
-            $feed[] = [
-                "url" => $link,
-                "src" => $image,
-            ];
         }
 
         // Send feed to view
