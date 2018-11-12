@@ -182,6 +182,9 @@ div.row.bg-image.blog {
 div.row.bg-image.career-services {
     background-image: url("/images/career-services/hero.jpg");
 }
+div.row.bg-image.membership-options {
+    background-image: url("/images/clubhouse/SBS-Membership.jpg");
+}
 div.row.bg-image.webinars {
     background-image: url("/images/clubhouse/SBS-Webinars.jpg");
 }
