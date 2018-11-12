@@ -150,7 +150,7 @@
     <div class="row">
         <div class="col s12">
             <h4>Subscription History</h4>
-            @if (count($transactions['subscriptions']) > 0)
+            @if (isset($transactions['subscriptions']) && count($transactions['subscriptions']) > 0)
                 <table>
                     <thead>
                         <th>Date</th>
