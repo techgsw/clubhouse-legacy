@@ -17,7 +17,7 @@
             <div class="col s12">
                 <ul class="footer-nav">
                     <li><a href="/terms-of-service">Terms and conditions</a></li>
-                    <li><a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></li>
+                    <li>Have a question? Email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></li>
                 </ul>
             </div>
         </div>
