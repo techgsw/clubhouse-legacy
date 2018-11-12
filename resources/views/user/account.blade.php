@@ -114,6 +114,41 @@
     </div>
     <div class="row">
         <div class="col s12">
+            <h4>Order History</h4>
+            @if (isset($transactions['orders']) && count($transactions['orders']) > 0)
+                <table>
+                    <thead>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Card</th>
+                    </thead>
+                    @foreach ($transactions['orders'] as $key => $value)
+                        @php $created = date('m/d/Y', $value['order']['created']); @endphp
+                        @foreach ($value['order']['items'] as $order_key => $item)
+                        <tr>
+                            <td>{{ $created }}</td>
+                            <td>{{ $item->description }}</td>
+                            <td>{{ money_format('%.2n', ($value['order']['total_amount'] / 100)) }}</td>
+                            @if (array_key_exists('charge_object', $value['order']))
+                                @php
+                                    $card_icon = ((array_key_exists($value['order']['charge_object']->source->brand, $cc)) ? $cc[$value['order']['charge_object']->source->brand] : 'credit-card');
+                                 @endphp
+                                <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['order']['charge_object']->source->last4 }}</td>
+                            @else
+                                <td>N/A</td>
+                            @endif
+                        </tr>
+                        @endforeach
+                    @endforeach
+                </table>
+            @else
+                <p>No orders.</p>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
             <h4>Subscription History</h4>
             @if (count($transactions['subscriptions']) > 0)
                 <table>
@@ -146,41 +181,6 @@
                 </table>
             @else
                 <p>No subscription payments.</p>
-            @endif
-         </div>
-     </div>
-    <div class="row">
-        <div class="col s12">
-            <h4>Order History</h4>
-            @if (isset($transactions['orders']) && count($transactions['orders']) > 0)
-                <table>
-                    <thead>
-                        <th>Date</th>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Card</th>
-                    </thead>
-                    @foreach ($transactions['orders'] as $key => $value)
-                        @php $created = date('m/d/Y', $value['order']['created']); @endphp
-                        @foreach ($value['order']['items'] as $order_key => $item)
-                        <tr>
-                            <td>{{ $created }}</td>
-                            <td>{{ $item->description }}</td>
-                            <td>{{ money_format('%.2n', ($value['order']['total_amount'] / 100)) }}</td>
-                            @if (array_key_exists('charge_object', $value['order']))
-                                @php
-                                    $card_icon = ((array_key_exists($value['order']['charge_object']->source->brand, $cc)) ? $cc[$value['order']['charge_object']->source->brand] : 'credit-card');
-                                 @endphp
-                                <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['order']['charge_object']->source->last4 }}</td>
-                            @else
-                                <td>N/A</td>
-                            @endif
-                        </tr>
-                        @endforeach
-                    @endforeach
-                </table>
-            @else
-                <p>No orders.</p>
             @endif
         </div>
     </div>

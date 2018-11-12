@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="input-field col s12 m6" id="payment-method-wrapper">
+            <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}" id="payment-method-wrapper">
                 <select class="" name="payment_method" id="payment-method">
                     @if (count($payment_methods) > 0)
                         @foreach ($payment_methods as $index => $method)
@@ -49,7 +49,7 @@
                 </select>
                 <label for="payment-method">Payment method</label>
             </div>
-            <div class="input-field col s12 m6">
+            <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}">
                 <button id="add-cc-button" type="button" class="btn btn-medium sbs-red">Add card</button>
             </div>
         </div>
@@ -63,9 +63,14 @@
                     </div>
                     <div class="row hide-on-med-and-up">
                         <div class="col s12">
-                            <p class="black-text">{{ $product_option->product->name }}</p>
-                            <p class="black-text">{{ $product_option->name }}</p>
-                            <p class="black-text">{{ $product_option->description }}</p>
+                            @if ($product_type == 'webinar')
+                                <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
+                                <p class="black-text">{{ $product_option->name }} ({{ $product_option->description }})</p>
+                                <p class="black-text">{{ $product_option->product->description }}</p>
+                            @else
+                                <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
+                                <p class="black-text">{{ $product_option->product->description }}</p>
+                            @endif
                         </div>
                     </div>
                     <div class="row hide-on-med-and-up center-align">
@@ -86,9 +91,14 @@
                             <img style="width: 120px; margin: 0 auto;" class="responsive-img" src={{ $product_option->product->primaryImage()->getURL('medium') }} />
                         </div>
                         <div class="col s8">
-                            <p class="black-text">{{ $product_option->product->name }}</p>
-                            <p class="black-text">{{ $product_option->name }}</p>
-                            <p class="black-text">{{ $product_option->description }}</p>
+                            @if ($product_type == 'webinar')
+                                <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
+                                <p class="black-text">{{ $product_option->name }} ({{ $product_option->description }})</p>
+                                <p class="black-text">{{ $product_option->product->description }}</p>
+                            @else
+                                <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
+                                <p class="black-text">{{ $product_option->product->description }}</p>
+                            @endif
                         </div>
                         <div class="col s2">
                             @if ($product_option->price > 0)
@@ -107,15 +117,18 @@
         </div>
         <div class="row">
             <div class="col s12">
-                @php
-                    $date = new DateTime('NOW');
-                @endphp
-                <!--<p style="color: #EB2935;">*Your membership will be billed monthly begging on the {{ $date->format('jS') }} of this month.</p>-->
+                @if ($product_type == 'membership')
+                    <p style="color: #EB2935; margin-bottom: 20px;">*Your membership will be billed monthly begging one month after date of checkout.</p>
+                @endif
             </div>
         </div>
         <div class="row">
-            <div class="col s12 center-align">
-                <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Pay Now</button>
+            <div class="col s12 center-align" style="margin-bottom: 50px;">
+                @if ($product_type == 'webinar')
+                    <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">RSVP Now</button>
+                @else
+                    <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Pay Now</button>
+                @endif
             </div>
         </div>
     </form>
