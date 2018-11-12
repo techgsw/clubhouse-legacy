@@ -6,7 +6,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/mentorship-white.png" />
             <h4 class="header">Sports Industry Mentors</h4>
-            <p>Everyone here is currently working in sports and is willing to talk with you.</p>
+            <p>Our clubhouse mentors all work in sports and are ready to offer advice in an effort to help you succeed.</p>
         </div>
     </div>
 @endsection
@@ -17,7 +17,8 @@
 <div class="container">
     <div class="row">
         <div class="col s12 center-align">
-            <h4>Find a mentor by searching below and begin a conversation today!</h4>
+            <h4>Find your mentor below and begin a conversation today!</h4>
+            <p class="sbs-red-text">*In order to make connections quicker for you, we request that Clubhouse Pros only request two Mentor conversations per week</p>
         </div>
     </div>
     <div class="row">
