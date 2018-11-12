@@ -5,7 +5,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/job-board-white.png" />
             <h4 class="header">Membership Options</h4>
-            <p>theClubhouse is the new home for aspiring and current sports business professionals to network, learn and grow their career in sports.</p>
+            <p>Your journey to sports industry success starts today! Choose the option that works best for you below.</p>
         </div>
     </div>
 @endsection
