@@ -67,7 +67,7 @@
                 <select id="day_preference_1" name="day_preference_1" class="browser-default">
                     <option value="">-</option>
                     <option value="monday" {{ old('day_preference_1') == 'monday' ? 'selected' : $contact->mentor->day_preference_1 == 'monday' ? 'selected' : '' }}>Monday</option>
-                    <option value="tuesday" {{ old('day_preference_1') == 'tuesday' ? 'selected' : $contact->mentor->day_preference_1 == 'tuesday' ? 'selected' : '' }}>Tuesady</option>
+                    <option value="tuesday" {{ old('day_preference_1') == 'tuesday' ? 'selected' : $contact->mentor->day_preference_1 == 'tuesday' ? 'selected' : '' }}>Tuesday</option>
                     <option value="wednesday" {{ old('day_preference_1') == 'wednesday' ? 'selected' : $contact->mentor->day_preference_1 == 'wednesday' ? 'selected' : '' }}>Wednesday</option>
                     <option value="thursday" {{ old('day_preference_1') == 'thursday' ? 'selected' : $contact->mentor->day_preference_1 == 'thursday' ? 'selected' : '' }}>Thursday</option>
                     <option value="friday" {{ old('day_preference_1') == 'friday' ? 'selected' : $contact->mentor->day_preference_1 == 'friday' ? 'selected' : '' }}>Friday</option>
@@ -87,7 +87,7 @@
                 <select id="day_preference_2" name="day_preference_2" class="browser-default">
                     <option value="">-</option>
                     <option value="monday" {{ old('day_preference_2') == 'monday' ? 'selected' : $contact->mentor->day_preference_2 == 'monday' ? 'selected' : '' }}>Monday</option>
-                    <option value="tuesday" {{ old('day_preference_2') == 'tuesday' ? 'selected' : $contact->mentor->day_preference_2 == 'tuesday' ? 'selected' : '' }}>Tuesady</option>
+                    <option value="tuesday" {{ old('day_preference_2') == 'tuesday' ? 'selected' : $contact->mentor->day_preference_2 == 'tuesday' ? 'selected' : '' }}>Tuesday</option>
                     <option value="wednesday" {{ old('day_preference_2') == 'wednesday' ? 'selected' : $contact->mentor->day_preference_2 == 'wednesday' ? 'selected' : '' }}>Wednesday</option>
                     <option value="thursday" {{ old('day_preference_2') == 'thursday' ? 'selected' : $contact->mentor->day_preference_2 == 'thursday' ? 'selected' : '' }}>Thursday</option>
                     <option value="friday" {{ old('day_preference_2') == 'friday' ? 'selected' : $contact->mentor->day_preference_2 == 'friday' ? 'selected' : '' }}>Friday</option>
@@ -107,7 +107,7 @@
                 <select id="day_preference_3" name="day_preference_3" class="browser-default">
                     <option value="">-</option>
                     <option value="monday" {{ old('day_preference_3') == 'monday' ? 'selected' : $contact->mentor->day_preference_3 == 'monday' ? 'selected' : '' }}>Monday</option>
-                    <option value="tuesday" {{ old('day_preference_3') == 'tuesday' ? 'selected' : $contact->mentor->day_preference_3 == 'tuesday' ? 'selected' : '' }}>Tuesady</option>
+                    <option value="tuesday" {{ old('day_preference_3') == 'tuesday' ? 'selected' : $contact->mentor->day_preference_3 == 'tuesday' ? 'selected' : '' }}>Tuesday</option>
                     <option value="wednesday" {{ old('day_preference_3') == 'wednesday' ? 'selected' : $contact->mentor->day_preference_3 == 'wednesday' ? 'selected' : '' }}>Wednesday</option>
                     <option value="thursday" {{ old('day_preference_3') == 'thursday' ? 'selected' : $contact->mentor->day_preference_3 == 'thursday' ? 'selected' : '' }}>Thursday</option>
                     <option value="friday" {{ old('day_preference_3') == 'friday' ? 'selected' : $contact->mentor->day_preference_3 == 'friday' ? 'selected' : '' }}>Friday</option>

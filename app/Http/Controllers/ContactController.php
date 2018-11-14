@@ -297,17 +297,14 @@ class ContactController extends Controller
                 $icon = "error"
             ));
         } else {
-            if ($current_org) {
+            $current_org = $contact->organizations->first();
+            if (!is_null($current_org)) {
                 $contact->organizations()->detach($current_org->id);
             }
         }
         $contact->organization = request('organization');
         $contact->job_seeking_type = request('job_seeking_type');
         $contact->job_seeking_status = request('job_seeking_status');
-
-        if (!is_null($resume)) {
-            $contact->resume_url = $resume;
-        }
 
         $request->session()->flash('message', new Message(
             "Contact saved",

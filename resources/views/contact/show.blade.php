@@ -18,7 +18,9 @@
         @endif
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
-        <li class="tab"><a class="" href="/user/{{ $contact->user->id }}/account">Account</a></li>
+        @if (!is_null($contact->user))
+            <li class="tab"><a class="" href="/user/{{ $contact->user->id }}/account">Account</a></li>
+        @endif
         @can ('view-contact')
             <li class="tab"><a class="active" href="/contact/{{ $contact->id }}">Contact</a></li>
         @endcan

@@ -91,7 +91,9 @@
                 @foreach ($posts as $post)
                     <div class="col s12 m4" style="padding: 0 30px;">
                         <div class="col s12 about-cards">
-                            <a href="/post/{{ $post->title_url}}" class="no-underline"><img class="img-responsive" style="" src="{{ $post->images->first()->getURL('medium') }}" /></a>
+                            @if (!is_null($post->images->first()))
+                                <a href="/post/{{ $post->title_url}}" class="no-underline"><img class="img-responsive" style="" src="{{ $post->images->first()->getURL('medium') }}" /></a>
+                            @endif
                         </div>
                         <div class="col s12">
                             <h5 style="margin-top: 0; margin-bottom: 10px; display: block;"><a href="/post/{{ $post->title_url }}" class="no-underline">{{ $post->title }}</a></h5>
@@ -117,11 +119,11 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <div class="carousel carousel-slider center" data-indicators="true" style="height: 300px;">
+                    <div class="carousel carousel-slider center" data-indicators="true" style="height: 400px;">
                         @if (count($mentors) > 0)
                             @foreach ($mentors as $index => $mentor)
                                 @if ($index % 2 == 0)
-                                    <div class="carousel-item" style="min-height: 300px;" href="#">
+                                    <div class="carousel-item" style="min-height: 400px;" href="#">
                                         <div class="row">
                                 @endif
                                 <div class="col s6">
@@ -138,7 +140,11 @@
                                         <h4 style="margin-bottom: 0px;"><a class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
                                         <p style="margin-top: 0px; margin-bottom: 0px;"><strong>{{ $mentor->contact->getTitle() }}</strong></p>
                                         @if ($mentor->contact->organizations()->first())
-                                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('medium') }}" class="responsive-img hide-on-small-only" style="margin-top: -30px; margin-left: -55px; max-width: 200px; max-height: 200px;" />
+                                            @if (!is_null($mentor->contact->organizations()->first()->image))
+                                                <div class="col s12 m6" style="padding-left: 0;">
+                                                    <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" class="responsive-img hide-on-small-only" style="margin-top: 15px;" />
+                                                </div>
+                                            @endif
                                         @endif
                                         <!--<p style="margin-top: 5px;">{{ $mentor->description }}</p>-->
                                     </div>

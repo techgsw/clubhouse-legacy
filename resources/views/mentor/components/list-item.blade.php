@@ -15,16 +15,18 @@
         </div>
         <div class="center-align">
             <h4 style="min-height: 60px;"><a href="{{ $mentor->getUrl() }}" class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
-            <a href="{{ $mentor->getUrl() }}" class="no-underline"><p style="min-height: 70px;" class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p></a>
+            <a href="{{ $mentor->getUrl() }}" class="no-underline"><p style="min-height: 70px; font-size: 13px;" class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p></a>
             <br />
             @if ($mentor->contact->organizations()->first())
-                <a href="{{ $mentor->getUrl() }}" class="no-underline">
-                    <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" class="responsive-img" style="margin-top: -65px;" />
-                </a>
+                @if (!is_null($mentor->contact->organizations()->first()->image))
+                    <a href="{{ $mentor->getUrl() }}" class="no-underline">
+                        <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" class="responsive-img" style="margin-top: -20px; max-height: 100px;" />
+                    </a>
+                @endif
             @endif
             <!--<p>{{ $mentor->description }}</p>-->
             <div class="small" style="margin-top: 12px; text-align: center;">
-                <div style="margin-top: -40px">
+                <div style="margin-top: -10px">
                     @can ('view-clubhouse')
                         @php
                             $timezones = array(

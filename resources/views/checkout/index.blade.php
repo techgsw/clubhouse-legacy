@@ -16,7 +16,7 @@
             @elseif ($product_type == 'webinar')
                 <p><strong>Thank you for your interest in {{ $product_option->product->name }}. Just a few more steps and you are all set.</strong></p>
             @else
-                <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you are all set.</strong></p>
+                <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you'll be ready to begin your <span class="sbs-red-text">30 day Free Trial</span>.</strong></p>
             @endif
         </div>
     </div>
@@ -81,7 +81,7 @@
                                 @can ('view-clubhouse')
                                     <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
                                 @else
-                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ' / Month' : '') }}</span></h4>
                                 @endcan
                             @else
                                 <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
@@ -109,7 +109,7 @@
                                 @can ('view-clubhouse')
                                     <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
                                 @else
-                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
+                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ' / Month' : '') }}</span></h4>
                                 @endcan
                             @else
                                 <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
@@ -122,7 +122,7 @@
         <div class="row">
             <div class="col s12">
                 @if ($product_type == 'membership')
-                    <p style="color: #EB2935; margin-bottom: 20px;">*Your membership will be billed monthly begging one month after date of checkout.</p>
+                    <p style="color: #EB2935; margin-bottom: 20px;">*Your membership will be billed monthly beginning one month after date of checkout.</p>
                 @endif
             </div>
         </div>
@@ -130,6 +130,8 @@
             <div class="col s12 center-align" style="margin-bottom: 50px;">
                 @if ($product_type == 'webinar')
                     <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">RSVP Now</button>
+                @elseif ($product_type == 'membership')
+                    <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Begin Now</button>
                 @else
                     <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Pay Now</button>
                 @endif

@@ -40,7 +40,7 @@
             </div>
             <div class="col s12">
                 <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
-                <input id="organization" type="text" class="validate {{ $errors->has('organization') ? 'invalid' : '' }}" name="organization" value="{{ old('organization') }}" required>
+                <input id="organization" type="text" class="organization-autocomplete validate {{ $errors->has('organization') ? 'invalid' : '' }}" name="organization" value="{{ old('organization') }}" required>
             </div>
             <div class="col s12">
                 <div class="file-field input-field">

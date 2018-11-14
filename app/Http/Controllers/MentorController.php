@@ -21,7 +21,7 @@ class MentorController extends Controller
             ->where('active', true)
             ->search($request)
             ->select('contact.*', 'mentor.*')
-            ->paginate(12);
+            ->paginate(15);
 
         $tags = Tag::has('mentors')->get();
 
