@@ -29,7 +29,7 @@
     <div class="row">
         <div class="col s12">
             <input id="terms" name="terms" type="checkbox" required>
-            <label for="terms">I agree to the terms of service.</label>
+            <label for="terms">I agree to the <a target="_blank" href="/documents/Sports-Business-Solutions-Terms-of-Service.pdf">terms of service</a>.</label>
         </div>
         <div class="col s12">
             <div class="g-recaptcha" style="transform:scale(0.65);-webkit-transform:scale(0.65);transform-origin:0 0;-webkit-transform-origin:0 0; margin-top: 10px;" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>

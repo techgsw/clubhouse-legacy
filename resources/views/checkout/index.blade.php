@@ -58,7 +58,9 @@
                 <div class="card-panel grey lighten-5 z-depth-1">
                     <div class="row hide-on-med-and-up">
                         <div class="col s12 center-align">
-                            <img style="width: 120px; margin: 0 auto;" class="responsive-img" src={{ $product_option->product->primaryImage()->getURL('medium') }} />
+                            @if (!is_null($product_option->product->primaryImage()))
+                                <img style="width: 120px; margin: 0 auto;" class="responsive-img" src="{{ $product_option->product->primaryImage()->getURL('medium') }}" />
+                            @endif
                         </div>
                     </div>
                     <div class="row hide-on-med-and-up">
@@ -88,7 +90,9 @@
                     </div>
                     <div class="row valign-wrapper hide-on-small-only">
                         <div class="col s2">
-                            <img style="width: 120px; margin: 0 auto;" class="responsive-img" src={{ $product_option->product->primaryImage()->getURL('medium') }} />
+                            @if (!is_null($product_option->product->primaryImage()))
+                                <img style="width: 120px; margin: 0 auto;" class="responsive-img" src={{ $product_option->product->primaryImage()->getURL('medium') }} />
+                            @endif
                         </div>
                         <div class="col s8">
                             @if ($product_type == 'webinar')

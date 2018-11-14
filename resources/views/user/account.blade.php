@@ -39,7 +39,7 @@
         <div class="col s12 m12 l6">
             {{ csrf_field() }}
             <h4>Subscriptions</h4>
-            @if (count($stripe_user->subscriptions->data) > 0)
+            @if (!is_null($stripe_user) && !is_null($stripe_user->subscriptions) && count($stripe_user->subscriptions->data) > 0)
                 <table>
                     <thead>
                         <th>Name</th>
@@ -65,7 +65,7 @@
             {{ csrf_field() }}
             <h4 style="display: inline-block;">Cards</h4>
             <a id="add-cc-button" class="btn btn-small sbs-red right" style="margin-top: 15px;"><li class="fa fa-plus"></li> CARD</a>
-            @if (count($stripe_user->sources) > 0)
+            @if (!is_null($stripe_user) && !is_null($stripe_user->subscriptions) && count($stripe_user->sources) > 0)
                 <table>
                     <thead>
                         <th>Card</th>
