@@ -109,6 +109,13 @@ class UserController extends Controller
         }
         $this->authorize('edit-user', $user);
 
+        $request->session()->flash('message', new Message(
+            "Complete your profile so we can get you more of the information you want and keep you in mind for future jobs and events in sports.",
+            "info",
+            $code = null,
+            $icon = "error"
+        ));
+
         return view('user/edit', [
             'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$user->id}", 'Edit' => "/user/{$user->id}/edit"],
             'user' => $user

@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <p>Reserved for our <strong><a class="no-underline" href="/membership-options">Clubhouse Pro</a></strong> memebers, these virtual events are a chance for you to interact with some of the most respected sports industry professionals in the business.</p>
+            <p>Reserved for our <strong><a class="no-underline" href="/membership-options">Clubhouse Pro</a></strong> members, these virtual events are a chance for you to interact with some of the most respected sports industry professionals in the business.</p>
             <p>The guest speakers and members of the Clubhouse leadership team will have a conversation about topics in sports business, and you can follow along from the comfort of your phone or home computer!  You can message in questions and we’ll ask them on air in real time. After, you will be emailed a recording of the show to keep on file for future reference.</p>
             <p>This is the most affordable way to meet, and learn from, some of the very best in the sports business industry. Hope to see you there!</p>
             <br />

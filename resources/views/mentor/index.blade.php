@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col s12 center-align">
             <h4>Find your mentor below and begin a conversation today!</h4>
-            <p class="sbs-red-text">*In order to make connections quicker for you, we request that Clubhouse Pros only request two Mentor conversations per week</p>
+            <p class="sbs-red-text">*In order to make connections quicker for you, we ask that Clubhouse Pros only request two Mentor conversations per week.</p>
         </div>
     </div>
     <div class="row">

@@ -22,7 +22,7 @@
                         @else
                             <div style="padding: 25px">
                                 @can ('view-clubhouse')
-                                    <h5 class="black-text" style="margin-top: 20px">Thanks for being a ClubhousePro!</h5>
+                                    <h5 class="black-text" style="margin-top: 20px">Thanks for being a Clubhouse Pro!</h5>
                                     <p class="black-text">Make the most out of your premium membership by completing your profile, talking with industry professionals and participating in our live webinars.</p>
                                     <div class="col s6 center-align">
                                         <a href="/mentor" class="no-underline">
