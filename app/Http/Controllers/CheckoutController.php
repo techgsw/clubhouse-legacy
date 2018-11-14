@@ -8,6 +8,7 @@ use App\Mail\UserPaidCareerService;
 use App\Mail\UserPaidWebinar;
 use App\Message;
 use App\Role;
+use App\RoleUser;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
 use App\Providers\StripeServiceProvider;
@@ -199,6 +200,12 @@ class CheckoutController extends Controller
             $stripe_customer = StripeServiceProvider::getCustomer($user);
             StripeServiceProvider::cancelUserSubscription($request['subscription_id']);
             $subscriptions = StripeServiceProvider::getCustomer($user)->subscriptions;
+
+            // Remove clubhouse role from user
+            $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
+            if ($role) {
+                $role->delete();
+            }
         } Catch (Exception $e) {
             Log::error($e);
         }
