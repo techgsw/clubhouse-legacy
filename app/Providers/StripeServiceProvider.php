@@ -244,7 +244,7 @@ class StripeServiceProvider extends ServiceProvider
                         'plan' => $plan_id,
                     )
                 ),
-                //'trial_period_days' => 30
+                'trial_period_days' => 30
             )
         );
 

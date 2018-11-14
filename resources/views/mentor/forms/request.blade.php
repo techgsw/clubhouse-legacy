@@ -27,8 +27,8 @@
                 <option value="1030">10:30 AM</option>
                 <option value="1100">11:00 AM</option>
                 <option value="1130">11:30 AM</option>
-                <option value="1200">12:00 AM</option>
-                <option value="1230">12:30 AM</option>
+                <option value="1200">12:00 PM</option>
+                <option value="1230">12:30 PM</option>
                 <option value="1300">1:00 PM</option>
                 <option value="1330">1:30 PM</option>
                 <option value="1400">2:00 PM</option>
