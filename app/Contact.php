@@ -17,6 +17,16 @@ class Contact extends Model
         'follow_up_date'
     ];
 
+    public function headshotImage()
+    {
+        return $this->belongsTo(Image::class);
+    }
+
+    public function mentor()
+    {
+        return $this->hasOne(Mentor::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

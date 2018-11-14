@@ -14,13 +14,14 @@ $.valHooks.textarea = {
 
 (function () {
     var Auth = {};
-    var Blog = {};
     var Contact = {};
     var Form = {
         unsaved: false
     };
     var Instagram = {};
     var League = {};
+    var Markdown = {};
+    var Mentor = {};
     var Note = {};
     var Organization = {};
     var Tag = {
@@ -40,13 +41,14 @@ $.valHooks.textarea = {
         });
     }
 
-    Blog.init = function () {
-        var editor = $(".markdown-editor");
-        if (!editor) {
-            return;
+    Markdown.createEditor = function (input) {
+        input = $(input);
+        var editor = $("#"+input.attr('editor-id'));
+        if (editor.length === 0) {
+            editor = $(".markdown-editor");
         }
-        var input = $("textarea.markdown-input");
-        if (!input) {
+        if (editor.length === 0) {
+            console.error("No markdown editor for input", input);
             return;
         }
         var placeholder = editor.attr('placeholder');
@@ -74,6 +76,22 @@ $.valHooks.textarea = {
                 buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
             }
         });
+    }
+
+    Markdown.init = function () {
+        var inputs = $("textarea.markdown-input");
+        if (inputs.length === 0) {
+            return;
+        }
+        inputs.each(function (i, input) {
+            Markdown.createEditor(input);
+        });
+    }
+    SBS.initializeMarkdownEditors = function () {
+        Markdown.init();
+    }
+    SBS.createMarkdownEditor = function (input) {
+        Markdown.createEditor(input);
     }
 
     Contact.scheduleFollowUp = function (data) {
@@ -570,11 +588,11 @@ $.valHooks.textarea = {
         });
     }
 
-    Tag.addToPost = function (name, input, view) {
-        // Append to input
-        var tags = JSON.parse(input.val());
+    Tag.addToEntity = function (name, json_input, view) {
+        // Append to JSON input
+        var tags = JSON.parse(json_input.val());
         tags.push(name);
-        $(input).val(JSON.stringify(tags));
+        $(json_input).val(JSON.stringify(tags));
         // Append to view
         var tag =
             `<span class="flat-button gray small tag">
@@ -583,14 +601,14 @@ $.valHooks.textarea = {
         $(view).append(tag);
     }
 
-    Tag.removeFromPost = function (name, input, view) {
-        // Remove from input
-        var tags = JSON.parse(input.val());
+    Tag.removeFromEntity = function (name, json_input, view) {
+        // Remove from JSON input
+        var tags = JSON.parse(json_input.val());
         var i = tags.indexOf(name);
         if (i > -1) {
             tags.splice(i, 1);
         }
-        input.val(JSON.stringify(tags));
+        json_input.val(JSON.stringify(tags));
         // Remove from view
         var button = $('button[tag-name="'+name+'"]');
         if (button) {
@@ -601,20 +619,33 @@ $.valHooks.textarea = {
     Tag.init = function () {
         var tag_autocomplete = $('input.tag-autocomplete');
         if (tag_autocomplete.length > 0) {
-            Tag.getOptions().done(function (data) {
-                var tags = {}
-                data.forEach(function (t) {
-                    Tag.map[t.name] = t.slug;
-                    tags[t.name] = "";
-                });
-                var x = tag_autocomplete.autocomplete({
-                    data: tags,
-                    limit: 10,
-                    onAutocomplete: function (val) {
-                        Tag.addToPost(val, $('input#post-tags-json'), $('.post-tags'));
-                        tag_autocomplete.val("");
-                    },
-                    minLength: 2,
+            tag_autocomplete.each(function (i, element) {
+                var autocomplete = $(element);
+                var json_input = $("#"+$(autocomplete).attr('target-input-id'));
+                if (json_input.length === 0) {
+                    console.warn("Missing JSON input element for tags");
+                }
+
+                var view_element = $("#"+$(autocomplete).attr('target-view-id'));
+                if (view_element.length === 0) {
+                    console.warn("Missing view element for tags");
+                }
+
+                Tag.getOptions().done(function (data) {
+                    var tags = {}
+                    data.forEach(function (t) {
+                        Tag.map[t.name] = t.slug;
+                        tags[t.name] = "";
+                    });
+                    var x = autocomplete.autocomplete({
+                        data: tags,
+                        limit: 10,
+                        onAutocomplete: function (val) {
+                            Tag.addToEntity(val, json_input, view_element);
+                            autocomplete.val("");
+                        },
+                        minLength: 2,
+                    });
                 });
             });
         }
@@ -708,7 +739,7 @@ $.valHooks.textarea = {
                 e.preventDefault();
             }
         },
-        'form#create-tag'
+        'form.prevent-default'
     )
 
     $('body').on(
@@ -717,21 +748,33 @@ $.valHooks.textarea = {
                 if (e.keyCode != 13) {
                     return;
                 }
+
+                var json_input = $("#"+$(this).attr('target-input-id'));
+                if (json_input.length === 0) {
+                    console.warn("Missing JSON input element for tags");
+                }
+
+                var view_element = $("#"+$(this).attr('target-view-id'));
+                if (view_element.length === 0) {
+                    console.warn("Missing view element for tags");
+                }
+
                 var input = $(this);
                 var name = $(this).val();
                 if (!name || name == "") {
                     return;
                 }
+
                 // Tag already exists in map. Add it and clear input.
                 if (Tag.map[name] !== undefined) {
-                    Tag.addToPost(name, $('input#post-tags-json'), $('.post-tags'));
+                    Tag.addToEntity(name, json_input, view_element);
                     tag_autocomplete.val("");
                     return;
                 }
                 // Create new tag, add it, and clear input.
                 Tag.create(name).done(function (resp) {
                     var tag_name = resp.tag.name;
-                    Tag.addToPost(tag_name, $('input#post-tags-json'), $('.post-tags'));
+                    Tag.addToEntity(tag_name, json_input, view_element);
                     input.val("");
                 });
             }
@@ -743,11 +786,21 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var name = $(this).attr('tag-name');
+                var json_input = $("#"+$(this).attr('target-input-id'));
+                var view_element = $(this).parent().parent();
+                Tag.removeFromEntity(name, json_input, view_element);
+            }
+        },
+        'span.tag button.remove-tag'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var name = $(this).attr('tag-name');
                 if (name == null) {
                     var user_id = $(this).attr('admin-user-id');
                     ContactRelationship.removeRelationship(user_id);
-                } else {
-                    Tag.removeFromPost(name, $('input#post-tags-json'), $('.post-tags'));
                 }
             }
         },
@@ -1437,7 +1490,7 @@ $.valHooks.textarea = {
     SBS.UI.removeMessage = UI.removeMessage;
 
     SBS.init = function () {
-        Blog.init();
+        Markdown.init();
         Instagram.init();
         Note.init();
         League.init();
@@ -1453,9 +1506,42 @@ $.valHooks.textarea = {
             );
         }
     }
+
+    // Move Registration Form
+    $(window).resize(function() {
+        var wrapper_top = $('#registration-form-wrapper-top'),
+            wrapper_bottom = $('#registration-form-wrapper-bottom'),
+            registration_form = $('#registration-form-wrapper');
+        if ($(window).width() <= 585 && $(wrapper_bottom).html() == '') {
+            $(registration_form).detach(); 
+            $(wrapper_top).html('');
+            $(wrapper_bottom).append(registration_form);
+        }
+        if ($(window).width() > 585 && $(wrapper_top).html() == '') {
+            $(registration_form).detach(); 
+            $(wrapper_bottom).html('');
+            $(wrapper_top).append(registration_form);
+        }
+    });
+    $(window).resize();
 })();
 
 $(document).ready(function () {
+    // Rotating words
+    var rotate = function() {
+        var rotating_words = ['learn', 'give back', 'connect', 'share', 'grow'];
+        var rotating_word = $('#rotating-word');
+        var index = rotating_words.indexOf($(rotating_word).html());
+        if (index == rotating_words.length -1) {
+            index = 0;
+        } else {
+            index += 1;
+        }
+        $(rotating_word).html(rotating_words[index]);
+    }
+
+    setInterval(rotate, 3000);
+
     // Carousels
     var Carousel = {}
     Carousel.autoplay_id;
@@ -1471,18 +1557,22 @@ $(document).ready(function () {
     }
     var carousel = $('.carousel.carousel-slider');
     if (carousel) {
-        carousel.carousel({
-            fullWidth: true,
-            indicators: true,
-            duration: 300,
-            onCycleTo : function(item, dragged) {
-                Carousel.stopAutoplay();
-                Carousel.startAutoplay(carousel);
-            }
-        });
+        try {
+            carousel.carousel({
+                fullWidth: true,
+                indicators: true,
+                duration: 300,
+                onCycleTo : function(item, dragged) {
+                    Carousel.stopAutoplay();
+                    Carousel.startAutoplay(carousel);
+                }
+            });
+        } catch (e) {
+        }
     }
-    // Size Nav
-    $('.button-collapse').sideNav();
+    // Side Nav
+    $('.button-collapse-default').sideNav();
+    $('.button-collapse-custom').sideNav();
     // Select fields
     $('select').material_select();
     // Collapsible elements

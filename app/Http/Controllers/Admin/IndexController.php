@@ -6,7 +6,9 @@ use App\Contact;
 use App\Email;
 use App\Image;
 use App\Job;
+use App\Mentor;
 use App\Post;
+use App\Product;
 use App\Question;
 use App\Answer;
 use App\User;
@@ -53,6 +55,8 @@ class IndexController extends Controller
         $image_count = Image::all()->count();
         $email_count = Email::all()->count();
         $organization_count = Organization::all()->count();
+        $mentor_count = Mentor::where('active', true)->count();
+        $product_count = Product::all()->count();
 
         return view('admin.index', [
             'contact_count' => $contact_count,
@@ -71,6 +75,8 @@ class IndexController extends Controller
             'image_count' => $image_count,
             'email_count' => $email_count,
             'organization_count' => $organization_count,
+            'mentor_count' => $mentor_count,
+            'product_count' => $product_count,
         ]);
     }
 }

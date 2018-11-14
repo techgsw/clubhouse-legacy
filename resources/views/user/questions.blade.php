@@ -1,5 +1,5 @@
 <!-- /resources/views/user/questions.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Questions')
 @section('content')
 <div class="container">
@@ -24,6 +24,11 @@
     <ul class="nav-tabs" style="margin-bottom: 12px;">
         @can ('view-contact')
             <li class="tab"><a href="/contact/{{ $user->contact->id }}">Contact</a></li>
+        @endcan
+        @can ('view-mentor')
+            @if ($user->contact->mentor)
+                <li class="tab"><a href="/contact/{{ $user->contact->id }}/mentor">Mentor</a></li>
+            @endif
         @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">Jobs</a></li>

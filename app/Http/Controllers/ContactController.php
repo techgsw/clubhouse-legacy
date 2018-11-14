@@ -6,6 +6,7 @@ use App\Address;
 use App\AddressContact;
 use App\Contact;
 use App\ContactRelationship;
+use App\Mentor;
 use App\Message;
 use App\Note;
 use App\Organization;
@@ -13,6 +14,7 @@ use App\Http\Requests\CreateNote;
 use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
 use App\Http\Requests\ScheduleFollowUp;
+use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -173,49 +175,127 @@ class ContactController extends Controller
         }
         $this->authorize('edit-contact', $contact);
 
-        $address = $contact->address[0];
-        if (!$address) {
-            return abort(404);
-        }
+        $image_error = false;
 
-        // Contact
-        $resume = null;
-        if ($request->hasFile('resume')) {
-            try {
-                $resume = request()->file('resume');
-                if ($resume) {
-                    $resume = $resume->store('resume', 'public');
+        try {
+            DB::transaction(function () use ($request, $contact) {
+                if ($headshot = request()->file('headshot_url')) {
+                    $image = ImageServiceProvider::saveFileAsImage(
+                        $headshot,
+                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $contact->first_name.'-'.$contact->last_name)).'-SportsBusinessSolutions',
+                        $directory = 'contact/'.$contact->id,
+                        $options = [
+                            'cropFromCenter' => true,
+                            'update' => $contact->headshotImage ?: null
+                        ]
+                    );
+
+                    $contact->headshot_image_id = $image->id;
+                    $contact->save();
                 }
-            } catch (Exception $e) {
-                Log::error($e->getMessage());
-                $request->session()->flash('message', new Message(
-                    "Sorry, the resume you tried to upload failed.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
-                return back()->withInput();
-            }
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $image_error = true;
         }
 
-        $contact->first_name = request('first_name');
-        $contact->last_name = request('last_name');
-        $contact->phone = request('phone')
-            ? preg_replace("/[^\d]/", "", request('phone'))
-            : null;
-        // TODO 101 allow this?
-        // $contact->email = request('email');
-        $contact->title = request('title');
-        // ContactOrganization relationship
-        $current_org = $contact->organizations->first();
-        $new_org = Organization::where('name', request('organization'))->first();
-        if (!empty($new_org) && (empty($current_org) || $current_org->id != $new_org->id)) {
-            $contact->organizations()->attach($new_org->id);
-            if (!empty($current_org)) {
+        $contact = DB::transaction(function () use ($request, $contact) {
+            $address = $contact->address[0];
+            if (!$address) {
+                return abort(404);
+            }
+
+            // Contact
+            $resume = null;
+            if ($request->hasFile('resume')) {
+                try {
+                    $resume = request()->file('resume');
+                    if ($resume) {
+                        $resume = $resume->store('resume', 'public');
+                    }
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
+                    $request->session()->flash('message', new Message(
+                        "Sorry, the resume you tried to upload failed.",
+                        "danger",
+                        $code = null,
+                        $icon = "error"
+                    ));
+                    return back()->withInput();
+                }
+            }
+
+            $contact->first_name = request('first_name');
+            $contact->last_name = request('last_name');
+            $contact->phone = request('phone')
+                ? preg_replace("/[^\d]/", "", request('phone'))
+                : null;
+
+            // TODO 101 allow this?
+            // $contact->email = request('email');
+
+            $contact->title = request('title');
+            // ContactOrganization relationship
+            $current_org = $contact->organizations->first();
+            $new_org = Organization::where('name', request('organization'))->first();
+            if (!empty($new_org) && (empty($current_org) || $current_org->id != $new_org->id)) {
+                $contact->organizations()->attach($new_org->id);
+                if (!empty($current_org)) {
+                    $contact->organizations()->detach($current_org->id);
+                }
+            } elseif ($contact->organization == request('organization')) {
+                // No change, no action
+            } elseif (!empty($current_org)) {
                 $contact->organizations()->detach($current_org->id);
             }
-        } elseif ($contact->organization == request('current_organization')) {
-            // No change, no action
+            $contact->organization = request('organization');
+            $contact->job_seeking_type = request('job_seeking_type');
+            $contact->job_seeking_status = request('job_seeking_status');
+            if (!is_null($resume)) {
+                $contact->resume_url = $resume;
+            }
+            $contact->updated_at = new \DateTime('NOW');
+            $contact->save();
+
+            // Address
+            $address->line1 = request('line1');
+            $address->line2 = request('line2');
+            $address->city = request('city');
+            $address->state = request('state');
+            $address->postal_code = request('postal_code');
+            $address->country = request('country');
+            $address->updated_at = new \DateTime('NOW');
+            $address->save();
+
+            // Mentor
+            if (request('mentor') == "1") {
+                if (is_null($contact->mentor)) {
+                    // Create mentor
+                    $mentor = new Mentor;
+                    $mentor->contact_id = $contact->id;
+                    $mentor->active = true;
+                    $mentor->save();
+                } elseif (!$contact->mentor->active) {
+                    // Activate mentor
+                    $contact->mentor->active = true;
+                    $contact->mentor->save();
+                }
+            } else if (!is_null($contact->mentor)) {
+                // Deactivate mentor
+                $contact->mentor->active = false;
+                $contact->mentor->save();
+            }
+
+            return $contact;
+        });
+
+        if ($image_error) {
+            $request->session()->flash('message', new Message(
+                "Sorry, the image failed to upload. Please try a different image.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
         } else {
             if ($current_org) {
                 $contact->organizations()->detach($current_org->id);
@@ -224,21 +304,17 @@ class ContactController extends Controller
         $contact->organization = request('organization');
         $contact->job_seeking_type = request('job_seeking_type');
         $contact->job_seeking_status = request('job_seeking_status');
+
         if (!is_null($resume)) {
             $contact->resume_url = $resume;
         }
-        $contact->updated_at = new \DateTime('NOW');
-        $contact->save();
 
-        // Address
-        $address->line1 = request('line1');
-        $address->line2 = request('line2');
-        $address->city = request('city');
-        $address->state = request('state');
-        $address->postal_code = request('postal_code');
-        $address->country = request('country');
-        $address->updated_at = new \DateTime('NOW');
-        $address->save();
+        $request->session()->flash('message', new Message(
+            "Contact saved",
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
 
         return redirect()->action('ContactController@show', [$contact]);
     }

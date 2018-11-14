@@ -2,7 +2,9 @@
     <div class="col s12">
         <div style="display: flex; flex-flow: row;">
             <div style="flex: 0 0 auto;">
-                @if (!is_null($contact->user))
+                @if ($contact->headshotImage)
+                    <img src={{ $contact->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
+                @elseif (!is_null($contact->user))
                     @if ($contact->user->profile->headshotImage)
                         <img src={{ $contact->user->profile->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" />
                     @endif

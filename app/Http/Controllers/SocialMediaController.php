@@ -11,6 +11,10 @@ class SocialMediaController extends Controller
 
     public function instagram(Request $request)
     {
-        return SocialMediaServiceProvider::getInstagramFeed(view('layouts.components.instagram-feed'));
+        if (preg_match('/clubhouse/', $request->url())) {
+            return SocialMediaServiceProvider::getInstagramFeed(view('layouts.components.instagram-feed'), 'clubhouse');
+        } else {
+            return SocialMediaServiceProvider::getInstagramFeed(view('layouts.components.instagram-feed'));
+        }
     }
 }

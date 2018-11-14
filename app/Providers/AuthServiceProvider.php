@@ -62,6 +62,12 @@ class AuthServiceProvider extends ServiceProvider
             return $auth_user->id == $user->id || $auth_user->hasAccess('profile_edit');
         });
 
+
+        // Clubhouse member 
+        Gate::define('view-clubhouse', function ($auth_user) {
+            return $auth_user->hasAccess('clubhouse_view');
+        });
+
         // Q&A
         Gate::define('view-question-index', function ($user) {
             return $user->hasAccess('question_index');
@@ -202,6 +208,31 @@ class AuthServiceProvider extends ServiceProvider
         // Emails
         Gate::define('edit-email', function ($user) {
             return $user->hasAccess('email_edit');
+        });
+
+        // Mentor
+        Gate::define('view-mentor', function ($auth_user) {
+            return $auth_user->hasAccess('mentor_show');
+        });
+        Gate::define('edit-mentor', function ($auth_user) {
+            return $auth_user->hasAccess('mentor_edit');
+        });
+        Gate::define('create-mentor', function ($auth_user) {
+            return $auth_user->hasAccess('mentor_create');
+        });
+
+        // Product
+        Gate::define('admin-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_admin');
+        });
+        Gate::define('view-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_show');
+        });
+        Gate::define('edit-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_edit');
+        });
+        Gate::define('create-product', function ($auth_user) {
+            return $auth_user->hasAccess('product_create');
         });
     }
 }

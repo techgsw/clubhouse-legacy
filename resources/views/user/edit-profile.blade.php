@@ -1,5 +1,5 @@
 <!-- /resources/views/user/profile/edit.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Edit User Profile')
 @section('content')
 <div class="container">

@@ -49,8 +49,8 @@ class JobController extends Controller
 
         return view('job/index', [
             'breadcrumb' => [
-                'Home' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
+                'Clubhouse' => '/',
+                'Sports Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
             'jobs' => $jobs,
             'searching' => $searching,
@@ -74,7 +74,7 @@ class JobController extends Controller
             'organization' => $organization,
             'leagues' => League::all(),
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubouse' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 'Post a job' => '/job/create'
             ]
@@ -226,7 +226,7 @@ class JobController extends Controller
             'inquiries' => $inquiries,
             'profile_complete' => $profile_complete,
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 "$job->title with $job->organization_name" => "/job/{$job->id}"
             ]
@@ -446,7 +446,7 @@ class JobController extends Controller
             'reuse_organization_fields' => $reuse_organization_fields,
             'description' => $pd->text($job->description),
             'breadcrumb' => [
-                'Home' => '/',
+                'Clubhouse' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 "{$job->organization_name} - {$job->title}" => "/job/{$job->id}",
                 "Edit" => "/job/{$job->id}/edit"

@@ -31,7 +31,7 @@
                 <h4>Career Services</h4>
                 <p>With a combined 20 years of sports business industry success we not only understand how to get a job in sports, but how to be great and grow your career once you do.</p>
             </div>
-            <a href="/career-services" class="btn" style="margin-top: 30px;">Learn more</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn" style="margin-top: 30px;">Learn more</a>
         </div>
     </div>
     <div class="row hide-on-med-and-up">

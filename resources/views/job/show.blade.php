@@ -1,5 +1,5 @@
 <!-- /resources/views/job/show.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', "$job->title with $job->organization_name")
 @section('description', "$job->description")
 @section('url', Request::fullUrl())
@@ -80,7 +80,7 @@
                 @endif
             @else
                 <div class="input-field">
-                    <a href="/register" class="btn sbs-red">Join to apply</a>
+                    <a href="/" class="btn sbs-red">Join to apply</a>
                 </div>
             @endcan
         </div>

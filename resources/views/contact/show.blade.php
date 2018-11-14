@@ -1,5 +1,5 @@
 <!-- /resources/views/contact/show.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Contact')
 @section('content')
 <div class="container">
@@ -18,13 +18,19 @@
         @endif
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
+        <li class="tab"><a class="" href="/user/{{ $contact->user->id }}/account">Account</a></li>
         @can ('view-contact')
             <li class="tab"><a class="active" href="/contact/{{ $contact->id }}">Contact</a></li>
+        @endcan
+        @can ('view-mentor')
+            @if ($contact->mentor)
+                <li class="tab"><a href="/contact/{{ $contact->id }}/mentor">Mentor</a></li>
+            @endif
         @endcan
         @if ($contact->user)
             <li class="tab"><a href="/user/{{ $contact->user->id }}/profile">Profile</a></li>
             <li class="tab"><a href="/user/{{ $contact->user->id }}/jobs">Jobs</a></li>
-            <li class="tab"><a href="/user/{{ $contact->user->id }}/questions">Q&A</a></li>
+            <!--<li class="tab"><a href="/user/{{ $contact->user->id }}/questions">Q&A</a></li>-->
         @endif
     </ul>
     @can ('add-contact-relationship')
@@ -132,6 +138,27 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col s6 center-align">
+                                <div class="file-field input-field very-small">
+                                    <div class="btn white black-text">
+                                        <span>Headshot</span></span>
+                                        <input type="file" name="headshot_url" value="{{ old('headshot_url') }}">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" name="headshot_url_text" value="{{ old('headshot_url_text') }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @can ('create-mentor')
+                            <div class="input-field col s12">
+                                <p>
+                                    <input type="checkbox" name="mentor" id="mentor" value="1" {{ is_null(old('mentor')) ? ($contact->mentor && $contact->mentor->active ? "checked" : "") : (old('mentor') ? "checked" : "") }} />
+                                    <label for="mentor">Mentor</label>
+                                </p>
+                            </div>
+                        @endcan
                     </div>
                 </li>
             </ul>

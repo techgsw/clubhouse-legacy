@@ -11,13 +11,17 @@
 </script>
 
 <!--  Scripts-->
-<script type="text/javascript" src="/js/jquery-2.2.4.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script type="text/javascript" src="https://player.vimeo.com/api/player.js"></script>
-<script type="text/javascript" src="/js/materialize.js"></script>
-<script type="text/javascript" src="/js/medium-editor.js"></script>
-<script type="text/javascript" src="/js/me-markdown.standalone.min.js"></script>
-<script type="text/javascript" src="/js/dropzone.js"></script>
-<script type="text/javascript" src="/js/moment.min.js"></script>
-<script type="text/javascript" src="/js/daterangepicker.js"></script>
-<script type="text/javascript" src="/js/sbs.js?v=24"></script>
+<script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script src="/js/materialize.js"></script>
+<script src="/js/medium-editor.js"></script>
+<script src="/js/me-markdown.standalone.min.js"></script>
+<script src="/js/dropzone.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/daterangepicker.js"></script>
+@if (Request::is('checkout/*') || Request::is('*/account'))
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/js/checkout.js?v=1"></script>
+@endif
+<script src="/js/sbs.js?v=23"></script>

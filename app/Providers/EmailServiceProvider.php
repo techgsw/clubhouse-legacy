@@ -6,11 +6,13 @@ use Mail;
 use App\Email;
 use App\Inquiry;
 use App\Job;
+use App\Mentor;
 use App\User;
 use App\Mail\NewUserFollowUp;
 use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\RegistrationNotification;
 use App\Mail\Admin\RegistrationSummary;
+use App\Mail\MentorshipRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
@@ -70,6 +72,21 @@ class EmailServiceProvider extends ServiceProvider
         foreach ($users->get() as $user) {
             Mail::to($user)->send(new NewUserFollowUp($user));
         }
+    }
+
+    public static function sendMentorshipRequestEmails(User $mentee, Mentor $mentor, array $dates)
+    {
+        // Confirm request with user
+        Mail::to($mentee)->send(new MentorshipRequest($mentor, $mentee, $dates));
+
+        // Alert admins about request
+        $users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'mentorship_requests')
+            ->select('user.*')
+            ->get();
+
+        Mail::to($users)->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
     }
 
     public static function addToMailchimp(User $user)

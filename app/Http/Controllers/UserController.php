@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUser;
+use App\Providers\StripeServiceProvider;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -24,6 +26,39 @@ class UserController extends Controller
         $this->authorize('view-user', $user);
 
         return redirect("/user/{$id}/profile");
+    }
+
+    public function account(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return abort(404);
+        }
+        $this->authorize('view-user', $user);
+
+        try {
+            $stripe_user = StripeServiceProvider::getCustomer($user);
+        } catch (Exception $e) {
+            Log::error($e);
+            $request->session()->flash('message', new Message(
+                "Sorry, we are currently unable to display your account information.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+        }
+
+        $transactions = StripeServiceProvider::getUserTransactions($user);
+
+        return view('user/account', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Account' => "/user/{$user->id}/account"
+            ],
+            'user' => $user,
+            'stripe_user' => $stripe_user,
+            'transactions' => $transactions
+        ]);
     }
 
     public function jobs(Request $request, $id)
@@ -73,6 +108,13 @@ class UserController extends Controller
             return abort(404);
         }
         $this->authorize('edit-user', $user);
+
+        $request->session()->flash('message', new Message(
+            "Complete your profile so we can get you more of the information you want and keep you in mind for future jobs and events in sports.",
+            "info",
+            $code = null,
+            $icon = "error"
+        ));
 
         return view('user/edit', [
             'breadcrumb' => ['Home' => '/', 'Profile' => "/user/{$user->id}", 'Edit' => "/user/{$user->id}/edit"],

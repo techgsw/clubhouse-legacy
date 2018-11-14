@@ -1,6 +1,14 @@
-<!-- /resources/views/job/edit.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Job Board')
+@section('hero')
+    <div class="row hero bg-image job-board">
+        <div class="col s12">
+            <img class="responsive-img" src="/images/clubhouse/job-board-white.png" />
+            <h4 class="header">Sports Job Board</h4>
+            <p>Here are some of the most sought-after jobs in sports. Apply today!</p>
+        </div>
+    </div>
+@endsection
 @section('content')
 <div class="container">
     <div style="margin-bottom: 12px;">
@@ -20,15 +28,15 @@
             @php
                 $featured = true;
             @endphp
-            <div style="border: 3px solid #EB2935; border-radius: 4px; margin-bottom: 16px; padding: 0;">
-                <h3 style="text-transform: uppercase; letter-spacing: 0.6px; font-size: 16px; color: #EB2935; margin: 0; padding: 20px 0 18px 18px;">Featured jobs</h3>
+            <!--<div style="border: 3px solid #EB2935; border-radius: 4px; margin-bottom: 16px; padding: 0;">
+                <h3 style="text-transform: uppercase; letter-spacing: 0.6px; font-size: 16px; color: #EB2935; margin: 0; padding: 20px 0 18px 18px;">Featured jobs</h3>-->
         @endif
         @foreach ($jobs as $job)
             @if ($featured && !$job->featured)
                 @php
                     $featured = false;
                 @endphp
-                </div>
+                <!--</div>-->
             @endif
             @include('components.job-list-item', ['job' => $job])
         @endforeach

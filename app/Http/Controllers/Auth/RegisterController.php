@@ -17,6 +17,7 @@ use App\Traits\ReCaptchaTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/membership-options';
 
     /**
      * Create a new controller instance.
@@ -56,6 +57,7 @@ class RegisterController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:user',
             'password' => 'required|min:6|confirmed',
+            'terms' => 'required',
             'g-recaptcha-response' => 'required',
             'recaptcha' => 'required|min:1'
         ];
@@ -65,8 +67,10 @@ class RegisterController extends Controller
             'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
             'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
             'unique' => 'That :attribute has already been taken.',
+            'terms' => 'Sorry, you must agree to our terms of service.',
             'required' => 'Sorry, :attribute is a required field.',
             'password.min.string' => 'Passwords must be at least 6 characters long',
+            'confirmed' => 'Sorry, it looks like your passwords do not match.',
             'min' => 'Sorry, :attribute must be at least 6 characters long',
         ];
 
@@ -123,6 +127,13 @@ class RegisterController extends Controller
                 'address_id' => $address->id,
                 'contact_id' => $contact->id
             ]);
+
+            Session::flash('message', new Message(
+                "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
 
             return $user;
         });
