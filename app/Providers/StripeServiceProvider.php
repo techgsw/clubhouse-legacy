@@ -260,7 +260,7 @@ class StripeServiceProvider extends ServiceProvider
         $subscription->cancel();
     }
 
-    public static function purchaseSku(User $user, string $source_token, string $sku_id)
+    public static function purchaseSku(User $user, string $source_token, string $sku_id, $description = null)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
@@ -269,7 +269,8 @@ class StripeServiceProvider extends ServiceProvider
         $items = array(
             array(
                 'type' => 'sku',
-                'parent' => $sku_id 
+                'parent' => $sku_id,
+                'description' => (!is_null($description) ? $description : 'Clubhouse product')
             )
         );
 

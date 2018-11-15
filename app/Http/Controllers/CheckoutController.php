@@ -102,8 +102,13 @@ class CheckoutController extends Controller
         try {
             $checkout_type;
             if (preg_match('/sku/', $request['stripe_product_id'])) {
-                $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
                 $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
+                $order = StripeServiceProvider::purchaseSku(
+                    $user,
+                    $request['payment_method'],
+                    $request['stripe_product_id'],
+                    $product_option->product->title
+                );
                 try {
                     foreach ($product_option->product->tags as $tag) {
                         if ($tag->slug == 'career-service') {
