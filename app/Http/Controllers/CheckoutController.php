@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Mail;
+use App\Mail\UserPaid;
 use App\Mail\UserPaidClubhousePro;
 use App\Mail\UserPaidCareerService;
 use App\Mail\UserPaidWebinar;
