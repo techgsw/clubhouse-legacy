@@ -133,7 +133,7 @@ class CheckoutController extends Controller
                 $roles = Role::where('code', 'clubhouse')->get();
                 $user->roles()->attach($roles);
                 try {
-                    Mail::to($user)->send(new UserPaid($user, $product_option));
+                    Mail::to($user)->send(new UserPaid($user, $product_option, 7));
                     Mail::to($user)->send(new UserPaidClubhousePro($user));
                     $checkout_type = 'membership';
                 } catch (\Exception $e) {
