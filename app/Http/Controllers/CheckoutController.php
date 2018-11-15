@@ -235,14 +235,17 @@ class CheckoutController extends Controller
             case 'career-service':
                 $view = 'career-service-thanks';
                 $breadcrumb = 'Career Service';
+                $link = '/career-services';
                 break;
             case 'webinar':
                 $view = 'webinar-thanks';
                 $breadcrumb = 'Webinar';
+                $link = '/webinars';
                 break;
             case 'membership':
                 $view = 'membership-thanks';
                 $breadcrumb = 'Membership';
+                $link = '/membership-options';
                 break;
             default:
                 $view = 'thanks';
@@ -253,8 +256,8 @@ class CheckoutController extends Controller
         return view('checkout/'.$view, [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Checkout' => '/checkout',
-                $breadcrumb => '/checkout',
+                'Checkout' => '',
+                $breadcrumb => $link,
                 'Thanks' => ''
             ],
             'product_option' => $product_option
