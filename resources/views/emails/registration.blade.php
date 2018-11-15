@@ -8,12 +8,12 @@
         <p>Now that you’re a member of our community, here are some ways you can get the most out of <span style="color: #EB2935;">the</span>Clubhouse:</p>
         <p>
             <ul>
-                <li>Complete <a href="{{ config('app.url') }}/user/{{ $user->id }}">your profile</a>. Upload your resume and your career preferences, so you can connect with the right people and be kept in mind for career opportunities down the road.</li>
-                <li>Head over to the <a href="{{ config('app.url') }}/job">Job Board</a> if you’re interested in looking for a new job in sports!</li>
-                <li>Browse our <a href="{{ config('app.url') }}/carrer-services">Career Services</a>. Our team has been successful in sports and they can help you pave a path to industry success.</li>
+                <li>Complete <a href="{{ env('CLUBHOUSE_URL') }}/user/{{ $user->id }}">your profile</a>. Upload your resume and your career preferences, so you can connect with the right people and be kept in mind for career opportunities down the road.</li>
+                <li>Head over to the <a href="{{ env('CLUBHOUSE_URL') }}/job">Job Board</a> if you’re interested in looking for a new job in sports!</li>
+                <li>Browse our <a href="{{ env('CLUBHOUSE_URL') }}/carrer-services">Career Services</a>. Our team has been successful in sports and they can help you pave a path to industry success.</li>
             </ul>
         </p>
-        <p>At anytime you can choose to <a href="{{ config('app.url') }}">become a Clubhouse Pro</a>, and your <strong>free 30-day trial</strong> will unlock a number of more personalized and immersive opportunities for you!  You’ll have exclusive access to industry pros, private events, and discounts including:</p>
+        <p>At anytime you can choose to <a href="{{ env('CLUBHOUSE_URL') }}">become a Clubhouse Pro</a>, and your <strong>free 30-day trial</strong> will unlock a number of more personalized and immersive opportunities for you!  You’ll have exclusive access to industry pros, private events, and discounts including:</p>
         <p>
             <ul>
                 <li>1:1 mentorship where you can set up time to chat with sports industry professionals directly.</li>
