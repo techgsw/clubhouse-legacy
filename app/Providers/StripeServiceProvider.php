@@ -268,7 +268,6 @@ class StripeServiceProvider extends ServiceProvider
 
         $items = array(
             array(
-                'object' => 'order_item',
                 'type' => 'sku',
                 'parent' => $sku_id
             )

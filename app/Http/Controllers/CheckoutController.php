@@ -105,6 +105,8 @@ class CheckoutController extends Controller
                 $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
                 $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
                 try {
+                    $product_option->quantity = $product_option->quantity - 1;
+                    $product_option->save();
                     foreach ($product_option->product->tags as $tag) {
                         if ($tag->slug == 'career-service') {
                             Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
