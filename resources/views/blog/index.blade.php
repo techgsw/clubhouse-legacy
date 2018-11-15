@@ -104,19 +104,23 @@
                 <input type="hidden" name="tag" value="{{ request('tag') }}">
             </form>
             <!-- Tags -->
+            <!--
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
                     <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
+            -->
         </div>
         <div class="col s12 hide-on-med-and-up">
             <!-- Tags -->
+            <!--
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
                     <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black small" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
+            -->
         </div>
     </div>
 </div>
