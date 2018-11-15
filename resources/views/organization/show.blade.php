@@ -1,5 +1,5 @@
 <!-- /resources/views/organization/show.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', "$organization->name")
 @section('content')
 <div class="container" style="padding-bottom: 40px;">

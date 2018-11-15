@@ -1,5 +1,5 @@
 <!-- /resources/views/organization/index.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Organizations')
 @section('content')
 <div class="container">

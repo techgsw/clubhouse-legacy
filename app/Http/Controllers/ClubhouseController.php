@@ -27,6 +27,7 @@ class ClubhouseController extends Controller
 
         $mentors = Mentor::with('contact')
             ->where('active', true)
+            ->limit(20)
             ->get();
 
         $webinars = Product::where('active', true)->with('options')->whereHas('tags', function ($query) {

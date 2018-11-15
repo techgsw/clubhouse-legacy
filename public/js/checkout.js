@@ -1,7 +1,7 @@
 (function() {
     var stripe, elements, style, card, tokenHandler;
 
-    stripe = Stripe('pk_test_s7EussOnEB5d3pO2DYORDuSg');
+    stripe = Stripe('pk_live_WBFtbPA408xPssD1IebnyWDV');
     elements = stripe.elements();
 
     var style = {
