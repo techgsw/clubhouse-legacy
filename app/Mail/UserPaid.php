@@ -15,16 +15,18 @@ class UserPaid extends Mailable
 
     public $user;
     public $product_option;
+    public $amount;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, ProductOption $product_option)
+    public function __construct(User $user, ProductOption $product_option, $amount)
     {
         $this->user = $user;
         $this->product_option = $product_option;
+        $this->amount = ($amount > 0 ? $amount / 100 : 0);
     }
 
     /**

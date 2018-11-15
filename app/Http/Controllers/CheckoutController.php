@@ -112,7 +112,7 @@ class CheckoutController extends Controller
                     Log::error($e->getMessage());
                 }
                 try {
-                    Mail::to($user)->send(new UserPaid($user, $product_option));
+                    Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
                     foreach ($product_option->product->tags as $tag) {
                         if ($tag->slug == 'career-service') {
                             Mail::to($user)->send(new UserPaidCareerService($user, $product_option));

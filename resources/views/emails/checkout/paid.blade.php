@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ $date->format('Y-m-d') }}</td>
                 <td>{{ $product_option->product->name }}</td>
-                <td>{{ money_format('%.2n', $product_option->price) }}</td>
+                <td>{{ money_format('%.2n', $amount) }}</td>
             </tr>
         </table>
         <br />

@@ -5,7 +5,7 @@
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
         <p>Thanks for purchasing one of our Clubhouse Career Services! We’ve got you signed up for the following session:</p>
-        <p>{{ $product_option->product->name }} - {{ money_format('%2n', $product_option->price) }}</p>
+        <p>{{ $product_option->product->name }}</p>
         <p>Here’s what happens next:</p>
         <ul>
             <li>Within three business days, a member of our Clubhouse team will reach out directly via email to find a date and time for your session.</li>
