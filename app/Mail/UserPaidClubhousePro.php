@@ -32,7 +32,7 @@ class UserPaidClubhousePro extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Welcome to theClubhouse')
+            ->subject('Thank you for becoming a Clubhouse Pro!')
             ->markdown('emails.checkout.paid-clubhouse-pro');
     }
 }
