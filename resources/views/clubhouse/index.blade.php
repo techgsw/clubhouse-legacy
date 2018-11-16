@@ -40,7 +40,7 @@
                                         <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red" style="margin-top: 20px; margin-bottom: 20px;"> My Profile</a>
                                     </div>
                                 @else
-                                    <h5 class="black-text" style="margin-top: 20px;">Welcome to <span class="sbs-red-text">the</span>Clubhouse community!</h5>
+                                    <h5 class="black-text" style="margin-top: 20px;">We're glad you're here!</h5>
                                     <p class="black-text">Learn how you can become a Clubhouse Pro and take your game to the next level!</p>
                                     <p class="black-text">Some of the benefits include:</p>
                                     <ul class="browser-default">
