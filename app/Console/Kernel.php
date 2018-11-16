@@ -37,12 +37,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            $date = new \DateTime('now');
-            $date->sub(new \DateInterval('P2D'));
-            EmailServiceProvider::sendNewUserFollowUpEmails($date);
-        })->dailyAt('08:00');
-
-        $schedule->call(function () {
             $start = new \DateTime('yesterday');
             $start->setTime(17, 0, 0);
             $end = new \DateTime('today');
