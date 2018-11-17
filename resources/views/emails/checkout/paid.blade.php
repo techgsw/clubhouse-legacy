@@ -22,6 +22,9 @@
             </tr>
         </table>
         <br />
+        @if ($type == 'membership')
+            <p style="color: #EB2935; font-size: 12px">*Your membership will be billed monthly beginning one month after date of checkout.</p>
+        @endif
         <p>If you have any questions, please contact us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
         <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
     @endslot
