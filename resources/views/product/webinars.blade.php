@@ -28,7 +28,7 @@
             </div>
         @endforeach
     </div>
-    @if (count($inactive_products) > 0)
+    @if (count($inactive_products) > 10)
         <div class="row">
             <div class="col s12">
                 <h4 style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS</h4>

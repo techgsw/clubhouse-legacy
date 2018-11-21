@@ -1,7 +1,7 @@
 <!-- /resources/views/layouts/default.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
-    @include('layouts.components.head')
+    @include('layouts.components.clubhouse.head')
     <body>
         @include('layouts.components.clubhouse.header')
         <main>

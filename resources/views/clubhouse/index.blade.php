@@ -1,5 +1,5 @@
 @extends('layouts.clubhouse')
-@section('title', 'Careers in Sports')
+@section('title', 'Sports Industry Resource')
 @section('hero')
     <div class="row hero bg-image clubhouse">
         <div class="container">
