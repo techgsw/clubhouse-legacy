@@ -24,4 +24,4 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="/js/checkout.js?v=2"></script>
 @endif
-<script src="/js/sbs.js?v=24"></script>
+<script src="/js/sbs.js?v=25"></script>
