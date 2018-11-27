@@ -653,6 +653,7 @@ $.valHooks.textarea = {
 
     UI.initializeDatePicker = function() {
         $('.datepicker').pickadate({
+            format: 'yyyy-mm-dd',
             selectMonths: true,
             selectYears: 100,
             close: 'Ok',
@@ -1583,6 +1584,7 @@ $(document).ready(function () {
     $('.materialboxed').materialbox();
     // Material datepicker
     $('.datepicker').pickadate({
+        format: 'yyyy-mm-dd',
         selectMonths: true,
         selectYears: 100,
         close: 'Ok',
