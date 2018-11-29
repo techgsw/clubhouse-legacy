@@ -22,7 +22,7 @@
     </div>
     <div class="row hide-on-med-and-up">
         <div class="col s12 center-align">
-            <a href="/career-services" class="btn sbs-red">I'm a job seeker</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn sbs-red">I'm a job seeker</a>
         </div>
     </div>
     <div class="row hide-on-small-only">
@@ -30,7 +30,7 @@
             <a href="/services" class="btn btn-large sbs-red">I'm at a sports team</a>
         </div>
         <div class="col m6 left-align">
-            <a href="/career-services" class="btn btn-large sbs-red">I'm a job seeker</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn btn-large sbs-red">I'm a job seeker</a>
         </div>
     </div>
     <div class="row">
@@ -71,7 +71,7 @@
         <h3>Career Services</h3>
         <p>More than 300 colleges and universities are now offering degrees in sports management and the demand for jobs in sports has never been higher. We believe that with the right game plan and industry contacts, your dream job in sports is within reach. Let us give you the edge you need to compete for, and land, the most sought after jobs in sports.</p>
         <div class="input-field">
-            <a href="/services" class="btn btn-large sbs-red">Learn more</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn btn-large sbs-red">Learn more</a>
         </div>
     </div>
     <div class="sbs-col-6 bg-img services hide-on-small-only"></div>
