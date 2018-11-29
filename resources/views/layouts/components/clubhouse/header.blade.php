@@ -22,6 +22,8 @@
                     <a href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
                     <a href="https://www.linkedin.com/in/bob-hamer-b1ab703"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 </li>
+                <li><a href="{{ env('APP_URL') }}" style="text-transform: none; font-size: 18px;">Sports Business Solutions</a></li>
+                <li class="divider"></li>
                 <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/job">Job Board</a></li>
