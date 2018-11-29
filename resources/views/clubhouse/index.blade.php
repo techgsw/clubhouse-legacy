@@ -82,8 +82,10 @@
     <div class="container">
         <div class="row">
             <div class="col s12 center-align">
-                <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/digital-marketing.png" />
-                <h3>Sports Industry Blog</h3>
+                <a href="/blog" class="no-underline">
+                    <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/digital-marketing.png" />
+                    <h3>Sports Industry Blog</h3>
+                </a>
             </div>
         </div>
         <div class="row clubhouse-blog">
@@ -113,8 +115,10 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 center-align">
-                    <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/mentorship.png" />
-                    <h3>Sports Industry Mentors</h3>
+                    <a href="/mentor" class="no-underline">
+                        <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/mentorship.png" />
+                        <h3>Sports Industry Mentors</h3>
+                    </a>
                 </div>
             </div>
             <div class="row">
@@ -168,8 +172,10 @@
     <div class="container">
         <div class="row">
             <div class="col s12 center-align">
-                <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/job-board.png" />
-                <h3>Sports Job Board</h3>
+                <a href="/job" class="no-underline">
+                    <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/job-board.png" />
+                    <h3>Sports Job Board</h3>
+                </a>
             </div>
         </div>
         <div class="row">
@@ -209,8 +215,10 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 center-align">
-                    <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/event.png" />
-                    <h3>Educational Webinars</h3>
+                    <a href="/webinars" class="no-underline">
+                        <img class="" style="width: 100px; margin-top: 50px;" src="/images/clubhouse/event.png" />
+                        <h3>Educational Webinars</h3>
+                    </a>
                 </div>
             </div>
             <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
