@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Mail;
+use App\Mail\PurchaseNotification;
 use App\Mail\UserPaid;
 use App\Mail\UserPaidClubhousePro;
 use App\Mail\UserPaidCareerService;
@@ -111,31 +112,38 @@ class CheckoutController extends Controller
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
-                try {
-                    foreach ($product_option->product->tags as $tag) {
-                        if ($tag->slug == 'career-service') {
+                foreach ($product_option->product->tags as $tag) {
+                    if ($tag->slug == 'career-service') {
+                        try {
+                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, $order->amount));
                             Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
                             Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
-                            $checkout_type = 'career-service';
-                            break;
-                        } else if ($tag->slug == 'webinar') {
-                            Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
-                            $checkout_type = 'webinar';
-                            break;
+                        } catch (\Exception $e) {
+                            Log::error($e->getMessage());
                         }
+                        $checkout_type = 'career-service';
+                        break;
+                    } else if ($tag->slug == 'webinar') {
+                        try {
+                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option));
+                            Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
+                        } catch (\Exception $e) {
+                            Log::error($e->getMessage());
+                        }
+                        $checkout_type = 'webinar';
+                        break;
                     }
-                } catch (\Exception $e) {
-                    Log::error($e->getMessage());
                 }
             } else if (preg_match('/plan/', $request['stripe_product_id'])) {
                 $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
                 $product_option = ProductOption::with('product')->where('stripe_plan_id', $request['stripe_product_id'])->first();
                 $roles = Role::where('code', 'clubhouse')->get();
                 $user->roles()->attach($roles);
+                $checkout_type = 'membership';
                 try {
+                    Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option));
                     Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
                     Mail::to($user)->send(new UserPaidClubhousePro($user));
-                    $checkout_type = 'membership';
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }

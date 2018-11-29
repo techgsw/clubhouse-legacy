@@ -35,7 +35,7 @@ class AnswerController extends Controller
         try {
             Mail::to($question->user)->send(new AnswerSubmitted($answer, $question, $question->user));
 
-            Mail::to('bob@sportsbusiness.solutions')->send(
+            Mail::to('clubhouse@sportsbusiness.solutions')->send(
                 new InternalAlert(
                     'emails.internal.answer',
                     array(

@@ -32,7 +32,7 @@ class ContactUsController extends Controller
             return back()->withInput();
         }
 
-        $to = 'bob@sportsbusiness.solutions';
+        $to = 'clubhouse@sportsbusiness.solutions';
         $request->interested_in = null;
         if (request('about')) {
             switch (request('about')) {
