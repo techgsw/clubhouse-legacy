@@ -1,7 +1,7 @@
 (function() {
     var stripe, elements, style, card, tokenHandler;
 
-    stripe = Stripe('pk_live_WBFtbPA408xPssD1IebnyWDV');
+    stripe = Stripe(SBS.stripe_token);
     elements = stripe.elements();
 
     var style = {
