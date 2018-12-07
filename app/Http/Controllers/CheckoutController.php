@@ -116,7 +116,7 @@ class CheckoutController extends Controller
                 foreach ($product_option->product->tags as $tag) {
                     if ($tag->slug == 'career-service') {
                         try {
-                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, $order->amount));
+                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, $order->amount, 'career-service'));
                             Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
                             Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
                         } catch (\Exception $e) {
@@ -126,7 +126,7 @@ class CheckoutController extends Controller
                         break;
                     } else if ($tag->slug == 'webinar') {
                         try {
-                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option));
+                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'webinar'));
                             Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
                         } catch (\Exception $e) {
                             Log::error($e->getMessage());
@@ -142,7 +142,7 @@ class CheckoutController extends Controller
                 $user->roles()->attach($roles);
                 $checkout_type = 'membership';
                 try {
-                    Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option));
+                    Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
                     Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
                     Mail::to($user)->send(new UserPaidClubhousePro($user));
                 } catch (\Exception $e) {

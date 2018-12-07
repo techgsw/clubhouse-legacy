@@ -23,7 +23,7 @@ class PurchaseNotification extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, ProductOption $product_option, $amount, $type = null)
+    public function __construct(User $user, ProductOption $product_option, $amount = 0, $type = null)
     {
         $this->user = $user;
         $this->product_option = $product_option;
@@ -38,8 +38,24 @@ class PurchaseNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
-            ->subject('Purchase/RSVP Notification - theClubhouse')
-            ->markdown('emails.internal.purchase-notification');
+        switch ($this->type) {
+            case 'career-service':
+                return $this->from('app@sportsbusiness.solutions')
+                    ->subject('Career Service Purchase Notification - theClubhouse')
+                    ->markdown('emails.internal.purchase-notification');
+                break;
+            case 'webinar':
+                return $this->from('app@sportsbusiness.solutions')
+                    ->subject('Webinar RSVP Notification - theClubhouse')
+                    ->markdown('emails.internal.purchase-notification');
+                break;
+            case 'membership':
+                return $this->from('app@sportsbusiness.solutions')
+                    ->subject('Membership Purchase Notification - theClubhouse')
+                    ->markdown('emails.internal.purchase-notification');
+                break;
+            default:
+                return;
+        }
     }
 }

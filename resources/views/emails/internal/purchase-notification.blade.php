@@ -1,11 +1,17 @@
 @component('emails.layout')
     @slot ('title')
-        Purchase/RSVP Notification - theClubhouse
+        Career Service Purchase Notification - theClubhouse
     @endslot
     @php $date = new DateTime('NOW'); @endphp
     @slot('body')
         <p>Hey <span style="color: #EB2935;">the</span>Clubhouse Team,</p>
-        <p>{{ ucwords($user->first_name) }} {{ ucwords($user->last_name) }} ({{ $user->email }}) just purchased or RSVP'd for a product.</p>
+        @if ($type == 'career-service')
+            <p>{{ ucwords($user->first_name) }} {{ ucwords($user->last_name) }} ({{ $user->email }}) just purchased a career service.</p>
+        @elseif ($type == 'webinar')
+            <p>{{ ucwords($user->first_name) }} {{ ucwords($user->last_name) }} ({{ $user->email }}) just RSVP'd for a webinar.</p>
+        @elseif ($type == 'membership')
+            <p>{{ ucwords($user->first_name) }} {{ ucwords($user->last_name) }} ({{ $user->email }}) just signed up to be a Clubhouse Pro.</p>
+        @endif
         <p><strong>Summary:</strong></p>
         <table style="width: 100%; text-align: left; font-size: 14px;">
             <thead>
@@ -18,7 +24,11 @@
             <tr>
                 <td>{{ $date->format('Y-m-d') }}</td>
                 <td>{{ $product_option->product->name }}</td>
-                <td>{{ money_format('%.2n', $amount) }}</td>
+                @if ($type == 'career-service')
+                    <td>{{ money_format('%.2n', $amount) }}</td>
+                @else
+                    <td>N/A</td>
+                @endif
             </tr>
         </table>
         <br />
