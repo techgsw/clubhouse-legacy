@@ -23,8 +23,8 @@
         </div>
         <div class="col s12 m8 l9">
             <div class="row">
-                <div class="input-field col s12 m6">
-                    <input id="email" disabled value="{{ $user->email }}" />
+                <div class="input-field col s12 m6 {{ $errors->has('email') ? 'invalid' : '' }}">
+                    <input id="email" name="email" type="text" value="{{ $user->email }}">
                     <label for="email" class="active">Email</label>
                 </div>
                 <div class="input-field col s12 m6">

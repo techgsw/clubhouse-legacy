@@ -199,40 +199,51 @@ class ContactController extends Controller
             $image_error = true;
         }
 
-        $contact = DB::transaction(function () use ($request, $contact) {
-            $address = $contact->address[0];
-            if (!$address) {
-                return abort(404);
+        // Only allow users to change email to one that is not being used by another user
+        $email = request('email');
+        if ($email != $contact->email) {
+            $existing_contact_email = Contact::where('email', $email)->get();
+            if ($existing_contact_email->count() > 0) {
+                $request->session()->flash('message', new Message(
+                            "Sorry, that email is already taken.",
+                            "danger",
+                            $code = null,
+                            $icon = "error"
+                            ));
+                return back()->withInput();
             }
+        }
 
-            // Contact
-            $resume = null;
-            if ($request->hasFile('resume')) {
-                try {
-                    $resume = request()->file('resume');
-                    if ($resume) {
-                        $resume = $resume->store('resume', 'public');
-                    }
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
-                    $request->session()->flash('message', new Message(
-                        "Sorry, the resume you tried to upload failed.",
-                        "danger",
-                        $code = null,
-                        $icon = "error"
-                    ));
-                    return back()->withInput();
+        if (!$contact->address[0]) {
+            return abort(404);
+        }
+        // Contact
+        $resume = null;
+        if ($request->hasFile('resume')) {
+            try {
+                $resume = request()->file('resume');
+                if ($resume) {
+                    $resume = $resume->store('resume', 'public');
                 }
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                $request->session()->flash('message', new Message(
+                    "Sorry, the resume you tried to upload failed.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
             }
+        }
 
+        $contact = DB::transaction(function () use ($request, $contact, $resume) {
+            $contact->email = request('email');
             $contact->first_name = request('first_name');
             $contact->last_name = request('last_name');
             $contact->phone = request('phone')
                 ? preg_replace("/[^\d]/", "", request('phone'))
                 : null;
-
-            // TODO 101 allow this?
-            // $contact->email = request('email');
 
             $contact->title = request('title');
             // ContactOrganization relationship
@@ -258,6 +269,7 @@ class ContactController extends Controller
             $contact->save();
 
             // Address
+            $address = $contact->address[0];
             $address->line1 = request('line1');
             $address->line2 = request('line2');
             $address->city = request('city');
