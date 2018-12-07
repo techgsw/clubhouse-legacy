@@ -189,3 +189,13 @@
         'form#add-card'
     );
 })();
+$(document).ready(function () {
+    var payment_method = $('#payment-method');
+    if (payment_method && $(payment_method).children()) {
+        if ($(payment_method).children().length == 1) {
+            if ($(payment_method).children()[0].value == '') {
+                $('#add-cc-button').click();
+            }
+        }
+    }
+});

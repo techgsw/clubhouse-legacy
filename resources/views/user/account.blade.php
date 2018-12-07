@@ -61,6 +61,16 @@
                 <p>No active subscriptions.</p>
             @endif
         </div>
+        @php
+            $cc = array(
+                'Visa' => 'visa',
+                'American Express' => 'amex',
+                'MasterCard' => 'mastercard',
+                'JCB' => 'jcb',
+                'Discover' => 'discover',
+                'Diners Club' => 'diners-club'
+            ); 
+        @endphp
         <div class="col s12 m12 l6">
             {{ csrf_field() }}
             <h4 style="display: inline-block;">Cards</h4>
@@ -72,16 +82,6 @@
                         <th>Expiration</th>
                         <th>&nbsp;</th>
                     </thead>
-                    @php
-                        $cc = array(
-                            'Visa' => 'visa',
-                            'American Express' => 'amex',
-                            'MasterCard' => 'mastercard',
-                            'JCB' => 'jcb',
-                            'Discover' => 'discover',
-                            'Diners Club' => 'diners-club'
-                        ); 
-                    @endphp
                     @foreach ($stripe_user->sources->data as $key => $value)
                         @php
                             $card_icon = ((array_key_exists($value->brand, $cc)) ? $cc[$value->brand] : 'credit-card');
