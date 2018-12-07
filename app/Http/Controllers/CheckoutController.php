@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Mail;
 use App\Mail\PurchaseNotification;
+use App\Mail\CancelNotification;
 use App\Mail\UserPaid;
 use App\Mail\UserPaidClubhousePro;
 use App\Mail\UserPaidCareerService;
@@ -217,6 +218,12 @@ class CheckoutController extends Controller
             $stripe_customer = StripeServiceProvider::getCustomer($user);
             StripeServiceProvider::cancelUserSubscription($request['subscription_id']);
             $subscriptions = StripeServiceProvider::getCustomer($user)->subscriptions;
+
+            try {
+                Mail::to(env('CLUBHOUSE_EMAIL'))->send(new CancelNotification($user));
+            } catch (Exception $e) {
+                Log::error($e);
+            }
 
             // Remove clubhouse role from user
             $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
