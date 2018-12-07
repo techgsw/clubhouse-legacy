@@ -36,12 +36,14 @@
         </div>
         <div class="row">
             @foreach ($inactive_products as $product)
-                <div class="col s12">
-                    <ul class="browser-default">
-                        <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->description) !!}</span></li>
-                    </ul>
-                    
-                </div>
+                @if (!preg_match('/do not show/i', $product->name))
+                    <div class="col s12">
+                        <ul class="browser-default">
+                            <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->description) !!}</span></li>
+                        </ul>
+                        
+                    </div>
+                @endif
             @endforeach
         </div>
     @endif
