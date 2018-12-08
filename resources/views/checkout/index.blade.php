@@ -68,10 +68,10 @@
                             @if ($product_type == 'webinar')
                                 <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
                                 <p class="black-text">{{ $product_option->name }} ({{ $product_option->description }})</p>
-                                <p class="black-text">{{ $product_option->product->description }}</p>
+                                <p class="black-text">{{ $product_option->product->getCleanDescription() }}</p>
                             @else
                                 <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
-                                <p class="black-text">{{ $product_option->product->description }}</p>
+                                <p class="black-text">{{ $product_option->product->getCleanDescription() }}</p>
                             @endif
                         </div>
                     </div>
@@ -98,10 +98,10 @@
                             @if ($product_type == 'webinar')
                                 <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
                                 <p class="black-text">{{ $product_option->name }} ({{ $product_option->description }})</p>
-                                <p class="black-text">{{ $product_option->product->description }}</p>
+                                <p class="black-text">{{ $product_option->product->getCleanDescription() }}</p>
                             @else
                                 <p class="black-text"><strong>{{ $product_option->product->name }}</strong></p>
-                                <p class="black-text">{{ $product_option->product->description }}</p>
+                                <p class="black-text">{{ $product_option->product->getCleanDescription() }}</p>
                             @endif
                         </div>
                         <div class="col s2">

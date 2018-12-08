@@ -38,6 +38,19 @@ class Product extends Model
         return $this->images[0];
     }
 
+    public function getCleanDescription()
+    {
+        $description = $this->description;
+        return preg_replace('/sbs-embed-code=.+?(?=\s)/i', '', $description);
+    }
+
+    public function getEmbedCode()
+    {
+        preg_match('/sbs-embed-code=.+?(?=\s)/i', $this->description, $results);
+
+        return ((count($results) > 0) ? preg_replace('/sbs-embed-code=/i', '', $results[0]) : null);
+    }
+
     public function availableOptions($role_code = null)
     {
         if (is_null($role_code)) {
