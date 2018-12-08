@@ -28,7 +28,7 @@
             </div>
         @endforeach
     </div>
-    @if (count($inactive_products) > 10)
+    @if (count($inactive_products) > 0)
         <div class="row">
             <div class="col s12">
                 <h4 style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS</h4>
@@ -39,7 +39,7 @@
                 @if (!preg_match('/do not show/i', $product->name))
                     <div class="col s12">
                         <ul class="browser-default">
-                            <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->description) !!}</span></li>
+                            <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->getCleanDescription() ) !!}</span><a href="{{ $product->getURL(false, 'webinars') }}" class="btn sbs-red">View Webinar</a></li>
                         </ul>
                         
                     </div>

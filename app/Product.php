@@ -41,12 +41,12 @@ class Product extends Model
     public function getCleanDescription()
     {
         $description = $this->description;
-        return preg_replace('/sbs-embed-code=.+?(?=\s)/i', '', $description);
+        return preg_replace('/sbs-embed-code=.+?(?=(\s|$))/i', '', $description);
     }
 
     public function getEmbedCode()
     {
-        preg_match('/sbs-embed-code=.+?(?=\s)/i', $this->description, $results);
+        preg_match('/sbs-embed-code=.+?(?=(\s|$))/i', $this->description, $results);
 
         return ((count($results) > 0) ? preg_replace('/sbs-embed-code=/i', '', $results[0]) : null);
     }

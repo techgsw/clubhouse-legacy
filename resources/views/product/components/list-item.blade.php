@@ -10,7 +10,7 @@
         @endif
         <a href="/product/{{ $product->id }}" class="no-underline" style="flex: 0 0 auto;">
             <h4>{{ $product->name }}</h4>
-            <p>{{ strip_tags($pd->text($product->description)) }}</p>
+            <p>{{ strip_tags($pd->text($product->getCleanDescription())) }}</p>
             @foreach ($product->options as $option)
                 <div class="option" style="margin: 12px 0;">
                     <h6 style="font-weight: bold;">{{ $option->name }}</h6>
@@ -29,5 +29,6 @@
                 </div>
             @endcan
         </div>
+        {{ $product->getCleanDescription() }}
     </div>
 </div>
