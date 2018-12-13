@@ -11,6 +11,8 @@ use App\Mail\UserPaidCareerService;
 use App\Mail\UserPaidWebinar;
 use App\Message;
 use App\Role;
+use App\Transaction;
+use App\TransactionProductOption;
 use App\RoleUser;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
@@ -113,6 +115,20 @@ class CheckoutController extends Controller
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
+                // Add our own record of the transaction
+                try {
+                    $transaction = new Transaction;
+                    $transaction->user_id = $user->id;
+                    $transaction->price = $product_option->price;
+                    $transaction->save();
+
+                    $transaction_product_option = new TransactionProductOption;
+                    $transaction_product_option->transaction_id = $transaction->id;
+                    $transaction_product_option->product_option_id = $product_option->id;
+                    $transaction_product_option->save();
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
                 foreach ($product_option->product->tags as $tag) {
                     if ($tag->slug == 'career-service') {
                         try {
@@ -141,6 +157,20 @@ class CheckoutController extends Controller
                 $roles = Role::where('code', 'clubhouse')->get();
                 $user->roles()->attach($roles);
                 $checkout_type = 'membership';
+                // Add our own record of the transaction
+                try {
+                    $transaction = new Transaction;
+                    $transaction->user_id = $user->id;
+                    $transaction->price = $product_option->price;
+                    $transaction->save();
+
+                    $transaction_product_option = new TransactionProductOption;
+                    $transaction_product_option->transaction_id = $transaction->id;
+                    $transaction_product_option->product_option_id = $product_option->id;
+                    $transaction_product_option->save();
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
                 try {
                     Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
                     Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
