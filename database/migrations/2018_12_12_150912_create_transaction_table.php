@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Providers\StripeServiceProvider;
 use App\User;
+use App\Product;
 use App\ProductOption;
 use App\Transaction;
 use App\TransactionProductOption;
@@ -18,20 +19,42 @@ class CreateTransactionTable extends Migration
      */
     public function up()
     {
-        /*
-        CREATE TABLE `transaction` (
-            `id` int(10) NOT NULL AUTO_INCREMENT,
-            `user_id` int(10) NOT NULL,
-            `price` decimal(10,3) NOT NULL,
-            `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`),
-            UNIQUE KEY `id_UNIQUE` (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-        */
+
+        Schema::create('payment_type', function (Blueprint $table) {
+            $table->string('code')->unique();
+            $table->string('description');
+        });
+        // Insert Product Types
+        DB::table('payment_type')->insert(
+            array(
+                'code' => 'single',
+                'description' => 'Product is purchased one time.'
+            )
+        );
+        DB::table('payment_type')->insert(
+            array(
+                'code' => 'recurring',
+                'description' => 'Product is a recurring subscription.'
+            )
+        );
+
+        // Update product table to use payment_type
+        Schema::table('product', function (Blueprint $table) {
+            $table->string('payment_type_code')->default('single');
+            $table->foreign('payment_type_code')->references('code')->on('payment_type');
+        });
+
+        $clubhouse = Product::where('name','Clubhouse Pro Membership')->first();
+        $clubhouse->payment_type_code = 'recurring';
+        $clubhouse->save();
+
         Schema::create('transaction', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->decimal('price', 10, 2);
+            $table->string('stripe_charge_id')->nullable()->default(NULL);
+            $table->string('stripe_order_id')->nullable()->default(NULL);
+            $table->string('stripe_subscription_id')->nullable()->default(NULL);
             $table->foreign('user_id')->references('id')->on('user');
             $table->timestamps();
         });
@@ -106,6 +129,12 @@ class CreateTransactionTable extends Migration
      */
     public function down()
     {
+        Schema::table('product', function (Blueprint $table) {
+            $table->dropForeign(['payment_type_code']);
+            $table->dropColumn('payment_type_code');
+        });
+
+        Schema::dropIfExists('payment_type');
         Schema::dropIfExists('transaction_product_option');
         Schema::dropIfExists('transaction');
     }
