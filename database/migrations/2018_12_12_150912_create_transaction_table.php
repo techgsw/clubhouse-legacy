@@ -65,7 +65,7 @@ class CreateTransactionTable extends Migration
             $table->foreign('transaction_id')->references('id')->on('transaction');
             $table->foreign('product_option_id')->references('id')->on('product_option');
         });
-
+        
         User::whereNotNull('stripe_customer_id')->each(
             function ($user) {
                 $transactions = StripeServiceProvider::getUserTransactions($user);
@@ -77,13 +77,18 @@ class CreateTransactionTable extends Migration
                     $create_date = $order['created'];      // UNIX TIMESTAMP 
                     $item = $order['items'][0];            // At time of this migration only 1 item per order was allowed
                     $sku_id = $item->parent;
-                    $quantity = $item->quantity;
 
                     // Create transaction 
                     $transaction = new Transaction;
                     $transaction->user_id = $user->id;
                     $transaction->price = $total_price;
                     $transaction->created_at = (new DateTime())->setTimestamp($create_date);
+
+                    if (isset($order['charge_object'])) {
+                        $charge_object = $order['charge_object'];
+                        $transaction->stripe_charge_id = $charge_object->id;
+                        $transaction->stripe_order_id = $charge_object->order;
+                    }
                     $transaction->save();
 
                     // Create transaction_product_option
@@ -109,6 +114,12 @@ class CreateTransactionTable extends Migration
                     $transaction->user_id = $user->id;
                     $transaction->price = $amount;
                     $transaction->created_at = (new DateTime())->setTimestamp($create_date);
+                    $transaction->stripe_subscription_id = $sub->subscription;
+
+                    if (!is_null($sub->charge)) {
+                        $transaction->stripe_charge_id = $sub->charge->id;
+                    }
+
                     $transaction->save();
 
                     // Create transaction_product_option
