@@ -63,5 +63,30 @@
             </div>
         </div>
     </div>
+    @if (count($transactions) > 0)
+        <table class="striped">
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Purchase Date</th>
+                <th>Paid</th>
+            </thead>
+            <tbody>
+                @foreach ($transactions as $transaction)
+                    <tr>
+                        <td>{{ $transaction->first_name .  ' ' . $transaction->last_name }}</td>
+                        <td><a class="no-underline" href="mailto:{{ $transaction->email }}">{{ $transaction->email }}</a></td>
+                        <td>{{ $transaction->order_date }}</td>
+                        <td>${{ $transaction->price }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+    @include('layouts.components.messages')
+    <div class="row">
+        <div class="col s12">
+        </div>
+    </div>
 </div>
 @endsection

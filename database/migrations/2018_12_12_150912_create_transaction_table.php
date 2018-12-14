@@ -73,7 +73,7 @@ class CreateTransactionTable extends Migration
                 $subscriptions = (isset($transactions['subscription']) ? $transactions['subscription'] : array());
                 foreach ($orders as $order) {
                     $order = $order["order"];
-                    $total_price = $order['total_amount'];
+                    $total_price = $order['total_amount'] / 100;
                     $create_date = $order['created'];      // UNIX TIMESTAMP 
                     $item = $order['items'][0];            // At time of this migration only 1 item per order was allowed
                     $sku_id = $item->parent;
@@ -106,7 +106,7 @@ class CreateTransactionTable extends Migration
                     $invoice_line_item = $sub->lines->data[0];
                     // TIMESTAMP
                     $plan_id = $invoice_line_item->plan->id;
-                    $amount = $invoice_line_item->plan->amount;
+                    $amount = $invoice_line_item->plan->amount / 100;
                     $create_date = $sub->date;
                     
                     // Create transaction 
