@@ -120,6 +120,12 @@ class CheckoutController extends Controller
                     $transaction = new Transaction;
                     $transaction->user_id = $user->id;
                     $transaction->price = $product_option->price;
+                    if (!is_null($order->id)) {
+                        $transaction->stripe_order_id = $order->id;
+                    }
+                    if (!is_null($order->charge)) {
+                        $transaction->stripe_charge_id = $order->charge;
+                    }
                     $transaction->save();
 
                     $transaction_product_option = new TransactionProductOption;
@@ -162,6 +168,7 @@ class CheckoutController extends Controller
                     $transaction = new Transaction;
                     $transaction->user_id = $user->id;
                     $transaction->price = $product_option->price;
+                    $transaction->stripe_subscription_id = $plan->id;
                     $transaction->save();
 
                     $transaction_product_option = new TransactionProductOption;
