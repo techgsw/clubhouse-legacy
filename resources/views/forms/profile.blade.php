@@ -23,8 +23,8 @@
         </div>
         <div class="col s12 m8 l9">
             <div class="row">
-                <div class="input-field col s12 m6">
-                    <input id="email" disabled value="{{ $user->email }}" />
+                <div class="input-field col s12 m6 {{ $errors->has('email') ? 'invalid' : '' }}">
+                    <input id="email" name="email" type="text" value="{{ $user->email }}">
                     <label for="email" class="active">Email</label>
                 </div>
                 <div class="input-field col s12 m6">
@@ -75,6 +75,16 @@
                 <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
             </div>
             <div class="collapsible-body">
+                <div class="row">
+                    <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
+                        <input id="first_name" name="first_name" type="text" value="{{ $user->first_name}}">
+                        <label for="first_name" class="active">First Name</label>
+                    </div>
+                    <div class="input-field col s12 m6 {{ $errors->has('last_name') ? 'invalid' : '' }}">
+                        <input id="last_name" name="last_name" type="text" value="{{ $user->last_name}}">
+                        <label for="last_name" class="active">Last Name</label>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="input-field col s12">
                         @php

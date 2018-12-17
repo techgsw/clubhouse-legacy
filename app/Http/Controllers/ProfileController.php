@@ -343,6 +343,27 @@ class ProfileController extends Controller
             Log::error($e->getMessage());
         }
 
+        // Only allow users to change email to one that is not being used by another user
+        $email = request('email');
+        $user->email = $email;
+        if (!is_null(request('first_name')) && request('first_name') !== '') {
+            $user->first_name = request('first_name');
+        }
+        if (!is_null(request('last_name')) && request('last_name') !== '') {
+            $user->last_name = request('last_name');
+        }
+        try {
+            $user->save();
+        } catch (\Exception $e) {
+            $request->session()->flash('message', new Message(
+                "There was an error saving your profile. Please check your submission and try again.",
+                "warning",
+                $code = null,
+                $icon = "warning"
+            ));
+            return redirect()->back()->withInput();
+        }
+
         $profile->phone = request('phone')
             ? preg_replace("/[^\d]/", "", request('phone'))
             : null;
