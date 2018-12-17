@@ -76,6 +76,16 @@
             </div>
             <div class="collapsible-body">
                 <div class="row">
+                    <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
+                        <input id="first_name" name="first_name" type="text" value="{{ $user->first_name}}">
+                        <label for="first_name" class="active">First Name</label>
+                    </div>
+                    <div class="input-field col s12 m6 {{ $errors->has('last_name') ? 'invalid' : '' }}">
+                        <input id="last_name" name="last_name" type="text" value="{{ $user->last_name}}">
+                        <label for="last_name" class="active">Last Name</label>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s12">
                         @php
                             $dob = old('date_of_birth') ?: $profile->date_of_birth ?: "";
