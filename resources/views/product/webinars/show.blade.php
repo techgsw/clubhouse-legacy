@@ -1,7 +1,7 @@
 <!-- /resources/views/product/show.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', "$product->name")
-@section('description', "$product->getCleanDescription()")
+@section('description', $product->getCleanDescription())
 @section('url', Request::fullUrl())
 @if (!is_null($product->primaryImage()))
     @section('image', $product->primaryImage()->cdn ? $product->primaryImage()->getURL('share') : url('/').$product->primaryImage()->getURL('share'))
