@@ -365,6 +365,26 @@ nav.nav-admin a.button-collapse i.fa.fa-bars {
     line-height: 40px;
 }
 
+div.admin-breadcrumb {
+    margin-top: 20px;
+}
+
+div.admin-breadcrumb nav.nav-breadcrumb {
+    background-color: #FFF;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+div.admin-breadcrumb nav.nav-breadcrumb a, div.admin-breadcrumb nav.nav-breadcrumb .breadcrumb:before {
+    color: #3F3E3E;
+    font-size: 14px;
+}
+
+div.admin-breadcrumb nav.nav-breadcrumb .nav-wrapper {
+    width: 100%;
+    padding: 0;
+}
+
 nav.nav-breadcrumb {
     height: 30px;
     line-height: 30px;

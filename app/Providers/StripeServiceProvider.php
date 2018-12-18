@@ -19,7 +19,11 @@ class StripeServiceProvider extends ServiceProvider
         if (is_null($user->stripe_customer_id)) {
             return null;
         } else {
-            $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
+            try {
+                $stripe_customer = Stripe\Customer::retrieve($user->stripe_customer_id);
+            } catch (\Exception $e) {
+                return null;
+            }
         }
 
         return $stripe_customer;
