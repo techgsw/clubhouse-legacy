@@ -28,4 +28,5 @@
 @endif
 @if (Request::is('admin/report*'))
     <script src="/js/Chart.min.js"></script>
+    <script src="/js/admin-report.js"></script>
 @endif

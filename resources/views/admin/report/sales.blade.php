@@ -12,12 +12,13 @@
         </div>
     </div>
 </form>
-<div>
-    <h3>{{ count($clubhouse_users) }} Clubhouse Members</h3>
+<div class="row">
+    <h3>{{ count($clubhouse_users) }} Active Clubhouse Members</h3>
 </div>
 @include('layouts.components.messages')
 <div class="row">
     <div class="col s12">
+        <canvas sbs-report="customer-purchase-count-bar-graph" height="350" width="1500"></canvas>
     </div>
 </div>
 @endsection
