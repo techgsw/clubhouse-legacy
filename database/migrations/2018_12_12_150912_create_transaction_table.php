@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Providers\StripeServiceProvider;
@@ -68,7 +69,11 @@ class CreateTransactionTable extends Migration
         
         User::whereNotNull('stripe_customer_id')->each(
             function ($user) {
-                $transactions = StripeServiceProvider::getUserTransactions($user);
+                try {
+                    $transactions = StripeServiceProvider::getUserTransactions($user);
+                } catch (\Exception $e) {
+                   Log::error($e); 
+                }
                 $orders = (isset($transactions['orders']) ? $transactions['orders'] : array());
                 $subscriptions = (isset($transactions['subscription']) ? $transactions['subscription'] : array());
                 foreach ($orders as $order) {
@@ -79,7 +84,7 @@ class CreateTransactionTable extends Migration
                     $sku_id = $item->parent;
 
                     // Create transaction 
-                    $transaction = new Transaction;
+                    $transaction = new Transaction();
                     $transaction->user_id = $user->id;
                     $transaction->amount = $total_price;
                     $transaction->created_at = (new DateTime())->setTimestamp($create_date);
@@ -93,7 +98,7 @@ class CreateTransactionTable extends Migration
 
                     // Create transaction_product_option
                     $product_option = ProductOption::where('stripe_sku_id', $sku_id)->first();
-                    $transaction_product_option = new TransactionProductOption;
+                    $transaction_product_option = new TransactionProductOption();
                     $transaction_product_option->transaction_id = $transaction->id;
                     $transaction_product_option->product_option_id = $product_option->id;
                     $transaction_product_option->save();
@@ -110,7 +115,7 @@ class CreateTransactionTable extends Migration
                     $create_date = $sub->date;
                     
                     // Create transaction 
-                    $transaction = new Transaction;
+                    $transaction = new Transaction();
                     $transaction->user_id = $user->id;
                     $transaction->amount = $amount;
                     $transaction->created_at = (new DateTime())->setTimestamp($create_date);
@@ -124,7 +129,7 @@ class CreateTransactionTable extends Migration
 
                     // Create transaction_product_option
                     $product_option = ProductOption::where('stripe_plan_id', $plan_id)->first();
-                    $transaction_product_option = new TransactionProductOption;
+                    $transaction_product_option = new TransactionProductOption();
                     $transaction_product_option->transaction_id = $transaction->id;
                     $transaction_product_option->product_option_id = $product_option->id;
                     $transaction_product_option->save();

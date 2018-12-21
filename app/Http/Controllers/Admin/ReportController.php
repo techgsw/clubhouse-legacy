@@ -101,7 +101,7 @@ class ReportController extends Controller
         $clubhouse_users = RoleUser::where('role_code', 'clubhouse');
 
         $transactions = DB::table('transaction_product_option as tpo')
-            ->selectRaw('DATE_FORMAT(t.created_at,\'%Y-%m-%d\') as date, u.id, u.first_name, u.last_name, u.email, p.id, p.name, pt.tag_name')
+            ->selectRaw('DATE_FORMAT(t.created_at,\'%Y-%m-%d\') as date, u.id as user_id, u.first_name, u.last_name, u.email, p.id, p.name, pt.tag_name')
             ->join('transaction as t','tpo.transaction_id', 't.id')
             ->join('user as u','t.user_id', 'u.id')
             ->join('product_option as po','tpo.product_option_id', 'po.id')
@@ -109,7 +109,7 @@ class ReportController extends Controller
             ->join('product_tag as pt','pt.product_id', 'p.id')->whereIn('pt.tag_name', array('Career Service', 'Membership', 'Webinar'))
             ->where('t.created_at', '>=', $start_date->format('Y-m-d'))
             ->where('t.created_at', '<=', $end_date->format('Y-m-d'))
-            ->orderBy('t.created_at')
+            ->orderBy('t.created_at', 'DESC')
             ->get();
             //->toSql();
 
@@ -162,7 +162,7 @@ class ReportController extends Controller
         // Structure report
         $data = array();
         $products = $products->toArray();
-        $active_products = array('Career Service', 'Career Coaching', 'Webinar', 'Membership');
+        $active_products = array('Career Service', 'Webinar', 'Membership');
 
         $date = clone $start_date;
         $i = 0; 

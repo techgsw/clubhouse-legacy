@@ -40,8 +40,8 @@
                         <td>{{ $transaction->date }}</td>
                         <td>{{ $transaction->name }}</td>
                         <td>{{ $transaction->tag_name }}</td>
-                        <td>{{ $transaction->first_name }} {{ $transaction->last_name }}</td>
-                        <td>{{ $transaction->email }}</td>
+                        <td><a href=/contact/{{ $transaction->user_id }}>{{ $transaction->first_name }} {{ $transaction->last_name }}</a></td>
+                        <td><a href="mailto: {{ $transaction->email }}">{{ $transaction->email }}</a></td>
                     </tr>
                 @endforeach
             </tbody>
