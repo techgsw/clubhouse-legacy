@@ -119,7 +119,7 @@ class CheckoutController extends Controller
                 try {
                     $transaction = new Transaction;
                     $transaction->user_id = $user->id;
-                    $transaction->price = $product_option->price;
+                    $transaction->amount = $product_option->price;
                     if (!is_null($order->id)) {
                         $transaction->stripe_order_id = $order->id;
                     }
@@ -167,7 +167,7 @@ class CheckoutController extends Controller
                 try {
                     $transaction = new Transaction;
                     $transaction->user_id = $user->id;
-                    $transaction->price = $product_option->price;
+                    $transaction->amount = $product_option->price;
                     $transaction->stripe_subscription_id = $plan->id;
                     $transaction->save();
 

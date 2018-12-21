@@ -51,7 +51,7 @@ class CreateTransactionTable extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->decimal('price', 10, 2);
+            $table->decimal('amount', 10, 2);
             $table->string('stripe_charge_id')->nullable()->default(NULL);
             $table->string('stripe_order_id')->nullable()->default(NULL);
             $table->string('stripe_subscription_id')->nullable()->default(NULL);
@@ -81,7 +81,7 @@ class CreateTransactionTable extends Migration
                     // Create transaction 
                     $transaction = new Transaction;
                     $transaction->user_id = $user->id;
-                    $transaction->price = $total_price;
+                    $transaction->amount = $total_price;
                     $transaction->created_at = (new DateTime())->setTimestamp($create_date);
 
                     if (isset($order['charge_object'])) {
@@ -112,7 +112,7 @@ class CreateTransactionTable extends Migration
                     // Create transaction 
                     $transaction = new Transaction;
                     $transaction->user_id = $user->id;
-                    $transaction->price = $amount;
+                    $transaction->amount = $amount;
                     $transaction->created_at = (new DateTime())->setTimestamp($create_date);
                     $transaction->stripe_subscription_id = $sub->subscription;
 

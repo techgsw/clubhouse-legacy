@@ -141,10 +141,10 @@
             <div class="card-content">
                 <span class="card-title"><a href="/admin/report" class="no-underline">Reports</a></span>
                 <p style="text-transform: uppercase;">
-                    <a href="/report/sales" class="no-underline">Sales Report</a>
+                    <a href="/admin/report/transactions" class="no-underline">Transactions Report</a>
                 </p>
                 <p style="text-transform: uppercase;">
-                    <a href="/report/notes" class="no-underline">Notes Report</a>
+                    <a href="/admin/report/notes" class="no-underline">Notes Report</a>
                 </p>
             </div>
             <div class="card-action">

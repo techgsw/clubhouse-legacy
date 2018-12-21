@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col s12">
         <h5><strong>Transactions By Product Type</strong></h5>
-        <canvas sbs-report="customer-purchase-count-bar-graph" height="350" width="1500"></canvas>
+        <canvas sbs-report="customer-purchase-count-line-graph" height="350" width="1500"></canvas>
     </div>
 </div>
 <div class="row">

@@ -55,7 +55,7 @@ var Report = {
 };
 (function () {
     // Load Customer Purchase Count Bar Graph report
-    Report.loadCustomerPurchaseCountBarGraph = function (element) {
+    Report.loadCustomerPurchaseCountLineGraph = function (element) {
         var params = {};
         if ($('#date-range-start').length > 0 && $('#date-range-end').length > 0) {
             params.date_range_start = $('#date-range-start').val();
@@ -75,13 +75,13 @@ var Report = {
                 if (!response) {
                     throw new Exception("Failed to get purchase data.");
                 }
-                if (Report.customer_purchase_count_bar_graph) {
-                    Report.customer_purchase_count_bar_graph.destroy();
+                if (Report.customer_purchase_count_line_graph) {
+                    Report.customer_purchase_count_line_graph.destroy();
                 }
-                Report.customer_purchase_count_bar_graph = new Chart(
+                Report.customer_purchase_count_line_graph = new Chart(
                     $(element),
                     {
-                        type: 'bar',
+                        type: 'line',
                         data: {
                             labels: response.graph.labels,
                             datasets: (function(response) {
@@ -91,7 +91,9 @@ var Report = {
                                         type_object = {
                                             label: property,
                                             data: response.graph.data[property],
-                                            backgroundColor: colors[datasets.length]
+                                            borderColor: colors[datasets.length],
+                                            backgroundColor: colors[datasets.length],
+                                            fill: false
                                         }
                                         datasets.push(type_object);
                                     }
@@ -122,10 +124,10 @@ var Report = {
     }
 
     Report.loadReports = function() {
-        // Customer Purchase Count Bar Graph
-        var customer_purchase_count_bar_graph = $('[sbs-report="customer-purchase-count-bar-graph"]');
-        if ($(customer_purchase_count_bar_graph).length > 0) {
-            Report.loadCustomerPurchaseCountBarGraph(customer_purchase_count_bar_graph);
+        // Customer Purchase Count Line Graph
+        var customer_purchase_count_line_graph = $('[sbs-report="customer-purchase-count-line-graph"]');
+        if ($(customer_purchase_count_line_graph).length > 0) {
+            Report.loadCustomerPurchaseCountLineGraph(customer_purchase_count_line_graph);
         };
     };
 })();

@@ -106,8 +106,13 @@ class ReportController extends Controller
             ->join('user as u','t.user_id', 'u.id')
             ->join('product_option as po','tpo.product_option_id', 'po.id')
             ->join('product as p','po.product_id', 'p.id')
-            ->join('product_tag as pt','pt.product_id', 'p.id')
+            ->join('product_tag as pt','pt.product_id', 'p.id')->whereIn('pt.tag_name', array('Career Service', 'Membership', 'Webinar'))
+            ->where('t.created_at', '>=', $start_date->format('Y-m-d'))
+            ->where('t.created_at', '<=', $end_date->format('Y-m-d'))
+            ->orderBy('t.created_at')
             ->get();
+            //->toSql();
+
 
         return view('admin/report/transactions', [
             'breadcrumb' => [
@@ -144,42 +149,46 @@ class ReportController extends Controller
         }
 
         $products = DB::table('transaction_product_option as tpo')
-            ->selectRaw('DATE_FORMAT(t.created_at,\'%m / %Y\') as date, pt.tag_name, count(po.id) as count')
+            ->selectRaw('DATE_FORMAT(t.created_at,\'%Y-%m-%d\') as date, pt.tag_name, count(po.id) as count')
             ->join('transaction as t','tpo.transaction_id', 't.id')
             ->join('product_option as po','tpo.product_option_id', 'po.id')
             ->join('product as p','po.product_id', 'p.id')
-            ->join('product_tag as pt','pt.product_id', 'p.id')
+            ->join('product_tag as pt','pt.product_id', 'p.id')->whereIn('pt.tag_name', array('Career Service', 'Membership', 'Webinar'))
+            ->where('t.created_at', '>=', $start_date->format('Y-m-d'))
+            ->where('t.created_at', '<=', $end_date->format('Y-m-d'))
             ->groupBy('date','pt.tag_name')
             ->get();
 
         // Structure report
         $data = array();
         $products = $products->toArray();
-        $active_products = array_column($products, 'tag_name');
+        $active_products = array('Career Service', 'Career Coaching', 'Webinar', 'Membership');
 
         $date = clone $start_date;
         $i = 0; 
         $current_products = array();
         while ($date->getTimestamp() <= $end_date->getTimestamp()) {
-            $current_date = $date->format('m / Y');
-            $current_data = $products[$i];
-            $labels[] = $date->format('m / Y');
+            $current_date = $date->format('Y-m-d');
+            //$current_data = $products[$i];
+            $labels[] = $date->format('Y-m-d');
+            //var_dump($date->format('Y-m-d'));
 
-            while ($current_date == $current_data->date) {
-                $current_products[] = $current_data->tag_name;
-                $data[$current_data->tag_name][] = $current_data->count;
+            while (isset($products[$i]) && $current_date == $products[$i]->date) {
+                $current_products[] = $products[$i]->tag_name;
+                $data[$products[$i]->tag_name][] = $products[$i]->count;
                 $i++;
-                if (!isset($products[$i])) {
-                    break 2;
+                /*
+                if (isset($products[$i])) {
+                    $current_data = $products[$i];
                 }
-                $current_data = $products[$i];
+                */
             }    
             foreach (array_diff($active_products, $current_products) as $missing_product) {
                 $data[$missing_product][] = 0; 
             }    
             $current_products = array();
 
-            $date->add(new \DateInterval('P1M'));
+            $date->add(new \DateInterval('P1D'));
         }    
 
         return response()->json(
