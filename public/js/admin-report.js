@@ -67,7 +67,7 @@ var Report = {
 
         $.ajax({
             type: "GET",
-            url: "/admin/report/ajax-product-purchase-report",
+            url: "/admin/report/ajax-product-type-purchase-report",
             data: params
         })
         .done(function(response) {

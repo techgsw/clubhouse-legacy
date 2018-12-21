@@ -71,8 +71,6 @@ class ReportController extends Controller
             ->groupBy('p.id')
             ->get();
 
-        dd($transactions);
-
         return view('admin/report', [
             'start_date' => $start_date,
             'end_date' => $end_date,
@@ -102,20 +100,30 @@ class ReportController extends Controller
 
         $clubhouse_users = RoleUser::where('role_code', 'clubhouse');
 
+        $transactions = DB::table('transaction_product_option as tpo')
+            ->selectRaw('DATE_FORMAT(t.created_at,\'%Y-%m-%d\') as date, u.id, u.first_name, u.last_name, u.email, p.id, p.name, pt.tag_name')
+            ->join('transaction as t','tpo.transaction_id', 't.id')
+            ->join('user as u','t.user_id', 'u.id')
+            ->join('product_option as po','tpo.product_option_id', 'po.id')
+            ->join('product as p','po.product_id', 'p.id')
+            ->join('product_tag as pt','pt.product_id', 'p.id')
+            ->get();
+
         return view('admin/report/transactions', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Admin' => '/admin',
                 'Reports' => '/admin/report',
-                'Sales' => '/admin/report/sales'
+                'Transactions' => '/admin/report/transactions'
             ],
             'start_date' => $start_date,
             'end_date' => $end_date,
-            'clubhouse_users' => $clubhouse_users->get()
+            'clubhouse_users' => $clubhouse_users->get(),
+            'transactions' => $transactions,
         ]);
     }
 
-    public function ajaxProductPurchaseCountGraph(Request $request)
+    public function ajaxProductTypePurchaseCountGraph(Request $request)
     {
         $this->authorize('view-admin-reports');
 
@@ -136,25 +144,18 @@ class ReportController extends Controller
         }
 
         $products = DB::table('transaction_product_option as tpo')
-            ->selectRaw('DATE_FORMAT(t.created_at,\'%m / %Y\') as date, p.name, count(po.id) as count')
+            ->selectRaw('DATE_FORMAT(t.created_at,\'%m / %Y\') as date, pt.tag_name, count(po.id) as count')
             ->join('transaction as t','tpo.transaction_id', 't.id')
             ->join('product_option as po','tpo.product_option_id', 'po.id')
             ->join('product as p','po.product_id', 'p.id')
-            ->groupBy('date','p.id')
+            ->join('product_tag as pt','pt.product_id', 'p.id')
+            ->groupBy('date','pt.tag_name')
             ->get();
 
         // Structure report
         $data = array();
         $products = $products->toArray();
-        $active_products = array_column($products, 'name');
-        //foreach ($actions as $action) {
-        //    $data[$action] = array();
-        //    $totals[$action] = array(
-        //        'count' => 0,
-        //        'average_per_day' => 0,
-        //        'percent' => 0 
-        //    );   
-        //}    
+        $active_products = array_column($products, 'tag_name');
 
         $date = clone $start_date;
         $i = 0; 
@@ -165,10 +166,8 @@ class ReportController extends Controller
             $labels[] = $date->format('m / Y');
 
             while ($current_date == $current_data->date) {
-                $current_products[] = $current_data->name;
-                $data[$current_data->name][] = $current_data->count;
-                //$totals[$current_data['shipping_action']]['count'] += $current_data['count'];
-                //$grand_total += $current_data['count'];
+                $current_products[] = $current_data->tag_name;
+                $data[$current_data->tag_name][] = $current_data->count;
                 $i++;
                 if (!isset($products[$i])) {
                     break 2;
@@ -182,15 +181,6 @@ class ReportController extends Controller
 
             $date->add(new \DateInterval('P1M'));
         }    
-
-        //$number_of_days = count($labels);
-
-        //foreach ($totals as $action => $action_data) {
-        //    if ($action_data['count'] > 0) { 
-        //        $totals[$action]['percent'] = round($action_data['count'] / $grand_total * 100, 2);
-        //        $totals[$action]['average_per_day'] = round($action_data['count'] / $number_of_days, 0);
-        //    }    
-        //}    
 
         return response()->json(
             array(

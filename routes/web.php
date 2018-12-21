@@ -133,7 +133,7 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/report', 'ReportController@index');
         Route::get('/admin/report/notes', 'ReportController@notes');
         Route::get('/admin/report/transactions', 'ReportController@transactions');
-        Route::get('/admin/report/ajax-product-purchase-report', 'ReportController@ajaxProductPurchaseCountGraph');
+        Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
     });
 
