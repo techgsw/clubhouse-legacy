@@ -1,7 +1,7 @@
 @extends('layouts.admin')
-@section('title', 'Sales')
+@section('title', 'Transactions')
 @section('content')
-<form action="report">
+<form action="">
     <div class="row">
         <div class="col s12 m4">
             <div class="form-group">

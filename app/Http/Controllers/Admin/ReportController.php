@@ -7,6 +7,7 @@ use App\Note;
 use App\User;
 use App\Product;
 use App\RoleUser;
+use App\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -17,9 +18,16 @@ class ReportController extends Controller
     {
         $this->authorize('view-admin-reports');
 
-        $total_note_count = Note::all()->count();
         $one_month_ago = (new \DateTime('now'))->sub(new \DateInterval('P30D'))->format('Y-m-d');
+        $sixty_days_ago = (new \DateTime('now'))->sub(new \DateInterval('P60D'))->format('Y-m-d');
+
+        $total_note_count = Note::all()->count();
         $month_note_count = Note::where('created_at', '>', $one_month_ago)->count();
+        $sixty_day_note_count = Note::where('created_at', '>', $sixty_days_ago)->count();
+
+        $total_transactions = Transaction::all()->count();
+        $month_transaction_count = Transaction::where('created_at', '>', $one_month_ago)->count();
+        $sixty_day_transaction_count = Transaction::where('created_at', '>', $sixty_days_ago)->count();
 
         return view('admin/report', [
             'breadcrumb' => [
@@ -29,7 +37,11 @@ class ReportController extends Controller
             ],
             'total_note_count' => $total_note_count,
             'one_month_ago' => $one_month_ago,
-            'month_note_count' => $month_note_count
+            'month_note_count' => $month_note_count,
+            'sixty_day_note_count' => $sixty_day_note_count,
+            'total_transactions' => $total_transactions,
+            'month_transaction_count' => $month_transaction_count,
+            'sixty_day_transaction_count' => $sixty_day_transaction_count
         ]);
     }
 
@@ -68,12 +80,13 @@ class ReportController extends Controller
         ]);
     }
 
-    public function sales(Request $request)
+    public function transactions(Request $request)
     {
         $this->authorize('view-admin-reports');
 
         $start_date = $request->query->get('date_range_start');
         $end_date = $request->query->get('date_range_end');
+
         if (is_null($end_date)) {
             $end_date = new \DateTime('now');
         } else {
@@ -89,7 +102,7 @@ class ReportController extends Controller
 
         $clubhouse_users = RoleUser::where('role_code', 'clubhouse');
 
-        return view('admin/report/sales', [
+        return view('admin/report/transactions', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Admin' => '/admin',
@@ -108,6 +121,7 @@ class ReportController extends Controller
 
         $start_date = $request->query->get('date_range_start');
         $end_date = $request->query->get('date_range_end');
+        
         if (is_null($end_date)) {
             $end_date = new \DateTime('now');
         } else {

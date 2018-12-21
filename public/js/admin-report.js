@@ -58,8 +58,8 @@ var Report = {
     Report.loadCustomerPurchaseCountBarGraph = function (element) {
         var params = {};
         if ($('#date-range-start').length > 0 && $('#date-range-end').length > 0) {
-            params.start = $('#date-range-start').val();
-            params.end = $('#date-range-end').val()
+            params.date_range_start = $('#date-range-start').val();
+            params.date_range_end = $('#date-range-end').val();
         }
 
         // Setup loading gif
