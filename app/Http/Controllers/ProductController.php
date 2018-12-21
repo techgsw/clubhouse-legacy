@@ -330,7 +330,7 @@ class ProductController extends Controller
         }
 
         $transactions = DB::table('transaction_product_option as tpo')
-            ->selectRaw('u.email as email, u.first_name as first_name, u.last_name as last_name, t.price as price, t.created_at as order_date')
+            ->selectRaw('u.email as email, u.first_name as first_name, u.last_name as last_name, t.amount as price, t.created_at as order_date')
             ->join('transaction as t','tpo.transaction_id', 't.id')
             ->join('product_option as po','tpo.product_option_id', 'po.id')
             ->join('product as p','po.product_id', 'p.id')
