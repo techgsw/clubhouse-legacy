@@ -336,6 +336,7 @@ class ProductController extends Controller
             ->join('product as p','po.product_id', 'p.id')
             ->join('user as u','t.user_id', 'u.id')
             ->where('p.id',$id)
+            ->orderBy('t.id', 'desc')
             ->get();
 
         return view('product/show', [

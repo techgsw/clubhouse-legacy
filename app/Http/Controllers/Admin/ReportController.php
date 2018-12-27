@@ -45,39 +45,6 @@ class ReportController extends Controller
         ]);
     }
 
-    public function stripe(Request $request)
-    {
-        $this->authorize('view-admin-reports');
-
-        $start_date = $request->query->get('date_range_start');
-        $end_date = $request->query->get('date_range_end');
-        if (is_null($end_date)) {
-            $end_date = new \DateTime('now');
-        } else {
-            $end_date = new \DateTime($end_date);
-        }
-
-        if (is_null($start_date)) {
-            $start_date = clone $end_date;
-            $start_date->sub(new \DateInterval('P30D'));
-        } else {
-            $start_date = new \DateTime($start_date);
-        }
-
-        $transactions = DB::table('transaction_product_option as tpo')
-            ->selectRaw('p.name, count(po.id)')
-            ->join('product_option as po','tpo.product_option_id', 'po.id')
-            ->join('product as p','po.product_id', 'p.id')
-            ->groupBy('p.id')
-            ->get();
-
-        return view('admin/report', [
-            'start_date' => $start_date,
-            'end_date' => $end_date,
-            'users' => $users->get()
-        ]);
-    }
-
     public function transactions(Request $request)
     {
         $this->authorize('view-admin-reports');
@@ -108,7 +75,7 @@ class ReportController extends Controller
             ->join('product as p','po.product_id', 'p.id')
             ->join('product_tag as pt','pt.product_id', 'p.id')->whereIn('pt.tag_name', array('Career Service', 'Membership', 'Webinar'))
             ->where('t.created_at', '>=', $start_date->format('Y-m-d'))
-            ->where('t.created_at', '<=', $end_date->format('Y-m-d'))
+            ->where('t.created_at', '<=', $end_date->format('Y-m-d').' 23:59:59')
             ->orderBy('t.created_at', 'DESC')
             ->get();
             //->toSql();
@@ -155,7 +122,7 @@ class ReportController extends Controller
             ->join('product as p','po.product_id', 'p.id')
             ->join('product_tag as pt','pt.product_id', 'p.id')->whereIn('pt.tag_name', array('Career Service', 'Membership', 'Webinar'))
             ->where('t.created_at', '>=', $start_date->format('Y-m-d'))
-            ->where('t.created_at', '<=', $end_date->format('Y-m-d'))
+            ->where('t.created_at', '<=', $end_date->format('Y-m-d').' 23:59:59')
             ->groupBy('date','pt.tag_name')
             ->get();
 

@@ -40,49 +40,30 @@
             </div>
             <h4>{{ $product->name }}</h4>
             {!! strip_tags($pd->text($product->description)) !!}
-            <select class="browser-default product-option-select" name="option">
-                @foreach ($product->availableOptions() as $option)
-                    @if ($option->price > 0)
-                        <option value="{{$option->id}}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
-                    @else
-                        <option value="{{$option->id}}">{{$option->name}}</option>
-                    @endif
-                @endforeach
-            </select>
-            <div class="options">
-                @php $first = true; @endphp
-                @foreach ($product->options as $option)
-                    <div class="product-option-description {{ $first ? "" : "hidden"}}" option-id="{{$option->id}}">
-                        {!! strip_tags($pd->text($option->description)) !!}
-                    </div>
-                    @php $first = false; @endphp
-                @endforeach
-            </div>
-            <div class="input-field" style="margin-top: 30px;">
-                <button id="buy-now" type="button" class="btn sbs-red">BUY NOW</button>
-            </div>
         </div>
     </div>
-    @if (count($transactions) > 0)
-        <table class="striped">
-            <thead>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Purchase Date</th>
-                <th>Paid</th>
-            </thead>
-            <tbody>
-                @foreach ($transactions as $transaction)
-                    <tr>
-                        <td>{{ $transaction->first_name .  ' ' . $transaction->last_name }}</td>
-                        <td><a class="no-underline" href="mailto:{{ $transaction->email }}">{{ $transaction->email }}</a></td>
-                        <td>{{ $transaction->order_date }}</td>
-                        <td>${{ $transaction->price }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
+    @can ('edit-product', $product)
+        @if (count($transactions) > 0)
+            <table class="striped">
+                <thead>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Purchase Date</th>
+                    <th>Paid</th>
+                </thead>
+                <tbody>
+                    @foreach ($transactions as $transaction)
+                        <tr>
+                            <td>{{ $transaction->first_name .  ' ' . $transaction->last_name }}</td>
+                            <td><a class="no-underline" href="mailto:{{ $transaction->email }}">{{ $transaction->email }}</a></td>
+                            <td>{{ $transaction->order_date }}</td>
+                            <td>${{ $transaction->price }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    @endcan
     @include('layouts.components.messages')
     <div class="row">
         <div class="col s12">
