@@ -74,11 +74,42 @@ class CreateTransactionTable extends Migration
                 } catch (\Exception $e) {
                    Log::error($e); 
                 }
-                $orders = (isset($transactions['orders']) ? $transactions['orders'] : array());
-                $subscriptions = (isset($transactions['subscription']) ? $transactions['subscription'] : array());
+                $orders = (isset($transactions['orders']) ? array_reverse($transactions['orders']) : array());
+                $subscriptions = (isset($transactions['subscriptions']) ? array_reverse($transactions['subscriptions']) : array());
+
+                foreach ($subscriptions as $sub) {
+                    $invoice = $sub['invoice'];
+                    $invoice_line_item = $invoice->lines->data[0];
+                    // TIMESTAMP
+                    $plan_id = $invoice_line_item->plan->id;
+                    $amount = $invoice_line_item->plan->amount / 100;
+                    $create_date = $invoice->date;
+                    
+                    // Create transaction 
+                    $transaction = new Transaction();
+                    $transaction->user_id = $user->id;
+                    $transaction->amount = $amount;
+                    $transaction->created_at = (new DateTime())->setTimestamp($create_date);
+                    $transaction->stripe_subscription_id = $invoice->subscription;
+
+                    if (!is_null($invoice->charge)) {
+                        $transaction->stripe_charge_id = $invoice->charge;
+                    }
+
+                    $transaction->save();
+
+                    // Create transaction_product_option
+                    $product_option = ProductOption::where('stripe_plan_id', $plan_id)->first();
+                    $transaction_product_option = new TransactionProductOption();
+                    $transaction_product_option->transaction_id = $transaction->id;
+                    $transaction_product_option->product_option_id = $product_option->id;
+                    $transaction_product_option->save();
+                }
+
                 foreach ($orders as $order) {
                     $order = $order["order"];
                     $total_price = $order['total_amount'] / 100;
+                    $order_id = $order['id'];
                     $create_date = $order['created'];      // UNIX TIMESTAMP 
                     $item = $order['items'][0];            // At time of this migration only 1 item per order was allowed
                     $sku_id = $item->parent;
@@ -87,48 +118,17 @@ class CreateTransactionTable extends Migration
                     $transaction = new Transaction();
                     $transaction->user_id = $user->id;
                     $transaction->amount = $total_price;
+                    $transaction->stripe_order_id = $order_id;
                     $transaction->created_at = (new DateTime())->setTimestamp($create_date);
 
                     if (isset($order['charge_object'])) {
                         $charge_object = $order['charge_object'];
                         $transaction->stripe_charge_id = $charge_object->id;
-                        $transaction->stripe_order_id = $charge_object->order;
                     }
                     $transaction->save();
 
                     // Create transaction_product_option
                     $product_option = ProductOption::where('stripe_sku_id', $sku_id)->first();
-                    $transaction_product_option = new TransactionProductOption();
-                    $transaction_product_option->transaction_id = $transaction->id;
-                    $transaction_product_option->product_option_id = $product_option->id;
-                    $transaction_product_option->save();
-                    //echo "Order Item: ". $item->description. " ";
-                    //echo "Order Item Count: ". count($order['items']). "\n";
-
-                }
-                foreach ($subscriptions as $sub) {
-                    $sub = $sub['invoice'];
-                    $invoice_line_item = $sub->lines->data[0];
-                    // TIMESTAMP
-                    $plan_id = $invoice_line_item->plan->id;
-                    $amount = $invoice_line_item->plan->amount / 100;
-                    $create_date = $sub->date;
-                    
-                    // Create transaction 
-                    $transaction = new Transaction();
-                    $transaction->user_id = $user->id;
-                    $transaction->amount = $amount;
-                    $transaction->created_at = (new DateTime())->setTimestamp($create_date);
-                    $transaction->stripe_subscription_id = $sub->subscription;
-
-                    if (!is_null($sub->charge)) {
-                        $transaction->stripe_charge_id = $sub->charge->id;
-                    }
-
-                    $transaction->save();
-
-                    // Create transaction_product_option
-                    $product_option = ProductOption::where('stripe_plan_id', $plan_id)->first();
                     $transaction_product_option = new TransactionProductOption();
                     $transaction_product_option->transaction_id = $transaction->id;
                     $transaction_product_option->product_option_id = $product_option->id;
