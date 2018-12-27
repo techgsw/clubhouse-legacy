@@ -11,6 +11,8 @@ use App\Mail\UserPaidCareerService;
 use App\Mail\UserPaidWebinar;
 use App\Message;
 use App\Role;
+use App\Transaction;
+use App\TransactionProductOption;
 use App\RoleUser;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
@@ -103,60 +105,99 @@ class CheckoutController extends Controller
         $user = Auth::user();
 
         try {
-            $checkout_type;
-            if (preg_match('/sku/', $request['stripe_product_id'])) {
-                $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
-                $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
-                try {
-                    $product_option->quantity = $product_option->quantity - 1;
-                    $product_option->save();
-                } catch (\Exception $e) {
-                    Log::error($e->getMessage());
-                }
-                foreach ($product_option->product->tags as $tag) {
-                    if ($tag->slug == 'career-service') {
-                        try {
-                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, $order->amount, 'career-service'));
-                            Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
-                            Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
-                        } catch (\Exception $e) {
-                            Log::error($e->getMessage());
-                        }
-                        $checkout_type = 'career-service';
-                        break;
-                    } else if ($tag->slug == 'webinar') {
-                        try {
-                            Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'webinar'));
-                            Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
-                        } catch (\Exception $e) {
-                            Log::error($e->getMessage());
-                        }
-                        $checkout_type = 'webinar';
-                        break;
+            $response = DB::transaction(function () use ($request, $user) {
+                $checkout_type;
+                if (preg_match('/sku/', $request['stripe_product_id'])) {
+                    $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
+                    $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
+
+                    try {
+                        $product_option->quantity = $product_option->quantity - 1;
+                        $product_option->save();
+                    } catch (\Exception $e) {
+                        Log::error($e->getMessage());
                     }
+
+                    $transaction = new Transaction();
+                    $transaction->user_id = $user->id;
+                    $transaction->amount = $product_option->price;
+                    if (!is_null($order->id)) {
+                        $transaction->stripe_order_id = $order->id;
+                    }
+                    if (!is_null($order->charge)) {
+                        $transaction->stripe_charge_id = $order->charge;
+                    }
+                    $transaction->save();
+
+                    $transaction_product_option = new TransactionProductOption();
+                    $transaction_product_option->transaction_id = $transaction->id;
+                    $transaction_product_option->product_option_id = $product_option->id;
+                    $transaction_product_option->save();
+
+                    foreach ($product_option->product->tags as $tag) {
+                        if ($tag->slug == 'career-service') {
+                            try {
+                                Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, $order->amount, 'career-service'));
+                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
+                                Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
+                            $checkout_type = 'career-service';
+                            break;
+                        } else if ($tag->slug == 'webinar') {
+                            try {
+                                Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'webinar'));
+                                Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
+                            $checkout_type = 'webinar';
+                            break;
+                        }
+                    }
+                } else if (preg_match('/plan/', $request['stripe_product_id'])) {
+                    $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
+                    $product_option = ProductOption::with('product')->where('stripe_plan_id', $request['stripe_product_id'])->first();
+                    $roles = Role::where('code', 'clubhouse')->get();
+                    $user->roles()->attach($roles);
+                    $checkout_type = 'membership';
+
+                    $transaction = new Transaction();
+                    $transaction->user_id = $user->id;
+                    $transaction->amount = $product_option->price;
+                    $transaction->stripe_subscription_id = $plan->id;
+                    $transaction->save();
+
+                    $transaction_product_option = new TransactionProductOption();
+                    $transaction_product_option->transaction_id = $transaction->id;
+                    $transaction_product_option->product_option_id = $product_option->id;
+                    $transaction_product_option->save();
+
+                    try {
+                        Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
+                        Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
+                        Mail::to($user)->send(new UserPaidClubhousePro($user));
+                    } catch (\Exception $e) {
+                        Log::error($e->getMessage());
+                    }
+                } else {
+                    return false;
                 }
-            } else if (preg_match('/plan/', $request['stripe_product_id'])) {
-                $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
-                $product_option = ProductOption::with('product')->where('stripe_plan_id', $request['stripe_product_id'])->first();
-                $roles = Role::where('code', 'clubhouse')->get();
-                $user->roles()->attach($roles);
-                $checkout_type = 'membership';
-                try {
-                    Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
-                    Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
-                    Mail::to($user)->send(new UserPaidClubhousePro($user));
-                } catch (\Exception $e) {
-                    Log::error($e->getMessage());
-                }
-            } else {
+
+                return array('type' => $checkout_type, 'product_option_id' => $product_option->id);
+            });
+            
+            if ($response == false) {
                 return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
             }
         } catch (Exception $e) {
+            // TODO try to refund order if it went through
             Log::error($e);
             return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
         }
 
-        return redirect()->action('CheckoutController@thanks', array('type' => $checkout_type, 'product_option_id' => $product_option->id));
+        return redirect()->action('CheckoutController@thanks', $response);
     }
 
     public function addCard(Request $request)

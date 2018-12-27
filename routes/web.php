@@ -131,6 +131,9 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/question', 'QuestionController@index');
         Route::get('/admin/admin-users', 'UserController@allAdminUsers');
         Route::get('/admin/report', 'ReportController@index');
+        Route::get('/admin/report/notes', 'ReportController@notes');
+        Route::get('/admin/report/transactions', 'ReportController@transactions');
+        Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
     });
 

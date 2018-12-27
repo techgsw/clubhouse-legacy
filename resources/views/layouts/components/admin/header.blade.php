@@ -91,4 +91,9 @@
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-lg" aria-hidden="true"></i></a>
     </nav>
+    <div class="admin-breadcrumb hide-on-small-only">
+        <div class="container">
+            @include('layouts.components.breadcrumb')
+        </div>
+    </div>
 </header>

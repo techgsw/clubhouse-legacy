@@ -329,8 +329,19 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
         }
 
+        $transactions = DB::table('transaction_product_option as tpo')
+            ->selectRaw('u.email as email, u.first_name as first_name, u.last_name as last_name, t.amount as price, t.created_at as order_date')
+            ->join('transaction as t','tpo.transaction_id', 't.id')
+            ->join('product_option as po','tpo.product_option_id', 'po.id')
+            ->join('product as p','po.product_id', 'p.id')
+            ->join('user as u','t.user_id', 'u.id')
+            ->where('p.id',$id)
+            ->orderBy('t.id', 'desc')
+            ->get();
+
         return view('product/show', [
             'product' => $product,
+            'transactions' => $transactions,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 "{$product->name}" => "/product/{$product->id}"
@@ -463,4 +474,5 @@ class ProductController extends Controller
             ]
         ]);
     }
+
 }

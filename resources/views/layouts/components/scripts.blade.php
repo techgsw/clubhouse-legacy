@@ -26,3 +26,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="/js/checkout.js?v=3"></script>
 @endif
+@if (Request::is('admin/report*'))
+    <script src="/js/Chart.min.js"></script>
+    <script src="/js/admin-report.js"></script>
+@endif

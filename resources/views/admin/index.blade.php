@@ -139,16 +139,16 @@
     @can ('view-admin-reports')
         <div class="card">
             <div class="card-content">
-                <span class="card-title"><a href="/admin/report" class="no-underline">Notes</a></span>
+                <span class="card-title"><a href="/admin/report" class="no-underline">Reports</a></span>
                 <p style="text-transform: uppercase;">
-                    <span class="sbs-red-text">{{ $total_note_count }}</span> total notes
+                    <a href="/admin/report/transactions" class="no-underline">Transactions Report</a>
                 </p>
                 <p style="text-transform: uppercase;">
-                    <span class="sbs-red-text">{{ $month_note_count }}</span> last 30 days
+                    <a href="/admin/report/notes" class="no-underline">Notes Report</a>
                 </p>
             </div>
             <div class="card-action">
-                <a class="no-underline" href="/admin/report"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Report</span></a>
+                <a class="no-underline" href="/admin/report"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Reports</span></a>
             </div>
         </div>
     @endcan

@@ -1,37 +1,47 @@
 <!-- /resources/views/admin/report.blade.php -->
 @extends('layouts.admin')
-@section('title', 'Users')
+@section('title', 'Reports')
 @section('content')
-<form action="report">
-    <div class="row">
-        <div class="col s12 m4">
-            <div class="form-group">
-                <input class="drp center-align" type="text" name="date_range" id="date-range" />
-                <input class="hidden" type="text" name="date_range_start" id="date-range-start" value="{{ $start_date->format('Y-m-d') }}"/>
-                <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('Y-m-d') }}"/>
-            </div>
+<div class="card-flex-container">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title"><a href="/admin/report/transactions" class="no-underline">Transactions</a></span>
+            <p style="text-transform: uppercase;">
+                <span class="sbs-red-text">{{ $total_transactions }}</span> transactions
+            </p>
+            <p style="text-transform: uppercase;">
+                <span class="sbs-red-text">{{ $month_transaction_count }}</span> last 30 days
+            </p>
+            <p style="text-transform: uppercase;">
+                <span class="sbs-red-text">{{ $sixty_day_transaction_count }}</span> last 60 days
+            </p>
+        </div>
+        <div class="card-action">
+            <a class="no-underline" href="/admin/report/transactions"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Report</span></a>
         </div>
     </div>
-</form>
-@if (count($users) > 0)
-    <table class="striped">
-        <thead>
-            <th>Name</th>
-            <th>Notes</th>
-        </thead>
-        <tbody>
-            @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user->getName() }}</td>
-                    <td>{{ $user->authoredNoteCount($start_date, $end_date) }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@endif
-@include('layouts.components.messages')
-<div class="row">
-    <div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title"><a href="/admin/report/notes" class="no-underline">Notes</a></span>
+            <p style="text-transform: uppercase;">
+                <span class="sbs-red-text">{{ $total_note_count }}</span> notes
+            </p>
+            <p style="text-transform: uppercase;">
+                <span class="sbs-red-text">{{ $month_note_count }}</span> last 30 days
+            </p>
+            <p style="text-transform: uppercase;">
+                <span class="sbs-red-text">{{ $sixty_day_note_count }}</span> last 60 days
+            </p>
+        </div>
+        <div class="card-action">
+            <a class="no-underline" href="/admin/report/notes"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Report</span></a>
+        </div>
     </div>
+    <div class="card-placeholder"></div>
+    <div class="card-placeholder"></div>
+    <div class="card-placeholder"></div>
+    <div class="card-placeholder"></div>
+    <div class="card-placeholder"></div>
+    <div class="card-placeholder"></div>
 </div>
 @endsection

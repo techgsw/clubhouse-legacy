@@ -45,10 +45,8 @@ class StripeServiceProvider extends ServiceProvider
             )
         );
 
-        $transactions = array('subscription' => array(), 'order' => array());
+        $transactions = array('subscriptions' => array(), 'orders' => array());
         
-        //dd($stripe_orders);
-
         foreach ($stripe_transactions->data as $key => $invoice) {
             if (!is_null($invoice->charge)) {
                 $stripe_charge = Stripe\Charge::retrieve($invoice->charge);
@@ -57,7 +55,7 @@ class StripeServiceProvider extends ServiceProvider
                     'charge_object' => $stripe_charge
                 );
             } else {
-                $transactions['subscription'][] = array(
+                $transactions['subscriptions'][] = array(
                     'invoice' => $invoice
                 );
             }
@@ -76,6 +74,7 @@ class StripeServiceProvider extends ServiceProvider
             }
             $transaction = array(
                 'order' => array(
+                    'id' => $order_item->id,
                     'total_amount' => $total_amount,
                     'created' => $order_item->created,
                     'items' => $items
