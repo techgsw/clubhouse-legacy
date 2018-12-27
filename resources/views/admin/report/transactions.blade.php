@@ -38,9 +38,9 @@
                 @foreach ($transactions as $transaction)
                     <tr>
                         <td>{{ $transaction->date }}</td>
-                        <td>{{ $transaction->name }}</td>
+                        <td><a href="/product/{{ $transaction->product_id }}">{{ $transaction->name }}</a></td>
                         <td>{{ $transaction->tag_name }}</td>
-                        <td><a href=/contact/{{ $transaction->user_id }}>{{ $transaction->first_name }} {{ $transaction->last_name }}</a></td>
+                        <td><a href="/user/{{ $transaction->user_id }}/profile">{{ $transaction->first_name }} {{ $transaction->last_name }}</a></td>
                         <td><a href="mailto: {{ $transaction->email }}">{{ $transaction->email }}</a></td>
                     </tr>
                 @endforeach
