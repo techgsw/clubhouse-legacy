@@ -40,7 +40,7 @@
     </div>
     <div class="row">
         <div class="col s12 center-align">
-            <img src="/images/home/clients.png?v=5" alt="" style="margin-bottom: 60px;">
+            <img src="/images/home/clients.png?v=6" alt="" style="margin-bottom: 60px;">
         </div>
     </div>
 </div>
