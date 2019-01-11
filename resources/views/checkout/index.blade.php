@@ -81,7 +81,7 @@
                                 @can ('view-clubhouse')
                                     <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
                                 @else
-                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ' / Month' : '') }}</span></h4>
+                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ($product_option->price == 7.0 ? ' / Month' : '/ Year') : '') }}</span></h4>
                                 @endcan
                             @else
                                 <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
@@ -109,7 +109,7 @@
                                 @can ('view-clubhouse')
                                     <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
                                 @else
-                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ' / Month' : '') }}</span></h4>
+                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ($product_option->price == 7.0 ? ' / Month' : '/ Year') : '') }}</span></h4>
                                 @endcan
                             @else
                                 <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
@@ -122,7 +122,7 @@
         <div class="row">
             <div class="col s12">
                 @if ($product_type == 'membership')
-                    <p style="color: #EB2935; margin-bottom: 20px;">*Your membership will be billed monthly beginning one month after date of checkout.</p>
+                    <p style="color: #EB2935; margin-bottom: 20px;">*Your membership will be billed {{ $product_option->price == 7.0 ? 'monthly' : 'annually' }} beginning one month after date of checkout.</p>
                 @endif
             </div>
         </div>

@@ -70,7 +70,8 @@
                                 @if (Auth::guest())
                                     <a href="/" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>
                                 @else
-                                    <a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>
+                                    <!--<a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>-->
+                                    <a href="/pro-membership" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>
                                 @endif
                             @endif
                         </div>
