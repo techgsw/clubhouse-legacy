@@ -14,7 +14,7 @@
                     <div class="fill-grey hide-on-small-only" style="position: absolute; top: -40px; width: 100%;">
                             <img src="/images/clubhouse/medal.png" style="float: right; max-width: 100px; margin-top: 20px; margin-right: 40px; padding-right: 20px;" />
                         @if (Auth::guest())
-                            <p class="header font-black" style="font-size: 24px; margin-bottom: 0; margin-top: 40px; margin-left: 20px;"><strong>Ready to join?</strong></p>
+                            <p class="header font-black" style="font-size: 24px; margin-bottom: 0; margin-top: 40px; margin-left: 20px;"><strong>Join for free!</strong></p>
                             <p class="font-black" style="margin-top: 0; margin-left: 20px; font-size: 12px;"><a class="no-underline" href="/login">Already a member? Login!</a></p>
                             <div id="registration-form-wrapper-top" style="padding-left: 20px; padding-right: 20px;">
                                 @include('components.register-clubhouse')
