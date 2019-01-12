@@ -51,7 +51,7 @@
                         @php $next_bill = date('m/d/Y', $value->current_period_end); @endphp
                         <tr>
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
-                            <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / Month</td>
+                            <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / {{ $value->items->data[0]->plan->amount < 7000 ? 'Month' : 'Year' }}</td>
                             <td>{{ $next_bill }}</td>
                             <td><a class="flat-button black" id="cancel-subscription-button" data-subscription-id="{{ $value->id }}">Cancel</a></td>
                         </tr>

@@ -64,6 +64,21 @@ class ClubhouseController extends Controller
         ]);
     }
 
+    public function proMembership(Request $request)
+    {
+        $product = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Membership');
+        })->first();
+
+        return view('clubhouse/pro-membership', [
+            'product' => $product,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Pro Membership' => '/pro-membership'
+            ],
+        ]);
+    }
+
     public function resources(Request $request)
     {
         return view('clubhouse/resources', [
