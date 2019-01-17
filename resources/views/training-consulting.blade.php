@@ -22,10 +22,10 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>We had Bob out to San Diego in late February, after I transitioned into my new role overseeing the group department. His insights helped both the staff and myself set the tone for the upcoming season. Our staff benefitted most from the one-on-one settings where he could dive into each of their books of business and look for areas of opportunity. This coupled with his extensive background in the NBA and their group sales best practices really opened our reps eyes to what other programs are out there. For myself, getting an opportunity to spend time with Bob and talk through short and long term strategy, staffing and philosophy allowed me to focus on what was important for the 2015 season and beyond.</p>
+                                <p>We had Bob out to San Diego after I transitioned into my new role overseeing the group department. His insights helped both the staff and myself set the tone for the upcoming season. Our staff benefitted most from the one-on-one settings where he could dive into each of their books of business and look for areas of opportunity. This coupled with his extensive background in the NBA and their group sales best practices really opened our reps eyes to what other programs are out there. For myself, getting an opportunity to spend time with Bob and talk through short and long term strategy, staffing and philosophy allowed me to focus on what was important for the 2015 season and beyond.</p>
                                 <p class="heavy">
                                     Curt Waugh<br/>
-                                    Director, Group Tickets &amp; Hospitality<br/>
+                                    Senior Director, Ticket Sales<br/>
                                     San Diego Padres<br/>
                                 </p>
                             </div>
@@ -35,15 +35,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/atlanta-hawks.png" alt="">
+                            <img class="logo" src="/images/testimonials/learfield-texas-tech-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>After using several different trainers throughout the industry, I wanted to find someone who had both recent ticket sales experience who also specialized in group sales. Bob Hamer and Sports Business Solutions was the perfect fit for our needs and tailor fit his training based on what my team needed help focusing on. Since his training, my team is even more confident calling corporate ATL and all of them gave me enthusiastic reviews on his training techniques.</p>
-                                <p class="heavy">
-                                    Eric Platte<br/>
-                                    Director of Ticket Sales<br/>
-                                    Atlanta Hawks
+                                <p>We were looking for a company who could provide training that would help our sales team to continue to grow and develop. What we found with Sports Business Solutions and Adam was someone who brought enthusiasm, new ideas, and a fresh perspective to how our ticket sales staff worked every day. Almost instantly our sales staff has been able to implement the tactics and tools he provided into their sales flow.</p>
+                                <p elass="heavy">
+                                    Brent Fletcher<br/>
+                                    Associate Athletic Director for Ticket Services<br/>
+                                    Texas Tech University 
                                 </p>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                 <p>We decided to partner with Bob Hamer for our training needs because we felt there was great value in his hands-on experience as a past sports sales professional who worked his way from an entry sales rep to a leadership role as a Vice President. His experience brings credibility that separates him from other trainers and it is that credibility which created immediate buy-in from our staff. Bob has been conducting ongoing training with us over a long-term period of many months. We felt it was important for our reps to have constant and consistent sales training with the same facilitator in order to truly change behavior. The largest transformation has been with our staff’s approach to B2B selling. We began seeing immediate results after incorporating his training into our business campaign. Bob has been a valuable resource for our organization and will continue to be a key part of our training strategies in the future.</p>
                                 <p class="heavy">
                                     John Fisher<br/>
-                                    SVP&mdash;Ticket Sales &amp; Marketing<br/>
+                                    Senior Vice President, Ticket Sales & Marketing<br/>
                                     Arizona Diamondbacks
                                 </p>
                             </div>
@@ -76,7 +76,7 @@
                                 <p>We were lucky to have Sports Business Solutions in to work 1 on 1 with our Sacramento Kings group sales team. It was the perfect mix of honest coaching delivered through the lens of real world experience. As a result following the training, we hit all of our off-season group sales goals and are already pacing 50% ahead of where we were this time last season.</p>
                                 <p class="heavy">
                                     Phil Horn<br/>
-                                    VP Ticket Sales &amp; Service<br/>
+                                    Senior Vice President, Sales & Service<br/>
                                     Sacramento Kings
                                 </p>
                             </div>
@@ -86,15 +86,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/new-york-mets.png" alt="">
+                            <img class="logo" src="/images/testimonials/buffalo-bills-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>The Mets hired Sports Business Solutions back in June to work with our Group Sales department.  Because of Bob’s success and the reputation he has in the sports industry, our team was very engaged and eager to learn from one of the best in the business.  Rising through the group sales ranks in his career, Bob was easily able to speak the group sales language to our team in a way that they could easily relate.  Our training was completely customized and created with the team during Bob’s visit to New York, which ultimately made them more bought in to the entire training process.  Our reps felt as if they were creating their own scripts and action plan over the three days while Bob was in town.  Bob had a unique way of creating a new approach to our day-to-day sales efforts, and simplifying it so the reps could utilize it instantly and make an impact in the marketplace.  After Bob’s departure, the staff raved about Sports Business Solutions training, and we as a management team look forward to having Bob back in the near future.</p>
+                                <p>We were lucky to have Adam in for three days of training.  Even though we are a football team, Adam hit it out of the park. He did a great job connecting with our staff.  He helped instill more confidence in our reps, especially on the B2B side. Our reps made more appointments in the month following training than they had made all year. We were impressed with the time Adam took to customize the training for our market and our staff. We look forward to having him back!</p>
                                 <p class="heavy">
-                                    Wade Graf<br/>
-                                    Sr. Director of Group Sales<br/>
-                                    New York Mets
+                                    Chris Colleary<br/>
+                                    Vice President, Ticket Sales & Service<br/>
+                                    Buffalo Bills 
                                 </p>
                             </div>
                         </div>
@@ -103,15 +103,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/detroit-pistons.png" alt="">
+                            <img class="logo" src="/images/testimonials/atlanta-falcons-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Bob Hamer spent three days laying a strong foundation of B2B sales with our Inside Sales Team.  Working with a group that had not made a B2B Call to date, Bob coached them to get out of their comfort zone, and broke down the barriers of the B2B sales process. From the initial call, to the signed contract, Bob laid out a strategic game plan for success.  Our goal for training was to ensure that our reps left more comfortable and more skilled selling in a corporate setting. Mission accomplished.</p>
+                                <p>We thoroughly enjoyed the training provided by Adam Vogel and Sports Business Solutions.  He was professional, knowledgeable, charismatic, and really captured the attention of our team during their time spent with him.  We’ve seen immediate improvement in the management of sales reps call campaigns and their sales approach. Adam was fantastic and I’d recommend him to any team that’s looking to provide their sales staff with a shot of solid training.</p>
                                 <p class="heavy">
-                                    Joe Schiavi<br/>
-                                    Director – Sales<br/>
-                                    Detroit Pistons
+                                    Warren Parr<br/>
+                                    Senior Director of Ticket Sales<br/>
+                                    Atlanta Falcons 
                                 </p>
                             </div>
                         </div>
