@@ -48,6 +48,8 @@
                     <h5 class="sbs-red-text">Jason Stein<span class="about-position">Vice President,<br/>Recruiting &amp; Development</span></h5>
                 </a>
             </div>
+        </div>
+        <div class="about-cards col s12">
             <div class="about-card">
                 <a href="/josh-belkoff" class="no-underline">
                     <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
@@ -58,6 +60,12 @@
                 <a href="/adam-vogel" class="no-underline">
                     <img src="/images/about/adam.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Adam Vogel<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
+                </a>
+            </div>
+            <div class="about-card">
+                <a href="/nick-hayden" class="no-underline">
+                    <img src="/images/about/nick-hayden.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Nick Hayden<span class="about-position">Specialist,<br/>Recruiting &amp; Development</span></h5>
                 </a>
             </div>
         </div>
