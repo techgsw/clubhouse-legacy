@@ -33,6 +33,12 @@ class StripeServiceProvider extends ServiceProvider
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
+        $transactions = array('subscriptions' => array(), 'orders' => array());
+
+        if (is_null($user->stripe_customer_id)) {
+            return $transactions;
+        }
+
         $stripe_transactions = Stripe\Invoice::all(
             array(
                 "customer" => $user->stripe_customer_id
@@ -44,8 +50,6 @@ class StripeServiceProvider extends ServiceProvider
                 "customer" => $user->stripe_customer_id
             )
         );
-
-        $transactions = array('subscriptions' => array(), 'orders' => array());
         
         foreach ($stripe_transactions->data as $key => $invoice) {
             if (!is_null($invoice->charge)) {
