@@ -18,15 +18,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/jacksonville-armada.png" alt="">
+                            <img class="logo" src="/images/testimonials/oakland-athletics-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>We partnered with Sports Business Solutions as we were looking to hire a head of ticket sales. They helped us determine the right people for our team and culture and they delivered great candidates quickly. They managed the entire process from beginning to end and we made an offer in less than 30 days. They were very professional, punctual and efficient and made the process easy for us. We were pleased with the service they provided and would happily endorse them as a recruiting solution for any team looking to make a hire at any level.</p>
+                                <p>The A’s partnered with Bob, Jason, and SBS to support our ticket sales department expansion. Working with SBS and Jason specifically, he was able to provide us an extensive candidate pool to fill account executive roles on our group sales & business development team. Jason made the process easy from day 1 and we are very happy with the results. We will continue to work with SBS for our recruiting needs as they arise.</p>
                                 <p class="heavy">
-                                    Mark Frisch<br/>
-                                    Owner<br/>
-                                    Jacksonville Armada FC
+                                    Josh Feinberg<br/>
+                                    Director of Group Sales<br/>
+                                    Oakland Athletics 
                                 </p>
                             </div>
                         </div>
@@ -39,10 +39,10 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>We hired Sports Business Solutions to recruit for a number of sales roles on our team.  From day one, they provided quality prescreened candidates that we weren’t receiving from our typical recruiting channels.  They were attentive, responsive, and adapted their search based on the feedback we provided while interviewing.  We are extremely happy with the resulting hire and wouldn’t hesitate to recommend Sports Business Solutions to anyone searching for top sales talent. </p>
+                                <p>We hired Sports Business Solutions to recruit for a number of sales roles on our team.  From day one, SBS provided quality, prescreened candidates we weren’t receiving from our typical recruiting channels.  They were attentive, responsive, and adapted to the search based on feedback we provided while interviewing.  We’re extremely happy with the resulting hire and wouldn’t hesitate to recommend Sports Business Solutions to anyone searching for top sales talent.</p>
                                 <p class="heavy">
                                     Brian Towers<br/>
-                                    Director of Team Sales<br/>
+                                    Vice President, Ticket Sales and Service<br/>
                                     Sharks Sports &amp; Entertainment
                                 </p>
                             </div>
@@ -52,15 +52,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/dc-united.png" alt="">
+                            <img class="logo" src="/images/testimonials/new-york-jets-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>We partnered with Jason, Bob and SBS to help fill a spot on our premium sales team. Not only did they provide us with some excellent candidates, but they went above and beyond throughout the process - even to the point of helping our new team member's wife set up some interviews in the area! They were instrumental in helping us find the next superstar for our team.</p>
+                                <p>What separates SBS from other agencies is their combination of sports industry experience and recruiting experience.  Some sports executives try to get into recruiting and some recruiters try to get into sports, but SBS marries those two things better than any other group out there.  It shows with their attention to detail and quality of candidates they send our way.  We’ll continue to use SBS to help us fill positions for the foreseeable future.</p>
                                 <p class="heavy">
-                                    James A. Clark<br/>
-                                    Manager, Season & Premium Sales<br/>
-                                    DC United
+                                    Roberto Beltramini<br/>
+                                    VP, Premium Partnerships, Group and Inside Sales & Service<br/>
+                                    New York Jets 
                                 </p>
                             </div>
                         </div>
@@ -69,15 +69,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/denver-nuggets.png" alt="">
+                            <img class="logo" src="/images/testimonials/chicago-cubs-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Sports Business Solutions provided us at the Denver Nuggets with several qualified candidates to choose from for our premium sales position.   Bob and Jason did a great job screening and getting us the candidates in a timely manner, and were very helpful in the communication process.  I recommend your team reaching out to Sports Business Solutions for any sales position that your team needs to fill.</p>
+                                <p>Jason and the Sports Business Solutions team have been a great asset in assisting the recruitment for several of our sales positions here with the Cubs. With a thorough process and a strong variety of network, Jason and the SBS team is a joy to work with and we plan to continue working with them for years to come.</p>
                                 <p class="heavy">
-                                    Kevin Duerr<br/>
-                                    Director of Ticket Sales<br/>
-                                    Denver Nuggets
+                                    Chris Weddige<br/>
+                                    Assistant Director, Ticket Sales<br/>
+                                    Chicago Cubs 
                                 </p>
                             </div>
                         </div>
@@ -86,15 +86,67 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/legends.png" alt="">
+                            <img class="logo" src="/images/testimonials/jacksonville-armada.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Over the last few months Legends has worked closely with Sports Business Solutions to assist in identifying and recruiting sales professionals across all levels our organization.  They have been an unbelievably valuable resource as we have continued to grow our business.</p>
+                                <p>We partnered with Sports Business Solutions as we were looking to hire a head of ticket sales. They helped us determine the right people for our team and culture and they delivered great candidates quickly. They managed the entire process from beginning to end and we made an offer in less than 30 days. They were very professional, punctual and efficient and made the process easy for us. We were pleased with the service they provided and would happily endorse them as a recruiting solution for any team looking to make a hire at any level.</p>
                                 <p class="heavy">
-                                    Mike Behan<br/>
-                                    Vice President<br/>
-                                    Legends Global Sales
+                                    Mark Frisch<br/>
+                                    Owner & CEO<br/>
+                                    Jacksonville Armada 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/testimonials/san-francisco-49ers-sports-business-solutions.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>We partnered with Sports Business Solutions to hire our inaugural class in the 49ers Sales Academy. From the time of engagement, Jason Stein and Bob Hamer made it feel like a true partnership where they seamlessly integrated into our recruiting efforts, shared our vision with prospective candidates, and delivered pre-qualified top tier sales talent throughout the country.  I would recommend Sports Business Solutions to any hiring manager in the sports industry that is looking for high character, top performing culture drivers to infuse into your sales organization.</p>
+                                <p class="heavy">
+                                    Paul Epstein<br/>
+                                    Director of Sales<br/>
+                                    San Francisco 49ers 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/testimonials/Minnesota-United-FC-MLS.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>Jason and SBS have been a pleasure to work with on multiple searches. Sports Business Solutions has the network to be able to help find quality candidates of all levels of our team/club and we are very happy with the candidates that Jason has helped us find. We will be working with him again in the future.</p>
+                                <p class="heavy">
+                                    Sean Sittnick<br/>
+                                    Sr. Director of Ticket Sales<br/>
+                                    Minnesota United FC 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/testimonials/Oilers-Entertainment-Group-SportsBusinessSolutions.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>Jason worked with me on hiring a Manager, Ticket Sales for one of our brands. Right away Jason and his team took the time to be thorough in understanding not only our need for the position, but the culture of the company. It is always extremely important that we find the right fit and Jason understood this.</p>
+                                <p>Not only did Jason provide us some great candidates, but he was transparent about the challenges that they were having in the market that made it easy for us to understand what was out there and what types of people were coming through our door. Jason allowed me to have as much involvement as I wanted during the process and was always there for check-ins, even just a quick "hello" at the end of the week to make sure everything was going okay. It really felt like we were all working as a team, and I would absolutely use this group (Jason, specifically) again.</p>
+                                <p class="heavy">
+                                    Michelle Carlson<br/>
+                                    HR Recruiter<br/>
+                                    Oilers Entertainment Group 
                                 </p>
                             </div>
                         </div>
