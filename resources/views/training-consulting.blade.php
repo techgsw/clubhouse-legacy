@@ -40,7 +40,7 @@
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
                                 <p>We were looking for a company who could provide training that would help our sales team to continue to grow and develop. What we found with Sports Business Solutions and Adam was someone who brought enthusiasm, new ideas, and a fresh perspective to how our ticket sales staff worked every day. Almost instantly our sales staff has been able to implement the tactics and tools he provided into their sales flow.</p>
-                                <p elass="heavy">
+                                <p class="heavy">
                                     Brent Fletcher<br/>
                                     Associate Athletic Director for Ticket Services<br/>
                                     Texas Tech University 
