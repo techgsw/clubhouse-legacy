@@ -70,18 +70,20 @@
     </div>
     <div class="row" style="padding-bottom: 20px;">
         <div class="col s12">
-            <div class="carousel testimonial carousel-slider center" data-indicators="true">
+            <div class="carousel testimonial about carousel-slider center" data-indicators="true">
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/seat-geek.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/texas-rangers-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>I had the pleasure of hiring Bob Hamer and working with him in Phoenix for the better part of seven years. Bob has a sharp eye for revenue generation and creating systems that enhance results. His ability to identify and hire great talent, as well as teaching this talent to succeed, is first class. I consider Bob a trusted advisor and would want him as part of my team.</p>
+                                <p>I am thankful for the professionalism and partnership with Sports Business Solutions.  We have hosted Bob before and had an excellent experience.  We were looking bring in someone for some additional training before opening out Sales Center for Globe Life Field as well as put a few new representatives through the Sports Business Solutions training who had not experienced it before.  In discussing options, Bob was unavailable during the time frame we needed, so Josh Belkoff was recommended.</p>
+                                <p>Anytime someone other than the organizational leader comes in, there can be some worry.  Will the quality be the same?  Will the personal touch be present?  Will the training itself be as valuable?  I can say without a doubt now that from start to finish, Josh is a pro!  As we worked together to develop the training schedule, to the daily debriefs, every aspect of Josh’s presentation was top notch!  Josh is a connector.  He has the experience and expertise to fit into any sales training platform you are seeking.  Thank you Sports Business Solutions for making training valuable and memorable.</p>
                                 <p class="heavy">
-                                    Jeff Ianello<br/>
-                                    Executive Vice President, Client Partnerships<br/>
+                                    Nick Richardson<br/>
+                                    Manager, Inside Sales<br/>
+                                    Texas Rangers 
                                 </p>
                             </div>
                         </div>
@@ -90,15 +92,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/usf-bulls.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/International-Speedway-Corporation-SportsBusinessSolutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Bob Hamer has a unique perspective to offer young men and women hoping to work in the sport industry. He has progressed from an entry level sales person to a Vice President responsible for generating millions of dollars in revenue. In his role he has recruited, trained and developed successful professionals and has a real understanding of what it takes to be successful in sport business. His experience, concern, empathy and ability to communicate effectively make him uniquely qualified to provide direction and career advice. I can think of very few people with the credibility and interest in helping young people more than Bob Hamer. He will make a difference in people’s lives.</p>
+                                <p>It was a pleasure working Jason and the entire SBS team. Their professionalism and expertise far exceeded our expectations. Our Training and Hiring event was extremely successful and we are already exploring additional ways to incorporate SBS into future plans. I highly recommend working with Jason, Adam and Josh!!!</p>
                                 <p class="heavy">
-                                    Dr. William (Bill) Sutton<br/>
-                                    Professor & Director, Sports Management<br/>
-                                    University South Florida
+                                    Tom Canello<br/>
+                                    Managing Director<br />
+                                    ISC
                                 </p>
                             </div>
                         </div>
@@ -107,14 +109,49 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/arizona-diamondbacks.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/university-of-arizona-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>I’ve had the pleasure of knowing and working with Bob Hamer for the last ten years, in that time he has continued to grow and learn each and every day. Now all those lessons he’s learned while working in sports and traveling to visit teams are ready to be passed onto the next generation of industry leaders. The sports business field is highly competitive, and everyone looking for a start should also be looking for an advantage. I cannot think of a better professional to teach, train, recruit, and help place individuals in sports than Bob. His passion to help others learn, grow, and succeed are second to none. I highly recommend Bob to any individuals or teams. If you work with him, I promise you’ll be ahead of the game from that moment on.</p>
+                                <p>Working with Sport Business Solutions has helped prepare our sales team to overcome all obstacles. Not only focusing on the sales process, but also the customer service side of the business was crucial to building lasting relationships with our fan base.  We are very pleased with the direction we are headed after our training with SBS.</p>
                                 <p class="heavy">
-                                    Ryan Holmstedt<br/>
-                                    Sr. Director, Ticket Sales, Arizona Diamondbacks (MLB)
+                                    Chris Celona<br/>
+                                    Associate Athletic Director, Ticket Sales & CRM<br />
+                                    University of Arizona 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/Denver-Nuggets-SportsBusinessSolutions.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>We had Bob and Adam of SBS out to Denver to train our staff. I would highly recommend both Bob and Adam to any sports organization looking for sales trainers that are extremely collaborative, and who can customize their sessions to your specific market and needs. Our staff was very engaged, and had some great takeaways they can implement right away.</p>
+                                <p class="heavy">
+                                    Elliott Crichfield<br/>
+                                    Senior Manager of Inside Sales<br />
+                                    Denver Nuggets 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/one-world-observatory.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>What really impresses me about everyone at Sports Business Solutions is how they connect with each person in on our staff. They asked for a part of the process we specifically want to work on and they make sure it is covered. The overall ability to keep the room engaged for a whole day is a testament to their craft in training. We look forward to working with SBS in the future!</p>
+                                <p class="heavy">
+                                    Erik Roberts<br/>
+                                    Assistant Manager, Group Sales<br />
+                                    One World Observatory 
                                 </p>
                             </div>
                         </div>

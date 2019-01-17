@@ -14,7 +14,7 @@
 <div class="container-fluid" style="margin-top: -15px; background: #F2F2F2;">
     <div class="row">
         <div class="col s12">
-            <div class="carousel testimonial carousel-slider center" data-indicators="true">
+            <div class="carousel testimonial recruiting carousel-slider center" data-indicators="true">
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">

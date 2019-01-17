@@ -1508,8 +1508,8 @@ $.valHooks.textarea = {
         }
     }
 
-    // Move Registration Form
     $(window).resize(function() {
+        // Move Registration Form
         var wrapper_top = $('#registration-form-wrapper-top'),
             wrapper_bottom = $('#registration-form-wrapper-bottom'),
             registration_form = $('#registration-form-wrapper');
@@ -1522,6 +1522,23 @@ $.valHooks.textarea = {
             $(registration_form).detach(); 
             $(wrapper_bottom).html('');
             $(wrapper_top).append(registration_form);
+        }
+        // Change carousel heights
+        // small
+        if ($(window).width() <= 600) {
+            $('.carousel.testimonial').css('height', '800px');
+        }
+        // medium
+        if ($(window).width() > 600) {
+            $('.carousel.testimonial').css('height', '500px');
+        }
+        // large
+        if ($(window).width() > 992) {
+            $('.carousel.testimonial').css('height', '500px');
+        }
+        // x-large
+        if ($(window).width() > 1200) {
+            $('.carousel.testimonial').css('height', '400px');
         }
     });
     $(window).resize();

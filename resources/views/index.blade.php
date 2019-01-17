@@ -79,11 +79,11 @@
 <div class="container">
     <div class="row" style="padding: 30px 0;">
         <div class="col s12">
-            <div class="carousel testimonial carousel-slider center" data-indicators="true">
+            <div class="carousel testimonial home carousel-slider center" data-indicators="true">
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/phoenix_suns.jpg" alt="">
+                            <img class="logo" src="/images/home/testimonial/phoenix-suns-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -117,15 +117,17 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/sacramento_kings.png" alt="">
+                            <img class="logo" src="/images/home/testimonial/dc-united-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>When I decided to pursue a job in sports, one of my very first calls was to Bob. He’s a great friend -- as generous with his expertise and rolodex as he is with his time – and he is always willing to provide valuable guidance and insight. Aspiring sports leaders are incredibly lucky to have Bob as a resource in their corner.</p>
+                                <p>We’ve had the opportunity to work with SBS multiple times with focuses on different areas of our ticket sales business and both training sessions were very well received by our staff.</p>
+                                <p>Most recently we had Adam Vogel in to focus on maximizing our service initiatives and B2B selling. As expected, Adam came in with his wealth of industry knowledge and helped reaffirm our current processes while adding new approaches to various topics.</p>
+                                <p>Adam had a unique way of bringing creative and practical sales approaches to our team, which made it easy to immediately implement following our two-day training session. Our team had nothing but positive things to say about the overall experience and we look forward to working with SBS again in the future.</p>
                                 <p class="heavy">
-                                    Colin Twomey<br/>
-                                    Vice President – Product Development &amp; Analytics<br/>
-                                    Sacramento Kings
+                                    James Armold<br/>
+                                    Director of Ticket Sales & Service<br/>
+                                    D.C. United 
                                 </p>
                             </div>
                         </div>
