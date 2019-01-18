@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Josh Belkoff')
+@section('title', 'Nick Hayden')
 @section('content')
 <div class="container">
     <div class="row">
