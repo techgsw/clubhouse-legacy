@@ -25,6 +25,9 @@
                 contact-follow-up="{{ $contact->follow_up_date ? $contact->follow_up_date->format('Y-m-d') : '' }}">
                 {{ $contact->getNoteCount() }} <i class="fa fa-comments"></i>
             </button>
+            <button class="view-contact-job-assignment-btn flat-button small" contact-id="{{ $contact->id }}">
+                <i class="fa fa-id-card"></i> Assign to job
+            </button>
             @if ($contact->follow_up_date)
                 <button class="view-contact-notes-btn flat-button small {{ $contact->follow_up_date == $today ? 'green' : ($contact->follow_up_date < $today ? 'red' : '') }}"
                     contact-id="{{ $contact->id }}"

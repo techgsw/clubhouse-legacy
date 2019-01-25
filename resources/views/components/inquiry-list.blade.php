@@ -9,6 +9,4 @@
             </div>
         </div>
     @endif
-    @include('components.contact-notes-modal')
-    @include('components.inquiry-notes-modal')
 </div>

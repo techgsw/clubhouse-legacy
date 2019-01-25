@@ -19,6 +19,7 @@ $.valHooks.textarea = {
         unsaved: false
     };
     var Instagram = {};
+    var Job = {};
     var League = {};
     var Markdown = {};
     var Mentor = {};
@@ -376,6 +377,21 @@ $.valHooks.textarea = {
         });
     }
 
+    Note.getContactJobNotes = function (inquiry_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/contact-job/'+inquiry_id+'/show-notes'
+        });
+    }
+
+    Note.postContactJobNote = function (data) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact-job/'+data.contact_job_id+'/create-note',
+            data: data
+        });
+    }
+
     Note.postFollowUpNote = function (data) {
         return $.ajax({
             type: 'POST',
@@ -385,6 +401,28 @@ $.valHooks.textarea = {
     }
 
     // Job
+
+    Job.getAssignContact= function (contact_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/job/assign-contact',
+            data: {
+                'contact_id': contact_id
+            }
+        });
+    }
+
+    Job.assignContact = function (contact_id, job_id) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact-job',
+            data: {
+                '_token': $('form#assign-contact-job input[name="_token"]').val(),
+                'contact_id': contact_id,
+                'job_id': job_id 
+            }
+        });
+    }
 
     $('body').on(
         {
@@ -568,6 +606,52 @@ $.valHooks.textarea = {
         },
         'form.organization-field-autocomplete input#organization-id'
     );
+
+    // Open contact job assigment modal
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var contact_id = parseInt($(this).attr('contact-id'));
+                Job.getAssignContact(contact_id).done(function (view) {
+                    $('.contact-job-assignment-modal').html(view);
+                    $('.contact-job-assignment-modal').modal('open');
+                });
+            }
+        },
+        '.view-contact-job-assignment-btn'
+    );
+
+    // Assign contact to job 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var button = $(this),
+                    assigned_by = $(button).parent().find('.assigned-by'),
+                    assigned_at = $(button).parent().find('.assigned-at'),
+                    contact_id = parseInt($(this).attr('contact-id')),
+                    job_id = parseInt($(this).attr('job-id'));
+
+                Job.assignContact(contact_id, job_id).done(function (resp) {
+                    if (resp.type == 'success') {
+                        $(button).removeClass('contact-job-assignment-btn');
+                        $(button).removeClass('sbs-red');
+                        $(button).addClass('blue');
+                        $(button).addClass('lighten-1');
+                        $(button).html('UNASSIGN JOB');
+
+                        $(assigned_by).append(resp.values['admin_name']);
+                        $(assigned_by).removeClass('hidden');
+
+                        $(assigned_at).append(resp.values['created_at']);
+                        $(assigned_at).removeClass('hidden');
+                    }
+                });
+            }
+        },
+        '.contact-job-assignment-btn'
+    );
+
+    // Tag
 
     Tag.create = function (name) {
         return $.ajax({
@@ -1015,6 +1099,7 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
+                console.log('here');
                 var contact_id = parseInt($(this).attr('contact-id'));
                 Note.getContactNotes(contact_id).done(function (view) {
                     $('.contact-notes-modal').html(view);
@@ -1136,6 +1221,21 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
+                var inquiry_id = parseInt($(this).attr('inquiry-id'));
+                console.log(inquiry_id);
+                Note.getContactJobNotes(inquiry_id).done(function (view) {
+                    $('.contact-job-notes-modal .modal-content').html(view);
+                    $('.contact-job-notes-modal').modal('open');
+                    $('form#create-contact-job-note input[name="contact_job_id"]').val(inquiry_id);
+                });
+            }
+        },
+        '.view-contact-job-notes-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
                 var form = $(this).parents('form#create-inquiry-note');
                 if (form.length == 0) {
                     return;
@@ -1165,6 +1265,40 @@ $.valHooks.textarea = {
             }
         },
         '.submit-inquiry-note-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var form = $(this).parents('form#create-contact-job-note');
+                if (form.length == 0) {
+                    return;
+                }
+
+                var values = {};
+                data = form.serializeArray();
+                data.forEach(function (input) {
+                    values[input.name] = input.value;
+                });
+
+                form.find('input, textarea, button').attr('disabled', 'disabled');
+                Note.postContactJobNote(values).done(function (response) {
+                    if (response.type != 'success') {
+                        // TODO better messaging for failure
+                        console.error('Failed to add note');
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        return;
+                    }
+                    Note.getInquiryNotes(values.contact_job_id).done(function (view) {
+                        form.find('textarea#note').val("");
+                        form.find('input, textarea, button').removeAttr('disabled');
+                        $('.contact-job-notes-modal .modal-content').html(view);
+                        $('.contact-job-notes-modal').modal('open');
+                    });
+                });
+            }
+        },
+        '.submit-contact-job-note-btn'
     );
 
     // end Notes

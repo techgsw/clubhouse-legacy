@@ -171,6 +171,11 @@
         @endcan
         @include('components.inquiry-list', ['inquiries' => $inquiries, 'contact' => false])
     @endif
+    @if ((count($inquiries) > 0 || count($contact_applications) > 0) || (Auth::user() && Auth::user()->can('edit-inquiry')))
+        @include('components.contact-notes-modal')
+        @include('components.inquiry-notes-modal')
+        @include('components.contact-job-notes-modal')
+    @endif
 </div>
 @component('components.pdf-view-modal')@endcomponent
 @endsection

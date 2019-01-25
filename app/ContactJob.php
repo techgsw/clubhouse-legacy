@@ -14,9 +14,9 @@ class ContactJob extends Model
         'updated_at'
     ];
 
-    public function user()
+    public function contact()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Contact::class);
     }
 
     public function admin_user()

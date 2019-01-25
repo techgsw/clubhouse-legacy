@@ -15,14 +15,14 @@ class CreateContactJob extends Migration
     {
         Schema::create('contact_job', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('contact_id')->unsigned();
             $table->integer('admin_user_id')->unsigned();
             $table->integer('job_id')->unsigned();
             $table->integer('rating')->nullable()->default(null);
             $table->string('resume')->nullable()->default(null);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('user');
+            $table->foreign('contact_id')->references('id')->on('contact');
             $table->foreign('admin_user_id')->references('id')->on('user');
             $table->foreign('job_id')->references('id')->on('job');
         });

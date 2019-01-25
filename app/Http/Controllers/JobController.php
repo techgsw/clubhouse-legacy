@@ -59,6 +59,34 @@ class JobController extends Controller
         ]);
     }
 
+    public function assignContact(Request $request)
+    {
+        $this->authorize('create-job');
+
+        $request->merge([
+            'status' => 'open',     // only open jobs
+            'new-inquiries' => ''   // don't allow new-inquiries
+        ]);
+
+        $jobs = Job::filter($request)
+            ->select('job.*', 'cj.job_id', 'cj.admin_user_id', 'cj.created_at', 'ua.first_name', 'ua.last_name')
+            ->leftJoin('contact_job as cj', function($join) use ($request) {
+                $join->on('job.id', '=', 'cj.job_id')
+                    ->where('cj.contact_id', '=', $request['contact_id']);
+            })
+            ->leftJoin('user as ua', 'cj.admin_user_id', 'ua.id')
+            ->orderBy('job.featured', 'desc')
+            ->orderBy('job.rank', 'asc')
+            ->orderBy('job.created_at', 'desc')
+            ->get();
+
+
+        return view('job/assign-contact', [
+            'contact_id' => $request['contact_id'],
+            'jobs' => $jobs,
+        ]);
+    }
+
     /**
      * @return \Illuminate\Http\Response
      */

@@ -29,4 +29,5 @@
     </div>
 </div>
 @component('components.pdf-view-modal')@endcomponent
+@component('components.job-contact-assign-modal')@endcomponent
 @endsection
