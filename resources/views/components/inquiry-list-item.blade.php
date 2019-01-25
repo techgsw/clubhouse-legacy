@@ -12,10 +12,14 @@
             </div>
             <a style="margin: 2px 0;" class="no-underline block" href="/user/{{ $inquiry->user->id }}">{{ $inquiry->name}}</a>
             <p style="margin: 2px 0;" class="small">
-                <a class="no-underline" href="mailto:{{ $inquiry->email}}">{{ $inquiry->email}}</a>
+                @if ($inquiry->email)
+                    <a class="no-underline" href="mailto:{{ $inquiry->email}}">{{ $inquiry->email}}</a>
+                @else
+                    <a class="no-underline" href="mailto:{{ $inquiry->user->email}}">{{ $inquiry->user->email}}</a>
+                @endif
             </p>
             <p style="margin: 2px 0;" class="small">
-                <span>applied {{ $inquiry->created_at->format('n/j/Y') }}</span>
+                <span>{{ ($contact ? 'assigned' : 'applied') }} {{ $inquiry->created_at->format('n/j/Y') }}</span>
                 @if (!is_null($inquiry->rating))
                     <span>, replied {{ $inquiry->updated_at->format('n/j/Y') }}</span>
                 @endif

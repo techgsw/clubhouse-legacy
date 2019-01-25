@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use App\Inquiry;
+use App\ContactJob;
 use App\Job;
 use App\League;
 use App\Message;
@@ -202,6 +203,18 @@ class JobController extends Controller
         }
 
         if (Gate::allows('view-admin-jobs')) {
+            $contact_applications = ContactJob::filter($id, $request)
+                ->paginate(10);
+        } elseif (Auth::check()) {
+            $contact_applications = ContactJob::where('job_id', $id)
+                ->where('user_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } else {
+            $contact_applications = [];
+        }
+
+        if (Gate::allows('view-admin-jobs')) {
             $inquiries = Inquiry::filter($id, $request)
                 ->paginate(10);
         } elseif (Auth::check()) {
@@ -223,6 +236,7 @@ class JobController extends Controller
         return view('job/show', [
             'description' => $pd->text($job->description),
             'job' => $job,
+            'contact_applications' => $contact_applications,
             'inquiries' => $inquiries,
             'profile_complete' => $profile_complete,
             'breadcrumb' => [
