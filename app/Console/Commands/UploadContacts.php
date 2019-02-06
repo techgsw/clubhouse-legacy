@@ -53,6 +53,7 @@ class UploadContacts extends Command
         $skipped_count = 0;
         $error_count = 0;
         $line_number = 0;
+        $row_num = 1;
 
         $sbs_name_to_user = [
             'bob' => 1,
@@ -61,9 +62,12 @@ class UploadContacts extends Command
             'josh' => 1952
         ];
 
-        $row_num = 1;
         while (($row = fgetcsv($handle, ",")) !== false) {
-            $row_num++;
+	    
+	    $row_num++;
+            if($row[0] == "Sheet1: Table 1" || $row[0] == null){
+                continue;
+            }
 
             if ($header) {
                 $header = false;
@@ -71,21 +75,52 @@ class UploadContacts extends Command
             }
 
             $row_size = count($row);
-            $email = $row[7];
 
-            if (!$email || strlen($email) == 0) {
-                echo "Email required. Missing on row ".$row_num.".\n";
-                continue;
-            }
+            // Deprecated - Austin 2-6-19
+            // Use - Searching by email based on a given row
+            // $email = $row[7];
 
-            $contact = Contact::where('email', '=', $email)->get();
+            // For searching by first and last name being that we have no emails
+            $firstName = $row[1];
+            $lastName = $row[2];
+
+            // Deprecated - Austin 2-6-19
+            // if (!$email || strlen($email) == 0) {
+            //     echo "Email required. Missing on row ".$row_num.".\n";
+            //     continue;
+            // }
+            
+            //update records if they do exist
+            
+            //if duplicate dont do anything
+            $contact = Contact::with('address')->where('first_name', '=', $firstName)
+                                               ->Where('last_name', '=', $lastName)
+                                               ->get();
+                                            // ->toSql();
+            // You could use this to get the Contact firstName if it had existed
+            // $firstNameExists = Contact::where('first_name', '=', $firstName)->get();
+            // $lastNameExists = Contact::where('last_name', '=', $lastName)->get();
+
+            //update the contact address correcrtly
+            //google join for DB
+            //"Laravel eloquent relationships
             if (count($contact) > 0) {
-                echo $email . " already exists.\n";
+                echo $firstName . ' ' . $lastName . " already exists.\n";
                 // TODO Update?
+                
+                // dd($contact[0]);
+                // dd($contact[0]->address);
+                //Make sure count == 1 on contact else it will have a duplicate
+                //contact[0] will get the first item in the array, then point to the property address
+                dd($contact[0]->address);
+
                 $skipped_count += 1;
                 continue;
             }
-
+            if(count($contact) > 1){
+                echo "Potential duplicate found - " . $firstName . " " . $lastName;
+            }
+            // dd($contact);
             $sbs_reps = array();
             if ($multi_rep = explode('/', $row[0])) {
                 foreach ($multi_rep as $rep) {
@@ -96,32 +131,34 @@ class UploadContacts extends Command
             $sbs_reps[] = (($row[2] !== "") ? strtolower($row[2]) : null);
 
             $args = array(
-                'organization' => (($row[3] !== "") ? $row[3] : null),
-                'first_name'   => (($row[4] !== "") ? $row[4] : null),
-                'last_name'    => (($row[5] !== "") ? $row[5] : null),
-                'title'        => (($row[6] !== "") ? $row[6] : null),
-                'email'        => (($row[7] !== "") ? $row[7] : null),
-                'phone'        => (($row[8] !== "") ? $row[8] : null),
+                'organization' => (($row[0] !== "") ? $row[0] : null),
+                'first_name'   => (($row[1] !== "") ? $row[1] : null),
+                'last_name'    => (($row[2] !== "") ? $row[2] : null),
+                'title'        => (($row[8] !== "") ? $row[8] : null),
+                'email'        => (($row[9] !== "") ? $row[9] : null),
+                'phone'        => (($row[10] !== "") ? $row[10] : null),
                 'line_one'     => (($row[9] !== "") ? $row[9] : null),
-                'city'         => (($row[10] !== "") ? $row[10] : null),
-                'state'        => (($row[11] !== "") ? $row[11] : null),
-                'postal_code'  => (($row[12] !== "") ? $row[12] : null),
-                'country'      => (($row[13] !== "") ? $row[13] : null),
+                'city'         => (($row[4] !== "") ? $row[4] : null),
+                'state'        => (($row[5] !== "") ? $row[5] : null),
+                'postal_code'  => (($row[6] !== "") ? $row[6] : null),
+                'country'      => (($row[7] !== "") ? $row[7] : null),
                 'sbs_reps'     => $sbs_reps
             );
+            // dd($args);
 
-            $contact = DB::transaction(function() use($args, $line_number, $sbs_name_to_user) {
+            $contact = DB::transaction(function() use($args, $line_number, $sbs_name_to_user, $row_num) {
                 $contact = Contact::create([
                     'first_name' => $args['first_name'],
                     'last_name' => $args['last_name'],
-                    'email' => $args['email'],
+                    // 'email' => $args['email'],
+                    'email' => null,
                     'phone' => $args['phone'],
                     'title' => $args['title'],
                     'organization' => $args['organization'],
                     'job_seeking_status' => null,
                     'job_seeking_type' => null,
                 ]);
-
+                // dd($contact);
                 $address = Address::create([
                    'line1' => $args['line_one'],
                    'line2' => null,
@@ -130,30 +167,42 @@ class UploadContacts extends Command
                    'postal_code' => $args['postal_code'],
                    'country' => $args['country']
                 ]);
-
+                // dd($contact, $address);
                 $address_contact = AddressContact::create([
                    'address_id' => $address->id,
                    'contact_id' => $contact->id
                 ]);
+                // $existing = ContactRelationship::where('contact_id', '=', $contact->id)
+                //                                 ->where('user_id', '=', $sbs_name_to_user[0])
+                //                                 ->get();
+                // // dd($existing[0]);
+                // if (count($existing) < 1) {
+                //     $contact_relationship = ContactRelationship::create([
+                //         'contact_id' => $contact->id,
+                //         'user_id' => $user_id
+                //     ]);
+                // }
 
-                foreach ($args['sbs_reps'] as $name) {
-                    if (is_null($name)) {
-                        continue;
-                    }
-                    if (array_key_exists($name, $sbs_name_to_user)) {
-                        $user_id = $sbs_name_to_user[$name];
-                        $existing = ContactRelationship::where('contact_id', '=', $contact->id)
-                            ->where('user_id', '=', $user_id)->get();
-                        if (count($existing) < 1) {
-                            $contact_relationship = ContactRelationship::create([
-                                'contact_id' => $contact->id,
-                                'user_id' => $user_id
-                            ]);
-                        }
-                    } else {
-                        echo "Invalid SBS Rep (".$name.") on row ".$row_num."\n";
-                    }
-                }
+                // foreach ($args['sbs_reps'] as $name) {
+                //     if (is_null($name)) {
+                //         continue;
+                //     }
+                //     if (array_key_exists($name, $sbs_name_to_user)) {
+                //         $user_id = $sbs_name_to_user[$name];
+                //         $existing = ContactRelationship::where('contact_id', '=', $contact->id)
+                //             ->where('user_id', '=', $user_id)->get();
+                //         if (count($existing) < 1) {
+                //             $contact_relationship = ContactRelationship::create([
+                //                 'contact_id' => $contact->id,
+                //                 'user_id' => $user_id
+                //             ]);
+                //         }
+                //     } else {
+                //         // dd($row_num);
+                //         echo "Here";
+                //         echo "Invalid SBS Rep (".$name.") on row ".$row_num."\n";
+                //     }
+                // }
 
                 return $contact;
             });
