@@ -934,7 +934,8 @@ $.valHooks.textarea = {
     };
 
     SBS.Inquiry = {};
-    SBS.Inquiry.rate = function (id, rating) {
+    SBS.Inquiry.rate = function (id, rating,type) {
+        var uri = 'inquiry';
         var action = '';
         // Normalize rating to -1, 0, or 1
         rating = (rating > 0) ? 1 : (rating < 0) ? -1 : 0;
@@ -949,10 +950,13 @@ $.valHooks.textarea = {
                 action = 'rate-down';
                 break;
         }
+        if (type === 'contact') {
+            uri = 'contact-job';
+        }
         // POST and return deferred object
         return $.ajax({
             method: "GET",
-            url: "/inquiry/"+id+"/"+action,
+            url: "/"+uri+"/"+id+"/"+action,
             data: {}
         });
     }
@@ -961,8 +965,9 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                var id = parseInt($(this).attr('inquiry-id'));
+                var id = parseInt($(this).attr('data-id'));
                 var rating = parseInt($(this).attr('rating'));
+                var type = parseInt($(this).attr('data-type'));
 
                 if (!id) {
                     console.error('Inquiry.rate: ID and rating are required');
@@ -979,7 +984,7 @@ $.valHooks.textarea = {
                     $(b).addClass('gray');
                 });
 
-                SBS.Inquiry.rate(id, rating).done(function (resp) {
+                SBS.Inquiry.rate(id, rating, type).done(function (resp) {
                     if (resp.type != 'success') {
                         console.error('An error occurred trying to rate inquiry '+id);
                         return;
