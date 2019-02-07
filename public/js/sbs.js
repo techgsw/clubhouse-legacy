@@ -950,6 +950,7 @@ $.valHooks.textarea = {
                 action = 'rate-down';
                 break;
         }
+        console.log(type);
         if (type === 'contact') {
             uri = 'contact-job';
         }
@@ -967,7 +968,7 @@ $.valHooks.textarea = {
             click: function (e, ui) {
                 var id = parseInt($(this).attr('data-id'));
                 var rating = parseInt($(this).attr('rating'));
-                var type = parseInt($(this).attr('data-type'));
+                var type = $(this).attr('data-type');
 
                 if (!id) {
                     console.error('Inquiry.rate: ID and rating are required');
@@ -1294,7 +1295,7 @@ $.valHooks.textarea = {
                         form.find('input, textarea, button').removeAttr('disabled');
                         return;
                     }
-                    Note.getInquiryNotes(values.contact_job_id).done(function (view) {
+                    Note.getContactJobNotes(values.contact_job_id).done(function (view) {
                         form.find('textarea#note').val("");
                         form.find('input, textarea, button').removeAttr('disabled');
                         $('.contact-job-notes-modal .modal-content').html(view);
