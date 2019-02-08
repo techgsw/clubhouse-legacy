@@ -20,7 +20,7 @@
 <script src="/js/dropzone.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/js/daterangepicker.js"></script>
-<script src="/js/sbs.js?v=26"></script>
+<script src="/js/sbs.js?v=27"></script>
 @if (Request::is('checkout/*') || Request::is('*/account'))
     <script>SBS.stripe_token = '{{ env('STRIPE_PUBLIC_TOKEN') }}';</script>
     <script src="https://js.stripe.com/v3/"></script>
