@@ -20,6 +20,9 @@
         @can ('edit-profile', $user)
             <a href="/user/{{ $user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
         @endcan
+        @can ('edit-profile', $user)
+            <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
+        @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
         <li class="tab"><a class="" href="/user/{{ $user->id }}/account">Account</a></li>
@@ -60,6 +63,9 @@
         </div>
     </div>
 </div>
+@can ('edit-profile', $user)
 @include('components.contact-notes-modal')
 @include('components.inquiry-notes-modal')
+@component('components.job-contact-assign-modal')@endcomponent
+@endcan
 @endsection
