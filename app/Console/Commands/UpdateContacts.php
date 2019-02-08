@@ -8,6 +8,8 @@ use App\ContactRelationship;
 use App\Address;
 use App\User;
 use App\AddressContact;
+use App\Organization;
+use App\ContactOrganization;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 
@@ -45,8 +47,9 @@ class UpdateContacts extends Command
     public function handle()
     {
         echo "Uploading contacts from " . $this->argument('filepath') . "...\n\n";
-
+        
         $handle = fopen($this->argument('filepath'), "r");
+        
         $header = true;
         $created_count = 0;
         $updated_count = 0;
@@ -54,6 +57,7 @@ class UpdateContacts extends Command
         $error_count = 0;
         $line_number = 0;
         $row_num = 1;
+        // echo "Herfe";
 
         $sbs_name_to_user = [
             'bob' => 1,
@@ -63,7 +67,7 @@ class UpdateContacts extends Command
         ];
 
         while (($row = fgetcsv($handle, ",")) !== false) {
-	    
+
             $row_num++;
             if($row[0] == "Sheet1: Table 1" || $row[0] == null){
                 continue;
@@ -95,122 +99,145 @@ class UpdateContacts extends Command
                                             // ->toSql();
 
             if (count($contact) > 1) {
-                echo $record['first_name'] . ' ' . $record['last_name'] . " has more than one record. Unable to update.\n";
-                
-                $skipped_count += 1;
+                echo  "Has more than one record. Unable to update " . $record['first_name'] . ' ' . $record['last_name'] . "\n";
+
+                $error_count += 1;
+                continue;
+            }
+            $org = Organization::where('name', '=', $record['org'])->first();  
+            if($org = null){
+                // echo "Null org";
                 continue;
             }
 
             if (count($contact) == 1) {
-                echo $contact[0]->address[0]->line1."\n";
-                echo $record['street']."\n";
+                // Update
+                echo "Checking contact to update" . "\n";
 
                 // Update
-                $contact = DB::transaction(function() use($contact, $record, $line_number, $sbs_name_to_user, $row_num) {
-                    $contact->organization = $record['org'];
-
+                $contact = DB::transaction(function() use($contact, $record, $line_number, $sbs_name_to_user, $row_num, &$updated_count, &$error_count) {
                     // Write query to grab record for contact_organization;
-
+                    $contact_org_id = null;
                     // Update or insert as required
+                    $org = Organization::where('name', '=', $record['org'])->first();  
+                    //grab org see if exists compare to current and if they match create new org and upadte record      
+                    //if not do nothing
 
-                    $org = Organization::where('name', '=', $record['org'])->first();
+                    if ($org != null){
+                        // echo "org not null";
+                        $contact_org_id = $org->id;
+                    }
+                    
+                    // $contact_organization = ContactOrganization::where('organization_id', '=', $contact_org_id)
+                    //                                             ->where('contact_id', '=', $contact[0]->id)
+                    //                                             ->get();
+                    
+                    //compare values if incorrect update the record
+                    //update relationship and update the column on contact record
 
-                    $address = $contact[0]->address[0];
+                    $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact[0]->id)->get();
+                    $contact_organization_id = ContactOrganization::where('organization_id' ,'=', $contact_org_id)->get();
+                    
+                    if(count($contact_organization) == 0 && $org != null){
+                        // dd($contact_organization_id);
+                        echo "Creating organization link" . "\n";
+                        // echo "contact_id " . $contact[0]->id . " org-id " . $org->id . "\n";
+                        $contact_organization_id = ContactOrganization::create([
+                             'contact_id' => $contact[0]->id,
+                             'organization_id' => $org->id,
+                         ]);
+                    
 
-                    $address->line1 = $record['street'];
-                    $address->city = $record['city'];
-                    $address->state = $record['state'];
-                    $address->postal_code = $record['zip'];
-                    $address->country = $record['country'];
+                    }      
+                    if(count($contact_organization) > 0 && $org != null){
 
-                    $address->save();
+                        if(count($contact_organization) != 0 && $contact_org_id != $contact_organization[0]->organization_id && $org != null){
+                            echo "Update Organization ID" . "\n";
+                            $contact_organization[0]->organization_id = $contact_org_id;
+                        }
+                        if($org != null){
+                            $contact[0]->organization = $org->name;
+                        }
+                        $address = $contact[0]->address[0];
+
+                        $address->line1 = $record['street'];
+                        $address->city = $record['city'];
+                        $address->state = $record['state'];
+                        $address->postal_code = $record['zip'];
+                        $address->country = $record['country'];
+
+                        $contact[0]->save();
+                        $contact_organization[0]->save();                            
+                        $address->save();
+                        $org->save();
+                        $updated_count += 1;
+                        return $contact;
+                    }
+                    else{
+                        echo "Invalid organization - " . $contact[0]->first_name . " " . $contact[0]->last_name . " on organization " . $record["org"] .  "\n";
+                        $error_count += 1;
+                        return $contact;
+                    }
                 });
-                die();
             }
-            
+
             if (count($contact) < 1) {
                 // Insert
-                $contact = DB::transaction(function() use($contact, $record, $line_number, $sbs_name_to_user, $row_num) {
+                echo 'Creating a new contact ' . $record['first_name'] . " " . $record['last_name'] . "\n";
+                $contact = DB::transaction(function() use($contact, $record, $line_number, $sbs_name_to_user, $row_num, &$skipped_count, &$error_count, &$created_count) {
                     $contact = Contact::create([
-                        'first_name' => $args['first_name'],
-                        'last_name' => $args['last_name'],
-                        'phone' => $args['phone'],
-                        'title' => $args['title'],
-                        'organization' => $args['organization'],
+                        'first_name' => $record['first_name'],
+                        'last_name' => $record['last_name'],
+                        'phone' => null,//$record['phone'],
+                        'title' => null,//$record['title'],
+                        'organization' => $record['org'],
                         'job_seeking_status' => null,
                         'job_seeking_type' => null,
                     ]);
-                    // dd($contact);
-                    $address = Address::create([
-                       'line1' => $args['line_one'],
-                       'line2' => null,
-                       'city' => $args['city'],
-                       'state' => $args['state'],
-                       'postal_code' => $args['postal_code'],
-                       'country' => $args['country']
-                    ]);
-                    // dd($contact, $address);
-                    $address_contact = AddressContact::create([
-                       'address_id' => $address->id,
-                       'contact_id' => $contact->id
-                    ]);
 
-                    // Create record for contact_organization;
-                    // Update or insert as required
+                    //check to see if the organization exists
+                    // $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact->id)->get();
+                    $org = Organization::where('name', '=', $record['org'])->first(); 
+                    
+                    if($org != null){
+                        $address = Address::create([
+                            'line1' => $record['street'],
+                            'line2' => null,
+                            'city' => $record['city'],
+                            'state' => $record['state'],
+                            'postal_code' => $record['zip'],
+                            'country' => $record['country']
+                         ]);
+                         $address_contact = AddressContact::create([
+                            'address_id' => $address->id,
+                            'contact_id' => $contact->id
+                         ]);
+     
+                         // Create record for contact_organization;
+                         // Update or insert as required
+                         //lookup by title
+                         //find match
+                         //update or insert
 
+                         $contact_organization = ContactOrganization::create([
+                             'contact_id' => $contact->id,
+                             'organization_id' => $org->id,
+                         ]);
+                        //  $created_count += 1;
+                        //  return $created_count;
+                        //update contact organization like before for the contact organization. Like before with the arizona diamondbacks on Michael.
+                    }
+                    
+                    $created_count += 1;
+                    return $contact;
                 });
-            }
-
-
-            $contact = DB::transaction(function() use($args, $line_number, $sbs_name_to_user, $row_num) {
-                
-                // $existing = ContactRelationship::where('contact_id', '=', $contact->id)
-                //                                 ->where('user_id', '=', $sbs_name_to_user[0])
-                //                                 ->get();
-                // // dd($existing[0]);
-                // if (count($existing) < 1) {
-                //     $contact_relationship = ContactRelationship::create([
-                //         'contact_id' => $contact->id,
-                //         'user_id' => $user_id
-                //     ]);
-                // }
-
-                // foreach ($args['sbs_reps'] as $name) {
-                //     if (is_null($name)) {
-                //         continue;
-                //     }
-                //     if (array_key_exists($name, $sbs_name_to_user)) {
-                //         $user_id = $sbs_name_to_user[$name];
-                //         $existing = ContactRelationship::where('contact_id', '=', $contact->id)
-                //             ->where('user_id', '=', $user_id)->get();
-                //         if (count($existing) < 1) {
-                //             $contact_relationship = ContactRelationship::create([
-                //                 'contact_id' => $contact->id,
-                //                 'user_id' => $user_id
-                //             ]);
-                //         }
-                //     } else {
-                //         // dd($row_num);
-                //         echo "Here";
-                //         echo "Invalid SBS Rep (".$name.") on row ".$row_num."\n";
-                //     }
-                // }
-
-                return $contact;
-            });
-
-            if (!is_null($contact)) {
-                $created_count += 1;
-            } else {
-                echo "Error creating contact on row ".$row_num."\n";
-                $error_count += 1;
             }
         }
 
         echo "\n";
         echo "Created: ". $created_count ."\n";
-        // echo "Updated: ". $updated_count ."\n";
-        echo "Skipped: ". $skipped_count ."\n";
+        echo "Updated: ". $updated_count ."\n";
+        // echo "Skipped: ". $skipped_count ."\n";
         echo "Errors: ". $error_count ."\n";
     }
 }
