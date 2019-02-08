@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use App\Inquiry;
+use App\ContactJob;
 use App\Job;
 use App\League;
 use App\Message;
@@ -55,6 +56,34 @@ class JobController extends Controller
             'jobs' => $jobs,
             'searching' => $searching,
             'leagues' => League::all()
+        ]);
+    }
+
+    public function assignContact(Request $request)
+    {
+        $this->authorize('create-job');
+
+        $request->merge([
+            'status' => 'open',     // only open jobs
+            'new-inquiries' => ''   // don't allow new-inquiries
+        ]);
+
+        $jobs = Job::filter($request)
+            ->select('job.*', 'cj.job_id', 'cj.admin_user_id', 'cj.created_at', 'ua.first_name', 'ua.last_name')
+            ->leftJoin('contact_job as cj', function($join) use ($request) {
+                $join->on('job.id', '=', 'cj.job_id')
+                    ->where('cj.contact_id', '=', $request['contact_id']);
+            })
+            ->leftJoin('user as ua', 'cj.admin_user_id', 'ua.id')
+            ->orderBy('job.featured', 'desc')
+            ->orderBy('job.rank', 'asc')
+            ->orderBy('job.created_at', 'desc')
+            ->get();
+
+
+        return view('job/assign-contact', [
+            'contact_id' => $request['contact_id'],
+            'jobs' => $jobs,
         ]);
     }
 
@@ -202,6 +231,18 @@ class JobController extends Controller
         }
 
         if (Gate::allows('view-admin-jobs')) {
+            $contact_applications = ContactJob::filter($id, $request)
+                ->paginate(10);
+        } elseif (Auth::check()) {
+            $contact_applications = ContactJob::where('job_id', $id)
+                ->where('user_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } else {
+            $contact_applications = [];
+        }
+
+        if (Gate::allows('view-admin-jobs')) {
             $inquiries = Inquiry::filter($id, $request)
                 ->paginate(10);
         } elseif (Auth::check()) {
@@ -223,6 +264,7 @@ class JobController extends Controller
         return view('job/show', [
             'description' => $pd->text($job->description),
             'job' => $job,
+            'contact_applications' => $contact_applications,
             'inquiries' => $inquiries,
             'profile_complete' => $profile_complete,
             'breadcrumb' => [

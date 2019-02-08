@@ -68,6 +68,12 @@ class Note extends Model
         return $notes;
     }
 
+    public static function contactJob($contact_job_id, array $options = null)
+    {
+        return Note::where('notable_type', 'App\ContactJob')
+            ->where('notable_id', $contact_job_id);
+    }
+
     public static function inquiry($inquiry_id, array $options = null)
     {
         return Note::where('notable_type', 'App\Inquiry')
