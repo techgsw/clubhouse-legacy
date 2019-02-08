@@ -35,9 +35,22 @@
         <li class="tab"><a class="active" href="/user/{{ $user->id }}/jobs">Jobs</a></li>
         <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
     </ul>
+    @can ('view-contact')
+    <div class="row">
+        <div class="col s12">
+            @if (count($user->contact->jobs))
+                <h5>Job Assignments</h5>
+                @foreach ($user->contact->jobs as $job)
+                    @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $user])
+                @endforeach
+            @endif
+        </div>
+    </div>
+    @endcan
     <div class="row">
         <div class="col s12">
             @if (count($user->inquiries))
+                <h5>Job Applications</h5>
                 @foreach ($user->inquiries as $inquiry)
                     @include('components.user-inquiry-list-item', ['inquiry' => $inquiry, 'user' => $user])
                 @endforeach

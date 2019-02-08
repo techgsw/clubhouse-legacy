@@ -65,6 +65,11 @@ class Contact extends Model
         return null;
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(ContactJob::class);
+    }
+
     public function getNoteCount()
     {
         return count(Note::contact($this->id));

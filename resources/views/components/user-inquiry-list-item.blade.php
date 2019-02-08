@@ -7,10 +7,10 @@
     <div class="col s9 m10 info">
         @can ('edit-inquiry', $inquiry)
             <div class="hide-on-small-only float-right controls">
-                <button type="button" class="flat-button small blue view-inquiry-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
-                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
-                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
-                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
+                <button type="button" class="flat-button small blue view-{{ ($inquiry->admin_user ? 'contact-job' : 'inquiry') }}-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
+                <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
+                <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
+                <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
                 @if (!is_null($inquiry->rating))
                     <p class="small right-align">{{ $inquiry->updated_at->format('F j, Y') }}</p>
                 @endif
@@ -19,14 +19,14 @@
         <a href="/job/{{ $inquiry->job->id }}" class="no-underline">
             <h6>{{ $inquiry->job->title }}</h6>
             <p><span class="heavy">{{ $inquiry->job->organization_name }}</span> in {{ $inquiry->job->city }}, {{ $inquiry->job->state }}</p>
-            <p class="small">submitted {{ $inquiry->created_at->format('F j, Y g:ia') }}</p>
+            <p class="small">{{ ($inquiry->admin_user ? 'assigned by '.$inquiry->admin_user->first_name.' at' : 'submitted') }} {{ $inquiry->created_at->format('n/j/Y g:ia') }}</p>
         </a>
         @can ('edit-inquiry', $inquiry)
             <div class="hide-on-med-and-up controls">
-                <button type="button" class="flat-button small blue view-inquiry-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
-                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
-                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
-                <button type="button" action="inquiry-rate" inquiry-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
+                <button type="button" class="flat-button small blue view-{{ ($inquiry->admin_user ? 'contact-job' : 'inquiry') }}-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
+                <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
+                <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
+                <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
                 @if (!is_null($inquiry->rating))
                     <p class="small right-align">{{ $inquiry->updated_at->format('F j, Y') }}</p>
                 @endif
