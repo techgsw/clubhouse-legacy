@@ -424,6 +424,18 @@ $.valHooks.textarea = {
         });
     }
 
+    Job.unassignContact = function (contact_id, job_id) {
+        return $.ajax({
+            type: 'POST',
+            url: '/contact-job/delete',
+            data: {
+                '_token': $('form#assign-contact-job input[name="_token"]').val(),
+                'contact_id': contact_id,
+                'job_id': job_id 
+            }
+        });
+    }
+
     $('body').on(
         {
             change: function (e, ui) {
@@ -626,8 +638,8 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var button = $(this),
-                    assigned_by = $(button).parent().find('.assigned-by'),
-                    assigned_at = $(button).parent().find('.assigned-at'),
+                    assigned_by = $(button).parent().find('.assigned-by .admin-name'),
+                    assigned_at = $(button).parent().find('.assigned-at .assigned-date'),
                     contact_id = parseInt($(this).attr('contact-id')),
                     job_id = parseInt($(this).attr('job-id'));
 
@@ -635,20 +647,52 @@ $.valHooks.textarea = {
                     if (resp.type == 'success') {
                         $(button).removeClass('contact-job-assignment-btn');
                         $(button).removeClass('sbs-red');
+                        $(button).addClass('contact-job-unassignment-btn');
                         $(button).addClass('blue');
                         $(button).addClass('lighten-1');
                         $(button).html('UNASSIGN JOB');
 
-                        $(assigned_by).append(resp.values['admin_name']);
-                        $(assigned_by).removeClass('hidden');
+                        $(assigned_by).html(resp.values['admin_name']);
+                        $(assigned_by).parent().removeClass('hidden');
 
-                        $(assigned_at).append(resp.values['created_at']);
-                        $(assigned_at).removeClass('hidden');
+                        $(assigned_at).html(resp.values['created_at']);
+                        $(assigned_at).parent().removeClass('hidden');
                     }
                 });
             }
         },
         '.contact-job-assignment-btn'
+    );
+
+    // Remove contact from job 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var button = $(this),
+                    assigned_by = $(button).parent().find('.assigned-by .admin-name'),
+                    assigned_at = $(button).parent().find('.assigned-at .assigned-date'),
+                    contact_id = parseInt($(this).attr('contact-id')),
+                    job_id = parseInt($(this).attr('job-id'));
+
+                Job.unassignContact(contact_id, job_id).done(function (resp) {
+                    if (resp.type == 'success') {
+                        $(button).removeClass('contact-job-unassignment-btn');
+                        $(button).removeClass('blue');
+                        $(button).removeClass('lighten-1');
+                        $(button).addClass('contact-job-assignment-btn');
+                        $(button).addClass('sbs-red');
+                        $(button).html('ASSIGN TO JOB');
+
+                        $(assigned_by).html('');
+                        $(assigned_by).parent().addClass('hidden');
+
+                        $(assigned_at).html('');
+                        $(assigned_at).parent().addClass('hidden');
+                    }
+                });
+            }
+        },
+        '.contact-job-unassignment-btn'
     );
 
     // Tag

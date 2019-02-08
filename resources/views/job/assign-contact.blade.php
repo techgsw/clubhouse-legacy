@@ -25,12 +25,12 @@
             </form>
             @if (is_null($job->job_id))
                 <button class="contact-job-assignment-btn btn sbs-red small" contact-id="{{ $contact_id }}" job-id="{{ $job->id }}">Assign to job</button>
-                <p class="assigned-by hidden"><strong>Assigned by:</strong> </p>
-                <p class="assigned-at hidden"><strong>At:</strong> </p>
+                <p class="assigned-by hidden"><strong>Assigned by:</strong> <span class="admin-name"></span></p>
+                <p class="assigned-at hidden"><strong>At:</strong> <span class="assigned-date"></span></p>
             @else
-                <button class="btn blue lighten-1 small" contact-id="{{ $contact_id }}" job-id="{{ $job->id }}">Unassign Job</button>
-                <p><strong>Assigned by:</strong> {{ $job->first_name }} {{ $job->last_name }}</p>
-                <p><strong>At:</strong> {{ $job->created_at }}</p>
+                <button class="contact-job-unassignment-btn btn blue lighten-1 small" contact-id="{{ $contact_id }}" job-id="{{ $job->id }}">Unassign Job</button>
+                <p class="assigned-by"><strong>Assigned by:</strong> <span class="admin-name">{{ $job->first_name }} {{ $job->last_name }}</span></p>
+                <p class="assigned-at"><strong>At:</strong> <span class="assigned-date">{{ $job->created_at }}</span></p>
             @endif
         </div>
     </div>

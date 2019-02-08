@@ -17,10 +17,6 @@ use Mail;
 
 class ContactJobController extends Controller
 {
-    /**
-     * @param  Request  $request
-     * @return Response
-     */
     public function store(Request $request)
     {
         $job = Job::find($request['job_id']);
@@ -44,6 +40,25 @@ class ContactJobController extends Controller
                 'admin_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
                 'created_at' => $contact_job->created_at->format('Y-m-d H:i:s')
             )
+        ]);
+    }
+
+    public function delete(Request $request)
+    {
+        $contact_job = ContactJob::where('contact_id', $request['contact_id'])->where('job_id', $request['job_id'])->first();
+
+        if (!$contact_job) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'Unable to find requested job contact relationship.'
+            ]);
+        }
+
+        $contact_job->delete();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Contact successfully unassigned to job.'
         ]);
     }
 
