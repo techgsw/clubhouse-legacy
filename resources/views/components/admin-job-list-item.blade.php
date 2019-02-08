@@ -39,7 +39,7 @@
                     <span class="small flat-button blue inverse" style="letter-spacing: 0.6px;"><b>New</b></span>
                 @endif
                 @if ($job->featured)
-                    <span class="small flat-button red inverse" style="letter-spacing: 0.6px;"><b>Featured</b></span>
+                    <!--<span class="small flat-button red inverse" style="letter-spacing: 0.6px;"><b>Featured</b></span>-->
                 @endif
                 @if (is_null($job->open))
                     <span class="small flat-button black inverse">Not open</span>
@@ -48,7 +48,8 @@
                 @else
                     <span class="small flat-button green inverse">Open</span>
                 @endif
-                <a href="/job/{{ $job->id }}#applications" class="small flat-button black inverse">{{ count($job->inquiries) == 1 ? "1 inquiry" : count($job->inquiries) . " inquiries" }}</a>
+                <a href="/job/{{ $job->id }}#applications" class="small flat-button black inverse">{{ count($job->inquiries)  == 1 ? "1 inquiry" : count($job->inquiries) . " inquiries" }}</a>
+                <a href="/job/{{ $job->id }}#applications" class="small flat-button grey inverse">{{ count($job->assignments)  == 1 ? "1 assignment" : count($job->assignments) . " assignments" }}</a>
                 <a href="/job/{{ $job->id }}?rating=none&sort=recent#applications" class="small flat-button black"><i class="fa fa-circle-thin"></i> {{ $job->inquiryTotals()['none'] }}</a>
                 <a href="/job/{{ $job->id }}?rating=up&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-up"></i> {{ $job->inquiryTotals()['up'] }}</a>
                 <a href="/job/{{ $job->id }}?rating=maybe&sort=recent#applications" class="small flat-button black"><i class="fa fa-question-circle"></i> {{ $job->inquiryTotals()['maybe'] }}</a>

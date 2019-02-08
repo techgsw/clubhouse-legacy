@@ -28,7 +28,7 @@ class JobController extends Controller
             // Default: order like front-end
             $jobs = $jobs->orderBy('featured', 'desc')
                 ->orderBy('rank', 'asc')
-                ->orderBy('created_at', 'desc');
+                ->orderBy('job.created_at', 'desc');
         }
         $count = $jobs->count();
         $jobs = $jobs->paginate(15);

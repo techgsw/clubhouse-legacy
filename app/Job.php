@@ -33,6 +33,11 @@ class Job extends Model
         return $this->hasMany(Inquiry::class);
     }
 
+    public function assignments()
+    {
+        return $this->hasMany(ContactJob::class);
+    }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);
@@ -53,6 +58,17 @@ class Job extends Model
             'down' => 0
         ];
         foreach ($this->inquiries as $i) {
+            if ($i->rating === 1) {
+                $totals['up']++;
+            } else if ($i->rating === 0) {
+                $totals['maybe']++;
+            } else if ($i->rating === -1) {
+                $totals['down']++;
+            } else {
+                $totals['none']++;
+            }
+        }
+        foreach ($this->assignments as $i) {
             if ($i->rating === 1) {
                 $totals['up']++;
             } else if ($i->rating === 0) {
@@ -116,15 +132,17 @@ class Job extends Model
         if (Auth::user() && Auth::user()->can('create-job')) {
             // Admins can filter by new inquiries
             $new_inquiries = request('new-inquiries') && request('new-inquiries') == '1';
+            $jobs = $jobs->select(\DB::raw('job.*, COUNT(inquiry.id) as inquiry_count, COUNT(contact_job.id) as assignment_count'));
+            $jobs = $jobs->leftJoin('inquiry', 'job.id', '=', 'inquiry.job_id')
+                ->leftJoin('contact_job', 'job.id', '=', 'contact_job.job_id');
             if ($new_inquiries) {
-                $jobs = $jobs->join('inquiry', 'job.id', '=', 'inquiry.job_id');
                 $jobs->whereHas('inquiries', function ($query) {
-                    $query->whereNull('rating');
+                    $query->whereNull('inquiry.rating');
                 });
-                $jobs = $jobs->select(\DB::raw('job.*, COUNT(inquiry.id)'));
+                $jobs = $jobs->select(\DB::raw('job.*, COUNT(inquiry.id) as inquiry_count, COUNT(contact_job.id) as assignment_count'));
                 $jobs->orderBy(\DB::raw('MAX(inquiry.created_at)'), 'desc');
-                $jobs->groupBy('job.id');
             }
+            $jobs->groupBy('job.id');
             // Admins can filter by status
             $status = request('status');
             switch ($status) {
