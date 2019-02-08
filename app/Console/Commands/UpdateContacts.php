@@ -48,6 +48,7 @@ class UpdateContacts extends Command
     {
         echo "Uploading contacts from " . $this->argument('filepath') . "...\n\n";
         
+        // TODO add try catch
         $handle = fopen($this->argument('filepath'), "r");
         
         $header = true;
@@ -69,6 +70,11 @@ class UpdateContacts extends Command
         while (($row = fgetcsv($handle, ",")) !== false) {
 
             $row_num++;
+
+            // TODO validate header first, continue only if valid
+            //Expected org,first_name,last_name,street,city,state,zip,country
+
+            // TODO get rid of hardcoded corner case
             if($row[0] == "Sheet1: Table 1" || $row[0] == null){
                 continue;
             }
@@ -79,8 +85,6 @@ class UpdateContacts extends Command
             }
 
             $row_size = count($row);
-
-            //Expected org,first_name,last_name,street,city,state,zip,country
 
             $record = array(
                 'org' => $row[0],
@@ -96,7 +100,6 @@ class UpdateContacts extends Command
             $contact = Contact::with('address')->where('first_name', '=', $record['first_name'])
                                                ->Where('last_name', '=', $record['last_name'])
                                                ->get();
-                                            // ->toSql();
 
             if (count($contact) > 1) {
                 echo  "Has more than one record. Unable to update " . $record['first_name'] . ' ' . $record['last_name'] . "\n";
@@ -104,6 +107,8 @@ class UpdateContacts extends Command
                 $error_count += 1;
                 continue;
             }
+
+            // TODO dont kick out on no org match. Just dont create the org, still update address if applicable.
             $org = Organization::where('name', '=', $record['org'])->first();  
             if($org = null){
                 // echo "Null org";
@@ -112,20 +117,18 @@ class UpdateContacts extends Command
 
             if (count($contact) == 1) {
                 // Update
-                echo "Checking contact to update" . "\n";
+                echo "Found contact match, attempting to update" . "\n";
 
                 // Update
                 $contact = DB::transaction(function() use($contact, $record, $line_number, $sbs_name_to_user, $row_num, &$updated_count, &$error_count) {
                     // Write query to grab record for contact_organization;
-                    $contact_org_id = null;
                     // Update or insert as required
                     $org = Organization::where('name', '=', $record['org'])->first();  
                     //grab org see if exists compare to current and if they match create new org and upadte record      
                     //if not do nothing
 
-                    if ($org != null){
-                        // echo "org not null";
-                        $contact_org_id = $org->id;
+                    // TODO if ORG is null, dont worry about ORG
+                    if ($org != null) {
                     }
                     
                     // $contact_organization = ContactOrganization::where('organization_id', '=', $contact_org_id)
@@ -138,7 +141,7 @@ class UpdateContacts extends Command
                     $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact[0]->id)->get();
                     $contact_organization_id = ContactOrganization::where('organization_id' ,'=', $contact_org_id)->get();
                     
-                    if(count($contact_organization) == 0 && $org != null){
+                    if (count($contact_organization) == 0 && !is_null($org)) {
                         // dd($contact_organization_id);
                         echo "Creating organization link" . "\n";
                         // echo "contact_id " . $contact[0]->id . " org-id " . $org->id . "\n";
@@ -146,12 +149,14 @@ class UpdateContacts extends Command
                              'contact_id' => $contact[0]->id,
                              'organization_id' => $org->id,
                          ]);
-                    
+                    }
 
-                    }      
-                    if(count($contact_organization) > 0 && $org != null){
+                    // TODO dont update contact_org info if contact_org > 1
 
-                        if(count($contact_organization) != 0 && $contact_org_id != $contact_organization[0]->organization_id && $org != null){
+                    // TODO this should be == 1
+                    if (count($contact_organization) > 0 && !is_null($org)) {
+
+                        if ($contact_org_id != $contact_organization[0]->organization_id) {
                             echo "Update Organization ID" . "\n";
                             $contact_organization[0]->organization_id = $contact_org_id;
                         }
