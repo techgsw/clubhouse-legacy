@@ -57,15 +57,7 @@ class UpdateContacts extends Command
         $skipped_count = 0;
         $duplicate_count = 0;
         $error_count = 0;
-        $line_number = 0;
         $row_num = 1;
-
-        $sbs_name_to_user = [
-            'bob' => 1,
-            'jason' => 13,
-            'mike' => 7,
-            'josh' => 1952
-        ];
 
         while (($row = fgetcsv($handle, ",")) !== false) {
 
@@ -81,24 +73,29 @@ class UpdateContacts extends Command
                 6 => 'zip',
                 7 => 'country',
             );
-            
-            if (!$header) {
-                for ($i=0; $i < count($expected_header); $i++) {
-                    if (count($row) >= count($expected_header) && preg_replace("/\s/", "_", strtoLower($row[$i])) == $expected_header[$i]) {
-                        $header = true;
-                    }
-                    else { 
-                        $header = false;
-                    }
-                }
-
-                if ($header) {
-                    continue;
-                }
-            }
 
             $row_size = count($row);
-            if (count($row) < 8) {
+
+            if (!$header) {
+                if ($row_size >= count($expected_header)) {
+                    for ($i=0; $i < count($expected_header); $i++) {
+                        if (preg_replace("/\s/", "_", strtoLower($row[$i])) != $expected_header[$i]) {
+                            // TODO BREAK AND CONTINUE make sure this works
+                            // TODO echo here
+                            continue 1;
+                        }
+                    }
+                } else {
+                    // TODO echo here
+                    continue;
+                }
+                $header = true;
+                continue;
+            }
+
+            // Change me if columns on the end are nullable
+            if ($row_size < 8) {
+                echo "Incomplete row, moving on.";
                 continue;
             }
 
@@ -124,9 +121,9 @@ class UpdateContacts extends Command
                 continue;
             }
 
-            // TODO dont kick out on no org match. Just dont create the org, still update address if applicable.
             $org = Organization::where('name', '=', $record['org'])->first();
 
+            // We have a contact, but the org is null
             if (is_null($org) && count($contact) > 0) {
             
                 echo "Organization does not exist, but contact does - Attempting to update contact information for " . $contact[0]->first_name . " " . $contact[0]->last_name . ". \n"; 
@@ -149,15 +146,17 @@ class UpdateContacts extends Command
                     echo "Found contact match, attempting to update " . $contact[0]->first_name . " " . $contact[0]->last_name . "\n";
                     
                     // Update
-                    $contact = DB::transaction(function() use($contact, $record, $line_number, $sbs_name_to_user, $row_num, &$updated_count, &$error_count, $org) {
+                    $contact = DB::transaction(function() use($contact, $record, $row_num, &$updated_count, &$error_count, $org) {
 
                         $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact[0]->id)->get();
                         
+                        // TODO this is not an id (variable name issue)
                         $contact_organization_id = ContactOrganization::where('organization_id' ,'=', $org->id)->get();
                         
-                        if (count($contact_organization) == 0 && !is_null($org)) {
+                        if (count($contact_organization) == 0) {
                             echo "Creating organization link" . "\n";
                             
+                            // TODO this is not an id (variable name issue)
                             $contact_organization_id = ContactOrganization::create([
                                 'contact_id' => $contact[0]->id,
                                 'organization_id' => $org->id,
@@ -179,9 +178,8 @@ class UpdateContacts extends Command
                             $updated_count += 1;
 
                             return $contact;
-                        }
                         // TODO this should be == 1
-                        elseif (count($contact_organization) == 1) {
+                        } elseif (count($contact_organization) == 1) {
 
                             if ($org->id != $contact_organization[0]->organization_id) {
                                 echo "Update Organization ID" . "\n";
@@ -205,8 +203,7 @@ class UpdateContacts extends Command
                             $updated_count += 1;
 
                             return $contact;
-                        }
-                        else {
+                        } else {
                             echo "Invalid organization - " . $contact[0]->first_name . " " . $contact[0]->last_name . " on organization " . $record["org"] .  "\n";
                             $error_count += 1;
 
@@ -219,7 +216,7 @@ class UpdateContacts extends Command
                 if (count($contact) < 1) {
                     // Insert
                     echo 'Creating a new contact ' . $record['first_name'] . " " . $record['last_name'] . "\n";
-                    $contact = DB::transaction(function() use($contact, $record, $line_number, $sbs_name_to_user, $row_num, &$skipped_count, &$error_count, &$created_count, $org) {
+                    $contact = DB::transaction(function() use($contact, $record, $row_num, &$skipped_count, &$error_count, &$created_count, $org) {
                         $contact = Contact::create([
                             'first_name' => $record['first_name'],
                             'last_name' => $record['last_name'],
@@ -252,8 +249,7 @@ class UpdateContacts extends Command
                         return $contact;
                     });
                 }
-            }
-            else {
+            } else {
 
                 echo "Organization and contact do not exist, attempting to create a contact.\n"; 
                 $contact = Contact::create([
