@@ -62,11 +62,8 @@ class UpdateContacts extends Command
         $updated_count = 0;
         $skipped_count = 0;
         $duplicate_count = 0;
-        $row_num = 0;
 
         while (($row = fgetcsv($handle, ",")) !== false) {
-
-            $row_num++;
 
             $expected_header = array(
                 0 => 'team_name',
@@ -136,7 +133,7 @@ class UpdateContacts extends Command
             // Creating a new contact
             if (count($contact_result) == 0) {
                 
-                $contact = DB::transaction(function() use($record, $row_num, &$skipped_count, &$error_count, &$created_count, $org) {
+                $contact = DB::transaction(function() use($record, &$skipped_count, &$error_count, &$created_count, $org) {
                     $contact = Contact::create([
                         'first_name' => $record['first_name'],
                         'last_name' => $record['last_name'],
@@ -207,7 +204,7 @@ class UpdateContacts extends Command
             } else {
 
                 // Update
-                $contact = DB::transaction(function() use($contact, $record, $row_num, &$updated_count, &$error_count, $org) {
+                $contact = DB::transaction(function() use($contact, $record, &$updated_count, &$error_count, $org) {
 
                     $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact->id)->get();
                     
