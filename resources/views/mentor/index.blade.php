@@ -6,7 +6,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/mentorship-white.png" />
             <h4 class="header">Sports Industry Mentors</h4>
-            <p>Our clubhouse mentors all work in sports and are ready to offer advice in an effort to help you succeed.</p>
+            <p>These individuals work in sports and are available for phone calls with our Clubhouse Pro members.</p>
         </div>
     </div>
 @endsection

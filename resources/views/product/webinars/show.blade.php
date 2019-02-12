@@ -82,6 +82,7 @@
                         </div>
                     @else
                         <div class="input-field" style="margin-top: 30px;">
+                            <h5 style="">Want to RSVP?</h5>
                             <a href="/membership-options" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                         </div>
                     @endcan
@@ -90,6 +91,7 @@
                         <p>This webinar is currently unavailbable.</p>
                     @else
                         <div class="input-field" style="margin-top: 30px;">
+                            <h5 style="">Want to RSVP?</h5>
                             <a href="/membership-options" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                         </div>
                         <p><strong>*Only Clubhouse Pro options available at this time.</strong></p>
