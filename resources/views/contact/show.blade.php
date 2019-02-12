@@ -16,7 +16,7 @@
                 <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black small">Edit<span class="hide-on-small-only"> Profile</span></a>
             @endcan
         @endif
-        @can ('edit-profile', $contact->user)
+        @can ('edit-inquiry')
             <button class="view-contact-job-assignment-btn flat-button small" contact-id="{{ $contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
         @endcan
     @endcomponent
@@ -338,7 +338,7 @@
         </form>
     </div>
 </div>
-@can ('edit-profile', $contact->user)
+@can ('edit-inquiry')
 @include('components.pdf-view-modal')
 @component('components.job-contact-assign-modal')@endcomponent
 @endcan
