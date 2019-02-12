@@ -48,16 +48,21 @@ class UpdateContacts extends Command
     {
         echo "Uploading contacts from " . $this->argument('filepath') . "...\n\n";
         
-        // TODO add try catch
-        $handle = fopen($this->argument('filepath'), "r");
-        
+        try{          
+            $handle = fopen($this->argument('filepath'), "r");
+        }
+        catch (Exception $e){
+            echo "Invalid file path please try ensure you are using the correct path.\n";
+        }
+
         $header = false;
+        // Change me if columns on the end are nullable
+        $row_size_expected_count = 8;
         $created_count = 0;
         $updated_count = 0;
         $skipped_count = 0;
         $duplicate_count = 0;
-        $error_count = 0;
-        $row_num = 1;
+        $row_num = 0;
 
         while (($row = fgetcsv($handle, ",")) !== false) {
 
@@ -75,27 +80,29 @@ class UpdateContacts extends Command
             );
 
             $row_size = count($row);
-
+            
             if (!$header) {
                 if ($row_size >= count($expected_header)) {
                     for ($i=0; $i < count($expected_header); $i++) {
                         if (preg_replace("/\s/", "_", strtoLower($row[$i])) != $expected_header[$i]) {
-                            // TODO BREAK AND CONTINUE make sure this works
-                            // TODO echo here
+                            echo "Invalid row data, moving on. \n";
+                            $skipped_count += 1;
                             continue 1;
                         }
                     }
                 } else {
-                    // TODO echo here
+                    echo "Invalid row data, moving on. \n";
+                    $skipped_count += 1;
                     continue;
                 }
                 $header = true;
                 continue;
             }
-
-            // Change me if columns on the end are nullable
-            if ($row_size < 8) {
-                echo "Incomplete row, moving on.";
+            
+            // For any row where first name and last name are not populated in the csv cells.
+            if ($row_size < $row_size_expected_count || empty($row[1]) || empty($row[2])) {
+                echo "Incomplete row, moving on. \n";
+                $skipped_count += 1;
                 continue;
             }
 
@@ -110,26 +117,81 @@ class UpdateContacts extends Command
                 'country' => $row[7],
             ); 
 
-            $contact = Contact::with('address')->where('first_name', '=', $record['first_name'])
-                                               ->Where('last_name', '=', $record['last_name'])
+            // Getting all contacts with the associated first_name and last_name
+            $contact_result = Contact::with('address')->where('first_name', '=', $record['first_name'])
+                                               ->where('last_name', '=', $record['last_name'])
                                                ->get();
             
-            if (count($contact) > 1) {
+            // After this point there can be either one or no matching contact in the $contact_result
+            if (count($contact_result) > 1) {
                 echo  "Has more than one record. Unable to update " . $record['first_name'] . ' ' . $record['last_name'] . "\n";
 
                 $duplicate_count += 1;
                 continue;
             }
 
+            // Returns an object
             $org = Organization::where('name', '=', $record['org'])->first();
 
-            // We have a contact, but the org is null
-            if (is_null($org) && count($contact) > 0) {
-            
-                echo "Organization does not exist, but contact does - Attempting to update contact information for " . $contact[0]->first_name . " " . $contact[0]->last_name . ". \n"; 
-
-                $address = $contact[0]->address[0];
+            // Creating a new contact
+            if (count($contact_result) == 0) {
                 
+                $contact = DB::transaction(function() use($record, $row_num, &$skipped_count, &$error_count, &$created_count, $org) {
+                    $contact = Contact::create([
+                        'first_name' => $record['first_name'],
+                        'last_name' => $record['last_name'],
+                        'phone' => null,//$record['phone'],
+                        'title' => null,//$record['title'],
+                        'organization' => $record['org'],
+                        'job_seeking_status' => null,
+                        'job_seeking_type' => null,
+                    ]);
+                    
+                    $address = Address::create([
+                        'line1' => $record['street'],
+                        'line2' => null,
+                        'city' => $record['city'],
+                        'state' => $record['state'],
+                        'postal_code' => $record['zip'],
+                        'country' => $record['country']
+                    ]);
+                    
+                    $address_contact = AddressContact::create([
+                        'address_id' => $address->id,
+                        'contact_id' => $contact->id
+                    ]);
+
+                    // If org is null, we cannot create the link between contact and organization
+                    if (is_null($org)) {
+
+                        echo 'Created a new contact - ' . $record['first_name'] . " " . $record['last_name'] . " - invalid organization " . "\n";                        
+                    
+                    // Else, the org exists and we can create the link
+                    } else {
+                        
+                        $contact_organization = ContactOrganization::create([
+                            'contact_id' => $contact->id,
+                            'organization_id' => $org->id,
+                        ]);
+                        echo 'Created a new contact - ' . $record['first_name'] . " " . $record['last_name'] . " - valid organization " . "\n";
+                        
+                    }                        
+
+                    $created_count += 1;
+                    return $contact;
+                });
+                continue;
+            }
+
+            // Only one contact exists at this point
+            $contact = $contact_result[0];
+            
+            // We have a contact, but the org is null
+            if (is_null($org)) {
+
+                // Setting address to an object from the addresses array
+                $address = $contact->address[0];
+
                 $address->line1 = $record['street'];
                 $address->city = $record['city'];
                 $address->state = $record['state'];
@@ -138,152 +200,81 @@ class UpdateContacts extends Command
                 $address->save();
 
                 $updated_count += 1;
+                echo "Organization does not exist, but contact does - Updating contact information for " . $contact->first_name . " " . $contact->last_name . ". \n"; 
                 
                 continue;
-            }
-            if (!is_null($org)) {
-                if (count($contact) == 1) {
-                    echo "Found contact match, attempting to update " . $contact[0]->first_name . " " . $contact[0]->last_name . "\n";
+
+            } else {
+
+                // Update
+                $contact = DB::transaction(function() use($contact, $record, $row_num, &$updated_count, &$error_count, $org) {
+
+                    $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact->id)->get();
                     
-                    // Update
-                    $contact = DB::transaction(function() use($contact, $record, $row_num, &$updated_count, &$error_count, $org) {
-
-                        $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact[0]->id)->get();
+                    // If their org exists but isn't linked, link it
+                    if (count($contact_organization) == 0) {
                         
-                        // TODO this is not an id (variable name issue)
-                        $contact_organization_id = ContactOrganization::where('organization_id' ,'=', $org->id)->get();
-                        
-                        if (count($contact_organization) == 0) {
-                            echo "Creating organization link" . "\n";
-                            
-                            // TODO this is not an id (variable name issue)
-                            $contact_organization_id = ContactOrganization::create([
-                                'contact_id' => $contact[0]->id,
-                                'organization_id' => $org->id,
-                            ]);
-                            
-                        }
-                        $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact[0]->id)->get();
-                        // TODO dont update contact_org info if contact_org > 1
-                        if (count($contact_organization) > 1) {
-                            echo "Contact match had more than one organization association.";
-                            $address = $contact[0]->address[0];
-                            $address->line1 = $record['street'];
-                            $address->city = $record['city'];
-                            $address->state = $record['state'];
-                            $address->postal_code = $record['zip'];
-                            $address->country = $record['country'];
-                            $address->save();
-
-                            $updated_count += 1;
-
-                            return $contact;
-                        // TODO this should be == 1
-                        } elseif (count($contact_organization) == 1) {
-
-                            if ($org->id != $contact_organization[0]->organization_id) {
-                                echo "Update Organization ID" . "\n";
-                                $contact_organization[0]->organization_id = $org->id;
-                            }
-
-                            $contact[0]->organization = $org->name;
-                            $address = $contact[0]->address[0];
-
-                            $address->line1 = $record['street'];
-                            $address->city = $record['city'];
-                            $address->state = $record['state'];
-                            $address->postal_code = $record['zip'];
-                            $address->country = $record['country'];
-
-                            $contact[0]->save();
-                            $contact_organization[0]->save();                            
-                            $address->save();
-                            $org->save();
-
-                            $updated_count += 1;
-
-                            return $contact;
-                        } else {
-                            echo "Invalid organization - " . $contact[0]->first_name . " " . $contact[0]->last_name . " on organization " . $record["org"] .  "\n";
-                            $error_count += 1;
-
-                            return $contact;
-                        }
-                    });
-                    
-                }
-
-                if (count($contact) < 1) {
-                    // Insert
-                    echo 'Creating a new contact ' . $record['first_name'] . " " . $record['last_name'] . "\n";
-                    $contact = DB::transaction(function() use($contact, $record, $row_num, &$skipped_count, &$error_count, &$created_count, $org) {
-                        $contact = Contact::create([
-                            'first_name' => $record['first_name'],
-                            'last_name' => $record['last_name'],
-                            'phone' => null,//$record['phone'],
-                            'title' => null,//$record['title'],
-                            'organization' => $record['org'],
-                            'job_seeking_status' => null,
-                            'job_seeking_type' => null,
-                        ]);
-
-                        $address = Address::create([
-                            'line1' => $record['street'],
-                            'line2' => null,
-                            'city' => $record['city'],
-                            'state' => $record['state'],
-                            'postal_code' => $record['zip'],
-                            'country' => $record['country']
-                        ]);
-                        $address_contact = AddressContact::create([
-                            'address_id' => $address->id,
-                            'contact_id' => $contact->id
-                        ]);
-
                         $contact_organization = ContactOrganization::create([
                             'contact_id' => $contact->id,
                             'organization_id' => $org->id,
                         ]);
+
+                        $tmp[] = $contact_organization;
+                        $contact_organization = $tmp;
+                    
+                    } 
+                    
+                    // I do not believe that this is possibly due to the way the website is configured
+                    // But this looks possible in the DB due to the contact_id and organization_id not being unique,
+                    // But on the website you are only able to add one organization to the contact
+
+                    //elseif (count($contact_organization) > 1) {
                         
-                        $created_count += 1;
-                        return $contact;
-                    });
-                }
-            } else {
+                    //     $address = $contact->address[0];
+                    //     $address->line1 = $record['street'];
+                    //     $address->city = $record['city'];
+                    //     $address->state = $record['state'];
+                    //     $address->postal_code = $record['zip'];
+                    //     $address->country = $record['country'];
+                    //     $address->save();
 
-                echo "Organization and contact do not exist, attempting to create a contact.\n"; 
-                $contact = Contact::create([
-                    'first_name' => $record['first_name'],
-                    'last_name' => $record['last_name'],
-                    'phone' => null,//$record['phone'],
-                    'title' => null,//$record['title'],
-                    'organization' => $record['org'],
-                    'job_seeking_status' => null,
-                    'job_seeking_type' => null,
-                ]);
+                    //     echo "Contact match had more than one organization association. " . $contact->first_name . " " . $contact->last_name . "\n";
+                    //     $updated_count += 1;
+                        
+                    //     return $contact;
+                    // }
 
-                $address = Address::create([
-                    'line1' => $record['street'],
-                    'line2' => null,
-                    'city' => $record['city'],
-                    'state' => $record['state'],
-                    'postal_code' => $record['zip'],
-                    'country' => $record['country']
-                ]);
-                $address_contact = AddressContact::create([
-                    'address_id' => $address->id,
-                    'contact_id' => $contact->id
-                ]);
+                    // Check to see if the contact has changed organizations
+                    if ($org->id != $contact_organization[0]->organization_id) {
+                        // echo "Update Organization ID" . "\n";
+                        $contact_organization[0]->organization_id = $org->id;
+                    }
 
-                $created_count += 1;
-            }
+                    $contact->organization = $org->name;
+                    $address = $contact->address[0];
+
+                    $address->line1 = $record['street'];
+                    $address->city = $record['city'];
+                    $address->state = $record['state'];
+                    $address->postal_code = $record['zip'];
+                    $address->country = $record['country'];
+
+                    $contact_organization[0]->save(); 
+                    $contact->save();           
+                    $address->save();
+                    $org->save();
+
+                    $updated_count += 1;
+                    echo "Contact match found, and updated " . $contact->first_name . " " . $contact->last_name . "\n";
+                    return $contact;
+                });
+            } 
         }
 
         echo "\n";
         echo "Created: ". $created_count ."\n";
         echo "Updated: ". $updated_count ."\n";
         echo "Duplicates: ". $duplicate_count ."\n";
-        // echo "Skipped: ". $skipped_count ."\n";
-        echo "Errors: ". $error_count ."\n";
+        echo "Skipped: " . $skipped_count . "\n";
     }
 }
