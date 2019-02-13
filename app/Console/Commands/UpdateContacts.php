@@ -225,6 +225,7 @@ class UpdateContacts extends Command
                     }
                     
                     $contact->organization = $org->name;
+                    
                     $address = $contact->address[0];
 
                     $address->line1 = $record['street'];
@@ -240,7 +241,7 @@ class UpdateContacts extends Command
                     echo "Contact match found, and updated " . $contact->first_name . " " . $contact->last_name . "\n";
                     return $contact;
                 });
-            } 
+            }
         }
 
         echo "\n";
