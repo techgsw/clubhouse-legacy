@@ -175,7 +175,8 @@ class CheckoutController extends Controller
                     $transaction_product_option->save();
 
                     try {
-                        Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
+                        Mail::to([env('CLUBHOUSE_EMAIL'), env('ADAM_SBS_EMAIL'), env('JASON_SBS_EMAIL'), env('JOSH_SBS_EMAIL'), env('MIKE_SBS_EMAIL'), env('NICK_SBS_EMAIL')])
+                            ->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
                         Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
                         Mail::to($user)->send(new UserPaidClubhousePro($user));
                     } catch (\Exception $e) {
