@@ -81,15 +81,13 @@ class UpdateContacts extends Command
                 if ($row_size >= count($expected_header)) {
                     for ($i=0; $i < count($expected_header); $i++) {
                         if (preg_replace("/\s/", "_", strtoLower($row[$i])) != $expected_header[$i]) {
-                            // NOTE Invalid header row data, trying next row. 
-                            echo "Invalid row data, moving on. \n";
+                            echo "Invalid header row data, trying next row. \n";
                             $skipped_count += 1;
                             continue 1;
                         }
                     }
                 } else {
-                    // NOTE Invalid header row data, trying next row. 
-                    echo "Invalid row data, moving on. \n";
+                    echo "Invalid header row data, trying next row. \n";
                     $skipped_count += 1;
                     continue;
                 }
@@ -99,8 +97,7 @@ class UpdateContacts extends Command
             
             // For any row where first name and last name are not populated in the csv cells.
             if ($row_size < $row_size_expected_count || empty($row[1]) || empty($row[2])) {
-                // NOTE First name or last name fields are incomplete, skipping row/record.
-                echo "Incomplete row, moving on. \n";
+                echo "First name or last name fields are incomplete, skipping row/record. \n";
                 $skipped_count += 1;
                 continue;
             }
@@ -141,7 +138,6 @@ class UpdateContacts extends Command
                         'last_name' => $record['last_name'],
                         'phone' => null,//$record['phone'],
                         'title' => null,//$record['title'],
-                        // NOTE please explain your decision here.
                         'organization' => $record['org'],
                         'job_seeking_status' => null,
                         'job_seeking_type' => null,
@@ -210,14 +206,14 @@ class UpdateContacts extends Command
                 $contact = DB::transaction(function() use($contact, $record, &$updated_count, &$error_count, $org) {
 
                     $contact_organization = ContactOrganization::where('contact_id' ,'=', $contact->id)->get();
-                    
+
                     // If their org exists but isn't linked, link it
                     if (count($contact_organization) == 0) {
                         $contact_organization = ContactOrganization::create([
                             'contact_id' => $contact->id,
                             'organization_id' => $org->id,
                         ]);
-                    } elseif (count($contact_organzation) == 1) {
+                    } elseif (count($contact_organization) == 1) {
                         // Check to see if the contact has changed organizations
                         if ($org->id != $contact_organization[0]->organization_id) {
                             // echo "Update Organization ID" . "\n";
