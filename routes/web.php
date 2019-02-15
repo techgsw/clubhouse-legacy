@@ -107,11 +107,6 @@ Route::domain(env('APP_URL'))->group(function () {
         Route::get('/contact/thanks', 'ContactUsController@thanks');
     });
 
-    // Email
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/email', 'EmailController@index');
-        Route::post('/email/update', 'EmailController@update');
-    });
 });
 
 // Clubhouse-domain routes
@@ -138,6 +133,12 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/report/transactions', 'ReportController@transactions');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
+    });
+
+    // Email
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/email', 'EmailController@index');
+        Route::post('/email/update', 'EmailController@update');
     });
 
     // Archives
