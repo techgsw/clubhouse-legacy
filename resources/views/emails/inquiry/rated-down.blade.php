@@ -1,10 +1,10 @@
 @component('emails.layout')
     @slot('body')
-        <p>{{ ucwords($inquiry->user->first_name) }} {{ ucwords($inquiry->user->last_name) }},</p>
-        <p>Thanks again for applying for the {{ $inquiry->job->title }} job with the {{ $inquiry->job->organization_name }}.</p>
-        <p>We want to make sure we keep you updated on your status as a candidate for this position. With that said, unfortunately you <b>will not</b> be advancing to the next stage in the process. We’re sorry but there were other candidates who seem to be a better fit for the position at this time.</p>
-        <p>Although this is the end of the road on this one, we encourage you to follow along with our job board for other career opportunities in sports. We’d be happy to consider you for another position in the future.</p>
-        <p>Best of luck and hope to talk again soon!</p>
-        <p>The Sports Business Solutions team</p>
+        <p>{{ ucwords($inquiry->user->first_name) }},</p>
+        <p>Thank you for visiting the SBS Job board and for being a member of the SBS community!</p>
+        <p>You are receiving this message as a confirmation of your application for the {{ $inquiry->job->title }} position with the {{ $inquiry->job->organization_name }}.  Unfortunately, after reviewing your resume against other applicants our client is considering for the position, you will not be advancing to the next stage in the process.</p>
+        <p>Please be sure to continue to monitor our job board for future openings, and if you haven’t done so already, check out <a href="https://clubhouse.sportsbusiness.solutions"><span class="sbs-red-text">the</span>Clubhouse</a> for additional resources as you continue to grow and take your sports business career to the next level.</p>
+        <p>Best of luck and we look forward to talking again soon!</p>
+        <p>-{{ $user->first_name }} {{ $user->last_name }}</p>
     @endslot
 @endcomponent
