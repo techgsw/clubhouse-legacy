@@ -1,10 +1,10 @@
 @component('emails.layout')
     @slot('body')
-        <p>{{ ucwords($inquiry->user->first_name) }} {{ ucwords($inquiry->user->last_name) }},</p>
-        <p>Thanks again for applying for the {{ $inquiry->job->title }} job with the {{ $inquiry->job->organization_name }}.</p>
-        <p>We want to make sure we keep you updated on your status as a candidate for this position. With that said, we’re excited to let you know that <b>you are</b> advancing to the next stage in the process. Your application is being sent along to the appropriate hiring manager for review.</p>
-        <p>While this doesn’t guarantee an official interview, it’s a step in the right direction! Someone from the SBS team or the {{ $inquiry->job->organization }} should be in touch with you in the weeks ahead. If anything changes regarding your status as a candidate we’ll continue to update you via email.</p>
-        <p>Best of luck through this process!</p>
-        <p>The Sports Business Solutions team</p>
+        <p>{{ ucwords($inquiry->user->first_name) }},</p>
+        <p>Thank you for visiting the SBS Job board and for being a member of the SBS community!</p>
+        <p>You are receiving this message as a confirmation of your application for the {{ $inquiry->job->title }} position with the {{ $inquiry->job->organization_name }}.  After reviewing your resume, we’ve determined you to be a potential fit for the opportunity with the {{ $inquiry->job->organization_name }} and have presented your information to the hiring manager.  Someone from the organization should be contacting you directly within the next few days to arrange next steps and further discuss the position.</p>
+        <p>Please don’t hesitate to reach out with any questions and keep us posted on how things move forward in the process.</p>
+        <p>Best of luck and we look forward to talking again soon!</p>
+        <p>-{{ $user->first_name }} {{ $user->last_name }}</p>
     @endslot
 @endcomponent

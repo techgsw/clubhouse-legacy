@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Auth;
 
 class InquiryRated extends Mailable
 {
@@ -15,6 +16,7 @@ class InquiryRated extends Mailable
 
     public $inquiry;
     public $rating;
+    public $user;
 
     /**
      * Create a new message instance.
@@ -25,6 +27,7 @@ class InquiryRated extends Mailable
     {
         $this->inquiry = $inquiry;
         $this->rating = $rating;
+        $this->user = Auth::user();
     }
 
     /**
@@ -34,7 +37,7 @@ class InquiryRated extends Mailable
      */
     public function build()
     {
-        $mail = $this->from('app@sportsbusiness.solutions');
+        $mail = $this->from($this->user->email);
         $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
         switch ($this->rating) {
             case 'up':
