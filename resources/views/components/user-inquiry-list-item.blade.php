@@ -13,6 +13,14 @@
                 <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
                 @if (!is_null($inquiry->rating))
                     <p class="small right-align">{{ $inquiry->updated_at->format('F j, Y') }}</p>
+                @else
+                    <form id="assign-contact-job">
+                        {{ csrf_field() }}
+                    </form>
+                    <br />
+                    <button class="contact-job-unassignment-btn btn blue lighten-1 small" style="padding: 0 1.3rem" contact-id="{{ $inquiry->contact_id }}" job-id="{{ $inquiry->job_id }}" data-button-group-id="{{$inquiry->contact_id}}-{{$inquiry->job_id}}">Unassign Job</button>
+                    <p class="assigned-by small"><strong>Assigned by:</strong> <span class="admin-name">{{ $inquiry->admin_user->first_name }} {{ $inquiry->admin_user->last_name }}</span></p>
+                    <p class="assigned-at small"><strong>At:</strong> <span class="assigned-date">{{ $inquiry->created_at }}</span></p>
                 @endif
             </div>
         @endcan
@@ -29,6 +37,14 @@
                 <button type="button" action="inquiry-rate" data-type="{{ $inquiry->admin_user ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
                 @if (!is_null($inquiry->rating))
                     <p class="small right-align">{{ $inquiry->updated_at->format('F j, Y') }}</p>
+                @else
+                    <form id="assign-contact-job">
+                        {{ csrf_field() }}
+                    </form>
+                    <br/>
+                    <button class="contact-job-unassignment-btn btn blue lighten-1 small" style="padding: 0 1.3rem" contact-id="{{ $inquiry->contact_id }}" job-id="{{ $inquiry->job_id }}" data-button-group-id="{{$inquiry->contact_id}}-{{$inquiry->job_id}}">Unassign Job</button>
+                    <p class="assigned-by small"><strong>Assigned by:</strong> <span class="admin-name">{{ $inquiry->admin_user->first_name }} {{ $inquiry->admin_user->last_name }}</span></p>
+                    <p class="assigned-at small"><strong>At:</strong> <span class="assigned-date">{{ $inquiry->created_at }}</span></p>
                 @endif
             </div>
         @endcan
