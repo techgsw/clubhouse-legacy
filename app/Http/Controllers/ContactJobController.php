@@ -112,6 +112,7 @@ class ContactJobController extends Controller
      */
     public function rateDown($id)
     {
+        // echo "Here is the user id: " . $id;
         $contact_job = ContactJob::find($id);
         if (!$contact_job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job assignment.' . $id]);

@@ -68,6 +68,19 @@ class Job extends Model
                 $totals['none']++;
             }
         }
+
+        return $totals;
+    }
+
+    public function contactTotals()
+    {
+        $totals = [
+            'none' => 0,
+            'up' => 0,
+            'maybe' => 0,
+            'down' => 0
+        ];
+
         foreach ($this->assignments as $i) {
             if ($i->rating === 1) {
                 $totals['up']++;
@@ -79,6 +92,7 @@ class Job extends Model
                 $totals['none']++;
             }
         }
+        
         return $totals;
     }
 
