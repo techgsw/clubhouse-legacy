@@ -10,7 +10,7 @@
                     {{ ($inquiry->user ? $inquiry->user->contact->getNoteCount() : $inquiry->contact->getNoteCount()) }} <i class="fa fa-comments"></i>
                 </button>
             </div>
-            <a style="margin: 2px 0;" class="no-underline block" href="/user/{{ ($inquiry->user ? $inquiry->user->id : $inquiry->contact->user_id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}</a>
+            <a style="margin: 2px 0;" class="no-underline block" href="{{ ($inquiry->user ? '/user/'.$inquiry->user->id : '/contact/'.$inquiry->contact->id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}</a>
             <p style="margin: 2px 0;" class="small">
                 @if ($inquiry->email)
                     <a class="no-underline" href="mailto:{{ $inquiry->email}}">{{ $inquiry->email}}</a>

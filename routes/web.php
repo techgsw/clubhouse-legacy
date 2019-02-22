@@ -215,6 +215,7 @@ Route::domain($domain)->group(function () {
         Route::post('/contact/{id}/close-follow-up', 'ContactController@closeFollowUp');
         Route::get('/contact/{id}', 'ContactController@show');
         Route::post('/contact/{id}', 'ContactController@update');
+        Route::get('/contact/{id}/jobs', 'ContactController@jobs');
         Route::get('/contact/{id}/show-note-control', 'ContactController@showNoteControl');
         Route::post('/contact/{id}/create-note', 'ContactController@createNote');
     });

@@ -59,6 +59,23 @@ class ContactController extends Controller
         ]);
     }
 
+    public function jobs(Request $request, $id)
+    {
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return abort(404);
+        }
+        $this->authorize('view-contact', $contact);
+
+        return view('contact/jobs', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Jobs' => "/contact/{$contact->id}/jobs"
+            ],
+            'contact' => $contact
+        ]);
+    }
+
     /**
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
