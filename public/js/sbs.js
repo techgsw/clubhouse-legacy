@@ -623,14 +623,13 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                var contact_id = parseInt($(this).attr('contact-id'));
-                var user_patt = /user/i;
-                var job_patt = /job/i;
+                var contact_id = parseInt($(this).attr('contact-id')),
+                    uri_patt = /user\/\d+\/jobs$/i;
 
                 Job.getAssignContact(contact_id).done(function (view) {
                     $('.contact-job-assignment-modal').html(view);
 
-                    if (location.pathname.match(user_patt) && location.pathname.match(job_patt)) {
+                    if (location.pathname.match(uri_patt)) {
                         $('.contact-job-assignment-modal').modal({
                             complete: function() { location.reload(); }
                           });
