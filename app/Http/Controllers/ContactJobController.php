@@ -13,6 +13,7 @@ use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Mail;
 
 class ContactJobController extends Controller
@@ -27,11 +28,23 @@ class ContactJobController extends Controller
             ]);
         }
 
-        $contact_job = ContactJob::create([
-            'contact_id' => request('contact_id'),
-            'admin_user_id' => Auth::user()->id,
-            'job_id' => $request['job_id'],
-        ]);
+        $note = new Note();
+
+        $contact_job = DB::transaction(function() use($request, $note) {
+            $contact_job = ContactJob::create([
+                'contact_id' => request('contact_id'),
+                'admin_user_id' => Auth::user()->id,
+                'job_id' => $request['job_id'],
+            ]);
+
+            $note->user_id = Auth::user()->id;
+            $note->notable_id = $contact_job->contact->id;
+            $note->notable_type = "App\Contact";
+            $note->content = "Assigned to " . $contact_job->job->title . " [id:" . $contact_job->job->id . "].";
+            $note->save();
+
+            return $contact_job;
+        });
 
         return response()->json([
             'type' => 'success',
@@ -54,7 +67,17 @@ class ContactJobController extends Controller
             ]);
         }
 
-        $contact_job->delete();
+        $note = new Note();
+
+        DB::transaction(function() use($contact_job, $note) {
+            $contact_job->delete();
+
+            $note->user_id = Auth::user()->id;
+            $note->notable_id = $contact_job->contact->id;
+            $note->notable_type = "App\Contact";
+            $note->content = "Unassigned from " . $contact_job->job->title . " [id:" . $contact_job->job->id . "].";
+            $note->save();
+        });
 
         return response()->json([
             'type' => 'success',

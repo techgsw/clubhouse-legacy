@@ -624,7 +624,7 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var contact_id = parseInt($(this).attr('contact-id')),
-                    uri_patt = /user\/\d+\/jobs$/i;
+                    uri_patt = /(user|contact)\/\d+\/jobs$/i;
 
                 Job.getAssignContact(contact_id).done(function (view) {
                     $('.contact-job-assignment-modal').html(view);
