@@ -182,6 +182,7 @@ class JobController extends Controller
                     'organization_id' => request('organization_id'),
                     'league' => request('league'),
                     'job_type' => request('job_type'),
+                    'recruiting_type_code' => request('recruiting_type_code'),
                     'city' => request('city'),
                     'state' => request('state'),
                     'country' => request('country'),
