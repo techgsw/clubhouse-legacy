@@ -561,6 +561,7 @@ class JobController extends Controller
                 $job->organization_name = $organization_name;
                 $job->league = request('league');
                 $job->job_type = request('job_type');
+                $job->recruiting_type_code = request('recruiting_type_code');
                 $job->city = request('city');
                 $job->state = request('state');
                 $job->country = request('country');

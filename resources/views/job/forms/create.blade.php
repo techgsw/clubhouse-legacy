@@ -20,7 +20,7 @@
                 <div class="input-field col s12">
                     <label for="job-type" class="active">Job Track</label>
                     <select id="job-type" name="job_type" class="browser-default" required>
-                        <option value="" {{ old('job_type') == "" ? "selected" : "" }}>None</option>
+                        <option value="" {{ old('job_type') == "" ? "selected" : "" }}>Please select...</option>
                         <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
                         <option value="sponsorship-sales" {{ old('job_type') == 'sponsorship-sales' ? "selected" : "" }}>Sponsorship Sales</option>
                         <option value="marketing" {{ old('job_type') == 'marketing' ? "selected" : "" }}>Marketing</option>
@@ -36,7 +36,7 @@
                 <div class="input-field col s12">
                     <label for="recruiting-type-code" class="active">Recruiting Type</label>
                     <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
-                        <option value="" {{ old('recruiting_type_code') == "" ? "selected" : "" }}>None</option>
+                        <option value="" selected disabled>Please select...</option>
                         <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
                         <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
                     </select>
