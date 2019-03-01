@@ -40,12 +40,18 @@ class InquiryRated extends Mailable
         $mail = $this->from($this->user->email);
         $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
         switch ($this->rating) {
-            case 'up':
-                return $mail->markdown('emails.inquiry.rated-up');
-            case 'maybe':
-                return $mail->markdown('emails.inquiry.rated-maybe');
-            case 'down':
-                return $mail->markdown('emails.inquiry.rated-down');
+            case 'active-up':
+                return $mail->markdown('emails.inquiry.rated-active-up');
+            case 'active-maybe':
+                return $mail->markdown('emails.inquiry.rated-active-maybe');
+            case 'active-down':
+                return $mail->markdown('emails.inquiry.rated-active-down');
+            case 'passive-up':
+                return $mail->markdown('emails.inquiry.rated-passive-up');
+            case 'passive-maybe':
+                return $mail->markdown('emails.inquiry.rated-passive-maybe');
+            case 'passive-down':
+                return $mail->markdown('emails.inquiry.rated-passive-down');
         }
     }
 }

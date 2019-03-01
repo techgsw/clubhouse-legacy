@@ -98,7 +98,16 @@ class InquiryController extends Controller
         $inquiry->save();
 
         try {
-            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'up'));
+            switch ($inquiry->job->recruiting_type_code) {
+                case 'active':
+                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-up'));
+                    break;
+                case 'passive':
+                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-up'));
+                    break;
+                default:
+                    break;
+            }
         } catch (Exception $e) {
             // TODO log exception
         }
@@ -126,7 +135,16 @@ class InquiryController extends Controller
         $inquiry->save();
 
         try {
-            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'maybe'));
+            switch ($inquiry->job->recruiting_type_code) {
+                case 'active':
+                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-maybe'));
+                    break;
+                case 'passive':
+                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-maybe'));
+                    break;
+                default:
+                    break;
+            }
         } catch (Exception $e) {
             // TODO log exception
         }
@@ -154,7 +172,16 @@ class InquiryController extends Controller
         $inquiry->save();
 
         try {
-            Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'down'));
+            switch ($inquiry->job->recruiting_type_code) {
+                case 'active':
+                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-down'));
+                    break;
+                case 'passive':
+                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-down'));
+                    break;
+                default:
+                    break;
+            }
         } catch (Exception $e) {
             // TODO log exception
         }
