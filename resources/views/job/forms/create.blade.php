@@ -18,9 +18,9 @@
                     </div>
                 </div>
                 <div class="input-field col s12">
-                    <label for="job-type" class="active">Type</label>
-                    <select id="job-type" name="job_type" class="browser-default">
-                        <option value="" {{ old('job_type') == "" ? "selected" : "" }}>None</option>
+                    <label for="job-type" class="active">Job Track</label>
+                    <select id="job-type" name="job_type" class="browser-default" required>
+                        <option value="" {{ old('job_type') == "" ? "selected" : "" }}>Please select...</option>
                         <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
                         <option value="sponsorship-sales" {{ old('job_type') == 'sponsorship-sales' ? "selected" : "" }}>Sponsorship Sales</option>
                         <option value="marketing" {{ old('job_type') == 'marketing' ? "selected" : "" }}>Marketing</option>
@@ -31,6 +31,14 @@
                         <option value="communications" {{ old('job_type') == 'communications' ? "selected" : "" }}>Communications</option>
                         <option value="it-technology" {{ old('job_type') == 'it-technology' ? "selected" : "" }}>IT and Technology</option>
                         <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
+                    </select>
+                </div>
+                <div class="input-field col s12">
+                    <label for="recruiting-type-code" class="active">Recruiting Type</label>
+                    <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
+                        <option value="" selected disabled>Please select...</option>
+                        <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
+                        <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
                     </select>
                 </div>
                 <div class="file-field input-field col s12">
@@ -74,7 +82,7 @@
             <div class="row">
                 <div class="input-field col s12">
                     <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
-                    <input id="organization" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
+                    <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
                     <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
                 </div>
                 <div class="input-field col s12">

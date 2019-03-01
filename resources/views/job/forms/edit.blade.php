@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="input-field col s12">
-                    <label class="active">Type</label>
+                    <label for="job-type" class="active">Job Track</label>
                     <select name="job_type" class="browser-default">
                         <option value="" {{ old("job_type") == "" ? "selected" : is_null($job->job_type) ? "selected" : "" }}>None</option>
                         <option value="ticket-sales" {{ old("job_type") == "ticket-sales" ? "selected" : $job->job_type == "ticket-sales" ? "selected" : "" }}>Ticket Sales</option>
@@ -33,6 +33,13 @@
                         <option value="communications" {{ old("job_type") == "communications" ? "selected" : $job->job_type == "communications" ? "selected" : "" }}>Communications</option>
                         <option value="it-technology" {{ old("job_type") == "it-technology" ? "selected" : $job->job_type == "it-technology" ? "selected" : "" }}>IT and Technology</option>
                         <option value="administrative" {{ old("job_type") == "administrative" ? "selected" : $job->job_type == "administrative" ? "selected" : "" }}>Administrative</option>
+                    </select>
+                </div>
+                <div class="input-field col s12">
+                    <label for="recruiting-type-code" class="active">Recruiting Type</label>
+                    <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
+                        <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : $job->recruiting_type_code == "passive" ? "selected" : "" }}>Passive</option>
+                        <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : $job->recruiting_type_code == "active" ? "selected" : "" }}>Active</option>
                     </select>
                 </div>
                 <div class="file-field input-field col s12">
