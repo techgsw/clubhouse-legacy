@@ -23,13 +23,13 @@ class CreateRecruitingTypeTable extends Migration
         DB::table('recruiting_type')->insert(
             array(
                 'code' => 'active',
-                'description' => 'Recruiter is actively recruiting'
+                'description' => 'This job is being actively recruited.'
             )
         );
         DB::table('recruiting_type')->insert(
             array(
                 'code' => 'passive',
-                'description' => 'Recruiter is not active and running a pass-through.'
+                'description' => 'This job has been posted, but is not being actively recruited.'
             )
         );
     }
