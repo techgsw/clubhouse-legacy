@@ -65,7 +65,7 @@ class PostController extends Controller
                         $image_url,
                         $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions',
                         $directory = 'post/'.$post->id,
-                        $options = [ 'cropFromCenter' => true ]
+                        $options = [ 'cropFromCenter' => true, 'landscape_share' => true ]
                     );
                     $post->images()->save($image);
                 }
@@ -156,6 +156,7 @@ class PostController extends Controller
                         $directory = 'post/'.$post->id,
                         $options = [
                             'cropFromCenter' => true,
+                            'landscape_share' => true,
                             'update' => $post->images->first()
                         ]
                     );

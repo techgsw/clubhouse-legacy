@@ -170,7 +170,7 @@ class Image extends Model
                 break;
             case 'jpg':
             case 'jpeg':
-                imagejpeg($this->resource, $path);
+                imagejpeg($this->resource, $path, 100);
                 break;
             case 'png':
                 imagepng($this->resource, $path);
