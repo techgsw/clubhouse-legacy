@@ -8,6 +8,7 @@ use App\Inquiry;
 use App\Job;
 use App\Mentor;
 use App\User;
+use App\Mail\PurchaseNotification;
 use App\Mail\NewUserFollowUp;
 use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\RegistrationNotification;
@@ -20,6 +21,17 @@ use Illuminate\Support\ServiceProvider;
 
 class EmailServiceProvider extends ServiceProvider
 {
+    public static function sendPurchaseNotificationEmail(User $user, $product_option)
+    {
+        $admin_users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'purchase_notification')
+            ->select('user.*')
+            ->get();
+
+        Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
+    }
+
     public static function sendRegistrationNotificationEmail(User $registrant)
     {
         $users = User::join('email_user', 'user.id', 'email_user.user_id')

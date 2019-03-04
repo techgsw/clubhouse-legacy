@@ -17,6 +17,7 @@ use App\RoleUser;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
 use App\Providers\StripeServiceProvider;
+use App\Providers\EmailServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -175,8 +176,7 @@ class CheckoutController extends Controller
                     $transaction_product_option->save();
 
                     try {
-                        Mail::to([env('BOB_SBS_EMAIL'), env('ADAM_SBS_EMAIL'), env('JASON_SBS_EMAIL'), env('JOSH_SBS_EMAIL'), env('MIKE_SBS_EMAIL'), env('NICK_SBS_EMAIL')])
-                            ->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
+                        EmailServiceProvider::sendPurchaseNotificationEmail($user, $product_option);
                         Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
                         Mail::to($user)->send(new UserPaidClubhousePro($user));
                     } catch (\Exception $e) {
@@ -207,16 +207,24 @@ class CheckoutController extends Controller
 
         try {
             $stripe_customer = StripeServiceProvider::getCustomer($user);
+            // var_dump("Dumping : " . $stripe_customer);   
             $stripe_customer->sources->create(array('source' => $request['stripe_token']));
             $stripe_customer = StripeServiceProvider::getCustomer($user);
-        } Catch (Exception $e) {
+
+            return response()->json([
+                'type' => 'success',
+                'payment_methods' => $stripe_customer->sources->data
+            ]);
+        } Catch (\Exception $e) {
             Log::error($e);
+
+            //TODO: Send error message in the JS to handle this exception
+            return response()->json([
+                'type' => 'failure',
+                'payment_methods' => null
+            ]);
         }
 
-        return response()->json([
-            'type' => 'success',
-            'payment_methods' => $stripe_customer->sources->data
-        ]);
     }
 
     public function removeCard(Request $request)
