@@ -176,7 +176,7 @@ class CheckoutController extends Controller
                     $transaction_product_option->save();
 
                     try {
-                        EmailServiceProvider::sendPurchaseNotificationEmail($user, $product_option);
+                        EmailServiceProvider::sendPurchaseNotificationEmail($user, $product_option, 0, 'membership');
                         Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
                         Mail::to($user)->send(new UserPaidClubhousePro($user));
                     } catch (\Exception $e) {

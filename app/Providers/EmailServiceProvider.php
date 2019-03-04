@@ -21,7 +21,7 @@ use Illuminate\Support\ServiceProvider;
 
 class EmailServiceProvider extends ServiceProvider
 {
-    public static function sendPurchaseNotificationEmail(User $user, $product_option)
+    public static function sendPurchaseNotificationEmail(User $user, ProductOption $product_option, $amount, $type)
     {
         $admin_users = User::join('email_user', 'user.id', 'email_user.user_id')
             ->join('email', 'email_user.email_id', 'email.id')
@@ -29,7 +29,7 @@ class EmailServiceProvider extends ServiceProvider
             ->select('user.*')
             ->get();
 
-        Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, 0, 'membership'));
+        Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
     }
 
     public static function sendRegistrationNotificationEmail(User $registrant)
