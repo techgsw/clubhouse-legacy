@@ -207,7 +207,6 @@ class CheckoutController extends Controller
 
         try {
             $stripe_customer = StripeServiceProvider::getCustomer($user);
-            // var_dump("Dumping : " . $stripe_customer);   
             $stripe_customer->sources->create(array('source' => $request['stripe_token']));
             $stripe_customer = StripeServiceProvider::getCustomer($user);
 
