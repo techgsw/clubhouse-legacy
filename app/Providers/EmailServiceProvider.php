@@ -8,6 +8,7 @@ use App\Inquiry;
 use App\Job;
 use App\Mentor;
 use App\User;
+use App\ProductOption;
 use App\Mail\PurchaseNotification;
 use App\Mail\NewUserFollowUp;
 use App\Mail\Admin\InquirySummary;
