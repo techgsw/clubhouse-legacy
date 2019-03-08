@@ -1026,6 +1026,7 @@ $.valHooks.textarea = {
     // Rate an inquiry upon clicking a rating button
     $('body').on(
         {
+            
             click: function (e, ui) {
                 var id = parseInt($(this).attr('data-id'));
                 var rating = parseInt($(this).attr('rating'));

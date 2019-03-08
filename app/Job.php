@@ -51,46 +51,31 @@ class Job extends Model
 
     public function inquiryTotals()
     {
-        $totals = [
-            'none' => 0,
-            'up' => 0,
-            'maybe' => 0,
-            'down' => 0
-        ];
-        foreach ($this->inquiries as $i) {
-            if ($i->rating === 1) {
-                $totals['up']++;
-            } else if ($i->rating === 0) {
-                $totals['maybe']++;
-            } else if ($i->rating === -1) {
-                $totals['down']++;
+        $totals = array();
+
+        foreach ($this->inquiries as $inquiry) {
+            if (array_key_exists($inquiry->job_pipeline->name, $totals)) {
+
+                $totals[$inquiry->job_pipeline->name] += 1;
             } else {
-                $totals['none']++;
-            }
+                $totals[$inquiry->job_pipeline->name] = 1;
+            }    
         }
 
         return $totals;
     }
 
-    public function contactTotals()
+    public function contactAssignmentTotals()
     {
-        $totals = [
-            'none' => 0,
-            'up' => 0,
-            'maybe' => 0,
-            'down' => 0
-        ];
+        $totals = array();
+        
+        foreach ($this->assignments as $contact_job) {   
+            if (array_key_exists($contact_job->job_pipeline->name, $totals)) {
 
-        foreach ($this->assignments as $i) {
-            if ($i->rating === 1) {
-                $totals['up']++;
-            } else if ($i->rating === 0) {
-                $totals['maybe']++;
-            } else if ($i->rating === -1) {
-                $totals['down']++;
+                $totals[$contact_job->job_pipeline->name] += 1;
             } else {
-                $totals['none']++;
-            }
+                $totals[$contact_job->job_pipeline->name] = 1;
+            }            
         }
         
         return $totals;

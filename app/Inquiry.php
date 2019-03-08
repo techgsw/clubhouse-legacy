@@ -23,6 +23,15 @@ class Inquiry extends Model
     {
         return $this->belongsTo(Job::class);
     }
+    public function pipeline()
+    {
+        return $this->belongsTo(Pipeline::class);
+    }
+
+    public function job_pipeline()
+    {
+        return $this->hasOne(JobPipeline::class, 'pipeline_id', 'pipeline_id');
+    }
 
     public function notes()
     {
@@ -33,23 +42,29 @@ class Inquiry extends Model
     {
         $inquiries = Inquiry::where('job_id', $job_id);
 
-        $rating = request('rating');
-        switch ($rating) {
-            case "up":
-                $inquiries->where('rating', '>', '0');
-                break;
-            case "maybe":
-                $inquiries->where('rating', '0');
-                break;
-            case "down":
-                $inquiries->where('rating', '<', '0');
-                break;
-            case "none":
-                $inquiries->whereNull('rating');
-                break;
-            default:
-                break;
+        $pipeline_id = request('step');
+        
+        if ($pipeline_id != 'all' && !is_null($pipeline_id)) {
+            $inquiries->where('pipeline_id', '=', $pipeline_id);
         }
+
+        // $rating = request('rating');
+        // switch ($rating) {
+        //     case "up":
+        //         $inquiries->where('rating', '>', '0');
+        //         break;
+        //     case "maybe":
+        //         $inquiries->where('rating', '0');
+        //         break;
+        //     case "down":
+        //         $inquiries->where('rating', '<', '0');
+        //         break;
+        //     case "none":
+        //         $inquiries->whereNull('rating');
+        //         break;
+        //     default:
+        //         break;
+        // }
 
         $sort = request('sort');
         switch ($sort) {

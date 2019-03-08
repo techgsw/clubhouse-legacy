@@ -6,6 +6,8 @@ use App\Image;
 use App\Inquiry;
 use App\ContactJob;
 use App\Job;
+use App\Pipeline;
+use App\JobPipeline;
 use App\League;
 use App\Message;
 use App\Organization;
@@ -48,6 +50,8 @@ class JobController extends Controller
             request('state') && request('state') != 'all' ||
             request('organization');
 
+        $pipeline = Pipeline::orderBy('id', 'asc')->get();
+        
         return view('job/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
@@ -55,6 +59,7 @@ class JobController extends Controller
             ],
             'jobs' => $jobs,
             'searching' => $searching,
+            'pipeline' => $pipeline,
             'leagues' => League::all()
         ]);
     }
@@ -227,6 +232,11 @@ class JobController extends Controller
     public function show(Request $request, $id)
     {
         $job = Job::find($id);
+
+        $pipeline = Pipeline::orderBy('id', 'asc')->get();
+
+        $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
+
         if (!$job) {
             return abort(404);
         }
@@ -263,6 +273,8 @@ class JobController extends Controller
             'contact_applications' => $contact_applications,
             'inquiries' => $inquiries,
             'profile_complete' => $profile_complete,
+            'pipeline' => $pipeline,
+            'job_pipeline' => $job_pipeline,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
@@ -360,7 +372,7 @@ class JobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function rankUp($id)
-    {
+    {  
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
@@ -500,7 +512,7 @@ class JobController extends Controller
     public function update(UpdateJob $request, $id)
     {
         $job = Job::find($id);
-
+        
         $organization = Organization::find($request->organization_id);
         if (!$organization) {
             $request->session()->flash('message', new Message(

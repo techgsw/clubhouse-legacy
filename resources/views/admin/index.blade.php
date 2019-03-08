@@ -73,7 +73,7 @@
         <div class="card-action">
             <a class="no-underline" href="/organization/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> new org</span></a>
         </div>
-    </div>
+    </div>  
     <div class="card">
         <div class="card-content">
             <span class="card-title"><a href="/admin/question" class="no-underline">Questions</a></span>
@@ -117,6 +117,23 @@
             </div>
             <div class="card-action">
                 <a class="no-underline" href="/mentor"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Mentors</span></a>
+            </div>
+        </div>
+    @endcan
+    <!-- WE ARE NOT IN ADMIN REPORTS -->
+    @can ('view-admin-pipelines')
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"><a href="/admin/pipeline" class="no-underline">Pipelines</a></span>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/pipeline/job" class="no-underline">Job Pipeline</a>
+                </p>
+                <!-- <p style="text-transform: uppercase;">
+                    <a href="/admin/report/notes" class="no-underline">Notes Report</a>
+                </p> -->
+            </div>
+            <div class="card-action">
+                <a class="no-underline" href="/admin/pipeline"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Pipelines</span></a>
             </div>
         </div>
     @endcan

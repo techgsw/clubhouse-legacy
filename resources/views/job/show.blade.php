@@ -91,20 +91,22 @@
         <div class="row">
             <div class="col s12 m9 offset-m3">
                 <form method="get" action="/job/{{ $job->id }}#applications">
-                    <select class="hidden submit-on-change" name="rating" id="rating">
-                        <option value="all" {{ (!request('rating') || request('rating') == 'all') ? "selected" : "" }}>All</option>
-                        <option value="up" {{ request('rating') == 'up' ? "selected" : "" }}>Up</option>
-                        <option value="maybe" {{ request('rating') == 'maybe' ? "selected" : "" }}>Maybe</option>
-                        <option value="down" {{ request('rating') == 'down' ? "selected" : "" }}>Down</option>
-                        <option value="none" {{ request('rating') == 'none' ? "selected" : "" }}>None</option>
+                    <select class="hidden submit-on-change" name="step" id="step">
+                        <option value="all" {{ (!request('step') || request('step') == 'all') ? "selected" : "" }}>all</option>
+                        @foreach ($job_pipeline as $step)
+                                @if ($step->id == 1)
+                                    <option value="{{$step->id}}" {{ (!request('step') || request('step') == $step->id) ? "selected" : "" }}>Step{{$step->id}}</option>
+                                @else
+                                    <option value="{{$step->id}}" {{ request('step') == $step->id ? "selected" : "" }}>$step->id</option>
+                                @endif
+                        @endforeach
                     </select>
                     <div class="row">
                         <div class="col s7 m6">
-                            <button type="button" class="flat-button {{ (!request('rating') || request('rating') == 'all') ? "inverse" : "" }} input-control" input-id="rating" value="all"><i class="fa fa-times"></i></button>
-                            <button type="button" class="flat-button {{ request('rating') == 'none' ? "inverse" : "" }} input-control" input-id="rating" value="none"><i class="fa fa-circle-thin"></i></button>
-                            <button type="button" class="flat-button {{ request('rating') == 'up' ? "inverse" : "" }} input-control" input-id="rating" value="up"><i class="fa fa-thumbs-up"></i></button>
-                            <button type="button" class="flat-button {{ request('rating') == 'maybe' ? "inverse" : "" }} input-control" input-id="rating" value="maybe"><i class="fa fa-question-circle"></i></button>
-                            <button type="button" class="flat-button {{ request('rating') == 'down' ? "inverse" : "" }} input-control" input-id="rating" value="down"><i class="fa fa-thumbs-down"></i></button>
+                            <button type="button" class="flat-button small {{ (!request('step') || request('step') == 'all') ? "inverse" : "" }} input-control" input-id="step" value="all"><i class="fa fa-times"></i></button>
+                            @foreach ($job_pipeline as $step)
+                                <button type="button" class="flat-button small {{ request('step') == $step->id ? "inverse" : "" }} input-control" input-id="step" value='{{$step->id}}'>{{$step->name}}</button>
+                            @endforeach
                         </div>
                         <div class="col s5 m6 center-align">
                             <select class="submit-on-change browser-default" style="margin-top: 0; height: 2.0rem;" name="sort">
@@ -127,8 +129,11 @@
                 </a>
             </div>
         </div>
+        @php
+            //dd($contact_applications);
+        @endphp
         @can ('edit-inquiry')
-            @include('components.inquiry-list', ['inquiries' => $contact_applications, 'contact' => true])
+            @include('components.inquiry-list', ['inquiries' => $contact_applications, 'contact' => true, 'job_pipeline' => $job_pipeline])
         @endcan
     @endif
     @if (count($inquiries) > 0 || (Auth::user() && Auth::user()->can('edit-inquiry')))
