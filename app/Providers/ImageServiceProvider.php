@@ -54,6 +54,9 @@ class ImageServiceProvider extends ServiceProvider
         // Image to update?
         $update_image = isset($options['update']) ? $options['update'] : null;
 
+        // Keep share image as 16x9 (landscape) 
+        $landscape_share = isset($options['landscape_share']) ? $options['landscape_share'] : null;
+
         // Set filename
         $ext = strtolower($file->getClientOriginalExtension());
         $filename .= ".$ext";
@@ -70,6 +73,7 @@ class ImageServiceProvider extends ServiceProvider
         // Dimensions
         $dim_x = isset($options['dim_x']) ? $options['dim_x'] : $original->getWidth();
         $dim_y = isset($options['dim_y']) ? $options['dim_y'] : $original->getHeight();
+
         if ($crop_center) {
             $dim_x = min($dim_x, $dim_y);
             $dim_y = $dim_x;
@@ -84,9 +88,11 @@ class ImageServiceProvider extends ServiceProvider
         $image_url = $original->saveAs($directory, $filename);
         $image = clone $original;
         $image->order = $image_order;
+
         if ($crop_center) {
             $image->cropFromCenter($dim_x);
         }
+
         if (in_array('large', $qualities)) {
             $large = clone $image;
             $large_url = $large->resize($dim_x/2, $dim_y/2)->saveAs($directory, 'large-'.$filename);
@@ -100,9 +106,14 @@ class ImageServiceProvider extends ServiceProvider
             $small_url = $small->resize($dim_x/8, $dim_y/8)->saveAs($directory, 'small-'.$filename);
         }
         if (in_array('share', $qualities)) {
-            $white = [255, 255, 255, 0];
-            $share = clone $image;
-            $share_url = $share->resize(500, 500)->padTo(1000, 520, $white)->saveAs($directory, 'share-'.$filename);
+            if ($landscape_share) {
+                $share = clone $original;
+                $share_url = $share->resize(1120, 630)->saveAs($directory, 'share-'.$filename);
+            } else {
+                $white = [255, 255, 255, 0];
+                $share = clone $image;
+                $share_url = $share->resize(500, 500)->padTo(1000, 520, $white)->saveAs($directory, 'share-'.$filename);
+            }
         }
 
         // Delete local temp image
