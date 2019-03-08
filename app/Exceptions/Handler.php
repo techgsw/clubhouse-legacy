@@ -6,6 +6,7 @@ use Exception;
 use Mail;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 use App\Mail\ExceptionOccured;
@@ -59,8 +60,8 @@ class Handler extends ExceptionHandler
             $html = $handler->getHtml($e);
 
             Mail::to(env('WHALE_DEV_EMAIL'))->send(new ExceptionOccured($html));
-        } catch (Exception $ex) {
-            dd($ex);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 
