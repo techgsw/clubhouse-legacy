@@ -1000,27 +1000,21 @@ $.valHooks.textarea = {
         var action = '';
         // Normalize rating to -1, 0, or 1
         rating = (rating > 0) ? 1 : (rating < 0) ? -1 : 0;
-        switch (rating) {
-            case 1:
-                action = 'rate-up';
-                break;
-            case 0:
-                action = 'rate-maybe';
-                break;
-            case -1:
-                action = 'rate-down';
-                break;
+
+        if (rating == -1) {
+
+            if (type === 'contact') {
+                uri = 'contact-job';
+            }
+
+            action = 'rate-down';
+
+            return $.ajax({
+                method: "GET",
+                url: "/"+uri+"/"+id+"/"+action,
+                data: {}
+            });
         }
-        console.log(type);
-        if (type === 'contact') {
-            uri = 'contact-job';
-        }
-        // POST and return deferred object
-        return $.ajax({
-            method: "GET",
-            url: "/"+uri+"/"+id+"/"+action,
-            data: {}
-        });
     }
 
     // Rate an inquiry upon clicking a rating button
@@ -1030,7 +1024,19 @@ $.valHooks.textarea = {
             click: function (e, ui) {
                 var id = parseInt($(this).attr('data-id'));
                 var rating = parseInt($(this).attr('rating'));
+                // Step can be NaN
+                var pipeline_id = parseInt($(this).attr('pipeline-id'));
+                var action = $(this).attr('move');  
                 var type = $(this).attr('data-type');
+
+                if (pipeline_id == 1) {
+
+                    result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
+
+                    if (!result) {
+                        return;
+                    }
+                }
 
                 if (!id) {
                     console.error('Inquiry.rate: ID and rating are required');
@@ -1047,25 +1053,107 @@ $.valHooks.textarea = {
                     $(b).addClass('gray');
                 });
 
-                SBS.Inquiry.rate(id, rating, type).done(function (resp) {
-                    if (resp.type != 'success') {
-                        console.error('An error occurred trying to rate inquiry '+id);
-                        return;
-                    }
-                    // Deactivate the selection class for all buttons. Return
-                    // all buttons to blue now that the app has responded.
-                    rating_btns.each(function (i, b) {
-                        $(b).removeClass('gray');
-                        $(b).addClass('blue');
-                        $(b).removeClass('inverse');
+                if (action) {
+                    SBS.Pipeline.step(id, type, action).done(function (resp) {
+
+                        if (resp.type != 'success') {
+                            console.error('An error occurred trying to rate inquiry '+id);
+                            return;
+                        }
+                        // Deactivate the selection class for all buttons. Return
+                        // all buttons to blue now that the app has responded.
+                        rating_btns.each(function (i, b) {
+                            $(b).removeClass('gray');
+                            $(b).addClass('blue');
+                            $(b).removeClass('inverse');
+                        });
+                        // Activate the selection class for the clicked button only
+                        btn.addClass('inverse');
                     });
-                    // Activate the selection class for the clicked button only
-                    btn.addClass('inverse');
-                });
+                }
+
+                if (rating) {
+                    SBS.Inquiry.rate(id, rating, type).done(function (resp) {
+                        
+                        if (resp.type != 'success') {
+                            console.error('An error occurred trying to rate inquiry '+id);
+                            return;
+                        }
+                        // Deactivate the selection class for all buttons. Return
+                        // all buttons to blue now that the app has responded.
+                        rating_btns.each(function (i, b) {
+                            $(b).removeClass('gray');
+                            $(b).addClass('blue');
+                            $(b).removeClass('inverse');
+                        });
+                        // Activate the selection class for the clicked button only
+                        btn.addClass('inverse');
+                    });
+                } 
             }
         },
         'button[action="inquiry-rate"]'
     );
+
+    SBS.Pipeline = {};
+    SBS.Pipeline.step = function (id, type, action) {
+        var uri = 'pipeline';
+
+        // POST and return deferred object
+        if (action !== undefined) {
+            return $.ajax({
+                method: "GET",
+                url: "/"+uri+"/"+id+"/"+type+"/"+action,
+                data: {}
+            });
+        }
+    }
+
+    // // Move them 
+    // $('body').on(   
+    //     {
+            
+    //         click: function (e, ui) {
+
+    //             var id = parseInt($(this).attr('data-id'));
+    //             var step = parseInt($(this).attr('step'));
+    //             var type = $(this).attr('data-type');
+
+    //             if (!id) {
+    //                 console.error('Inquiry.rate: ID and rating are required');
+    //                 return;
+    //             }
+
+    //             // The clicked rating button
+    //             var btn = $(this);
+    //             // All rating buttons, including the clicked one
+    //             var step_btns = $(this).parent().find('button[action="move-step"]');
+    //             // Switch all buttons to gray to indicate a pending action
+    //             step_btns.each(function (i, b) {
+    //                 $(b).removeClass('blue');
+    //                 $(b).addClass('gray');
+    //             });
+                
+    //             SBS.Pipeline.step(id, step, type).done(function (resp) {
+    //                 console.log(resp)
+    //                 if (resp.type != 'success') {
+    //                     console.error('An error occurred trying to rate inquiry '+id);
+    //                     return;
+    //                 }
+    //                 // Deactivate the selection class for all buttons. Return
+    //                 // all buttons to blue now that the app has responded.
+    //                 step_btns.each(function (i, b) {
+    //                     $(b).removeClass('gray');
+    //                     $(b).addClass('blue');
+    //                     $(b).removeClass('inverse');
+    //                 });
+    //                 // Activate the selection class for the clicked button only
+    //                 btn.addClass('inverse');
+    //             });
+    //         }
+    //     },
+    //     'button[action="move-step"]'
+    // );
 
     Form.toggleGroup = function (group) {
         var inputs = group.find('input');

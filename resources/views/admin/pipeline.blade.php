@@ -7,13 +7,13 @@
         <div class="card-content">
             <span class="card-title"><a href="/admin/pipeline/job" class="no-underline">Job Pipeline</a></span>
             <p style="text-transform: uppercase;">
-                <span class="sbs-red-text">{{ $total_contact_count = 5 }}</span> Contacts
+                <span class="sbs-red-text">{{ $contact_count }}</span> Contacts
             </p>
             <p style="text-transform: uppercase;">
-                <span class="sbs-red-text">{{ $total_inquiry_count = 5 }}</span> Inquiries
+                <span class="sbs-red-text">{{ $inquiry_count }}</span> Inquiries
             </p>
             <p style="text-transform: uppercase;">
-                <span class="sbs-red-text">{{ $total_contact_count + $total_inquiry_count }}</span> In the pipeline
+                <span class="sbs-red-text">{{ $contact_count + $inquiry_count }}</span> In the pipeline
             </p>
         </div>
         <div class="card-action">

@@ -25,12 +25,36 @@
                 @endif
             </p>
             @can ('edit-inquiry', $inquiry)
-                <div style="margin: 4px 0;">
-                    <button class="view-{{ ($contact ? 'contact-job' : 'inquiry') }}-notes-btn flat-button small blue" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
-                    <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="1" class="flat-button small blue {{ $inquiry->rating > 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-up"></i></button>
-                    <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="0" class="flat-button small blue {{ $inquiry->rating === 0 ? "inverse" : "" }}"><i class="fa fa-question-circle"></i></button>
-                    <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}"><i class="fa fa-thumbs-down"></i></button>
-                </div>
+                @if ($inquiry->pipeline_id <= 2)
+                    <!-- Query the modal for confirmation of the email for the first process of the pipeline -->
+                    <div style="margin: 4px 0;">
+                        <button class="view-{{ ($contact ? 'contact-job' : 'inquiry') }}-notes-btn flat-button small blue" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
+                        <!-- class="flat-button small blue {{ $inquiry->rating < 0 ? "inverse" : "" }}" -->
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue"><i class="fa fa-thumbs-down"></i></button>                    
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="halt" class="flat-button small blue"><i class="fa fa-question-circle"></i></button>
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="forward" class="flat-button small blue"><i class="fa fa-thumbs-up"></i></button>                
+                    </div>
+                @elseif ($inquiry->pipeline_id == 6)
+                    <div style="margin: 4px 0;">
+                            <button class="view-{{ ($contact ? 'contact-job' : 'inquiry') }}-notes-btn flat-button small blue" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
+                            <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="backward" class="flat-button small blue"><i class="fa fa-backward"></i></button>
+                    </div>
+                @elseif ($job_pipeline[count($job_pipeline)-1]->id == $inquiry->pipeline_id)
+                    <div style="margin: 4px 0;">
+                        <button class="view-{{ ($contact ? 'contact-job' : 'inquiry') }}-notes-btn flat-button small blue" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="backward" class="flat-button small blue"><i class="fa fa-backward"></i></button>
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue"><i class="fa fa-thumbs-down"></i></button>                    
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="halt" class="flat-button small blue"><i class="fa fa-question-circle"></i></button>
+                    </div>
+                @else
+                    <div style="margin: 4px 0;">
+                        <button class="view-{{ ($contact ? 'contact-job' : 'inquiry') }}-notes-btn flat-button small blue" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="backward" class="flat-button small blue"><i class="fa fa-backward"></i></button>
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" rating="-1" class="flat-button small blue"><i class="fa fa-thumbs-down"></i></button>                    
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="halt"class="flat-button small blue"><i class="fa fa-question-circle"></i></button>
+                        <button action="inquiry-rate" data-type="{{ $contact ? 'contact' : 'user' }}" pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" move="forward" class="flat-button small blue"><i class="fa fa-thumbs-up"></i></button>                
+                    </div>
+                @endif
             @endcan
         </div>
     </div>

@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-// use App\Note;
-// use App\User;
+use Mail;
+use App\Note;
+use App\User;
 // use App\Product;
 // use App\RoleUser;
 // use App\Transaction;
+use App\JobPipeline;
+use App\ContactJob;
+use App\Inquiry;
+use App\Mail\InquiryRated;
+use App\Providers\EmailServiceProvider;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -18,34 +25,151 @@ class PipelineController extends Controller
     {
         $this->authorize('view-admin-pipelines');
 
-        
-        // $one_month_ago = (new \DateTime('now'))->sub(new \DateInterval('P30D'))->format('Y-m-d');
-        // $sixty_days_ago = (new \DateTime('now'))->sub(new \DateInterval('P60D'))->format('Y-m-d');
+        // Get count of contacts and inquirys
+        $contact_job_count = ContactJob::count();
 
-        // $total_note_count = Note::all()->count();
-        // $month_note_count = Note::where('created_at', '>', $one_month_ago)->count();
-        // $sixty_day_note_count = Note::where('created_at', '>', $sixty_days_ago)->count();
-
-        // $total_transactions = Transaction::all()->count();
-        // $month_transaction_count = Transaction::where('created_at', '>', $one_month_ago)->count();
-        // $sixty_day_transaction_count = Transaction::where('created_at', '>', $sixty_days_ago)->count();
-
-        // $total_contact_count = Contact::where('job_pipeline_id', '>', 0)->count();
-        // $total_inquiry_count = Inquiry::where('job_pipeline_id', '>', 0)->count();
+        $inquiry_count = Inquiry::count();
 
         return view('admin/pipeline', [
-            'breadcrumb' => [
+                'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Admin' => '/admin',
                 'Pipelines' => '/admin/pipeline',
             ],
-            // 'total_note_count' => $total_note_count,
-            // 'one_month_ago' => $one_month_ago,
-            // 'month_note_count' => $month_note_count,
-            // 'sixty_day_note_count' => $sixty_day_note_count,
-            // 'total_transactions' => $total_transactions,
-            // 'month_transaction_count' => $month_transaction_count,
-            // 'sixty_day_transaction_count' => $sixty_day_transaction_count
+            'contact_count' => $contact_job_count,
+            'inquiry_count' => $inquiry_count,
+        ]);
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function move($id, $type, $action)
+    {
+        // This is the lowest valid step that the users are allowed to take.
+        $LOWEST_VALID_STEP = 3;   
+
+        try {
+            $job_pipeline = JobPipeline::all();
+
+            $max_job_pipeline_step = $job_pipeline[0]::orderBy('pipeline_id', 'desc')->first();
+
+            // Getting the type of job canidate, contact or inquiry
+            $canidate = null;
+
+            // $isValidStep = false;
+
+            $note = new Note();
+
+            if ($type == 'contact') {
+                $canidate = ContactJob::find($id);
+                
+                $note->user_id = Auth::user()->id;
+                $note->notable_id = $canidate->contact->id;
+                $note->notable_type = "App\Contact";
+                // $note->content = "Moved to " . $job_pipeline[$canidate->pipeline_id]->name . " on " .$canidate->job->title . " [id:" . $canidate->job->id . "].";
+
+            } elseif ($type == 'user') {
+                $canidate = Inquiry::find($id);
+                
+                $note->user_id = Auth::user()->id;
+                $note->notable_id = $canidate->id;
+                $note->notable_type = "App\Inquiry";
+                // $note->content = "Moved to " . $job_pipeline[$canidate->pipeline_id]->name . " on " .$canidate->job->title . " [id:" . $canidate->job->id . "].";
+            }
+            else {
+                return response()->json([
+                    'type' => 'failure',
+                    'action' => $action,
+                    'id_type' => $type,
+                    'id' => $id,
+                ]);
+            }
+
+            switch ($action) {
+                case "forward":
+                    if ($canidate->pipeline_id < $max_job_pipeline_step->pipeline_id) {
+                        if ($canidate->pipeline_id == 1) {
+                            if ($type == 'user') {
+                                try {
+                                    switch ($canidate->job->recruiting_type_code) {
+                                        case 'active':
+                                            Mail::to($canidate->user)->send(new InquiryRated($canidate, 'active-up'));
+                                            break;
+                                        case 'passive':
+                                            Mail::to($canidate->user)->send(new InquiryRated($canidate, 'passive-up'));
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                } catch (Exception $e) {
+                                    // TODO log exception
+                                    Log::error($e->getMessage());
+                                }
+                            }
+                        }
+                        $canidate->pipeline_id += 1;
+                        $note->content = "Moved to " . $job_pipeline[$canidate->pipeline_id-1]->name . " on " .$canidate->job->title . " [id:" . $canidate->job->id . "].";
+                        
+                        // $isValidStep = true;
+                        break;
+                    }
+                case "halt":    
+                    // stubbed for note and possible email communications
+                    // $isValidStep = true;
+                    break;
+                case "backward":
+                    if ($canidate->pipeline_id >= $LOWEST_VALID_STEP) {
+                        $canidate->pipeline_id -= 1;
+                        $note->content = "Moved to " . $job_pipeline[$canidate->pipeline_id-1]->name . " on " .$canidate->job->title . " [id:" . $canidate->job->id . "].";
+                        
+                        // $isValidStep = true;
+                        break;
+                    }
+                default:
+                    return response()->json([
+                        'type' => 'failure',
+                        'action' => $action,
+                        'id_type' => $type,
+                        'id' => $id,
+                    ]);
+                    break;
+            }
+
+            // Check is we made a valid step, if so save.
+            // if ($isValidStep) {
+            $canidate->save();
+            $note->save();
+            $isValidStep = false;
+            // } else {
+            //     return response()->json([
+            //         'type' => 'failure',
+            //         'action' => $action,
+            //         'id_type' => $type,
+            //         'id' => $id,
+            //         'new' => 'fail'
+            //     ]);
+            // }
+        } catch( \Exception $e){
+            Log::error($e->getMessage());
+
+            return response()->json([
+                'type' => 'failure',
+                'action' => $action,
+                'id_type' => $type,
+                'id' => $id,
+                'canidate_id' => $canidate->pipeline_id,
+                'new' => $e->getMessage()
+            ]);
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'action' => $action,
+            'id_type' => $type,
+            'id' => $id,
+            'pipeline_position' => $canidate->pipeline_id,
         ]);
     }
 
