@@ -654,6 +654,15 @@ address {
     background-color: #2196F3 !important;
     color: #FFFFFF;
 }
+.flat-button.orange {
+    border-color: #ff9800;
+    color: #ff9800;
+}
+.flat-button.orange.inverse {
+    border-color: #ff9800;
+    background-color: #ff9800 !important;
+    color: #FFFFFF;
+}
 .flat-button.red {
     border-color: #EB2935;
     color: #EB2935;

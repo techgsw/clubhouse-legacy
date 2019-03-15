@@ -48,36 +48,47 @@
                 @else
                     <span class="small flat-button green inverse">Open</span>
                 @endif
-
-                <a href="/job/{{ $job->id }}#applications" class="small flat-button black inverse">{{ count($job->inquiries)  == 1 ? "1 inquiry" : count($job->inquiries) . " inquiries" }}</a>      
                 
                 @foreach ($job_pipeline as $step)
                     @php
                         $count = 0;
                     @endphp
-                    @if (array_key_exists($step->name , $job->inquiryTotals()))
+                    @if ($step->id == 1)
+                        @if (array_key_exists($step->name , $job->inquiryTotals()))
+                            @php
+                                $count = $job->inquiryTotals()[$step->name];
+                            @endphp
+                        @endif
+                        <a href="/job/{{ $job->id }}#applications" class="small flat-button black inverse">{{ count($job->inquiries)  == 1 ? "1 inquiry" : count($job->inquiries) . " inquiries" }}</a>      
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>                    
+                        <br/>
+                        <br/>
+                        <a href="/job/{{ $job->id }}#applications" class="small flat-button grey inverse">{{ count($job->assignments)  == 1 ? "1 assignment" : count($job->assignments) . " assignments" }}</a>
                         @php
-                            $count = $job->inquiryTotals()[$step->name];
+                            $count = 0;
                         @endphp
+                        @if (array_key_exists($step->name , $job->contactAssignmentTotals()))
+                            @php
+                                $count = $job->contactAssignmentTotals()[$step->name];
+                            @endphp
+                        @endif
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>
+                        <br/>
+                        <br/> 
+                    @else
+                        @if (array_key_exists($step->name , $job->inquiryTotals()))
+                            @php
+                                $count = $job->inquiryTotals()[$step->name]; 
+                            @endphp
+                        @endif
+                        @if (array_key_exists($step->name , $job->contactAssignmentTotals()))
+                            @php
+                                $count += $job->contactAssignmentTotals()[$step->name];
+                            @endphp
+                        @endif
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>
                     @endif
-                    <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>                    
                 @endforeach  
-                
-                <br/>
-                <br/>
-                <a href="/job/{{ $job->id }}#applications" class="small flat-button grey inverse">{{ count($job->assignments)  == 1 ? "1 assignment" : count($job->assignments) . " assignments" }}</a>
-                
-                @foreach ($job_pipeline as $step)
-                    @php
-                        $count = 0;
-                    @endphp
-                    @if (array_key_exists($step->name , $job->contactAssignmentTotals()))
-                        @php
-                            $count = $job->contactAssignmentTotals()[$step->name];
-                        @endphp
-                    @endif
-                    <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>                    
-                @endforeach                
             </p>
         @endcan
     </div>

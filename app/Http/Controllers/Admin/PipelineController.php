@@ -12,6 +12,8 @@ use App\User;
 use App\JobPipeline;
 use App\ContactJob;
 use App\Inquiry;
+use App\Mail\Admin\ContactWarmComm;
+use App\Mail\Admin\ContactColdComm;
 use App\Mail\InquiryRated;
 use App\Providers\EmailServiceProvider;
 use Illuminate\Support\Facades\Log;
@@ -86,13 +88,13 @@ class PipelineController extends Controller
                     'id' => $id,
                 ]);
             }
-
+            $test = false;
             switch ($action) {
                 case "forward":
                     if ($canidate->pipeline_id < $max_job_pipeline_step->pipeline_id) {
                         if ($canidate->pipeline_id == 1) {
-                            if ($type == 'user') {
-                                try {
+                            try {
+                                if ($type == 'user') {
                                     switch ($canidate->job->recruiting_type_code) {
                                         case 'active':
                                             Mail::to($canidate->user)->send(new InquiryRated($canidate, 'active-up'));
@@ -103,10 +105,31 @@ class PipelineController extends Controller
                                         default:
                                             break;
                                     }
-                                } catch (Exception $e) {
-                                    // TODO log exception
-                                    Log::error($e->getMessage());
+                                } elseif ($type == 'contact') {
+                                    switch ($canidate->job->recruiting_type_code) {
+                                        case 'active':
+                                            // Trying to get property of non-object
+                                            Mail::to($canidate->contact->user)->send(new ContactWarmComm($canidate, 'active'));
+                                            break;
+                                        case 'passive':
+                                            // Trying to get property of non-object
+                                            Mail::to($canidate->contact->user)->send(new ContactColdComm($canidate, 'passive'));
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 }
+                                $test = true;
+                            } catch (Exception $e) {
+                                // TODO log exception
+                                Log::error($e->getMessage());
+                                return response()->json([
+                                    'type' => 'failure',
+                                    'action' => $action,
+                                    'id_type' => $type,
+                                    'id' => $id,
+                                    'email_error' => $e->getMessage(),
+                                ]);
                             }
                         }
                         $canidate->pipeline_id += 1;
@@ -160,6 +183,7 @@ class PipelineController extends Controller
                 'id_type' => $type,
                 'id' => $id,
                 'canidate_id' => $canidate->pipeline_id,
+                'test' => $canidate,
                 'new' => $e->getMessage()
             ]);
         }
