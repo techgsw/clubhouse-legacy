@@ -13,13 +13,30 @@ class AddCodeToEmail extends Migration
      */
     public function up()
     {
-        //
+        //career-services, webinars and memberships
         DB::table('email')->Insert(
             [
-            'code' => "purchase_notification", 
-            'name' => 'Purchase Notifications', 
-            'created_at' => new DateTime(),
-            'updated_at' => new DateTime(),
+                'code' => "career_services", 
+                'name' => 'Career Service Purchase Notifications', 
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ]
+        );
+
+        DB::table('email')->Insert(
+            [
+                'code' => "webinars", 
+                'name' => 'Webinar Purchase Notifications', 
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ]
+        );
+        DB::table('email')->Insert(
+            [
+                'code' => "memberships", 
+                'name' => 'Membership Purchase Notifications', 
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
             ]
         );
     }
@@ -32,6 +49,9 @@ class AddCodeToEmail extends Migration
     public function down()
     {
         //
-        DB::table('email')->where('code', '=', 'purchase_notification')->delete();
+        DB::table('email')->where('code', '=', 'memberships')->delete();
+        DB::table('email')->where('code', '=', 'webinars')->delete();
+        DB::table('email')->where('code', '=', 'career_services')->delete();
+
     }
 }
