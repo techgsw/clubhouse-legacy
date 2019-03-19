@@ -17,7 +17,7 @@ class AddCodeToEmail extends Migration
         DB::table('email')->Insert(
             [
                 'code' => "career_services", 
-                'name' => 'Career Service Purchase Notifications', 
+                'name' => 'Career Service Purchases', 
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
             ]
@@ -26,7 +26,7 @@ class AddCodeToEmail extends Migration
         DB::table('email')->Insert(
             [
                 'code' => "webinars", 
-                'name' => 'Webinar Purchase Notifications', 
+                'name' => 'Webinar Purchases', 
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
             ]
@@ -34,7 +34,7 @@ class AddCodeToEmail extends Migration
         DB::table('email')->Insert(
             [
                 'code' => "memberships", 
-                'name' => 'Membership Purchase Notifications', 
+                'name' => 'Membership Purchases', 
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
             ]
