@@ -102,19 +102,21 @@
                         @endforeach
                     </select>
                     <div class="row">
-                        <div class="col s7 m6">
-                            <button type="button" class="flat-button small {{ (!request('step') || request('step') == 'all') ? "inverse" : "" }} input-control" input-id="step" value="all"><i class="fa fa-times"></i></button>
-                            @foreach ($job_pipeline as $step)
-                                <button type="button" class="flat-button small {{ request('step') == $step->id ? "inverse" : "" }} input-control" input-id="step" value='{{$step->id}}'>{{$step->name}}</button>
-                            @endforeach
-                        </div>
-                        <div class="col s5 m6 center-align">
+                        <div class="col s5 offset-s7 m6 offset-m6 center-align">
                             <select class="submit-on-change browser-default" style="margin-top: 0; height: 2.0rem;" name="sort">
                                 <option value="recent" {{ (!request('sort') || request('sort') == 'recent') ? "selected" : "" }}>Most recent</option>
                                 <option value="rating" {{ request('sort') == 'rating' ? "selected" : "" }}>Best rating</option>
                                 <option value="alpha" {{ request('sort') == 'alpha' ? "selected" : "" }}>Alphabetical (A-Z)</option>
                                 <option value="alpha-reverse" {{ request('sort') == 'alpha-reverse' ? "selected" : "" }}>Alphabetical (Z-A)</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <button type="button" class="flat-button small {{ (!request('step') || request('step') == 'all') ? "inverse" : "" }} input-control" input-id="step" value="all"><i class="fa fa-times"></i></button>
+                            @foreach ($job_pipeline as $step)
+                                <button type="button" class="flat-button small {{ request('step') == $step->id ? "inverse" : "" }} input-control" input-id="step" value='{{$step->id}}'>{{$step->name}}</button>
+                            @endforeach
                         </div>
                     </div>
                 </form>

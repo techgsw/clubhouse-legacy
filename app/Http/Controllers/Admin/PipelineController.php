@@ -79,8 +79,7 @@ class PipelineController extends Controller
                 $note->notable_id = $canidate->id;
                 $note->notable_type = "App\Inquiry";
                 // $note->content = "Moved to " . $job_pipeline[$canidate->pipeline_id]->name . " on " .$canidate->job->title . " [id:" . $canidate->job->id . "].";
-            }
-            else {
+            } else {
                 return response()->json([
                     'type' => 'failure',
                     'action' => $action,
@@ -107,6 +106,7 @@ class PipelineController extends Controller
                                     }
                                 } elseif ($type == 'contact') {
                                     switch ($canidate->job->recruiting_type_code) {
+                                    /*
                                         case 'active':
                                             // Trying to get property of non-object
                                             Mail::to($canidate->contact->user)->send(new ContactWarmComm($canidate, 'active'));
@@ -117,6 +117,7 @@ class PipelineController extends Controller
                                             break;
                                         default:
                                             break;
+                                            */
                                     }
                                 }
                                 $test = true;

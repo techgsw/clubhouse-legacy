@@ -60,9 +60,7 @@
                             @endphp
                         @endif
                         <a href="/job/{{ $job->id }}#applications" class="small flat-button black inverse">{{ count($job->inquiries)  == 1 ? "1 inquiry" : count($job->inquiries) . " inquiries" }}</a>      
-                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>                    
-                        <br/>
-                        <br/>
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ ((count($count) > 0) ? 'red' : 'black') }}">{{$step->name}}: {{ $count }}</a>                    
                         <a href="/job/{{ $job->id }}#applications" class="small flat-button grey inverse">{{ count($job->assignments)  == 1 ? "1 assignment" : count($job->assignments) . " assignments" }}</a>
                         @php
                             $count = 0;
@@ -72,7 +70,7 @@
                                 $count = $job->contactAssignmentTotals()[$step->name];
                             @endphp
                         @endif
-                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ ((count($count) > 0) ? 'red' : 'black') }}">{{$step->name}}: {{ $count }}</a>
                         <br/>
                         <br/> 
                     @else
