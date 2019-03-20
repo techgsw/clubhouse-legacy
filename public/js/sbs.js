@@ -1033,7 +1033,6 @@ $.valHooks.textarea = {
                 });
 
                 SBS.Inquiry.pipeline(inquiry_id, action, token).done(function (resp) {
-                    console.log("Status", resp.status)
                     btn_set.each(function (i, ui) {
                         if ($(ui).attr('data-move') == 'backward') {
                             if (resp.pipeline_id > 2) {
