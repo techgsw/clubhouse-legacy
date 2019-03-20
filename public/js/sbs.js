@@ -1010,9 +1010,10 @@ $.valHooks.textarea = {
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
                     selected_btn = $(this),
-                    btn_set = $(this).parent().find('button[action="inquiry-pipeline"]'),
+                    btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
+
 
                 if (pipeline_id == 1) {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
@@ -1034,6 +1035,103 @@ $.valHooks.textarea = {
 
                 SBS.Inquiry.pipeline(inquiry_id, action, token).done(function (resp) {
                     btn_set.each(function (i, ui) {
+                        $(ui).removeClass('inverse');
+                        if ($(ui).attr('data-move') == 'backward') {
+                            if (resp.pipeline_id > 2) {
+                                $(ui).removeAttr('disabled');
+                                $(ui).removeClass('gray');
+                                $(ui).addClass('blue');
+                            } else {
+                                $(ui).attr('disabled', 'disabled');
+                                $(ui).addClass('gray');
+                                $(ui).removeClass('blue');
+                            }
+                        } else if ($(ui).attr('data-move') == 'forward') {
+                            if (resp.pipeline_id == 6) {
+                                $(ui).attr('disabled', 'disabled');
+                            } else {
+                                $(ui).removeClass('gray');
+                                $(ui).addClass('blue');
+                                $(ui).removeAttr('disabled');
+                            }
+                        } else {
+                            $(ui).removeClass('gray');
+                            $(ui).addClass('blue');
+                            if (resp.status == 'halted' || resp.status == 'paused') {
+                                $(selected_btn).addClass('inverse');
+                            } else {
+                                $(selected_btn).removeClass('inverse');
+                            }
+                            
+                            if (resp.pipeline_id > 1 && $(ui).hasClass('cold-comm')) {
+                                $(ui).find('span.thumbs-up-text').html('');
+                            }
+                            if (resp.pipeline_id > 1 && $(ui).hasClass('warm-comm')) {
+                                $(ui).remove();
+                            }
+                        }
+                    });
+
+                    if (resp.type != 'success') {
+                        SBS.UI.displayMessage(resp);
+                        return;
+                    }
+
+                    if (resp.pipeline_name !== undefined) {
+                        pipeline_label.html(resp.pipeline_name);
+                    }
+                    if (resp.pipeline_id !== undefined) {
+                        $('[data-id="' + inquiry_id +'"]').attr('data-pipeline-id', resp.pipeline_id);
+                    }
+                });
+            }
+        },
+        'button[data-action="inquiry-pipeline"][data-type="user"]'
+    );
+
+    SBS.ContactJob = {};
+    SBS.ContactJob.pipeline = function (id, action, token) {
+        return $.ajax({
+            method: "POST",
+            url: "/admin/contact-job/pipeline-" + action,
+            data: { id: id, _token: token }
+        });
+    }
+
+    // Change contact job step 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var inquiry_id = parseInt($(this).attr('data-id')),
+                    pipeline_id = parseInt($(this).attr('data-pipeline-id')),
+                    action = $(this).attr('data-move'),
+                    type = $(this).attr('data-type'),
+                    selected_btn = $(this),
+                    btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
+                    pipeline_label = $('#pipeline-label-' + inquiry_id),
+                    token = $('[name="_token"]').val();
+
+                if (pipeline_id == 1) {
+                    result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
+                    if (!result) {
+                        return;
+                    }
+                }
+
+                if (!inquiry_id) {
+                    console.error('Inquiry.rate: ID and rating are required');
+                    return;
+                }
+
+                // Switch all buttons to gray to indicate a pending action
+                btn_set.each(function (i, ui) {
+                    $(ui).removeClass('blue');
+                    $(ui).addClass('gray');
+                });
+
+                SBS.ContactJob.pipeline(inquiry_id, action, token).done(function (resp) {
+                    btn_set.each(function (i, ui) {
+                        $(ui).removeClass('inverse');
                         if ($(ui).attr('data-move') == 'backward') {
                             if (resp.pipeline_id > 2) {
                                 $(ui).removeAttr('disabled');
@@ -1085,7 +1183,7 @@ $.valHooks.textarea = {
                 });
             }
         },
-        'button[action="inquiry-pipeline"]'
+        'button[data-action="inquiry-pipeline"][data-type="contact"]'
     );
 
     Form.toggleGroup = function (group) {
