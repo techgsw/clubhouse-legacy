@@ -41,6 +41,11 @@ class InquiryController extends Controller
                 $inquiry->status = null;
                 $inquiry->save();
 
+                InquiryController::createNote(
+                    $inquiry->id,
+                    "Moved forward from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id: " . $inquiry->job->id . "]."
+                );
+
                 if ($inquiry->pipeline_id == 2) {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
@@ -65,8 +70,6 @@ class InquiryController extends Controller
                 ]);
             }
         }
-        $content = "Moved from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name  . " [id:" . $inquiry->job->id . "].";
-        InquiryController::createNote($inquiry->id, $content);
 
         return response()->json([
             'type' => 'success',
@@ -93,6 +96,12 @@ class InquiryController extends Controller
         try {
             $inquiry->status = "halted";
             $inquiry->save();
+
+            InquiryController::createNote(
+                $inquiry->id,
+                "Halted on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id: " . $inquiry->job->id . "]."
+            );
+
             if ($inquiry->pipeline_id == 1) {
                 try {
                     switch ($inquiry->job->recruiting_type_code) {
@@ -117,9 +126,6 @@ class InquiryController extends Controller
             ]);
         }
 
-        $content = "Halted on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id:" . $inquiry->job->id . "].";
-        InquiryController::createNote($inquiry->id, $content);
-
         return response()->json([
             'type' => 'success',
             'inquiry_id' => $request->input('id'),
@@ -129,7 +135,6 @@ class InquiryController extends Controller
         ]);
     }
 
-    // Maybe
     public function pipelinePause(Request $request)
     {
         $this->authorize('edit-inquiry');
@@ -146,6 +151,11 @@ class InquiryController extends Controller
         try {
             $inquiry->status = "paused";
             $inquiry->save();
+
+            InquiryController::createNote(
+                $inquiry->id,
+                "Paused on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id: " . $inquiry->job->id . "]."
+            );
 
             if ($inquiry->pipeline_id == 1) {
                 try {
@@ -170,9 +180,6 @@ class InquiryController extends Controller
                 'message' => 'We failed!'
             ]);
         }
-
-        $content = "Paused on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id:" . $inquiry->job->id . "].";
-        InquiryController::createNote($inquiry->id, $content);
 
         return response()->json([
             'type' => 'success',
@@ -208,6 +215,11 @@ class InquiryController extends Controller
             $inquiry->pipeline_id -= 1;
             $inquiry->status = null;
             $inquiry->save();
+
+            InquiryController::createNote(
+                $inquiry->id,
+                "Moved backwards from " . $job_pipeline[$inquiry->pipeline_id]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name  . " [id:" . $inquiry->job->id . "]."
+            );
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
@@ -215,8 +227,6 @@ class InquiryController extends Controller
                 'message' => 'We failed!'
             ]);
         }
-        $content = "Moved from " . $job_pipeline[$inquiry->pipeline_id]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name  . " [id:" . $inquiry->job->id . "].";
-        InquiryController::createNote($inquiry->id, $content);
 
         return response()->json([
             'type' => 'success',
@@ -227,80 +237,6 @@ class InquiryController extends Controller
         ]);
     }
 
-    public function rateMaybe($id)
-    {
-        $inquiry = Inquiry::find($id);
-        if (!$inquiry) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $inquiry->rating = 0;
-        $inquiry->save();
-
-        try {
-            switch ($inquiry->job->recruiting_type_code) {
-                case 'active':
-                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
-                    break;
-                case 'passive':
-                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception $e) {
-            // TODO log exception
-        }
-
-        return response()->json([
-            'type' => 'success',
-            'inquiry_id' => $id,
-            'rating' => 0
-        ]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rateDown($id)
-    {
-        $inquiry = Inquiry::find($id);
-        if (!$inquiry) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $inquiry->rating = -1;
-        $inquiry->save();
-
-        try {
-            switch ($inquiry->job->recruiting_type_code) {
-                case 'active':
-                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-down'));
-                    break;
-                case 'passive':
-                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-down'));
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception $e) {
-            // TODO log exception
-        }
-
-        return response()->json([
-            'type' => 'success',
-            'inquiry_id' => $id,
-            'rating' => -1
-        ]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function showNotes($id)
     {
         $this->authorize('view-inquiry-notes');
@@ -314,10 +250,6 @@ class InquiryController extends Controller
         ]);
     }
 
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function createNote($id, $content)
     {
         $this->authorize('create-inquiry-note');
