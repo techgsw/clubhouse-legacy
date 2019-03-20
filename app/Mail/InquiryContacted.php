@@ -40,13 +40,13 @@ class InquiryContacted extends Mailable
         $mail = $this->from($this->user->email);
         $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
         switch ($this->rating) {
-            case 'active-poitive':
+            case 'active-positive':
                 return $mail->markdown('emails.inquiry.contacted-active-positive');
             case 'active-maybe':
                 return $mail->markdown('emails.inquiry.contacted-active-maybe');
             case 'active-negative':
                 return $mail->markdown('emails.inquiry.contacted-active-negative');
-            case 'passive-postive':
+            case 'passive-positive':
                 return $mail->markdown('emails.inquiry.contacted-passive-positive');
             case 'passive-maybe':
                 return $mail->markdown('emails.inquiry.contacted-passive-maybe');

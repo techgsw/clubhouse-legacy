@@ -85,30 +85,20 @@ class InquiryController extends Controller
             ]);
         }
 
-        $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
-
-        if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
+        if ($inquiry->pipeline_id == 1) {
             try {
-                try {
-                    switch ($inquiry->job->recruiting_type_code) {
-                        case 'active':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
-                            break;
-                        case 'passive':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
+                switch ($inquiry->job->recruiting_type_code) {
+                    case 'active':
+                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
+                        break;
+                    case 'passive':
+                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
+                        break;
+                    default:
+                        break;
                 }
             } catch (Exception $e) {
                 Log::error($e->getMessage());
-                return response()->json([
-                    'type' => 'failure',
-                    'message' => 'We failed!'
-                ]);
             }
         }
 
@@ -134,30 +124,20 @@ class InquiryController extends Controller
             ]);
         }
 
-        $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
-
-        if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
+        if ($inquiry->pipeline_id == 1) {
             try {
-                try {
-                    switch ($inquiry->job->recruiting_type_code) {
-                        case 'active':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
-                            break;
-                        case 'passive':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
+                switch ($inquiry->job->recruiting_type_code) {
+                    case 'active':
+                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
+                        break;
+                    case 'passive':
+                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
+                        break;
+                    default:
+                        break;
                 }
             } catch (Exception $e) {
                 Log::error($e->getMessage());
-                return response()->json([
-                    'type' => 'failure',
-                    'message' => 'We failed!'
-                ]);
             }
         }
 
