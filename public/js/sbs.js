@@ -1033,7 +1033,7 @@ $.valHooks.textarea = {
                 });
 
                 SBS.Inquiry.pipeline(inquiry_id, action, token).done(function (resp) {
-
+                    console.log("Status", resp.status)
                     btn_set.each(function (i, ui) {
                         if ($(ui).attr('data-move') == 'backward') {
                             if (resp.pipeline_id > 2) {
@@ -1048,6 +1048,12 @@ $.valHooks.textarea = {
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
+                            if (resp.status == 'halted' || resp.status == 'paused') {
+                                $(selected_btn).addClass('inverse');
+                            } else {
+                                $(selected_btn).removeClass('inverse');
+                            }
+                            
                             $(ui).removeClass('inverse');
                             if (resp.pipeline_id > 1 && $(ui).hasClass('cold-comm')) {
                                 $(ui).find('span.thumbs-up-text').html('');

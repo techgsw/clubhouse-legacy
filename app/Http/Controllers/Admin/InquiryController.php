@@ -37,6 +37,7 @@ class InquiryController extends Controller
         if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
             try {
                 $inquiry->pipeline_id += 1;
+                $inquiry->status = null;
                 $inquiry->save();
 
                 if ($inquiry->pipeline_id == 2) {
@@ -69,6 +70,7 @@ class InquiryController extends Controller
             'inquiry_id' => $request->input('id'),
             'pipeline_id' => $inquiry->pipeline_id,
             'pipeline_name' => $inquiry->job_pipeline->name,
+            'status' => $inquiry->status,
         ]);
     }
 
@@ -84,22 +86,31 @@ class InquiryController extends Controller
                 'message' => 'We failed!'
             ]);
         }
-
-        if ($inquiry->pipeline_id == 1) {
-            try {
-                switch ($inquiry->job->recruiting_type_code) {
-                    case 'active':
-                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
-                        break;
-                    case 'passive':
-                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
-                        break;
-                    default:
-                        break;
+        try {
+            $inquiry->status = "halted";
+            $inquiry->save();
+            if ($inquiry->pipeline_id == 1) {
+                try {
+                    switch ($inquiry->job->recruiting_type_code) {
+                        case 'active':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
+                            break;
+                        case 'passive':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
                 }
-            } catch (Exception $e) {
-                Log::error($e->getMessage());
             }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'We failed!'
+            ]);
         }
 
         return response()->json([
@@ -107,6 +118,7 @@ class InquiryController extends Controller
             'inquiry_id' => $request->input('id'),
             'pipeline_id' => $inquiry->pipeline_id,
             'pipeline_name' => $inquiry->job_pipeline->name,
+            'status' => $inquiry->status,
         ]);
     }
 
@@ -123,22 +135,32 @@ class InquiryController extends Controller
                 'message' => 'We failed!'
             ]);
         }
+        try {
+            $inquiry->status = "paused";
+            $inquiry->save();
 
-        if ($inquiry->pipeline_id == 1) {
-            try {
-                switch ($inquiry->job->recruiting_type_code) {
-                    case 'active':
-                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
-                        break;
-                    case 'passive':
-                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
-                        break;
-                    default:
-                        break;
+            if ($inquiry->pipeline_id == 1) {
+                try {
+                    switch ($inquiry->job->recruiting_type_code) {
+                        case 'active':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
+                            break;
+                        case 'passive':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
                 }
-            } catch (Exception $e) {
-                Log::error($e->getMessage());
             }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'We failed!'
+            ]);
         }
 
         return response()->json([
@@ -146,6 +168,7 @@ class InquiryController extends Controller
             'inquiry_id' => $request->input('id'),
             'pipeline_id' => $inquiry->pipeline_id,
             'pipeline_name' => $inquiry->job_pipeline->name,
+            'status' => $inquiry->status,
         ]);
     }
 
@@ -171,6 +194,7 @@ class InquiryController extends Controller
 
         try {
             $inquiry->pipeline_id -= 1;
+            $inquiry->status = null;
             $inquiry->save();
         } catch (Exception $e) {
             Log::error($e->getMessage());
