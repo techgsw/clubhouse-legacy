@@ -1014,7 +1014,7 @@ $.valHooks.textarea = {
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
 
-                if (pipeline_id == 1 && action == 'forward') {
+                if (pipeline_id == 1) {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
                     if (!result) {
                         return;
@@ -1063,8 +1063,12 @@ $.valHooks.textarea = {
                         return;
                     }
 
-                    pipeline_label.html(resp.pipeline_name);
-                    selected_btn.attr('data-pipeline-id', resp.pipeline_id);
+                    if (resp.pipeline_name !== undefined) {
+                        pipeline_label.html(resp.pipeline_name);
+                    }
+                    if (resp.pipeline_id !== undefined) {
+                        $('[data-id="' + inquiry_id +'"]').attr('data-pipeline-id', resp.pipeline_id);
+                    }
                 });
             }
         },

@@ -15,7 +15,7 @@ class InquiryContacted extends Mailable
     use Queueable, SerializesModels;
 
     public $inquiry;
-    public $rating;
+    public $action;
     public $user;
 
     /**
@@ -23,10 +23,10 @@ class InquiryContacted extends Mailable
      *
      * @return void
      */
-    public function __construct(Inquiry $inquiry, $rating)
+    public function __construct(Inquiry $inquiry, $action)
     {
         $this->inquiry = $inquiry;
-        $this->rating = $rating;
+        $this->action = $action;
         $this->user = Auth::user();
     }
 
@@ -39,7 +39,7 @@ class InquiryContacted extends Mailable
     {
         $mail = $this->from($this->user->email);
         $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
-        switch ($this->rating) {
+        switch ($this->action) {
             case 'active-positive':
                 return $mail->markdown('emails.inquiry.contacted-active-positive');
             case 'active-maybe':
