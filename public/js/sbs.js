@@ -1014,7 +1014,7 @@ $.valHooks.textarea = {
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
 
-                if (pipeline_id == 1) {
+                if (pipeline_id == 1 && action == 'forward') {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
                     if (!result) {
                         return;
@@ -1064,6 +1064,7 @@ $.valHooks.textarea = {
                     }
 
                     pipeline_label.html(resp.pipeline_name);
+                    selected_btn.attr('data-pipeline-id', resp.pipeline_id);
                 });
             }
         },

@@ -26,7 +26,10 @@ class InquiryController extends Controller
         $inquiry = Inquiry::find($request->input('id'));
 
         if (!$inquiry) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'We failed!'
+            ]);
         }
 
         $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
