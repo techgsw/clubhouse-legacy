@@ -209,6 +209,7 @@ class InquiryController extends Controller
             'inquiry_id' => $request->input('id'),
             'pipeline_id' => $inquiry->pipeline_id,
             'pipeline_name' => $inquiry->job_pipeline->name,
+            'status' => $inquiry->status,
         ]);
     }
 
