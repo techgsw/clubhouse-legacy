@@ -11,7 +11,7 @@ use App\Message;
 use App\Note;
 use App\User;
 use App\Http\Requests\StoreJob;
-use App\Mail\InquiryRated;
+use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,10 +43,10 @@ class InquiryController extends Controller
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
-                                Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-up'));
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
                                 break;
                             case 'passive':
-                                Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-up'));
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-postive'));
                                 break;
                             default:
                                 break;
@@ -54,6 +54,103 @@ class InquiryController extends Controller
                     } catch (Exception $e) {
                         Log::error($e->getMessage());
                     }
+                }
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                return response()->json([
+                    'type' => 'failure',
+                    'message' => 'We failed!'
+                ]);
+            }
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $request->input('id'),
+            'pipeline_id' => $inquiry->pipeline_id,
+            'pipeline_name' => $inquiry->job_pipeline->name,
+        ]);
+    }
+
+    public function pipelineHalt(Request $request)
+    {
+        $this->authorize('edit-inquiry');
+
+        $inquiry = Inquiry::find($request->input('id'));
+
+        if (!$inquiry) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'We failed!'
+            ]);
+        }
+
+        $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
+
+        if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
+            try {
+                try {
+                    switch ($inquiry->job->recruiting_type_code) {
+                        case 'active':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
+                            break;
+                        case 'passive':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
+                }
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+                return response()->json([
+                    'type' => 'failure',
+                    'message' => 'We failed!'
+                ]);
+            }
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'inquiry_id' => $request->input('id'),
+            'pipeline_id' => $inquiry->pipeline_id,
+            'pipeline_name' => $inquiry->job_pipeline->name,
+        ]);
+    }
+
+    // Maybe
+    public function pipelinePause(Request $request)
+    {
+        $this->authorize('edit-inquiry');
+
+        $inquiry = Inquiry::find($request->input('id'));
+
+        if (!$inquiry) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'We failed!'
+            ]);
+        }
+
+        $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
+
+        if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
+            try {
+                try {
+                    switch ($inquiry->job->recruiting_type_code) {
+                        case 'active':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
+                            break;
+                        case 'passive':
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
                 }
             } catch (Exception $e) {
                 Log::error($e->getMessage());
@@ -125,10 +222,10 @@ class InquiryController extends Controller
         try {
             switch ($inquiry->job->recruiting_type_code) {
                 case 'active':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-maybe'));
+                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
                     break;
                 case 'passive':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-maybe'));
+                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
                     break;
                 default:
                     break;
@@ -162,10 +259,10 @@ class InquiryController extends Controller
         try {
             switch ($inquiry->job->recruiting_type_code) {
                 case 'active':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-down'));
+                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-down'));
                     break;
                 case 'passive':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-down'));
+                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-down'));
                     break;
                 default:
                     break;
