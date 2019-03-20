@@ -24,6 +24,7 @@ class InquiryController extends Controller
         $this->authorize('edit-inquiry');
 
         $inquiry = Inquiry::find($request->input('id'));
+        $job_pipeline = JobPipeline::all();
 
         if (!$inquiry) {
             return response()->json([
@@ -64,6 +65,8 @@ class InquiryController extends Controller
                 ]);
             }
         }
+        $content = "Moved from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name  . " [id:" . $inquiry->job->id . "].";
+        InquiryController::createNote($inquiry->id, $content);
 
         return response()->json([
             'type' => 'success',
@@ -79,6 +82,7 @@ class InquiryController extends Controller
         $this->authorize('edit-inquiry');
 
         $inquiry = Inquiry::find($request->input('id'));
+        $job_pipeline = JobPipeline::all();
 
         if (!$inquiry) {
             return response()->json([
@@ -113,6 +117,9 @@ class InquiryController extends Controller
             ]);
         }
 
+        $content = "Halted on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id:" . $inquiry->job->id . "].";
+        InquiryController::createNote($inquiry->id, $content);
+
         return response()->json([
             'type' => 'success',
             'inquiry_id' => $request->input('id'),
@@ -128,6 +135,7 @@ class InquiryController extends Controller
         $this->authorize('edit-inquiry');
 
         $inquiry = Inquiry::find($request->input('id'));
+        $job_pipeline = JobPipeline::all();
 
         if (!$inquiry) {
             return response()->json([
@@ -163,6 +171,9 @@ class InquiryController extends Controller
             ]);
         }
 
+        $content = "Paused on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id:" . $inquiry->job->id . "].";
+        InquiryController::createNote($inquiry->id, $content);
+
         return response()->json([
             'type' => 'success',
             'inquiry_id' => $request->input('id'),
@@ -177,6 +188,7 @@ class InquiryController extends Controller
         $this->authorize('edit-inquiry');
 
         $inquiry = Inquiry::find($request->input('id'));
+        $job_pipeline = JobPipeline::all();
 
         if (!$inquiry) {
             return response()->json([
@@ -203,6 +215,8 @@ class InquiryController extends Controller
                 'message' => 'We failed!'
             ]);
         }
+        $content = "Moved from " . $job_pipeline[$inquiry->pipeline_id]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name  . " [id:" . $inquiry->job->id . "].";
+        InquiryController::createNote($inquiry->id, $content);
 
         return response()->json([
             'type' => 'success',
@@ -303,7 +317,7 @@ class InquiryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function createNote($id)
+    public function createNote($id, $content)
     {
         $this->authorize('create-inquiry-note');
 
@@ -316,7 +330,7 @@ class InquiryController extends Controller
         $note->user_id = Auth::user()->id;
         $note->notable_id = $id;
         $note->notable_type = "App\Inquiry";
-        $note->content = request("note");
+        $note->content = $content;
         $note->save();
 
         return response()->json([

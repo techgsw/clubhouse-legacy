@@ -1044,6 +1044,16 @@ $.valHooks.textarea = {
                                 $(ui).addClass('gray');
                                 $(ui).removeClass('blue');
                             }
+                        } else if ($(ui).attr('data-move') == 'forward') {
+                            if (resp.pipeline_id > 2) {
+                                $(ui).removeAttr('disabled');
+                                $(ui).removeClass('gray');
+                                $(ui).addClass('blue');
+                            } else {
+                                $(ui).attr('disabled', 'disabled');
+                                $(ui).addClass('gray');
+                                $(ui).removeClass('blue');
+                            }
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
