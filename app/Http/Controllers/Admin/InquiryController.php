@@ -46,7 +46,7 @@ class InquiryController extends Controller
                                 Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
                                 break;
                             case 'passive':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-postive'));
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
                                 break;
                             default:
                                 break;
