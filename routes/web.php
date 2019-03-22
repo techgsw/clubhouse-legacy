@@ -136,7 +136,7 @@ Route::domain($domain)->group(function () {
         Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
 
         Route::post('/admin/contact-job/pipeline-forward/{comm_type}', 'ContactJobController@pipelineForward');
-        Route::post('/admin/contact-job/pipeline-backward/{comm_type}', 'ContactJobController@pipelineBackward');
+        Route::post('/admin/contact-job/pipeline-backward/', 'ContactJobController@pipelineBackward');
         Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
         Route::post('/admin/contact-job/pipeline-pause/', 'ContactJobController@pipelinePause');
         
