@@ -1062,13 +1062,6 @@ $.valHooks.textarea = {
                             } else {
                                 $(selected_btn).removeClass('inverse');
                             }
-                            
-                            if (resp.pipeline_id > 1 && $(ui).hasClass('cold-comm')) {
-                                $(ui).find('span.thumbs-up-text').html('');
-                            }
-                            if (resp.pipeline_id > 1 && $(ui).hasClass('warm-comm')) {
-                                $(ui).remove();
-                            }
                         }
                     });
 
@@ -1091,6 +1084,14 @@ $.valHooks.textarea = {
 
     SBS.ContactJob = {};
     SBS.ContactJob.pipeline = function (id, action, token, comm_type) {
+        if (action !== 'forward') {
+            return $.ajax({
+                method: "POST",
+                url: "/admin/contact-job/pipeline-" + action + "/",
+                data: { id: id, _token: token }
+            });
+        }
+        
         return $.ajax({
             method: "POST",
             url: "/admin/contact-job/pipeline-" + action + "/" + comm_type,
@@ -1144,6 +1145,14 @@ $.valHooks.textarea = {
                                 $(ui).removeClass('blue');
                             }
                         } else if ($(ui).attr('data-move') == 'forward') {
+                            if (resp.pipeline_id > 1) {
+                                if (resp.pipeline_id > 1 && $(ui).hasClass('cold-comm')) {
+                                    $(ui).find('span.thumbs-up-text').html('');
+                                }
+                                if (resp.pipeline_id > 1 && $(ui).hasClass('warm-comm')) {
+                                    $(ui).remove();
+                                }
+                            }
                             if (resp.pipeline_id == 6) {
                                 $(ui).attr('disabled', 'disabled');
                             } else {
@@ -1152,21 +1161,14 @@ $.valHooks.textarea = {
                                 $(ui).removeAttr('disabled');
                             }
                         } else {
+                            console.log("Here" + resp.status)
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
                             if (resp.status == 'halted' || resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
                             } else {
                                 $(selected_btn).removeClass('inverse');
-                            }
-                            
-                            $(ui).removeClass('inverse');
-                            if (resp.pipeline_id > 1 && $(ui).hasClass('cold-comm')) {
-                                $(ui).find('span.thumbs-up-text').html('');
-                            }
-                            if (resp.pipeline_id > 1 && $(ui).hasClass('warm-comm')) {
-                                $(ui).remove();
-                            }
+                            }                            
                         }
                     });
 
