@@ -19,7 +19,7 @@ use Mail;
 
 class InquiryController extends Controller
 {
-    public function pipelineForward(Request $request)
+    public function pipelineForward(Request $request, $comm_type)
     {
         $this->authorize('edit-inquiry');
 

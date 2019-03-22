@@ -1090,10 +1090,10 @@ $.valHooks.textarea = {
     );
 
     SBS.ContactJob = {};
-    SBS.ContactJob.pipeline = function (id, action, token) {
+    SBS.ContactJob.pipeline = function (id, action, token, comm_type) {
         return $.ajax({
             method: "POST",
-            url: "/admin/contact-job/pipeline-" + action,
+            url: "/admin/contact-job/pipeline-" + action + "/" + comm_type,
             data: { id: id, _token: token }
         });
     }
@@ -1106,11 +1106,12 @@ $.valHooks.textarea = {
                     pipeline_id = parseInt($(this).attr('data-pipeline-id')),
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
+                    comm_type = $(this).attr('data-comm'),
                     selected_btn = $(this),
                     btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
-
+                
                 if (pipeline_id == 1) {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
                     if (!result) {
@@ -1119,7 +1120,7 @@ $.valHooks.textarea = {
                 }
 
                 if (!inquiry_id) {
-                    console.error('Inquiry.rate: ID and rating are required');
+                    console.error('ContactJob.rate: ID and rating are required');
                     return;
                 }
 
@@ -1129,7 +1130,7 @@ $.valHooks.textarea = {
                     $(ui).addClass('gray');
                 });
 
-                SBS.ContactJob.pipeline(inquiry_id, action, token).done(function (resp) {
+                SBS.ContactJob.pipeline(inquiry_id, action, token, comm_type).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
                         if ($(ui).attr('data-move') == 'backward') {

@@ -134,6 +134,11 @@ Route::domain($domain)->group(function () {
         Route::post('/admin/inquiry/pipeline-backward', 'InquiryController@pipelineBackward');
         Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
         Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
+
+        Route::post('/admin/contact-job/pipeline-forward/{comm_type}', 'ContactJobController@pipelineForward');
+        Route::post('/admin/contact-job/pipeline-backward/{comm_type}', 'ContactJobController@pipelineBackward');
+        Route::post('/admin/contact-job/pipeline-halt/{comm_type}', 'ContactJobController@pipelineHalt');
+        Route::post('/admin/contact-job/pipeline-pause/{comm_type}', 'ContactJobController@pipelinePause');
         
         Route::get('/admin/question', 'QuestionController@index');
         Route::get('/admin/admin-users', 'UserController@allAdminUsers');

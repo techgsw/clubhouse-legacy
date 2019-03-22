@@ -29,6 +29,7 @@ class ContactColdComm extends Mailable
         $this->contact = $contact;
         $this->rating = $rating;
         $this->user = Auth::user();
+        
     }
 
     /**
@@ -40,12 +41,8 @@ class ContactColdComm extends Mailable
     {
         $mail = $this->from($this->user->email);
         $mail->subject("Your {$this->contact->job->title} job application status with the {$this->contact->job->organization_name}");
+        
         return $mail->markdown('emails.contact.contact-cold-communication');
         
-        // switch ($this->rating) {
-        //     case 'active':
-        //     case 'passive':
-        //         return $mail->markdown('emails.inquiry.rated-passive-up');
-        // }
     }
 }

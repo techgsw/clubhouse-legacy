@@ -28,7 +28,7 @@ class Note extends Model
     {
         $notes = array();
 
-        $contact_notes = Note::where('notable_type', 'App\Contact')
+        $contact_notes = Note::where('notable_type', 'App\\Contact')
             ->join('user', 'user.id', '=', 'note.user_id')
             ->where('notable_id', $contact_id)
             ->select('user.id as create_user_id', DB::raw('CONCAT(user.first_name, " ", user.last_name) as create_user_name'), 'note.*')

@@ -40,12 +40,8 @@ class ContactWarmComm extends Mailable
     {
         $mail = $this->from($this->user->email);
         $mail->subject("Your {$this->contact->job->title} job application status with the {$this->contact->job->organization_name}");
+
         return $mail->markdown('emails.contact.contact-warm-communication');
         
-        // switch ($this->rating) {
-        //     case 'active':
-        //     case 'passive':
-        //         return $mail->markdown('emails.inquiry.rated-passive-up');
-        // }
     }
 }
