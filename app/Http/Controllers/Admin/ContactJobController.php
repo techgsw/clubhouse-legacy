@@ -22,7 +22,7 @@ use Mail;
 
 class ContactJobController extends Controller
 {
-    public function pipelineForward(Request $request, $comm_type)
+    public function pipelineForward(Request $request)
     {
         $this->authorize('edit-contact');
 
@@ -53,10 +53,10 @@ class ContactJobController extends Controller
                 if ($contact_job->pipeline_id == 2) {
                     try {
                         if ($contact_job->job->recruiting_type_code == "active") {
-                            if ($comm_type == "warm") {
+                            if ($request->invoice('comm_type') == "warm") {
                                 Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job, 'active-positive'));
 
-                            } else if ($comm_type == 'cold'){
+                            } else if ($request->invoice('comm_type') == 'cold'){
                                 Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job, 'passive-positive'));                                
                             }
                         }
@@ -94,9 +94,17 @@ class ContactJobController extends Controller
                 'type' => 'failure',
                 'message' => 'We failed!'
             ]);
+        } else if ($contact_job->status == 'halted') {
+            return response()->json([
+                'type' => 'success',
+                'contact_id' => $request->input('id'),
+                'pipeline_id' => $contact_job->pipeline_id,
+                'pipeline_name' => $contact_job->job_pipeline->name,
+                'status' => $contact_job->status,
+            ]);
         }
         try {
-            $contact_job->status = "halted";
+            $contact_job->status = 'halted';
             $contact_job->save();
 
             ContactJobController::createNote(
@@ -149,32 +157,23 @@ class ContactJobController extends Controller
                 'type' => 'failure',
                 'message' => 'We failed!'
             ]);
+        } elseif ($contact_job->status == 'paused') {
+            return response()->json([
+                'type' => 'success',
+                'contact_id' => $request->input('id'),
+                'pipeline_id' => $contact_job->pipeline_id,
+                'pipeline_name' => $contact_job->job_pipeline->name,
+                'status' => $contact_job->status,
+            ]);
         }
         try {
-            $contact_job->status = "paused";
+            $contact_job->status = 'paused';
             $contact_job->save();
 
             ContactJobController::createNote(
                 $contact_job->contact->id,
                 "Paused on " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
             );
-
-            if ($contact_job->pipeline_id == 1) {
-                try {
-                    switch ($contact_job->job->recruiting_type_code) {
-                        case 'active':
-                            Mail::to($contact_job->user)->send(new InquiryContacted($contact_job, 'active-maybe'));
-                            break;
-                        case 'passive':
-                            Mail::to($contact_job->user)->send(new InquiryContacted($contact_job, 'passive-maybe'));
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
-                }
-            }
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([

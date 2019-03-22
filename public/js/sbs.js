@@ -1023,7 +1023,6 @@ $.valHooks.textarea = {
                 }
 
                 if (!inquiry_id) {
-                    console.error('Inquiry.rate: ID and rating are required');
                     return;
                 }
 
@@ -1121,7 +1120,6 @@ $.valHooks.textarea = {
                 }
 
                 if (!inquiry_id) {
-                    console.error('ContactJob.rate: ID and rating are required');
                     return;
                 }
 
@@ -1146,10 +1144,10 @@ $.valHooks.textarea = {
                             }
                         } else if ($(ui).attr('data-move') == 'forward') {
                             if (resp.pipeline_id > 1) {
-                                if (resp.pipeline_id > 1 && $(ui).hasClass('cold-comm')) {
+                                if ($(ui).hasClass('cold-comm')) {
                                     $(ui).find('span.thumbs-up-text').html('');
                                 }
-                                if (resp.pipeline_id > 1 && $(ui).hasClass('warm-comm')) {
+                                if ($(ui).hasClass('warm-comm')) {
                                     $(ui).remove();
                                 }
                             }
