@@ -1161,7 +1161,6 @@ $.valHooks.textarea = {
                                 $(ui).removeAttr('disabled');
                             }
                         } else {
-                            console.log("Here" + resp.status)
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
                             if (resp.status == 'halted' || resp.status == 'paused') {
