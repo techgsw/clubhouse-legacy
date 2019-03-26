@@ -2,12 +2,6 @@
     <div class="row" style="margin-bottom: 0;">
         <div class="col s12">
             <div class="float-right">
-            @php
-                //dd($inquiry->contact->getNoteCount());
-                //dd($inquiry);
-                //dd($contact);
-
-            @endphp
                 @component('components.resume-button', ['url' => $inquiry->resume])@endcomponent
                 <button class="view-contact-notes-btn flat-button small"
                     contact-id="{{ ($inquiry->user ? $inquiry->user->contact->id : $inquiry->contact->id) }}"
@@ -16,7 +10,8 @@
                     {{ ($inquiry->user ? $inquiry->user->contact->getNoteCount() : $inquiry->contact->getNoteCount()) }} <i class="fa fa-comments"></i>
                 </button>
             </div>
-            <a style="margin: 2px 0;" class="no-underline block" href="{{ ($inquiry->user ? '/user/'.$inquiry->user->id : '/contact/'.$inquiry->contact->id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}  <button type="button" id="pipeline-label-{{ $inquiry->id }}" class="flat-button small {{ request('step') == $step->id ? "inverse" : "" }} input-control" input-id="step" value='{{$step->id}}'>{{$job_pipeline[$inquiry->pipeline_id-1]->name}}</button></a>
+            
+            <a style="margin: 2px 0;" class="no-underline block" href="{{ ($inquiry->user ? '/user/'.$inquiry->user->id : '/contact/'.$inquiry->contact->id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}  <button type="button" id="pipeline-label-{{ $inquiry->id }}" style="display:{{!$contact ? '' : ($inquiry->pipeline_id != 1  ? '' : 'none')}};" class="flat-button small {{ request('step') == $step->id ? 'inverse' : '' }} input-control" input-id="step" value='{{$step->id}}'>{{$job_pipeline[$inquiry->pipeline_id-1]->name}}</button></a>
             <p style="margin: 2px 0;" class="small">
                 @if ($inquiry->email)
                     <a class="no-underline" href="mailto:{{ $inquiry->email}}">{{ $inquiry->email}}</a>
