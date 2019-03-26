@@ -281,14 +281,33 @@ class OrganizationController extends Controller
                 }
 
                 $address = $organization->addresses->first();
-                $address->name = request('name');
-                $address->line1 = request('line1');
-                $address->line2 = request('line2');
-                $address->city = request('city');
-                $address->state = request('state');
-                $address->postal_code = request('postal_code');
-                $address->country = request('country');
-                $address->save();
+
+                if ($address) {
+                    $address->name = request('name');
+                    $address->line1 = request('line1');
+                    $address->line2 = request('line2');
+                    $address->city = request('city');
+                    $address->state = request('state');
+                    $address->postal_code = request('postal_code');
+                    $address->country = request('country');
+                    $address->save();
+                } else {
+                    if (request('line1') && request('city') && request('state') && request('postal_code') && request('country')) {
+                        $address = new Address();
+                        $address->name = request('name');
+                        $address->line1 = request('line1');
+                        $address->line2 = request('line2');
+                        $address->city = request('city');
+                        $address->state = request('state');
+                        $address->postal_code = request('postal_code');
+                        $address->country = request('country');
+                        $address->save();
+
+                        $organization->addresses()->attach($address);
+                        $organization->save();
+                    }
+                }
+
 
                 if ($image_file = request('image_url')) {
                     if ($organization->image) {
