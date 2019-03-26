@@ -1001,6 +1001,27 @@ $.valHooks.textarea = {
         });
     }
 
+    // Open negative response modal
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var inquiry_id = parseInt($(this).attr('data-id')),
+                    pipeline_id = parseInt($(this).attr('data-pipeline-id')),
+                    action = $(this).attr('data-move'),
+                    type = $(this).attr('data-type'),
+                    token = $('[name="_token"]').val();
+
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-move', action);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-type', type);
+
+                $('.inquiry-contact-job-negative-modal').modal('open');
+            }
+        },
+        'button.negative-pipeline-modal-button'
+    );
+
     // Change inquiry pipline step 
     $('body').on(
         {
