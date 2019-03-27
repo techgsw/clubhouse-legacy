@@ -1166,7 +1166,6 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                console.log('here');
                 var contact_id = parseInt($(this).attr('contact-id'));
                 Note.getContactNotes(contact_id).done(function (view) {
                     $('.contact-notes-modal').html(view);
@@ -1806,7 +1805,7 @@ $(document).ready(function () {
         selectMonths: true,
         selectYears: 100,
         close: 'Ok',
-        closeOnSelect: true,
+        closeOnSelect: false,
         container: 'body'
     });
 
