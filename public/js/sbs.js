@@ -802,7 +802,7 @@ $.valHooks.textarea = {
             selectMonths: true,
             selectYears: 100,
             close: 'Ok',
-            closeOnSelect: true,
+            closeOnSelect: false,
             container: 'body'
         });
     };
@@ -1425,15 +1425,15 @@ $.valHooks.textarea = {
 
     $('body').on(
         {
-            click: function () {
+            click: function (e) {
                 var input = $(this);
-                var picker = input.pickadate('picker');
+                
                 if (!input.val() || input.val() === "") {
                     var year = parseInt(input.attr('default-year'));
                     var month = parseInt(input.attr('default-month'));
                     var day = parseInt(input.attr('default-day'));
                     if (year && month && day) {
-                        picker.set('select', [year, month, day]);
+                        input.pickadate('set', 'select', [year, month, day]);
                     }
                 }
             }
