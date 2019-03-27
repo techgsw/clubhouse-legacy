@@ -993,11 +993,11 @@ $.valHooks.textarea = {
     };
 
     SBS.Inquiry = {};
-    SBS.Inquiry.pipeline = function (id, action, token) {
+    SBS.Inquiry.pipeline = function (id, action, token, reason) {
         return $.ajax({
             method: "POST",
             url: "/admin/inquiry/pipeline-" + action,
-            data: { id: id, _token: token }
+            data: { id: id, _token: token, reason: reason }
         });
     }
 
@@ -1030,11 +1030,14 @@ $.valHooks.textarea = {
                     pipeline_id = parseInt($(this).attr('data-pipeline-id')),
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
+                    reason = $(this).attr('data-reason'),
                     selected_btn = $(this),
                     btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
 
+                // IF REASON EXSISTS AND IS SUCCESSFUL CLOSE MODAL, AND then mark the thumbs down highlighted
+                console.log("Reason", reason);
 
                 if (pipeline_id == 1) {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
@@ -1053,7 +1056,7 @@ $.valHooks.textarea = {
                     $(ui).addClass('gray');
                 });
 
-                SBS.Inquiry.pipeline(inquiry_id, action, token).done(function (resp) {
+                SBS.Inquiry.pipeline(inquiry_id, action, token, reason).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
                         if ($(ui).attr('data-move') == 'backward') {
@@ -1088,6 +1091,8 @@ $.valHooks.textarea = {
                     if (resp.type != 'success') {
                         SBS.UI.displayMessage(resp);
                         return;
+                    } else {
+                        $('.inquiry-contact-job-negative-modal').modal('close');
                     }
 
                     if (resp.pipeline_name !== undefined) {
@@ -1103,19 +1108,19 @@ $.valHooks.textarea = {
     );
 
     SBS.ContactJob = {};
-    SBS.ContactJob.pipeline = function (id, action, token, comm_type) {
+    SBS.ContactJob.pipeline = function (id, action, token, comm_type, reason) {
         if (action !== 'forward') {
             return $.ajax({
                 method: "POST",
                 url: "/admin/contact-job/pipeline-" + action + "/",
-                data: { id: id, _token: token }
+                data: { id: id, _token: token, reason: reason }
             });
         }
         
         return $.ajax({
             method: "POST",
             url: "/admin/contact-job/pipeline-" + action + "/" + comm_type,
-            data: { id: id, _token: token }
+            data: { id: id, _token: token, reason: reason }
         });
     }
 
@@ -1150,7 +1155,7 @@ $.valHooks.textarea = {
                     $(ui).addClass('gray');
                 });
 
-                SBS.ContactJob.pipeline(inquiry_id, action, token, comm_type).done(function (resp) {
+                SBS.ContactJob.pipeline(inquiry_id, action, token, comm_type, reason).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
                         if ($(ui).attr('data-move') == 'backward') {
