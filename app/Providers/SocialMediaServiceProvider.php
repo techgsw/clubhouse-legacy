@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Log;
 
 class SocialMediaServiceProvider extends ServiceProvider
 {
@@ -35,8 +36,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         try {
             $response = json_decode(file_get_contents($url));
         } catch (Exception $e) {
-            // TODO log exception
-            dd($e);
+            Log::error($e);
             return;
         }
 
@@ -49,8 +49,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         try {
             $response = json_decode(file_get_contents($url));
         } catch (Exception $e) {
-            // TODO log exception
-            dd($e);
+            Log::error($e);
             return;
         }
 
