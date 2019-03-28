@@ -1036,9 +1036,6 @@ $.valHooks.textarea = {
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
 
-                // IF REASON EXSISTS AND IS SUCCESSFUL CLOSE MODAL, AND then mark the thumbs down highlighted
-                console.log("Reason", reason);
-
                 if (pipeline_id == 1) {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
                     if (!result) {
@@ -1050,7 +1047,6 @@ $.valHooks.textarea = {
                     return;
                 }
 
-                // Switch all buttons to gray to indicate a pending action
                 btn_set.each(function (i, ui) {
                     $(ui).removeClass('blue');
                     $(ui).addClass('gray');
@@ -1059,6 +1055,7 @@ $.valHooks.textarea = {
                 SBS.Inquiry.pipeline(inquiry_id, action, token, reason).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
+                        $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');
                         if ($(ui).attr('data-move') == 'backward') {
                             if (resp.pipeline_id > 2) {
                                 $(ui).removeAttr('disabled');
@@ -1080,7 +1077,11 @@ $.valHooks.textarea = {
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
-                            if (resp.status == 'halted' || resp.status == 'paused') {
+                            if (resp.status == 'halted') {
+                                $(selected_btn).addClass('inverse');
+                                $('.inquiry-contact-job-negative-modal').modal('close');
+                                $('button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                            } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
                             } else {
                                 $(selected_btn).removeClass('inverse');
@@ -1108,19 +1109,11 @@ $.valHooks.textarea = {
     );
 
     SBS.ContactJob = {};
-    SBS.ContactJob.pipeline = function (id, action, token, comm_type, reason) {
-        if (action !== 'forward') {
-            return $.ajax({
-                method: "POST",
-                url: "/admin/contact-job/pipeline-" + action + "/",
-                data: { id: id, _token: token, reason: reason }
-            });
-        }
-        
+    SBS.ContactJob.pipeline = function (id, action, comm_type, reason, token) {
         return $.ajax({
             method: "POST",
-            url: "/admin/contact-job/pipeline-" + action + "/" + comm_type,
-            data: { id: id, _token: token, reason: reason }
+            url: "/admin/contact-job/pipeline-" + action + "/",
+            data: { id: id, _token: token, reason: reason, comm_type: comm_type }
         });
     }
 
@@ -1132,13 +1125,14 @@ $.valHooks.textarea = {
                     pipeline_id = parseInt($(this).attr('data-pipeline-id')),
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
-                    comm_type = $(this).attr('data-comm'),
+                    comm_type = $(this).attr('data-comm-type'),
+                    reason = $(this).attr('data-reason'),
                     selected_btn = $(this),
                     btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
                 
-                if (pipeline_id == 1) {
+                if (pipeline_id == 1 && action == 'forward') {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
                     if (!result) {
                         return;
@@ -1155,9 +1149,10 @@ $.valHooks.textarea = {
                     $(ui).addClass('gray');
                 });
 
-                SBS.ContactJob.pipeline(inquiry_id, action, token, comm_type, reason).done(function (resp) {
+                SBS.ContactJob.pipeline(inquiry_id, action, comm_type, reason, token).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
+                        $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');
                         if ($(ui).attr('data-move') == 'backward') {
                             if (resp.pipeline_id > 2) {
                                 $(ui).removeAttr('disabled');
@@ -1187,7 +1182,11 @@ $.valHooks.textarea = {
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
-                            if (resp.status == 'halted' || resp.status == 'paused') {
+                            if (resp.status == 'halted') {
+                                $(selected_btn).addClass('inverse');
+                                $('.inquiry-contact-job-negative-modal').modal('close');
+                                $('button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                            } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
                             } else {
                                 $(selected_btn).removeClass('inverse');

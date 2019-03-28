@@ -16,56 +16,56 @@ class InsertPipelinesShowIntoResource extends Migration
         //
         DB::table('resource')->insert(
             array(
-                'code' => 'pipelines_show',
-                'description' => 'Can view pipelines.'
+                'code' => 'pipeline_show',
+                'description' => 'Can view pipeline.'
             )
         );
         DB::table('resource')->insert(
             array(
-                'code' => 'pipelines_edit',
-                'description' => 'Can edit pipelines.'
+                'code' => 'pipeline_edit',
+                'description' => 'Can edit pipeline.'
             )
         );
         DB::table('resource')->insert(
             array(
-                'code' => 'pipelines_create',
-                'description' => 'Can create pipelines'
+                'code' => 'pipeline_create',
+                'description' => 'Can create pipeline'
             )
         );
         DB::table('resource_role')->insert(
             array(
                 'role_code' => 'administrator',
-                'resource_code' => 'pipelines_show'
+                'resource_code' => 'pipeline_show'
             )
         );
         DB::table('resource_role')->insert(
             array(
                 'role_code' => 'superuser',
-                'resource_code' => 'pipelines_show'
+                'resource_code' => 'pipeline_show'
             )
         );
         DB::table('resource_role')->insert(
             array(
                 'role_code' => 'administrator',
-                'resource_code' => 'pipelines_edit'
+                'resource_code' => 'pipeline_edit'
             )
         );
         DB::table('resource_role')->insert(
             array(
                 'role_code' => 'superuser',
-                'resource_code' => 'pipelines_edit'
+                'resource_code' => 'pipeline_edit'
             )
         );
         DB::table('resource_role')->insert(
             array(
                 'role_code' => 'administrator',
-                'resource_code' => 'pipelines_create'
+                'resource_code' => 'pipeline_create'
             )
         );
         DB::table('resource_role')->insert(
             array(
                 'role_code' => 'superuser',
-                'resource_code' => 'pipelines_create'
+                'resource_code' => 'pipeline_create'
             )
         );
     }
@@ -78,12 +78,12 @@ class InsertPipelinesShowIntoResource extends Migration
     public function down()
     {
         //
-        DB::delete('delete from resource where code = "pipelines_edit"');
-        DB::delete('delete from resource where code = "pipelines_create"');
-        DB::delete('delete from resource where code = "pipelines_show  "');
-        DB::delete('delete from resource_role where resource_code = "pipelines_show"');
-        DB::delete('delete from resource_role where resource_code = "pipelines_edit"');
-        DB::delete('delete from resource_role where resource_code = "pipelines_create"');
+        DB::delete('delete from resource where code = "pipeline_edit"');
+        DB::delete('delete from resource where code = "pipeline_create"');
+        DB::delete('delete from resource where code = "pipeline_show  "');
+        DB::delete('delete from resource_role where resource_code = "pipeline_show"');
+        DB::delete('delete from resource_role where resource_code = "pipeline_edit"');
+        DB::delete('delete from resource_role where resource_code = "pipeline_create"');
 
     }
 }

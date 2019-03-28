@@ -130,16 +130,6 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/pipeline', 'PipelineController@index');
         Route::get('/admin/pipeline/job', 'PipelineController@job');
         
-        Route::post('/admin/inquiry/pipeline-forward', 'InquiryController@pipelineForward');
-        Route::post('/admin/inquiry/pipeline-backward', 'InquiryController@pipelineBackward');
-        Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
-        Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
-
-        Route::post('/admin/contact-job/pipeline-forward/{comm_type}', 'ContactJobController@pipelineForward');
-        Route::post('/admin/contact-job/pipeline-backward/', 'ContactJobController@pipelineBackward');
-        Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
-        Route::post('/admin/contact-job/pipeline-pause/', 'ContactJobController@pipelinePause');
-        
         Route::get('/admin/question', 'QuestionController@index');
         Route::get('/admin/admin-users', 'UserController@allAdminUsers');
         Route::get('/admin/report', 'ReportController@index');
@@ -147,6 +137,19 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/report/transactions', 'ReportController@transactions');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
+    });
+
+    // Admin & Ajax
+    Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth', 'ajax_only']], function () {
+        Route::post('/admin/inquiry/pipeline-forward', 'InquiryController@pipelineForward');
+        Route::post('/admin/inquiry/pipeline-backward', 'InquiryController@pipelineBackward');
+        Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
+        Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
+        
+        Route::post('/admin/contact-job/pipeline-forward/', 'ContactJobController@pipelineForward');
+        Route::post('/admin/contact-job/pipeline-backward/', 'ContactJobController@pipelineBackward');
+        Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
+        Route::post('/admin/contact-job/pipeline-pause/', 'ContactJobController@pipelinePause');
     });
 
     // Email

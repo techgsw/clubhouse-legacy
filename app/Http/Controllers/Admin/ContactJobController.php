@@ -53,10 +53,10 @@ class ContactJobController extends Controller
                 if ($contact_job->pipeline_id == 2) {
                     try {
                         if ($contact_job->job->recruiting_type_code == "active") {
-                            if ($request->invoice('comm_type') == "warm") {
+                            if ($request->input('comm_type') == "warm") {
                                 Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job, 'active-positive'));
 
-                            } else if ($request->invoice('comm_type') == 'cold'){
+                            } else if ($request->input('comm_type') == 'cold'){
                                 Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job, 'passive-positive'));                                
                             }
                         }
