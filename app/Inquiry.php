@@ -40,7 +40,7 @@ class Inquiry extends Model
 
     public static function filter($job_id, Request $request)
     {
-        $inquiries = Inquiry::where('job_id', $job_id);
+        $inquiries = Inquiry::selectRaw('inquiry.*')->join('user as u','user_id', 'u.id')->where('job_id', $job_id);
 
         $pipeline_id = request('step');
         
@@ -48,38 +48,16 @@ class Inquiry extends Model
             $inquiries->where('pipeline_id', '=', $pipeline_id);
         }
 
-        // $rating = request('rating');
-        // switch ($rating) {
-        //     case "up":
-        //         $inquiries->where('rating', '>', '0');
-        //         break;
-        //     case "maybe":
-        //         $inquiries->where('rating', '0');
-        //         break;
-        //     case "down":
-        //         $inquiries->where('rating', '<', '0');
-        //         break;
-        //     case "none":
-        //         $inquiries->whereNull('rating');
-        //         break;
-        //     default:
-        //         break;
-        // }
-
         $sort = request('sort');
         switch ($sort) {
             case "alpha":
-                $inquiries->orderBy('name', 'asc');
+                $inquiries->orderBy('u.last_name', 'asc');
                 break;
             case "alpha-reverse":
-                $inquiries->orderBy('name', 'desc');
+                $inquiries->orderBy('u.last_name', 'desc');
                 break;
-            case "rating":
-                $inquiries->orderBy('rating', 'desc');
-                break;
-            case "recent":
             default:
-                $inquiries->orderBy('created_at', 'desc');
+                $inquiries->orderBy('inquiry.created_at', 'desc');
                 break;
         }
 

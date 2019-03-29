@@ -44,7 +44,7 @@ class ContactJob extends Model
 
     public static function filter($job_id, Request $request)
     {
-        $contact_applications = ContactJob::where('job_id', $job_id);
+        $contact_applications = ContactJob::selectRaw('contact_job.*')->join('contact as c','contact_id', 'c.id')->where('job_id', $job_id);
 
         $pipeline_id = request('step');
         if ($pipeline_id != 'all' && !is_null($pipeline_id)) {
@@ -70,17 +70,14 @@ class ContactJob extends Model
         $sort = request('sort');
         switch ($sort) {
             case "alpha":
-                $contact_applications->orderBy('name', 'asc');
+                $contact_applications->orderBy('c.last_name', 'asc');
                 break;
             case "alpha-reverse":
-                $contact_applications->orderBy('name', 'desc');
-                break;
-            case "rating":
-                $contact_applications->orderBy('rating', 'desc');
+                $contact_applications->orderBy('c.last_name', 'desc');
                 break;
             case "recent":
             default:
-                $contact_applications->orderBy('created_at', 'desc');
+                $contact_applications->orderBy('contact_job.created_at', 'desc');
                 break;
         }
 

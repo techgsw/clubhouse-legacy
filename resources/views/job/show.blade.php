@@ -105,7 +105,6 @@
                         <div class="col s5 offset-s7 m6 offset-m6 center-align">
                             <select class="submit-on-change browser-default" style="margin-top: 0; height: 2.0rem;" name="sort">
                                 <option value="recent" {{ (!request('sort') || request('sort') == 'recent') ? "selected" : "" }}>Most recent</option>
-                                <option value="rating" {{ request('sort') == 'rating' ? "selected" : "" }}>Best rating</option>
                                 <option value="alpha" {{ request('sort') == 'alpha' ? "selected" : "" }}>Alphabetical (A-Z)</option>
                                 <option value="alpha-reverse" {{ request('sort') == 'alpha-reverse' ? "selected" : "" }}>Alphabetical (Z-A)</option>
                             </select>

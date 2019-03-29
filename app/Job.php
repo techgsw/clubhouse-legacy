@@ -134,7 +134,6 @@ class Job extends Model
             if ($new_inquiries) {
                 $jobs = $jobs->join('inquiry', 'job.id', '=', 'inquiry.job_id');
                 $jobs->whereHas('inquiries', function ($query) {
-                    $query->whereNull('rating');
                 });
                 $jobs = $jobs->select(\DB::raw('job.*, COUNT(inquiry.id)'));
                 $jobs->orderBy(\DB::raw('MAX(inquiry.created_at)'), 'desc');
