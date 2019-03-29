@@ -50,7 +50,7 @@ class ContactJobController extends Controller
 
                     $this->createNote(
                         $contact_job->id,
-                        "Moved forward from " . $job_pipeline[$contact_job->pipeline_id-2]->name . " to " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
+                        "Moved forward from " . $job_pipeline[$contact_job->pipeline_id-2]->name . " to " . $job_pipeline[$contact_job->pipeline_id-1]->name . "."
                     );
 
                     if ($contact_job->pipeline_id == 2) {
@@ -110,14 +110,17 @@ class ContactJobController extends Controller
             ]);
         }
         try {
-            $contact_job->status = 'halted';
-            $contact_job->save();
+            $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline, $request) {
+                $contact_job->status = 'halted';
+                $contact_job->save();
 
-            $this->createNote(
-                $contact_job->id,
-                "Halted on " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
-            );
+                $this->createNote(
+                    $contact_job->id,
+                    "Halted on " . $job_pipeline[$contact_job->pipeline_id-1]->name . ". Reason: ". strtoupper($request->input('reason'))
+                );
 
+                return $contact_job;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
@@ -157,13 +160,17 @@ class ContactJobController extends Controller
             ]);
         }
         try {
-            $contact_job->status = 'paused';
-            $contact_job->save();
+            $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline) {
+                $contact_job->status = 'paused';
+                $contact_job->save();
 
-            $this->createNote(
-                $contact_job->id,
-                "Paused on " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
-            );
+                $this->createNote(
+                    $contact_job->id,
+                    "Paused on " . $job_pipeline[$contact_job->pipeline_id-1]->name . "."
+                );
+
+                return $contact_job;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
@@ -203,14 +210,18 @@ class ContactJobController extends Controller
         }
 
         try {
-            $contact_job->pipeline_id -= 1;
-            $contact_job->status = null;
-            $contact_job->save();
+            $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline) {
+                $contact_job->pipeline_id -= 1;
+                $contact_job->status = null;
+                $contact_job->save();
 
-            $this->createNote(
-                $contact_job->id,
-                "Moved backwards from " . $job_pipeline[$contact_job->pipeline_id]->name . " to " . $job_pipeline[$contact_job->pipeline_id-1]->name  . " [id:" . $contact_job->job->id . "]."
-            );
+                $this->createNote(
+                    $contact_job->id,
+                    "Moved backwards from " . $job_pipeline[$contact_job->pipeline_id]->name . " to " . $job_pipeline[$contact_job->pipeline_id-1]->name  . "."
+                );
+
+                return $contact_job;
+            });
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json([

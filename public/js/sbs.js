@@ -1015,6 +1015,7 @@ $.valHooks.textarea = {
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-move', action);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-type', type);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').removeClass('inverse');
 
                 $('.inquiry-contact-job-negative-modal').modal('open');
             }
@@ -1080,7 +1081,7 @@ $.valHooks.textarea = {
                             if (resp.status == 'halted') {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-contact-job-negative-modal').modal('close');
-                                $('button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
                             } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
                             } else {
@@ -1185,7 +1186,7 @@ $.valHooks.textarea = {
                             if (resp.status == 'halted') {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-contact-job-negative-modal').modal('close');
-                                $('button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
                             } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
                             } else {

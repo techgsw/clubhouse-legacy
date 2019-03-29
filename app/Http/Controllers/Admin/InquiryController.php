@@ -15,6 +15,7 @@ use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Mail;
 
 class InquiryController extends Controller
@@ -37,31 +38,34 @@ class InquiryController extends Controller
 
         if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
             try {
-                $inquiry->pipeline_id += 1;
-                $inquiry->status = null;
-                $inquiry->save();
+                $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
+                    $inquiry->pipeline_id += 1;
+                    $inquiry->status = null;
+                    $inquiry->save();
 
-                InquiryController::createNote(
-                    $inquiry->id,
-                    "Moved forward from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id: " . $inquiry->job->id . "]."
-                );
+                    InquiryController::createNote(
+                        $inquiry->id,
+                        "Moved forward from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name
+                    );
 
-                if ($inquiry->pipeline_id == 2) {
-                    try {
-                        switch ($inquiry->job->recruiting_type_code) {
-                            case 'active':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
-                                break;
-                            case 'passive':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
-                                break;
-                            default:
-                                break;
+                    if ($inquiry->pipeline_id == 2) {
+                        try {
+                            switch ($inquiry->job->recruiting_type_code) {
+                                case 'active':
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
+                                    break;
+                                case 'passive':
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } catch (Exception $e) {
+                            Log::error($e->getMessage());
                         }
-                    } catch (Exception $e) {
-                        Log::error($e->getMessage());
                     }
-                }
+                    return $inquiry;
+                });
             } catch (Exception $e) {
                 Log::error($e->getMessage());
                 return response()->json([
@@ -94,30 +98,33 @@ class InquiryController extends Controller
             ]);
         }
         try {
-            $inquiry->status = "halted";
-            $inquiry->save();
+            $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
+                $inquiry->status = "halted";
+                $inquiry->save();
 
-            InquiryController::createNote(
-                $inquiry->id,
-                "Halted on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id: " . $inquiry->job->id . "]."
-            );
+                InquiryController::createNote(
+                    $inquiry->id,
+                    "Halted on " . $job_pipeline[$inquiry->pipeline_id-1]->name . ". Reason: ". strtoupper($request->input('reason'))
+                );
 
-            if ($inquiry->pipeline_id == 1) {
-                try {
-                    switch ($inquiry->job->recruiting_type_code) {
-                        case 'active':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
-                            break;
-                        case 'passive':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
-                            break;
-                        default:
-                            break;
+                if ($inquiry->pipeline_id == 1) {
+                    try {
+                        switch ($inquiry->job->recruiting_type_code) {
+                            case 'active':
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
+                                break;
+                            case 'passive':
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
+                                break;
+                            default:
+                                break;
+                        }
+                    } catch (Exception $e) {
+                        Log::error($e->getMessage());
                     }
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
                 }
-            }
+                return $inquiry;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
@@ -149,30 +156,33 @@ class InquiryController extends Controller
             ]);
         }
         try {
-            $inquiry->status = "paused";
-            $inquiry->save();
+            $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
+                $inquiry->status = "paused";
+                $inquiry->save();
 
-            InquiryController::createNote(
-                $inquiry->id,
-                "Paused on " . $job_pipeline[$inquiry->pipeline_id-1]->name . " [id: " . $inquiry->job->id . "]."
-            );
+                InquiryController::createNote(
+                    $inquiry->id,
+                    "Paused on " . $job_pipeline[$inquiry->pipeline_id-1]->name
+                );
 
-            if ($inquiry->pipeline_id == 1) {
-                try {
-                    switch ($inquiry->job->recruiting_type_code) {
-                        case 'active':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
-                            break;
-                        case 'passive':
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
-                            break;
-                        default:
-                            break;
+                if ($inquiry->pipeline_id == 1) {
+                    try {
+                        switch ($inquiry->job->recruiting_type_code) {
+                            case 'active':
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
+                                break;
+                            case 'passive':
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
+                                break;
+                            default:
+                                break;
+                        }
+                    } catch (Exception $e) {
+                        Log::error($e->getMessage());
                     }
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
                 }
-            }
+                return $inquiry;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
@@ -212,14 +222,17 @@ class InquiryController extends Controller
         }
 
         try {
-            $inquiry->pipeline_id -= 1;
-            $inquiry->status = null;
-            $inquiry->save();
+            $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
+                $inquiry->pipeline_id -= 1;
+                $inquiry->status = null;
+                $inquiry->save();
 
-            InquiryController::createNote(
-                $inquiry->id,
-                "Moved backwards from " . $job_pipeline[$inquiry->pipeline_id]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name  . " [id:" . $inquiry->job->id . "]."
-            );
+                InquiryController::createNote(
+                    $inquiry->id,
+                    "Moved backwards from " . $job_pipeline[$inquiry->pipeline_id]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name
+                );
+                return $inquiry;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
