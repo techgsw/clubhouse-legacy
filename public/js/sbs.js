@@ -1405,10 +1405,7 @@ $.valHooks.textarea = {
                         $(note).show();
                         return;
                     }
-                    Note.getContactNotes(contact_id).done(function (view) {
-                        $('.contact-notes-modal').html(view);
-                        UI.initializeDatePicker();
-                    });
+                    $('#id="note-"' + note_id + '"').remove();
                 });
             }
         },

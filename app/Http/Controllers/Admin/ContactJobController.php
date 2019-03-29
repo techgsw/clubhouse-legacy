@@ -18,6 +18,8 @@ use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Mail;
 
 class ContactJobController extends Controller
@@ -41,29 +43,33 @@ class ContactJobController extends Controller
         if ($contact_job->pipeline_id < $max_pipeline_step->pipeline_id) {
             try {
 
-                $contact_job->pipeline_id += 1;
-                $contact_job->status = null;
-                $contact_job->save();
+                $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline) {
+                    $contact_job->pipeline_id += 1;
+                    $contact_job->status = null;
+                    $contact_job->save();
 
-                ContactJobController::createNote(
-                    $contact_job->contact->id,
-                    "Moved forward from " . $job_pipeline[$contact_job->pipeline_id-2]->name . " to " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
-                );
+                    $this->createNote(
+                        $contact_job->id,
+                        "Moved forward from " . $job_pipeline[$contact_job->pipeline_id-2]->name . " to " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
+                    );
 
-                if ($contact_job->pipeline_id == 2) {
-                    try {
-                        if ($contact_job->job->recruiting_type_code == "active") {
-                            if ($request->input('comm_type') == "warm") {
-                                Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job, 'active-positive'));
+                    if ($contact_job->pipeline_id == 2) {
+                        try {
+                            if ($contact_job->job->recruiting_type_code == "active") {
+                                if ($request->input('comm_type') == "warm") {
+                                    Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job));
 
-                            } else if ($request->input('comm_type') == 'cold'){
-                                Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job, 'passive-positive'));                                
+                                } else if ($request->input('comm_type') == 'cold'){
+                                    Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job));                                
+                                }
                             }
+                        } catch (Exception $e) {
+                            Log::error($e->getMessage());
                         }
-                    } catch (Exception $e) {
-                        Log::error($e->getMessage());
                     }
-                }
+
+                    return $contact_job;
+                });
             } catch (Exception $e) {
                 Log::error($e->getMessage());
                 return response()->json([
@@ -107,27 +113,11 @@ class ContactJobController extends Controller
             $contact_job->status = 'halted';
             $contact_job->save();
 
-            ContactJobController::createNote(
-                $contact_job->contact->id,
+            $this->createNote(
+                $contact_job->id,
                 "Halted on " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
             );
 
-            if ($contact_job->pipeline_id == 1) {
-                try {
-                    switch ($contact_job->job->recruiting_type_code) {
-                        case 'active':
-                            Mail::to($contact_job->user)->send(new InquiryContacted($contact_job, 'active-negative'));
-                            break;
-                        case 'passive':
-                            Mail::to($contact_job->user)->send(new InquiryContacted($contact_job, 'passive-negative'));
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (Exception $e) {
-                    Log::error($e->getMessage());
-                }
-            }
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
@@ -170,8 +160,8 @@ class ContactJobController extends Controller
             $contact_job->status = 'paused';
             $contact_job->save();
 
-            ContactJobController::createNote(
-                $contact_job->contact->id,
+            $this->createNote(
+                $contact_job->id,
                 "Paused on " . $job_pipeline[$contact_job->pipeline_id-1]->name . " [id: " . $contact_job->job->id . "]."
             );
         } catch (Exception $e) {
@@ -217,11 +207,11 @@ class ContactJobController extends Controller
             $contact_job->status = null;
             $contact_job->save();
 
-            ContactJobController::createNote(
-                $contact_job->contact->id,
+            $this->createNote(
+                $contact_job->id,
                 "Moved backwards from " . $job_pipeline[$contact_job->pipeline_id]->name . " to " . $job_pipeline[$contact_job->pipeline_id-1]->name  . " [id:" . $contact_job->job->id . "]."
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json([
                 'type' => 'danger',
@@ -251,19 +241,19 @@ class ContactJobController extends Controller
         ]);
     }
 
-    public function createNote($id, $content)
+    public function createNote($contact_job_id, $content)
     {
         $this->authorize('create-contact-note');
 
-        $contact = Contact::find($id);
+        $contact = ContactJob::find($contact_job_id);
         if (!$contact) {
-            return abort(404);
+            throw new \Exception('Note creation failed');
         }
 
         $note = new Note();
         $note->user_id = Auth::user()->id;
-        $note->notable_id = $id;
-        $note->notable_type = "App\Contact";
+        $note->notable_id = $contact_job_id;
+        $note->notable_type = "App\ContactJob";
         $note->content = $content;
         $note->save();
 

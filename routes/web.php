@@ -245,7 +245,7 @@ Route::domain($domain)->group(function () {
     });
 
     // Jobs
-    Route::group(['middleware' => ['web', 'ajax_only']], function () {
+    Route::group(['middleware' => ['web', 'ajax_only', 'auth']], function () {
         Route::get('/job/assign-contact', 'JobController@assignContact');
         Route::post('/contact-job', 'ContactJobController@store');
         Route::post('/contact-job/delete', 'ContactJobController@delete');

@@ -28,6 +28,17 @@ class ContactJobController extends Controller
             ]);
         }
 
+        $contact_job = ContactJob::where('contact_id','=',request('contact_id'))->where('job_id','=',$job->id)->first();
+
+        if (!is_null($contact_job)) {
+            return response()->json([
+                'type' => 'failur',
+                'message' => 'Contact already assigned to job.',
+                'values' => array(
+                )
+            ]);
+        }
+
         $note = new Note();
 
         $contact_job = DB::transaction(function() use($request, $note) {
@@ -64,6 +75,15 @@ class ContactJobController extends Controller
             return response()->json([
                 'type' => 'failure',
                 'message' => 'Unable to find requested job contact relationship.'
+            ]);
+        }
+
+        $note = Note::where('notable_type','=','App\\ContactJob')->where('notable_id','=',$contact_job->id)->first();
+
+        if (!is_null($note)) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'Contact cannot be unassigned from job.'
             ]);
         }
 

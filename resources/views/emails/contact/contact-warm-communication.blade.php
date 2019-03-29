@@ -5,6 +5,6 @@
         <p>I was unsure if you were open to considering anything new at this time, but please let me know what you think and happy to jump on a call and discuss further.</p>
         <p>Thanks, and I look forward to hearing from you soon!</p>
         <p>All the best,</p>
-        <p>Jason</p>
+        <p>{{ $user->first_name }} {{ $user->last_name }}</p>
     @endslot
 @endcomponent

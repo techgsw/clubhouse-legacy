@@ -16,7 +16,6 @@ class ContactColdComm extends Mailable
     use Queueable, SerializesModels;
 
     public $contact;
-    public $rating;
     public $user;
 
     /**
@@ -24,10 +23,9 @@ class ContactColdComm extends Mailable
      *
      * @return void
      */
-    public function __construct(ContactJob $contact, $rating)
+    public function __construct(ContactJob $contact)
     {
         $this->contact = $contact;
-        $this->rating = $rating;
         $this->user = Auth::user();
         
     }
