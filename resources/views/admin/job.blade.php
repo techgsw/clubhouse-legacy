@@ -17,7 +17,7 @@
     <div class="col s12">
         @if (count($jobs) > 0)
             @foreach ($jobs as $job)
-                @include('components.admin-job-list-item', ['job' => $job])
+                @include('components.admin-job-list-item', ['job' => $job, 'pipeline' => $pipeline, 'job_pipeline' => $job_pipeline])
             @endforeach
             <div class="row">
                 <div class="col s12 center-align">

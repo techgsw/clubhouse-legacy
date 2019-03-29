@@ -366,8 +366,8 @@ class ContactController extends Controller
     {
         $this->authorize('create-contact-note');
 
-        $contact_id = request('contact_id');
-        $contact = Contact::find($contact_id);
+        $notable = explode('-', request('notable_id'));
+        $contact = Contact::find(request('contact_id'));
         if (!$contact) {
             return abort(404);
         }
@@ -375,13 +375,15 @@ class ContactController extends Controller
         $note = new Note();
         $note->user_id = Auth::user()->id;
 
-        $inquiry_id = request('inquiry_id') ?: null;
-        if (is_null($inquiry_id)) {
-            $note->notable_id = $contact_id;
-            $note->notable_type = "App\Contact";
-        } else {
-            $note->notable_id = $inquiry_id;
+        if ($notable[0] == 'inquiry') {
             $note->notable_type = "App\Inquiry";
+            $note->notable_id = $notable[1];
+        } else if ($notable[0] == 'contact_job') {
+            $note->notable_type = "App\ContactJob";
+            $note->notable_id = $notable[1];
+        } else {
+            $note->notable_id = $contact->id;
+            $note->notable_type = "App\Contact";
         }
         $note->content = request("note");
         $note->save();

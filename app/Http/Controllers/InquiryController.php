@@ -13,6 +13,7 @@ use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Mail;
 
 class InquiryController extends Controller
@@ -26,6 +27,16 @@ class InquiryController extends Controller
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        }
+
+        $inquiry = Inquiry::where('user_id','=',Auth::user()->id)->where('job_id','=',$job->id)->first();
+
+        if (!is_null($inquiry)) {
+            $request->session()->flash('message', new Message(
+                "You have already applied to this job.",
+                "danger"
+            ));
+            return back()->withInput();
         }
 
         if (request('use_profile_resume')) {
@@ -80,117 +91,6 @@ class InquiryController extends Controller
         ));
 
         return redirect()->action('JobController@show', [$job]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rateUp($id)
-    {
-        $inquiry = Inquiry::find($id);
-        if (!$inquiry) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $inquiry->rating = 1;
-        $inquiry->save();
-
-        try {
-            switch ($inquiry->job->recruiting_type_code) {
-                case 'active':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-up'));
-                    break;
-                case 'passive':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-up'));
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception $e) {
-            // TODO log exception
-        }
-
-        return response()->json([
-            'type' => 'success',
-            'inquiry_id' => $id,
-            'rating' => 1
-        ]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rateMaybe($id)
-    {
-        $inquiry = Inquiry::find($id);
-        if (!$inquiry) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $inquiry->rating = 0;
-        $inquiry->save();
-
-        try {
-            switch ($inquiry->job->recruiting_type_code) {
-                case 'active':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-maybe'));
-                    break;
-                case 'passive':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-maybe'));
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception $e) {
-            // TODO log exception
-        }
-
-        return response()->json([
-            'type' => 'success',
-            'inquiry_id' => $id,
-            'rating' => 0
-        ]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rateDown($id)
-    {
-        $inquiry = Inquiry::find($id);
-        if (!$inquiry) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find inquiry ' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $inquiry->rating = -1;
-        $inquiry->save();
-
-        try {
-            switch ($inquiry->job->recruiting_type_code) {
-                case 'active':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'active-down'));
-                    break;
-                case 'passive':
-                    Mail::to($inquiry->user)->send(new InquiryRated($inquiry, 'passive-down'));
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception $e) {
-            // TODO log exception
-        }
-
-        return response()->json([
-            'type' => 'success',
-            'inquiry_id' => $id,
-            'rating' => -1
-        ]);
     }
 
     /**

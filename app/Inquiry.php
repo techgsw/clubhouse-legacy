@@ -23,6 +23,15 @@ class Inquiry extends Model
     {
         return $this->belongsTo(Job::class);
     }
+    public function pipeline()
+    {
+        return $this->belongsTo(Pipeline::class);
+    }
+
+    public function job_pipeline()
+    {
+        return $this->hasOne(JobPipeline::class, 'pipeline_id', 'pipeline_id');
+    }
 
     public function notes()
     {
@@ -31,40 +40,24 @@ class Inquiry extends Model
 
     public static function filter($job_id, Request $request)
     {
-        $inquiries = Inquiry::where('job_id', $job_id);
+        $inquiries = Inquiry::selectRaw('inquiry.*')->join('user as u','user_id', 'u.id')->where('job_id', $job_id);
 
-        $rating = request('rating');
-        switch ($rating) {
-            case "up":
-                $inquiries->where('rating', '>', '0');
-                break;
-            case "maybe":
-                $inquiries->where('rating', '0');
-                break;
-            case "down":
-                $inquiries->where('rating', '<', '0');
-                break;
-            case "none":
-                $inquiries->whereNull('rating');
-                break;
-            default:
-                break;
+        $pipeline_id = request('step');
+        
+        if ($pipeline_id != 'all' && !is_null($pipeline_id)) {
+            $inquiries->where('pipeline_id', '=', $pipeline_id);
         }
 
         $sort = request('sort');
         switch ($sort) {
             case "alpha":
-                $inquiries->orderBy('name', 'asc');
+                $inquiries->orderBy('u.last_name', 'asc');
                 break;
             case "alpha-reverse":
-                $inquiries->orderBy('name', 'desc');
+                $inquiries->orderBy('u.last_name', 'desc');
                 break;
-            case "rating":
-                $inquiries->orderBy('rating', 'desc');
-                break;
-            case "recent":
             default:
-                $inquiries->orderBy('created_at', 'desc');
+                $inquiries->orderBy('inquiry.created_at', 'desc');
                 break;
         }
 

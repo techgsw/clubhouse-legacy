@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Job;
+use App\Pipeline;
+use App\JobPipeline;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -19,6 +21,10 @@ class JobController extends Controller
         if (!request('status')) {
             $request->merge(['status' => 'open']);
         }
+        
+        $pipeline = Pipeline::orderBy('id', 'asc')->get();
+
+        $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
 
         $jobs = Job::filter($request);
         if (request('new-inquiries')) {
@@ -44,6 +50,8 @@ class JobController extends Controller
         return view('admin/job', [
             'jobs' => $jobs,
             'count' => $count,
+            'pipeline' => $pipeline,
+            'job_pipeline' => $job_pipeline,
             'searching' => $searching
         ]);
     }

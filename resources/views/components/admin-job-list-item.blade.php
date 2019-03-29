@@ -48,19 +48,44 @@
                 @else
                     <span class="small flat-button green inverse">Open</span>
                 @endif
-
-                <a href="/job/{{ $job->id }}#applications" class="small flat-button black inverse">{{ count($job->inquiries)  == 1 ? "1 inquiry" : count($job->inquiries) . " inquiries" }}</a>      
-                <a href="/job/{{ $job->id }}?rating=none&sort=recent#applications" class="small flat-button {{ (($job->inquiryTotals()['none'] == 0) ? 'black' : 'red') }}"><i class="fa fa-circle-thin"></i> {{ $job->inquiryTotals()['none'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=up&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-up"></i> {{ $job->inquiryTotals()['up'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=maybe&sort=recent#applications" class="small flat-button black"><i class="fa fa-question-circle"></i> {{ $job->inquiryTotals()['maybe'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=down&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-down"></i> {{ $job->inquiryTotals()['down'] }}</a>
-                <br/>
-                <br/>
-                <a href="/job/{{ $job->id }}#applications" class="small flat-button grey inverse">{{ count($job->assignments)  == 1 ? "1 assignment" : count($job->assignments) . " assignments" }}</a>
-                <a href="/job/{{ $job->id }}?rating=none&sort=recent#applications" class="small flat-button {{ (($job->contactTotals()['none'] == 0) ? 'black' : 'red') }}"><i class="fa fa-circle-thin"></i> {{ $job->contactTotals()['none'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=up&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-up"></i> {{ $job->contactTotals()['up'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=maybe&sort=recent#applications" class="small flat-button black"><i class="fa fa-question-circle"></i> {{ $job->contactTotals()['maybe'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=down&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-down"></i> {{ $job->contactTotals()['down'] }}</a>
+                <span class="small flat-button black inverse">{{ count($job->inquiries) + count($job->assignments) }}</span>
+                
+                @foreach ($job_pipeline as $step)
+                    @php
+                        $count = 0;
+                    @endphp
+                    @if ($step->id == 1)
+                        @if (array_key_exists($step->name , $job->inquiryTotals()))
+                            @php
+                                $count = $job->inquiryTotals()[$step->name];
+                            @endphp
+                        @endif
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ (($count > 0) ? 'red' : 'black') }}">{{$step->name}}: {{ $count }}</a>                    
+                        @php
+                            $count = 0;
+                        @endphp
+                        @if (array_key_exists($step->name , $job->contactAssignmentTotals()))
+                            @php
+                                $count = $job->contactAssignmentTotals()[$step->name];
+                            @endphp
+                        @endif
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ (($count > 0) ? 'red' : 'black') }}">Assigned: {{ $count }}</a>
+                        <br/>
+                        <br/> 
+                    @else
+                        @if (array_key_exists($step->name , $job->inquiryTotals()))
+                            @php
+                                $count = $job->inquiryTotals()[$step->name]; 
+                            @endphp
+                        @endif
+                        @if (array_key_exists($step->name , $job->contactAssignmentTotals()))
+                            @php
+                                $count += $job->contactAssignmentTotals()[$step->name];
+                            @endphp
+                        @endif
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>
+                    @endif
+                @endforeach  
             </p>
         @endcan
     </div>

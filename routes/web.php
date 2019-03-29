@@ -126,6 +126,10 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/contact', 'ContactController@index');
         Route::get('/admin/contact/download', 'ContactController@download');
         Route::get('/admin/job', 'JobController@index');
+
+        Route::get('/admin/pipeline', 'PipelineController@index');
+        Route::get('/admin/pipeline/job', 'PipelineController@job');
+        
         Route::get('/admin/question', 'QuestionController@index');
         Route::get('/admin/admin-users', 'UserController@allAdminUsers');
         Route::get('/admin/report', 'ReportController@index');
@@ -133,6 +137,19 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/report/transactions', 'ReportController@transactions');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
+    });
+
+    // Admin & Ajax
+    Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth', 'ajax_only']], function () {
+        Route::post('/admin/inquiry/pipeline-forward', 'InquiryController@pipelineForward');
+        Route::post('/admin/inquiry/pipeline-backward', 'InquiryController@pipelineBackward');
+        Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
+        Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
+        
+        Route::post('/admin/contact-job/pipeline-forward/', 'ContactJobController@pipelineForward');
+        Route::post('/admin/contact-job/pipeline-backward/', 'ContactJobController@pipelineBackward');
+        Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
+        Route::post('/admin/contact-job/pipeline-pause/', 'ContactJobController@pipelinePause');
     });
 
     // Email
@@ -228,7 +245,7 @@ Route::domain($domain)->group(function () {
     });
 
     // Jobs
-    Route::group(['middleware' => ['web', 'ajax_only']], function () {
+    Route::group(['middleware' => ['web', 'ajax_only', 'auth']], function () {
         Route::get('/job/assign-contact', 'JobController@assignContact');
         Route::post('/contact-job', 'ContactJobController@store');
         Route::post('/contact-job/delete', 'ContactJobController@delete');
@@ -248,14 +265,14 @@ Route::domain($domain)->group(function () {
         Route::post('/job/{id}', 'JobController@update');
         Route::post('/job/{id}/inquire', 'InquiryController@store');
 
-        Route::get('/contact-job/{id}/rate-up', 'ContactJobController@rateUp');
-        Route::get('/contact-job/{id}/rate-maybe', 'ContactJobController@rateMaybe');
+        // Route::get('/contact-job/{id}/rate-up', 'ContactJobController@rateUp');
+        // Route::get('/contact-job/{id}/rate-maybe', 'ContactJobController@rateMaybe');
         Route::get('/contact-job/{id}/rate-down', 'ContactJobController@rateDown');
         Route::get('/contact-job/{id}/show-notes', 'ContactJobController@showNotes');
         Route::post('/contact-job/{id}/create-note', 'ContactJobController@createNote');
 
-        Route::get('/inquiry/{id}/rate-up', 'InquiryController@rateUp');
-        Route::get('/inquiry/{id}/rate-maybe', 'InquiryController@rateMaybe');
+        // Route::get('/inquiry/{id}/rate-up', 'InquiryController@rateUp');
+        // Route::get('/inquiry/{id}/rate-maybe', 'InquiryController@rateMaybe');
         Route::get('/inquiry/{id}/rate-down', 'InquiryController@rateDown');
         Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');
         Route::post('/inquiry/{id}/create-note', 'InquiryController@createNote');

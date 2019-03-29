@@ -12,14 +12,19 @@
             <form id="create-contact-note" method="post">
                 {{ csrf_field() }}
                 <input id="contact-id" type="hidden" name="contact_id" value="{{ $contact->id }}" />
-                @if (!is_null($contact->user) && count($contact->user->inquiries) > 0)
-                    <select name="inquiry_id" style="display: block; margin-bottom: 8px;">
-                        <option value="">Select a job (optional)</option>
-                        @foreach ($contact->user->inquiries as $inquiry)
-                            <option value="{{ $inquiry->id }}">{{ $inquiry->job->organization_name }} - {{ $inquiry->job->title }}</option>
+                <select name="notable_id" style="display: block; margin-bottom: 8px;">
+                    <option value="">Select a job (optional)</option>
+                    @if (count($contact->jobs) > 0))
+                        @foreach ($contact->jobs as $contact_job)
+                            <option value="contact_job-{{ $contact_job->id }}">{{ $contact_job->job->organization_name }} - {{ $contact_job->job->title }}</option>
                         @endforeach
-                    </select>
-                @endif
+                    @endif
+                    @if ((!is_null($contact->user) && count($contact->user->inquiries) > 0))
+                        @foreach ($contact->user->inquiries as $inquiry)
+                            <option value="inquiry-{{ $inquiry->id }}">{{ $inquiry->job->organization_name }} - {{ $inquiry->job->title }}</option>
+                        @endforeach
+                    @endif
+                </select>
                 <textarea id="note" name="note" placeholder="What's the latest?" style="background-color: rgba(255, 255, 255, 0.9);"></textarea>
                 <div class="follow-up-controls" style="margin-top: 10px;">
                     <input class="datepicker inline-block" id="follow-up-date" type="text" name="follow_up_date" value="{{ ($contact->follow_up_date) ? $contact->follow_up_date->format('d F, Y') : '' }}" style="text-align: center; width: 160px;"/>

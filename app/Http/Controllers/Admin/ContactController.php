@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Contact;
 use App\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

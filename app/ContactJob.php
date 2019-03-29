@@ -18,7 +18,15 @@ class ContactJob extends Model
     {
         return $this->belongsTo(Contact::class);
     }
-
+    // Same on inquiries
+    public function pipeline()
+    {
+        return $this->belongsTo(Pipeline::class);
+    }
+    public function job_pipeline()
+    {
+        return $this->hasOne(JobPipeline::class, 'pipeline_id', 'pipeline_id');
+    }
     public function admin_user()
     {
         return $this->belongsTo(User::class);
@@ -36,40 +44,40 @@ class ContactJob extends Model
 
     public static function filter($job_id, Request $request)
     {
-        $contact_applications = ContactJob::where('job_id', $job_id);
+        $contact_applications = ContactJob::selectRaw('contact_job.*')->join('contact as c','contact_id', 'c.id')->where('job_id', $job_id);
 
-        $rating = request('rating');
-        switch ($rating) {
-            case "up":
-                $contact_applications->where('rating', '>', '0');
-                break;
-            case "maybe":
-                $contact_applications->where('rating', '0');
-                break;
-            case "down":
-                $contact_applications->where('rating', '<', '0');
-                break;
-            case "none":
-                $contact_applications->whereNull('rating');
-                break;
-            default:
-                break;
+        $pipeline_id = request('step');
+        if ($pipeline_id != 'all' && !is_null($pipeline_id)) {
+            $contact_applications->where('pipeline_id', '=', $pipeline_id);
         }
+        // switch ($rating) {
+        //     case 1:
+        //         $contact_applications->where('pipeline_id', '=', '0');
+        //         break;
+        //     case 2:
+        //         $contact_applications->where('rating', '0');
+        //         break;
+        //     case 3:
+        //         $contact_applications->where('rating', '<', '0');
+        //         break;
+        //     case 4:
+        //         $contact_applications->whereNull('rating');
+        //         break;
+        //     default:
+        //         break;
+        // }
 
         $sort = request('sort');
         switch ($sort) {
             case "alpha":
-                $contact_applications->orderBy('name', 'asc');
+                $contact_applications->orderBy('c.last_name', 'asc');
                 break;
             case "alpha-reverse":
-                $contact_applications->orderBy('name', 'desc');
-                break;
-            case "rating":
-                $contact_applications->orderBy('rating', 'desc');
+                $contact_applications->orderBy('c.last_name', 'desc');
                 break;
             case "recent":
             default:
-                $contact_applications->orderBy('created_at', 'desc');
+                $contact_applications->orderBy('contact_job.created_at', 'desc');
                 break;
         }
 

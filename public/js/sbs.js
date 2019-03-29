@@ -811,7 +811,6 @@ $.valHooks.textarea = {
         var template = $('.message-template.hidden').clone();
         if (!template) {
             console.warning("Missing message template");
-            console.log(response);
             return;
         }
         $(template).find('.message-text').html(response.message);
@@ -842,7 +841,6 @@ $.valHooks.textarea = {
             message.removeClass('message-template').addClass('message');
             if (message.length == 0) {
                 console.warning("Missing message template");
-                console.log(response);
                 return;
             }
             $('main div.container').first().prepend(message);
@@ -995,75 +993,223 @@ $.valHooks.textarea = {
     };
 
     SBS.Inquiry = {};
-    SBS.Inquiry.rate = function (id, rating,type) {
-        var uri = 'inquiry';
-        var action = '';
-        // Normalize rating to -1, 0, or 1
-        rating = (rating > 0) ? 1 : (rating < 0) ? -1 : 0;
-        switch (rating) {
-            case 1:
-                action = 'rate-up';
-                break;
-            case 0:
-                action = 'rate-maybe';
-                break;
-            case -1:
-                action = 'rate-down';
-                break;
-        }
-        console.log(type);
-        if (type === 'contact') {
-            uri = 'contact-job';
-        }
-        // POST and return deferred object
+    SBS.Inquiry.pipeline = function (id, action, token, reason) {
         return $.ajax({
-            method: "GET",
-            url: "/"+uri+"/"+id+"/"+action,
-            data: {}
+            method: "POST",
+            url: "/admin/inquiry/pipeline-" + action,
+            data: { id: id, _token: token, reason: reason }
         });
     }
 
-    // Rate an inquiry upon clicking a rating button
+    // Open negative response modal
     $('body').on(
         {
             click: function (e, ui) {
-                var id = parseInt($(this).attr('data-id'));
-                var rating = parseInt($(this).attr('rating'));
-                var type = $(this).attr('data-type');
+                var inquiry_id = parseInt($(this).attr('data-id')),
+                    pipeline_id = parseInt($(this).attr('data-pipeline-id')),
+                    action = $(this).attr('data-move'),
+                    type = $(this).attr('data-type'),
+                    token = $('[name="_token"]').val();
 
-                if (!id) {
-                    console.error('Inquiry.rate: ID and rating are required');
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-move', action);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-type', type);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').removeClass('inverse');
+
+                $('.inquiry-contact-job-negative-modal').modal('open');
+            }
+        },
+        'button.negative-pipeline-modal-button'
+    );
+
+    // Change inquiry pipline step 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var inquiry_id = parseInt($(this).attr('data-id')),
+                    pipeline_id = parseInt($(this).attr('data-pipeline-id')),
+                    action = $(this).attr('data-move'),
+                    type = $(this).attr('data-type'),
+                    reason = $(this).attr('data-reason'),
+                    selected_btn = $(this),
+                    btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
+                    pipeline_label = $('#pipeline-label-' + inquiry_id),
+                    token = $('[name="_token"]').val();
+
+                if (pipeline_id == 1) {
+                    result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
+                    if (!result) {
+                        return;
+                    }
+                }
+
+                if (!inquiry_id) {
                     return;
                 }
 
-                // The clicked rating button
-                var btn = $(this);
-                // All rating buttons, including the clicked one
-                var rating_btns = $(this).parent().find('button[action="inquiry-rate"]');
-                // Switch all buttons to gray to indicate a pending action
-                rating_btns.each(function (i, b) {
-                    $(b).removeClass('blue');
-                    $(b).addClass('gray');
+                btn_set.each(function (i, ui) {
+                    $(ui).removeClass('blue');
+                    $(ui).addClass('gray');
                 });
 
-                SBS.Inquiry.rate(id, rating, type).done(function (resp) {
-                    if (resp.type != 'success') {
-                        console.error('An error occurred trying to rate inquiry '+id);
-                        return;
-                    }
-                    // Deactivate the selection class for all buttons. Return
-                    // all buttons to blue now that the app has responded.
-                    rating_btns.each(function (i, b) {
-                        $(b).removeClass('gray');
-                        $(b).addClass('blue');
-                        $(b).removeClass('inverse');
+                SBS.Inquiry.pipeline(inquiry_id, action, token, reason).done(function (resp) {
+                    btn_set.each(function (i, ui) {
+                        $(ui).removeClass('inverse');
+                        $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');
+                        if ($(ui).attr('data-move') == 'backward') {
+                            if (resp.pipeline_id > 2) {
+                                $(ui).removeAttr('disabled');
+                                $(ui).removeClass('gray');
+                                $(ui).addClass('blue');
+                            } else {
+                                $(ui).attr('disabled', 'disabled');
+                                $(ui).addClass('gray');
+                                $(ui).removeClass('blue');
+                            }
+                        } else if ($(ui).attr('data-move') == 'forward') {
+                            if (resp.pipeline_id == 6) {
+                                $(ui).attr('disabled', 'disabled');
+                            } else {
+                                $(ui).removeClass('gray');
+                                $(ui).addClass('blue');
+                                $(ui).removeAttr('disabled');
+                            }
+                        } else {
+                            $(ui).removeClass('gray');
+                            $(ui).addClass('blue');
+                            if (resp.status == 'halted') {
+                                $(selected_btn).addClass('inverse');
+                                $('.inquiry-contact-job-negative-modal').modal('close');
+                                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                            } else if (resp.status == 'paused') {
+                                $(selected_btn).addClass('inverse');
+                            } else {
+                                $(selected_btn).removeClass('inverse');
+                            }
+                        }
                     });
-                    // Activate the selection class for the clicked button only
-                    btn.addClass('inverse');
+
+                    if (resp.type != 'success') {
+                        SBS.UI.displayMessage(resp);
+                        return;
+                    } else {
+                        $('.inquiry-contact-job-negative-modal').modal('close');
+                    }
+
+                    if (resp.pipeline_name !== undefined) {
+                        pipeline_label.html(resp.pipeline_name);
+                    }
+                    if (resp.pipeline_id !== undefined) {
+                        $('[data-id="' + inquiry_id +'"]').attr('data-pipeline-id', resp.pipeline_id);
+                    }
                 });
             }
         },
-        'button[action="inquiry-rate"]'
+        'button[data-action="inquiry-pipeline"][data-type="user"]'
+    );
+
+    SBS.ContactJob = {};
+    SBS.ContactJob.pipeline = function (id, action, comm_type, reason, token) {
+        return $.ajax({
+            method: "POST",
+            url: "/admin/contact-job/pipeline-" + action + "/",
+            data: { id: id, _token: token, reason: reason, comm_type: comm_type }
+        });
+    }
+
+    // Change contact job step 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var inquiry_id = parseInt($(this).attr('data-id')),
+                    pipeline_id = parseInt($(this).attr('data-pipeline-id')),
+                    action = $(this).attr('data-move'),
+                    type = $(this).attr('data-type'),
+                    comm_type = $(this).attr('data-comm-type'),
+                    reason = $(this).attr('data-reason'),
+                    selected_btn = $(this),
+                    btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
+                    pipeline_label = $('#pipeline-label-' + inquiry_id),
+                    token = $('[name="_token"]').val();
+                
+                if (pipeline_id == 1 && action == 'forward') {
+                    result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
+                    if (!result) {
+                        return;
+                    }
+                }
+
+                if (!inquiry_id) {
+                    return;
+                }
+
+                // Switch all buttons to gray to indicate a pending action
+                btn_set.each(function (i, ui) {
+                    $(ui).removeClass('blue');
+                    $(ui).addClass('gray');
+                });
+
+                SBS.ContactJob.pipeline(inquiry_id, action, comm_type, reason, token).done(function (resp) {
+                    btn_set.each(function (i, ui) {
+                        $(ui).removeClass('inverse');
+                        $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');
+                        if ($(ui).attr('data-move') == 'backward') {
+                            if (resp.pipeline_id > 2) {
+                                $(ui).removeAttr('disabled');
+                                $(ui).removeClass('gray');
+                                $(ui).addClass('blue');
+                            } else {
+                                $(ui).attr('disabled', 'disabled');
+                                $(ui).addClass('gray');
+                                $(ui).removeClass('blue');
+                            }
+                        } else if ($(ui).attr('data-move') == 'forward') {
+                            if (resp.pipeline_id > 1) {
+                                if ($(ui).hasClass('cold-comm')) {
+                                    $(ui).find('span.thumbs-up-text').html('');
+                                }
+                                if ($(ui).hasClass('warm-comm')) {
+                                    $(ui).remove();
+                                }
+                            }
+                            if (resp.pipeline_id == 6) {
+                                $(ui).attr('disabled', 'disabled');
+                            } else {
+                                $(ui).removeClass('gray');
+                                $(ui).addClass('blue');
+                                $(ui).removeAttr('disabled');
+                            }
+                        } else {
+                            $(ui).removeClass('gray');
+                            $(ui).addClass('blue');
+                            if (resp.status == 'halted') {
+                                $(selected_btn).addClass('inverse');
+                                $('.inquiry-contact-job-negative-modal').modal('close');
+                                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                            } else if (resp.status == 'paused') {
+                                $(selected_btn).addClass('inverse');
+                            } else {
+                                $(selected_btn).removeClass('inverse');
+                            }                            
+                        }
+                    });
+
+                    if (resp.type != 'success') {
+                        SBS.UI.displayMessage(resp);
+                        return;
+                    }
+
+                    if (resp.pipeline_name !== undefined) {
+                        pipeline_label.html(resp.pipeline_name);
+                    }
+                    if (resp.pipeline_id !== undefined) {
+                        $('[data-id="' + inquiry_id +'"]').attr('data-pipeline-id', resp.pipeline_id);
+                    }
+                });
+            }
+        },
+        'button[data-action="inquiry-pipeline"][data-type="contact"]'
     );
 
     Form.toggleGroup = function (group) {
@@ -1260,10 +1406,7 @@ $.valHooks.textarea = {
                         $(note).show();
                         return;
                     }
-                    Note.getContactNotes(contact_id).done(function (view) {
-                        $('.contact-notes-modal').html(view);
-                        UI.initializeDatePicker();
-                    });
+                    $('#id="note-"' + note_id + '"').remove();
                 });
             }
         },

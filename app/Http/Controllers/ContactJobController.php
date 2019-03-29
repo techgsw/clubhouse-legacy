@@ -28,6 +28,17 @@ class ContactJobController extends Controller
             ]);
         }
 
+        $contact_job = ContactJob::where('contact_id','=',request('contact_id'))->where('job_id','=',$job->id)->first();
+
+        if (!is_null($contact_job)) {
+            return response()->json([
+                'type' => 'failur',
+                'message' => 'Contact already assigned to job.',
+                'values' => array(
+                )
+            ]);
+        }
+
         $note = new Note();
 
         $contact_job = DB::transaction(function() use($request, $note) {
@@ -67,6 +78,15 @@ class ContactJobController extends Controller
             ]);
         }
 
+        $note = Note::where('notable_type','=','App\\ContactJob')->where('notable_id','=',$contact_job->id)->first();
+
+        if (!is_null($note)) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'Contact cannot be unassigned from job.'
+            ]);
+        }
+
         $note = new Note();
 
         DB::transaction(function() use($contact_job, $note) {
@@ -82,72 +102,6 @@ class ContactJobController extends Controller
         return response()->json([
             'type' => 'success',
             'message' => 'Contact successfully unassigned to job.'
-        ]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rateUp($id)
-    {
-        $contact_job = ContactJob::find($id);
-        if (!$contact_job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job assignment' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $contact_job->rating = 1;
-        $contact_job->save();
-
-        return response()->json([
-            'type' => 'success',
-            'contact_job_id' => $id,
-            'rating' => 1
-        ]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rateMaybe($id)
-    {
-        $contact_job = ContactJob::find($id);
-        if (!$contact_job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job assignment.' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $contact_job->rating = 0;
-        $contact_job->save();
-
-        return response()->json([
-            'type' => 'success',
-            'contact_job_id' => $id,
-            'rating' => 0
-        ]);
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rateDown($id)
-    {
-        $contact_job = ContactJob::find($id);
-        if (!$contact_job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job assignment.' . $id]);
-        }
-        $this->authorize('edit-inquiry');
-
-        $contact_job->rating = -1;
-        $contact_job->save();
-
-        return response()->json([
-            'type' => 'success',
-            'contact_job_id' => $id,
-            'rating' => -1
         ]);
     }
 
