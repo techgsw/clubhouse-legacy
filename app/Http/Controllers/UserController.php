@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUser;
 use App\Providers\StripeServiceProvider;
 use App\User;
+use App\JobPipeline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -64,6 +65,9 @@ class UserController extends Controller
     public function jobs(Request $request, $id)
     {
         $user = User::find($id);
+
+        $job_pipeline = JobPipeline::all();
+
         if (!$user) {
             return abort(404);
         }
@@ -74,7 +78,8 @@ class UserController extends Controller
                 'Home' => '/',
                 'Jobs' => "/user/{$user->id}/jobs"
             ],
-            'user' => $user
+            'user' => $user,
+            'job_pipeline' => $job_pipeline
         ]);
     }
 

@@ -44,7 +44,7 @@
             @if (count($user->contact->jobs))
                 <h5>Job Assignments</h5>
                 @foreach ($user->contact->jobs as $job)
-                    @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $user])
+                    @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $user, 'job_pipeline' => $job_pipeline])
                 @endforeach
             @endif
         </div>
@@ -55,7 +55,7 @@
             @if (count($user->inquiries))
                 <h5>Job Applications</h5>
                 @foreach ($user->inquiries as $inquiry)
-                    @include('components.user-inquiry-list-item', ['inquiry' => $inquiry, 'user' => $user])
+                    @include('components.user-inquiry-list-item', ['inquiry' => $inquiry, 'user' => $user, 'job_pipeline' => $job_pipeline])
                 @endforeach
             @else
                 <p>When you apply for jobs on the <a href="/job">Job Board</a>, those jobs will appear here.</p>
@@ -64,8 +64,10 @@
     </div>
 </div>
 @can ('edit-profile', $user)
+@include('components.contact-notes-modal')
 @include('components.inquiry-notes-modal')
 @include('components.contact-job-notes-modal')
+@component('components.inquiry-job-contact-negative-modal')@endcomponent
 @component('components.job-contact-assign-modal')@endcomponent
 @endcan
 @endsection
