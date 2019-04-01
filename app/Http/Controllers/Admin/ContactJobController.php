@@ -43,7 +43,7 @@ class ContactJobController extends Controller
         if ($contact_job->pipeline_id < $max_pipeline_step->pipeline_id) {
             try {
 
-                $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline) {
+                $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline, $request) {
                     $contact_job->pipeline_id += 1;
                     $contact_job->status = null;
                     $contact_job->save();
