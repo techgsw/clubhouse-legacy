@@ -49,6 +49,7 @@
     @endcan
 </div>
 @include('components.contact-notes-modal')
+@include('components.contact-job-notes-modal')
 @component('components.job-contact-assign-modal')
 @endcomponent
 @endsection

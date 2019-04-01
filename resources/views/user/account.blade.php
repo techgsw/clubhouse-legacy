@@ -190,6 +190,7 @@
 </div>
 @can ('edit-profile', $user)
 @include('components.contact-notes-modal')
+@include('components.contact-job-notes-modal')
 @include('components.inquiry-notes-modal')
 @component('components.job-contact-assign-modal')@endcomponent
 @endcan

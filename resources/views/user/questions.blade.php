@@ -56,4 +56,5 @@
 </div>
 @include('components.contact-notes-modal')
 @include('components.inquiry-notes-modal')
+@include('components.contact-job-notes-modal')
 @endsection

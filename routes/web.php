@@ -265,14 +265,10 @@ Route::domain($domain)->group(function () {
         Route::post('/job/{id}', 'JobController@update');
         Route::post('/job/{id}/inquire', 'InquiryController@store');
 
-        // Route::get('/contact-job/{id}/rate-up', 'ContactJobController@rateUp');
-        // Route::get('/contact-job/{id}/rate-maybe', 'ContactJobController@rateMaybe');
         Route::get('/contact-job/{id}/rate-down', 'ContactJobController@rateDown');
         Route::get('/contact-job/{id}/show-notes', 'ContactJobController@showNotes');
         Route::post('/contact-job/{id}/create-note', 'ContactJobController@createNote');
 
-        // Route::get('/inquiry/{id}/rate-up', 'InquiryController@rateUp');
-        // Route::get('/inquiry/{id}/rate-maybe', 'InquiryController@rateMaybe');
         Route::get('/inquiry/{id}/rate-down', 'InquiryController@rateDown');
         Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');
         Route::post('/inquiry/{id}/create-note', 'InquiryController@createNote');
