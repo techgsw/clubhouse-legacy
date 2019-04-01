@@ -1432,8 +1432,6 @@ $.valHooks.textarea = {
             click: function (e, ui) {
                 var inquiry_id = parseInt($(this).attr('inquiry-id'));
                 Note.getContactJobNotes(inquiry_id).done(function (view) {
-                    console.log(inquiry_id);
-                    console.log($('.contact-job-notes-modal'))
                     $('.contact-job-notes-modal .modal-content').html(view);
                     $('.contact-job-notes-modal').modal('open');
                     $('form#create-contact-job-note input[name="contact_job_id"]').val(inquiry_id);
