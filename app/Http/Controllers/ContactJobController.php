@@ -71,7 +71,7 @@ class ContactJobController extends Controller
     {
         $contact_job = ContactJob::where('contact_id', $request['contact_id'])->where('job_id', $request['job_id'])->first();
 
-        if (!$contact_job || $contact_job->pipeline_id > 1) {
+        if (!$contact_job || $contact_job->pipeline_id > 1 ) {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'Unable to find requested job contact relationship.'

@@ -1187,6 +1187,9 @@ $.valHooks.textarea = {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-contact-job-negative-modal').modal('close');
                                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                                
+                                console.log($(this).parent().find('.button .reason-note-button'));
+                                // $(this).parent().find('.button .reason-note-button').addClass('inverse');
                             } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
                             } else {

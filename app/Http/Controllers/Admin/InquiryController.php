@@ -41,6 +41,7 @@ class InquiryController extends Controller
                 $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
                     $inquiry->pipeline_id += 1;
                     $inquiry->status = null;
+                    $inquiry->reason = null;
                     $inquiry->save();
 
                     InquiryController::createNote(
@@ -100,6 +101,7 @@ class InquiryController extends Controller
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
                 $inquiry->status = "halted";
+                $inquiry->reason = $request->reason;
                 $inquiry->save();
 
                 InquiryController::createNote(
@@ -225,6 +227,7 @@ class InquiryController extends Controller
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
                 $inquiry->pipeline_id -= 1;
                 $inquiry->status = null;
+                $inquiry->reason = null;
                 $inquiry->save();
 
                 InquiryController::createNote(
