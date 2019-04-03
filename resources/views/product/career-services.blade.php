@@ -7,8 +7,8 @@
             <h4 class="header">Career Services</h4>
             <p>Get some 1 on 1 training and coaching from <a class="" href="{{ env('APP_URL') }}/about">theClubhouse team</a> of sports industry professionals.</p>
             <a href="#Career+Coaching" class="btn btn-large sbs-red">CAREER COACHING</a>
-            <a href="#Sales+Training" class="btn btn-large sbs-red">SALES TRAINING</a>
-            <a href="#Leadership+Development" class="btn btn-large sbs-red">LEADERSHIP DEVELOPMENT</a>
+            <!--<a href="#Sales+Training" class="btn btn-large sbs-red">SALES TRAINING</a>-->
+            <!--<a href="#Leadership+Development" class="btn btn-large sbs-red">LEADERSHIP DEVELOPMENT</a>-->
         </div>
     </div>
 @endsection
