@@ -625,6 +625,9 @@ address {
     font-size: 14px;
     display: inline-block;
 }
+.flat-button.hidden {
+    display: none;
+}
 .flat-button.inverse {
     border-color: #555;
     background-color: #555 !important;

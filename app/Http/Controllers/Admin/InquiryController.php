@@ -100,6 +100,9 @@ class InquiryController extends Controller
         }
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
+                if ($inquiry->pipeline_id == 1) {
+                    $inquiry->pipeline_id += 1;
+                }
                 $inquiry->status = "halted";
                 $inquiry->reason = $request->reason;
                 $inquiry->save();
@@ -140,6 +143,7 @@ class InquiryController extends Controller
             'inquiry_id' => $request->input('id'),
             'pipeline_id' => $inquiry->pipeline_id,
             'pipeline_name' => $inquiry->job_pipeline->name,
+            'reason' => ucwords($request->reason),
             'status' => $inquiry->status,
         ]);
     }

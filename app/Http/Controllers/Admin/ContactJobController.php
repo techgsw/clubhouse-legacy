@@ -82,7 +82,7 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contactJob_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
             'status' => $contact_job->status,
@@ -104,7 +104,7 @@ class ContactJobController extends Controller
         } else if ($contact_job->status == 'halted') {
             return response()->json([
                 'type' => 'success',
-                'contact_id' => $request->input('id'),
+                'contact_job_id' => $request->input('id'),
                 'pipeline_id' => $contact_job->pipeline_id,
                 'pipeline_name' => $contact_job->job_pipeline->name,
                 'status' => $contact_job->status,
@@ -133,9 +133,10 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contact_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
+            'reason' => ucwords($request->reason),
             'status' => $contact_job->status,
         ]);
     }
@@ -155,7 +156,7 @@ class ContactJobController extends Controller
         } elseif ($contact_job->status == 'paused') {
             return response()->json([
                 'type' => 'success',
-                'contact_id' => $request->input('id'),
+                'contact_job_id' => $request->input('id'),
                 'pipeline_id' => $contact_job->pipeline_id,
                 'pipeline_name' => $contact_job->job_pipeline->name,
                 'status' => $contact_job->status,
@@ -184,7 +185,7 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contact_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
             'status' => $contact_job->status,
@@ -236,7 +237,7 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contact_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
             'status' => $contact_job->status,

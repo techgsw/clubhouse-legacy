@@ -1053,6 +1053,10 @@ $.valHooks.textarea = {
                     $(ui).addClass('gray');
                 });
 
+                //Setting the selected button to gray since it is not apart or btn_set
+                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('blue');
+                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('gray');
+
                 SBS.Inquiry.pipeline(inquiry_id, action, token, reason).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
@@ -1067,6 +1071,10 @@ $.valHooks.textarea = {
                                 $(ui).addClass('gray');
                                 $(ui).removeClass('blue');
                             }
+                            
+                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
+                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
+                            
                         } else if ($(ui).attr('data-move') == 'forward') {
                             if (resp.pipeline_id == 6) {
                                 $(ui).attr('disabled', 'disabled');
@@ -1075,6 +1083,9 @@ $.valHooks.textarea = {
                                 $(ui).addClass('blue');
                                 $(ui).removeAttr('disabled');
                             }
+                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
+                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
+
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
@@ -1082,13 +1093,23 @@ $.valHooks.textarea = {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-contact-job-negative-modal').modal('close');
                                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
+                                $('[data-move="pause"]').removeClass("inverse");
+                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html(resp.reason);
+                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').removeClass('hidden');
+
                             } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
+                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
+                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
+
                             } else {
                                 $(selected_btn).removeClass('inverse');
                             }
                         }
                     });
+
+                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('gray');
+                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('blue');
 
                     if (resp.type != 'success') {
                         SBS.UI.displayMessage(resp);
@@ -1150,6 +1171,10 @@ $.valHooks.textarea = {
                     $(ui).addClass('gray');
                 });
 
+                //Setting the selected button to gray since it is not apart or btn_set
+                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('blue');
+                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('gray');
+
                 SBS.ContactJob.pipeline(inquiry_id, action, comm_type, reason, token).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
@@ -1164,6 +1189,10 @@ $.valHooks.textarea = {
                                 $(ui).addClass('gray');
                                 $(ui).removeClass('blue');
                             }
+                            
+                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
+                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html("");
+                            
                         } else if ($(ui).attr('data-move') == 'forward') {
                             if (resp.pipeline_id > 1) {
                                 if ($(ui).hasClass('cold-comm')) {
@@ -1180,6 +1209,10 @@ $.valHooks.textarea = {
                                 $(ui).addClass('blue');
                                 $(ui).removeAttr('disabled');
                             }
+
+                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
+                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html("");
+
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
@@ -1187,23 +1220,32 @@ $.valHooks.textarea = {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-contact-job-negative-modal').modal('close');
                                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
-                                
-                                console.log($(this).parent().find('.button .reason-note-button'));
-                                // $(this).parent().find('.button .reason-note-button').addClass('inverse');
+                                $('[data-move="pause"]').removeClass("inverse");
+                                console.log("Here");
+                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html(resp.reason);
+                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').removeClass('hidden');
+
                             } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
+                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
+                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html("");
+
                             } else {
                                 $(selected_btn).removeClass('inverse');
                             }                            
                         }
                     });
 
+                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('gray');
+                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('blue');
+
                     if (resp.type != 'success') {
                         SBS.UI.displayMessage(resp);
                         return;
                     }
 
-                    if (resp.pipeline_name !== undefined) {
+                    if (resp.pipeline_name !== undefined && resp.pipeline_id !== 1) {
+                        pipeline_label.removeClass('hidden');
                         pipeline_label.html(resp.pipeline_name);
                     }
                     if (resp.pipeline_id !== undefined) {
