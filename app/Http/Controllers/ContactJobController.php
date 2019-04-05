@@ -71,7 +71,7 @@ class ContactJobController extends Controller
     {
         $contact_job = ContactJob::where('contact_id', $request['contact_id'])->where('job_id', $request['job_id'])->first();
 
-        if (!$contact_job) {
+        if (!$contact_job || $contact_job->pipeline_id > 1 ) {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'Unable to find requested job contact relationship.'
@@ -111,13 +111,14 @@ class ContactJobController extends Controller
      */
     public function showNotes($id)
     {
-        $this->authorize('view-inquiry-notes');
+        $this->authorize('view-contact-notes');
 
         $notes = Note::contactJob($id)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('inquiry/notes/show', [
+
+        return view('contact/notes/show', [
             'notes' => $notes
         ]);
     }
@@ -128,7 +129,7 @@ class ContactJobController extends Controller
      */
     public function createNote($id)
     {
-        $this->authorize('create-inquiry-note');
+        $this->authorize('create-contact-note');
 
         $contact_job = ContactJob::find($id);
         if (!$contact_job) {

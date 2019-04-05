@@ -41,7 +41,7 @@
             @if (count($contact->jobs))
                 <h5>Job Assignments</h5>
                 @foreach ($contact->jobs as $job)
-                    @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $contact])
+                    @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $contact, 'job_pipeline' => $job_pipeline])
                 @endforeach
             @endif
         </div>
@@ -49,6 +49,8 @@
     @endcan
 </div>
 @include('components.contact-notes-modal')
+@include('components.contact-job-notes-modal')
+@component('components.inquiry-job-contact-negative-modal')@endcomponent
 @component('components.job-contact-assign-modal')
 @endcomponent
 @endsection

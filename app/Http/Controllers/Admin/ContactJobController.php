@@ -46,6 +46,7 @@ class ContactJobController extends Controller
                 $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline, $request) {
                     $contact_job->pipeline_id += 1;
                     $contact_job->status = null;
+                    $contact_job->reason = null;
                     $contact_job->save();
 
                     $this->createNote(
@@ -81,7 +82,7 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contactJob_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
             'status' => $contact_job->status,
@@ -103,7 +104,7 @@ class ContactJobController extends Controller
         } else if ($contact_job->status == 'halted') {
             return response()->json([
                 'type' => 'success',
-                'contact_id' => $request->input('id'),
+                'contact_job_id' => $request->input('id'),
                 'pipeline_id' => $contact_job->pipeline_id,
                 'pipeline_name' => $contact_job->job_pipeline->name,
                 'status' => $contact_job->status,
@@ -112,6 +113,7 @@ class ContactJobController extends Controller
         try {
             $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline, $request) {
                 $contact_job->status = 'halted';
+                $contact_job->reason = $request->reason;
                 $contact_job->save();
 
                 $this->createNote(
@@ -131,9 +133,10 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contact_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
+            'reason' => ucwords($request->reason),
             'status' => $contact_job->status,
         ]);
     }
@@ -153,7 +156,7 @@ class ContactJobController extends Controller
         } elseif ($contact_job->status == 'paused') {
             return response()->json([
                 'type' => 'success',
-                'contact_id' => $request->input('id'),
+                'contact_job_id' => $request->input('id'),
                 'pipeline_id' => $contact_job->pipeline_id,
                 'pipeline_name' => $contact_job->job_pipeline->name,
                 'status' => $contact_job->status,
@@ -162,6 +165,7 @@ class ContactJobController extends Controller
         try {
             $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline) {
                 $contact_job->status = 'paused';
+                $contact_job->reason = null;
                 $contact_job->save();
 
                 $this->createNote(
@@ -181,7 +185,7 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contact_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
             'status' => $contact_job->status,
@@ -213,6 +217,7 @@ class ContactJobController extends Controller
             $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline) {
                 $contact_job->pipeline_id -= 1;
                 $contact_job->status = null;
+                $contact_job->reason = null;
                 $contact_job->save();
 
                 $this->createNote(
@@ -232,7 +237,7 @@ class ContactJobController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'contact_id' => $request->input('id'),
+            'contact_job_id' => $request->input('id'),
             'pipeline_id' => $contact_job->pipeline_id,
             'pipeline_name' => $contact_job->job_pipeline->name,
             'status' => $contact_job->status,

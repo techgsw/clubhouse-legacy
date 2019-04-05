@@ -10,6 +10,7 @@ use App\Mentor;
 use App\Message;
 use App\Note;
 use App\Organization;
+use App\JobPipeline;
 use App\Http\Requests\CreateNote;
 use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
@@ -62,6 +63,9 @@ class ContactController extends Controller
     public function jobs(Request $request, $id)
     {
         $contact = Contact::find($id);
+
+        $job_pipeline = JobPipeline::all();
+
         if (!$contact) {
             return abort(404);
         }
@@ -72,7 +76,8 @@ class ContactController extends Controller
                 'Home' => '/',
                 'Jobs' => "/contact/{$contact->id}/jobs"
             ],
-            'contact' => $contact
+            'contact' => $contact,
+            'job_pipeline' => $job_pipeline
         ]);
     }
 
