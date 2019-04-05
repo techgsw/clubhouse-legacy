@@ -100,19 +100,22 @@ class InquiryController extends Controller
         }
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
+                $original_pipeline_id = $inquiry->pipeline_id;
+
                 if ($inquiry->pipeline_id == 1) {
                     $inquiry->pipeline_id += 1;
                 }
+
                 $inquiry->status = "halted";
                 $inquiry->reason = $request->reason;
                 $inquiry->save();
 
                 InquiryController::createNote(
                     $inquiry->id,
-                    "Halted on " . $job_pipeline[$inquiry->pipeline_id-1]->name . ". Reason: ". strtoupper($request->input('reason'))
+                    "Halted on " . $job_pipeline[$original_pipeline_id]->name . ". Reason: ". strtoupper($request->input('reason'))
                 );
 
-                if ($inquiry->pipeline_id == 1) {
+                if ($original_pipeline_id == 1) {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
