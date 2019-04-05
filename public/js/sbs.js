@@ -993,11 +993,11 @@ $.valHooks.textarea = {
     };
 
     SBS.Inquiry = {};
-    SBS.Inquiry.pipeline = function (id, action, token, reason) {
+    SBS.Inquiry.pipeline = function (id, action, token, reason, comm) {
         return $.ajax({
             method: "POST",
             url: "/admin/inquiry/pipeline-" + action,
-            data: { id: id, _token: token, reason: reason }
+            data: { id: id, _token: token, reason: reason, comm: comm }
         });
     }
 
@@ -1010,6 +1010,12 @@ $.valHooks.textarea = {
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
                     token = $('[name="_token"]').val();
+
+                if ($(this).hasClass('no-comm')) {
+                    $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm', 'false');
+                } else {
+                    $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm', 'true');
+                }
 
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
@@ -1032,12 +1038,13 @@ $.valHooks.textarea = {
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
                     reason = $(this).attr('data-reason'),
+                    comm = $(this).attr('data-comm'),
                     selected_btn = $(this),
                     btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
                     pipeline_label = $('#pipeline-label-' + inquiry_id),
                     token = $('[name="_token"]').val();
 
-                if (pipeline_id == 1) {
+                if (pipeline_id == 1 && comm != 'false') {
                     result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
                     if (!result) {
                         return;
@@ -1057,7 +1064,7 @@ $.valHooks.textarea = {
                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('blue');
                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('gray');
 
-                SBS.Inquiry.pipeline(inquiry_id, action, token, reason).done(function (resp) {
+                SBS.Inquiry.pipeline(inquiry_id, action, token, reason, comm).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
                         $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');

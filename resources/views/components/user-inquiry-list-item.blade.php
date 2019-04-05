@@ -9,7 +9,10 @@
             <div class="hide-on-small-only float-right controls">
                 <button type="button" class="flat-button small blue view-{{ ($inquiry->admin_user ? 'contact-job' : 'inquiry') }}-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
                 <button data-action="inquiry-pipeline" {{ $inquiry->pipeline_id < 3 ? 'disabled' : '' }} data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="backward" class="flat-button small {{ $inquiry->pipeline_id < 3 ? 'gray' : 'blue' }}"><i class="fa fa-backward"></i></button>
-                <button data-action="" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button"><i class="fa fa-thumbs-down"></i></button>                    
+                @if ($inquiry->pipeline_id == 1 && $inquiry instanceof App\Inquiry)
+                    <button data-action="" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button"><i class="fa fa-envelope"></i>&nbsp;<i class="fa fa-thumbs-down"></i></button>
+                @endif
+                <button data-action="" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button no-comm"><i class="fa fa-thumbs-down"></i></button>                    
                 <button data-action="inquiry-pipeline" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="pause" class="flat-button small blue {{$inquiry->status == 'paused' ? 'inverse' : ''}}"><i class="fa fa-question-circle"></i></button>
                 <button data-action="inquiry-pipeline" data-comm-type="cold"{{ $inquiry->pipeline_id < 6 ? '' : 'disabled' }} data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small {{ $inquiry->pipeline_id < 6 ? 'blue' : 'gray' }} cold-comm"><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text">{{ $inquiry->pipeline_id < 2 && !$inquiry instanceof App\Inquiry ? ' Cold' : '' }}</span></button>
                 @if ($inquiry->pipeline_id < 2 && !$inquiry instanceof App\Inquiry)
@@ -20,10 +23,11 @@
                 </form>
                 <br />
                 @if ($inquiry->admin_user)
-                    <button class="contact-job-unassignment-btn btn blue lighten-1 small" style="padding: 0 1.3rem" contact-id="{{ $inquiry->contact_id }}" job-id="{{ $inquiry->job_id }}" data-button-group-id="{{$inquiry->contact_id}}-{{$inquiry->job_id}}">Unassign Job</button>
+                    <button class="contact-job-unassignment-btn btn blue lighten-1 btn-small" style="padding: 0 1.3rem" contact-id="{{ $inquiry->contact_id }}" job-id="{{ $inquiry->job_id }}" data-button-group-id="{{$inquiry->contact_id}}-{{$inquiry->job_id}}">Unassign Job</button>
                     <p class="assigned-by small"><strong>Assigned by:</strong> <span class="admin-name">{{ $inquiry->admin_user->first_name }} {{ $inquiry->admin_user->last_name }}</span></p>
                 @endif
-                <p class="assigned-at small"><strong>At:</strong> <span class="assigned-date">{{ $inquiry->created_at }}</span></p>
+                <p class="updated-at small"><strong>Updated:</strong> <span class="updated-date">{{ $inquiry->updated_at }}</span></p>
+                <p class="assigned-at small"><strong>Created:</strong> <span class="assigned-date">{{ $inquiry->created_at }}</span></p>
             </div>
         @endcan
         <a href="/job/{{ $inquiry->job->id }}" class="no-underline">
@@ -31,13 +35,15 @@
             <p><span class="heavy">{{ $inquiry->job->organization_name }}</span> in {{ $inquiry->job->city }}, {{ $inquiry->job->state }}</p>
             <button type="button" id="pipeline-label-{{ $inquiry->id }}" style="display:{{!$inquiry ? '' : ($inquiry->pipeline_id != 1  ? '' : 'none')}};" class="flat-button small input-control" input-id="step">{{$job_pipeline[$inquiry->pipeline_id-1]->name}}</button>
             <span> <button type="button" data-id="{{$inquiry->id}}" class="flat-button red small {{$inquiry->reason ? '' : 'hidden'}} input-control {{ ($inquiry instanceof App\ContactJob ? 'contact-job' : 'inquiry') }}-reason-note-button">{{ucwords($inquiry->reason)}}</button> </span>
-            <p class="small">{{ ($inquiry->admin_user ? 'assigned by '.$inquiry->admin_user->first_name.' at' : 'submitted') }} {{ $inquiry->created_at->format('n/j/Y g:ia') }}</p>
         </a>
         @can ('edit-inquiry', $inquiry)
             <div class="hide-on-med-and-up controls">
                 <button type="button" class="flat-button small blue view-{{ ($inquiry->admin_user ? 'contact-job' : 'inquiry') }}-notes-btn" inquiry-id="{{ $inquiry->id }}">{{ count($inquiry->notes) }} <i class="fa fa-comments"></i></button>
                 <button data-action="inquiry-pipeline" {{ $inquiry->pipeline_id < 3 ? 'disabled' : '' }} data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="backward" class="flat-button small {{ $inquiry->pipeline_id < 3 ? 'gray' : 'blue' }}"><i class="fa fa-backward"></i></button>
-                <button data-action="" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button"><i class="fa fa-thumbs-down"></i></button>                        
+                @if ($inquiry->pipeline_id == 1 && $inquiry instanceof App\Inquiry)
+                    <button data-action="" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button"><i class="fa fa-envelope"></i>&nbsp;<i class="fa fa-thumbs-down"></i></button>
+                @endif
+                <button data-action="" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button no-comm"><i class="fa fa-thumbs-down"></i></button>                        
                 <button data-action="inquiry-pipeline" data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="pause" class="flat-button small blue {{$inquiry->status == 'paused' ? 'inverse' : ''}}"><i class="fa fa-question-circle"></i></button>
                 <button data-action="inquiry-pipeline" data-comm-type="cold"{{ $inquiry->pipeline_id < 6 ? '' : 'disabled' }} data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small {{ $inquiry->pipeline_id < 6 ? 'blue' : 'gray' }} cold-comm"><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text">{{ $inquiry->pipeline_id < 2 && !$inquiry instanceof App\Inquiry ? ' Cold' : '' }}</span></button>
                 @if ($inquiry->pipeline_id < 2 && !$inquiry instanceof App\Inquiry)
@@ -48,7 +54,7 @@
                 </form>
                 <br/>
                 @if ($inquiry->admin_user)
-                    <button class="contact-job-unassignment-btn btn blue lighten-1 small" style="padding: 0 1.3rem" contact-id="{{ $inquiry->contact_id }}" job-id="{{ $inquiry->job_id }}" data-button-group-id="{{$inquiry->contact_id}}-{{$inquiry->job_id}}">Unassign Job</button>
+                    <button class="contact-job-unassignment-btn btn blue lighten-1 btn-small" style="padding: 0 1.3rem" contact-id="{{ $inquiry->contact_id }}" job-id="{{ $inquiry->job_id }}" data-button-group-id="{{$inquiry->contact_id}}-{{$inquiry->job_id}}">Unassign Job</button>
                     <p class="assigned-by small"><strong>Assigned by:</strong> <span class="admin-name">{{ $inquiry->admin_user->first_name }} {{ $inquiry->admin_user->last_name }}</span></p>
                 @endif
                 <p class="assigned-at small"><strong>At:</strong> <span class="assigned-date">{{ $inquiry->created_at }}</span></p>

@@ -115,7 +115,7 @@ class InquiryController extends Controller
                     "Halted on " . $job_pipeline[$original_pipeline_id]->name . ". Reason: ". strtoupper($request->input('reason'))
                 );
 
-                if ($original_pipeline_id == 1) {
+                if ($original_pipeline_id == 1 && $request->input('comm') != 'false') {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
