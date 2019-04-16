@@ -35,7 +35,7 @@
                 <li><a href="/contact" class="sbs-red white-text">Contact</a></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
+                    <li><a href="/">Register</a></li>
                 @else
                     @if (Auth::user()->hasAccess('admin_index'))
                         <li><a href="/admin">Admin</a></li>
