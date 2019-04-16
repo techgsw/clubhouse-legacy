@@ -18,7 +18,6 @@
                 @if ($inquiry->pipeline_id < 2 && !$inquiry instanceof App\Inquiry)
                     <button data-action="inquiry-pipeline" data-comm-type="warm" {{ $inquiry->pipeline_id < 6 ? '' : 'disabled' }} data-type="contact" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small {{ $inquiry->pipeline_id < 6 ? 'orange' : 'gray' }} warm-comm"><i class="fa fa-thumbs-up"></i> Warm</button>                
                 @endif
-                <!-- <button data-action="inquiry-pipeline" data-comm-type="none" data-type="{{ $inquiry ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small blue {{$inquiry->pipeline_id > 1 ? 'hidden' : ''}}"><i class="fa fa-thumbs-up"></i></button> -->
 
                 <button data-action="inquiry-pipeline" data-comm-type="none"{{ $inquiry->pipeline_id < 6 ? '' : 'disabled' }} data-type="{{ $inquiry instanceof App\ContactJob ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small {{ $inquiry->pipeline_id < 6 ? 'blue' : 'gray' }} {{$inquiry->pipeline_id > 1 ? 'hidden' : ''}} no-comm"><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text "></span></button>
                 <form id="assign-contact-job">
