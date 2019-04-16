@@ -30,7 +30,7 @@ class InquiryController extends Controller
         if (!$inquiry) {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'We failed!'
+                'message' => 'We failed!!'
             ]);
         }
 
@@ -38,7 +38,7 @@ class InquiryController extends Controller
 
         if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
             try {
-                $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
+                $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
                     $inquiry->pipeline_id += 1;
                     $inquiry->status = null;
                     $inquiry->reason = null;
@@ -49,7 +49,7 @@ class InquiryController extends Controller
                         "Moved forward from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name
                     );
 
-                    if ($inquiry->pipeline_id == 2) {
+                    if ($inquiry->pipeline_id == 2 && $request->input('comm') != 'none') {
                         try {
                             switch ($inquiry->job->recruiting_type_code) {
                                 case 'active':
@@ -102,7 +102,7 @@ class InquiryController extends Controller
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
                 $original_pipeline_id = $inquiry->pipeline_id;
 
-                if ($inquiry->pipeline_id == 1) {
+                if ($inquiry->pipeline_id == 1 && $request->input('comm') != 'none') {
                     $inquiry->pipeline_id += 1;
                 }
 
@@ -115,7 +115,7 @@ class InquiryController extends Controller
                     "Halted on " . $job_pipeline[$original_pipeline_id]->name . ". Reason: ". strtoupper($request->input('reason'))
                 );
 
-                if ($original_pipeline_id == 1 && $request->input('comm') != 'false') {
+                if ($original_pipeline_id == 1 && $request->input('comm') != 'none') {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
@@ -174,7 +174,7 @@ class InquiryController extends Controller
                     "Paused on " . $job_pipeline[$inquiry->pipeline_id-1]->name
                 );
 
-                if ($inquiry->pipeline_id == 1) {
+                if ($inquiry->pipeline_id == 1)  {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
