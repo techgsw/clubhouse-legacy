@@ -61,8 +61,6 @@ class ContactJobController extends Controller
                                     Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job));
                                 } else if ($request->input('comm_type') == 'cold'){
                                     Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job));                                
-                                } else {
-                                    // no comms
                                 }
                             }
                         } catch (Exception $e) {
