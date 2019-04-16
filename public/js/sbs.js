@@ -1074,10 +1074,6 @@ $.valHooks.textarea = {
                                 $(ui).addClass('gray');
                                 $(ui).removeClass('blue');
                             }
-
-                            if ($(ui).hasClass('no-comm') && pipeline_id < 2) {
-                                $(ui).remove();
-                            }
                             
                             $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
                             $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
