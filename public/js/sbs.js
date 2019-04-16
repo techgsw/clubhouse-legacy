@@ -1012,12 +1012,6 @@ $.valHooks.textarea = {
                     comm = $(this).attr('data-comm-type'),
                     token = $('[name="_token"]').val();
 
-                // if ($(this).hasClass('no-comm')) {
-                //     $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm', 'false');
-                // } else {
-                //     $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm', 'true');
-                // }
-
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-move', action);
@@ -1065,9 +1059,8 @@ $.valHooks.textarea = {
                 //Setting the selected button to gray since it is not apart or btn_set
                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('blue');
                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('gray');
-
                 
-                SBS.Inquiry.pipeline(inquiry_id, action, token, reason, comm).done(function (resp) {
+                SBS.Inquiry.pipeline(inquiry_id, action, token, reason, comm, pipeline_id).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
                         $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');
@@ -1082,7 +1075,7 @@ $.valHooks.textarea = {
                                 $(ui).removeClass('blue');
                             }
 
-                            if ($(ui).hasClass('no-comm')) {
+                            if ($(ui).hasClass('no-comm') && pipeline_id < 2) {
                                 $(ui).remove();
                             }
                             
@@ -1098,10 +1091,10 @@ $.valHooks.textarea = {
                                 $(ui).removeAttr('disabled');
                             }
 
-                            if ($(ui).hasClass('no-comm')) {
+                            if ($(ui).hasClass('no-comm') && pipeline_id < 2) {
                                 $(ui).remove();
                             }
-
+                            
                             $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
                             $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
 
@@ -1122,10 +1115,12 @@ $.valHooks.textarea = {
                                 $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
 
                             } else {
-                                //halt button on move forward
-                                // Needs rework
-                                $('button.negative-pipeline-modal-button.no-comm[data-id="' + inquiry_id + '"][data-move="halt"]').remove();
-                                $('i.fa-envelope').remove();
+                                if (pipeline_id == 1) {
+                                    $('button.negative-pipeline-modal-button.no-comm[data-id="' + inquiry_id + '"][data-move="halt"]').remove();
+                                }
+                                if ($('button[data-id="' + inquiry_id+ '"]').children().hasClass('fa-envelope')) {
+                                    $('button[data-id="' + inquiry_id+ '"]').children('i.fa-envelope').remove();
+                                }
                                 $(selected_btn).removeClass('inverse');
                             }
                         }
@@ -1142,7 +1137,9 @@ $.valHooks.textarea = {
                     }
 
                     if (resp.pipeline_name !== undefined) {
+
                         pipeline_label.html(resp.pipeline_name);
+                        pipeline_label.removeClass("hidden");
                     }
                     if (resp.pipeline_id !== undefined) {
                         $('[data-id="' + inquiry_id +'"]').attr('data-pipeline-id', resp.pipeline_id);

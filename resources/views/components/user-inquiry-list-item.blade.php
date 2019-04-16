@@ -36,7 +36,7 @@
         <a href="/job/{{ $inquiry->job->id }}" class="no-underline">
             <h6>{{ $inquiry->job->title }}</h6>
             <p><span class="heavy">{{ $inquiry->job->organization_name }}</span> in {{ $inquiry->job->city }}, {{ $inquiry->job->state }}</p>
-            <button type="button" id="pipeline-label-{{ $inquiry->id }}" style="display:{{!$inquiry ? '' : ($inquiry->pipeline_id != 1  ? '' : 'none')}};" class="flat-button small input-control" input-id="step">{{$job_pipeline[$inquiry->pipeline_id-1]->name}}</button>
+            <button type="button" id="pipeline-label-{{ $inquiry->id }}"  class="flat-button small input-control {{$inquiry->pipeline_id != 1  ? '' : 'hidden'}}" input-id="step">{{$job_pipeline[$inquiry->pipeline_id-1]->name}}</button>
             <span> <button type="button" data-id="{{$inquiry->id}}" class="flat-button red small {{$inquiry->reason ? '' : 'hidden'}} input-control {{ ($inquiry instanceof App\ContactJob ? 'contact-job' : 'inquiry') }}-reason-note-button">{{ucwords($inquiry->reason)}}</button> </span>
         </a>
         @can ('edit-inquiry', $inquiry)
