@@ -426,7 +426,7 @@ class ProductController extends Controller
 
         $inactive_products = Product::where('active', false)->with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Webinar');
-        })->get();
+        })->orderBy('id', 'desc')->get();
 
         return view('product/webinars', [
             'active_products' => $active_products,
