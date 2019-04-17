@@ -1060,6 +1060,7 @@ $.valHooks.textarea = {
                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('blue');
                 $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('gray');
                 
+                // if receiving a from negative-pipeline-modal, you will not have the same button set as otherwise
                 SBS.Inquiry.pipeline(inquiry_id, action, token, reason, comm, pipeline_id).done(function (resp) {
                     btn_set.each(function (i, ui) {
                         $(ui).removeClass('inverse');
@@ -1073,6 +1074,10 @@ $.valHooks.textarea = {
                                 $(ui).attr('disabled', 'disabled');
                                 $(ui).addClass('gray');
                                 $(ui).removeClass('blue');
+                            }
+
+                            if ($(ui).hasClass('no-comm') && pipeline_id < 2) {
+                                $(ui).remove();
                             }
                             
                             $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
@@ -1090,13 +1095,23 @@ $.valHooks.textarea = {
                             if ($(ui).hasClass('no-comm') && pipeline_id < 2) {
                                 $(ui).remove();
                             }
-                            
+                            $(ui).html(function (i, html) {
+                                return html.replace(/&nbsp;/g, '');
+                            });                            
                             $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
                             $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
 
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
+
+                            if ($('button[data-id="' + inquiry_id+ '"]').children().hasClass('fa-envelope')) {
+                                $('button[data-id="' + inquiry_id+ '"]').children('i.fa-envelope').remove();
+                                $('button[data-id="' + inquiry_id+ '"]').html(function (i, html) {
+                                    return html.replace(/&nbsp;/g, '');
+                                });    
+                            }
+                            
                             if (resp.status == 'halted') {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-contact-job-negative-modal').modal('close');
@@ -1105,18 +1120,28 @@ $.valHooks.textarea = {
                                 $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html(resp.reason);
                                 $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').removeClass('hidden');
 
+                                if (pipeline_id == 1) {
+                                    $('button.negative-pipeline-modal-button.no-comm[data-id="' + inquiry_id + '"][data-move="halt"]').remove();
+                                }
+
+                                if ($('button[data-id="' + inquiry_id+ '"]').hasClass('no-comm')) {
+                                    $('button.no-comm[data-id="' + inquiry_id+ '"]').remove();
+                                }
+
                             } else if (resp.status == 'paused') {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
                                 $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
 
+                                if ($('button[data-id="' + inquiry_id+ '"]').hasClass('no-comm')) {
+                                    $('button.no-comm[data-id="' + inquiry_id+ '"]').remove();
+                                }
+
                             } else {
                                 if (pipeline_id == 1) {
                                     $('button.negative-pipeline-modal-button.no-comm[data-id="' + inquiry_id + '"][data-move="halt"]').remove();
                                 }
-                                if ($('button[data-id="' + inquiry_id+ '"]').children().hasClass('fa-envelope')) {
-                                    $('button[data-id="' + inquiry_id+ '"]').children('i.fa-envelope').remove();
-                                }
+
                                 $(selected_btn).removeClass('inverse');
                             }
                         }
@@ -1236,6 +1261,12 @@ $.valHooks.textarea = {
                         } else {
                             $(ui).removeClass('gray');
                             $(ui).addClass('blue');
+                            if ($('button[data-id="' + inquiry_id+ '"]').children().hasClass('fa-envelope')) {
+                                $('button[data-id="' + inquiry_id+ '"]').children('i.fa-envelope').remove();
+                                $('button[data-id="' + inquiry_id+ '"]').html(function (i, html) {
+                                    return html.replace(/&nbsp;/g, '');
+                                });    
+                            }
                             if (resp.status == 'halted') {
                                 $(selected_btn).addClass('inverse');
                                 $('.inquiry-contact-job-negative-modal').modal('close');
