@@ -1242,7 +1242,7 @@ $.valHooks.textarea = {
                                 if ($(ui).hasClass('warm-comm')) {
                                     $(ui).remove();
                                 }
-                                if ($(ui).hasClass('no-comm')) {
+                                if ($(ui).hasClass('no-comm') && pipeline_id < 2) {
                                     $(ui).remove();
                                 }
                             }

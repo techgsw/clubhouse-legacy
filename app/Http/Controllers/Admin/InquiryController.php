@@ -167,7 +167,6 @@ class InquiryController extends Controller
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
                 $inquiry->status = "paused";
-                $inquiry->save();
 
                 InquiryController::createNote(
                     $inquiry->id,
@@ -175,6 +174,7 @@ class InquiryController extends Controller
                 );
 
                 if ($inquiry->pipeline_id == 1) {
+                    $inquiry->pipeline_id += 1;
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
@@ -190,6 +190,8 @@ class InquiryController extends Controller
                         Log::error($e->getMessage());
                     }
                 }
+                
+                $inquiry->save();
                 return $inquiry;
             });
         } catch (Exception $e) {
