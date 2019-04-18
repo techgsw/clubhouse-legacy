@@ -1031,8 +1031,8 @@ $.valHooks.textarea = {
     );
 
     UI.Pipeline.clearNegativeReason = function(id, type) {
-        $('.inquiry-reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').addClass('hidden');
-        $('.inquiry-reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').html("");
+        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').addClass('hidden');
+        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').html("");
     }
 
     UI.Pipeline.buttonClick = function(button) {
@@ -1075,7 +1075,8 @@ $.valHooks.textarea = {
                         });    
                     }
 
-                    if ($(ui).hasClass('no-comm')) {
+                    
+                    if ($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm') || $(ui).hasClass('default-comm')) {
                         $(ui).remove();
                     }
                 }
