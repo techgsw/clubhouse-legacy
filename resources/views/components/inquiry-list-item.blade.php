@@ -13,7 +13,7 @@
                 </div>
                                 
                 <a style="margin: 2px 0;" class="no-underline" href="{{ ($inquiry->user ? '/user/'.$inquiry->user->id : '/contact/'.$inquiry->contact->id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}  <button type="button" id="pipeline-label-{{ $inquiry->id }}" class="flat-button small {{ request('step') == $step->id ? 'inverse' : '' }} {{!$contact ? '' : ($inquiry->pipeline_id != 1  ? '' : 'hidden')}} input-control" input-id="step" value='{{$step->id}}'>{{$job_pipeline[$inquiry->pipeline_id-1]->name}}</button></a>
-                <span> <button type="button" data-id="{{$inquiry->id}}" class="flat-button red small {{$inquiry->reason ? '' : 'hidden'}} input-control {{ (!$contact ? 'inquiry' : 'contact-job') }}-reason-note-button">{{ucwords($inquiry->reason)}}</button> </span>
+                <span> <button type="button" data-id="{{$inquiry->id}}" data-type="{{ $contact ? 'contact' : 'user' }}" class="flat-button red small {{$inquiry->reason ? '' : 'hidden'}} input-control reason-note-button">{{ucwords($inquiry->reason)}}</button> </span>
                 
                 <p style="margin: 2px 0;" class="small">
                     @if ($inquiry->email)
