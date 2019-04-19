@@ -112,7 +112,7 @@ class InquiryController extends Controller
 
                 InquiryController::createNote(
                     $inquiry->id,
-                    "Halted on " . $job_pipeline[$original_pipeline_id]->name . ". Reason: ". strtoupper($request->input('reason'))
+                    "Halted on " . $job_pipeline[$original_pipeline_id-1]->name . ". Reason: ". strtoupper($request->input('reason'))
                 );
 
                 if ($original_pipeline_id == 1 && $request->input('comm') != 'none') {

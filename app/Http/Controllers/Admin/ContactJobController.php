@@ -181,7 +181,7 @@ class ContactJobController extends Controller
 
                 $this->createNote(
                     $contact_job->id,
-                    "Paused on " . $job_pipeline[$paused_step]->name . (($pause_step == 0) ? '. Moved to Contacted.' : '.')
+                    "Paused on " . $job_pipeline[$pause_step]->name . (($pause_step == 0) ? '. Moved to Contacted.' : '.')
                 );
 
                 return $contact_job;

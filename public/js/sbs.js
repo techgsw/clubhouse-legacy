@@ -1099,6 +1099,7 @@ $.valHooks.textarea = {
 
                     if (resp.pipeline_id == 6) {
                         $(ui).attr('disabled', 'disabled');
+                        $(ui).addClass('gray')
                     } else {
                         $(ui).removeClass('gray');
                         $(ui).addClass('blue');
