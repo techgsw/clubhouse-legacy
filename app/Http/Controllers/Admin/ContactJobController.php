@@ -123,7 +123,7 @@ class ContactJobController extends Controller
 
                 $this->createNote(
                     $contact_job->id,
-                    "Halted on " . $job_pipeline[$halt_step]->name . (($halt_step == 0) ? '. Moved to Contacted.' : '.') . " Reason: ". strtoupper($request->input('reason'))
+                    "Halted on " . $job_pipeline[$halt_step]->name . (($halt_step == 0) ? '. Moved to Reviewed.' : '.') . " Reason: ". strtoupper($request->input('reason'))
                 );
 
                 return $contact_job;
@@ -181,7 +181,7 @@ class ContactJobController extends Controller
 
                 $this->createNote(
                     $contact_job->id,
-                    "Paused on " . $job_pipeline[$pause_step]->name . (($pause_step == 0) ? '. Moved to Contacted.' : '.')
+                    "Paused on " . $job_pipeline[$pause_step]->name . (($pause_step == 0) ? '. Moved to Reviewed.' : '.')
                 );
 
                 return $contact_job;
