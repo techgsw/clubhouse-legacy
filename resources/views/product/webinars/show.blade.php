@@ -80,6 +80,8 @@
                         <div class="input-field" style="margin-top: 30px;">
                             @if ($product->options[0]->id == 37)
                                 <a target="_blank" href="https://zoom.us/webinar/register/WN_yz2DDLLDSxyi0H1GMtzrIQ" id="buy-now" class="btn green">RSVP NOW</a>
+                            @elseif ($product->options[0]->id == 38)
+                                <a target="_blank" href="https://zoom.us/webinar/register/WN_GMoeKB94SdaNoHd0mdZx9g" id="buy-now" class="btn green">RSVP NOW</a>
                             @else
                                 <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn green">RSVP NOW</a>
                             @endif
