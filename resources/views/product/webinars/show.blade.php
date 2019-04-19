@@ -78,7 +78,11 @@
                 @if (count($product->options) > 0)
                     @if (Auth::user())
                         <div class="input-field" style="margin-top: 30px;">
-                            <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn green">RSVP NOW</a>
+                            @if ($product->options[0]->id == 37)
+                                <a target="_blank" href="https://zoom.us/webinar/register/WN_yz2DDLLDSxyi0H1GMtzrIQ" id="buy-now" class="btn green">RSVP NOW</a>
+                            @else
+                                <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn green">RSVP NOW</a>
+                            @endif
                         </div>
                     @else
                         <div class="input-field" style="margin-top: 30px;">
