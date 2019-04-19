@@ -190,7 +190,8 @@
     );
 })();
 $(document).ready(function () {
-    var payment_method = $('#payment-method');
+    var payment_method = $('#payment-method'),
+        product_type = $('.product-card').attr('data-product-type');
     if (payment_method && $(payment_method).children()) {
         if ($(payment_method).children().length == 1) {
             if ($(payment_method).children()[0].value == '') {

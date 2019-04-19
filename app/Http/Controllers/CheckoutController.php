@@ -77,9 +77,6 @@ class CheckoutController extends Controller
             $product_type = 'career-service';
             $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
-            if (!$user->can('view-clubhouse')) {
-                return redirect()->back()->withErrors(['msg' => 'You must be a Clubhouse Pro member to RSVP to webinars.']);
-            }
             $product_type = 'webinar';
             $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
         } else {

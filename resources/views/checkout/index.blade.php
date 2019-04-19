@@ -55,7 +55,7 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <div class="card-panel grey lighten-5 z-depth-1">
+                <div class="card-panel grey lighten-5 z-depth-1 product-card" data-product-type="{{ $product_type }}">
                     <div class="row hide-on-med-and-up">
                         <div class="col s12 center-align">
                             @if (!is_null($product_option->product->primaryImage()))
