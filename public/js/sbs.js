@@ -1075,8 +1075,7 @@ $.valHooks.textarea = {
                         });    
                     }
 
-                    
-                    if ($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm') || $(ui).hasClass('default-comm')) {
+                    if (resp.pipeline_id != 1 && ($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm') || $(ui).hasClass('default-comm'))) {
                         $(ui).remove();
                     }
                 }
@@ -1095,12 +1094,7 @@ $.valHooks.textarea = {
                     UI.Pipeline.clearNegativeReason(id, type);
                 } else if ($(ui).attr('data-move') == 'forward') {
                     if (type == 'contact' && resp.pipeline_id > 1) {
-                        if ($(ui).hasClass('cold-comm')) {
-                            $(ui).find('span.thumbs-up-text').html('');
-                        }
-                        if ($(ui).hasClass('warm-comm')) {
-                            $(ui).remove();
-                        }
+                        $(ui).find('span.thumbs-up-text').remove();
                     }
 
                     if (resp.pipeline_id == 6) {
@@ -1110,10 +1104,6 @@ $.valHooks.textarea = {
                         $(ui).addClass('blue');
                         $(ui).removeAttr('disabled');
                     }
-
-                    $(ui).html(function (i, html) {
-                        return html.replace(/&nbsp;/g, '');
-                    });                            
 
                     UI.Pipeline.clearNegativeReason(id, type);
                 } else {
