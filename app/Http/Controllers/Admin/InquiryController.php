@@ -30,7 +30,7 @@ class InquiryController extends Controller
         if (!$inquiry) {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'We failed!'
+                'message' => 'We failed, not an inquiry!'
             ]);
         }
 
@@ -38,7 +38,7 @@ class InquiryController extends Controller
 
         if ($inquiry->pipeline_id < $max_pipeline_step->pipeline_id) {
             try {
-                $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
+                $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
                     $inquiry->pipeline_id += 1;
                     $inquiry->status = null;
                     $inquiry->reason = null;
@@ -49,7 +49,7 @@ class InquiryController extends Controller
                         "Moved forward from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name
                     );
 
-                    if ($inquiry->pipeline_id == 2) {
+                    if ($inquiry->pipeline_id == 2 && $request->input('comm') != 'none') {
                         try {
                             switch ($inquiry->job->recruiting_type_code) {
                                 case 'active':
@@ -100,7 +100,7 @@ class InquiryController extends Controller
         }
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
-                $original_pipeline_id = $inquiry->pipeline_id;
+                $halt_step = $inquiry->pipeline_id - 1;
 
                 if ($inquiry->pipeline_id == 1) {
                     $inquiry->pipeline_id += 1;
@@ -112,10 +112,10 @@ class InquiryController extends Controller
 
                 InquiryController::createNote(
                     $inquiry->id,
-                    "Halted on " . $job_pipeline[$original_pipeline_id]->name . ". Reason: ". strtoupper($request->input('reason'))
+                    "Halted on " . $job_pipeline[$halt_step]->name . (($halt_step == 0) ? '. Moved to Reviewed.' : '.') . " Reason: ". strtoupper($request->input('reason'))
                 );
 
-                if ($original_pipeline_id == 1 && $request->input('comm') != 'false') {
+                if ($halt_step == 0 && $request->input('comm') != 'none') {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
@@ -167,14 +167,10 @@ class InquiryController extends Controller
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline) {
                 $inquiry->status = "paused";
-                $inquiry->save();
-
-                InquiryController::createNote(
-                    $inquiry->id,
-                    "Paused on " . $job_pipeline[$inquiry->pipeline_id-1]->name
-                );
+                $pause_step = $inquiry->pipeline_id - 1;
 
                 if ($inquiry->pipeline_id == 1) {
+                    $inquiry->pipeline_id += 1;
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
@@ -190,6 +186,13 @@ class InquiryController extends Controller
                         Log::error($e->getMessage());
                     }
                 }
+
+                InquiryController::createNote(
+                    $inquiry->id,
+                    "Paused on " . $job_pipeline[$pause_step]->name . (($pause_step == 0) ? '. Moved to Reviewed.' : '.')
+                );
+                
+                $inquiry->save();
                 return $inquiry;
             });
         } catch (Exception $e) {

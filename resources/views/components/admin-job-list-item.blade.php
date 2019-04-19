@@ -48,6 +48,8 @@
                 @else
                     <span class="small flat-button green inverse">Open</span>
                 @endif
+                <span class="small flat-button {{$job->recruiting_type_code == 'passive' ? 'gray' : 'blue'}} inverse">{{ucwords($job->recruiting_type_code)}}</span>
+
                 <span class="small flat-button black inverse">{{ count($job->inquiries) + count($job->assignments) }}</span>
                 
                 @foreach ($job_pipeline as $step)

@@ -25,6 +25,7 @@ $.valHooks.textarea = {
     var Mentor = {};
     var Note = {};
     var Organization = {};
+    var Pipeline = {};
     var Tag = {
         map: {}
     };
@@ -33,6 +34,10 @@ $.valHooks.textarea = {
         map: {}
     };
     var UI = {};
+
+    Pipeline.Inquiry = {};
+    Pipeline.Assignment = {};
+    UI.Pipeline = {};
 
     Auth.getAuthHeader = function () {
         return $.ajax({
@@ -992,12 +997,12 @@ $.valHooks.textarea = {
         }
     };
 
-    SBS.Inquiry = {};
-    SBS.Inquiry.pipeline = function (id, action, token, reason, comm) {
+    Pipeline.move = function (id, type, action, comm_type, reason, token) {
+        var url = '/admin/' + (type == 'user' ? 'inquiry' : 'contact-job') + '/pipeline-';
         return $.ajax({
             method: "POST",
-            url: "/admin/inquiry/pipeline-" + action,
-            data: { id: id, _token: token, reason: reason, comm: comm }
+            url: url + action,
+            data: { id: id, reason: reason, comm_type: comm_type, _token: token }
         });
     }
 
@@ -1009,18 +1014,14 @@ $.valHooks.textarea = {
                     pipeline_id = parseInt($(this).attr('data-pipeline-id')),
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
+                    comm_type = $(this).attr('data-comm-type'),
                     token = $('[name="_token"]').val();
-
-                if ($(this).hasClass('no-comm')) {
-                    $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm', 'false');
-                } else {
-                    $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm', 'true');
-                }
 
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-move', action);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-type', type);
+                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm-type', comm_type);
                 $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').removeClass('inverse');
 
                 $('.inquiry-contact-job-negative-modal').modal('open');
@@ -1029,239 +1030,126 @@ $.valHooks.textarea = {
         'button.negative-pipeline-modal-button'
     );
 
-    // Change inquiry pipline step 
-    $('body').on(
-        {
-            click: function (e, ui) {
-                var inquiry_id = parseInt($(this).attr('data-id')),
-                    pipeline_id = parseInt($(this).attr('data-pipeline-id')),
-                    action = $(this).attr('data-move'),
-                    type = $(this).attr('data-type'),
-                    reason = $(this).attr('data-reason'),
-                    comm = $(this).attr('data-comm'),
-                    selected_btn = $(this),
-                    btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
-                    pipeline_label = $('#pipeline-label-' + inquiry_id),
-                    token = $('[name="_token"]').val();
+    UI.Pipeline.clearNegativeReason = function(id, type) {
+        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').addClass('hidden');
+        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').html("");
+    }
 
-                if (pipeline_id == 1 && comm != 'false') {
-                    result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
-                    if (!result) {
-                        return;
-                    }
-                }
+    UI.Pipeline.buttonClick = function(button) {
+        var id = parseInt($(button).attr('data-id')),
+            pipeline_id = parseInt($(button).attr('data-pipeline-id')),
+            action = $(button).attr('data-move'),
+            type = $(button).attr('data-type'),
+            reason = $(button).attr('data-reason'),
+            comm_type = $(button).attr('data-comm-type'),
+            selected_btn = $(button),
+            btn_set = $('button[data-id="' + id + '"][data-type="'+ type + '"]'),
+            pipeline_label = $('#pipeline-label-' + id),
+            token = $('[name="_token"]').val();
 
-                if (!inquiry_id) {
-                    return;
-                }
+        if (!id) {
+           return;
+        }
 
-                btn_set.each(function (i, ui) {
-                    $(ui).removeClass('blue');
-                    $(ui).addClass('gray');
-                });
-
-                //Setting the selected button to gray since it is not apart or btn_set
-                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('blue');
-                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('gray');
-
-                SBS.Inquiry.pipeline(inquiry_id, action, token, reason, comm).done(function (resp) {
-                    btn_set.each(function (i, ui) {
-                        $(ui).removeClass('inverse');
-                        $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');
-                        if ($(ui).attr('data-move') == 'backward') {
-                            if (resp.pipeline_id > 2) {
-                                $(ui).removeAttr('disabled');
-                                $(ui).removeClass('gray');
-                                $(ui).addClass('blue');
-                            } else {
-                                $(ui).attr('disabled', 'disabled');
-                                $(ui).addClass('gray');
-                                $(ui).removeClass('blue');
-                            }
-                            
-                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
-                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
-                            
-                        } else if ($(ui).attr('data-move') == 'forward') {
-                            if (resp.pipeline_id == 6) {
-                                $(ui).attr('disabled', 'disabled');
-                            } else {
-                                $(ui).removeClass('gray');
-                                $(ui).addClass('blue');
-                                $(ui).removeAttr('disabled');
-                            }
-                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
-                            $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
-
-                        } else {
-                            $(ui).removeClass('gray');
-                            $(ui).addClass('blue');
-                            if (resp.status == 'halted') {
-                                $(selected_btn).addClass('inverse');
-                                $('.inquiry-contact-job-negative-modal').modal('close');
-                                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
-                                $('[data-move="pause"]').removeClass("inverse");
-                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html(resp.reason);
-                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').removeClass('hidden');
-
-                            } else if (resp.status == 'paused') {
-                                $(selected_btn).addClass('inverse');
-                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
-                                $('.inquiry-reason-note-button[data-id="' + inquiry_id + '"]').html("");
-
-                            } else {
-                                $(selected_btn).removeClass('inverse');
-                            }
-                        }
-                    });
-
-                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('gray');
-                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('blue');
-
-                    if (resp.type != 'success') {
-                        SBS.UI.displayMessage(resp);
-                        return;
-                    } else {
-                        $('.inquiry-contact-job-negative-modal').modal('close');
-                    }
-
-                    if (resp.pipeline_name !== undefined) {
-                        pipeline_label.html(resp.pipeline_name);
-                    }
-                    if (resp.pipeline_id !== undefined) {
-                        $('[data-id="' + inquiry_id +'"]').attr('data-pipeline-id', resp.pipeline_id);
-                    }
-                });
+        if (pipeline_id == 1 && comm_type !== 'none' && ((type == 'user') || (action == 'forward' && type == 'contact'))) {
+            result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
+            if (!result) {
+                return;
             }
-        },
-        'button[data-action="inquiry-pipeline"][data-type="user"]'
-    );
+        }
 
-    SBS.ContactJob = {};
-    SBS.ContactJob.pipeline = function (id, action, comm_type, reason, token) {
-        return $.ajax({
-            method: "POST",
-            url: "/admin/contact-job/pipeline-" + action + "/",
-            data: { id: id, _token: token, reason: reason, comm_type: comm_type }
+        btn_set.each(function (i, ui) {
+            $(ui).removeClass('blue');
+            $(ui).addClass('gray');
+        });
+
+        Pipeline.move(id, type, action, comm_type, reason, token).done(function (resp) {
+            btn_set.each(function (i, ui) {
+                $(ui).removeClass('inverse');
+
+                if (['forward', 'backward', 'halt'].includes($(ui).attr('data-move'))) {
+                    if ($(ui).children().hasClass('fa-envelope')) {
+                        $(ui).children('i.fa-envelope').remove();
+                        $(ui).html(function (i, html) {
+                            return html.replace(/&nbsp;/g, '');
+                        });    
+                    }
+
+                    if (resp.pipeline_id != 1 && ($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm') || $(ui).hasClass('default-comm'))) {
+                        $(ui).remove();
+                    }
+                }
+
+                if ($(ui).attr('data-move') == 'backward') {
+                    if (resp.pipeline_id > 2) {
+                        $(ui).removeAttr('disabled');
+                        $(ui).removeClass('gray');
+                        $(ui).addClass('blue');
+                    } else {
+                        $(ui).attr('disabled', 'disabled');
+                        $(ui).addClass('gray');
+                        $(ui).removeClass('blue');
+                    }
+
+                    UI.Pipeline.clearNegativeReason(id, type);
+                } else if ($(ui).attr('data-move') == 'forward') {
+                    if (type == 'contact' && resp.pipeline_id > 1) {
+                        $(ui).find('span.thumbs-up-text').remove();
+                    }
+
+                    if (resp.pipeline_id == 6) {
+                        $(ui).attr('disabled', 'disabled');
+                        $(ui).addClass('gray')
+                    } else {
+                        $(ui).removeClass('gray');
+                        $(ui).addClass('blue');
+                        $(ui).removeAttr('disabled');
+                    }
+
+                    UI.Pipeline.clearNegativeReason(id, type);
+                } else {
+                    $(ui).removeClass('gray');
+                    $(ui).addClass('blue');
+
+                    if (resp.status == 'halted') {
+                        $('.inquiry-contact-job-negative-modal').modal('close');
+                        $('button.negative-pipeline-modal-button[data-id="' + id + '"][data-move="halt"]').addClass('inverse');
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').html(resp.reason);
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').removeClass('hidden');
+                    } else if (resp.status == 'paused') {
+                        $(selected_btn).addClass('inverse');
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').addClass('hidden');
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').html("");
+                    }
+                }
+            });
+
+            if (resp.type != 'success') {
+                SBS.UI.displayMessage(resp);
+                return;
+            } else {
+                $('.inquiry-contact-job-negative-modal').modal('close');
+            }
+
+            if (resp.pipeline_name !== undefined) {
+                pipeline_label.html(resp.pipeline_name);
+                pipeline_label.removeClass("hidden");
+            }
+
+            if (resp.pipeline_id !== undefined) {
+                $('[data-id="' + id +'"][data-type="' + type + '"]').attr('data-pipeline-id', resp.pipeline_id);
+            }
         });
     }
 
-    // Change contact job step 
+    // Change pipline step 
     $('body').on(
         {
-            click: function (e, ui) {
-                var inquiry_id = parseInt($(this).attr('data-id')),
-                    pipeline_id = parseInt($(this).attr('data-pipeline-id')),
-                    action = $(this).attr('data-move'),
-                    type = $(this).attr('data-type'),
-                    comm_type = $(this).attr('data-comm-type'),
-                    reason = $(this).attr('data-reason'),
-                    selected_btn = $(this),
-                    btn_set = $(this).parent().find('button[data-action="inquiry-pipeline"]'),
-                    pipeline_label = $('#pipeline-label-' + inquiry_id),
-                    token = $('[name="_token"]').val();
-                
-                if (pipeline_id == 1 && action == 'forward') {
-                    result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
-                    if (!result) {
-                        return;
-                    }
-                }
-
-                if (!inquiry_id) {
-                    return;
-                }
-
-                // Switch all buttons to gray to indicate a pending action
-                btn_set.each(function (i, ui) {
-                    $(ui).removeClass('blue');
-                    $(ui).addClass('gray');
-                });
-
-                //Setting the selected button to gray since it is not apart or btn_set
-                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('blue');
-                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('gray');
-
-                SBS.ContactJob.pipeline(inquiry_id, action, comm_type, reason, token).done(function (resp) {
-                    btn_set.each(function (i, ui) {
-                        $(ui).removeClass('inverse');
-                        $('button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('inverse');
-                        if ($(ui).attr('data-move') == 'backward') {
-                            if (resp.pipeline_id > 2) {
-                                $(ui).removeAttr('disabled');
-                                $(ui).removeClass('gray');
-                                $(ui).addClass('blue');
-                            } else {
-                                $(ui).attr('disabled', 'disabled');
-                                $(ui).addClass('gray');
-                                $(ui).removeClass('blue');
-                            }
-                            
-                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
-                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html("");
-                            
-                        } else if ($(ui).attr('data-move') == 'forward') {
-                            if (resp.pipeline_id > 1) {
-                                if ($(ui).hasClass('cold-comm')) {
-                                    $(ui).find('span.thumbs-up-text').html('');
-                                }
-                                if ($(ui).hasClass('warm-comm')) {
-                                    $(ui).remove();
-                                }
-                            }
-                            if (resp.pipeline_id == 6) {
-                                $(ui).attr('disabled', 'disabled');
-                            } else {
-                                $(ui).removeClass('gray');
-                                $(ui).addClass('blue');
-                                $(ui).removeAttr('disabled');
-                            }
-
-                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
-                            $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html("");
-
-                        } else {
-                            $(ui).removeClass('gray');
-                            $(ui).addClass('blue');
-                            if (resp.status == 'halted') {
-                                $(selected_btn).addClass('inverse');
-                                $('.inquiry-contact-job-negative-modal').modal('close');
-                                $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('inverse');
-                                $('[data-move="pause"]').removeClass("inverse");
-                                console.log("Here");
-                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html(resp.reason);
-                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').removeClass('hidden');
-
-                            } else if (resp.status == 'paused') {
-                                $(selected_btn).addClass('inverse');
-                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').addClass('hidden');
-                                $('.contact-job-reason-note-button[data-id="' + inquiry_id + '"]').html("");
-
-                            } else {
-                                $(selected_btn).removeClass('inverse');
-                            }                            
-                        }
-                    });
-
-                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').removeClass('gray');
-                    $('button.negative-pipeline-modal-button[data-id="' + inquiry_id + '"][data-move="halt"]').addClass('blue');
-
-                    if (resp.type != 'success') {
-                        SBS.UI.displayMessage(resp);
-                        return;
-                    }
-
-                    if (resp.pipeline_name !== undefined && resp.pipeline_id !== 1) {
-                        pipeline_label.removeClass('hidden');
-                        pipeline_label.html(resp.pipeline_name);
-                    }
-                    if (resp.pipeline_id !== undefined) {
-                        $('[data-id="' + inquiry_id +'"]').attr('data-pipeline-id', resp.pipeline_id);
-                    }
-                });
+            click: function () {
+                UI.Pipeline.buttonClick(this);
             }
         },
-        'button[data-action="inquiry-pipeline"][data-type="contact"]'
+        'button[data-action="inquiry-pipeline"]'
     );
 
     Form.toggleGroup = function (group) {

@@ -59,7 +59,6 @@ class ContactJobController extends Controller
                             if ($contact_job->job->recruiting_type_code == "active") {
                                 if ($request->input('comm_type') == "warm") {
                                     Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job));
-
                                 } else if ($request->input('comm_type') == 'cold'){
                                     Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job));                                
                                 }
@@ -113,12 +112,18 @@ class ContactJobController extends Controller
         try {
             $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline, $request) {
                 $contact_job->status = 'halted';
+                if ($contact_job->pipeline_id == 1) {
+                    $contact_job->pipeline_id += 1;
+                    $halt_step = 0;
+                } else {
+                    $halt_step = $contact_job->pipeline_id - 1;
+                }
                 $contact_job->reason = $request->reason;
                 $contact_job->save();
 
                 $this->createNote(
                     $contact_job->id,
-                    "Halted on " . $job_pipeline[$contact_job->pipeline_id-1]->name . ". Reason: ". strtoupper($request->input('reason'))
+                    "Halted on " . $job_pipeline[$halt_step]->name . (($halt_step == 0) ? '. Moved to Reviewed.' : '.') . " Reason: ". strtoupper($request->input('reason'))
                 );
 
                 return $contact_job;
@@ -165,12 +170,18 @@ class ContactJobController extends Controller
         try {
             $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline) {
                 $contact_job->status = 'paused';
+                if ($contact_job->pipeline_id == 1) {
+                    $contact_job->pipeline_id += 1;
+                    $pause_step = 0;
+                } else {
+                    $pause_step = $contact_job->pipeline_id - 1;
+                }
                 $contact_job->reason = null;
                 $contact_job->save();
 
                 $this->createNote(
                     $contact_job->id,
-                    "Paused on " . $job_pipeline[$contact_job->pipeline_id-1]->name . "."
+                    "Paused on " . $job_pipeline[$pause_step]->name . (($pause_step == 0) ? '. Moved to Reviewed.' : '.')
                 );
 
                 return $contact_job;
