@@ -13,8 +13,8 @@ class MoveContactToReviewed extends Migration
      */
     public function up()
     {
-        DB::update("UPDATE `job_pipeline` SET `name` = 'Reviewed' WHERE `name` = 'Contacted'");
-        DB::update("UPDATE `job_pipeline` SET `description` = 'Applicant has been reviewed.' WHERE `description` = 'Applicant has been contacted.'");
+        DB::update("UPDATE `job_pipeline` SET `name` = 'Reviewed' WHERE `id` = 2");
+        DB::update("UPDATE `job_pipeline` SET `description` = 'Applicant has been reviewed.' WHERE `id` = 2");
     }
 
     /**
@@ -24,8 +24,7 @@ class MoveContactToReviewed extends Migration
      */
     public function down()
     {
-        //
-        DB::update("UPDATE `job_pipeline` SET `name` = 'Contacted' WHERE `name` = 'Reviewed'");
-        DB::update("UPDATE `job_pipeline` SET `description` = 'Applicant has been contacted.' WHERE `description` = 'Applicant has been reviewed.'");
+        DB::update("UPDATE `job_pipeline` SET `name` = 'Contacted' WHERE `id` = 2");
+        DB::update("UPDATE `job_pipeline` SET `description` = 'Applicant has been contacted.' WHERE `id` = 2");
     }
 }
