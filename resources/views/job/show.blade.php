@@ -81,7 +81,7 @@
                 @endif
             @else
                 <div class="input-field">
-                    <a href="/" class="btn sbs-red">Join to apply</a>
+                    <a href="/register" class="btn sbs-red">Join to apply</a>
                 </div>
             @endcan
         </div>

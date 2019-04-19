@@ -1,5 +1,5 @@
 <!-- /resources/views/auth/register.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Register')
 @section('hero')
     <a name="register"></a>
