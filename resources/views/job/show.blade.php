@@ -48,7 +48,9 @@
                 @if ($job->featured)
                     <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
                 @endif
-                <span class="small flat-button {{$job->recruiting_type_code == 'passive' ? 'gray' : 'blue'}} inverse">{{ucwords($job->recruiting_type_code)}}</span>
+                @can ('edit-job', $job)
+                    <span class="label {{$job->recruiting_type_code == 'passive' ? 'gray' : 'blue white-text'}} inverse" style="letter-spacing: 0.6px; display: inline;">{{ucwords($job->recruiting_type_code)}}</span>
+                @endcan
             </p>
             <div class="margin: 10px 0;">
                 <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
