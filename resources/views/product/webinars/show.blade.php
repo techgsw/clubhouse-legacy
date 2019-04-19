@@ -76,9 +76,15 @@
                     </select>
                 @endif
                 @if (count($product->options) > 0)
-                    <div class="input-field" style="margin-top: 30px;">
-                        <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn green">RSVP NOW</a>
-                    </div>
+                    @if (Auth::user())
+                        <div class="input-field" style="margin-top: 30px;">
+                            <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn green">RSVP NOW</a>
+                        </div>
+                    @else
+                        <div class="input-field" style="margin-top: 30px;">
+                            <a href="/" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
+                        </div>
+                    @endif
                 @else
                     <p>This webinar is currently unavailbable.</p>
                 @endif
