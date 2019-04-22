@@ -35,7 +35,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         $url = "https://api.instagram.com/v1/users/self?access_token={$access_token}";
         try {
             $response = json_decode(file_get_contents($url));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::error($e);
             return;
         }
@@ -48,7 +48,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         $url = "https://api.instagram.com/v1/users/{$user_id}/media/recent/?access_token={$access_token}";
         try {
             $response = json_decode(file_get_contents($url));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::error($e);
             return;
         }
@@ -100,7 +100,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         try {
             $data = curl_exec($ch);
             $data = json_decode($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             curl_close($ch);
             return;
         }
