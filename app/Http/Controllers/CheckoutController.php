@@ -135,7 +135,7 @@ class CheckoutController extends Controller
                     foreach ($product_option->product->tags as $tag) {
                         if ($tag->slug == 'career-service') {
                             try {
-                                Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, $order->amount, 'career-service'));
+                                EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, $order->amount, 'career-service');                                
                                 Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
                                 Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
                             } catch (\Exception $e) {
@@ -145,7 +145,7 @@ class CheckoutController extends Controller
                             break;
                         } else if ($tag->slug == 'webinar') {
                             try {
-                                Mail::to(env('CLUBHOUSE_EMAIL'))->send(new PurchaseNotification($user, $product_option, 0, 'webinar'));
+                                EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
                                 Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
                             } catch (\Exception $e) {
                                 Log::error($e->getMessage());
@@ -173,7 +173,7 @@ class CheckoutController extends Controller
                     $transaction_product_option->save();
 
                     try {
-                        EmailServiceProvider::sendPurchaseNotificationEmail($user, $product_option, 0, 'membership');
+                        EmailServiceProvider::sendMembershipPurchaseNotificationEmail($user, $product_option, 0, 'membership');
                         Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
                         Mail::to($user)->send(new UserPaidClubhousePro($user));
                     } catch (\Exception $e) {
