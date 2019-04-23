@@ -32,7 +32,6 @@
                 <li><a href="/career-services">Career Services</a></li>
                 <li><a href="/resources">Resources</a></li>
                 <li class="divider"></li>
-                <!-- <li><a href="/contact" class="sbs-red white-text">Contact</a></li> -->
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="/">Register</a></li>
