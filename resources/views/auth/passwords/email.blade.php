@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row" style="padding-top: 100px; padding-bottom: 100px;">
         <div class="col-md-8 col-md-offset-2">
             @if (request()->query->get('migration') == 'true')
                 <div class="panel panel-default">

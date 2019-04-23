@@ -41,7 +41,7 @@
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if (Auth::guest())
-                                <a href="/" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
+                                <a href="/register" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
                             @else
                                 <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
                             @endif
@@ -68,7 +68,7 @@
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($product)
                                 @if (Auth::guest())
-                                    <a href="/" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>
+                                    <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>
                                 @else
                                     <!--<a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>-->
                                     <a href="/pro-membership" class="buy-now btn sbs-red" style="margin-top: 18px;">Become a Clubhouse Pro</a>

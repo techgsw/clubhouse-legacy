@@ -44,7 +44,7 @@
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($product)
                                 @if (Auth::guest())
-                                    <a href="/" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro Annually</a>
+                                    <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro Annually</a>
                                 @else
                                     <a href="{{ $product->options()->get()[1]->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro Annually</a>
                                 @endif
