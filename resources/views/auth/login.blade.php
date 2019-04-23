@@ -26,6 +26,7 @@
                 </div>
                 <div class="input-field">
                     <button type="submit" class="btn sbs-red">Login</button>
+                    <a href="{{ route('register') }}" class="btn sbs-red">Register</a>
                 </div>
                 <div class="input-field">
                     <a class="btn white red-text" href="{{ route('password.request') }}">Reset your password</a>

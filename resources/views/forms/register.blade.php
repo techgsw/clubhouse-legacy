@@ -1,6 +1,9 @@
 <form method="post" action="{{ route('register') }}">
     {{ csrf_field() }}
     <div class="row">
+        <div>
+            <p>Already a member? Click <a href="/login">here</a> to login.</p>
+        </div>
         <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
             <input id="first-name" type="text" name="first_name" value="{{ old('first_name') }}" required>
             <label for="first-name">First name</label>
@@ -27,6 +30,12 @@
             <input id="password-confirm" type="password" name="password_confirmation" required>
             <label for="password-confirm">Confirm Password</label>
         </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <input id="terms" name="terms" type="checkbox" required>
+            <label for="terms">I agree to the <a target="_blank" href="/documents/Sports-Business-Solutions-Terms-of-Service.pdf">terms of service</a>.</label>
+        </div>    
     </div>
     <div class="row">
         <div class="col s12">
