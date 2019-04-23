@@ -3,7 +3,7 @@
 @section('title', 'Register')
 @section('hero')
     <a name="register"></a>
-    <div class="row hero gray">
+    <div class="row hero gray" style="padding-top: 30px; padding-bottom 30px;">
         <div class="col s12">
             <h4 class="header">Join our community</h4>
         </div>

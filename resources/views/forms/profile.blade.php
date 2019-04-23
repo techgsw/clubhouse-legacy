@@ -56,7 +56,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="card">
+            <div class="card blue lighten-4 blue-text text-darken-4">
                 <div class="card-content">
                     <p style="font-size: 16px; font-weight: 300;">Complete your profile so we can get you more of the information you want and keep you in mind for future jobs and events in sports.</p>
                 </div>
