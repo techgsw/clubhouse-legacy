@@ -2,7 +2,7 @@
     {{ csrf_field() }}
     <div class="row">
         <div>
-            <p>Already a member? Click <a href="/login">here</a> to login.</p>
+            <p>Already a member? <a href="/login">Login!</a></p>
         </div>
         <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
             <input id="first-name" type="text" name="first_name" value="{{ old('first_name') }}" required>
