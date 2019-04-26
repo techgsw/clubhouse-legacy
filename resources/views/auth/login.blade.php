@@ -15,7 +15,7 @@
     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
         <div class="row">
             <div class="col s12">
-                <p>Not yet a member? <a href="/login">Click here to register!</a></p>
+                <p>Not yet a member? <a href="/register">Click here to register!</a></p>
             </div>
         </div>
         <div class="row">
