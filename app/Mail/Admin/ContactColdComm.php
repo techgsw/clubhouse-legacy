@@ -38,7 +38,7 @@ class ContactColdComm extends Mailable
     public function build()
     {
         $mail = $this->from($this->user->email);
-        $mail->subject("Your {$this->contact->job->title} job application status with the {$this->contact->job->organization_name}");
+        $mail->subject("New {$this->contact->job->title} job opportunity with {$this->contact->job->organization_name}");
         
         return $mail->markdown('emails.contact.contact-cold-communication');
         
