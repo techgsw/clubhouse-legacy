@@ -434,9 +434,8 @@ class ProductController extends Controller
 
                 $product_option = ProductOption::with('product')->where('id', $request['product_option_id'])->first();
                 $product_tag = DB::table('product_tag')->where('product_id', $product_option->product_id)->first();
-                $product = DB::table('product')->where('id', $product_option->product_id)->first();
 
-                if ($product_option->price > 0 || $product_tag->tag_name !== 'Webinar' || $product->active !== 1) {
+                if ($product_option->price > 0 || $product_tag->tag_name !== 'Webinar' || $product_option->product->active !== 1) {
                     return redirect()->back()->withErrors(['msg' => 'Unable to RSVP for this webinar, please proceed to checkout.']);
                 }
 
