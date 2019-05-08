@@ -83,7 +83,7 @@
                             @elseif ($product->options[0]->id == 38)
                                 <a target="_blank" href="https://zoom.us/webinar/register/WN_GMoeKB94SdaNoHd0mdZx9g" id="buy-now" class="btn green">RSVP NOW</a>
                             @else
-                                <a href="{{$product->options[0]->getURL(false, 'webinars')}}/checkout" data-price="{{$product->options[0]->price}}" id="buy-now" class="btn green">RSVP NOW</a>
+                                <a href="{{$product->options[0]->getURL(false, 'checkout')}}" data-price="{{$product->options[0]->price}}" id="buy-now" class="btn green">RSVP NOW</a>
                             @endif
                         </div>
                     @else

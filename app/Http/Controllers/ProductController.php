@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use \Exception;
+use Mail;
 use App\Message;
 use App\Product;
 use App\ProductOption;
 use App\ProductOptionRole;
 use App\Tag;
+use App\Transaction;
+use App\TransactionProductOption;
+use App\Mail\UserPaidWebinar;
 use App\Providers\ImageServiceProvider;
 use App\Providers\StripeServiceProvider;
+use App\Providers\EmailServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,41 +111,40 @@ class ProductController extends Controller
                 $tag_names = json_decode($tag_json);
                 $product->tags()->sync($tag_names);
 
-                if ($option->price > 0) {
-
-                    try {
-                        $stripe_product = StripeServiceProvider::createProduct($product);
-                        $product->stripe_product_id = $stripe_product->id;
-                        $product->save();
-                    } catch (Exception $e) {
-                        Log::error($e);
-                        if (!is_null($stripe_product)) {
-                            StripeServiceProvider::deleteProduct($stripe_product);
-                        }
-                        throw new Exception('Unable to update product with stripe id.');
+                try {
+                    $stripe_product = StripeServiceProvider::createProduct($product);
+                    $product->stripe_product_id = $stripe_product->id;
+                    $product->save();
+                } catch (Exception $e) {
+                    Log::error($e);
+                    if (!is_null($stripe_product)) {
+                        StripeServiceProvider::deleteProduct($stripe_product);
                     }
+                    throw new Exception('Unable to update product with stripe id.');
+                }
 
-                    foreach ($product->options as $key => $option) {
-                        if ($product->type == 'service') {
-                            try {
-                                $stripe_plan = StripeServiceProvider::createPlan($stripe_product, $option);
-                                $option->stripe_plan_id = $stripe_plan->id;
-                                $option->save();
-                            } catch (Exception $e) {
-                                Log::error($e);
-                                if (!is_null($stripe_product)) {
-                                    StripeServiceProvider::deleteProduct($stripe_product);
-                                }
-                                if (!is_null($stripe_plan)) {
-                                    StripeServiceProvider::deletePlan($stripe_plan);
-                                }
-                                throw new Exception('Unable to update product option with stripe plan id.');
+                foreach ($product->options as $key => $option) {
+                    if ($product->type == 'service') {
+                        try {
+                            $stripe_plan = StripeServiceProvider::createPlan($stripe_product, $option);
+                            $option->stripe_plan_id = $stripe_plan->id;
+                            $option->save();
+                        } catch (Exception $e) {
+                            Log::error($e);
+                            if (!is_null($stripe_product)) {
+                                StripeServiceProvider::deleteProduct($stripe_product);
                             }
-                        } else {
+                            if (!is_null($stripe_plan)) {
+                                StripeServiceProvider::deletePlan($stripe_plan);
+                            }
+                            throw new Exception('Unable to update product option with stripe plan id.');
+                        }
+                    } else {
+                        if ($option->price > 0) {
                             try {
-                                $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
-                                $option->stripe_sku_id = $stripe_sku->id;
-                                $option->save();
+                                    $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
+                                    $option->stripe_sku_id = $stripe_sku->id;
+                                    $option->save();
                             } catch (Exception $e) {
                                 Log::error($e);
                                 if (!is_null($stripe_product)) {
@@ -419,6 +423,74 @@ class ProductController extends Controller
                 "{$product->name}" => "/career-services/{$product->id}"
             ]
         ]);
+    }
+
+    public function rsvpWebinar(Request $request)
+    {
+        $user = Auth::user();
+
+        try {
+            $response = DB::transaction(function () use ($request, $user) {
+
+                $checkout_type;
+                if ($request['product_option_price'] > 0) {
+                    $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
+                    $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
+
+                    if (!is_null($order->id)) {
+                        $transaction->stripe_order_id = $order->id;
+                    }
+                    if (!is_null($order->charge)) {
+                        $transaction->stripe_charge_id = $order->charge;
+                    }
+
+                } else {
+                    $product_option = ProductOption::with('product')->where('id', $request['product_option_id'])->first();
+                }
+
+                try {
+                    $product_option->quantity = $product_option->quantity - 1;
+                    $product_option->save();
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
+
+                $transaction = new Transaction();
+                $transaction->user_id = $user->id;
+                $transaction->amount = $product_option->price;
+                
+                $transaction->save();
+
+                $transaction_product_option = new TransactionProductOption();
+                $transaction_product_option->transaction_id = $transaction->id;
+                $transaction_product_option->product_option_id = $product_option->id;
+
+                foreach ($product_option->product->tags as $tag) {
+                    try {
+                        EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
+                        Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
+                    } catch (\Exception $e) {
+                        Log::error($e->getMessage());
+                    }
+                    $checkout_type = 'webinar';
+                    break;
+                }
+
+
+                return array('type' => $checkout_type, 'product_option_id' => $product_option->id);
+            });
+            
+            if ($response == false) {
+                return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
+            }
+        } catch (Exception $e) {
+            // TODO try to refund order if it went through
+            dd($e);
+            Log::error($e);
+            return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
+        }
+
+        return redirect()->action('CheckoutController@thanks', $response);
     }
 
     public function webinars()

@@ -23,7 +23,7 @@
     <div class="cc-form scale-transition scale-out hidden">
         @include('forms.add-card')
     </div>
-    <form method="{{$product_type == 'webinar' ? ($product_option->price > 0 ? 'post' : 'get') : 'post'}}" id="checkout-form" action="{{$product_type == 'webinar' ? ($product_option->price > 0 ? '/webinars/checkout' : '/webinars/thanks') : '/checkout'}}">
+    <form method="post" id="checkout-form" action="{{$product_type == 'webinar' ? ($product_option->price > 0 ? '/checkout' : '/product/webinar/rsvp') : '/checkout'}}">
         {{ csrf_field() }}
         <input type="hidden" name="stripe_product_id" value="{{ ($product_option->stripe_plan_id ? $product_option->stripe_plan_id : $product_option->stripe_sku_id) }}" /> 
         <input type="hidden" name="product_option_price" value="{{$product_option->price}}" />  
