@@ -106,48 +106,52 @@ class ProductController extends Controller
                 $tag_names = json_decode($tag_json);
                 $product->tags()->sync($tag_names);
 
-                try {
-                    $stripe_product = StripeServiceProvider::createProduct($product);
-                    $product->stripe_product_id = $stripe_product->id;
-                    $product->save();
-                } catch (Exception $e) {
-                    Log::error($e);
-                    if (!is_null($stripe_product)) {
-                        StripeServiceProvider::deleteProduct($stripe_product);
-                    }
-                    throw new Exception('Unable to update product with stripe id.');
-                }
+                //if price > 0
+                if ($option->price > 0) {
 
-                foreach ($product->options as $key => $option) {
-                    if ($product->type == 'service') {
-                        try {
-                            $stripe_plan = StripeServiceProvider::createPlan($stripe_product, $option);
-                            $option->stripe_plan_id = $stripe_plan->id;
-                            $option->save();
-                        } catch (Exception $e) {
-                            Log::error($e);
-                            if (!is_null($stripe_product)) {
-                                StripeServiceProvider::deleteProduct($stripe_product);
-                            }
-                            if (!is_null($stripe_plan)) {
-                                StripeServiceProvider::deletePlan($stripe_plan);
-                            }
-                            throw new Exception('Unable to update product option with stripe plan id.');
+                    try {
+                        $stripe_product = StripeServiceProvider::createProduct($product);
+                        $product->stripe_product_id = $stripe_product->id;
+                        $product->save();
+                    } catch (Exception $e) {
+                        Log::error($e);
+                        if (!is_null($stripe_product)) {
+                            StripeServiceProvider::deleteProduct($stripe_product);
                         }
-                    } else {
-                        try {
-                            $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
-                            $option->stripe_sku_id = $stripe_sku->id;
-                            $option->save();
-                        } catch (Exception $e) {
-                            Log::error($e);
-                            if (!is_null($stripe_product)) {
-                                StripeServiceProvider::deleteProduct($stripe_product);
+                        throw new Exception('Unable to update product with stripe id.');
+                    }
+
+                    foreach ($product->options as $key => $option) {
+                        if ($product->type == 'service') {
+                            try {
+                                $stripe_plan = StripeServiceProvider::createPlan($stripe_product, $option);
+                                $option->stripe_plan_id = $stripe_plan->id;
+                                $option->save();
+                            } catch (Exception $e) {
+                                Log::error($e);
+                                if (!is_null($stripe_product)) {
+                                    StripeServiceProvider::deleteProduct($stripe_product);
+                                }
+                                if (!is_null($stripe_plan)) {
+                                    StripeServiceProvider::deletePlan($stripe_plan);
+                                }
+                                throw new Exception('Unable to update product option with stripe plan id.');
                             }
-                            if (!is_null($stripe_sku)) {
-                                StripeServiceProvider::deleteSku($stripe_sku);
+                        } else {
+                            try {
+                                $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
+                                $option->stripe_sku_id = $stripe_sku->id;
+                                $option->save();
+                            } catch (Exception $e) {
+                                Log::error($e);
+                                if (!is_null($stripe_product)) {
+                                    StripeServiceProvider::deleteProduct($stripe_product);
+                                }
+                                if (!is_null($stripe_sku)) {
+                                    StripeServiceProvider::deleteSku($stripe_sku);
+                                }
+                                throw new Exception('Unable to update product option with stripe sku id.');
                             }
-                            throw new Exception('Unable to update product option with stripe sku id.');
                         }
                     }
                 }

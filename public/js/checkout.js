@@ -79,12 +79,16 @@
     $('body').on(
         {
             click: function() {
-                $(this).addClass('hidden');
+                price = $("div[data-product-price]").val($("input[data-product-price]").attr("data-product-price")).data('productPrice');
+
+                if (price > 0) {
+                    $(this).addClass('hidden');
                 $('#checkout-submit-button').addClass('hidden');
                 $('.cc-form.scale-transition').removeClass('hidden');
                 setTimeout(function() {
                     $('.cc-form.scale-transition').removeClass('scale-out');
                 }, 100);
+                }
             }
         },
         '#add-cc-button'
@@ -161,7 +165,6 @@
         {
             submit: function(e) {
                 e.preventDefault();
-
                 stripe.createToken(card).then(function(result) {
                     if (result.error) {
                         //TODO call log service

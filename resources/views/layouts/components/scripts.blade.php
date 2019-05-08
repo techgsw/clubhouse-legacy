@@ -21,7 +21,7 @@
 <script src="/js/moment.min.js"></script>
 <script src="/js/daterangepicker.js"></script>
 <script src="/js/sbs.js?v=33"></script>
-@if (Request::is('checkout/*') || Request::is('*/account'))
+@if (Request::is('checkout/*') || Request::is('*/account') || Request::is('*/checkout'))
     <script>SBS.stripe_token = '{{ env('STRIPE_PUBLIC_TOKEN') }}';</script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="/js/checkout.js?v=3"></script>

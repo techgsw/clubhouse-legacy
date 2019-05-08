@@ -76,9 +76,6 @@ class CheckoutController extends Controller
         if (in_array('career-service', array_column($product_option->product->tags->toArray(), 'slug'))) {
             $product_type = 'career-service';
             $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
-        } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
-            $product_type = 'webinar';
-            $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
         } else {
             $product_type = 'membership';
             $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
