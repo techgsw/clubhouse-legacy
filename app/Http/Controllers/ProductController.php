@@ -106,7 +106,6 @@ class ProductController extends Controller
                 $tag_names = json_decode($tag_json);
                 $product->tags()->sync($tag_names);
 
-                //if price > 0
                 if ($option->price > 0) {
 
                     try {

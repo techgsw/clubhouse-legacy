@@ -80,7 +80,7 @@
         {
             click: function() {
                 price = $("div[data-product-price]").val($("input[data-product-price]").attr("data-product-price")).data('productPrice');
-
+                console.log(price)
                 if (price > 0) {
                     $(this).addClass('hidden');
                 $('#checkout-submit-button').addClass('hidden');

@@ -40,7 +40,6 @@ class WebinarController extends Controller
 
         try {
             $response = DB::transaction(function () use ($request, $user) {
-                // dd($request);
 
                 $checkout_type;
                 if ($request['product_option_price'] > 0) {
@@ -95,7 +94,6 @@ class WebinarController extends Controller
             }
         } catch (Exception $e) {
             // TODO try to refund order if it went through
-            // dd($e);
             Log::error($e);
             return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
         }
@@ -106,9 +104,7 @@ class WebinarController extends Controller
     public function thanks(Request $request)
     {
         $user = Auth::user();
-        // dd($request);
         $product_option = ProductOption::with('product')->find($request['product_option_id']);
-        // dd($product_option);
         $view = 'webinar-thanks';
         $breadcrumb = 'Webinar';
         $link = '/webinars';
