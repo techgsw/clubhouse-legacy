@@ -432,18 +432,8 @@ class ProductController extends Controller
         try {
             $response = DB::transaction(function () use ($request, $user) {
 
-                $checkout_type;
                 if ($request['product_option_price'] > 0) {
-                    $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
-                    $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
-
-                    if (!is_null($order->id)) {
-                        $transaction->stripe_order_id = $order->id;
-                    }
-                    if (!is_null($order->charge)) {
-                        $transaction->stripe_charge_id = $order->charge;
-                    }
-
+                    return redirect()->back()->withErrors(['msg' => 'Unable to RSVP for this webinar, please proceed to checkout.']);
                 } else {
                     $product_option = ProductOption::with('product')->where('id', $request['product_option_id'])->first();
                 }
@@ -472,12 +462,11 @@ class ProductController extends Controller
                     } catch (\Exception $e) {
                         Log::error($e->getMessage());
                     }
-                    $checkout_type = 'webinar';
                     break;
                 }
 
 
-                return array('type' => $checkout_type, 'product_option_id' => $product_option->id);
+                return array('type' => 'webinar', 'product_option_id' => $product_option->id);
             });
             
             if ($response == false) {
