@@ -506,8 +506,8 @@ class ProductController extends Controller
 
     public function showWebinars($id)
     {
-        $date = new \DateTime('NOW');
-        ZoomServiceProvider::createWebinar('Check me out!', $date);
+        $date = new \DateTime('tomorrow');
+        dd(ZoomServiceProvider::createWebinar('duuuuuddeee', $date));
         $product = Product::with('options.roles')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
