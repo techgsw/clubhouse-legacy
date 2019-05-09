@@ -72,6 +72,7 @@ class ProductController extends Controller
 
         try {
             $product = DB::transaction(function () use ($request) {
+                $product_type = null;
                 $product = new Product;
                 $product->name = request('name');
                 $product->description = request('description');
@@ -110,6 +111,11 @@ class ProductController extends Controller
 
                 $tag_json = request('product_tags_json');
                 $tag_names = json_decode($tag_json);
+                foreach ($tag_names as $tag_name) {
+                    if ($tag_name == 'Webinar') {
+                        $product_type = 'webinar';
+                    }
+                }
                 $product->tags()->sync($tag_names);
 
                 try {
@@ -141,6 +147,12 @@ class ProductController extends Controller
                             throw new Exception('Unable to update product option with stripe plan id.');
                         }
                     } else {
+                        if ($product_type == 'webinar') {
+                            $date = new \DateTime('tomorrow');
+                            $webinar = ZoomServiceProvider::createWebinar('duuuuuddeee', $date);
+                            $option->zoom_webinar_id = $webinar->id;
+                        }
+
                         if ($option->price > 0) {
                             try {
                                     $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
@@ -507,7 +519,7 @@ class ProductController extends Controller
     public function showWebinars($id)
     {
         $date = new \DateTime('tomorrow');
-        dd(ZoomServiceProvider::createWebinar('duuuuuddeee', $date));
+        // dd(ZoomServiceProvider::createWebinar('duuuuuddeee', $date));
         $product = Product::with('options.roles')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
