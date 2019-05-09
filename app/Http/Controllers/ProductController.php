@@ -15,6 +15,7 @@ use App\Mail\UserPaidWebinar;
 use App\Providers\ImageServiceProvider;
 use App\Providers\StripeServiceProvider;
 use App\Providers\EmailServiceProvider;
+use App\Providers\ZoomServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -505,6 +506,8 @@ class ProductController extends Controller
 
     public function showWebinars($id)
     {
+        $date = new \DateTime('NOW');
+        ZoomServiceProvider::createWebinar('Check me out!', $date);
         $product = Product::with('options.roles')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
