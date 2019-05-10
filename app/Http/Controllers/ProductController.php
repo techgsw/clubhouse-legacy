@@ -455,64 +455,6 @@ class ProductController extends Controller
         ]);
     }
 
-    public function rsvpWebinar(Request $request)
-    {
-        $user = Auth::user();
-
-        try {
-            $response = DB::transaction(function () use ($request, $user) {
-
-                $product_option = ProductOption::with('product')->where('id', $request['product_option_id'])->first();
-                $product_tag = DB::table('product_tag')->where('product_id', $product_option->product_id)->first();
-
-                if ($product_option->price > 0 || $product_tag->tag_name !== 'Webinar' || $product_option->product->active !== 1) {
-                    return redirect()->back()->withErrors(['msg' => 'Unable to RSVP for this webinar, please proceed to checkout.']);
-                }
-
-                try {
-                    $product_option->quantity = $product_option->quantity - 1;
-                    $product_option->save();
-                } catch (\Exception $e) {
-                    Log::error($e->getMessage());
-                }
-
-                $transaction = new Transaction();
-                $transaction->user_id = $user->id;
-                $transaction->amount = $product_option->price;
-                
-                $transaction->save();
-
-                $transaction_product_option = new TransactionProductOption();
-                $transaction_product_option->transaction_id = $transaction->id;
-                $transaction_product_option->product_option_id = $product_option->id;
-
-                foreach ($product_option->product->tags as $tag) {
-                    try {
-                        EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
-                        Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
-                    } catch (\Exception $e) {
-                        Log::error($e->getMessage());
-                    }
-                    break;
-                }
-
-
-                return array('type' => 'webinar', 'product_option_id' => $product_option->id);
-            });
-            
-            if ($response == false) {
-                return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
-            }
-        } catch (Exception $e) {
-            // TODO try to refund order if it went through
-            dd($e);
-            Log::error($e);
-            return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
-        }
-
-        return redirect()->action('CheckoutController@thanks', $response);
-    }
-
     public function webinars()
     {
         $active_products = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
