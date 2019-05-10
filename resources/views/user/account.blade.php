@@ -37,6 +37,9 @@
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a class="" href="/user/{{ $user->id }}/jobs">Jobs</a></li>
         <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
+        @can ('edit-roles')
+            <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>
+        @endcan
     </ul>
     <div class="row">
         <div class="col s12 m12 l6">

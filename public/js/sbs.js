@@ -930,6 +930,19 @@ $.valHooks.textarea = {
         },
         '.tag-autocomplete'
     );
+    
+    $('body').on(
+        {
+            click: function(e, ui){
+                result = window.confirm("Are you sure? \nThis action modifies user roles.");
+                if (!result) {
+                    UI.displayMessage({type: 'warning', message: "You have unsaved changes."})
+                    e.preventDefault();
+                }
+            }
+        },
+        '.submit-roles'
+    );
 
     $('body').on(
         {

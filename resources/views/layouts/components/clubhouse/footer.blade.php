@@ -27,4 +27,5 @@
             <p class="small">Copyright &copy; 2018 Sports Business Solutions | All Rights Reserved</p>
         </div>
     </div>
+    @include('layouts.components.message-template')
 </footer>

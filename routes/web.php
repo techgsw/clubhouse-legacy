@@ -137,6 +137,9 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/report/transactions', 'ReportController@transactions');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
+        //endpoint for editing the user roles
+        Route::get('/admin/{id}/edit-roles', 'RoleController@index');
+        Route::post('/admin/{id}/update-roles', 'RoleController@update');
     });
 
     // Admin & Ajax

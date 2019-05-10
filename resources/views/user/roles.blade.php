@@ -1,8 +1,9 @@
 <!-- /resources/views/user/jobs.blade.php -->
 @extends('layouts.clubhouse')
-@section('title', 'Job Applications')
+@section('title', 'Edit Roles')
 @section('content')
 <div class="container">
+    
     @component('user.header', ['user' => $user])
         @can ('view-contact-notes')
             <button type="button" class="view-contact-notes-btn flat-button black"
@@ -35,42 +36,39 @@
             @endif
         @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
-        <li class="tab"><a class="active" href="/user/{{ $user->id }}/jobs">Jobs</a></li>
-        <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
+        <li class="tab"><a href="/user/{{ $user->id }}/jobs">Jobs</a></li>
         @can ('edit-roles')
-            <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>
+            <li class="tab"><a class="active" href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>
         @endcan
     </ul>
-    @can ('view-contact')
-    <div class="row">
-        <div class="col s12">
-            @if (count($user->contact->jobs))
-                <h5>Job Assignments</h5>
-                @foreach ($user->contact->jobs as $job)
-                    @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $user, 'job_pipeline' => $job_pipeline])
-                @endforeach
-            @endif
+    <form method="post" action="update-roles">
+        {{ csrf_field() }}
+        <div class="card-flex-container">
+            @foreach($roles as $role)
+                <div class="card large">
+                    <div class="card-content">
+                        <span class="card-title" style="font-size: 20px;">{{ ucwords($role->code) }}</span>                        
+                        <div>
+                        @if ($user->roles->contains($role))
+                            <input type="checkbox" name="user[{{$user->id}}][{{$role->code}}]" id="user[{{$user->id}}][{{$role->code}}]" checked="checked" />
+                        @else
+                            <input type="checkbox" name="user[{{$user->id}}][{{$role->code}}]" id="user[{{$user->id}}][{{$role->code}}]" />
+                        @endif
+                            <label for="user[{{$user->id}}][{{$role->code}}]">{{ $role->description }}</label>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            <div class="card-placeholder large"></div>
+            <div class="card-placeholder large"></div>
+            <div class="card-placeholder large"></div>
+            <div class="card-placeholder large"></div>
+            <div class="card-placeholder large"></div>
+            <div class="card-placeholder large"></div>
         </div>
-    </div>
-    @endcan
-    <div class="row">
-        <div class="col s12">
-            @if (count($user->inquiries))
-                <h5>Job Applications</h5>
-                @foreach ($user->inquiries as $inquiry)
-                    @include('components.user-inquiry-list-item', ['inquiry' => $inquiry, 'user' => $user, 'job_pipeline' => $job_pipeline])
-                @endforeach
-            @else
-                <p>When you apply for jobs on the <a href="/job">Job Board</a>, those jobs will appear here.</p>
-            @endif
+        <div class="input-field">
+            <button type="submit" class="btn sbs-red submit-roles">Save</button>
         </div>
-    </div>
+    </form>
 </div>
-@can ('edit-profile', $user)
-@include('components.contact-notes-modal')
-@include('components.inquiry-notes-modal')
-@include('components.contact-job-notes-modal')
-@component('components.inquiry-job-contact-negative-modal')@endcomponent
-@component('components.job-contact-assign-modal')@endcomponent
-@endcan
 @endsection
