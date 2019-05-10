@@ -157,7 +157,7 @@ class ProductController extends Controller
                                     throw new Exception('Invalid Webinar description. Format must be T[am|pm] [GMT|PST|EST]');
                                 }
                                 $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
-                                $webinar = ZoomServiceProvider::createWebinar($product->name, $date);
+                                $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date);
                                 $option->zoom_webinar_id = $webinar->id;
                             }
                             $option->save();
@@ -326,7 +326,7 @@ class ProductController extends Controller
                                     throw new Exception('Invalid webinar description. Format must be T[am|pm] [GMT|PST|EST]');
                                 }
                                 $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
-                                $webinar = ZoomServiceProvider::createWebinar($product->name, $date);
+                                $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date);
                                 $option->zoom_webinar_id = $webinar->id;
                             }
                         }
@@ -535,8 +535,6 @@ class ProductController extends Controller
 
     public function showWebinars($id)
     {
-        $date = new \DateTime('tomorrow');
-        // dd(ZoomServiceProvider::createWebinar('duuuuuddeee', $date));
         $product = Product::with('options.roles')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);

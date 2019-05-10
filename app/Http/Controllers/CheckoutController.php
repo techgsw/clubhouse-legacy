@@ -343,35 +343,38 @@ class CheckoutController extends Controller
 
         $product_option = ProductOption::with('product')->find($request['product_option_id']);
 
+        $breadcrumb = array(
+            'Clubhouse' => '/',
+            'Checkout' => '',
+        );
+
         switch ($request['type']) {
             case 'career-service':
                 $view = 'career-service-thanks';
-                $breadcrumb = 'Career Service';
-                $link = '/career-services';
+                $breadcrumb['Career Service'] = '/career-services';
                 break;
             case 'webinar':
                 $view = 'webinar-thanks';
-                $breadcrumb = 'Webinar';
-                $link = '/webinars';
+                $breadcrumb = array(
+                    'Clubhouse' => '/',
+                    'Webinars' => '/webinars',
+                    'RSVP' => '',
+                );
                 break;
             case 'membership':
                 $view = 'membership-thanks';
-                $breadcrumb = 'Membership';
-                $link = '/membership-options';
+                $breadcrumb['Membership'] = '/membership-options';
                 break;
             default:
                 $view = 'thanks';
-                $breadcrumb = 'Product';
+                $breadcrumb['Product'] = '';
                 break;
         }
 
+        $breadcrumb['Thanks'] = '';
+
         return view('checkout/'.$view, [
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'Checkout' => '',
-                $breadcrumb => $link,
-                'Thanks' => ''
-            ],
+            'breadcrumb' => $breadcrumb, 
             'product_option' => $product_option
         ]);
     }
