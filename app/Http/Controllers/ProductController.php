@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use \Exception;
+use Mail;
 use App\Message;
 use App\Product;
 use App\ProductOption;
 use App\ProductOptionRole;
 use App\Tag;
+use App\Transaction;
+use App\TransactionProductOption;
+use App\Mail\UserPaidWebinar;
 use App\Providers\ImageServiceProvider;
 use App\Providers\StripeServiceProvider;
+use App\Providers\EmailServiceProvider;
+use App\Providers\ZoomServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -66,6 +72,7 @@ class ProductController extends Controller
 
         try {
             $product = DB::transaction(function () use ($request) {
+                $product_type = null;
                 $product = new Product;
                 $product->name = request('name');
                 $product->description = request('description');
@@ -118,6 +125,11 @@ class ProductController extends Controller
                     throw new Exception('Unable to update product with stripe id.');
                 }
 
+                $webinar_tag = false;
+                if (in_array('Webinar', $tag_names)) {
+                   $webinar_tag = true;
+                }
+
                 foreach ($product->options as $key => $option) {
                     if ($product->type == 'service') {
                         try {
@@ -136,8 +148,18 @@ class ProductController extends Controller
                         }
                     } else {
                         try {
-                            $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
-                            $option->stripe_sku_id = $stripe_sku->id;
+                            if ($option->price > 0) {
+                                    $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
+                                    $option->stripe_sku_id = $stripe_sku->id;
+                            }
+                            if ($webinar_tag == true) {
+                                if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
+                                    throw new Exception('Invalid Webinar description. Format must be T[am|pm] [GMT|PST|EST]');
+                                }
+                                $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
+                                $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date);
+                                $option->zoom_webinar_id = $webinar->id;
+                            }
                             $option->save();
                         } catch (Exception $e) {
                             Log::error($e);
@@ -147,7 +169,7 @@ class ProductController extends Controller
                             if (!is_null($stripe_sku)) {
                                 StripeServiceProvider::deleteSku($stripe_sku);
                             }
-                            throw new Exception('Unable to update product option with stripe sku id.');
+                            throw new Exception('Unable to update product option with stripe sku id or zoom id.');
                         }
                     }
                 }
@@ -285,13 +307,29 @@ class ProductController extends Controller
 
                 $stripe_product = StripeServiceProvider::updateProduct($product);
 
+                $webinar_tag = false;
+                if (in_array('Webinar', $tag_names)) {
+                   $webinar_tag = true;
+                }
+
                 foreach ($updated_options as $key => $option) {
                     if ($product->type == 'service') {
                         $stripe_plan = StripeServiceProvider::updatePlan($stripe_product, $option);
                         $option->stripe_plan_id = $stripe_plan->id;
                     } else {
-                        $stripe_sku = StripeServiceProvider::updateSku($stripe_product, $option);
-                        $option->stripe_sku_id = $stripe_sku->id;
+                        if ($option->price > 0) {
+                            $stripe_sku = StripeServiceProvider::updateSku($stripe_product, $option);
+                            $option->stripe_sku_id = $stripe_sku->id;
+                        } else {
+                            if ($webinar_tag == true && is_null($option->zoom_webinar_id)) {
+                                if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
+                                    throw new Exception('Invalid webinar description. Format must be T[am|pm] [GMT|PST|EST]');
+                                }
+                                $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
+                                $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date);
+                                $option->zoom_webinar_id = $webinar->id;
+                            }
+                        }
                     }
                     $option->save();
                 }
@@ -300,7 +338,6 @@ class ProductController extends Controller
             });
         } catch (Exception $e) {
             Log::error($e);
-            dd($e->getMessage());
             $request->session()->flash('message', new Message(
                 "Failed to save product. Please try again.",
                 "danger",

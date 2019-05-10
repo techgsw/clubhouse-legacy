@@ -79,7 +79,6 @@
     $('body').on(
         {
             click: function() {
-                $(this).addClass('hidden');
                 $('#checkout-submit-button').addClass('hidden');
                 $('.cc-form.scale-transition').removeClass('hidden');
                 setTimeout(function() {
@@ -161,7 +160,6 @@
         {
             submit: function(e) {
                 e.preventDefault();
-
                 stripe.createToken(card).then(function(result) {
                     if (result.error) {
                         //TODO call log service

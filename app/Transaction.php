@@ -13,4 +13,10 @@ class Transaction extends Model
         'created_at',
         'updated_at'
     ];
+
+
+    public function transaction_product_options()
+    {
+        return $this->hasMany(TransactionProductOption::class);
+    }
 }

@@ -64,10 +64,5 @@
             </table>
         @endif
     @endcan
-    @include('layouts.components.messages')
-    <div class="row">
-        <div class="col s12">
-        </div>
-    </div>
 </div>
 @endsection

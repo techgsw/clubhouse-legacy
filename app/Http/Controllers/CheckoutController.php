@@ -16,8 +16,9 @@ use App\TransactionProductOption;
 use App\RoleUser;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
-use App\Providers\StripeServiceProvider;
 use App\Providers\EmailServiceProvider;
+use App\Providers\StripeServiceProvider;
+use App\Providers\ZoomServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -77,8 +78,58 @@ class CheckoutController extends Controller
             $product_type = 'career-service';
             $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
-            $product_type = 'webinar';
-            $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
+            if ($product_option->price > 0) {
+                $product_type = 'webinar';
+                $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
+            } else {
+                $previous_transaction = DB::table('transaction')
+                    ->join('transaction_product_option', 'transaction.id', '=', 'transaction_id')
+                    ->where('product_option_id', $product_option->id)
+                    ->where('user_id', $user->id)->first();
+
+                if ($previous_transaction) {
+                    return redirect()->back()->withErrors(['msg' => 'You have already registered for this webinar.']);
+                }
+
+                try {
+                    $zoom_response = ZoomServiceProvider::addRegistrant($product_option->zoom_webinar_id, $user);
+
+                    $response = DB::transaction(function () use ($product_option, $user) {
+                        try {
+                            $product_option->quantity = $product_option->quantity - 1;
+                            $product_option->save();
+                        } catch (\Exception $e) {
+                            Log::error($e->getMessage());
+                        }
+
+                        $transaction = new Transaction();
+                        $transaction->user_id = $user->id;
+                        $transaction->amount = 0;
+                        $transaction->save();
+
+                        $transaction_product_option = new TransactionProductOption();
+                        $transaction_product_option->transaction_id = $transaction->id;
+                        $transaction_product_option->product_option_id = $product_option->id;
+                        $transaction_product_option->save();
+
+                        try {
+                            EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
+                            Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
+                        } catch (\Exception $e) {
+                            Log::error($e->getMessage());
+                        }
+
+                        return array('type' => 'webinar', 'product_option_id' => $product_option->id);
+                    });
+
+                    return redirect()->action('CheckoutController@thanks', $response);
+                } catch (Exception $e) {
+                    // TODO try to refund order if it went through
+                    Log::error($e);
+                    return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
+                }
+                // TODO redirect to thank you page.
+            }
         } else {
             $product_type = 'membership';
             $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
@@ -189,7 +240,7 @@ class CheckoutController extends Controller
             if ($response == false) {
                 return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // TODO try to refund order if it went through
             Log::error($e);
             return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
@@ -292,35 +343,38 @@ class CheckoutController extends Controller
 
         $product_option = ProductOption::with('product')->find($request['product_option_id']);
 
+        $breadcrumb = array(
+            'Clubhouse' => '/',
+            'Checkout' => '',
+        );
+
         switch ($request['type']) {
             case 'career-service':
                 $view = 'career-service-thanks';
-                $breadcrumb = 'Career Service';
-                $link = '/career-services';
+                $breadcrumb['Career Service'] = '/career-services';
                 break;
             case 'webinar':
                 $view = 'webinar-thanks';
-                $breadcrumb = 'Webinar';
-                $link = '/webinars';
+                $breadcrumb = array(
+                    'Clubhouse' => '/',
+                    'Webinars' => '/webinars',
+                    'RSVP' => '',
+                );
                 break;
             case 'membership':
                 $view = 'membership-thanks';
-                $breadcrumb = 'Membership';
-                $link = '/membership-options';
+                $breadcrumb['Membership'] = '/membership-options';
                 break;
             default:
                 $view = 'thanks';
-                $breadcrumb = 'Product';
+                $breadcrumb['Product'] = '';
                 break;
         }
 
+        $breadcrumb['Thanks'] = '';
+
         return view('checkout/'.$view, [
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'Checkout' => '',
-                $breadcrumb => $link,
-                'Thanks' => ''
-            ],
+            'breadcrumb' => $breadcrumb, 
             'product_option' => $product_option
         ]);
     }
