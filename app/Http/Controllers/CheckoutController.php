@@ -112,13 +112,6 @@ class CheckoutController extends Controller
                         $transaction_product_option->product_option_id = $product_option->id;
                         $transaction_product_option->save();
 
-                        try {
-                            EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
-                            Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
-                        } catch (\Exception $e) {
-                            Log::error($e->getMessage());
-                        }
-
                         return array('type' => 'webinar', 'product_option_id' => $product_option->id);
                     });
 
