@@ -8,8 +8,10 @@
                     <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
                 </div>
                 <div class="input-field col s12 m3">
-                    <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
-                    <label for="featured">Featured</label>
+                    @can('feature-job')
+                        <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
+                        <label for="featured">Featured</label>
+                    @endcan
                 </div>
                 <div class="input-field col s12">
                     <div id="description" class="markdown-editor" placeholder="Description" style="outline: none; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid #9e9e9e;"></div>
@@ -34,12 +36,14 @@
                     </select>
                 </div>
                 <div class="input-field col s12">
-                    <label for="recruiting-type-code" class="active">Recruiting Type</label>
-                    <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
-                        <option value="" selected disabled>Please select...</option>
-                        <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
-                        <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
-                    </select>
+                    @can('type-job')
+                        <label for="recruiting-type-code" class="active">Recruiting Type</label>
+                        <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
+                            <option value="" selected disabled>Please select...</option>
+                            <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
+                            <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
+                        </select>
+                    @endcan
                 </div>
                 <div class="file-field input-field col s12">
                     <div class="btn white black-text">
