@@ -121,6 +121,11 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
+        $user = Auth::User();
+        // need to get the org an then query parent org Id and see if parents
+        // then query parent id to get all children
+        // dd($user->contact);
+
         $organization = Organization::find($request->organization_id);
         if (!$organization) {
             $request->session()->flash('message', new Message(
