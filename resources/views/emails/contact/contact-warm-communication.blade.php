@@ -1,4 +1,4 @@
-@component('emails.layout')
+@component('emails.contact-comm-layout')
     @slot('body')
         <p>Hi {{$contact->contact->first_name}}, hope all is well!</p>
         <p>Your name came back across my desk today and I wanted to reach out as I thought you may be a good fit for one of the new job opportunities we are currently supporting with the {{$contact->job->organization_name}} as they are seeking a {{$contact->job->title}} to join their team.</p>
