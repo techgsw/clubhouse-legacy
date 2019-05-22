@@ -30,6 +30,9 @@
         @if ($contact->user)
             <li class="tab"><a href="/user/{{ $contact->user->id }}/profile">Profile</a></li>
             <li class="tab"><a href="/user/{{ $contact->user->id }}/jobs">Jobs</a></li>
+            @can ('create-job')
+                <li class="tab"><a class="" href="/admin/{{ $contact->user->id }}/show-listings">Listings</a></li>
+            @endcan
             @can ('edit-roles')
                 <li class="tab"><a href='/admin/{{ $contact->user->id }}/edit-roles'>Roles</a></li>
             @endcan

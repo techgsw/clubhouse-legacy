@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Job;
 use App\Pipeline;
 use App\JobPipeline;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -53,6 +55,26 @@ class JobController extends Controller
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
             'searching' => $searching
+        ]);
+    }
+
+    public function showListings(Request $request)
+    {
+        $user = User::where('id', '=', $request->id)->first();
+
+        $pipeline = Pipeline::orderBy('id', 'asc')->get();
+        $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
+        $jobs = Job::where('user_id', '=', $user->id)->get();
+
+        return view('admin/show-listings', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Account' => "/user/{$user->id}/account"
+            ],
+            'user' => $user,
+            'jobs' => $jobs,
+            'pipeline' => $pipeline,
+            'job_pipeline' => $job_pipeline,
         ]);
     }
 }

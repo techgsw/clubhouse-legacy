@@ -126,6 +126,7 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/contact', 'ContactController@index');
         Route::get('/admin/contact/download', 'ContactController@download');
         Route::get('/admin/job', 'JobController@index');
+        Route::get('/admin/{id}/show-listings', 'JobController@showListings');
 
         Route::get('/admin/pipeline', 'PipelineController@index');
         Route::get('/admin/pipeline/job', 'PipelineController@job');
