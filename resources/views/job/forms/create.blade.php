@@ -43,6 +43,8 @@
                             <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
                             <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
                         </select>
+                    @else
+                        <input type="hidden" class="hidden" value="passive" name="recruiting_type_code" />
                     @endcan
                 </div>
                 <div class="file-field input-field col s12">

@@ -371,18 +371,24 @@ class OrganizationController extends Controller
     public function all()
     {
         $user = Auth::user();
-        
-        $organization = DB::table('contact_organization')
-                                ->select('*')
-                                ->where('contact_id', '=', $user->contact->id)
-                                ->join('organization', 'organization.id', '=', 'organization_id')
-                                ->first();
-        if (!is_null($organization)) {
-            $organizations = OrganizationController::getOrganizationChildren($organization);
+
+        if ($user->can('view-admin-jobs', $user)) {
+            $organizations = DB::table('organization')
+                                    ->select('*')
+                                    ->get();
         } else {
-            return response()->json([
-                'organizations' => $organization
-            ]);
+            $organization = DB::table('contact_organization')
+                                    ->select('*')
+                                    ->where('contact_id', '=', $user->contact->id)
+                                    ->join('organization', 'organization.id', '=', 'organization_id')
+                                    ->first();
+            if (!is_null($organization)) {
+                $organizations = OrganizationController::getOrganizationChildren($organization);
+            } else {
+                return response()->json([
+                    'organizations' => $organization
+                ]);
+            }
         }
 
         // $this->authorize('view-organization');
