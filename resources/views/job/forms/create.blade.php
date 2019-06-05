@@ -1,4 +1,4 @@
-<form id="create-job-form" method="post" action="/job" enctype="multipart/form-data" class="organization-field-autocomplete">
+<form id="create-job-form" method="post" action="" enctype="multipart/form-data" class="organization-field-autocomplete">
     {{ csrf_field() }}
     <div class="row">
         <div class="col s12 m8">
@@ -43,8 +43,6 @@
                             <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
                             <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
                         </select>
-                    @else
-                        <input type="hidden" class="hidden" value="passive" name="recruiting_type_code" />
                     @endcan
                 </div>
                 <div class="file-field input-field col s12">
@@ -87,9 +85,20 @@
         <div class="col s12 m4">
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
-                    <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
-                    <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
+                    @can('view-admin-jobs')
+                        <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
+                        <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
+                        <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
+                    @else
+                        <label for="organization" class="active organization-autocomplete">Organization</label>
+                        <select id="organization-id" name="organization_id" class="browser-default">
+                            <option {{ old('organization') == "" ? "selected" : "" }} disabled>Select one</option>
+                            @foreach ($organizations as $org)
+                                <option value="{{$org->id}}">{{ $org->name }}</option>
+                            @endforeach
+                        </select>
+                    @endcan
+
                 </div>
                 <div class="input-field col s12">
                     <label for="league" class="active">League</label>

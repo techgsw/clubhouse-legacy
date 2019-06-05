@@ -19,6 +19,9 @@
     </div>
     <div id="job-search-form" class="{{ $searching ? '' : 'hide-on-small-only'}}">
         @include('forms.job-search')
+        <div class="col s12 6 input-field center-align">
+            <a href="{{ Auth::user() ? '' : '\job\register' }}" class="btn sbs-red" style="margin-bottom: 12px;">Post your job for free now!</a>
+        </div>
     </div>
     @if (count($jobs) > 0)
         @php

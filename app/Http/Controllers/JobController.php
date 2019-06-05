@@ -12,6 +12,8 @@ use App\League;
 use App\Message;
 use App\Organization;
 use App\Providers\ImageServiceProvider;
+use App\Providers\OrganizationServiceProvider;
+use App\Providers\JobServiceProvider;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
 use Illuminate\Http\Request;
@@ -23,6 +25,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Parsedown;
 use \Exception;
+use App\Exceptions\SBSException;
 
 class JobController extends Controller
 {
@@ -61,6 +64,17 @@ class JobController extends Controller
             'searching' => $searching,
             'pipeline' => $pipeline,
             'leagues' => League::all()
+        ]);
+    }
+
+    public function register(Request $request)
+    {
+        return view('job/register',
+        [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Sport Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
+            ],
         ]);
     }
 
@@ -103,9 +117,10 @@ class JobController extends Controller
         if ($organization_id = (int)$request->organization) {
             $organization = Organization::find($organization_id);
         }
-
+        
         return view('job/create', [
             'organization' => $organization,
+            'organizations' => OrganizationServiceProvider::all(),
             'leagues' => League::all(),
             'breadcrumb' => [
                 'Clubouse' => '/',
@@ -121,102 +136,137 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        $user = Auth::User();
-        // need to get the org an then query parent org Id and see if parents
-        // then query parent id to get all children
-        // dd($user->contact);
+        // $user = Auth::User();
+        // $organization_id = $request->organization_id;
+        // $organization = Organization::find($request->organization_id);
+        // $league = League::where('abbreviation', $request->league)->first();
+        // $image = $organization->image;
+        // // dd(request()->file('alt_image_url'));
+        // $alt_image_file = request()->file('alt_image_url');
+        // $document = request()->file('document');
+        
+        // $rank = 0;
+        // if ($request->featured) {
+        //     $rank = 1;
+        //     $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+        //     if ($last_job) {
+        //         $rank = $last_job->rank+1;
+        //     }
+        
+        // try {
 
-        $organization = Organization::find($request->organization_id);
-        if (!$organization) {
-            $request->session()->flash('message', new Message(
-                "Failed to find organization " . $request->organization_id,
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
-        }
+        //     JobServiceProvider::validateJob($user, $organization_id, $organization, $league, $image, $alt_image_file);
 
-        $image = $organization->image;
-        $alt_image_file = request()->file('alt_image_url');
-        if (is_null($image) && !$alt_image_file) {
-            $request->session()->flash('message', new Message(
-                "You must upload an image.",
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
-        }
+        // } catch(SBSException $sbse) {
+        //     Log::error($sbse->getMessage());
+        //     $request->session()->flash('message', new Message(
+        //         "Sorry, SBS service provider exception Please try again. " . $sbse->getMessage(),
+        //         "warning",
+        //         $code = null,
+        //         $icon = "error"
+        //     ));
+
+        //     return back()->withInput();
+
+        // } catch(\Exception $e){
+        //     Log::error($e->getMessage());
+        //     $request->session()->flash('message', new Message(
+        //         "Sorry, an exception Please try again.",
+        //         "warning",
+        //         $code = null,
+        //         $icon = "error"
+        //     ));
+
+        //     return back()->withInput();
+        // }
+        // try {
+
+        //     $job = new Job([
+        //         'user_id' => Auth::user()->id,
+        //         'title' => $request->title,
+        //         'description' => $request->description,
+        //         'organization_name' => $organization->name,
+        //         'organization_id' => $organization->id,
+        //         'league' => $organization->league->abbreviation,
+        //         'job_type' => $request->job_type,
+        //         'recruiting_type_code' => $user->roles->contains('administrator') ? $request->recruiting_type_code : 'passive',
+        //         'city' => $request->city,
+        //         'state' => $request->state,
+        //         'country' => $request->country,
+        //         'rank' => $rank,
+        //         'featured' => $request->featured ? true : false,
+        //         'document' => $document ?: null,
+        //     ]);
+
+        //     if ($alt_image_file) {
+        //         // Override image
+        //         $image = ImageServiceProvider::saveFileAsImage(
+        //             $alt_image_file,
+        //             $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
+        //             $directory = 'job/'.$job->id
+        //         );
+        //     }
+    
+        //     $job->image_id = $image->id;
+            
+        //     $job = DB::transaction(function () use ($job) {
+        //         $job->save();
+        //         return $job;
+        //     })
+
+        // } catch (\Exception $e) {
+        //     Log::error($e->getMessage());
+        //     $request->session()->flash('message', new Message(
+        //         "Sorry, failed to save the job. Please try again.",
+        //         "danger",
+        //         $code = null,
+        //         $icon = "error"
+        //     ));
+        //     return back()->withInput();
+        // }
+
+        // return redirect()->action('JobController@show', [$job]);
+        $document = request()->file('document');
+        $alt_image = request()->file('alt_image_url');
+
+        $job = new Job([
+            'user_id' => Auth::user()->id,
+            'title' => request('title'),
+            'description' => request('description'),
+            'organization_id' => $request->organization_id,
+            'job_type' => request('job_type'),
+            'league' => request('league'),
+            'recruiting_type_code' => 'passive',
+            'city' => request('city'),
+            'state' => request('state'),
+            'country' => request('country'),
+            'featured' => request('featured') ? true : false,
+            'document' => $document ?: null,
+        ]);
 
         try {
-            $document = request()->file('document');
-            if ($document) {
-                $document = $document->store('document', 'public');
-            } else {
-                $request->session()->flash('message', new Message(
-                    "You must upload a document.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
-                return back()->withInput();
-            }
-        } catch (Exception $e) {
+            $job = DB::transaction(function () use ($job, $document, $alt_image) {
+                return JobServiceProvider::store($job, $document, $alt_image);
+            });
+        } catch (SBSException $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
-                "Sorry, the document you tried to upload failed.",
+                $e->getMessage(),
                 "danger",
                 $code = null,
                 $icon = "error"
             ));
             return back()->withInput();
-        }
-
-        try {
-            $job = DB::transaction(function () use ($alt_image_file, $image, $document, $request) {
-                $rank = 0;
-                if (request('featured')) {
-                    $rank = 1;
-                    $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-                    if ($last_job) {
-                        $rank = $last_job->rank+1;
-                    }
-                }
-
-                $job = new Job([
-                    'user_id' => Auth::user()->id,
-                    'title' => request('title'),
-                    'description' => request('description'),
-                    'organization_name' => request('alt_organization') ?: request('organization'),
-                    'organization_id' => request('organization_id'),
-                    'league' => request('league'),
-                    'job_type' => request('job_type'),
-                    'recruiting_type_code' => request('recruiting_type_code'),
-                    'city' => request('city'),
-                    'state' => request('state'),
-                    'country' => request('country'),
-                    'rank' => $rank,
-                    'featured' => request('featured') ? true : false,
-                    'document' => $document ?: null,
-                ]);
-
-                // If no image file is given, we're reusing the organization's image
-                if ($alt_image_file) {
-                    // Override image
-                    $image = ImageServiceProvider::saveFileAsImage(
-                        $alt_image_file,
-                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
-                        $directory = 'job/'.$job->id
-                    );
-                }
-
-                $job->image_id = $image->id;
-                $job->save();
-
-                return $job;
-            });
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $request->session()->flash('message', new Message(
+                "Sorry, failed to save the job. Please try again.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        } catch (\Throwable $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
                 "Sorry, failed to save the job. Please try again.",

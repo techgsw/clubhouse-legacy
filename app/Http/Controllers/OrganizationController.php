@@ -352,48 +352,11 @@ class OrganizationController extends Controller
         return redirect()->action('OrganizationController@edit', [$organization]);
     }
 
-    private function getOrganizationChildren($organization, &$orgs = array())
-    {   
-        $orgs[] = $organization;
-
-        $organizations = DB::table('organization as o')
-                            ->select('*')
-                            ->where('o.parent_organization_id', '=', $organization->id)
-                            ->get();
-        
-        foreach ($organizations as $organization) {
-            OrganizationController::getOrganizationChildren($organization, $orgs);
-        }
-        
-        return $orgs;
-    }
-
     public function all()
     {
-        $user = Auth::user();
-
-        if ($user->can('view-admin-jobs', $user)) {
-            $organizations = DB::table('organization')
-                                    ->select('*')
-                                    ->get();
-        } else {
-            $organization = DB::table('contact_organization')
-                                    ->select('*')
-                                    ->where('contact_id', '=', $user->contact->id)
-                                    ->join('organization', 'organization.id', '=', 'organization_id')
-                                    ->first();
-            if (!is_null($organization)) {
-                $organizations = OrganizationController::getOrganizationChildren($organization);
-            } else {
-                return response()->json([
-                    'organizations' => $organization
-                ]);
-            }
-        }
-
         // $this->authorize('view-organization');
         return response()->json([
-            'organizations' => $organizations
+            'organizations' => OrganizationServiceProvider::all(),
         ]);
     }
 

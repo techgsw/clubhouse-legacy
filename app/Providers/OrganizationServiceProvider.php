@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use App\Contact;
-use App\Organization;
+use App\Http\Controller\OrganizationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -35,5 +36,46 @@ class OrganizationServiceProvider extends ServiceProvider
             });
 
         return $match_count;
+    }
+
+    private static function getOrganizationChildren($organization, &$orgs = array())
+    {   
+        $orgs[] = $organization;
+
+        $organizations = DB::table('organization as o')
+                            ->select('*')
+                            ->where('o.parent_organization_id', '=', $organization->id)
+                            ->get();
+        
+        foreach ($organizations as $organization) {
+            OrganizationServiceProvider::getOrganizationChildren($organization, $orgs);
+        }
+        
+        return $orgs;
+    }
+
+    public static function all()
+    {
+        $user = Auth::user();
+
+        if ($user->can('view-admin-jobs', $user)) {
+            $organizations = DB::table('organization')
+                                    ->select('*')
+                                    ->get();
+        } else {
+            $organization = DB::table('contact_organization')
+                                    ->select('*')
+                                    ->where('contact_id', '=', $user->contact->id)
+                                    ->join('organization', 'organization.id', '=', 'organization_id')
+                                    ->first();
+            if (!is_null($organization)) {
+                $organizations = OrganizationServiceProvider::getOrganizationChildren($organization);
+            } else {
+                return $organization;
+            }
+        }
+
+        // $this->authorize('view-organization');
+        return $organizations;
     }
 }
