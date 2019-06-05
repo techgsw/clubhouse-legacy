@@ -29,7 +29,7 @@ class OrganizationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
         $this->authorize('view-admin-organizations');
 
         $organizations = Organization::with(['addresses', 'jobs', 'contacts'])

@@ -561,13 +561,14 @@ $.valHooks.textarea = {
                     options[org.name] = null;
                     return options;
                 }, {});
+                console.log(options)
                 // Initialize autocompletes
                 organization_autocomplete.autocomplete({
                     data: options,
                     limit: 10,
                     onAutocomplete: function (name) {
                         target_input.val(Organization.map[name]);
-                        target_input.trigger('change');
+                        target_input.trigger('change')
                     },
                     minLength: 2,
                 });
@@ -601,7 +602,9 @@ $.valHooks.textarea = {
     $('body').on(
         {
             change: function (e, ui) {
+                $('.organization-create-modal').modal('open');
                 var org_id = parseInt($(this).val());
+                console.log("id", org_id);
                 $('img#organization-image').attr('src', '/images/progress.gif');
                 $('div.organization-image-preview').removeClass('hidden');
                 Organization.getPreview(org_id, 'medium')

@@ -11,6 +11,7 @@ use App\JobPipeline;
 use App\League;
 use App\Message;
 use App\Organization;
+use App\OrganizationType;
 use App\Providers\ImageServiceProvider;
 use App\Providers\OrganizationServiceProvider;
 use App\Providers\JobServiceProvider;
@@ -121,6 +122,7 @@ class JobController extends Controller
         return view('job/create', [
             'organization' => $organization,
             'organizations' => OrganizationServiceProvider::all(),
+            'organization_types' => OrganizationType::all(),
             'leagues' => League::all(),
             'breadcrumb' => [
                 'Clubouse' => '/',

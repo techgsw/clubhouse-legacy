@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Contact;
+use App\Organization;
 use App\Http\Controller\OrganizationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

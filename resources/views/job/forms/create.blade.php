@@ -101,7 +101,7 @@
                         @else
                             <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
                             <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
-                            <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
+                            <label for="organization" data-error="{{ $errors->first('organization') }}">Find your organization</label>
                         @endif
                     @endcan
 

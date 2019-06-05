@@ -15,4 +15,5 @@
         </div>
     </div>
 </div>
+@component('components.organization-create-modal', ['leagues' => $leagues, 'organization_types' => $organization_types])@endcomponent
 @endsection
