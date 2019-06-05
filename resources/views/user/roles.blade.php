@@ -36,9 +36,9 @@
             @endif
         @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
-        <li class="tab"><a href="/user/{{ $user->id }}/jobs">Jobs</a></li>
+        <li class="tab"><a href="/user/{{ $user->id }}/jobs">My Jobs</a></li>
         @can ('create-job')
-            <li class="tab"><a class="" href="/admin/{{ $user->id }}/show-listings">Listings</a></li>
+            <li class="tab"><a class="" href="/admin/{{ $user->id }}/job-postings">Job Postings</a></li>
         @endcan
         @can ('edit-roles')
             <li class="tab"><a class="active" href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>

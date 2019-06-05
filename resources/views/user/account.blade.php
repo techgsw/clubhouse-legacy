@@ -20,8 +20,10 @@
         @can ('edit-profile', $user)
             <a href="/user/{{ $user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
         @endcan
-        @can ('edit-profile', $user)
+        @can ('view-admin-jobs', $user)
             <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
+        @elsecan ('create-job', $user)
+            <a href="/job/create" class="flat-button red"><i class="fa fa-id-card"></i> Create Job Posting</a>
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
@@ -35,10 +37,10 @@
             @endif
         @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
-        <li class="tab"><a class="" href="/user/{{ $user->id }}/jobs">Jobs</a></li>
+        <li class="tab"><a class="" href="/user/{{ $user->id }}/jobs">My Jobs</a></li>
         <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
         @can ('create-job')
-            <li class="tab"><a class="" href="/admin/{{ $user->id }}/show-listings">Listings</a></li>
+            <li class="tab"><a class="" href="/admin/{{ $user->id }}/job-postings">Job Postings</a></li>
         @endcan
         @can ('edit-roles')
             <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>

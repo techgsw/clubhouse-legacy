@@ -90,13 +90,19 @@
                         <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
                         <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
                     @else
-                        <label for="organization" class="active organization-autocomplete">Organization</label>
-                        <select id="organization-id" name="organization_id" class="browser-default">
-                            <option {{ old('organization') == "" ? "selected" : "" }} disabled>Select one</option>
-                            @foreach ($organizations as $org)
-                                <option value="{{$org->id}}">{{ $org->name }}</option>
-                            @endforeach
-                        </select>
+                        @if(count($organizations) > 1)
+                            <label for="organization" class="active organization-autocomplete">Organization</label>
+                            <select id="organization-id" name="organization_id" class="browser-default">
+                                <option {{ old('organization') == "" ? "selected" : "" }} disabled>Select one</option>
+                                @foreach ($organizations as $org)
+                                    <option value="{{$org->id}}">{{ $org->name }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
+                            <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
+                            <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
+                        @endif
                     @endcan
 
                 </div>

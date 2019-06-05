@@ -69,7 +69,7 @@ class JobController extends Controller
         ]);
     }
 
-    public function showListings(Request $request)
+    public function showPostings(Request $request)
     {
         $user = User::where('id', '=', $request->id)->first();
 
@@ -77,7 +77,7 @@ class JobController extends Controller
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
         $jobs = Job::where('user_id', '=', $user->id)->get();
 
-        return view('admin/show-listings', [
+        return view('admin/job-postings', [
             'breadcrumb' => [
                 'Home' => '/',
                 'Account' => "/user/{$user->id}/account"

@@ -126,7 +126,7 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/contact', 'ContactController@index');
         Route::get('/admin/contact/download', 'ContactController@download');
         Route::get('/admin/job', 'JobController@index');
-        Route::get('/admin/{id}/show-listings', 'JobController@showListings');
+        Route::get('/admin/{id}/job-postings', 'JobController@showPostings');
 
         //refactoring jobs to be in admin domain since we will be restricting job admins
         Route::get('/admin/job/register', 'JobController@register');

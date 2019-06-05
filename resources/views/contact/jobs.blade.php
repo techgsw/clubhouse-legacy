@@ -25,9 +25,9 @@
         @endcan
         @if ($contact->user)
             <li class="tab"><a href="/user/{{ $contact->user->id }}/profile">Profile</a></li>
-            <li class="tab"><a class="active" href="/user/{{ $contact->user->id }}/jobs">Jobs</a></li>
+            <li class="tab"><a class="active" href="/user/{{ $contact->user->id }}/jobs">My Jobs</a></li>
         @else
-            <li class="tab"><a class="active" href="/contact/{{ $contact->id }}/jobs">Jobs</a></li>
+            <li class="tab"><a class="active" href="/contact/{{ $contact->id }}/jobs">My Jobs</a></li>
         @endif
         @can ('view-mentor')
             @if ($contact->mentor)

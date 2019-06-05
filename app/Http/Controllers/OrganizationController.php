@@ -356,7 +356,7 @@ class OrganizationController extends Controller
     {
         // $this->authorize('view-organization');
         return response()->json([
-            'organizations' => OrganizationServiceProvider::all(),
+            'organizations' => OrganizationServiceProvider::all() ?: Organization::all(),
         ]);
     }
 
