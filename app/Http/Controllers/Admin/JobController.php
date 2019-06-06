@@ -9,8 +9,9 @@ use App\JobPipeline;
 use App\User;
 use App\League;
 use App\Message;
-use App\Http\Requests\StoreJob;
 use App\Organization;
+use App\OrganizationType;
+use App\Http\Requests\StoreJob;
 use App\Providers\OrganizationServiceProvider;
 use App\Providers\JobServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -163,6 +164,7 @@ class JobController extends Controller
         return view('admin/job/create', [
             'organization' => $organization,
             'organizations' => OrganizationServiceProvider::all(),
+            'organization_types' => OrganizationType::all(),
             'leagues' => League::all(),
             'breadcrumb' => [
                 'Clubouse' => '/',

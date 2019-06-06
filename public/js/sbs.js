@@ -598,30 +598,53 @@ $.valHooks.textarea = {
         });
     }
 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var organization_name = $('form.organization-create').find('#name').val();
+                $('input#organization.organization-autocomplete').val(organization_name);
+                $('.organization-create-modal').modal('close');
+            }
+        },
+        'form.organization-create .submit-org-create'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $('.organization-create-modal').modal('close');
+            }
+        },
+        'form.organization-create .cancel-organization-form'
+    );
+
     // TODO Move this
     $('body').on(
         {
             change: function (e, ui) {
-                $('.organization-create-modal').modal('open');
                 var org_id = parseInt($(this).val());
-                console.log("id", org_id);
-                $('img#organization-image').attr('src', '/images/progress.gif');
-                $('div.organization-image-preview').removeClass('hidden');
-                Organization.getPreview(org_id, 'medium')
-                    .done(function (resp) {
-                        $('img#organization-image').attr('src', resp.image_url);
-                        $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
-                        $('form.organization-field-autocomplete select[name="league"]').trigger('change');
-                        $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
-                        $('form.organization-field-autocomplete input[name="city"]').trigger('change');
-                        $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
-                        $('form.organization-field-autocomplete select[name="state"]').trigger('change');
-                        $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
-                        $('form.organization-field-autocomplete select[name="country"]').trigger('change');
-                    })
-                    .fail(function (resp) {
-                        console.error(resp);
-                    });
+                console.log(org_id);
+                if (isNaN(org_id)) {
+                    $('.organization-create-modal').modal('open');
+                } else {
+                    $('img#organization-image').attr('src', '/images/progress.gif');
+                    $('div.organization-image-preview').removeClass('hidden');
+                    Organization.getPreview(org_id, 'medium')
+                        .done(function (resp) {
+                            $('img#organization-image').attr('src', resp.image_url);
+                            $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                            $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                            $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                            $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                            $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                            $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+                        })
+                        .fail(function (resp) {
+                            console.error(resp);
+                        });
+                }
             }
         },
         'form.organization-field-autocomplete input#organization-id'

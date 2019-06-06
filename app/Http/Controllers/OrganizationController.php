@@ -73,6 +73,7 @@ class OrganizationController extends Controller
      */
     public function store(Store $request)
     {
+
         $league_ot = OrganizationType::where('code', 'league')->first();
 
         $duplicate = Organization::where('name', $request->name)->first();
@@ -162,7 +163,11 @@ class OrganizationController extends Controller
             Log::error($e->getMessage());
         }
 
-        return redirect()->action('OrganizationController@show', [$organization]);
+        if (preg_match('/job/', $request->headers->get('referer'))) {
+            return;
+        } else {
+            return redirect()->action('OrganizationController@show', [$organization]);
+        }
     }
 
     /**
