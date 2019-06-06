@@ -598,11 +598,28 @@ $.valHooks.textarea = {
         });
     }
 
+    Organization.createJob = function (form) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/organization',
+            'data': form,
+        })
+    }
+
     $('body').on(
         {
             click: function (e, ui) {
-                var organization_name = $('form.organization-create').find('#name').val();
+                var organization_name = $('form.organization-create').find('#name').val()
+                    organization = null;
+                
                 $('input#organization.organization-autocomplete').val(organization_name);
+                
+                Organization.createJob($('form.organization-create').serialize())
+                .done(function (response) {
+                    $('input#organization-id').attr('value', response.id);
+                    $('input#organization.organization-autocomplete').attr('value', response.name);
+                });
+                
                 $('.organization-create-modal').modal('close');
             }
         },
@@ -623,7 +640,7 @@ $.valHooks.textarea = {
         {
             change: function (e, ui) {
                 var org_id = parseInt($(this).val());
-                console.log(org_id);
+
                 if (isNaN(org_id)) {
                     $('.organization-create-modal').modal('open');
                 } else {

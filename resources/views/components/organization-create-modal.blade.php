@@ -3,7 +3,8 @@
     <div class="modal-footer" style="height: 100%;">
         <div class="row">
             <div class="input-field col s12">
-                <form id="create-organization" class="organization-create" method="POST" action="/organization" enctype="multipart/form-data">
+                <!-- <form id="create-organization" class="organization-create" method="POST" action="/organization" enctype="multipart/form-data"> -->
+                <form id="create-organization" class="organization-create" enctype="multipart/form-data">
                     <div class="row">
                         {{ csrf_field() }}
                         <div class="input-field col s12 l7">
@@ -55,7 +56,7 @@
                         @include('address.components.form', ['address' => new App\Address])
                         <div class="input-field col s12">
                             <button type="button" value="cancel" formnovalidate id="cancel-organization-form" class="cancel-organization-form btn sbs-red">cancel</button>
-                            <button type="submit" class="submit-org-create btn sbs-red">Save</button>
+                            <button type="button" class="submit-org-create btn sbs-red">Save</button>
                         </div>
                     </div>
                 </form>

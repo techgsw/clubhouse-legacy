@@ -138,101 +138,12 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        // $user = Auth::User();
-        // $organization_id = $request->organization_id;
-        // $organization = Organization::find($request->organization_id);
-        // $league = League::where('abbreviation', $request->league)->first();
-        // $image = $organization->image;
-        // // dd(request()->file('alt_image_url'));
-        // $alt_image_file = request()->file('alt_image_url');
-        // $document = request()->file('document');
-        
-        // $rank = 0;
-        // if ($request->featured) {
-        //     $rank = 1;
-        //     $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-        //     if ($last_job) {
-        //         $rank = $last_job->rank+1;
-        //     }
-        
-        // try {
-
-        //     JobServiceProvider::validateJob($user, $organization_id, $organization, $league, $image, $alt_image_file);
-
-        // } catch(SBSException $sbse) {
-        //     Log::error($sbse->getMessage());
-        //     $request->session()->flash('message', new Message(
-        //         "Sorry, SBS service provider exception Please try again. " . $sbse->getMessage(),
-        //         "warning",
-        //         $code = null,
-        //         $icon = "error"
-        //     ));
-
-        //     return back()->withInput();
-
-        // } catch(\Exception $e){
-        //     Log::error($e->getMessage());
-        //     $request->session()->flash('message', new Message(
-        //         "Sorry, an exception Please try again.",
-        //         "warning",
-        //         $code = null,
-        //         $icon = "error"
-        //     ));
-
-        //     return back()->withInput();
-        // }
-        // try {
-
-        //     $job = new Job([
-        //         'user_id' => Auth::user()->id,
-        //         'title' => $request->title,
-        //         'description' => $request->description,
-        //         'organization_name' => $organization->name,
-        //         'organization_id' => $organization->id,
-        //         'league' => $organization->league->abbreviation,
-        //         'job_type' => $request->job_type,
-        //         'recruiting_type_code' => $user->roles->contains('administrator') ? $request->recruiting_type_code : 'passive',
-        //         'city' => $request->city,
-        //         'state' => $request->state,
-        //         'country' => $request->country,
-        //         'rank' => $rank,
-        //         'featured' => $request->featured ? true : false,
-        //         'document' => $document ?: null,
-        //     ]);
-
-        //     if ($alt_image_file) {
-        //         // Override image
-        //         $image = ImageServiceProvider::saveFileAsImage(
-        //             $alt_image_file,
-        //             $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
-        //             $directory = 'job/'.$job->id
-        //         );
-        //     }
-    
-        //     $job->image_id = $image->id;
-            
-        //     $job = DB::transaction(function () use ($job) {
-        //         $job->save();
-        //         return $job;
-        //     })
-
-        // } catch (\Exception $e) {
-        //     Log::error($e->getMessage());
-        //     $request->session()->flash('message', new Message(
-        //         "Sorry, failed to save the job. Please try again.",
-        //         "danger",
-        //         $code = null,
-        //         $icon = "error"
-        //     ));
-        //     return back()->withInput();
-        // }
-
-        // return redirect()->action('JobController@show', [$job]);
+        $user_id = Auth::user()->id;
         $document = request()->file('document');
         $alt_image = request()->file('alt_image_url');
 
         $job = new Job([
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'title' => request('title'),
             'description' => request('description'),
             'organization_id' => $request->organization_id,
@@ -278,8 +189,10 @@ class JobController extends Controller
             ));
             return back()->withInput();
         }
-
-        return redirect()->action('JobController@show', [$job]);
+        //probably something to differeniate
+        // return redirect()->action ('JobController@show', [$job]);
+        
+        return redirect('/admin/'.$user_id.'/job-postings');
     }
 
     /**

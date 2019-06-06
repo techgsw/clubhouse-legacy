@@ -164,7 +164,8 @@ class OrganizationController extends Controller
         }
 
         if (preg_match('/job/', $request->headers->get('referer'))) {
-            return;
+
+            return $organization;
         } else {
             return redirect()->action('OrganizationController@show', [$organization]);
         }
