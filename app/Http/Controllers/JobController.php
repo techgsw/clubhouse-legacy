@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Image;
+use App\User;
 use App\Inquiry;
 use App\ContactJob;
 use App\Job;
@@ -114,22 +115,38 @@ class JobController extends Controller
     {
         $this->authorize('create-job');
 
+        $user = Auth::User();
+
         $organization = false;
         if ($organization_id = (int)$request->organization) {
             $organization = Organization::find($organization_id);
         }
-        
-        return view('job/create', [
-            'organization' => $organization,
-            'organizations' => OrganizationServiceProvider::all(),
-            'organization_types' => OrganizationType::all(),
-            'leagues' => League::all(),
-            'breadcrumb' => [
-                'Clubouse' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
-                'Post a job' => '/job/create'
-            ]
-        ]);
+        if ($user->roles->contains('administrator')) {
+            return view('job/create', [
+                'organization' => $organization,
+                'organizations' => OrganizationServiceProvider::all(),
+                'organization_types' => OrganizationType::all(),
+                'leagues' => League::all(),
+                'breadcrumb' => [
+                    'Clubouse' => '/',
+                    'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                    'Post a job' => '/job/create'
+                ]
+            ]);
+        } else {
+            return view('job/create', [
+                'organization' => $organization,
+                'organizations' => OrganizationServiceProvider::all(),
+                'organization_types' => OrganizationType::all(),
+                'leagues' => League::all(),
+                'breadcrumb' => [
+                    'Home' => '/',
+                    'Account' => "/user/{$user->id}/account",
+                    'Job Listings' => "/user/{$user->id}/job-postings",
+                    'Post a job' => '/job/create'
+                ]
+            ]);
+        }
     }
 
     /**
@@ -191,8 +208,28 @@ class JobController extends Controller
         }
         //probably something to differeniate
         // return redirect()->action ('JobController@show', [$job]);
-        
-        return redirect('/admin/'.$user_id.'/job-postings');
+
+        return redirect('/user/'.$user_id.'/job-postings');
+    }
+
+    public function showPostings(Request $request)
+    {
+        $user = User::where('id', '=', $request->id)->first();
+
+        $pipeline = Pipeline::orderBy('id', 'asc')->get();
+        $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
+        $jobs = Job::where('user_id', '=', $user->id)->get();
+
+        return view('admin/job-postings', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Account' => "/user/{$user->id}/account"
+            ],
+            'user' => $user,
+            'jobs' => $jobs,
+            'pipeline' => $pipeline,
+            'job_pipeline' => $job_pipeline,
+        ]);
     }
 
     /**

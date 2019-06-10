@@ -561,7 +561,11 @@ $.valHooks.textarea = {
                     options[org.name] = null;
                     return options;
                 }, {});
-                console.log(options)
+
+                if (Object.keys(options).length == 1) {
+                    $('form select#organization-id').trigger('change');
+                }
+                
                 // Initialize autocompletes
                 organization_autocomplete.autocomplete({
                     data: options,
@@ -610,7 +614,6 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var organization_name = $('form.organization-create').find('#name').val()
-                    organization = null;
                 
                 $('input#organization.organization-autocomplete').val(organization_name);
                 
@@ -618,6 +621,21 @@ $.valHooks.textarea = {
                 .done(function (response) {
                     $('input#organization-id').attr('value', response.id);
                     $('input#organization.organization-autocomplete').attr('value', response.name);
+                    Organization.getPreview(response.id, 'medium')
+                        .done(function (resp) {
+                            $('img#organization-image').attr('src', resp.image_url);
+                            $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                            $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                            $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                            $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                            $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                            $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+                        })
+                        .fail(function (resp) {
+                            console.error(resp);
+                        });
                 });
                 
                 $('.organization-create-modal').modal('close');
@@ -633,6 +651,33 @@ $.valHooks.textarea = {
             }
         },
         'form.organization-create .cancel-organization-form'
+    );
+
+    $('body').on(
+        {
+            change: function(e, ui) {
+                var org_id = parseInt($(this).val());
+
+                $('img#organization-image').attr('src', '/images/progress.gif');
+                    $('div.organization-image-preview').removeClass('hidden');
+                    Organization.getPreview(org_id, 'medium')
+                        .done(function (resp) {
+                            $('img#organization-image').attr('src', resp.image_url);
+                            $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                            $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                            $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                            $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                            $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                            $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+                        })
+                        .fail(function (resp) {
+                            console.error(resp);
+                        });
+            }
+        },
+        'form select#organization-id'
     );
 
     // TODO Move this

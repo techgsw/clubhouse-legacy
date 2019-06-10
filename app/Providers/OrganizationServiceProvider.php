@@ -44,10 +44,10 @@ class OrganizationServiceProvider extends ServiceProvider
         $orgs[] = $organization;
 
         $organizations = DB::table('organization as o')
-                            ->select('*')
+                            ->select('o.*', 'a.city', 'a.state', 'a.country')
                             ->where('o.parent_organization_id', '=', $organization->id)
-                            //->leftJoin('address_organization', 'address_organization.organization_id', '=', 'o.id')
-                            //->leftJoin('address', 'address_organization.address_id', '=', 'address.id')
+                            ->leftJoin('address_organization', 'address_organization.organization_id', '=', 'o.id')
+                            ->leftJoin('address as a', 'address_organization.address_id', '=', 'a.id')
                             ->get();
         
         foreach ($organizations as $organization) {
@@ -67,11 +67,11 @@ class OrganizationServiceProvider extends ServiceProvider
                                     ->get();
         } else {
             $organization = DB::table('contact_organization')
-                                    ->select('*')
+                                    ->select('organization.*', 'a.city', 'a.state', 'a.country')
                                     ->where('contact_id', '=', $user->contact->id)
                                     ->join('organization', 'organization.id', '=', 'contact_organization.organization_id')
-                                    //->leftJoin('address_organization as ao', 'ao.organization_id', '=', 'contact_organization.organization_id')
-                                    //->leftJoin('address as a', 'ao.address_id', '=', 'a.id')
+                                    ->leftJoin('address_organization as ao', 'ao.organization_id', '=', 'contact_organization.organization_id')
+                                    ->leftJoin('address as a', 'ao.address_id', '=', 'a.id')
                                     ->first();
 
             if (!is_null($organization)) {
@@ -80,7 +80,6 @@ class OrganizationServiceProvider extends ServiceProvider
                 return $organization;
             }
         }
-
         // $this->authorize('view-organization');
         return $organizations;
     }

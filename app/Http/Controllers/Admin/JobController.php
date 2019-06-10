@@ -70,26 +70,6 @@ class JobController extends Controller
         ]);
     }
 
-    public function showPostings(Request $request)
-    {
-        $user = User::where('id', '=', $request->id)->first();
-
-        $pipeline = Pipeline::orderBy('id', 'asc')->get();
-        $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
-        $jobs = Job::where('user_id', '=', $user->id)->get();
-
-        return view('admin/job-postings', [
-            'breadcrumb' => [
-                'Home' => '/',
-                'Account' => "/user/{$user->id}/account"
-            ],
-            'user' => $user,
-            'jobs' => $jobs,
-            'pipeline' => $pipeline,
-            'job_pipeline' => $job_pipeline,
-        ]);
-    }
-
     /**
      * @param  StoreJob  $request
      * @return Response

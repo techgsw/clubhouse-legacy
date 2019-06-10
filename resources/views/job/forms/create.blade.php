@@ -98,6 +98,11 @@
                                     <option value="{{$org->id}}" data-organization-state="" data-organization-country="">{{ $org->name }}</option>
                                 @endforeach
                             </select>
+                        @elseif(count($organizations) ==1)
+                            <label for="organization" class="active organization-autocomplete">Organization</label>
+                            <select id="organization-id" name="organization_id" class="browser-default">
+                                <option value="{{$organizations[0]->id}}" data-organization-state="" data-organization-country="">{{ $organizations[0]->name }}</option>
+                            </select>
                         @else
                             <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
                             <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>

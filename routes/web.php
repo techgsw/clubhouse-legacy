@@ -126,7 +126,6 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/contact', 'ContactController@index');
         Route::get('/admin/contact/download', 'ContactController@download');
         Route::get('/admin/job', 'JobController@index');
-        Route::get('/admin/{id}/job-postings', 'JobController@showPostings');
 
         //refactoring jobs to be in admin domain since we will be restricting job admins
         Route::get('/admin/job/register', 'JobController@register');
@@ -384,6 +383,8 @@ Route::domain($domain)->group(function () {
         Route::get('/user/{id}/account', 'UserController@account');
         Route::get('/user/{id}/jobs', 'UserController@jobs');
         Route::get('/user/{id}/questions', 'UserController@questions');
+        Route::get('/user/{id}/job-postings', 'JobController@showPostings');
+
 
         Route::get('/user/{id}/profile', 'ProfileController@show');
         Route::get('/user/{id}/edit-profile', 'ProfileController@edit');
