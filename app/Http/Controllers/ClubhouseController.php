@@ -49,6 +49,21 @@ class ClubhouseController extends Controller
         ]);
     }
 
+    public function jobOptions(Request $request)
+    {
+        $product = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Membership');
+        })->first();
+
+        return view('clubhouse/job-options', [
+            'product' => $product,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Job Options' => '/job-options'
+            ],
+        ]);
+    }
+
     public function membershipOptions(Request $request)
     {
         $product = Product::with('tags')->whereHas('tags', function ($query) {

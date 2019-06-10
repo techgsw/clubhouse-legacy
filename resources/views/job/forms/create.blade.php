@@ -95,7 +95,7 @@
                             <select id="organization-id" name="organization_id" class="browser-default">
                                 <option {{ old('organization') == "" ? "selected" : "" }} disabled>Select one</option>
                                 @foreach ($organizations as $org)
-                                    <option value="{{$org->id}}">{{ $org->name }}</option>
+                                    <option value="{{$org->id}}" data-organization-state="" data-organization-country="">{{ $org->name }}</option>
                                 @endforeach
                             </select>
                         @else

@@ -46,6 +46,8 @@ class OrganizationServiceProvider extends ServiceProvider
         $organizations = DB::table('organization as o')
                             ->select('*')
                             ->where('o.parent_organization_id', '=', $organization->id)
+                            //->leftJoin('address_organization', 'address_organization.organization_id', '=', 'o.id')
+                            //->leftJoin('address', 'address_organization.address_id', '=', 'address.id')
                             ->get();
         
         foreach ($organizations as $organization) {
@@ -67,8 +69,11 @@ class OrganizationServiceProvider extends ServiceProvider
             $organization = DB::table('contact_organization')
                                     ->select('*')
                                     ->where('contact_id', '=', $user->contact->id)
-                                    ->join('organization', 'organization.id', '=', 'organization_id')
+                                    ->join('organization', 'organization.id', '=', 'contact_organization.organization_id')
+                                    //->leftJoin('address_organization as ao', 'ao.organization_id', '=', 'contact_organization.organization_id')
+                                    //->leftJoin('address as a', 'ao.address_id', '=', 'a.id')
                                     ->first();
+
             if (!is_null($organization)) {
                 $organizations = OrganizationServiceProvider::getOrganizationChildren($organization);
             } else {
