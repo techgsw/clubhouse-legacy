@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col s12 center-align">
             <h3 style="margin: 0;">Josh Belkoff</h3>
-            <h5>Sr. Director, Recruiting &amp; Development</h5>
+            <h5>Consultant, Ticket Sales &amp; Development</h5>
         </div>
     </div>
     <div class="row">

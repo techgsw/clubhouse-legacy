@@ -53,7 +53,7 @@
             <div class="about-card">
                 <a href="/josh-belkoff" class="no-underline">
                     <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Recruiting &amp; Development</span></h5>
+                    <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Consultant,<br/>Ticket Sales &amp; Development</span></h5>
                 </a>
             </div>
             <div class="about-card">
@@ -63,9 +63,9 @@
                 </a>
             </div>
             <div class="about-card">
-                <a href="/nick-hayden" class="no-underline">
-                    <img src="/images/about/nick-hayden.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5 class="sbs-red-text">Nick Hayden<span class="about-position">Specialist,<br/>Recruiting &amp; Development</span></h5>
+                <a href="/andrea-urbain" class="no-underline">
+                    <img src="/images/about/andrea-urbain.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Andrea St. Urbain<span class="about-position">Consultant,<br/>Premium Service &amp; Retention</span></h5>
                 </a>
             </div>
         </div>
