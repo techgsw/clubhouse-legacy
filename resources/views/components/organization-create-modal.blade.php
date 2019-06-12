@@ -7,15 +7,15 @@
                 <form id="create-organization" class="organization-create" enctype="multipart/form-data">
                     <div class="row">
                         {{ csrf_field() }}
-                        <div class="input-field col s12 l7">
+                        <div class="input-field col s12 l12">
                             <input id="name" type="text" class="{{ $errors->has('name') ? 'invalid' : '' }}" name="name" value="{{ old('name') ?: '' }}" required>
                             <label for="name" data-error="{{ $errors->first('name') }}">Name</label>
                         </div>
-                        <div class="input-field col s12 l5">
+                        <!-- <div class="input-field col s12 l5">
                             <input id="parent-organization-id" type="hidden" name="parent_organization_id" value="{{ old('parent_organization_id') ?: '' }}">
                             <input id="parent_organization" name="parent_organization" type="text" class="organization-autocomplete {{ $errors->has('parent_organization') ? 'invalid' : '' }}" target-input-id="parent-organization-id" value="{{ old('parent_organization') ?: '' }}">
                             <label for="parent_organization" data-error="{{ $errors->first('parent_organization') }}">Parent organization</label>
-                        </div>
+                        </div> -->
                         <div class="input-field col s12 m6">
                             <select id="organization_type_id" name="organization_type_id">
                                 @foreach ($organization_types as $type)

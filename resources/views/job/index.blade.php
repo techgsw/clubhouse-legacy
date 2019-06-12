@@ -52,7 +52,7 @@
     </div>
     <div class="row">
         <div class="col s12 6 input-field center-align">
-            <a href="{{ Auth::user() ? '/job-options' : '\job\register' }}" class="btn sbs-red" style="margin-bottom: 12px;">Post your job for free now!</a>
+            <a href="{{ Auth::user() ? '/job-options' : '/register?job=true' }}" class="btn sbs-red" style="margin-bottom: 12px;">Post your job for free now!</a>
         </div>
     </div>
     <div id="job-search-form" class="{{ $searching ? '' : 'hide-on-small-only'}}">

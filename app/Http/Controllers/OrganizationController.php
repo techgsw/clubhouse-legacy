@@ -9,6 +9,7 @@ use App\LeagueOrganization;
 use App\Organization;
 use App\OrganizationType;
 use App\Message;
+use App\User;
 use App\Providers\ImageServiceProvider;
 use App\Providers\OrganizationServiceProvider;
 use App\Providers\UtilityServiceProvider;
@@ -366,13 +367,23 @@ class OrganizationController extends Controller
         ]);
     }
 
-    public function preview($id)
+    public function preview(Request $request, $id)
     {
         $this->authorize('view-organization');
 
         $quality = request('quality') ?: null;
 
         $organization = Organization::find($id);
+
+        $user = Auth::User();
+        // TODO check if they are already appart of the org
+        try {
+            $user->contact->organizations()->attach($id);
+            $user->contact->organization = $organization->name;
+            $user->contact->save();
+        } catch(\Exception $e){
+            // TODO Error checking
+        }
 
         return response()->json([
             'id' => $organization->id,

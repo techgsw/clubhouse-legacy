@@ -551,6 +551,7 @@ $.valHooks.textarea = {
 
     Organization.init = function () {
         var organization_autocomplete = $('input.organization-autocomplete');
+        
         if (organization_autocomplete.length > 0) {
             var target_input_id = organization_autocomplete.attr('target-input-id');
             var target_input = $('input#'+target_input_id);
@@ -621,6 +622,7 @@ $.valHooks.textarea = {
                 .done(function (response) {
                     $('input#organization-id').attr('value', response.id);
                     $('input#organization.organization-autocomplete').attr('value', response.name);
+                    
                     Organization.getPreview(response.id, 'medium')
                         .done(function (resp) {
                             $('img#organization-image').attr('src', resp.image_url);
@@ -632,6 +634,8 @@ $.valHooks.textarea = {
                             $('form.organization-field-autocomplete select[name="state"]').trigger('change');
                             $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
                             $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+
+                            UI.displayMessage({ type: 'success', message: "Successfully added you to the " + resp.name  + " organization" })
                         })
                         .fail(function (resp) {
                             console.error(resp);
@@ -671,6 +675,8 @@ $.valHooks.textarea = {
                             $('form.organization-field-autocomplete select[name="state"]').trigger('change');
                             $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
                             $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+
+                            // UI.displayMessage({ type: 'success', message: "Successfully added you to the " + resp.name  + " organization" })
                         })
                         .fail(function (resp) {
                             console.error(resp);
@@ -702,6 +708,8 @@ $.valHooks.textarea = {
                             $('form.organization-field-autocomplete select[name="state"]').trigger('change');
                             $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
                             $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+                            
+                            UI.displayMessage({ type: 'success', message: "Successfully added you to the " + resp.name  + " organization" });
                         })
                         .fail(function (resp) {
                             console.error(resp);

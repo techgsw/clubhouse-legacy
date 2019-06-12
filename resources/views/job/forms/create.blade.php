@@ -55,10 +55,12 @@
                     </div>
                 </div>
                 <div class="input-field col s12">
-                    <p>
-                        <input type="checkbox" class="show-hide" show-hide-target-id="organization-fields" name="reuse_organization_fields" id="reuse_organization_fields" value="1" checked />
-                        <label for="reuse_organization_fields">Use organization name and logo</label>
-                    </p>
+                    @can('view-admin-jobs')
+                        <p>
+                            <input type="checkbox" class="show-hide" show-hide-target-id="organization-fields" name="reuse_organization_fields" id="reuse_organization_fields" value="1" checked />
+                            <label for="reuse_organization_fields">Use organization name and logo</label>
+                        </p>
+                    @endcan
                 </div>
                 <div class="col s12 hidden" id="organization-fields">
                     <div class="row">
@@ -98,7 +100,7 @@
                                     <option value="{{$org->id}}" data-organization-state="" data-organization-country="">{{ $org->name }}</option>
                                 @endforeach
                             </select>
-                        @elseif(count($organizations) ==1)
+                        @elseif(count($organizations) == 1)
                             <label for="organization" class="active organization-autocomplete">Organization</label>
                             <select id="organization-id" name="organization_id" class="browser-default">
                                 <option value="{{$organizations[0]->id}}" data-organization-state="" data-organization-country="">{{ $organizations[0]->name }}</option>
@@ -112,25 +114,40 @@
 
                 </div>
                 <div class="input-field col s12">
+                    @php //dd($league); @endphp
                     <label for="league" class="active">League</label>
                     <select id="league" name="league" class="browser-default">
                         <option value="" {{ old('job_type') == "" ? "selected" : "" }}>None</option>
-                        @foreach ($leagues as $league)
-                            <option value="{{ $league->abbreviation }}" {{ old('league') == $league->abbreviation ? "selected" : "" }}>{{ $league->abbreviation }}</option>
-                        @endforeach
+                        @if (!$league)
+                            @foreach ($leagues as $league)
+                                <option value="{{ $league->abbreviation }}" {{ old('league') == $league->abbreviation ? "selected" : "" }}>{{ $league->abbreviation }}</option>
+                            @endforeach
+                        @else
+                            <option value="{{ $league->abbreviation }}" selected>{{ $league->abbreviation }}</option>
+                        @endif
                     </select>
                 </div>
                 <div class="organization-image-preview center-align {{ empty($organization) ? "hidden" : "" }}">
                     <img id="organization-image" src="{{ empty($organization) || empty($organization->image) ? "" : $organization->image->getURL('medium') }}" style="padding: 16px; max-width: 100px;" />
                 </div>
                 <div class="input-field col s12">
-                    <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') ?: ($organization ? $organization->addresses->first()->city : '') }}" required>
-                    <label for="city" data-error="{{ $errors->first('city') }}">City</label>
+                    @php //dd($organization); @endphp
+                    @if (!$organization)
+                        <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') ?: ($organization ? $organization->addresses->first()->city : '') }}" required>
+                    @else
+                        <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{$organization->addresses->first()->city}}" required>
+                    @endif
+                        <label for="city" data-error="{{ $errors->first('city') }}">City</label>
                 </div>
                 <div class="input-field col s6">
                     <label for="state" class="active">State</label>
+                    @php //dd($organization->addresses); @endphp
                     <select id="state" name="state" class="browser-default">
-                        <option {{ old('state') == "" ? "selected" : "" }} disabled>Select one</option>
+                        @if (!$organization))
+                            <option {{ old('state') == "" ? "selected" : "" }} disabled>Select one</option>
+                        @else
+                            <option value="{{$organization->addresses->first()->state}}" >{{$organization->addresses->first()->state}}</option>
+                        @endif
                         <option disabled>U.S.A.</option>
                         <option value="AL" {{ old('state') == "AL" ? 'selected' : $organization && $organization->addresses->first()->state == 'AL' ? 'selected' : '' }}>Alabama</option>
                         <option value="AK" {{ old('state') == "AK" ? 'selected' : $organization && $organization->addresses->first()->state == 'AK' ? 'selected' : '' }}>Alaska</option>
@@ -207,7 +224,12 @@
                 <div class="input-field col s6">
                     <label for="country" class="active">Country</label>
                     <select id="country" name="country" class="browser-default">
+                        @if (!$organization)
                         <option value="US" {{ old('country') == "US" ? 'selected' : $organization && $organization->addresses->first()->country == 'US' ? 'selected' : '' }}>U.S.A.</option>
+                        @else
+                            <option value="{{$organization->addresses->first()->country}}" >{{$organization->addresses->first()->country}}</option>
+                        @endif
+                        
                         <option value="CA" {{ old('country') == "CA" ? 'selected' : $organization && $organization->addresses->first()->country == 'CA' ? 'selected' : '' }}>Canada</option>
                         <option value="UK" {{ old('country') == "UK" ? 'selected' : $organization && $organization->addresses->first()->country == 'UK' ? 'selected' : '' }}>U.K.</option>
                     </select>

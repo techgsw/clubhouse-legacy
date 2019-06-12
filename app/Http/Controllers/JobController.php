@@ -117,15 +117,26 @@ class JobController extends Controller
 
         $user = Auth::User();
 
-        $organization = false;
-        if ($organization_id = (int)$request->organization) {
-            $organization = Organization::find($organization_id);
+        if (count($user->contact->organizations) == 1) {
+
+            $organization = $user->contact->organizations;
+
+            if (count($organization[0]->leagues) > 0){
+                $league = $organization[0]->leagues[0];
+            } else {
+                $league = null;
+            }
+        } else {
+            $organization = null;
+            $league = null;
         }
+
         if ($user->roles->contains('administrator')) {
             return view('job/create', [
-                'organization' => $organization,
+                'organization' => $organization[0] ?: null,
                 'organizations' => OrganizationServiceProvider::all(),
                 'organization_types' => OrganizationType::all(),
+                'league' => $league,
                 'leagues' => League::all(),
                 'breadcrumb' => [
                     'Clubouse' => '/',
@@ -135,9 +146,10 @@ class JobController extends Controller
             ]);
         } else {
             return view('job/create', [
-                'organization' => $organization,
+                'organization' => $organization[0] ?: null,
                 'organizations' => OrganizationServiceProvider::all(),
                 'organization_types' => OrganizationType::all(),
+                'league' => $league,
                 'leagues' => League::all(),
                 'breadcrumb' => [
                     'Home' => '/',
