@@ -369,20 +369,36 @@ class OrganizationController extends Controller
 
     public function preview(Request $request, $id)
     {
-        $this->authorize('view-organization');
+        // $this->authorize('view-organization');
 
         $quality = request('quality') ?: null;
 
         $organization = Organization::find($id);
 
         $user = Auth::User();
-        // TODO check if they are already appart of the org
-        try {
-            $user->contact->organizations()->attach($id);
-            $user->contact->organization = $organization->name;
-            $user->contact->save();
-        } catch(\Exception $e){
-            // TODO Error checking
+
+        if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
+            try {
+                $user->contact->organizations()->attach($id);
+                $user->contact->organization = $organization->name;
+                $user->contact->save();
+                $org_update = true;
+            } catch(\Exception $e){
+                // TODO Error checking
+                return response()->json(['failure' => 'Unable to add to the organization.']);
+            }
+        } else {
+            $org_update = false;
+        }
+
+        if(!is_null($organization->addresses->first())) {
+            $city = $organization->addresses->first()->city;
+            $state = $organization->addresses->first()->state;
+            $country = $organization->addresses->first()->country;
+        } else {
+            $city = null;
+            $state = null;
+            $country = null;
         }
 
         return response()->json([
@@ -390,11 +406,12 @@ class OrganizationController extends Controller
             'name' => $organization->name,
             'league' => $organization->leagues->count() > 0 ? $organization->leagues->first()->abbreviation : null,
             'address' => [
-                'city' => $organization->addresses->first()->city,
-                'state' => $organization->addresses->first()->state,
-                'country' => $organization->addresses->first()->country
+                'city' => $city,
+                'state' => $state,
+                'country' => $country,
             ],
-            'image_url' => $organization->image ? $organization->image->getURL($quality) : null
+            'image_url' => $organization->image ? $organization->image->getURL($quality) : null,
+            'org_update' => $org_update
         ]);
     }
 

@@ -135,16 +135,22 @@ class JobController extends Controller
     public function create(Request $request)
     {
         $this->authorize('create-job');
+        $user = Auth::User();
 
         $organization = false;
         if ($organization_id = (int)$request->organization) {
             $organization = Organization::find($organization_id);
+            $league = $organization->leagues[0];
+        } else {
+            $organization = $user->contact->organizations->first();
+            $league = $organization->leagues->first();
         }
-        
+
         return view('admin/job/create', [
             'organization' => $organization,
             'organizations' => OrganizationServiceProvider::all(),
             'organization_types' => OrganizationType::all(),
+            'league' => $league,
             'leagues' => League::all(),
             'breadcrumb' => [
                 'Clubouse' => '/',
