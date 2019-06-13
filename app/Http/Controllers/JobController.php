@@ -60,7 +60,7 @@ class JobController extends Controller
         return view('job/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sports Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
+                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
             'jobs' => $jobs,
             'searching' => $searching,
@@ -75,7 +75,7 @@ class JobController extends Controller
         [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sport Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
+                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
         ]);
     }
@@ -140,7 +140,7 @@ class JobController extends Controller
                 'leagues' => League::all(),
                 'breadcrumb' => [
                     'Clubouse' => '/',
-                    'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                    'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                     'Post a job' => '/job/create'
                 ]
             ]);
@@ -296,7 +296,7 @@ class JobController extends Controller
             'job_pipeline' => $job_pipeline,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 "$job->title with $job->organization_name" => "/job/{$job->id}"
             ]
         ]);
@@ -516,7 +516,7 @@ class JobController extends Controller
             'description' => $pd->text($job->description),
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
                 "{$job->organization_name} - {$job->title}" => "/job/{$job->id}",
                 "Edit" => "/job/{$job->id}/edit"
             ]

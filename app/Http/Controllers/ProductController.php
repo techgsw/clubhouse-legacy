@@ -300,7 +300,6 @@ class ProductController extends Controller
             });
         } catch (Exception $e) {
             Log::error($e);
-            dd($e->getMessage());
             $request->session()->flash('message', new Message(
                 "Failed to save product. Please try again.",
                 "danger",

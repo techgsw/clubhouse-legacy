@@ -14,6 +14,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\Providers\EmailServiceProvider;
 use App\Traits\ReCaptchaTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -40,6 +41,23 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->middleware('redirect_router');
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        if ($request->session()->get('redirect_url')) {
+            $this->redirectTo = '/job-options';
+            $message = "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the job option that works best for you below.";
+        } else {
+            $message = "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.";
+        }
+        Session::flash('message', new Message(
+            $message,
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
     }
 
     /**
@@ -127,13 +145,6 @@ class RegisterController extends Controller
                 'address_id' => $address->id,
                 'contact_id' => $contact->id
             ]);
-
-            Session::flash('message', new Message(
-                "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.",
-                "success",
-                $code = null,
-                $icon = "check_circle"
-            ));
 
             return $user;
         });

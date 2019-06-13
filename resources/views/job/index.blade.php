@@ -4,7 +4,7 @@
     <div class="row hero bg-image job-board">
         <div class="col s12">
             <h4 class="header">Sports Industry Job Board</h4>
-            <p>Are you a recruiter or employer and want to post your job now? Click here.</p>
+            <p><a class="no-underline" href="{{ Auth::user() ? '/job-options' : '/register' }}">Are you a recruiter or employer and want to post your job? Click here.</a></p>
         </div>
     </div>
 @endsection
@@ -32,9 +32,9 @@
                                     @endif
                                 </p>
                                 @can ('create-inquiry')
-                                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply now</a>
+                                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply Now</a>
                                 @else
-                                    <a style="margin-top: 12px;" href="/register" class="btn white black-text">Join to apply</a>
+                                    <a style="margin-top: 12px;" href="/register" class="btn white black-text">Apply Now</a>
                                 @endcan
                             </div>
                         </div>
@@ -49,11 +49,6 @@
             <span class="show-options {{ $searching ? 'hidden' : ''}}"><i class="fa fa-caret-square-o-down icon-left"></i>Show search options</span>
             <span class="hide-options {{ $searching ? '' : 'hidden'}}"><i class="fa fa-caret-square-o-up icon-left"></i>Hide search options</span>
         </button>
-    </div>
-    <div class="row">
-        <div class="col s12 6 input-field center-align">
-            <a href="{{ Auth::user() ? '/job-options' : '/register?job=true' }}" class="btn sbs-red" style="margin-bottom: 12px;">Post your job for free now!</a>
-        </div>
     </div>
     <div id="job-search-form" class="{{ $searching ? '' : 'hide-on-small-only'}}">
         @include('forms.job-search')
