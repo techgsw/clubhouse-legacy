@@ -59,7 +59,7 @@ class ClubhouseController extends Controller
             'product' => $product,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Job Options' => '/job-options'
+                'Job Listing Options' => '/job-options'
             ],
         ]);
     }

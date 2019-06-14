@@ -3242,7 +3242,6 @@ if (jQuery) {
           if ($oldAutocomplete.length) {
             $autocomplete = $oldAutocomplete;
           }
-          
           // Highlight partial match.
           var highlight = function(string, $el) {
             var img = $el.find('img');
@@ -3298,17 +3297,11 @@ if (jQuery) {
                     } else {
                       autocompleteOption.append('<span>'+ key +'</span>');
                     }
-                    
                     $autocomplete.append(autocompleteOption);
-                    
                     highlight(val, autocompleteOption);
                     count++;
                   }
                 }
-                //Appending an sticky option if they can't find an org
-                var stickyOption = $('<li class="auto-complete-sticky"></li>');
-                    stickyOption.append('<span>'+ "Can't find your organization?" +'</span>');
-                    $autocomplete.append(stickyOption);
               }
             }
 

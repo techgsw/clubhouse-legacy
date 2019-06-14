@@ -127,6 +127,9 @@ class RegisterController extends Controller
                 'user_id' => $user->id
             ]);
 
+            $roles = Role::where('code', 'job_user')->get();
+            $user->roles()->attach($roles);
+
             $address = Address::create([
                 'name' => $data['first_name'] . " " . $data['last_name']
             ]);
