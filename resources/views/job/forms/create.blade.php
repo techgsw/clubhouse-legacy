@@ -7,12 +7,12 @@
                     <input id="title" type="text" class="{{ $errors->has('title') ? 'invalid' : '' }}" name="title" value="{{ old('title') }}" required>
                     <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
                 </div>
+                @can('edit-job')
                 <div class="input-field col s12 m3">
-                    @can('feature-job')
-                        <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
-                        <label for="featured">Featured</label>
-                    @endcan
+                    <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
+                    <label for="featured">Featured</label>
                 </div>
+                @endcan
                 <div class="input-field col s12">
                     <div id="description" class="markdown-editor" placeholder="Description" style="outline: none; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid #9e9e9e;"></div>
                     <div class="hidden">
@@ -35,16 +35,16 @@
                         <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
                     </select>
                 </div>
+                @can('edit-job')
                 <div class="input-field col s12">
-                    @can('type-job')
-                        <label for="recruiting-type-code" class="active">Recruiting Type</label>
-                        <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
-                            <option value="" selected disabled>Please select...</option>
-                            <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
-                            <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
-                        </select>
-                    @endcan
+                    <label for="recruiting-type-code" class="active">Recruiting Type</label>
+                    <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
+                        <option value="" selected disabled>Please select...</option>
+                        <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
+                        <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
+                    </select>
                 </div>
+                @endcan
                 <div class="file-field input-field col s12">
                     <div class="btn white black-text">
                         <span>Document</span>
@@ -116,7 +116,6 @@
                             <label for="organization" data-error="{{ $errors->first('organization') }}">Find your organization</label>
                         @endif
                     @endcan
-
                 </div>
                 <div class="input-field col s12">
                     <label for="league" class="active">League</label>
@@ -136,7 +135,7 @@
                     <img id="organization-image" src="{{ empty($organization) || empty($organization->image) ? "" : $organization->image->getURL('medium') }}" style="padding: 16px; max-width: 100px;" />
                 </div>
                 <div class="input-field col s12">
-                    @if (is_null($organization->addresses->first()))
+                    @if (is_null($organization) || is_null($organization->addresses->first()))
                         <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="" required>
                     @else
                         <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{$organization->addresses->first()->city}}" required>

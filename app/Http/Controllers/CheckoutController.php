@@ -79,6 +79,9 @@ class CheckoutController extends Controller
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
             $product_type = 'webinar';
             $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
+        } else if (in_array('job-plus', array_column($product_option->product->tags->toArray(), 'slug'))) {
+            $product_type = 'job-plus';
+            $breadcrumb = array('name' => 'Job Listing', 'link' => '/job-options');
         } else {
             $product_type = 'membership';
             $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
@@ -151,6 +154,17 @@ class CheckoutController extends Controller
                                 Log::error($e->getMessage());
                             }
                             $checkout_type = 'webinar';
+                            break;
+                        } else if ($tag->slug == 'job-plus') {
+                            $roles = Role::where('code', 'job_user_plus')->get();
+                            $user->roles()->attach($roles);
+                            try {
+                                EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'job-plus');
+                                Mail::to($user)->send(new UserPaidJobPlus($user, $product_option));
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
+                            $checkout_type = 'job-plus';
                             break;
                         }
                     }
@@ -302,6 +316,11 @@ class CheckoutController extends Controller
                 $view = 'webinar-thanks';
                 $breadcrumb = 'Webinar';
                 $link = '/webinars';
+                break;
+            case 'job-plus':
+                $view = 'job-plus-thanks';
+                $breadcrumb = 'Job Listing Plus';
+                $link = '/job-options';
                 break;
             case 'membership':
                 $view = 'membership-thanks';

@@ -15,6 +15,8 @@
                 <p><strong>Thank you for your interest in our {{ $product_option->name }}. Just a few more steps and you are all set.</strong></p>
             @elseif ($product_type == 'webinar')
                 <p><strong>Thank you for your interest in {{ $product_option->product->name }}. Just a few more steps and you are all set.</strong></p>
+            @elseif ($product_type == 'job-plus')
+                <p><strong>Are you ready to find the industry professional you've been looking for? Just a few more steps and you are all set.</strong></p>
             @else
                 <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you'll be ready to begin your <span class="sbs-red-text">30 day Free Trial</span>.</strong></p>
             @endif

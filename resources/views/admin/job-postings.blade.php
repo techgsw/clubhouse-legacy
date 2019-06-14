@@ -23,7 +23,7 @@
         @can ('view-admin-jobs', $user)
             <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
         @elsecan ('create-job', $user)
-            <a href="/job/create" class="flat-button"><i class="fa fa-id-card"></i> Create Job Posting</a>
+            <a href="/job/create" class="flat-button"><i class="fa fa-id-card"></i> Create Job Listing</a>
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
@@ -40,7 +40,7 @@
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">My Jobs</a></li>
         <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
         @can('view-job')
-            <li class="tab"><a class="active" href="/user/{{ $user->id }}/job-postings">Job Postings</a></li>
+            <li class="tab"><a class="active" href="/user/{{ $user->id }}/job-postings">My Listings</a></li>
         @endcan
         @can ('edit-roles')
             <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>

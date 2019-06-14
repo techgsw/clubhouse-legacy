@@ -58,11 +58,11 @@
                             </div>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
-                            @if ($product)
+                            @if ($job_plus)
                                 @if (Auth::guest())
                                     <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
-                                    <a href="/job/create" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Plus</a>
+                                    <a href="{{ $job_plus->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Plus Now</a>
                                 @endif
                             @endif
                         </div>
@@ -87,11 +87,11 @@
                             </div>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
-                            @if ($product)
+                            @if ($job_premium)
                                 @if (Auth::guest())
                                     <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
-                                    <a href="/job/create" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Premium</a>
+                                    <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Premium Now</a>
                                 @endif
                             @endif
                         </div>

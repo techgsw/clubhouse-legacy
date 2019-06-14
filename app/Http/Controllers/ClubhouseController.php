@@ -51,12 +51,17 @@ class ClubhouseController extends Controller
 
     public function jobOptions(Request $request)
     {
-        $product = Product::with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Membership');
+        $job_plus = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Job Plus');
+        })->first();
+
+        $job_premium = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Job Premium');
         })->first();
 
         return view('clubhouse/job-options', [
-            'product' => $product,
+            'job_plus' => $job_plus,
+            'job_premium' => $job_premium,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Job Listing Options' => '/job-options'

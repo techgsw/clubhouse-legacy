@@ -110,17 +110,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-job', function ($user) {
             return $user->hasAccess('job_create');
         });
-        Gate::define('edit-job', function ($user, $job) {
-            return $user->id == $job->user_id || $user->hasAccess('job_edit');
+        Gate::define('edit-job', function ($user) {
+            return $user->hasAccess('job_edit');
         });
         Gate::define('close-job', function ($user) {
             return $user->hasAccess('job_close');
-        });
-        Gate::define('feature-job', function($user){
-            return $user->hasAccess('job_featured');
-        });
-        Gate::define('type-job', function($user) {
-            return $user->hasAccess('job_recruiting_type');
         });
         Gate::define('create-inquiry', function ($user) {
             return $user->hasAccess('inquiry_create');
