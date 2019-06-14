@@ -7,6 +7,9 @@
         </div>
         <div class="col s9 m7">
             <h5>{{ $job->title }}</h5>
+            @if ($job->featured)
+                <span class="label sbs-red right" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+            @endif
             <p style="font-size: 16px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization_name }}</p>
             <p style="margin: 0 0 6px 0;"><i class="fa fa-map-pin icon-left" aria-hidden="true"></i>{{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
             <p class="small tags">
@@ -18,9 +21,9 @@
         <div class="col s12 m3 center-align hide-on-small-only">
             <div>
                 @can ('create-inquiry')
-                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply now</a>
+                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small  white black-text">Apply now</a>
                 @else
-                    <a style="margin-top: 12px;" href="/register" class="btn white black-text">Apply Now</a>
+                    <a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply Now</a>
                 @endcan
             </div>
             @can ('edit-job', $job)

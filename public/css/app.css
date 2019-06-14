@@ -61,6 +61,10 @@
     color: #EB2935;
 }
 
+span.badge.new.sbs-red {
+    background-color: #EB2935;
+}
+
 /**
  * Layout
  */

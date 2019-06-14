@@ -31,10 +31,13 @@
                                         <span class="label blue white-text" style="letter-spacing: 0.6px;"><b>NEW</b></span>
                                     @endif
                                 </p>
+                                @if ($job->featured)
+                                    <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+                                @endif
                                 @can ('create-inquiry')
-                                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply Now</a>
+                                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply Now</a>
                                 @else
-                                    <a style="margin-top: 12px;" href="/register" class="btn white black-text">Apply Now</a>
+                                    <a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply Now</a>
                                 @endcan
                             </div>
                         </div>
