@@ -195,7 +195,7 @@
             <h3 id="training-clients">Our training &amp; consulting clients</h3>
         </div>
         <div class="col s12">
-            <img src="/images/training-consulting/training-clients.png?v=4" alt="">
+            <img src="/images/training-consulting/training-clients.jpg?v=1" alt="">
         </div>
     </div>
 </div>
