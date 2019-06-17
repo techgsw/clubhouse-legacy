@@ -49,6 +49,16 @@ class JobController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
+        $featured_jobs = Job::where('open', '=', 1)->where('featured', '=', 1)->get()->all();
+        $random_featured_job = array();
+
+        for ($i = 0; $i < 3; $i++) {
+            $rand = rand(0, (count($featured_jobs) -1));
+            $random_featured_jobs[] = $featured_jobs[$rand];
+            unset($featured_jobs[$rand]);
+            $featured_jobs = array_values($featured_jobs);
+        }
+
         $searching =
             request('job_type') && request('job_type') != 'all' ||
             request('league') && request('league') != 'all' ||
@@ -63,6 +73,7 @@ class JobController extends Controller
                 'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
             'jobs' => $jobs,
+            'featured_jobs' => $random_featured_jobs,
             'searching' => $searching,
             'pipeline' => $pipeline,
             'leagues' => League::all()
@@ -167,12 +178,12 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
-        $user_id = Auth::user()->id;
+        $user = Auth::user();
         $document = request()->file('document');
         $alt_image = request()->file('alt_image_url');
 
         $job = new Job([
-            'user_id' => $user_id,
+            'user_id' => $user->id,
             'title' => request('title'),
             'description' => request('description'),
             'organization_id' => $request->organization_id,
@@ -186,8 +197,15 @@ class JobController extends Controller
             'document' => $document ?: null,
         ]);
 
+        $organization = Organization::find($request->organization_id);
+
         try {
-            $job = DB::transaction(function () use ($job, $document, $alt_image) {
+            $job = DB::transaction(function () use ($job, $document, $alt_image, $user, $organization) {
+                if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
+                    $user->contact->organizations()->attach($organization->id);
+                    $user->contact->organization = $organization->name;
+                    $user->contact->save();
+                }
                 return JobServiceProvider::store($job, $document, $alt_image);
             });
         } catch (SBSException $e) {
@@ -221,7 +239,7 @@ class JobController extends Controller
         //probably something to differeniate
         // return redirect()->action ('JobController@show', [$job]);
 
-        return redirect('/user/'.$user_id.'/job-postings');
+        return redirect('/user/'.$user->id.'/job-postings');
     }
 
     public function showPostings(Request $request)

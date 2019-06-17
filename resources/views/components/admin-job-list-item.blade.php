@@ -24,7 +24,7 @@
                     <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
                     <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
                 @else
-                    @can('view-admin-jobs', $user)
+                    @can('view-admin-jobs')
                         <a href="/job/{{ $job->id }}/feature" class="flat-button small blue"><i class="fa fa-star-o"></i></a>
                     @endcan
                 @endif

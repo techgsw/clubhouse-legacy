@@ -690,48 +690,49 @@ $.valHooks.textarea = {
             change: function (e, ui) {
                 var org_id = parseInt($(this).val());
 
-                if (isNaN(org_id)) {
-                    $('.organization-create-modal').modal('open');
-                } else {
-                    $('img#organization-image').attr('src', '/images/progress.gif');
-                    $('div.organization-image-preview').removeClass('hidden');
-                    Organization.getPreview(org_id, 'medium')
-                        .done(function (resp) {
-                            console.log(resp);
-                            $('img#organization-image').attr('src', resp.image_url);
-                            $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
-                            $('form.organization-field-autocomplete select[name="league"]').trigger('change');
-                            if (resp.address.city !== null) {
-                                $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
-                            } else {
-                                $('form.organization-field-autocomplete input[name="city"]').val('');
-                            }
-                            $('form.organization-field-autocomplete input[name="city"]').trigger('change');
-                            if (resp.address.state !== null) {
-                                $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
-                            } else {
-                                $('form.organization-field-autocomplete select[name="state"]').val("Select one");
-                                $('#state option[selected="selected"]').each(function(ele) { ele.removeAttr('selected')});
-                                $($('#state option')[0]).attr('selected', 'selected');
-                            }
-                            $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                $('img#organization-image').attr('src', '/images/progress.gif');
+                $('div.organization-image-preview').removeClass('hidden');
+                Organization.getPreview(org_id, 'medium')
+                    .done(function (resp) {
+                        $('img#organization-image').attr('src', resp.image_url);
+                        $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                        $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                        if (resp.address.city !== null) {
+                            $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                        } else {
+                            $('form.organization-field-autocomplete input[name="city"]').val('');
+                        }
+                        $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                        if (resp.address.state !== null) {
+                            $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                        } else {
+                            $('form.organization-field-autocomplete select[name="state"]').val("Select one");
+                            $('#state option[selected="selected"]').each(function(ele) { ele.removeAttr('selected')});
+                            $($('#state option')[0]).attr('selected', 'selected');
+                        }
+                        $('form.organization-field-autocomplete select[name="state"]').trigger('change');
 
-                             if (resp.address.state !== null) {
-                                $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
-                                $('form.organization-field-autocomplete select[name="country"]').trigger('change');
-                             }
-                            
-                            if (resp.org_update) {
-                                UI.displayMessage({ type: 'success', message: "Successfully added you to the " + resp.name  + " organization" });
-                            }
-                        })
-                        .fail(function (resp) {
-                            console.error(resp);
-                        });
-                }
+                         if (resp.address.state !== null) {
+                            $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                            $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+                         }
+                    })
+                    .fail(function (resp) {
+                        console.error(resp);
+                    });
             }
         },
         'form.organization-field-autocomplete input#organization-id'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                console.log('here');
+                $('.organization-create-modal').modal('open');
+            }
+        },
+        '#organization-modal-open'
     );
 
     // Open contact job assigment modal

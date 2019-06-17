@@ -11,6 +11,7 @@ use App\Contact;
 use App\Message;
 use App\Profile;
 use App\User;
+use App\Role;
 use App\Http\Controllers\Controller;
 use App\Providers\EmailServiceProvider;
 use App\Traits\ReCaptchaTrait;

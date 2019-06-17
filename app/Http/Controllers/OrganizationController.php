@@ -377,20 +377,6 @@ class OrganizationController extends Controller
 
         $user = Auth::User();
 
-        if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
-            try {
-                $user->contact->organizations()->attach($id);
-                $user->contact->organization = $organization->name;
-                $user->contact->save();
-                $org_update = true;
-            } catch(\Exception $e){
-                // TODO Error checking
-                return response()->json(['failure' => 'Unable to add to the organization.']);
-            }
-        } else {
-            $org_update = false;
-        }
-
         if(!is_null($organization->addresses->first())) {
             $city = $organization->addresses->first()->city;
             $state = $organization->addresses->first()->state;
@@ -410,8 +396,7 @@ class OrganizationController extends Controller
                 'state' => $state,
                 'country' => $country,
             ],
-            'image_url' => $organization->image ? $organization->image->getURL($quality) : null,
-            'org_update' => $org_update
+            'image_url' => $organization->image ? $organization->image->getURL($quality) : null
         ]);
     }
 

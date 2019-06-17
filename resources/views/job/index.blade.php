@@ -13,36 +13,34 @@
     <div class="row">
         <div class="card-flex-container">
             @php $i = 0; @endphp
-            @foreach ($jobs as $job)
-                @if ($i < 3)
-                    <div class="card medium">
-                        <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
-                            <div class="col s12 center" style="">
-                                @if (!is_null($job->image))
-                                    <img style="height: 100px;" src={{ $job->image->getURL('medium') }} class="thumb">
+            @php $featured_jobs_count = count($featured_jobs); @endphp
+            @foreach ($featured_jobs as $job)
+                <div class="card medium">
+                    <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
+                        <div class="col s12 center" style="">
+                            @if (!is_null($job->image))
+                                <img style="height: 100px;" src={{ $job->image->getURL('medium') }} class="thumb">
+                            @endif
+                        </div>
+                        <div class="col s12 center" style="">
+                            <h5 style="font-size: 18px;">{{ $job->title }}</h5>
+                            <p style="font-size: 14px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization_name }}</p>
+                            <p class="small tags">
+                                @if ($job->isNew())
+                                    <span class="label blue white-text" style="letter-spacing: 0.6px;"><b>NEW</b></span>
                                 @endif
-                            </div>
-                            <div class="col s12 center" style="">
-                                <h5 style="font-size: 18px;">{{ $job->title }}</h5>
-                                <p style="font-size: 14px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization_name }}</p>
-                                <p style="margin: 0 0 6px 0; font-size: 12px;"><i class="fa fa-map-pin icon-left" aria-hidden="true"></i>{{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
-                                <p class="small tags">
-                                    @if ($job->isNew())
-                                        <span class="label blue white-text" style="letter-spacing: 0.6px;"><b>NEW</b></span>
-                                    @endif
-                                </p>
-                                @if ($job->featured)
-                                    <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
-                                @endif
-                                @can ('create-inquiry')
-                                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply Now</a>
-                                @else
-                                    <a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply Now</a>
-                                @endcan
-                            </div>
+                            </p>
+                            @if ($job->featured)
+                                <p><span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span></p>
+                            @endif
+                            @can ('create-inquiry')
+                                <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply Now</a>
+                            @else
+                                <a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply Now</a>
+                            @endcan
                         </div>
                     </div>
-                @endif
+                </div>
                 @php $i++; @endphp
             @endforeach
         </div>

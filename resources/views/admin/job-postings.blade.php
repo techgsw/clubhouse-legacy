@@ -1,6 +1,6 @@
 <!-- /resources/views/user/jobs.blade.php -->
 @extends('layouts.clubhouse')
-@section('title', 'Job Listings')
+@section('title', 'Job Postings')
 @section('content')
 <div class="container">
     @component('user.header', ['user' => $user])
@@ -23,7 +23,7 @@
         @can ('view-admin-jobs', $user)
             <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
         @elsecan ('create-job', $user)
-            <a href="/job/create" class="flat-button"><i class="fa fa-id-card"></i> Create Job Listing</a>
+            <a href="/job/create" class="flat-button"><i class="fa fa-id-card"></i> Create Job Posting</a>
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
@@ -40,7 +40,7 @@
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">My Jobs</a></li>
         <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
         @can('view-job')
-            <li class="tab"><a class="active" href="/user/{{ $user->id }}/job-postings">My Listings</a></li>
+            <li class="tab"><a class="active" href="/user/{{ $user->id }}/job-postings">My Postings</a></li>
         @endcan
         @can ('edit-roles')
             <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>
@@ -50,7 +50,7 @@
         <div class="col s12">
             @if (count($jobs))
             <div class="row" style="display: flex; flex-flow: row;">
-                <h5>Job Listings</h5>
+                <h5>Job Postings</h5>
                 <!-- <div class="align-self: flex-end;">
                     <a href="/job/create" class="flat-button red">create</a>
                 </div> -->

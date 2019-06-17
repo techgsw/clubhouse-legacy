@@ -67,6 +67,7 @@
                         <div class="input-field col s12">
                             <input id="alt-organization" type="text" name="alt_organization" value="{{ old('alt_organization') ?: '' }}">
                             <label for="alt-organization" data-error="{{ $errors->first('alt_organization') }}">Organization name</label>
+                            <p>Can't find your organization?</p>
                         </div>
                         <div class="file-field input-field col s12">
                             <div class="btn white black-text">
@@ -89,7 +90,7 @@
                 <div class="input-field col s12">
                     @can('view-admin-jobs')
                         <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
-                        <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
+                        <input id="organization" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
                         <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
                     @else
                         @if(count($organizations) > 1)
@@ -112,8 +113,9 @@
                             </select>
                         @else
                             <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
-                            <input id="organization" autocomplete='new-password' type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
+                            <input id="organization" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" style="margin-bottom: 5px;" required>
                             <label for="organization" data-error="{{ $errors->first('organization') }}">Find your organization</label>
+                            <p style="margin-top: 0px; font-size: 12px;"><a id="organization-modal-open" class="no-underline" href="javascript: void(0);">Can't find your ogranization? Click here.</a></p>
                         @endif
                     @endcan
                 </div>

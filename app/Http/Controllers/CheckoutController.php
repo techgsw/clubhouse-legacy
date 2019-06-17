@@ -160,7 +160,7 @@ class CheckoutController extends Controller
                             $user->roles()->attach($roles);
                             try {
                                 EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'job-plus');
-                                Mail::to($user)->send(new UserPaidJobPlus($user, $product_option));
+                                //Mail::to($user)->send(new UserPaidJobPlus($user, $product_option));
                             } catch (\Exception $e) {
                                 Log::error($e->getMessage());
                             }

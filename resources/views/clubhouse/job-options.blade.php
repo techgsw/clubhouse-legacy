@@ -3,7 +3,7 @@
 @section('hero')
     <div class="row hero bg-image membership-options">
         <div class="col s12">
-            <h4 class="header">Job Listing Options</h4>
+            <h4 class="header">Job Posting Options</h4>
             <p>Where the industry goes for sports business professionals</p>
         </div>
     </div>
@@ -24,7 +24,7 @@
                             <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">Free</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
-                                <p style="font-size: 16px; min-height: 80px;">Listing up for 30 days or until filled.</p>
+                                <p style="font-size: 16px; min-height: 80px;">Posting up for 30 days or until filled.</p>
                                 <ul class="fa-check-override">
                                     <li>Hosted on <span class="sbs-red-text">the</span>Clubhouse</li>
                                     <li>General marketing and promotion of the job board</li>
