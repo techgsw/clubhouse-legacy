@@ -49,7 +49,7 @@ class InquiryController extends Controller
                         "Moved forward from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name
                     );
 
-                    if ($inquiry->pipeline_id == 2 && $request->input('comm') != 'none') {
+                    if ($inquiry->pipeline_id == 2 && $request->input('comm_type') != 'none') {
                         try {
                             switch ($inquiry->job->recruiting_type_code) {
                                 case 'active':
@@ -115,7 +115,7 @@ class InquiryController extends Controller
                     "Halted on " . $job_pipeline[$halt_step]->name . (($halt_step == 0) ? '. Moved to Reviewed.' : '.') . " Reason: ". strtoupper($request->input('reason'))
                 );
 
-                if ($halt_step == 0 && $request->input('comm') != 'none') {
+                if ($halt_step == 0 && $request->input('comm_type') != 'none') {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
