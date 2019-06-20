@@ -15,7 +15,7 @@
                 <p><strong>Thank you for your interest in our {{ $product_option->name }}. Just a few more steps and you are all set.</strong></p>
             @elseif ($product_type == 'webinar')
                 <p><strong>Thank you for your interest in {{ $product_option->product->name }}. Just a few more steps and you are all set.</strong></p>
-            @elseif ($product_type == 'job-plus')
+            @elseif ($product_type == 'job-featured')
                 <p><strong>You’re just a few steps away from posting your job! First, input your credit card information below. After making your purchase, you’ll then be asked to share your job listing details.</strong></p>
             @else
                 <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you'll be ready to begin your <span class="sbs-red-text">30 day Free Trial</span>.</strong></p>

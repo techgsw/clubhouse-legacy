@@ -54,9 +54,9 @@ class PurchaseNotification extends Mailable
                     ->subject('Membership Purchase Notification - theClubhouse')
                     ->markdown('emails.internal.purchase-notification');
                 break;
-            case 'job-plus':
+            case 'job-featured':
                 return $this->from('app@sportsbusiness.solutions')
-                    ->subject('Job Listing Purchase Notification - theClubhouse')
+                    ->subject('Job Featured Purchase Notification - theClubhouse')
                     ->markdown('emails.internal.purchase-notification');
                 break;
             default:

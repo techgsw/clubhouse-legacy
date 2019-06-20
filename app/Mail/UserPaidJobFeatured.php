@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserPaidWebinar extends Mailable
+class UserPaidJobFeatured extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -35,7 +35,7 @@ class UserPaidWebinar extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Job Listing - theClubhouse')
-            ->markdown('emails.checkout.paid-job-plus');
+            ->subject('Job Posting - theClubhouse')
+            ->markdown('emails.checkout.paid-job-featured');
     }
 }

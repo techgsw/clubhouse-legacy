@@ -79,9 +79,9 @@ class CheckoutController extends Controller
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
             $product_type = 'webinar';
             $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
-        } else if (in_array('job-plus', array_column($product_option->product->tags->toArray(), 'slug'))) {
-            $product_type = 'job-plus';
-            $breadcrumb = array('name' => 'Job Listing', 'link' => '/job-options');
+        } else if (in_array('job-featured', array_column($product_option->product->tags->toArray(), 'slug'))) {
+            $product_type = 'job-featured';
+            $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
         } else {
             $product_type = 'membership';
             $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
@@ -155,16 +155,16 @@ class CheckoutController extends Controller
                             }
                             $checkout_type = 'webinar';
                             break;
-                        } else if ($tag->slug == 'job-plus') {
-                            $roles = Role::where('code', 'job_user_plus')->get();
+                        } else if ($tag->slug == 'job-featured') {
+                            $roles = Role::where('code', 'job_user_featured')->get();
                             $user->roles()->attach($roles);
                             try {
-                                EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'job-plus');
-                                //Mail::to($user)->send(new UserPaidJobPlus($user, $product_option));
+                                EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'job-featured');
+                                Mail::to($user)->send(new UserPaidJobFeatured($user, $product_option));
                             } catch (\Exception $e) {
                                 Log::error($e->getMessage());
                             }
-                            $checkout_type = 'job-plus';
+                            $checkout_type = 'job-featured';
                             break;
                         }
                     }
@@ -317,8 +317,8 @@ class CheckoutController extends Controller
                 $breadcrumb = 'Webinar';
                 $link = '/webinars';
                 break;
-            case 'job-plus':
-                $view = 'job-plus-thanks';
+            case 'job-featured':
+                $view = 'job-featured-thanks';
                 $breadcrumb = 'Job Listing Plus';
                 $link = '/job-options';
                 break;
