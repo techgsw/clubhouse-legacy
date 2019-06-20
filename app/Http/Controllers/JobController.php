@@ -50,13 +50,16 @@ class JobController extends Controller
             ->paginate(15);
 
         $featured_jobs = Job::where('open', '=', 1)->where('featured', '=', 1)->get()->all();
-        $random_featured_job = array();
+        $featured_jobs_count = count($featured_jobs);
+        $random_featured_jobs = array();
 
-        for ($i = 0; $i < 3; $i++) {
-            $rand = rand(0, (count($featured_jobs) -1));
-            $random_featured_jobs[] = $featured_jobs[$rand];
-            unset($featured_jobs[$rand]);
-            $featured_jobs = array_values($featured_jobs);
+        if ($featured_jobs_count > 0) {
+            for ($i = 0; $i < 3 && $i < $featured_jobs_count; $i++) {
+                $rand = rand(0, (count($featured_jobs) -1));
+                $random_featured_jobs[] = $featured_jobs[$rand];
+                unset($featured_jobs[$rand]);
+                $featured_jobs = array_values($featured_jobs);
+            }
         }
 
         $searching =
