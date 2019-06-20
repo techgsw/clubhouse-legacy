@@ -49,7 +49,7 @@ class RegisterController extends Controller
     {
         if ($request->session()->get('redirect_url')) {
             $this->redirectTo = '/job-options';
-            $message = "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the job option that works best for you below.";
+            $message = "Thank you for joining theClubhouse community! Now, let’s help you post your open job. First, select the option below that works best for you.";
         } else {
             $message = "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.";
         }

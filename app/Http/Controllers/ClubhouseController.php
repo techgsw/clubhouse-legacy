@@ -64,7 +64,7 @@ class ClubhouseController extends Controller
             'job_premium' => $job_premium,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Job Listing Options' => '/job-options'
+                'Job Posting Options' => '/job-options'
             ],
         ]);
     }
