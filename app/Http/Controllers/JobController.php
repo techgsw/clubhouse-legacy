@@ -185,6 +185,14 @@ class JobController extends Controller
         $document = request()->file('document');
         $alt_image = request()->file('alt_image_url');
 
+        if ($user->can('create-platinum-user-job')) {
+            $job_type_id = 4;
+        } elseif ($user->can('create-featured-user-job')) {
+            $job_type_id = 3;
+        } else {
+            $job_type_id = 2;
+        }
+
         $job = new Job([
             'user_id' => $user->id,
             'title' => request('title'),
@@ -193,6 +201,7 @@ class JobController extends Controller
             'job_type' => request('job_type'),
             'league' => request('league'),
             'recruiting_type_code' => 'passive',
+            'job_type_id' => $job_type_id,
             'city' => request('city'),
             'state' => request('state'),
             'country' => request('country'),

@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Job;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,9 +15,6 @@ class ResourceRolesUserAndJobTier extends Migration
      */
     public function up()
     {
-        //
-        $users = User::all();
-
         DB::table('role')->insert(
             array (
                 'code' => 'job_user',
@@ -134,6 +132,7 @@ class ResourceRolesUserAndJobTier extends Migration
             )
         );
         
+        $users = User::all();
         foreach ($users as $user) {
             if (!$user->roles->contains('job_user')){
                 DB::table('role_user')->insert(
@@ -145,13 +144,49 @@ class ResourceRolesUserAndJobTier extends Migration
             }
         }
         
-        Schema::table('job', function (Blueprint $table) {
-            $table->date('start_at')->nullable()->default(NULL);
-            $table->date('end_at')->nullable()->default(NULL);
-        });
 
         Schema::table('transaction', function (Blueprint $table) {
             $table->integer('job_id')->unsigned()->nullable()->default(NULL)->after('stripe_subscription_id');
+        });
+
+        Schema::create('job_type', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->timestamps();
+        });
+
+        DB::table('job_type')->insert(
+            array(
+                'name' => 'SBS Default',
+                'code' => 'sbs-default'
+            )
+        );
+
+        DB::table('job_type')->insert(
+            array(
+                'name' => 'User Free',
+                'code' => 'user-free'
+            )
+        );
+
+        DB::table('job_type')->insert(
+            array(
+                'name' => 'User Featured',
+                'code' => 'user-featured'
+            )
+        );
+
+        DB::table('job_type')->insert(
+            array(
+                'name' => 'User Platinum',
+                'code' => 'user-platinum'
+            )
+        );
+
+        Schema::table('job', function (Blueprint $table) {
+            $table->integer('job_type_id')->unsigned()->default(1)->after('job_type');
+            $table->foreign('job_type_id')->references('id')->on('job_type');
         });
     }
 

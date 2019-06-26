@@ -1,3 +1,4 @@
+@php $pd = new Parsedown(); @endphp
 <form id="create-job-form" method="post" action="" enctype="multipart/form-data" class="organization-field-autocomplete">
     {{ csrf_field() }}
     <div class="row">
@@ -14,7 +15,7 @@
                 </div>
                 @endcan
                 <div class="input-field col s12">
-                    <div id="description" class="markdown-editor" placeholder="Description" style="outline: none; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid #9e9e9e;"></div>
+                    <div id="description" class="markdown-editor" placeholder="Description" style="outline: none; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid #9e9e9e;">{!! $pd->text(old('description')) !!}</div>
                     <div class="hidden">
                         <textarea class="markdown-input" name="description" value=""></textarea>
                     </div>
@@ -122,7 +123,7 @@
                 <div class="input-field col s12">
                     <label for="league" class="active">League</label>
                     <select id="league" name="league" class="browser-default">
-                        <option value="" {{ old('job_type') == "" ? "selected" : "" }}>None</option>
+                        <option value="" {{ old('league') == "" ? "selected" : "" }}>None</option>
 
                         @foreach ($leagues as $league_itr)
                             @if (!is_null($league) && $league->abbreviation == $league_itr->abbreviation) 
@@ -138,7 +139,7 @@
                 </div>
                 <div class="input-field col s12">
                     @if (is_null($organization) || is_null($organization->addresses->first()))
-                        <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="" required>
+                        <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') }}" required>
                     @else
                         <input id="city" type="text" class=" {{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{$organization->addresses->first()->city}}" required>
                     @endif

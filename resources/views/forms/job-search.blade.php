@@ -3,7 +3,7 @@
         <div class="col s12 m7">
             <div class="col s4 input-field">
                 <label class="active">Job Type</label>
-                <select name="job_type" class="browser-default">
+                <select name="job_type" class="">
                     <option value="all" {{ (!request('job_type') || request('job_type') == 'all') ? "selected" : "" }}>All</option>
                     <option value="ticket-sales" {{ request('job_type') == 'ticket-sales' ? "selected" : "ticket-sales" }}>Ticket Sales</option>
                     <option value="sponsorship-sales" {{ request('job_type') == 'sponsorship-sales' ? "selected" : "sponsorship-sales" }}>Sponsorship Sales</option>
@@ -19,7 +19,7 @@
             </div>
             <div class="col s4 input-field">
                 <label class="active">League</label>
-                <select name="league" class="browser-default">
+                <select name="league" class="">
                     <option value="all" {{ (!request('league') || request('league') == 'all') ? "selected" : "" }}>All</option>
                     @foreach ($leagues as $league)
                         <option value="{{ $league->abbreviation }}" {{ request('league') == $league->abbreviation ? "selected" : "" }}>{{ $league->abbreviation }}</option>
@@ -28,7 +28,7 @@
             </div>
             <div class="col s4 input-field">
                 <label class="active">Location</label>
-                <select id="state" name="state" class="browser-default">
+                <select id="state" name="state" class="">
                     <option value="" {{ request('state') == "" ? "selected" : "" }}>All</option>
                     <option disabled>U.S.A.</option>
                     <option value="AL" {{ request('state') == "AL" ? "selected" : "" }}>Alabama</option>

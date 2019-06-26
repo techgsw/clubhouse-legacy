@@ -123,6 +123,14 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('inquiry_edit');
         });
 
+        // Job board
+        Gate::define('create-featured-user-job', function ($user) {
+            return $user->hasAccess('job_featured_user');
+        });
+        Gate::define('create-platinum-user-job', function ($user) {
+            return $user->hasAccess('job_platinum_user');
+        });
+
         // Leagues
         Gate::define('view-league', function ($user) {
             return $user->hasAccess('league_show');

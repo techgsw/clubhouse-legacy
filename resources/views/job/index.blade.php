@@ -1,17 +1,20 @@
 @extends('layouts.clubhouse')
 @section('title', 'Job Board')
 @section('hero')
-    <div class="row hero bg-image job-board">
+    <div class="row hero bg-image job-board" style="padding: 40px 0;">
         <div class="col s12">
             <h4 class="header">Sports Industry Job Board</h4>
-            <p><a class="no-underline" href="{{ Auth::user() ? '/job-options' : '/register?type=employer' }}">Are you a recruiter or employer and want to post your job? Click here.</a></p>
+            <p><a class="" href="{{ Auth::user() ? '/job-options' : '/register?type=employer' }}">Are you a recruiter or employer and want to post your job? Click here.</a></p>
+            @if (!$searching)
+            <a id="search-link" href="#search" class="btn sbs-red">SEARCH</a>
+            @endif
         </div>
     </div>
 @endsection
 @section('content')
 @if (!$searching)
 <div class="container">
-    <div class="row">
+    <div class="row" style="padding-bottom: 15px;">
         <div class="card-flex-container">
             @php $i = 0; @endphp
             @php $featured_jobs_count = count($featured_jobs); @endphp
@@ -20,7 +23,7 @@
                     <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
                         <div class="col s12 center" style="">
                             @if (!is_null($job->image))
-                                <img style="height: 100px;" src={{ $job->image->getURL('medium') }} class="thumb">
+                                <img style="height: 100px;" src="{{ $job->image->getURL('medium') }}" class="thumb">
                             @endif
                         </div>
                         <div class="col s12 center" style="">
@@ -33,9 +36,9 @@
                                 <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
                             @endif
                             @can ('create-inquiry')
-                                <p><a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply Now</a></p>
+                                <p><a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply</a></p>
                             @else
-                                <p><a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply Now</a></p>
+                                <p><a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply</a></p>
                             @endcan
                         </div>
                     </div>
@@ -46,7 +49,7 @@
     </div>
 </div>
 @endif
-<div class="container-fluid" style="background-color: #F2F2F2;">
+<div id="search" class="container-fluid" style="background-color: #F2F2F2; margin-top: -15px;">
     <div class="row" style="margin-bottom: 12px;">
         <button class="text grey-text show-hide-sm hide-on-med-and-up" show-hide-id="job-search-form">
             <span class="show-options {{ $searching ? 'hidden' : ''}}"><i class="fa fa-caret-square-o-down icon-left"></i>Show search options</span>
@@ -62,6 +65,7 @@
 <div class="container">
     @if (count($jobs) > 0)
         <div class="row">
+        <div class="card-flex-container">
         @php
             $featured = false;
         @endphp
@@ -86,6 +90,7 @@
                 $featured = false;
             @endphp
         @endif
+        </div>
         </div>
         <div class="row">
             <div class="col s12 center-align">
