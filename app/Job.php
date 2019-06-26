@@ -51,7 +51,7 @@ class Job extends Model
 
     public function inquiryTotals()
     {
-        $totals = array();
+        $totals = array('none' => 0, 'up' => 0, 'maybe' => 0, 'down' => 0);
 
         foreach ($this->inquiries as $inquiry) {
             if (array_key_exists($inquiry->job_pipeline->name, $totals)) {
@@ -67,7 +67,7 @@ class Job extends Model
 
     public function contactAssignmentTotals()
     {
-        $totals = array();
+        $totals = array('none' => 0, 'up' => 0, 'maybe' => 0, 'down' => 0);
         
         foreach ($this->assignments as $contact_job) {   
             if (array_key_exists($contact_job->job_pipeline->name, $totals)) {
