@@ -121,6 +121,18 @@ class ResourceRolesUserAndJobTier extends Migration
         );
         DB::table('resource_role')->insert(
             array(
+                'resource_code' => 'organization_create',
+                'role_code' => 'job_user'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
+                'resource_code' => 'organization_edit',
+                'role_code' => 'job_user'
+            )
+        );
+        DB::table('resource_role')->insert(
+            array(
                 'resource_code' => 'job_featured_user',
                 'role_code' => 'job_user_featured'
             )
@@ -188,6 +200,20 @@ class ResourceRolesUserAndJobTier extends Migration
             $table->integer('job_type_id')->unsigned()->default(1)->after('job_type');
             $table->foreign('job_type_id')->references('id')->on('job_type');
         });
+
+        Schema::table('organization', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->after('id');
+            $table->boolean('approved')->default(false)->after('name');
+        });
+
+        DB::update("UPDATE `organization` SET `user_id` = 1 WHERE `id` > 0");
+
+        Schema::table('organization', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('user');
+        });
+
+        DB::update("UPDATE `organization` SET `approved` = true WHERE `id` > 0");
+
     }
 
     /**

@@ -159,8 +159,8 @@ class CheckoutController extends Controller
                             $roles = Role::where('code', 'job_user_featured')->get();
                             $user->roles()->attach($roles);
                             try {
-                                EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'job-featured');
-                                Mail::to($user)->send(new UserPaidJobFeatured($user, $product_option));
+                                EmailServiceProvider::sendJobFeaturedPurchaseNotificationEmail($user, $product_option, 0, 'job-featured');
+                                //Mail::to($user)->send(new UserPaidJobFeatured($user, $product_option));
                             } catch (\Exception $e) {
                                 Log::error($e->getMessage());
                             }

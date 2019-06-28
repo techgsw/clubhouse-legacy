@@ -80,7 +80,7 @@ class OrganizationServiceProvider extends ServiceProvider
                 return $organization;
             }
         }
-        // $this->authorize('view-organization');
+
         return $organizations;
     }
 }

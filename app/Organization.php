@@ -12,7 +12,8 @@ class Organization extends Model
         'updated_at'
     ];
     protected $fillable = [
-        'name'
+        'name',
+        'user_id'
     ];
 
     // Relationships

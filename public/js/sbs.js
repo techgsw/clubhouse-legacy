@@ -602,10 +602,10 @@ $.valHooks.textarea = {
         });
     }
 
-    Organization.createJob = function (form) {
+    Organization.create = function (form) {
         return $.ajax({
             'type': 'POST',
-            'url': '/organization',
+            'url': '/organization/create',
             'data': form,
         })
     }
@@ -615,13 +615,18 @@ $.valHooks.textarea = {
             click: function (e, ui) {
                 var organization_name = $('form.organization-create').find('#name').val()
                 
-                $('input#organization.organization-autocomplete').val(organization_name);
-                
-                Organization.createJob($('form.organization-create').serialize())
+                Organization.create($('form.organization-create').serialize())
                 .done(function (response) {
-                    $('input#organization-id').attr('value', response.id);
-                    $('input#organization.organization-autocomplete').attr('value', response.name);
+                    if (!response.organization) {
+                        UI.displayMessage({ type: 'danger', message: response.message });
+                        return; 
+                    }
+
+                    $('input#organization-id').attr('value', response.organization.id);
+                    $('input#organization.organization-autocomplete').attr('value', response.organization.name);
+                    $('input#organization.organization-autocomplete').val(response.organization.name);
                     
+                    /*
                     Organization.getPreview(response.id, 'medium')
                         .done(function (resp) {
                             $('img#organization-image').attr('src', resp.image_url);
@@ -634,11 +639,15 @@ $.valHooks.textarea = {
                             $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
                             $('form.organization-field-autocomplete select[name="country"]').trigger('change');
 
-                            UI.displayMessage({ type: 'success', message: "Successfully added you to the " + resp.name  + " organization" })
+                            UI.displayMessage({ type: 'success', message: "Successfully added you to the " + resp.name  + " organization" });
                         })
-                        .fail(function (resp) {
-                            console.error(resp);
+                        .fail(function (response) {
+                            UI.displayMessage({ type: 'danger', message: "We were unable to create your organization." });
                         });
+                    */
+                })
+                .fail(function (response) {
+                    UI.displayMessage({ type: 'danger', message: reps.message });
                 });
                 
                 $('.organization-create-modal').modal('close');

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contact;
 use App\Job;
 use App\Organization;
+use App\Transaction;
 use App\Providers\ImageServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,7 @@ class JobServiceProvider extends ServiceProvider
         try {
             if ($document) {
                 $document = $document->store('document', 'public');
+                $job->document = $document;
             } else {
                 throw new SBSException("You must upload corresponding document.");
             }
@@ -63,6 +65,30 @@ class JobServiceProvider extends ServiceProvider
 
             $job->image_id = $image->id;
             $job->save();
+
+            if (in_array($job->job_type_id, array(4, 3))) {
+                $job->featured = true;
+                $job->save();
+
+                if ($job->job_type_id == 4) {
+                    $transaction = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
+                        ->join('product_option as po', 'po.id', 'tpo.product_option_id')
+                        ->where('po.name','=','Platinum Job')
+                        ->where('transaction.user_id','=', Auth::user()->id)
+                        ->whereNull('transaction.job_id')
+                        ->select('transaction.id', 'transaction.job_id')->first();
+                } elseif ($job->job_type_id == 3) {
+                    $transaction = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
+                        ->join('product_option as po', 'po.id', 'tpo.product_option_id')
+                        ->where('po.name','=','Featured Job')
+                        ->where('transaction.user_id','=', Auth::user()->id)
+                        ->whereNull('transaction.job_id')
+                        ->select('transaction.id', 'transaction.job_id')->first();
+                }
+
+                $transaction->job_id = $job->id;
+                $transaction->save();
+            }
 
             return $job;
         } catch (\Exception $e) {

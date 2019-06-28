@@ -10,6 +10,7 @@ use App\Organization;
 use App\OrganizationType;
 use App\Message;
 use App\User;
+use App\Exceptions\SBSException;
 use App\Providers\ImageServiceProvider;
 use App\Providers\OrganizationServiceProvider;
 use App\Providers\UtilityServiceProvider;
@@ -68,36 +69,44 @@ class OrganizationController extends Controller
         ]);
     }
 
-    /**
-     * @param  StoreOrganization  $request
-     * @return Response
-     */
     public function store(Store $request)
     {
-
-        $league_ot = OrganizationType::where('code', 'league')->first();
-
         $duplicate = Organization::where('name', $request->name)->first();
         if ($duplicate) {
+            throw new SBSException('Found an existing organization named '.$request->name);
             $request->session()->flash('message', new Message(
-                "Found an existing $request->name",
-                "warning",
+                "Found an existing organization named {$request->name}",
+                "danger",
                 $code = null,
                 $icon = "error"
             ));
-            return redirect()->action('OrganizationController@show', [$duplicate]);
         }
 
         try {
-            $organization = DB::transaction(function () use ($request, $league_ot) {
+            $organization = DB::transaction(function () use ($request) {
+                $user = Auth::user();
                 $organization = Organization::create([
                     'name' => $request->name,
+                    'user_id' => $user->id,
                 ]);
-                $organization->parent_organization_id = $request->parent_organization_id;
-                $organization->organization_type_id = (int)$request->organization_type_id;
+
+                if ($request->parent_orgnization_id) {
+                    $organization->parent_organization_id = $request->parent_organization_id;
+                }
+                if ($request->organization_type_id) {
+                    $organization->organization_type_id = (int)$request->organization_type_id;
+                }
                 $organization->save();
 
-                if ($request->organization_type_id == $league_ot->id) {
+                if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
+                    $user->contact->organizations()->attach($organization->id);
+                    $user->contact->organization = $organization->name;
+                    $user->contact->save();
+                } else {
+                    throw new SBSException('This account is already associated with an organization.');
+                }
+
+                if ($request->organization_type_id == 2 /* League */) {
                     // Create
                     $league = new League();
                     $league->abbreviation = request('abbreviation') ?: $organization->name;
@@ -138,38 +147,38 @@ class OrganizationController extends Controller
 
                 return $organization;
             });
-        } catch (Exception $e) {
+        } catch (SBSException $e) {
             Log::error($e->getMessage());
-        }
-
-        if (empty($organization)) {
             $request->session()->flash('message', new Message(
-                "Sorry, failed to create the organization. Please check all fields and try again.",
+                $e->getMessage(),
                 "danger",
                 $code = null,
                 $icon = "error"
             ));
-            return back()->withInputs();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $request->session()->flash('message', new Message(
+                "Unable to save organization. Please check all fields and try again.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
         }
 
         try {
             $count = OrganizationServiceProvider::mapContacts($organization);
-            $request->session()->flash('message', new Message(
-                "Found {$count} contacts belonging to {$organization->name}",
-                "success",
-                $code = null,
-                $icon = "check_circle"
-            ));
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
 
-        if (preg_match('/job/', $request->headers->get('referer'))) {
+        $request->session()->flash('message', new Message(
+            "Congratulations, your organization has been created!",
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
 
-            return $organization;
-        } else {
-            return redirect()->action('OrganizationController@show', [$organization]);
-        }
+        return back();
     }
 
     /**

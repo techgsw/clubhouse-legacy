@@ -5,19 +5,13 @@
                 <h4>Create your organization</h4>
             </div>
             <div class="input-field col s12">
-                <!-- <form id="create-organization" class="organization-create" method="POST" action="/organization" enctype="multipart/form-data"> -->
-                <form id="create-organization" class="organization-create" enctype="multipart/form-data">
+                <form id="create-organization" class="organization-create" method="POST" action="/organization" enctype="multipart/form-data">
                     <div class="row">
                         {{ csrf_field() }}
                         <div class="input-field col s12 l12">
                             <input id="name" type="text" class="{{ $errors->has('name') ? 'invalid' : '' }}" name="name" value="{{ old('name') ?: '' }}" required>
                             <label for="name" data-error="{{ $errors->first('name') }}">Name</label>
                         </div>
-                        <!-- <div class="input-field col s12 l5">
-                            <input id="parent-organization-id" type="hidden" name="parent_organization_id" value="{{ old('parent_organization_id') ?: '' }}">
-                            <input id="parent_organization" name="parent_organization" type="text" class="organization-autocomplete {{ $errors->has('parent_organization') ? 'invalid' : '' }}" target-input-id="parent-organization-id" value="{{ old('parent_organization') ?: '' }}">
-                            <label for="parent_organization" data-error="{{ $errors->first('parent_organization') }}">Parent organization</label>
-                        </div> -->
                         <div class="input-field col s12 m6">
                             <div class="organization-type-league hidden">
                                 <input type="text" id="abbreviation" name="abbreviation" value="{{ old('abbreviation') }}">
@@ -49,7 +43,7 @@
                     </div>
                     <div class="input-field col s12 right-align">
                         <button type="button" value="cancel" formnovalidate id="cancel-organization-form" class="cancel-organization-form btn">cancel</button>
-                        <button type="button" class="submit-org-create btn sbs-red">Save</button>
+                        <button type="submit" class="btn sbs-red">Save</button>
                     </div>
                 </form>
             </div>

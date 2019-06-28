@@ -4,7 +4,7 @@
     <div class="row hero bg-image job-board" style="padding: 40px 0;">
         <div class="col s12">
             <h4 class="header">Sports Industry Job Board</h4>
-            <p><a class="" href="{{ Auth::user() ? '/job-options' : '/register?type=employer' }}">Are you a recruiter or employer and want to post your job? Click here.</a></p>
+            <p>Are you a recruiter or employer and want to post your job? <a class="" href="{{ Auth::user() ? '/job-options' : '/register?type=employer' }}">Click here.</a></p>
             @if (!$searching)
             <a id="search-link" href="#job-board-search" class="btn sbs-red">SEARCH</a>
             @endif
@@ -19,6 +19,7 @@
             @php $i = 0; @endphp
             @php $featured_jobs_count = count($featured_jobs); @endphp
             @foreach ($featured_jobs as $job)
+                <a href="{{ $job->getURL() }}" class="no-underline">
                 <div class="card medium">
                     <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
                         <div class="col s12 center" style="">
@@ -43,6 +44,7 @@
                         </div>
                     </div>
                 </div>
+                </a>
                 @php $i++; @endphp
             @endforeach
         </div>

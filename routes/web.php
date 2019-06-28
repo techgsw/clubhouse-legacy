@@ -128,19 +128,14 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/job', 'JobController@index');
 
         //refactoring jobs to be in admin domain since we will be restricting job admins
-        Route::get('/admin/job/register', 'JobController@register');
-        Route::get('/admin/job/create', 'JobController@create');
-        Route::post('/admin/job/create', 'JobController@store');
-        Route::get('/admin/job/{id}/open', 'JobController@open');
-        Route::get('/admin/job/{id}/close', 'JobController@close');
-        Route::get('/admin/job/{id}/feature', 'JobController@feature');
-        Route::get('/admin/job/{id}/unfeature', 'JobController@unfeature');
-        Route::get('/admin/job/{id}/rank-up', 'JobController@rankUp');
-        Route::get('/admin/job/{id}/rank-top', 'JobController@rankTop');
-        Route::get('/admin/job/{id}/rank-down', 'JobController@rankDown');
-        Route::get('/admin/job/{id}/edit', 'JobController@edit');
-        Route::post('/admin/job/{id}', 'JobController@update');
-        Route::post('/admin/job/{id}/inquire', 'InquiryController@store');
+        Route::get('/job/register', 'JobController@register');
+        Route::get('/job/create', 'JobController@create');
+        Route::post('/job/create', 'JobController@store');
+        Route::get('/job/{id}/feature', 'JobController@feature');
+        Route::get('/job/{id}/unfeature', 'JobController@unfeature');
+        Route::get('/job/{id}/rank-up', 'JobController@rankUp');
+        Route::get('/job/{id}/rank-top', 'JobController@rankTop');
+        Route::get('/job/{id}/rank-down', 'JobController@rankDown');
 
         Route::get('/admin/pipeline', 'PipelineController@index');
         Route::get('/admin/pipeline/job', 'PipelineController@job');
@@ -276,11 +271,6 @@ Route::domain($domain)->group(function () {
         // Route::post('/job', 'JobController@store');
         Route::get('/job/{id}/open', 'JobController@open');
         Route::get('/job/{id}/close', 'JobController@close');
-        // Route::get('/job/{id}/feature', 'JobController@feature');
-        // Route::get('/job/{id}/unfeature', 'JobController@unfeature');
-        // Route::get('/job/{id}/rank-up', 'JobController@rankUp');
-        // Route::get('/job/{id}/rank-top', 'JobController@rankTop');
-        // Route::get('/job/{id}/rank-down', 'JobController@rankDown');
         Route::get('/job/{id}/edit', 'JobController@edit');
         Route::post('/job/{id}', 'JobController@update');
         Route::post('/job/{id}/inquire', 'InquiryController@store');
@@ -300,7 +290,6 @@ Route::domain($domain)->group(function () {
         });
     });
 
-
     // Mentor
     Route::group(['middleware' => ['web']], function () {
         Route::get('/mentor', 'MentorController@index');
@@ -318,6 +307,10 @@ Route::domain($domain)->group(function () {
     });
 
     // Organizations
+    Route::group(['middleware' => ['web', 'ajax_only']], function () {
+        Route::get('/organization/{id}/preview', 'OrganizationController@preview');
+    });
+
     Route::group(['middleware' => ['web']], function () {
         Route::get('/admin/organization', 'OrganizationController@index');
         Route::get('/organization/create', 'OrganizationController@create');
@@ -329,10 +322,10 @@ Route::domain($domain)->group(function () {
         Route::get('/organization/leagues', 'OrganizationController@leagues');
         Route::get('/organization/{id}', 'OrganizationController@show');
         Route::get('/organization/{id}/edit', 'OrganizationController@edit');
-        Route::get('/organization/{id}/preview', 'OrganizationController@preview');
         Route::post('/organization/{id}', 'OrganizationController@update');
         Route::get('/organization/{id}/match-contacts', 'OrganizationController@matchContacts');
     });
+
 
     // Pricing
     Route::group(['middleware' => ['web']], function () {
