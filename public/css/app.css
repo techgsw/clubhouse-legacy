@@ -1182,6 +1182,14 @@ div.arrow.down {
  * Job board
  */
 
+#job-board-search {
+    background-color: #3F3E3E;
+}
+
+#job-board-search .input-field, #job-board-search label, #job-board-search label.active, #job-board-search span.caret {
+    color: #FFF;
+}
+
 .row.job-index {
     padding: 16px 0;
     margin: 0;
@@ -1250,6 +1258,10 @@ form#edit-job img {
     max-width: 200px;
     max-height: 200px;
     padding: 20px 30px;
+}
+
+#create-organization .input-field {
+    margin-top: .5rem;
 }
 
 /**

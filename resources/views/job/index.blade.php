@@ -6,7 +6,7 @@
             <h4 class="header">Sports Industry Job Board</h4>
             <p><a class="" href="{{ Auth::user() ? '/job-options' : '/register?type=employer' }}">Are you a recruiter or employer and want to post your job? Click here.</a></p>
             @if (!$searching)
-            <a id="search-link" href="#search" class="btn sbs-red">SEARCH</a>
+            <a id="search-link" href="#job-board-search" class="btn sbs-red">SEARCH</a>
             @endif
         </div>
     </div>
@@ -49,7 +49,7 @@
     </div>
 </div>
 @endif
-<div id="search" class="container-fluid" style="background-color: #F2F2F2; margin-top: -15px;">
+<div id="job-board-search" class="container-fluid" style="margin-top: -15px;">
     <div class="row" style="margin-bottom: 12px;">
         <button class="text grey-text show-hide-sm hide-on-med-and-up" show-hide-id="job-search-form">
             <span class="show-options {{ $searching ? 'hidden' : ''}}"><i class="fa fa-caret-square-o-down icon-left"></i>Show search options</span>
@@ -57,9 +57,9 @@
         </button>
     </div>
     <div class="container">
-    <div id="job-search-form" class="row {{ $searching ? '' : 'hide-on-small-only'}}">
-        @include('forms.job-search')
-    </div>
+        <div id="job-search-form" class="row {{ $searching ? '' : 'hide-on-small-only'}}">
+            @include('forms.job-search')
+        </div>
     </div>
 </div>
 <div class="container">

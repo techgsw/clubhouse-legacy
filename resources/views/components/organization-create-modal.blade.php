@@ -1,7 +1,9 @@
 <div class="organization-create-modal modal modal-large modal-fixed-footer">
-    <div class="modal-content" style="height: calc(100% - 160px);"></div>
-    <div class="modal-footer" style="height: 100%;">
+    <div class="modal-content">
         <div class="row">
+            <div class="col s12">
+                <h4>Create your organization</h4>
+            </div>
             <div class="input-field col s12">
                 <!-- <form id="create-organization" class="organization-create" method="POST" action="/organization" enctype="multipart/form-data"> -->
                 <form id="create-organization" class="organization-create" enctype="multipart/form-data">
@@ -17,14 +19,6 @@
                             <label for="parent_organization" data-error="{{ $errors->first('parent_organization') }}">Parent organization</label>
                         </div> -->
                         <div class="input-field col s12 m6">
-                            <select id="organization_type_id" name="organization_type_id">
-                                @foreach ($organization_types as $type)
-                                    <option value="{{$type->id}}" {{ old("organization_type_id") == $type->id ? "selected" : ""}}>{{ $type->name }}</option>
-                                @endforeach
-                            </select>
-                            <label for="organization_type_id">Type</label>
-                        </div>
-                        <div class="input-field col s12 m6">
                             <div class="organization-type-league hidden">
                                 <input type="text" id="abbreviation" name="abbreviation" value="{{ old('abbreviation') }}">
                                 <label for="abbreviation">Abbreviation</label>
@@ -39,12 +33,10 @@
                                 <label for="league_id">League</label>
                             </div>
                         </div>
-                        <div class="col s12 m3 center-align">
-                            <i class="material-icons medium">add_a_photo</i>
-                        </div>
-                        <div class="col s12 m9">
+                        <div class="col s12 m6">
                             <div class="file-field input-field">
                                 <div class="btn white black-text">
+                                    <i class="material-icons medium">add_a_photo</i>
                                     <span>Upload Image</span>
                                     <input type="file" name="image_url" value="{{ old('image_url') }}">
                                 </div>
@@ -54,10 +46,10 @@
                             </div>
                         </div>
                         @include('address.components.form', ['address' => new App\Address])
-                        <div class="input-field col s12">
-                            <button type="button" value="cancel" formnovalidate id="cancel-organization-form" class="cancel-organization-form btn sbs-red">cancel</button>
-                            <button type="button" class="submit-org-create btn sbs-red">Save</button>
-                        </div>
+                    </div>
+                    <div class="input-field col s12 right-align">
+                        <button type="button" value="cancel" formnovalidate id="cancel-organization-form" class="cancel-organization-form btn">cancel</button>
+                        <button type="button" class="submit-org-create btn sbs-red">Save</button>
                     </div>
                 </form>
             </div>

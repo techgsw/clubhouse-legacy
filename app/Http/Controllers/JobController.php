@@ -168,7 +168,7 @@ class JobController extends Controller
                 'breadcrumb' => [
                     'Home' => '/',
                     'Account' => "/user/{$user->id}/account",
-                    'Job Listings' => "/user/{$user->id}/job-postings",
+                    'Job Postings' => "/user/{$user->id}/job-postings",
                     'Post a job' => '/job/create'
                 ]
             ]);

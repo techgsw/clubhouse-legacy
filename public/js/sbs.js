@@ -728,7 +728,6 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                console.log('here');
                 $('.organization-create-modal').modal('open');
             }
         },
