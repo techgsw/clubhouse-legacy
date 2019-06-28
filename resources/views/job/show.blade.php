@@ -45,8 +45,11 @@
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
             <p class="small tags">
+                @if ($job->isNew())
+                    <span class="label blue white-text" style="letter-spacing: 0.6px; font-size: 10px;"><b>NEW</b></span>
+                @endif
                 @if ($job->featured)
-                    <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+                    <span class="label sbs-red" style="letter-spacing: 0.6px; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
                 @endif
                 @can ('edit-job', $job)
                     <span class="label {{$job->recruiting_type_code == 'passive' ? 'gray' : 'blue white-text'}} inverse" style="letter-spacing: 0.6px; display: inline;">{{ucwords($job->recruiting_type_code)}}</span>

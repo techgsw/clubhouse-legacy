@@ -16,14 +16,12 @@
                     <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode($job->getURL($absolute=true))?>&title=<?=urlencode($job->title)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                     <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$job->title?> | Sports Business Solutions&body=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                 </div>
-                @if ($job->featured)
-                    <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+                @if ($job->isNew())
+                    <span class="label blue white-text" style="letter-spacing: 0.6px; font-size: 10px;"><b>NEW</b></span>
                 @endif
-                <p class="small tags">
-                    @if ($job->isNew())
-                        <span class="label blue white-text" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b>NEW</b></span>
-                    @endif
-                </p>
+                @if ($job->featured)
+                    <span class="label sbs-red" style="letter-spacing: 0.6px; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+                @endif
             </div>
             <div class="col s12 center" style="height: 30px;">
                 @can ('create-inquiry')
