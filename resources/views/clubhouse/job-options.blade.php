@@ -70,11 +70,22 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
+    </div>
+    <div class="container-fluid" style="background-color: #F2F2F2;">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 class="uppercase">COMPARE THE OPTIONS</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <div class="row">
             <div class="col s12 center">
-                <h4 class="uppercase" style="margin-top: 50px;">COMPARE THE OPTIONS</h4>
-                <table class="responsive-table highlight">
+                <table class="highlight">
                     <thead>
                         <tr>
                             <th></th>
