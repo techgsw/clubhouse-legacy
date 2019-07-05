@@ -7,10 +7,12 @@
                     <input id="title" type="text" class="" name="title" value="{{ old('title') ?: $job->title }}" required autofocus>
                     <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
                 </div>
+                @can ('edit-job-featured-status', $job)
                 <div class="input-field col s12 m3">
                     <input type="checkbox" name="featured" id="featured" value="1" {{ is_null(old('featured')) ? ($job->featured ? "checked" : "") : (old('featured') ? "checked" : "") }} />
                     <label for="featured">Featured</label>
                 </div>
+                @endcan
                 <div class="input-field col s12">
                     <div class="markdown-editor" style="outline: none; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid #9e9e9e;">
                         {!! $description !!}
@@ -35,6 +37,7 @@
                         <option value="administrative" {{ old("job_type") == "administrative" ? "selected" : $job->job_type == "administrative" ? "selected" : "" }}>Administrative</option>
                     </select>
                 </div>
+                @can ('edit-job-recruiting-type', $job)
                 <div class="input-field col s12">
                     <label for="recruiting-type-code" class="active">Recruiting Type</label>
                     <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
@@ -42,6 +45,7 @@
                         <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : $job->recruiting_type_code == "active" ? "selected" : "" }}>Active</option>
                     </select>
                 </div>
+                @endcan
                 <div class="file-field input-field col s12">
                     <div class="btn white black-text">
                         <span>Document</span>
@@ -51,12 +55,14 @@
                         <input class="file-path" type="text" name="document_text" value="{{ old('document_text') }}">
                     </div>
                 </div>
+                @can ('edit-job-logo', $job)
                 <div class="input-field col s12">
                     <p>
                         <input type="checkbox" class="show-hide" show-hide-target-id="organization-fields" name="reuse_organization_fields" id="reuse_organization_fields" value="1" {{ $reuse_organization_fields ? "checked" : ''}} />
                         <label for="reuse_organization_fields">Use organization name and logo</label>
                     </p>
                 </div>
+                @endcan
                 <div class="col s12 {{ $reuse_organization_fields ? 'hidden' : ''}}" id="organization-fields">
                     <div class="input-field col s12">
                         <input id="organization_name" type="text" name="organization_name" value="{{ old('organization_name') ?: $job->organization_name ?: '' }}">

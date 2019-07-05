@@ -100,35 +100,61 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('answer_approve');
         });
 
-        // Job board
+        // Admin board
         Gate::define('view-job-board', function ($user) {
             return $user->hasAccess('job_index');
         });
         Gate::define('view-job', function ($user) {
             return $user->hasAccess('job_show');
         });
-        Gate::define('create-job', function ($user) {
-            return $user->hasAccess('job_create') || $user->hasAccess('job_create_user');
-        });
-        Gate::define('edit-job', function ($user) {
+        Gate::define('edit-job-featured-status', function ($user) {
             return $user->hasAccess('job_edit');
         });
-        Gate::define('close-job', function ($user) {
-            return $user->hasAccess('job_close');
+        Gate::define('edit-job-recruiting-type', function ($user) {
+            return $user->hasAccess('job_edit');
         });
-        Gate::define('create-inquiry', function ($user) {
-            return $user->hasAccess('inquiry_create');
-        });
-        Gate::define('edit-inquiry', function ($user) {
-            return $user->hasAccess('inquiry_edit');
+        Gate::define('edit-job-logo', function ($user) {
+            return $user->hasAccess('job_edit');
         });
 
-        // Job board
+        // User Job board
         Gate::define('create-featured-user-job', function ($user) {
             return $user->hasAccess('job_featured_user');
         });
         Gate::define('create-platinum-user-job', function ($user) {
             return $user->hasAccess('job_platinum_user');
+        });
+        Gate::define('close-user-job', function ($user) {
+            return $user->hasAccess('job_close') || $user->hasAccess('job_close_user');
+        });
+        Gate::define('create-job', function ($user) {
+            return $user->hasAccess('job_create') || $user->hasAccess('job_create_user');
+        });
+        Gate::define('edit-job', function ($user, $job) {
+            if ($user->hasAccess('job_edit')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $job->user_id == $user->id) {
+                return true;
+            }
+            return false;
+        });
+        Gate::define('close-job', function ($user, $job) {
+            if ($user->hasAccess('job_close')) {
+                return true;
+            }
+            if ($user->hasAccess('job_close_user') && $job->user_id == $user->id) {
+                return true;
+            }
+            return false;
+        });
+
+        // Generic Job board
+        Gate::define('create-inquiry', function ($user) {
+            return $user->hasAccess('inquiry_create');
+        });
+        Gate::define('edit-inquiry', function ($user) {
+            return $user->hasAccess('inquiry_edit');
         });
 
         // Leagues

@@ -270,7 +270,7 @@ class JobController extends Controller
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
         $jobs = Job::where('user_id', '=', $user->id)->get();
 
-        return view('admin/job-postings', [
+        return view('user/job-postings', [
             'breadcrumb' => [
                 'Home' => '/',
                 'Account' => "/user/{$user->id}/account"
@@ -472,27 +472,32 @@ class JobController extends Controller
                 }
 
                 $job->title = request('title');
-                $job->featured = request('featured') ? true : false;
-                if (!$job->featured) {
-                    $job->rank = 0;
+                if ($request->user()->can('edit-job-featured-status', $job)) {
+                    $job->featured = request('featured') ? true : false;
+                    if (!$job->featured) {
+                        $job->rank = 0;
+                    }
                 }
                 $job->description = request('description');
                 $job->organization_name = $organization_name;
                 $job->league = request('league');
                 $job->job_type = request('job_type');
-                $job->recruiting_type_code = request('recruiting_type_code');
+                if ($request->user()->can('edit-job-recruiting-type', $job)) {
+                    $job->recruiting_type_code = request('recruiting_type_code');
+                }
                 $job->city = request('city');
                 $job->state = request('state');
                 $job->country = request('country');
-                $job->featured = request('featured') ? true : false;
-                // Set rank if newly featured
-                if ($job->featured && $job->rank == 0) {
-                    $rank = 1;
-                    $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-                    if ($last_job) {
-                        $rank = $last_job->rank+1;
+                if ($request->user()->can('edit-job-featured-status', $job)) {
+                    // Set rank if newly featured
+                    if ($job->featured && $job->rank == 0) {
+                        $rank = 1;
+                        $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+                        if ($last_job) {
+                            $rank = $last_job->rank+1;
+                        }
+                        $job->rank = $rank;
                     }
-                    $job->rank = $rank;
                 }
 
                 if (request('document')) {

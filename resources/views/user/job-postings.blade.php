@@ -1,4 +1,3 @@
-<!-- /resources/views/user/jobs.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', 'Job Postings')
 @section('content')
@@ -38,7 +37,6 @@
         @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">My Jobs</a></li>
-        <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
         @can('view-job')
             <li class="tab"><a class="active" href="/user/{{ $user->id }}/job-postings">My Postings</a></li>
         @endcan
@@ -56,7 +54,7 @@
                 </div> -->
             </div>  
                 @foreach ($jobs as $job)
-                    @include('components.admin-job-list-item', ['job' => $job])
+                    @include('components.user-job-list-item', ['job' => $job])
                 @endforeach
             @else
                 <p>When you <a href="/job/create">create</a> jobs for the <a href="/job">Job Board</a>, those jobs will appear here.</p>

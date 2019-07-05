@@ -51,7 +51,7 @@
                 @if ($job->featured)
                     <span class="label sbs-red" style="letter-spacing: 0.6px; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
                 @endif
-                @can ('edit-job', $job)
+                @can ('edit-job-recruiting-type', $job)
                     <span class="label {{$job->recruiting_type_code == 'passive' ? 'gray' : 'blue white-text'}} inverse" style="letter-spacing: 0.6px; display: inline;">{{ucwords($job->recruiting_type_code)}}</span>
                 @endcan
             </p>
@@ -79,17 +79,19 @@
     @cannot ('edit-inquiry')
     <div class="row">
         <div class="col s12 m9 offset-m3 job-inquire">
-            @can ('create-inquiry', $job)
-                @if ($profile_complete)
-                    @include('forms.job-inquiry')
+            @cannot ('edit-job', $job)
+                @can ('create-inquiry', $job)
+                    @if ($profile_complete)
+                        @include('forms.job-inquiry')
+                    @else
+                        <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red">Complete your profile to apply</a>
+                    @endif
                 @else
-                    <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red">Complete your profile to apply</a>
-                @endif
-            @else
-                <div class="input-field">
-                    <a href="/register" class="btn sbs-red">Join to apply</a>
-                </div>
-            @endcan
+                    <div class="input-field">
+                        <a href="/register" class="btn sbs-red">Join to apply</a>
+                    </div>
+                @endcan
+            @endcannot
         </div>
     </div>
     @endcannot
