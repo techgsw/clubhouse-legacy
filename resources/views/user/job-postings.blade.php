@@ -38,7 +38,7 @@
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
         <li class="tab"><a href="/user/{{ $user->id }}/jobs">My Jobs</a></li>
         @can('view-job')
-            <li class="tab"><a class="active" href="/user/{{ $user->id }}/job-postings">My Postings</a></li>
+            <li class="tab"><a class="active" href="/user/{{ $user->id }}/job-postings">Job Postings</a></li>
         @endcan
         @can ('edit-roles')
             <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>
@@ -47,12 +47,6 @@
     <div class="row" style="margin-bottom: 12px;">
         <div class="col s12">
             @if (count($jobs))
-            <div class="row" style="display: flex; flex-flow: row;">
-                <h5>Job Postings</h5>
-                <!-- <div class="align-self: flex-end;">
-                    <a href="/job/create" class="flat-button red">create</a>
-                </div> -->
-            </div>  
                 @foreach ($jobs as $job)
                     @include('components.user-job-list-item', ['job' => $job])
                 @endforeach

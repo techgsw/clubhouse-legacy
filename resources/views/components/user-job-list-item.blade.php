@@ -1,13 +1,24 @@
 <div class="row job-admin">
-    <div class="col s3 m2">
+    <div class="col s3 m2 center">
         <a href="/job/{{$job->id}}" class="no-underline">
             @if (!is_null($job->image))
             <img src={{ $job->image->getURL('medium') }} class="no-border">
             @endif
         </a>
+        @if ($job->job_type_id == 3)
+            <span class="small flat-button red inverse">Featured</span>
+        @endif
+        @if ($job->job_type_id == 4)
+            <span class="small flat-button black inverse">Platinum</span>
+        @endif
     </div>
     <div class="col s9 m10">
         <div class="small" style="float: right;">
+            @cannot ('edit-job-featured-status')
+                @if (!in_array($job->job_type_id, array(3, 4)))
+                    <a href="/job-options?job={{ $job->id }}" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
+                @endif
+            @endcan
             @can ('close-job', $job)
                 @if (is_null($job->open) || $job->open == false)
                     <a href="/job/{{ $job->id }}/open" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Open</a>
@@ -18,16 +29,6 @@
             @endcan
             @can ('edit-job', $job)
                 <a href="/job/{{ $job->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
-                @if ($job->featured)
-                    <a href="/job/{{ $job->id }}/unfeature" class="flat-button small blue"><i class="fa fa-star"></i> {{ $job->rank }}</a>
-                    <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>
-                    <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
-                    <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
-                @else
-                    @can('view-admin-jobs')
-                        <a href="/job/{{ $job->id }}/feature" class="flat-button small blue"><i class="fa fa-star-o"></i></a>
-                    @endcan
-                @endif
             @endcan
         </div>
         <a href="/job/{{$job->id}}">
@@ -41,7 +42,7 @@
                     <span class="small flat-button blue inverse" style="letter-spacing: 0.6px;"><b>New</b></span>
                 @endif
                 @if ($job->featured)
-                    <!--<span class="small flat-button red inverse" style="letter-spacing: 0.6px;"><b>Featured</b></span>-->
+                    <span class="small flat-button red inverse" style="letter-spacing: 0.6px;"><b>Featured</b></span>
                 @endif
                 @if (is_null($job->open))
                     <span class="small flat-button black inverse">Not open</span>
@@ -50,9 +51,6 @@
                 @else
                     <span class="small flat-button green inverse">Open</span>
                 @endif
-                @can('edit-job-recruiting-type')
-                    <span class="small flat-button {{$job->recruiting_type_code == 'passive' ? 'gray' : 'blue'}} inverse">{{ucwords($job->recruiting_type_code)}}</span>
-                @endcan
 
                 <span class="small flat-button black inverse">{{ count($job->inquiries) + count($job->assignments) }}</span>
                 
@@ -66,7 +64,7 @@
                                 $count = $job->inquiryTotals()[$step->name];
                             @endphp
                         @endif
-                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ (($count > 0) ? 'red' : 'black') }}">{{$step->name}}: {{ $count }}</a>                    
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ (($count > 0) ? 'red' : 'black') }}" style="margin-bottom: 5px;">{{$step->name}}: {{ $count }}</a>                    
                         @php
                             $count = 0;
                         @endphp
@@ -75,10 +73,8 @@
                                 $count = $job->contactAssignmentTotals()[$step->name];
                             @endphp
                         @endif
-                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ (($count > 0) ? 'red' : 'black') }}">Assigned: {{ $count }}</a>
-                        <br/>
-                        <br/> 
-                    @else
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button {{ (($count > 0) ? 'red' : 'black') }}" style="margin-bottom: 5px;">Assigned: {{ $count }}</a>
+                    @elseif ($step->id == 2)
                         @if (array_key_exists($step->name , $job->inquiryTotals()))
                             @php
                                 $count = $job->inquiryTotals()[$step->name]; 
@@ -89,7 +85,7 @@
                                 $count += $job->contactAssignmentTotals()[$step->name];
                             @endphp
                         @endif
-                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black">{{$step->name}}: {{ $count }}</a>
+                        <a href="/job/{{ $job->id }}?step={{$step->id}}&sort=recent#applications" class="small flat-button black" style="margin-bottom: 5px;">{{$step->name}}: {{ $count }}</a>
                     @endif
                 @endforeach  
             </p>
