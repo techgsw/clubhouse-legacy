@@ -1,15 +1,17 @@
 <div class="col s12 m9 offset-m3 job-inquiry">
     <div class="row" style="margin-bottom: 0;">
         <div class="col s12">
-            @can ('edit-inquiry', $inquiry)
+            @can ('review-inquiry', $inquiry)
                 <div class="float-right">
                     @component('components.resume-button', ['url' => $inquiry->resume])@endcomponent
+                    @can ('view-inquiry-notes')
                     <button class="view-contact-notes-btn flat-button small"
                         contact-id="{{ ($inquiry->user ? $inquiry->user->contact->id : $inquiry->contact->id) }}"
                         contact-name="{{ ($inquiry->user ? $inquiry->user->contact->getName() : $inquiry->contact->getName()) }}"
                         contact-follow-up="{{ ($inquiry->user ? ($inquiry->user->contact->follow_up_date ? $inquiry->user->contact->follow_up_date->format('Y-m-d') : '') : ($inquiry->contact->follow_up_date ? $inquiry->contact->follow_up_date->format('Y-m-d') : '')) }}">
                         {{ ($inquiry->user ? $inquiry->user->contact->getNoteCount() : $inquiry->contact->getNoteCount()) }} <i class="fa fa-comments"></i>
                     </button>
+                    @endcan
                 </div>
                 <a style="margin: 2px 0;" class="no-underline" href="{{ ($inquiry->user ? '/user/'.$inquiry->user->id : '/contact/'.$inquiry->contact->id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}</a>
                 @include('components.pipeline-labels')
@@ -24,9 +26,12 @@
                 <!-- end email -->
                 <!-- assigned/applied -->
                 <p style="margin: 2px 0;" class="small">
-                    <span>{{ ($contact ? 'assigned by '.$inquiry->admin_user->first_name.' at' : 'applied') }} {{ $inquiry->created_at->format('n/j/Y') }}</span>
+                    <span>{{ ($contact ? 'assigned by '.$inquiry->admin_user->first_name.' at' : 'applied') }} {{ $inquiry->created_at->format('n/j/Y H:i:s') }}</span>
                     @if (!is_null($inquiry->rating))
-                        <span>, {{ $inquiry->admin_user ? $inquiry->admin_user->first_name : '' }} replied {{ $inquiry->updated_at->format('n/j/Y') }}</span>
+                        <span>, {{ $inquiry->admin_user ? $inquiry->admin_user->first_name : '' }} replied {{ $inquiry->updated_at->format('n/j/Y H:i:s') }}</span>
+                    @endif
+                    @if ($inquiry->created_at != $inquiry->updated_at)
+                        <span>, updated at {{ $inquiry->updated_at->format('n/j/Y H:i:s') }}</span>
                     @endif
                 </p>
                 <!-- end assigned/applied -->

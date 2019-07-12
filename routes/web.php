@@ -154,15 +154,19 @@ Route::domain($domain)->group(function () {
 
     // Admin & Ajax
     Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth', 'ajax_only']], function () {
-        Route::post('/admin/inquiry/pipeline-forward', 'InquiryController@pipelineForward');
         Route::post('/admin/inquiry/pipeline-backward', 'InquiryController@pipelineBackward');
-        Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
         Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
         
-        Route::post('/admin/contact-job/pipeline-forward/', 'ContactJobController@pipelineForward');
         Route::post('/admin/contact-job/pipeline-backward/', 'ContactJobController@pipelineBackward');
-        Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
         Route::post('/admin/contact-job/pipeline-pause/', 'ContactJobController@pipelinePause');
+    });
+
+    Route::group(['namespace' => 'Admin', 'middleware' => ['web', 'ajax_only']], function () {
+        Route::post('/admin/inquiry/pipeline-forward', 'InquiryController@pipelineForward');
+        Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
+
+        Route::post('/admin/contact-job/pipeline-forward/', 'ContactJobController@pipelineForward');
+        Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
     });
 
     // Email

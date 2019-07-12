@@ -6,10 +6,10 @@
             @endif
         </a>
         @if ($job->job_type_id == 3)
-            <span class="small flat-button red inverse">Featured</span>
+            <span class="small flat-button red inverse">Featured Job</span>
         @endif
         @if ($job->job_type_id == 4)
-            <span class="small flat-button black inverse">Platinum</span>
+            <span class="small flat-button black inverse">Platinum Job</span>
         @endif
     </div>
     <div class="col s9 m10">
@@ -38,9 +38,6 @@
         <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}</p>
         @can ('close-job', $job)
             <p class="small heavy" style="padding-top: 6px;">
-                @if ($job->isNew())
-                    <span class="small flat-button blue inverse" style="letter-spacing: 0.6px;"><b>New</b></span>
-                @endif
                 @if ($job->featured)
                     <span class="small flat-button red inverse" style="letter-spacing: 0.6px;"><b>Featured</b></span>
                 @endif

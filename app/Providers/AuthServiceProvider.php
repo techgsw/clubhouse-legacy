@@ -124,7 +124,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-platinum-user-job', function ($user) {
             return $user->hasAccess('job_platinum_user');
         });
-        Gate::define('close-user-job', function ($user) {
+        Gate::define('close-user-job', function ($user, $job) {
             return $user->hasAccess('job_close') || $user->hasAccess('job_close_user');
         });
         Gate::define('create-job', function ($user) {
@@ -144,6 +144,23 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
             if ($user->hasAccess('job_close_user') && $job->user_id == $user->id) {
+                return true;
+            }
+            return false;
+        });
+        Gate::define('review-inquiry', function ($user, $inquiry) {
+            // TODO change to review
+            if ($user->hasAccess('edit-inquiry')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $inquiry->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
+        });
+        Gate::define('review-inquiry-admin', function ($user) {
+            // TODO change to review
+            if ($user->hasAccess('edit-inquiry')) {
                 return true;
             }
             return false;
@@ -213,8 +230,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-inquiry-notes', function ($user) {
             return $user->hasAccess('inquiry_note_show');
         });
-        Gate::define('create-inquiry-note', function ($user) {
-            return $user->hasAccess('inquiry_note_create');
+        Gate::define('create-inquiry-note', function ($user, $inquiry) {
+            if ($user->hasAccess('create-inquiry-note')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $inquiry->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
         Gate::define('delete-note', function ($user) {
             return $user->hasAccess('note_delete');

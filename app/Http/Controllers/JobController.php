@@ -128,7 +128,6 @@ class JobController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize('create-job');
 
         $user = Auth::User();
 
@@ -298,14 +297,14 @@ class JobController extends Controller
             return abort(404);
         }
 
-        if (Gate::allows('view-admin-jobs')) {
+        if (in_array($job->job_type_id, array()) && Gate::allows('edit-job', $job)) {
             $contact_applications = ContactJob::filter($id, $request)
                 ->paginate(10);
         } else {
             $contact_applications = [];
         }
 
-        if (Gate::allows('view-admin-jobs')) {
+        if (Gate::allows('edit-job', $job)) {
             $inquiries = Inquiry::filter($id, $request)
                 ->paginate(10);
         } elseif (Auth::check()) {

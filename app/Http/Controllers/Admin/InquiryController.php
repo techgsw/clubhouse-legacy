@@ -87,10 +87,7 @@ class InquiryController extends Controller
 
     public function pipelineHalt(Request $request)
     {
-        $this->authorize('edit-inquiry');
-
         $inquiry = Inquiry::find($request->input('id'));
-        $job_pipeline = JobPipeline::all();
 
         if (!$inquiry) {
             return response()->json([
@@ -98,6 +95,11 @@ class InquiryController extends Controller
                 'message' => 'We failed!'
             ]);
         }
+
+        $this->authorize('review-inquiry', $inquiry);
+
+        $job_pipeline = JobPipeline::all();
+
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
                 $halt_step = $inquiry->pipeline_id - 1;
@@ -278,12 +280,12 @@ class InquiryController extends Controller
 
     public function createNote($id, $content)
     {
-        $this->authorize('create-inquiry-note');
-
         $inquiry = Inquiry::find($id);
         if (!$inquiry) {
             return abort(404);
         }
+
+        $this->authorize('create-inquiry-note', $inquiry);
 
         $note = new Note();
         $note->user_id = Auth::user()->id;

@@ -1,5 +1,5 @@
 @extends('layouts.clubhouse')
-@section('title', 'Clubhouse Membership Options')
+@section('title', 'Clubhouse Posting Options')
 @section('hero')
     <div class="row hero bg-image membership-options">
         <div class="col s12">
@@ -23,7 +23,9 @@
                         <div class="col s12" style="padding: 10px 0 50px 0;">
                             <h5 class="center-align" style="font-size: 24px"><strong><span class="grey-text text-darken-1">Free</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
-                            <p class="center-align" style="font-size: 14px; font-weight: 400;">Do you want to get some additional views on your open job? Try this option out free of charge. There’s no risk and you may find your future hire! Why wait?! Let’s get started today.</p>
+                            <p class="center-align" style="font-size: 18px; font-weight: 400;">Add your job to the job board now!</p>
+                            <br />
+                            <p class="center-align" style="font-size: 16px; font-weight: 400;">Try this option out for free. There’s no risk and there’s a chance you find your future hire! Why wait?! Post your job today.</p>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if (Auth::guest())
@@ -39,14 +41,16 @@
                         <div class="col s12" style="padding: 10px 0 0px 0;">
                             <h5 class="center-align sbs-red-text" style="font-size: 24px"><strong>FEATURED</strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
-                            <p class="center-align" style="font-size: 14px; font-weight: 400;">Interested in getting more of the right candidates quicker?! You can supercharge your open job here. With this option your position will be added to our “featured job” section, where you will get additional views and engagement. You’ll also be sent 15 candidates from our database who are qualified for the role based on your search criteria.</p>
+                            <p class="center-align" style="font-size: 18px; font-weight: 400;">Boost your job posting now!</p>
+                            <br />
+                            <p class="center-align" style="font-size: 16px; font-weight: 400;">Become a featured job on the job board and receive additional exposure. You’ll also be assigned 15 quality candidates from the SBS database based on your search criteria.</p>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($job_featured)
                                 @if (Auth::guest())
                                     <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
-                                    <a href="{{ $job_featured->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Featured</a>
+                                    <a href="{{ $job_featured->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                 @endif
                             @endif
                         </div>
@@ -57,14 +61,16 @@
                         <div class="col s12" style="padding: 10px 0 50px 0;">
                             <h5 class="center-align" style="font-size: 24px"><strong>PLATINUM</strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
-                            <p class="center-align" style="font-size: 14px; font-weight: 400;">Want us to do all the heavy lifting? No problem! Pick up this option and we’ll feature your job, promote it heavily via social media, assign candidates and screen them for you. This way, you’ll ensure that when you spend time talking to a candidate, not only are they qualified, but you know they’re interested in your job.</p>
+                            <p class="center-align" style="font-size: 18px; font-weight: 400;">Maximize your job post exposure and we do the work!</p>
+                            <br />
+                            <p class="center-align" style="font-size: 16px; font-weight: 400;">Platinum jobs get the most social media and email promotion. We assign you 15 candidates AND we screen them for you, ensuring that by the time they get to you, they’re qualified and interested.</p>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($job_platinum)
                                 @if (Auth::guest())
                                     <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
-                                    <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Platinum</a>
+                                    <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                 @endif
                             @endif
                         </div>
@@ -152,8 +158,36 @@
                         <tr>
                             <td style="width: 300px; padding-right: 20px;">The Sports Business Solutions’ team will send you a minimum of 5 candidates that are not only qualified, but pre-screened and interested in your position</td>
                             <td class="center"></td>
-                            <td class="center"></i></td>
+                            <td class="center"></td>
                             <td class="center"><i class="fa fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 300px; padding-right: 20px;"></td>
+                            <td class="center">
+                                @if (Auth::guest())
+                                    <a href="/register?type=employer" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
+                                @else
+                                    <a href="job/create" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
+                                @endif
+                            </td>
+                            <td class="center">
+                                @if ($job_featured)
+                                    @if (Auth::guest())
+                                        <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
+                                    @else
+                                        <a href="{{ $job_featured->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
+                                    @endif
+                                @endif
+                            </td>
+                            <td class="center">
+                                @if ($job_platinum)
+                                    @if (Auth::guest())
+                                        <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
+                                    @else
+                                        <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -76,7 +76,7 @@
             @endcan
         </div>
     </div>
-    @cannot ('edit-inquiry')
+    @cannot ('edit-job', $job)
     <div class="row">
         <div class="col s12 m9 offset-m3 job-inquire">
             @cannot ('edit-job', $job)
@@ -95,7 +95,7 @@
         </div>
     </div>
     @endcannot
-    @can ('edit-inquiry')
+    @can ('edit-job', $job)
         <div class="row">
             <div class="col s12 m9 offset-m3">
                 <form method="get" action="/job/{{ $job->id }}#applications">
@@ -130,7 +130,7 @@
             </div>
         </div>
     @endcan
-    @if (count($contact_applications) > 0 || (Auth::user() && Auth::user()->can('edit-inquiry')))
+    @if (count($contact_applications) > 0 && (Auth::user() && Auth::user()->can('edit-job', $job)))
         <div class="row">
             <div class="col s12 m9 offset-m3 job-inquire">
                 <a name="applications">
@@ -138,14 +138,9 @@
                 </a>
             </div>
         </div>
-        @php
-            //dd($contact_applications);
-        @endphp
-        @can ('edit-inquiry')
-            @include('components.inquiry-list', ['inquiries' => $contact_applications, 'contact' => true, 'job_pipeline' => $job_pipeline])
-        @endcan
+        @include('components.inquiry-list', ['inquiries' => $contact_applications, 'contact' => true, 'job_pipeline' => $job_pipeline])
     @endif
-    @if (count($inquiries) > 0 || (Auth::user() && Auth::user()->can('edit-inquiry')))
+    @if (count($inquiries) > 0 && (Auth::user() && Auth::user()->can('edit-job', $job)))
         <div class="row">
             <div class="col s12 m9 offset-m3 job-inquire">
                 <a name="applications">
@@ -153,10 +148,9 @@
                 </a>
             </div>
         </div>
-
         @include('components.inquiry-list', ['inquiries' => $inquiries, 'contact' => false])
     @endif
-    @if ((count($inquiries) > 0 || count($contact_applications) > 0) || (Auth::user() && Auth::user()->can('edit-inquiry')))
+    @if ((count($inquiries) > 0 || count($contact_applications) > 0) && (Auth::user() && Auth::user()->can('edit-job', $job)))
         @include('components.contact-notes-modal')
         @include('components.inquiry-notes-modal')
         @include('components.contact-job-notes-modal')
