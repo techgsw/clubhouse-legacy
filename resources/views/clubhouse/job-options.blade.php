@@ -39,18 +39,18 @@
                 <div class="card medium">
                     <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
                         <div class="col s12" style="padding: 10px 0 0px 0;">
-                            <h5 class="center-align sbs-red-text" style="font-size: 24px"><strong>FEATURED</strong></h5>
+                            <h5 class="center-align sbs-red-text" style="font-size: 24px"><strong>PREMIUM</strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <p class="center-align" style="font-size: 18px; font-weight: 400;">Boost your job posting now!</p>
                             <br />
                             <p class="center-align" style="font-size: 16px; font-weight: 400;">Become a featured job on the job board and receive additional exposure. You’ll also be assigned 15 quality candidates from the SBS database based on your search criteria.</p>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
-                            @if ($job_featured)
+                            @if ($job_premium)
                                 @if (Auth::guest())
                                     <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
-                                    <a href="{{ $job_featured->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
+                                    <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                 @endif
                             @endif
                         </div>
@@ -171,11 +171,11 @@
                                 @endif
                             </td>
                             <td class="center">
-                                @if ($job_featured)
+                                @if ($job_premium)
                                     @if (Auth::guest())
                                         <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                     @else
-                                        <a href="{{ $job_featured->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
+                                        <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                     @endif
                                 @endif
                             </td>

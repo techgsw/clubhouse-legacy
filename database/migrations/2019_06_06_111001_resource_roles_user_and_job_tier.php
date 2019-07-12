@@ -23,7 +23,7 @@ class ResourceRolesUserAndJobTier extends Migration
         );
         DB::table('role')->insert(
             array (
-                'code' => 'job_user_featured',
+                'code' => 'job_user_premium',
                 'description' => 'Paid version of the job board, second tier access.'
             )
         );
@@ -72,8 +72,8 @@ class ResourceRolesUserAndJobTier extends Migration
         );
         DB::table('resource')->insert(
             array (
-                'code' => 'job_featured_user',
-                'description' => 'Can access featured job features.'
+                'code' => 'job_premium_user',
+                'description' => 'Can access premium job features.'
             )
         );
         DB::table('resource')->insert(
@@ -133,8 +133,8 @@ class ResourceRolesUserAndJobTier extends Migration
         );
         DB::table('resource_role')->insert(
             array(
-                'resource_code' => 'job_featured_user',
-                'role_code' => 'job_user_featured'
+                'resource_code' => 'job_premium_user',
+                'role_code' => 'job_user_premium'
             )
         );
         DB::table('resource_role')->insert(
@@ -184,8 +184,8 @@ class ResourceRolesUserAndJobTier extends Migration
 
         DB::table('job_type')->insert(
             array(
-                'name' => 'User Featured',
-                'code' => 'user-featured'
+                'name' => 'User Premium',
+                'code' => 'user-premium'
             )
         );
 

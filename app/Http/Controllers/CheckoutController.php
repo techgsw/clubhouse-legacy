@@ -79,8 +79,8 @@ class CheckoutController extends Controller
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
             $product_type = 'webinar';
             $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
-        } else if (in_array('job-featured', array_column($product_option->product->tags->toArray(), 'slug'))) {
-            $product_type = 'job-featured';
+        } else if (in_array('job-premium', array_column($product_option->product->tags->toArray(), 'slug'))) {
+            $product_type = 'job-premium';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
         } else {
             $product_type = 'membership';
@@ -155,11 +155,11 @@ class CheckoutController extends Controller
                             }
                             $checkout_type = 'webinar';
                             break;
-                        } else if ($tag->slug == 'job-featured') {
-                            $roles = Role::where('code', 'job_user_featured')->get();
+                        } else if ($tag->slug == 'job-premium') {
+                            $roles = Role::where('code', 'job_user_premium')->get();
                             $user->roles()->attach($roles);
                             try {
-                                EmailServiceProvider::sendJobFeaturedPurchaseNotificationEmail($user, $product_option, 0, 'job-featured');
+                                EmailServiceProvider::sendJobPremiumPurchaseNotificationEmail($user, $product_option, 0, 'job-premium');
                                 //Mail::to($user)->send(new UserPaidJobFeatured($user, $product_option));
                             } catch (\Exception $e) {
                                 Log::error($e->getMessage());

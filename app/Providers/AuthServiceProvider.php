@@ -118,8 +118,8 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // User Job board
-        Gate::define('create-featured-user-job', function ($user) {
-            return $user->hasAccess('job_featured_user');
+        Gate::define('create-premium-user-job', function ($user) {
+            return $user->hasAccess('job_premium_user');
         });
         Gate::define('create-platinum-user-job', function ($user) {
             return $user->hasAccess('job_platinum_user');

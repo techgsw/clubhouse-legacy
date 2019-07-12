@@ -4,7 +4,7 @@
     @endslot
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
-        <p>Thanks for purchasing our Job Listing Plus option! We are confident you will find the right applicant for your position.</p>
+        <p>Thanks for purchasing our Job Listing Premium option! We are confident you will find the right applicant for your position.</p>
         <p>{{ $product_option->product->name }}</p>
         <p>Here’s what happens next:</p>
         <ul>
