@@ -13,7 +13,7 @@
     <div class="col s9 m10">
         <div class="small" style="float: right;">
             @cannot ('edit-job-featured-status')
-                @if (!in_array($job->job_type_id, array(3, 4)))
+                @if (!in_array($job->job_type_id, array(1, 4)) && $job->open == 1)
                     <a href="/job-options?job={{ $job->id }}" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
                 @endif
             @endcan
@@ -28,12 +28,13 @@
             @can ('edit-job', $job)
                 <a href="/job/{{ $job->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
             @endcan
+            <p style="font-size: 14px; font-weight: 400;">{{ $job->getTimeRemainingString() }}</p>
         </div>
         <a href="/job/{{$job->id}}">
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
         </a>
-        <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}, {{ $job->getTimeRemainingString() }}</p>
+        <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}</p>
         @can ('close-job', $job)
             <p class="small heavy" style="padding-top: 6px;">
                 @if ($job->featured)

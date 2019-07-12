@@ -48,7 +48,7 @@
                 @endcan
                 <div class="file-field input-field col s12">
                     <div class="btn white black-text">
-                        <span>Document</span>
+                        <span>Job Description</span>
                         <input type="file" name="document" value="{{ old('document') }}">
                     </div>
                     <div class="file-path-wrapper">

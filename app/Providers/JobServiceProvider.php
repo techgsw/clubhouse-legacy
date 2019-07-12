@@ -33,7 +33,7 @@ class JobServiceProvider extends ServiceProvider
                 $document = $document->store('document', 'public');
                 $job->document = $document;
             } else {
-                throw new SBSException("You must upload corresponding document.");
+                throw new SBSException("You must upload a job description.");
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());

@@ -95,7 +95,7 @@ class Job extends Model
         $create_date = clone($this->created_at);
 
         if ($this->job_type_id == 1) {
-            return 'does not expire'; 
+            return 'Does not expire'; 
         } else if ($this->job_type_id == 2) {
             $end_time = $create_date->add(new \DateInterval('P30D'));
         } else if ($this->job_type_id == 3) {
@@ -129,17 +129,17 @@ class Job extends Model
             $seconds_string = "{$seconds}s";
         }
 
-        $countdown_string = "$day_string$hour_string$minutes_string$seconds_string";
+        $countdown_string = "$day_string$hour_string";
 
         $is_over =  ($seconds_left <= 0);
 
         if ($is_over)
         {
-            return 'expired on '.$end_time;
+            return 'Expired on '.$end_time;
         }
         else
         {
-            return 'expires in '.$countdown_string;
+            return 'Posting expires in '.$countdown_string;
         }
     }
 
