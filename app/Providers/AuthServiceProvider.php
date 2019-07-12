@@ -150,7 +150,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('review-inquiry', function ($user, $inquiry) {
             // TODO change to review
-            if ($user->hasAccess('edit-inquiry')) {
+            if ($user->hasAccess('inquiry_edit')) {
                 return true;
             }
             if ($user->hasAccess('job_edit_user') && $inquiry->job->user_id == $user->id) {
@@ -160,7 +160,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('review-inquiry-admin', function ($user) {
             // TODO change to review
-            if ($user->hasAccess('edit-inquiry')) {
+            if ($user->hasAccess('inquiry_edit')) {
                 return true;
             }
             return false;
@@ -224,8 +224,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-contact-notes', function ($user) {
             return $user->hasAccess('contact_note_show');
         });
-        Gate::define('create-contact-note', function ($user) {
-            return $user->hasAccess('contact_note_create');
+        Gate::define('create-contact-note', function ($user, $contact_job) {
+            if ($user->hasAccess('contact_note_create')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $contact_job->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
         Gate::define('view-inquiry-notes', function ($user) {
             return $user->hasAccess('inquiry_note_show');
@@ -261,6 +267,17 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('follow-up', function ($user) {
             return $user->hasAccess('follow_up');
+        });
+
+        Gate::define('review-contact-job', function ($user, $contact_job) {
+            // TODO change to review
+            if ($user->hasAccess('contact_edit')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $contact_job->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
 
         // Images

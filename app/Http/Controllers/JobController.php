@@ -297,7 +297,7 @@ class JobController extends Controller
             return abort(404);
         }
 
-        if (in_array($job->job_type_id, array()) && Gate::allows('edit-job', $job)) {
+        if (in_array($job->job_type_id, array(3, 4)) && Gate::allows('edit-job', $job)) {
             $contact_applications = ContactJob::filter($id, $request)
                 ->paginate(10);
         } else {
