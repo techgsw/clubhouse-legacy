@@ -122,7 +122,14 @@
                         <div class="col s12">
                             <button type="button" class="flat-button small {{ (!request('step') || request('step') == 'all') ? "inverse" : "" }} input-control" input-id="step" value="all"><i class="fa fa-times"></i></button>
                             @foreach ($job_pipeline as $step)
+                                @php // TODO combine into single gate @endphp
+                                @if ($step->id < 3)
                                 <button type="button" class="flat-button small {{ request('step') == $step->id ? "inverse" : "" }} input-control" input-id="step" value='{{$step->id}}'>{{$step->name}}</button>
+                                @else
+                                    @can ('review-inquiry-admin')
+                                        <button type="button" class="flat-button small {{ request('step') == $step->id ? "inverse" : "" }} input-control" input-id="step" value='{{$step->id}}'>{{$step->name}}</button>
+                                    @endcan
+                                @endif
                             @endforeach
                         </div>
                     </div>

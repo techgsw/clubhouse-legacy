@@ -1207,7 +1207,7 @@ $.valHooks.textarea = {
                         });    
                     }
 
-                    if (resp.pipeline_id != 1 && ($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm') || $(ui).hasClass('default-comm'))) {
+                    if (resp.pipeline_id != 1 && ($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm') || $(ui).hasClass('default-comm') || $(ui).hasClass('user-managed'))) {
                         $(ui).remove();
                     }
                 }

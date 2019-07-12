@@ -28,7 +28,7 @@
     @endif 
     <!-- end forward cold and warm -->
     <!-- forward no comm -->
-    <button data-action="inquiry-pipeline" data-comm-type="none" data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{ $inquiry->pipeline_id }}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small no-comm {{$inquiry->pipeline_id == 6 ? 'gray' : 'blue'}}" {{$inquiry->pipeline_id == 6 ? 'disabled' : ''}}><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text">{{ $contact && $inquiry->pipeline_id < 2 && $inquiry->job->recruiting_type_code !== 'passive' ? ' None' : '' }}</span></button>
+    <button data-action="inquiry-pipeline" data-comm-type="none" data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{ $inquiry->pipeline_id }}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small no-comm {{$inquiry->pipeline_id == 6 ? 'gray' : 'blue'}} user-managed" {{$inquiry->pipeline_id == 6 ? 'disabled' : ''}}><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text">{{ $contact && $inquiry->pipeline_id < 2 && $inquiry->job->recruiting_type_code !== 'passive' ? ' None' : '' }}</span></button>
     <!-- end forward no comm -->
 @else
     <!-- halt (thumbs down) comms for user -->
@@ -36,7 +36,7 @@
         <button data-action="" data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button default-comm"><i class="fa fa-thumbs-down"></i></button>
     <!-- end halt (thumbs down) comms -->
     <!-- forward -->
-        <button data-action="inquiry-pipeline" data-comm-type="{{ $contact ? 'none' : 'default' }}" {{ $inquiry->pipeline_id < 2 ? '' : 'disabled' }} data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small {{ $inquiry->pipeline_id < 2 ? 'blue' : 'gray' }} {{ $contact ? 'no-comm' : 'default-comm'}}"><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text"></span></button>
+        <button data-action="inquiry-pipeline" data-comm-type="{{ $contact ? 'none' : 'default' }}" {{ $inquiry->pipeline_id < 2 ? '' : 'disabled' }} data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small {{ $inquiry->pipeline_id < 2 ? 'blue' : 'gray' }} {{ $contact ? 'no-comm' : 'default-comm'}} user-managed"><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text"></span></button>
     <!-- end forward -->
     @endif
 @endcan
