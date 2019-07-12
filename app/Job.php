@@ -90,6 +90,59 @@ class Job extends Model
         return $url;
     }
 
+    public function getTimeRemainingString()
+    {
+        $create_date = clone($this->created_at);
+
+        if ($this->job_type_id == 1) {
+            return 'does not expire'; 
+        } else if ($this->job_type_id == 2) {
+            $end_time = $create_date->add(new \DateInterval('P30D'));
+        } else if ($this->job_type_id == 3) {
+            $end_time = $create_date->add(new \DateInterval('P45D'));
+        } else if ($this->job_type_id == 4) {
+            $end_time = $create_date->add(new \DateInterval('P60D'));
+        } 
+
+        $end_time = $end_time->format('Y-m-d H:i:s');
+        // calculation of extendedtimediff by auction extended_end_time
+        $seconds_left = (strtotime($end_time) - microtime(true));
+
+        $days=(int)($seconds_left/86400);
+        if ($days != 0 )
+        {
+            $day_string = "{$days}d ";
+        }
+
+        $hours = (int)(($seconds_left-($days*86400))/3600);
+        if ($days != 0 or $hours != 0) {
+            $hour_string = "{$hours}h ";
+        }
+
+        $minutes = (int)(($seconds_left-$days*86400-$hours*3600)/60);
+        if ($days != 0 or $hours != 0 or $minutes != 0) {
+            $minutes_string = "{$minutes}m ";
+        }
+
+        $seconds = (int)(($seconds_left-$days*86400-$hours*3600-$minutes*60));
+        if ($days != 0 or $hours != 0 or $minutes != 0 or $seconds != 0) {
+            $seconds_string = "{$seconds}s";
+        }
+
+        $countdown_string = "$day_string$hour_string$minutes_string$seconds_string";
+
+        $is_over =  ($seconds_left <= 0);
+
+        if ($is_over)
+        {
+            return 'expired on '.$end_time;
+        }
+        else
+        {
+            return 'expires in '.$countdown_string;
+        }
+    }
+
     public static function open()
     {
         return Job::where('open', true)->orderBy('created_at', 'desc');

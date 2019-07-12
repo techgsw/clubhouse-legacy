@@ -661,6 +661,11 @@ address {
     background-color: #2196F3 !important;
     color: #FFFFFF;
 }
+.flat-button.blue-grey.inverse {
+    border-color: #546E7A;
+    background-color: #546E7A !important;
+    color: #FFFFFF;
+}
 .flat-button.orange {
     border-color: #ff9800;
     color: #ff9800;

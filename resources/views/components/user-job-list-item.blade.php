@@ -1,15 +1,13 @@
 <div class="row job-admin">
     <div class="col s3 m2 center">
-        <a href="/job/{{$job->id}}" class="no-underline">
-            @if (!is_null($job->image))
-            <img src={{ $job->image->getURL('medium') }} class="no-border">
-            @endif
-        </a>
+        @if (!is_null($job->image))
+        <a href="/job/{{$job->id}}" class="no-underline"><img src="{{ $job->image->getURL('medium') }}" class="no-border"></a>
+        @endif
         @if ($job->job_type_id == 3)
-            <span class="small flat-button red inverse">Featured Job</span>
+            <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
         @endif
         @if ($job->job_type_id == 4)
-            <span class="small flat-button black inverse">Platinum Job</span>
+            <span class="small flat-button black inverse heavy">Platinum Job</span>
         @endif
     </div>
     <div class="col s9 m10">
@@ -35,7 +33,7 @@
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
         </a>
-        <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}</p>
+        <p class="small">listed on {{ $job->created_at->format('F j, Y g:ia') }}, {{ $job->getTimeRemainingString() }}</p>
         @can ('close-job', $job)
             <p class="small heavy" style="padding-top: 6px;">
                 @if ($job->featured)

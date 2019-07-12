@@ -8,7 +8,7 @@
                     <input id="title" type="text" class="{{ $errors->has('title') ? 'invalid' : '' }}" name="title" value="{{ old('title') }}" required>
                     <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
                 </div>
-                @can('edit-job')
+                @can('edit-job-featured-status')
                 <div class="input-field col s12 m3">
                     <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
                     <label for="featured">Featured</label>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="input-field col s12">
-                    <label for="job-type" class="active">Job Track</label>
+                    <label for="job-type" class="active">Job Type</label>
                     <select id="job-type" name="job_type" class="browser-default" required>
                         <option value="" {{ old('job_type') == "" ? "selected" : "" }}>Please select...</option>
                         <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
@@ -36,7 +36,7 @@
                         <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
                     </select>
                 </div>
-                @can('edit-job')
+                @can('edit-job-recruiting-type-code')
                 <div class="input-field col s12">
                     <label for="recruiting-type-code" class="active">Recruiting Type</label>
                     <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>

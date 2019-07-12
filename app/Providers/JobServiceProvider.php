@@ -70,21 +70,19 @@ class JobServiceProvider extends ServiceProvider
                 $job->featured = true;
                 $job->save();
 
+                // TODO should be using job option id here, not name. Constant? 
                 if ($job->job_type_id == 4) {
-                    $transaction = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
-                        ->join('product_option as po', 'po.id', 'tpo.product_option_id')
-                        ->where('po.name','=','Platinum Job')
-                        ->where('transaction.user_id','=', Auth::user()->id)
-                        ->whereNull('transaction.job_id')
-                        ->select('transaction.id', 'transaction.job_id')->first();
+                    $job_name = 'Platinum Job';
                 } elseif ($job->job_type_id == 3) {
-                    $transaction = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
-                        ->join('product_option as po', 'po.id', 'tpo.product_option_id')
-                        ->where('po.name','=','Featured Job')
-                        ->where('transaction.user_id','=', Auth::user()->id)
-                        ->whereNull('transaction.job_id')
-                        ->select('transaction.id', 'transaction.job_id')->first();
+                    $job_name = 'Premium Job';
                 }
+
+                $transaction = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
+                    ->join('product_option as po', 'po.id', 'tpo.product_option_id')
+                    ->where('po.name','=',$job_name)
+                    ->where('transaction.user_id','=', Auth::user()->id)
+                    ->whereNull('transaction.job_id')
+                    ->select('transaction.id', 'transaction.job_id')->first();
 
                 $transaction->job_id = $job->id;
                 $transaction->save();

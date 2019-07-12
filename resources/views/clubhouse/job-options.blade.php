@@ -5,6 +5,7 @@
         <div class="col s12">
             <h4 class="header">Job Posting Options</h4>
             <p>Where the industry goes for sports business professionals</p>
+            <a href="#compare-options" class="btn sbs-red">Compare Options</a>
         </div>
     </div>
 @endsection
@@ -79,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="background-color: #F2F2F2;">
+    <div class="container-fluid" id="compare-options" style="background-color: #F2F2F2;">
         <div class="container">
             <div class="row">
                 <div class="col s12 center">

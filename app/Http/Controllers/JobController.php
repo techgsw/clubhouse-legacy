@@ -186,17 +186,21 @@ class JobController extends Controller
         $alt_image = request()->file('alt_image_url');
 
         if (!$user->roles->contains('administrator')) {
-            $available_featured_jobs = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
+            $available_premium_jobs = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
                 ->join('product_option as po', 'po.id', 'tpo.product_option_id')
-                ->where('po.name','=','Featured Job')
+                ->where('po.name','=','Premium Job')
                 ->where('transaction.user_id','=', $user->id)
                 ->whereNull('transaction.job_id')->get();
 
-            $available_platinum_jobs = array();
+            $available_platinum_jobs = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
+                ->join('product_option as po', 'po.id', 'tpo.product_option_id')
+                ->where('po.name','=','Platinum Job')
+                ->where('transaction.user_id','=', $user->id)
+                ->whereNull('transaction.job_id')->get();
 
             if (count($available_platinum_jobs)) {
                 $job_type_id = 4;
-            } elseif (count($available_featured_jobs)) {
+            } elseif (count($available_premium_jobs)) {
                 $job_type_id = 3;
             } else {
                 $job_type_id = 2;
@@ -255,8 +259,6 @@ class JobController extends Controller
             ));
             return back()->withInput();
         }
-        //probably something to differeniate
-        // return redirect()->action ('JobController@show', [$job]);
 
         return redirect('/user/'.$user->id.'/job-postings');
     }
@@ -267,7 +269,7 @@ class JobController extends Controller
 
         $pipeline = Pipeline::orderBy('id', 'asc')->get();
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
-        $jobs = Job::where('user_id', '=', $user->id)->get();
+        $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
 
         return view('user/job-postings', [
             'breadcrumb' => [
@@ -345,12 +347,14 @@ class JobController extends Controller
      */
     public function open($id)
     {
-        $this->authorize('close-job');
-
+        // TODO check to see if the job has expired. can it be re-opened?
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
+
+        $this->authorize('close-job', $job);
+
         $job->open = true;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
@@ -364,12 +368,13 @@ class JobController extends Controller
      */
     public function close($id)
     {
-        $this->authorize('close-job');
-
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
+
+        $this->authorize('close-job', $job);
+
         $job->open = false;
         $job->edited_at = new \DateTime('NOW');
         $job->save();

@@ -22,7 +22,7 @@
         @can ('view-admin-jobs', $user)
             <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
         @elsecan ('create-job', $user)
-            <a href="/job/create" class="flat-button"><i class="fa fa-id-card"></i> Create Job Posting</a>
+            <a href="/job-options" class="flat-button"><i class="fa fa-id-card"></i> Create Job Posting</a>
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">

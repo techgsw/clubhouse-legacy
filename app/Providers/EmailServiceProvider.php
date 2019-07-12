@@ -66,6 +66,17 @@ class EmailServiceProvider extends ServiceProvider
         Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
     }
 
+    public static function sendJobPlatinumPurchaseNotificationEmail(User $user, ProductOption $product_option, $amount, $type)
+    {
+        $admin_users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'job_platinum')
+            ->select('user.*')
+            ->get();
+        
+        Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
+    }
+
     public static function sendRegistrationNotificationEmail(User $registrant)
     {
         $users = User::join('email_user', 'user.id', 'email_user.user_id')

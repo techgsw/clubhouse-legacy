@@ -82,6 +82,9 @@ class CheckoutController extends Controller
         } else if (in_array('job-premium', array_column($product_option->product->tags->toArray(), 'slug'))) {
             $product_type = 'job-premium';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
+        } else if (in_array('job-platinum', array_column($product_option->product->tags->toArray(), 'slug'))) {
+            $product_type = 'job-platinum';
+            $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
         } else {
             $product_type = 'membership';
             $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
@@ -156,15 +159,22 @@ class CheckoutController extends Controller
                             $checkout_type = 'webinar';
                             break;
                         } else if ($tag->slug == 'job-premium') {
-                            $roles = Role::where('code', 'job_user_premium')->get();
-                            $user->roles()->attach($roles);
                             try {
-                                EmailServiceProvider::sendJobPremiumPurchaseNotificationEmail($user, $product_option, 0, 'job-premium');
-                                //Mail::to($user)->send(new UserPaidJobFeatured($user, $product_option));
+                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
+                                //EmailServiceProvider::sendJobPremiumPurchaseNotificationEmail($user, $product_option, 0, 'job-premium');
                             } catch (\Exception $e) {
                                 Log::error($e->getMessage());
                             }
-                            $checkout_type = 'job-featured';
+                            $checkout_type = 'job-premium';
+                            break;
+                        } else if ($tag->slug == 'job-platinum') {
+                            try {
+                                //EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, 0, 'job-platinum');
+                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
+                            $checkout_type = 'job-platinum';
                             break;
                         }
                     }
@@ -317,9 +327,14 @@ class CheckoutController extends Controller
                 $breadcrumb = 'Webinar';
                 $link = '/webinars';
                 break;
-            case 'job-featured':
-                $view = 'job-featured-thanks';
-                $breadcrumb = 'Job Listing Plus';
+            case 'job-premium':
+                $view = 'job-premium-thanks';
+                $breadcrumb = 'Job Posting Premium';
+                $link = '/job-options';
+                break;
+            case 'job-platinum':
+                $view = 'job-platinum-thanks';
+                $breadcrumb = 'Job Posting Platinum';
                 $link = '/job-options';
                 break;
             case 'membership':
