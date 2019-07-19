@@ -133,6 +133,7 @@
                         <th>Product</th>
                         <th>Price</th>
                         <th>Card</th>
+                        <th></th>
                     </thead>
                     @foreach ($transactions['orders'] as $key => $value)
                         @php $created = date('m/d/Y', $value['order']['created']); @endphp
@@ -148,6 +149,11 @@
                                 <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['order']['charge_object']->source->last4 }}</td>
                             @else
                                 <td>N/A</td>
+                            @endif
+                            @if (array_key_exists($value['order']['id'], $paid_jobs))
+                                <td><a target="_blank" href="{{ $paid_jobs[$value['order']['id']]['job_url'] }}">View Job</a></td>
+                            @else
+                                <td><a target="_blank" href="">Available</a></td>
                             @endif
                         </tr>
                         @endforeach

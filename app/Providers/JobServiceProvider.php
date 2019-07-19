@@ -6,6 +6,7 @@ use App\Contact;
 use App\Job;
 use App\Organization;
 use App\Transaction;
+use App\User;
 use App\Providers\ImageServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -93,5 +94,17 @@ class JobServiceProvider extends ServiceProvider
             Log::error($e->getMessage());
             throw new SBSException("Sorry, failed to save the job. Please try again." . $e->getMessage());
         }
+    }
+
+    public static function getAvailablePaidJobs(User $user, string $job_type)
+    {
+        // TODO this should be using a contant for id rather than searching by name
+        $available_paid_jobs = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
+            ->join('product_option as po', 'po.id', 'tpo.product_option_id')
+            ->where('po.name','=',$job_type)
+            ->where('transaction.user_id','=', $user->id)
+            ->whereNull('transaction.job_id')->get();
+
+        return $available_paid_jobs;
     }
 }

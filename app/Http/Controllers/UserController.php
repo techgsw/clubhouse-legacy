@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUser;
 use App\Providers\StripeServiceProvider;
 use App\User;
+use App\Job;
 use App\JobPipeline;
+use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -51,6 +53,28 @@ class UserController extends Controller
 
         $transactions = StripeServiceProvider::getUserTransactions($user);
 
+        $stripe_order_ids = array();
+        if (count($transactions['orders'])) {
+            foreach ($transactions['orders'] as $order) {
+                $stripe_order_ids[] = $order['order']['id'];
+            }
+        }
+
+        $results = Transaction::selectRaw('transaction.stripe_order_id as stripe_order_id, j.id as job_id, j.title as job_title')
+            ->join('transaction_product_option as tpo', 'transaction.id', 'tpo.transaction_id')
+            ->leftJoin('job as j', 'transaction.job_id', 'j.id')
+            ->whereIn('transaction.stripe_order_id', $stripe_order_ids)
+            ->get();
+
+        
+        $paid_jobs = array();
+        if (count($results)) {
+            foreach ($results as $result) {
+                $job = Job::find($result->job_id);
+                $paid_jobs[$result->stripe_order_id] = array('job_id' => $result->job_id, 'job_title' => $result->job_title, 'job_url' => $job->getURL());
+            }
+        }
+
         return view('user/account', [
             'breadcrumb' => [
                 'Home' => '/',
@@ -58,7 +82,8 @@ class UserController extends Controller
             ],
             'user' => $user,
             'stripe_user' => $stripe_user,
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'paid_jobs' => $paid_jobs
         ]);
     }
 

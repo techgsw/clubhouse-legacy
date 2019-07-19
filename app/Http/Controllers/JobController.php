@@ -159,12 +159,17 @@ class JobController extends Controller
                 ]
             ]);
         } else {
+            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Premium Job');
+            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Platinum Job');
+
             return view('job/create', [
                 'organization' => $organization[0] ?: null,
                 'organizations' => OrganizationServiceProvider::all(),
                 'organization_types' => OrganizationType::all(),
                 'league' => $league,
                 'leagues' => League::all(),
+                'available_premium_job_count' => count($available_premium_jobs),
+                'available_platinum_job_count' => count($available_platinum_jobs),
                 'breadcrumb' => [
                     'Home' => '/',
                     'Account' => "/user/{$user->id}/account",
@@ -186,17 +191,9 @@ class JobController extends Controller
         $alt_image = request()->file('alt_image_url');
 
         if (!$user->roles->contains('administrator')) {
-            $available_premium_jobs = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
-                ->join('product_option as po', 'po.id', 'tpo.product_option_id')
-                ->where('po.name','=','Premium Job')
-                ->where('transaction.user_id','=', $user->id)
-                ->whereNull('transaction.job_id')->get();
+            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Premium Job');
 
-            $available_platinum_jobs = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
-                ->join('product_option as po', 'po.id', 'tpo.product_option_id')
-                ->where('po.name','=','Platinum Job')
-                ->where('transaction.user_id','=', $user->id)
-                ->whereNull('transaction.job_id')->get();
+            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Platinum Job');
 
             if (count($available_platinum_jobs)) {
                 $job_type_id = 4;
