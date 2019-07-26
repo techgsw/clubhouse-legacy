@@ -51,6 +51,7 @@ class ClubhouseController extends Controller
 
     public function jobOptions(Request $request)
     {
+        // TODO replace with constants
         $job_premium = Product::with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Job Premium');
         })->first();

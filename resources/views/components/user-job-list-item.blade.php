@@ -11,7 +11,7 @@
         @endif
     </div>
     <div class="col s9 m10">
-        <div class="small" style="float: right;">
+        <div class="small right-align" style="float: right;">
             @cannot ('edit-job-featured-status')
                 @if (!in_array($job->job_type_id, array(1, 4)) && $job->open == 1)
                     <a href="/job-options?job={{ $job->id }}" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>

@@ -4,27 +4,7 @@
 @section('content')
 <div class="container">
     @component('user.header', ['user' => $user])
-        @can ('view-contact-notes')
-            <button type="button" class="view-contact-notes-btn flat-button black"
-                contact-id="{{ $user->contact->id }}"
-                contact-name="{{ $user->contact->getName() }}"
-                contact-follow-up="{{ $user->contact->follow_up_date ? $user->contact->follow_up_date->format('Y-m-d') : '' }}">
-                {{ $user->contact->getNoteCount() }} <i class="fa fa-comments"></i>
-            </button>
-        @endif
-        @if ($user->profile->resume_url)
-            <a href="{{ Storage::disk('local')->url($user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
-        @else
-            <a href="#" class="flat-button black disabled">No Resume</a>
-        @endif
-        @can ('edit-profile', $user)
-            <a href="/user/{{ $user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
-        @endcan
-        @can ('view-admin-jobs', $user)
-            <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
-        @elsecan ('create-job', $user)
-            <a href="/job-options" class="flat-button"><i class="fa fa-id-card"></i> Create Job Posting</a>
-        @endcan
+        @include('user.components.actions')
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
         <li class="tab"><a class="active" href="/user/{{ $user->id }}/account">Account</a></li>

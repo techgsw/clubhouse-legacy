@@ -620,6 +620,31 @@ address {
     font-style: normal;
 }
 
+.dropdown-content li > a, .dropdown-content li > span {
+    color: #000;
+}
+
+.input-field.dark label {
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 400;
+}
+
+.input-field.dark [type="radio"]:disabled + label {
+    color: rgba(0, 0, 0, 0.26);
+}
+
+[type="radio"].sbs-red.with-gap:checked + label::after, [type="radio"].sbs-red:checked + label::after {
+    border-color: #EB2935;
+}
+
+[type="radio"].sbs-red:checked + label::after, [type="radio"].sbs-red.with-gap:checked + label::after {
+    background-color: #EB2935;
+}
+
+[type="radio"].sbs-red:checked + label::after, [type="radio"].sbs-red.with-gap:checked + label::before, [type="radio"].sbs-red.with-gap:checked + label::after {
+    border-color: #EB2935;
+}
+
 .flat-button {
     background: none !important;
     border: 2px solid #555;

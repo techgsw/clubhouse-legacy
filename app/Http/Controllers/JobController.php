@@ -8,6 +8,7 @@ use App\Inquiry;
 use App\ContactJob;
 use App\Job;
 use App\Pipeline;
+use App\Product;
 use App\JobPipeline;
 use App\League;
 use App\Message;
@@ -128,6 +129,7 @@ class JobController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create-job');
 
         $user = Auth::User();
 
@@ -162,6 +164,14 @@ class JobController extends Controller
             $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Premium Job');
             $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Platinum Job');
 
+            $job_premium = Product::with('tags')->whereHas('tags', function ($query) {
+                $query->where('name', 'Job Premium');
+            })->first();
+
+            $job_platinum = Product::with('tags')->whereHas('tags', function ($query) {
+                $query->where('name', 'Job Platinum');
+            })->first();
+
             return view('job/create', [
                 'organization' => $organization[0] ?: null,
                 'organizations' => OrganizationServiceProvider::all(),
@@ -170,6 +180,8 @@ class JobController extends Controller
                 'leagues' => League::all(),
                 'available_premium_job_count' => count($available_premium_jobs),
                 'available_platinum_job_count' => count($available_platinum_jobs),
+                'job_premium' => $job_premium,
+                'job_platinum' => $job_platinum,
                 'breadcrumb' => [
                     'Home' => '/',
                     'Account' => "/user/{$user->id}/account",
@@ -195,9 +207,9 @@ class JobController extends Controller
 
             $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Platinum Job');
 
-            if (count($available_platinum_jobs)) {
+            if (count($available_platinum_jobs) && request('job-tier') == 'platinum') {
                 $job_type_id = 4;
-            } elseif (count($available_premium_jobs)) {
+            } elseif (count($available_premium_jobs) && request('job-tier') == 'premium') {
                 $job_type_id = 3;
             } else {
                 $job_type_id = 2;
@@ -206,23 +218,24 @@ class JobController extends Controller
             $job_type_id = 1;
         }
 
+        $organization = Organization::find($request->organization_id);
+
         $job = new Job([
             'user_id' => $user->id,
             'title' => request('title'),
             'description' => request('description'),
             'organization_id' => $request->organization_id,
             'job_type' => request('job_type'),
-            'league' => request('league'),
+            'league' => $organization->leagues()->first()->abbreviation,
             'recruiting_type_code' => 'passive',
             'job_type_id' => $job_type_id,
-            'city' => request('city'),
-            'state' => request('state'),
-            'country' => request('country'),
+            'city' => $organization->addresses()->first()->city,
+            'state' => $organization->addresses()->first()->state,
+            'country' => $organization->addresses()->first()->country,
             'featured' => request('featured') ? true : false,
             'document' => $document ?: null,
         ]);
 
-        $organization = Organization::find($request->organization_id);
 
         try {
             $job = DB::transaction(function () use ($job, $document, $alt_image, $user, $organization) {
