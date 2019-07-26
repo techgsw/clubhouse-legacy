@@ -20,10 +20,18 @@
     </div>
     <!-- Job -->
     <div class="row job-show">
-        <div class="col s3">
+        <div class="col s3 center">
             @if (!is_null($job->image))
                 <img src={{ $job->image->getURL('medium') }}>
             @endif
+            @can ('edit-job', $job)
+                @if ($job->job_type_id == 3)
+                    <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
+                @endif
+                @if ($job->job_type_id == 4)
+                    <span class="small flat-button black inverse heavy">Platinum Job</span>
+                @endif
+            @endcan
         </div>
         <div class="col s9 job-description">
             <div class="right">

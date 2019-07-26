@@ -1,10 +1,16 @@
 <div class="row job-admin">
-    <div class="col s3 m2">
+    <div class="col s3 m2 center">
         <a href="/job/{{$job->id}}" class="no-underline">
             @if (!is_null($job->image))
             <img src={{ $job->image->getURL('medium') }} class="no-border">
             @endif
         </a>
+        @if ($job->job_type_id == 3)
+            <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
+        @endif
+        @if ($job->job_type_id == 4)
+            <span class="small flat-button black inverse heavy">Platinum Job</span>
+        @endif
     </div>
     <div class="col s9 m10">
         <div class="small" style="float: right;">
@@ -28,6 +34,7 @@
                         <a href="/job/{{ $job->id }}/feature" class="flat-button small blue"><i class="fa fa-star-o"></i></a>
                     @endcan
                 @endif
+                <p style="font-size: 14px; font-weight: 400;">{{ $job->getTimeRemainingString() }}</p>
             @endcan
         </div>
         <a href="/job/{{$job->id}}">

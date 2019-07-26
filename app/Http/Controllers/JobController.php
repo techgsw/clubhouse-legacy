@@ -117,7 +117,6 @@ class JobController extends Controller
             ->orderBy('job.created_at', 'desc')
             ->get();
 
-
         return view('job/assign-contact', [
             'contact_id' => $request['contact_id'],
             'jobs' => $jobs,
@@ -129,7 +128,7 @@ class JobController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize('create-job');
+        $this->authorize('admin-create-job');
 
         $user = Auth::User();
 

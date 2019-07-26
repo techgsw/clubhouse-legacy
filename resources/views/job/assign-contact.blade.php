@@ -6,6 +6,12 @@
                     <img style="margin-top: 12px;" src={{ $job->image->getURL('medium') }} class="thumb">
                 @endif
             </a>
+            @if ($job->job_type_id == 3)
+                <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
+            @endif
+            @if ($job->job_type_id == 4)
+                <span class="small flat-button black inverse heavy">Platinum Job</span>
+            @endif
         </div>
         <div class="col s9 m7">
             <a target="_blank" href="{{ $job->getURL() }}">
