@@ -13,8 +13,13 @@
                     </button>
                     @endcan
                 </div>
-                <a style="margin: 2px 0;" class="no-underline" href="{{ ($inquiry->user ? '/user/'.$inquiry->user->id : '/contact/'.$inquiry->contact->id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}</a>
+                @can ('review-inquiry-admin')
+                    <a style="margin: 2px 0;" class="no-underline" href="{{ ($inquiry->user ? '/user/'.$inquiry->user->id : '/contact/'.$inquiry->contact->id) }}">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}</a>
+                @else
+                    <span style="margin: 2px 0;" class="no-underline">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}</a>
+                @endcan
                 @include('components.pipeline-labels')
+                <p style="line-height: 1.25; margin: 3px 0;">{{ $inquiry->contact->getTitle() }}</p>
                 <!-- email -->
                 <p style="margin: 2px 0;" class="small">
                     @if ($inquiry->email)

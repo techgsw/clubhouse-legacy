@@ -46,26 +46,23 @@ class ContactJob extends Model
     {
         $contact_applications = ContactJob::selectRaw('contact_job.*')->join('contact as c','contact_id', 'c.id')->where('job_id', $job_id);
 
+        $filter = request('filter');
         $pipeline_id = request('step');
-        if ($pipeline_id != 'all' && !is_null($pipeline_id)) {
+        $request_data = $request->all();
+
+        if ($pipeline_id != 'all' && !$filter && !is_null($pipeline_id)) {
             $contact_applications->where('pipeline_id', '=', $pipeline_id);
+            $request_data['filter'] = '';
+        } else {
+            if ($filter == 'positive') {
+                $contact_applications->where('pipeline_id', '>=', 2)->whereNull('status');
+                $request_data['step'] = 'none';
+            } elseif ($filter == 'negative') {
+                $contact_applications->where('pipeline_id', '>=', 2)->where('status', '=', 'halted');
+                $request_data['step'] = 'none';
+            }
         }
-        // switch ($rating) {
-        //     case 1:
-        //         $contact_applications->where('pipeline_id', '=', '0');
-        //         break;
-        //     case 2:
-        //         $contact_applications->where('rating', '0');
-        //         break;
-        //     case 3:
-        //         $contact_applications->where('rating', '<', '0');
-        //         break;
-        //     case 4:
-        //         $contact_applications->whereNull('rating');
-        //         break;
-        //     default:
-        //         break;
-        // }
+        $request->merge($request_data);
 
         $sort = request('sort');
         switch ($sort) {

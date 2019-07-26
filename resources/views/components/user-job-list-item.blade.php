@@ -13,8 +13,10 @@
     <div class="col s9 m10">
         <div class="small right-align" style="float: right;">
             @cannot ('edit-job-featured-status')
-                @if (!in_array($job->job_type_id, array(1, 4)) && $job->open == 1)
-                    <a href="/job-options?job={{ $job->id }}" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
+                @if ($job->job_type_id == 2 && $job->open == 1)
+                    <a href="/job-options" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
+                @elseif ($job->job_type_id == 3 && $job->open == 1)
+                    <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
                 @endif
             @endcan
             @can ('close-job', $job)

@@ -281,15 +281,20 @@ class JobController extends Controller
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
         $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
 
+        $job_platinum = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Job Platinum');
+        })->first();
+
         return view('user/job-postings', [
             'breadcrumb' => [
                 'Home' => '/',
-                'Account' => "/user/{$user->id}/account"
+                'Job Postings' => "/user/{$user->id}/job-postings"
             ],
             'user' => $user,
             'jobs' => $jobs,
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
+            'job_platinum' => $job_platinum,
         ]);
     }
 
@@ -345,7 +350,8 @@ class JobController extends Controller
             'job_pipeline' => $job_pipeline,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                'My Postings' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/user/'.Auth::user()->id.'/job-postings/',
+                'Sports Industry Job Board' => '/job',
                 "$job->title with $job->organization_name" => "/job/{$job->id}"
             ]
         ]);
@@ -418,7 +424,8 @@ class JobController extends Controller
             'description' => $pd->text($job->description),
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                'Job Postings' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/user/'.Auth::user()->id.'/job-postings/',
+                'Sports Industry Job Board' => '/job',
                 "{$job->organization_name} - {$job->title}" => "/job/{$job->id}",
                 "Edit" => "/job/{$job->id}/edit"
             ]

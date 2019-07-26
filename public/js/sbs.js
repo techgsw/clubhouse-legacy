@@ -1777,21 +1777,30 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                var inputId = $(this).attr('input-id');
-                if (!inputId) {
+                var input_id, value, input, form;
+
+                input_id = $(this).attr('input-id');
+                if (!input_id) {
                     return;
                 }
-                var value = $(this).attr('value');
+                value = $(this).attr('value');
                 if (!value) {
                     return;
                 }
-                var input = $('#'+inputId);
+
+                if (value == 'all') {
+                    $('#filter').val('');
+                }
+
+                input = $('#'+input_id);
                 if (!input) {
                     return;
                 }
 
                 input.val(value);
-                input.change();
+
+                form = $(this).parents('form');
+                form.submit();
             }
         },
         'button.input-control'

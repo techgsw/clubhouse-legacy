@@ -109,7 +109,7 @@
                 <p>
                     <input class="sbs-red" name="job-tier" type="radio" value="premium" id="premium" {{ ($available_premium_job_count ? 'checked' : 'disabled=disabled') }} />
                     <label for="premium">Premium</label>
-                    @if (!$available_platinum_job_count)
+                    @if (!$available_premium_job_count)
                         <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
                     @endif
                 </p>
