@@ -199,7 +199,6 @@ class CheckoutController extends Controller
                         }
                     }
                 } else if (preg_match('/plan/', $request['stripe_product_id'])) {
-                    $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
                     $product_option = ProductOption::with('product')->where('stripe_plan_id', $request['stripe_product_id'])->first();
                     $roles = Role::where('code', 'clubhouse')->get();
                     $user->roles()->attach($roles);
@@ -208,13 +207,17 @@ class CheckoutController extends Controller
                     $transaction = new Transaction();
                     $transaction->user_id = $user->id;
                     $transaction->amount = $product_option->price;
-                    $transaction->stripe_subscription_id = $plan->id;
                     $transaction->save();
 
                     $transaction_product_option = new TransactionProductOption();
                     $transaction_product_option->transaction_id = $transaction->id;
                     $transaction_product_option->product_option_id = $product_option->id;
                     $transaction_product_option->save();
+
+                    $plan = StripeServiceProvider::purchasePlan($user, $request['payment_method'], $request['stripe_product_id']);
+
+                    $transaction->stripe_subscription_id = $plan->id;
+                    $transaction->save();
 
                     try {
                         EmailServiceProvider::sendMembershipPurchaseNotificationEmail($user, $product_option, 0, 'membership');
