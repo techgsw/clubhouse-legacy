@@ -14,6 +14,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\Providers\EmailServiceProvider;
 use App\Traits\ReCaptchaTrait;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -77,6 +79,22 @@ class RegisterController extends Controller
         return Validator::make($data, $rules, $messages);
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        try {
+            event(new Registered($user = $this->create($request->all())));
+        } catch (\Exception $e) {
+            return redirect("/login")->withErrors(array("We believe you already have an account with us. Please login and update your email address."));
+        }
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -117,6 +135,10 @@ class RegisterController extends Controller
                 'profile_id' => $profile->id
             ]);
 
+            if (!is_null($contact->user_id)) {
+                throw new \Exception('We have detected that you already have an account with us. Please log in and change your existing email.');
+            }
+
             $contact->user_id = $user->id;
             $contact->save();
 
@@ -144,6 +166,8 @@ class RegisterController extends Controller
             $response = EmailServiceProvider::addToMailchimp($user);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
         }
 
         // TODO Use a Queue so as not to block
@@ -152,6 +176,8 @@ class RegisterController extends Controller
             Mail::to($user)->send(new UserRegistered($user));
             EmailServiceProvider::sendRegistrationNotificationEmail($user);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        } catch (\Throwable $e) {
             Log::error($e->getMessage());
         }
 
