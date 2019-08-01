@@ -1,4 +1,4 @@
-<div class="organization-create-modal modal modal-large modal-fixed-footer">
+<div class="organization-create-modal modal modal-large">
     <div class="modal-content">
         <div class="row">
             <div class="col s12">

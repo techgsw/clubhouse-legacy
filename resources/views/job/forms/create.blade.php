@@ -7,8 +7,8 @@
             <h4>Find Your Organization</h4>
             @endif
             <div class="input-field">
+                <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
                 @can('view-admin-jobs')
-                    <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
                     <input id="organization" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
                     <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
                 @else
@@ -29,7 +29,6 @@
                         <h3>{{ $organizations[0]->name }}</h3>
                         <p>{{ $organizations[0]->city }} {{ $organizations[0]->state }}, {{ $organizations[0]->country }}</p>
                     @else
-                        <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
                         <input id="organization" autocomplete="off" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" style="margin-bottom: 5px;" required>
                         <label for="organization" data-error="{{ $errors->first('organization') }}"><i class="fa fa-search"></i> Search</label>
                         <p style="margin-top: 0px; font-size: 12px;"><a id="organization-modal-open" class="no-underline" href="javascript: void(0);">Can't find your ogranization? Click here.</a></p>
@@ -89,37 +88,38 @@
                 <label for="job-type" class="active">Job Type</label>
                 <select id="job-type" name="job_type" class="" required>
                     <option value="" {{ old('job_type') == "" ? "selected" : "" }}>Please select...</option>
-                    <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
-                    <option value="sponsorship-sales" {{ old('job_type') == 'sponsorship-sales' ? "selected" : "" }}>Sponsorship Sales</option>
-                    <option value="marketing" {{ old('job_type') == 'marketing' ? "selected" : "" }}>Marketing</option>
-                    <option value="internships" {{ old('job_type') == 'internships' ? "selected" : "" }}>Internships</option>
-                    <option value="business-operations" {{ old('job_type') == 'business-operations' ? "selected" : "" }}>Business operations</option>
-                    <option value="data-analytics" {{ old('job_type') == 'data-analytics' ? "selected" : "" }}>Data/Analytics</option>
-                    <option value="player-operations" {{ old('job_type') == 'player-operations' ? "selected" : "" }}>Player operations</option>
-                    <option value="communications" {{ old('job_type') == 'communications' ? "selected" : "" }}>Communications</option>
-                    <option value="it-technology" {{ old('job_type') == 'it-technology' ? "selected" : "" }}>IT and Technology</option>
                     <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
+                    <option value="business-operations" {{ old('job_type') == 'business-operations' ? "selected" : "" }}>Business operations</option>
+                    <option value="communications" {{ old('job_type') == 'communications' ? "selected" : "" }}>Communications</option>
+                    <option value="data-analytics" {{ old('job_type') == 'data-analytics' ? "selected" : "" }}>Data/Analytics</option>
+                    <option value="internships" {{ old('job_type') == 'internships' ? "selected" : "" }}>Internships</option>
+                    <option value="it-technology" {{ old('job_type') == 'it-technology' ? "selected" : "" }}>IT and Technology</option>
+                    <option value="marketing" {{ old('job_type') == 'marketing' ? "selected" : "" }}>Marketing</option>
+                    <option value="player-operations" {{ old('job_type') == 'player-operations' ? "selected" : "" }}>Player operations</option>
+                    <option value="sponsorship-sales" {{ old('job_type') == 'sponsorship-sales' ? "selected" : "" }}>Sponsorship Sales</option>
+                    <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
                 </select>
             </div>
             <div class="input-field dark">
-                <p>
+                <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="free" id="free" {{ ($available_premium_job_count || $available_platinum_job_count ? '' : 'checked=checked') }} />
                     <label for="free">Free</label>
                 </p>
-                <p>
+                <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="premium" id="premium" {{ ($available_premium_job_count ? 'checked' : 'disabled=disabled') }} />
-                    <label for="premium">Premium</label>
+                    <label for="premium">Premium ({{ $available_premium_job_count }})</label>
                     @if (!$available_premium_job_count)
                         <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
                     @endif
                 </p>
-                <p>
+                <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="platinum" id="platinum" {{ ($available_platinum_job_count ? 'checked' : 'disabled=disabled') }} />
-                    <label for="platinum">Platinum</label>
+                    <label for="platinum">Platinum ({{ $available_platinum_job_count }})</label>
                     @if (!$available_platinum_job_count)
                         <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
                     @endif
                 </p>
+                <p style="margin-top: 12px;"><a href="#job-comparison-modal">Compare Options</a></p>
             </div>
         </div>
     </div>
@@ -143,3 +143,4 @@
         </div>
     </div>
 </form>
+@include('job.components.options-comparison-modal')

@@ -130,10 +130,10 @@
                             @else
                                 <td>N/A</td>
                             @endif
-                            @if (array_key_exists($value['order']['id'], $paid_jobs))
-                                <td><a target="_blank" href="{{ $paid_jobs[$value['order']['id']]['job_url'] }}">View Job</a></td>
+                            @if (array_key_exists($value['order']['id'], $paid_jobs) && !is_null($paid_jobs[$value['order']['id']]['job_url']))
+                                <td><a href="{{ $paid_jobs[$value['order']['id']]['job_url'] }}">View Job</a></td>
                             @else
-                                <td><a target="_blank" href="">Available</a></td>
+                                <td><a href="/job/create">Available</a></td>
                             @endif
                         </tr>
                         @endforeach

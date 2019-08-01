@@ -71,7 +71,11 @@ class UserController extends Controller
         if (count($results)) {
             foreach ($results as $result) {
                 $job = Job::find($result->job_id);
-                $paid_jobs[$result->stripe_order_id] = array('job_id' => $result->job_id, 'job_title' => $result->job_title, 'job_url' => $job->getURL());
+                $paid_jobs[$result->stripe_order_id] = array(
+                    'job_id' => $result->job_id,
+                    'job_title' => $result->job_title,
+                    'job_url' => ((!is_null($job)) ? $job->getURL() : null )
+                );
             }
         }
 

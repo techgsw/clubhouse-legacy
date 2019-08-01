@@ -150,7 +150,7 @@
             @else
                 @can ('edit-profile', $user)
                     <div class="input-field">
-                        <a href="/user/{{ $user->id }}/edit-profile" class="btn sbs-red">Tell us about your employment history!</a>
+                        <p>Tell us more about your <a href="/user/{{ $user->id }}/edit-profile">employment history</a>!</p>
                     </div>
                 @endcan
             @endif
@@ -201,7 +201,7 @@
             @else
                 @can ('edit-profile', $user)
                     <div class="input-field">
-                        <a href="/user/{{ $user->id }}/edit-profile" class="btn sbs-red">Tell us about your educational history!</a>
+                        <p>Tell us more about your <a href="/user/{{ $user->id }}/edit-profile">educational history</a>!</p>
                     </div>
                 @endcan
             @endif

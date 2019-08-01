@@ -3,7 +3,12 @@
         <div class="col s12">
             @can ('review-inquiry', $inquiry)
                 <div class="float-right">
-                    @component('components.resume-button', ['url' => $inquiry->resume])@endcomponent
+                    @component('components.resume-button',
+                        ['url' => ((!is_null($inquiry->resume))
+                            ? $inquiry->resume
+                            : (!is_null($inquiry->contact->user()->first()) ? $inquiry->contact->user()->first()->profile->resume_url : null)
+                        )]
+                    )@endcomponent
                     @can ('view-inquiry-notes')
                     <button class="view-contact-notes-btn flat-button small"
                         contact-id="{{ ($inquiry->user ? $inquiry->user->contact->id : $inquiry->contact->id) }}"
@@ -23,9 +28,14 @@
                 <!-- email -->
                 <p style="margin: 2px 0;" class="small">
                     @if ($inquiry->email)
-                        <a class="no-underline" href="mailto:{{ $inquiry->email}}">{{ $inquiry->email}}</a>
+                        <a class="no-underline" href="mailto:{{ $inquiry->email }}">{{ $inquiry->email}}</a>
                     @else
-                        <a class="no-underline" href="mailto:{{ $inquiry->contact->email}}">{{ $inquiry->contact->email }}</a>
+                        <a class="no-underline" href="mailto:{{ $inquiry->contact->email }}">{{ $inquiry->contact->email }}</a>
+                    @endif
+                    @if ($inquiry->phone)
+                        <a class="no-underline" href="tel:{{ $inquiry->phone }}">{{ $inquiry->phone}}</a>
+                    @else
+                        <a class="no-underline" href="tel:{{ $inquiry->contact->phone }}">{{ $inquiry->contact->phone }}</a>
                     @endif
                 </p>
                 <!-- end email -->

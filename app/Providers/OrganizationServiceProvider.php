@@ -64,6 +64,7 @@ class OrganizationServiceProvider extends ServiceProvider
         if ($user->can('view-admin-jobs', $user)) {
             $organizations = DB::table('organization')
                                     ->select('*')
+                                    ->orderBy('name')
                                     ->get();
         } else {
             $organization = DB::table('contact_organization')

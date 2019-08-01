@@ -128,7 +128,7 @@ class JobController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize('admin-create-job');
+        $this->authorize('create-job');
 
         $user = Auth::User();
 
@@ -150,9 +150,9 @@ class JobController extends Controller
             return view('job/create', [
                 'organization' => $organization[0] ?: null,
                 'organizations' => OrganizationServiceProvider::all(),
-                'organization_types' => OrganizationType::all(),
+                'organization_types' => OrganizationType::orderBy('name')->get(),
                 'league' => $league,
-                'leagues' => League::all(),
+                'leagues' => League::orderBy('abbreviation')->get(),
                 'breadcrumb' => [
                     'Clubouse' => '/',
                     'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
@@ -174,9 +174,9 @@ class JobController extends Controller
             return view('job/create', [
                 'organization' => $organization[0] ?: null,
                 'organizations' => OrganizationServiceProvider::all(),
-                'organization_types' => OrganizationType::all(),
+                'organization_types' => OrganizationType::orderBy('name')->get(),
                 'league' => $league,
-                'leagues' => League::all(),
+                'leagues' => League::orderBy('abbreviation')->get(),
                 'available_premium_job_count' => count($available_premium_jobs),
                 'available_platinum_job_count' => count($available_platinum_jobs),
                 'job_premium' => $job_premium,
@@ -201,6 +201,8 @@ class JobController extends Controller
         $document = request()->file('document');
         $alt_image = request()->file('alt_image_url');
 
+        $organization = Organization::find($request->organization_id);
+
         if (!$user->roles->contains('administrator')) {
             $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Premium Job');
 
@@ -215,15 +217,34 @@ class JobController extends Controller
             }
         } else {
             $job_type_id = 1;
-        }
 
-        $organization = Organization::find($request->organization_id);
+            $organizations = $user->contact->organizations;
+
+            if (count($organizations) >= 1) {
+                $valid_organization = false;
+                foreach ($organizations as $user_organization) {
+                    if ($ogranization->id == $user_organization) {
+                        $valid_organization = true;
+                    }
+                }
+
+                if (!$valid_organization) {
+                    $request->session()->flash('message', new Message(
+                        "Invalid organization selection.",
+                        "danger",
+                        $code = null,
+                        $icon = "error"
+                    ));
+                    return back()->withInput();
+                }
+            }
+        }
 
         $job = new Job([
             'user_id' => $user->id,
             'title' => request('title'),
             'description' => request('description'),
-            'organization_id' => $request->organization_id,
+            'organization_id' => $organization->id,
             'job_type' => request('job_type'),
             'league' => $organization->leagues()->first()->abbreviation,
             'recruiting_type_code' => 'passive',
