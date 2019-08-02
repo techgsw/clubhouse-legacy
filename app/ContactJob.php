@@ -80,4 +80,10 @@ class ContactJob extends Model
 
         return $contact_applications;
     }
+
+    public function generateJobInterestToken()
+    {
+        $this->job_interest_token = hash('sha256', "$this->id $this->user_id $this->job_id ".rand(0,100)*rand(0,100));
+    }
+
 }
