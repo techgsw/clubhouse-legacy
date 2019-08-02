@@ -26,7 +26,7 @@ class AddJobInvitationColumns extends Migration
             [
                 ['code' => 'interested', 'title' => 'Interested', 'description' => 'User is interested in the job invitation.'],
                 ['code' => 'not_interested', 'title' => 'Not Interested', 'description' => 'User is not interested in the job invitation.'],
-                ['code' => 'do_not_contact_me', 'title' => 'Do Not Contact', 'description' => 'User does not wish to be contacted again.']
+                ['code' => 'dnc', 'title' => 'Do Not Contact', 'description' => 'User does not wish to be contacted again.']
             ]
         );
         
