@@ -7,6 +7,8 @@ use App\Job;
 use App\Organization;
 use App\Transaction;
 use App\User;
+use App\Inquiry;
+use App\ContactJob;
 use App\Providers\ImageServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

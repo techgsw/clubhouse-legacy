@@ -8,6 +8,7 @@ use App\Job;
 use App\Message;
 use App\Note;
 use App\User;
+use App\JobInterestResponse;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
@@ -135,5 +136,45 @@ class InquiryController extends Controller
             'content' => $note->content,
             'user' => Auth::user()
         ]);
+    }
+
+    /**
+     * @param  id
+     * @request_param  interest
+     * @request_param  token
+     * @return \Illuminate\Http\Response
+     */
+    public function feedback(Request $request, $id)
+    {
+        $token = $request->input('token');
+        $interest_code = $request->input('interest');
+
+        if (is_null($token) || is_null($id) || is_null($interest_code)) {
+            return redirect('/');
+        }
+        
+        $inquiry = Inquiry::where([
+            ['id','=',$id],
+            ['job_interest_token','=',$token]
+        ])->first();
+
+        if (!is_null($inquiry->job_interest_response_code)) {
+            // TODO: Already submitted a response, 
+            //     probably want to update if they don't want to be contacted maybe?
+            dd("Already submitted a response");
+        }
+
+        $job_interest_response = JobInterestResponse::where('code','=',$interest_code)->first();
+
+        if (is_null($inquiry) || is_null($interest_code)) {
+            return redirect('/');
+        }
+
+        $inquiry->job_interest_response_code = $job_interest_response->code;
+        $inquiry->job_interest_response_date = new \DateTime('now');
+        $inquiry->save();
+
+        dd("made it");
+        //TODO: View stuff
     }
 }
