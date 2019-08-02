@@ -10,6 +10,7 @@ use App\Mail\UserPaidClubhousePro;
 use App\Mail\UserPaidCareerService;
 use App\Mail\UserPaidWebinar;
 use App\Message;
+use App\Job;
 use App\Role;
 use App\Transaction;
 use App\TransactionProductOption;
@@ -30,7 +31,7 @@ use \Exception;
 
 class CheckoutController extends Controller
 {
-    public function index(Request $request, $id)
+    public function index(Request $request, $id, $job_id = null)
     {
         $user = Auth::user();
 
@@ -85,6 +86,14 @@ class CheckoutController extends Controller
         } else if (in_array('job-platinum', array_column($product_option->product->tags->toArray(), 'slug'))) {
             $product_type = 'job-platinum';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
+        } else if (in_array('job-platinum-upgrade', array_column($product_option->product->tags->toArray(), 'slug'))) {
+            $product_type = 'job-platinum-upgrade';
+            $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
+            
+            $job = Job::find($job_id);
+            if (!$job || $job->user_id != $user->id) {
+                return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
+            }
         } else {
             $product_type = 'membership';
             $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
@@ -94,6 +103,7 @@ class CheckoutController extends Controller
             'product_option' => $product_option,
             'payment_methods' => (!is_null($stripe_user) && !is_null($stripe_user->sources) ? $stripe_user->sources->data : array()),
             'product_type' => $product_type,
+            'job_id' => (($job) ? $job->id : null),
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 $breadcrumb['name'] => $breadcrumb['link'],
@@ -112,8 +122,22 @@ class CheckoutController extends Controller
             $response = DB::transaction(function () use ($request, $user) {
                 $checkout_type;
                 if (preg_match('/sku/', $request['stripe_product_id'])) {
-                    $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
                     $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
+
+                    if (in_array($product_option->id, array(\Config::get('constants.product_option.platinum_job_upgrade_id')))) {
+                        $now = new DateTime('NOW');
+                        $job = Job::find($request['job_id']);
+                        if (!$job || $job->user_id != $user->id) {
+                            return false;
+                        }
+                        if ($product_option->id == \Config::get('constants.product_option.platinum_job_upgrade_id')) {
+                            $job->job_type_id = 4;
+                            $job->upgraded_at($now);
+                        }
+                        $job->save();
+                    }
+
+                    $order = StripeServiceProvider::purchaseSku($user, $request['payment_method'], $request['stripe_product_id']);
 
                     try {
                         $product_option->quantity = $product_option->quantity - 1;
@@ -131,6 +155,9 @@ class CheckoutController extends Controller
                     if (!is_null($order->charge)) {
                         $transaction->stripe_charge_id = $order->charge;
                     }
+                    if (!is_null($job)) {
+                        $transaction->job_id = $job->id;
+                    }
                     $transaction->save();
 
                     $transaction_product_option = new TransactionProductOption();
@@ -138,6 +165,7 @@ class CheckoutController extends Controller
                     $transaction_product_option->product_option_id = $product_option->id;
                     $transaction_product_option->save();
 
+                    // TODO we should probably just use contants here (ie product_option ids)
                     foreach ($product_option->product->tags as $tag) {
                         if ($tag->slug == 'career-service') {
                             try {
@@ -175,6 +203,24 @@ class CheckoutController extends Controller
                                 Log::error($e->getMessage());
                             }
                             $checkout_type = 'job-platinum';
+                            break;
+                        } else if ($tag->slug == 'job-premium-upgrade') {
+                            try {
+                                //EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, 0, 'job-platinum');
+                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
+                            $checkout_type = 'job-premium-upgrade';
+                            break;
+                        } else if ($tag->slug == 'job-platinum-upgrade') {
+                            try {
+                                //EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, 0, 'job-platinum');
+                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
+                            $checkout_type = 'job-platinum-upgrade';
                             break;
                         }
                     }
@@ -335,6 +381,16 @@ class CheckoutController extends Controller
             case 'job-platinum':
                 $view = 'job-platinum-thanks';
                 $breadcrumb = 'Job Posting Platinum';
+                $link = '/job-options';
+                break;
+            case 'job-premium-upgrade':
+                $view = 'job-premium-upgrade-thanks';
+                $breadcrumb = 'Job Posting Premium Upgrade';
+                $link = '/job-options';
+                break;
+            case 'job-platinum-upgrade':
+                $view = 'job-platinum-upgrade-thanks';
+                $breadcrumb = 'Job Posting Platinum Upgrade';
                 $link = '/job-options';
                 break;
             case 'membership':

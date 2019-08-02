@@ -15,7 +15,8 @@ class Job extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'edited_at'
+        'edited_at',
+        'upgraded_at'
     ];
 
     public function user()
@@ -94,14 +95,16 @@ class Job extends Model
     {
         $create_date = clone($this->created_at);
 
-        if ($this->job_type_id == 1) {
+        $start_date = ((!is_null($this->upgraded_at)) ? $this->upgraded_at : $create_date);
+
+        if ($this->job_type_id == \Config::get('constants.job_type.sbs_default')) {
             return 'Does not expire'; 
-        } else if ($this->job_type_id == 2) {
-            $end_time = $create_date->add(new \DateInterval('P30D'));
-        } else if ($this->job_type_id == 3) {
-            $end_time = $create_date->add(new \DateInterval('P45D'));
-        } else if ($this->job_type_id == 4) {
-            $end_time = $create_date->add(new \DateInterval('P60D'));
+        } else if ($this->job_type_id == \Config::get('constants.job_type.user_free')) {
+            $end_time = $start_date->add(new \DateInterval('P30D'));
+        } else if ($this->job_type_id == \Config::get('constants.job_type.user_premium')) {
+            $end_time = $start_date->add(new \DateInterval('P45D'));
+        } else if ($this->job_type_id == \Config::get('constants.job_type.user_platinum')) {
+            $end_time = $start_date->add(new \DateInterval('P60D'));
         } 
 
         $end_time = $end_time->format('Y-m-d H:i:s');

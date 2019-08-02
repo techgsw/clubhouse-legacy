@@ -231,6 +231,7 @@ Route::domain($domain)->group(function () {
         Route::post('/checkout', 'CheckoutController@store');
         Route::get('/checkout/thanks', 'CheckoutController@thanks');
         Route::get('/checkout/{id}', 'CheckoutController@index');
+        Route::get('/checkout/{id}/{job_id}', 'CheckoutController@index');
     });
 
     // Clubhouse

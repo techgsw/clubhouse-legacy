@@ -2,6 +2,12 @@
 @section('title', 'Job Postings')
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col s12">
+            @include('layouts.components.messages')
+            @include('layouts.components.errors')
+        </div>
+    </div>
     @component('user.header', ['user' => $user])
         @include('user.components.actions')
     @endcomponent

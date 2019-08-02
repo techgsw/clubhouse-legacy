@@ -301,8 +301,8 @@ class JobController extends Controller
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
         $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
 
-        $job_platinum = Product::with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Job Platinum');
+        $job_platinum_upgrade = Product::with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Job Platinum Upgrade');
         })->first();
 
         return view('user/job-postings', [
@@ -314,7 +314,7 @@ class JobController extends Controller
             'jobs' => $jobs,
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
-            'job_platinum' => $job_platinum,
+            'job_platinum_upgrade' => $job_platinum_upgrade,
         ]);
     }
 
