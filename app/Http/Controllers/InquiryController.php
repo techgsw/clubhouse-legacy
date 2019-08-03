@@ -159,9 +159,9 @@ class InquiryController extends Controller
         ])->first();
 
         if (!is_null($inquiry->job_interest_response_code)) {
-            // TODO: Already submitted a response, 
-            //     probably want to update if they don't want to be contacted maybe?
-            dd("Already submitted a response");
+            return view('job/feedback/user-default-expired-code', [
+                'contact_job' => $contact_job
+            ]);
         }
 
         $job_interest_response = JobInterestResponse::where('code','=',$interest_code)->first();
@@ -174,7 +174,19 @@ class InquiryController extends Controller
         $inquiry->job_interest_response_date = new \DateTime('now');
         $inquiry->save();
 
-        dd("made it");
-        //TODO: View stuff
+        if ($job_interest_response->code == 'interested') {
+            return view('job/feedback/user-default-interested', [
+                'contact_job' => $contact_job
+            ]);
+        } elseif ($job_interest_response->code == 'not_interested') {
+            return view('job/feedback/user-default-not-interested', [
+                'contact_job' => $contact_job
+            ]);
+        } elseif ($job_interest_response->code == 'dnc') {
+            return view('job/feedback/user-default-do-not-contact', [
+                'contact_job' => $contact_job
+            ]);
+        }
+        return redirect('/');
     }
 }

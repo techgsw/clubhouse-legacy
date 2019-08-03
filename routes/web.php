@@ -283,7 +283,7 @@ Route::domain($domain)->group(function () {
         Route::get('/contact-job/{id}/rate-down', 'ContactJobController@rateDown');
         Route::get('/contact-job/{id}/show-notes', 'ContactJobController@showNotes');
         Route::post('/contact-job/{id}/create-note', 'ContactJobController@createNote');
-        Route::get('/contact-job/{id}/feedback', 'ContactJobController@feedback');
+        Route::get('/contact/feedback/{id}', 'ContactJobController@feedback');
 
         Route::get('/inquiry/{id}/rate-down', 'InquiryController@rateDown');
         Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');

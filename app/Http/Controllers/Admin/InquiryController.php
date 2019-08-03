@@ -49,17 +49,25 @@ class InquiryController extends Controller
                         "Moved forward from " . $job_pipeline[$inquiry->pipeline_id-2]->name . " to " . $job_pipeline[$inquiry->pipeline_id-1]->name
                     );
 
-                    if ($inquiry->pipeline_id == 2 && $request->input('comm') != 'none') {
+                    if ($inquiry->pipeline_id == 2 && $request->input('comm_type') != 'none') {
                         try {
-                            switch ($inquiry->job->recruiting_type_code) {
-                                case 'active':
-                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
-                                    break;
-                                case 'passive':
-                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
-                                    break;
-                                default:
-                                    break;
+                            if (Auth::user()->hasAccess('view-admin-pipelines')) {
+                                switch ($inquiry->job->recruiting_type_code) {
+                                    case 'active':
+                                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
+                                        break;
+                                    case 'passive':
+                                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                                /* TODO
+                                if ($request->input('comm_type') == 'default'){
+                                    Mail::to($inquiry->user)->send(new UserDefaultComm($contact_job));                                
+                                }
+                                */
                             }
                         } catch (Exception $e) {
                             Log::error($e->getMessage());
@@ -117,7 +125,7 @@ class InquiryController extends Controller
                     "Halted on " . $job_pipeline[$halt_step]->name . (($halt_step == 0) ? '. Moved to Reviewed.' : '.') . " Reason: ". strtoupper($request->input('reason'))
                 );
 
-                if ($halt_step == 0 && $request->input('comm') != 'none') {
+                if ($halt_step == 0 && $request->input('comm_type') != 'none') {
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
