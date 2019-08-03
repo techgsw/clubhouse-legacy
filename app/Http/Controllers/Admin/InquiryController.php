@@ -22,8 +22,6 @@ class InquiryController extends Controller
 {
     public function pipelineForward(Request $request)
     {
-        $this->authorize('edit-inquiry');
-
         $inquiry = Inquiry::find($request->input('id'));
         $job_pipeline = JobPipeline::all();
 
@@ -33,6 +31,8 @@ class InquiryController extends Controller
                 'message' => 'We failed, not an inquiry!'
             ]);
         }
+
+        $this->authorize('review-inquiry', $inquiry);
 
         $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
 
@@ -216,8 +216,6 @@ class InquiryController extends Controller
 
     public function pipelineBackward(Request $request)
     {
-        $this->authorize('edit-inquiry');
-
         $inquiry = Inquiry::find($request->input('id'));
         $job_pipeline = JobPipeline::all();
 
@@ -227,6 +225,8 @@ class InquiryController extends Controller
                 'message' => 'Unable to find inquiry!'
             ]);
         }
+
+        $this->authorize('review-inquiry', $inquiry);
 
         if ($inquiry->pipeline_id < 3) {
             return response()->json([

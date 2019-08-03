@@ -117,12 +117,12 @@ class InquiryController extends Controller
      */
     public function createNote($id)
     {
-        $this->authorize('create-inquiry-note');
-
         $inquiry = Inquiry::find($id);
         if (!$inquiry) {
             return abort(404);
         }
+
+        $this->authorize('create-inquiry-note', $inquiry);
 
         $note = new Note();
         $note->user_id = Auth::user()->id;

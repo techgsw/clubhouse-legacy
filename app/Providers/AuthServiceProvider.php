@@ -150,6 +150,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('review-inquiry', function ($user, $inquiry) {
             // TODO change to review
+            //dd($user->hasAccess('inquiry_edit'));
             if ($user->hasAccess('inquiry_edit')) {
                 return true;
             }
@@ -237,7 +238,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('inquiry_note_show');
         });
         Gate::define('create-inquiry-note', function ($user, $inquiry) {
-            if ($user->hasAccess('create-inquiry-note')) {
+            if ($user->hasAccess('inquiry_note_create')) {
                 return true;
             }
             if ($user->hasAccess('job_edit_user') && $inquiry->job->user_id == $user->id) {

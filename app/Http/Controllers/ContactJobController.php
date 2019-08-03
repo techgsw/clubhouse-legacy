@@ -48,6 +48,8 @@ class ContactJobController extends Controller
                 'admin_user_id' => Auth::user()->id,
                 'job_id' => $request['job_id'],
             ]);
+            $contact_job->generateJobInterestToken();
+            $contact_job->save();
 
             $note->user_id = Auth::user()->id;
             $note->notable_id = $contact_job->contact->id;

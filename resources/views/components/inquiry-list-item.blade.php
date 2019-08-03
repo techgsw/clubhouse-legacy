@@ -24,7 +24,16 @@
                     <span style="margin: 2px 0;" class="no-underline">{{ $inquiry->user ? $inquiry->name : $inquiry->contact->getName() }}</a>
                 @endcan
                 @include('components.pipeline-labels')
-                <p style="line-height: 1.25; margin: 3px 0;">{{ $inquiry->contact->getTitle() }}</p>
+                @if ($inquiry->job_interest_response_code == 'interested')
+                    <span> <button type="button" class="flat-button small green"><i class="fa fa-user"></i>&nbsp; Interested</button></span>
+                @elseif (in_array($inquiry->job_interest_response_code, array('not_interested', 'dnc')))
+                    <span> <button type="button" class="flat-button small red"><i class="fa fa-user"></i>&nbsp; Not Interested</button></span>
+                @endif
+                @if ($inquiry->user)
+                    <p style="line-height: 1.25; margin: 3px 0;">{{ $inquiry->user->contact->getTitle() }}</p>
+                @else
+                    <p style="line-height: 1.25; margin: 3px 0;">{{ $inquiry->contact->getTitle() }}</p>
+                @endif
                 <!-- email -->
                 <p style="margin: 2px 0;" class="small">
                     @if ($inquiry->email)
@@ -35,7 +44,11 @@
                     @if ($inquiry->phone)
                         <a class="no-underline" href="tel:{{ $inquiry->phone }}">{{ $inquiry->phone}}</a>
                     @else
-                        <a class="no-underline" href="tel:{{ $inquiry->contact->phone }}">{{ $inquiry->contact->phone }}</a>
+                        @if ($inquiry->user)
+                            <a class="no-underline" href="tel:{{ $inquiry->user->contact->phone }}">{{ $inquiry->user->contact->phone }}</a>
+                        @else
+                            <a class="no-underline" href="tel:{{ $inquiry->contact->phone }}">{{ $inquiry->contact->phone }}</a>
+                        @endif
                     @endif
                 </p>
                 <!-- end email -->

@@ -14,6 +14,7 @@ use App\Contact;
 use App\Http\Requests\StoreJob;
 use App\Mail\Admin\ContactColdComm;
 use App\Mail\Admin\ContactWarmComm;
+use App\Mail\ContactDefaultComm;
 use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
@@ -57,11 +58,15 @@ class ContactJobController extends Controller
 
                     if ($contact_job->pipeline_id == 2) {
                         try {
-                            if ($contact_job->job->recruiting_type_code == "active") {
+                            if ($contact_job->job->recruiting_type_code == "active" && Auth::user()->hasAccess('view-admin-pipelines')) {
                                 if ($request->input('comm_type') == "warm") {
                                     Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job));
                                 } else if ($request->input('comm_type') == 'cold'){
                                     Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job));                                
+                                }
+                            } else if ($contact_job->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                                if ($request->input('comm_type') == 'default'){
+                                    Mail::to($contact_job->contact)->send(new ContactDefaultComm($contact_job));                                
                                 }
                             }
                         } catch (Exception $e) {

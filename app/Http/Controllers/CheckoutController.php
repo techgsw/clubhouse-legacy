@@ -103,7 +103,7 @@ class CheckoutController extends Controller
             'product_option' => $product_option,
             'payment_methods' => (!is_null($stripe_user) && !is_null($stripe_user->sources) ? $stripe_user->sources->data : array()),
             'product_type' => $product_type,
-            'job_id' => (($job) ? $job->id : null),
+            'job_id' => ((isset($job)) ? $job->id : null),
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 $breadcrumb['name'] => $breadcrumb['link'],
@@ -124,13 +124,13 @@ class CheckoutController extends Controller
                 if (preg_match('/sku/', $request['stripe_product_id'])) {
                     $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
 
-                    if (in_array($product_option->id, array(\Config::get('constants.product_option.platinum_job_upgrade_id')))) {
-                        $now = new DateTime('NOW');
+                    if (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade']))) {
+                        $now = new \DateTime('NOW');
                         $job = Job::find($request['job_id']);
                         if (!$job || $job->user_id != $user->id) {
                             return false;
                         }
-                        if ($product_option->id == \Config::get('constants.product_option.platinum_job_upgrade_id')) {
+                        if ($product_option->id == PRODUCT_OPTION_ID['platinum_job_upgrade']) {
                             $job->job_type_id = 4;
                             $job->upgraded_at($now);
                         }
@@ -155,7 +155,7 @@ class CheckoutController extends Controller
                     if (!is_null($order->charge)) {
                         $transaction->stripe_charge_id = $order->charge;
                     }
-                    if (!is_null($job)) {
+                    if (isset($job) && !is_null($job)) {
                         $transaction->job_id = $job->id;
                     }
                     $transaction->save();

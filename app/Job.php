@@ -97,13 +97,13 @@ class Job extends Model
 
         $start_date = ((!is_null($this->upgraded_at)) ? $this->upgraded_at : $create_date);
 
-        if ($this->job_type_id == \Config::get('constants.job_type.sbs_default')) {
+        if ($this->job_type_id == JOB_TYPE_ID['sbs_default']) {
             return 'Does not expire'; 
-        } else if ($this->job_type_id == \Config::get('constants.job_type.user_free')) {
+        } else if ($this->job_type_id == JOB_TYPE_ID['user_free']) {
             $end_time = $start_date->add(new \DateInterval('P30D'));
-        } else if ($this->job_type_id == \Config::get('constants.job_type.user_premium')) {
+        } else if ($this->job_type_id == JOB_TYPE_ID['user_premium']) {
             $end_time = $start_date->add(new \DateInterval('P45D'));
-        } else if ($this->job_type_id == \Config::get('constants.job_type.user_platinum')) {
+        } else if ($this->job_type_id == JOB_TYPE_ID['user_platinum']) {
             $end_time = $start_date->add(new \DateInterval('P60D'));
         } 
 
