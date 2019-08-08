@@ -6,7 +6,7 @@
         <div class="col s12 m10 offset-m1">
             <div class="card ">
                 <div class="card-content">
-                    <p>{{ $inquiry->first_name }},</p>
+                    <p>{{ $inquiry->user->first_name }},</p>
                     <br />
                     <p>Thank you for getting back to us regarding the <strong>{{ $inquiry->job->title }}</strong> position with the <strong>{{ $inquiry->job->organization->name }}</strong>.</p>
                     <br />

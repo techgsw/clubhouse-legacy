@@ -6,7 +6,7 @@
         <div class="col s12 m10 offset-m1">
             <div class="card ">
                 <div class="card-content">
-                    <p>{{ $contact_job->contact->first_name }},</p>
+                    <p>{{ $inquiry->user->first_name }},</p>
                     <br />
                     <p>We’re sorry to hear that you aren’t interested in this position. You won’t be contacted regarding <strong>any</strong> other opportunities.</p>
                     <br />
