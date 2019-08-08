@@ -41,12 +41,12 @@
                                     </div>
                                 @else
                                     <h5 class="black-text" style="margin-top: 20px;">We're glad you're here!</h5>
-                                    <p class="black-text">Learn how you can become a Clubhouse Pro and take your game to the next level!</p>
-                                    <p class="black-text">Some of the benefits include:</p>
+                                    <p class="black-text">As a member of our community you can access the <a href="/blog">blog</a>, search and apply for jobs on the <a href="/job-board">job board</a> and join us for an upcoming live <a href="/webinars">webinar</a>. If you’re a hiring manager, you can also <a href="/users/{{ Auth::user()->id }}/job-postings">post your job</a>.</p>
+                                    <p class="black-text">If you’re interested in getting even more access you can upgrade your membership to become a Clubhouse Pro! Benefits include:</p>
                                     <ul class="browser-default">
                                         <li>Exclusive 1:1 mentorship with industry professionals</li>
-                                        <li>Access to webinars and events, featuring hot industry topics and hosted by some of the best and brightest minds in sports biz</li>
-                                        <li>50% off all 1:1 career services (save $15 to $150!)</li>
+                                        <li>Access to our virtual library of educational content</li>
+                                        <li>Free career services</li>
                                     </ul>
                                     <div class="center-align">
                                         <a href="/membership-options" class="btn sbs-red" style="margin-top: 20px;"> Become a Clubhouse Pro</a>
