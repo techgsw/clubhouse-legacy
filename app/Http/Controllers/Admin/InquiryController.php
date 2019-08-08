@@ -13,6 +13,7 @@ use App\User;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
+use App\Mail\InquiryInterestRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -63,11 +64,13 @@ class InquiryController extends Controller
                                         break;
                                 }
                             } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
-                                /* TODO
                                 if ($request->input('comm_type') == 'default'){
-                                    Mail::to($inquiry->user)->send(new UserDefaultComm($contact_job));                                
+                                    $now = new \DateTime('NOW');
+                                    $inquiry->job_interest_response_date = $now;
+                                    $inquiry->save();
+
+                                    Mail::to($inquiry->user)->send(new InquiryInterestRequest($inquiry));                                
                                 }
-                                */
                             }
                         } catch (Exception $e) {
                             Log::error($e->getMessage());

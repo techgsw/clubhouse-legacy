@@ -79,6 +79,8 @@ class InquiryController extends Controller
             'phone' => request('phone'),
             'resume' => $resume,
         ]);
+        $inquiry->generateJobInterestToken();
+        $inquiry->save();
 
         try {
             Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
@@ -159,8 +161,8 @@ class InquiryController extends Controller
         ])->first();
 
         if (!is_null($inquiry->job_interest_response_code)) {
-            return view('job/feedback/user-default-expired-code', [
-                'contact_job' => $contact_job
+            return view('job/feedback/user/user-default-expired-code', [
+                'inquiry' => $inquiry
             ]);
         }
 
@@ -175,16 +177,16 @@ class InquiryController extends Controller
         $inquiry->save();
 
         if ($job_interest_response->code == 'interested') {
-            return view('job/feedback/user-default-interested', [
-                'contact_job' => $contact_job
+            return view('job/feedback/user/user-default-interested', [
+                'inquiry' => $inquiry
             ]);
         } elseif ($job_interest_response->code == 'not_interested') {
-            return view('job/feedback/user-default-not-interested', [
-                'contact_job' => $contact_job
+            return view('job/feedback/user/user-default-not-interested', [
+                'inquiry' => $inquiry
             ]);
         } elseif ($job_interest_response->code == 'dnc') {
-            return view('job/feedback/user-default-do-not-contact', [
-                'contact_job' => $contact_job
+            return view('job/feedback/user/user-default-do-not-contact', [
+                'inquiry' => $inquiry
             ]);
         }
         return redirect('/');

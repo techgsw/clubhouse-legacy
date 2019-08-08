@@ -2,15 +2,13 @@
 
 namespace App\Mail;
 
-use App\ContactJob;
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Auth;
+use App\ContactJob;
 
-class ContactDefaultComm extends Mailable
+class ContactJobUserInterestRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -25,7 +23,7 @@ class ContactDefaultComm extends Mailable
     public function __construct(ContactJob $contact_job)
     {
         $this->contact_job = $contact_job;
-        $this->user = Auth::user();
+        $this->user = \Auth::user();
     }
 
     /**
@@ -38,6 +36,6 @@ class ContactDefaultComm extends Mailable
         $mail = $this->from('app@sportsbusiness.solutions');
         $mail->subject("Your {$this->contact_job->job->title} job application status with the {$this->contact_job->job->organization_name}");
 
-        return $mail->markdown('emails.contact.contact-default-communication');
+        return $mail->markdown('emails.contact.contact-job-user-interest-request');
     }
 }

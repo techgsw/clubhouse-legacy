@@ -158,6 +158,8 @@ class ContactJobController extends Controller
         $token = $request->input('token');
         $interest_code = $request->input('interest');
 
+        $request_type = ((preg_match('/user-assigned/', $request->getPathInfo())) ? 'user-assigned' : 'contact');
+
         if (is_null($token) || is_null($id) || is_null($interest_code)) {
             return redirect('/');
         }
@@ -168,7 +170,7 @@ class ContactJobController extends Controller
         ])->first();
 
         if (!is_null($contact_job->job_interest_response_code)) {
-            return view('job/feedback/contact/contact-default-expired-code', [
+            return view('job/feedback/' . $request_type . '/default-expired-code', [
                 'contact_job' => $contact_job
             ]);
         }
@@ -184,15 +186,15 @@ class ContactJobController extends Controller
         $contact_job->save();
 
         if ($job_interest_response->code == 'interested') {
-            return view('job/feedback/contact/contact-default-interested', [
+            return view('job/feedback/' . $request_type . '/default-interested', [
                 'contact_job' => $contact_job
             ]);
         } elseif ($job_interest_response->code == 'not_interested') {
-            return view('job/feedback/contact/contact-default-not-interested', [
+            return view('job/feedback/' . $request_type . '/default-not-interested', [
                 'contact_job' => $contact_job
             ]);
         } elseif ($job_interest_response->code == 'dnc') {
-            return view('job/feedback/contact/contact-default-do-not-contact', [
+            return view('job/feedback/' . $request_type . '/default-do-not-contact', [
                 'contact_job' => $contact_job
             ]);
         }

@@ -14,7 +14,8 @@ use App\Contact;
 use App\Http\Requests\StoreJob;
 use App\Mail\Admin\ContactColdComm;
 use App\Mail\Admin\ContactWarmComm;
-use App\Mail\ContactDefaultComm;
+use App\Mail\ContactJobInterestRequest;
+use App\Mail\ContactJobUserInterestRequest;
 use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
@@ -65,8 +66,15 @@ class ContactJobController extends Controller
                                     Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job));                                
                                 }
                             } else if ($contact_job->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
-                                if ($request->input('comm_type') == 'default'){
-                                    Mail::to($contact_job->contact)->send(new ContactDefaultComm($contact_job));                                
+                                if ($request->input('comm_type') == 'default') {
+                                    $now = new \DateTime('NOW');
+                                    $contact_job->job_interest_response_date = $now;
+                                    $contact_job->save();
+                                    if (!is_null($contact_job->contact->user)) {
+                                        Mail::to($contact_job->contact)->send(new ContactJobUserInterestRequest($contact_job));                                
+                                    } else {
+                                        Mail::to($contact_job->contact)->send(new ContactJobInterestRequest($contact_job));                                
+                                    }
                                 }
                             }
                         } catch (Exception $e) {

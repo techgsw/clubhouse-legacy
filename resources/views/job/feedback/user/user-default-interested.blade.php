@@ -6,9 +6,9 @@
         <div class="col s12 m10 offset-m1">
             <div class="card ">
                 <div class="card-content">
-                    <p>{{ $contact_job->contact->first_name }},</p>
+                    <p>{{ $inquiry->first_name }},</p>
                     <br />
-                    <p>Thank you for getting back to us regarding the <strong>{{ $contact_job->job->title }}</strong> position with the <strong>{{ $contact_job->job->organization->name }}</strong>.</p>
+                    <p>Thank you for getting back to us regarding the <strong>{{ $inquiry->job->title }}</strong> position with the <strong>{{ $inquiry->job->organization->name }}</strong>.</p>
                     <br />
                     <p>We’re glad to hear you’re interested in learning more about this position! Someone will be in touch with you soon to discuss next steps.</p>
                     <br />
