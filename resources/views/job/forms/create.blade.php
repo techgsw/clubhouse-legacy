@@ -7,10 +7,11 @@
             <h4>Find Your Organization</h4>
             @endif
             <div class="input-field">
-                <input id="organization-id" type="hidden" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
+                <input id="organization-id" type="hidden" autocomplete="off" name="organization_id" value="{{ old('organization_id') ?: ($organization ? $organization->id : '') }}">
                 @can('view-admin-jobs')
                     <input id="organization" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" required>
                     <label for="organization" data-error="{{ $errors->first('organization') }}">Organization</label>
+                    <p style="margin-top: 0px; font-size: 12px;"><a id="organization-modal-open" class="no-underline" href="javascript: void(0);">Can't find your ogranization? Click here.</a></p>
                 @else
                     @if(count($organizations) > 1)
                         <label for="organization" class="active organization-autocomplete">Organization</label>
@@ -41,8 +42,16 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12">
+        <div class="col s12 m6">
             <h4>Create Your Job</h4>
+        </div>
+        <div class="col s12 m6">
+            @can('edit-job-featured-status')
+                <div class="input-field">
+                    <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
+                    <label for="featured">Featured</label>
+                </div>
+            @endcan
         </div>
     </div>
     <div class="row">
@@ -57,10 +66,10 @@
                     <textarea class="markdown-input" name="description" value=""></textarea>
                 </div>
             </div>
-            @can('edit-job-recruiting-type-code')
+            @can('edit-job-recruiting-type')
             <div class="input-field">
                 <label for="recruiting-type-code" class="active">Recruiting Type</label>
-                <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
+                <select id="recruiting-type-code" name="recruiting_type_code" class="" required>
                     <option value="" selected disabled>Please select...</option>
                     <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
                     <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
@@ -78,12 +87,6 @@
             </div>
         </div>
         <div class="col s12 m4">
-            @can('edit-job-featured-status')
-            <div class="input-field">
-                <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? "checked" : "" }} />
-                <label for="featured">Featured</label>
-            </div>
-            @endcan
             <div class="input-field">
                 <label for="job-type" class="active">Job Type</label>
                 <select id="job-type" name="job_type" class="" required>
@@ -100,6 +103,7 @@
                     <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
                 </select>
             </div>
+            @cannot ('view-admin-jobs')
             <div class="input-field dark">
                 <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="free" id="free" {{ ($available_premium_job_count || $available_platinum_job_count ? '' : 'checked=checked') }} />
@@ -121,6 +125,7 @@
                 </p>
                 <p style="margin-top: 12px;"><a href="#job-comparison-modal">Compare Options</a></p>
             </div>
+            @endcannot
         </div>
     </div>
     <div class="row">
@@ -131,6 +136,23 @@
                 @can('view-admin-jobs')
                     <input type="checkbox" class="show-hide" show-hide-target-id="organization-fields" name="reuse_organization_fields" id="reuse_organization_fields" value="1" checked />
                     <label for="reuse_organization_fields">Use organization name and logo</label>
+                    <div class="col s12 hidden" id="organization-fields">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="alt-organization" type="text" name="alt_organization" value="{{ old('alt_organization') ?: '' }}">
+                                <label for="alt-organization" data-error="{{ $errors->first('alt_organization') }}">Organization name</label>
+                            </div>
+                            <div class="file-field input-field col s12">
+                                <div class="btn white black-text">
+                                    <span>Logo</span>
+                                    <input type="file" name="alt_image_url" value="{{ old('alt_image_url') }}">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path " type="text" name="alt_image_url_text" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endcan
             </div>
         </div>

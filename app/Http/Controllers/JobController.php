@@ -153,6 +153,10 @@ class JobController extends Controller
                 'organization_types' => OrganizationType::orderBy('name')->get(),
                 'league' => $league,
                 'leagues' => League::orderBy('abbreviation')->get(),
+                'available_premium_job_count' => 0,
+                'available_platinum_job_count' => 0,
+                'job_premium' => null,
+                'job_platinum' => null,
                 'breadcrumb' => [
                     'Clubouse' => '/',
                     'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
@@ -290,7 +294,11 @@ class JobController extends Controller
             return back()->withInput();
         }
 
-        return redirect('/user/'.$user->id.'/job-postings');
+        if ($user->roles->contains('administrator')) {
+            return redirect('/admin/job');
+        } else {
+            return redirect('/user/'.$user->id.'/job-postings');
+        }
     }
 
     public function showPostings(Request $request)
@@ -299,7 +307,12 @@ class JobController extends Controller
 
         $pipeline = Pipeline::orderBy('id', 'asc')->get();
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
-        $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
+
+        if (Auth::user()->can('view-admin-jobs')) {
+            $jobs = array();
+        } else {
+            $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
+        }
 
         $job_platinum_upgrade = Product::with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Job Platinum Upgrade');

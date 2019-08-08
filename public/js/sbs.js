@@ -1164,7 +1164,7 @@ $.valHooks.textarea = {
 
     UI.Pipeline.clearNegativeReason = function(id, type) {
         $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').addClass('hidden');
-        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').html("");
+        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"] span.reason-text').html("");
     }
 
     UI.Pipeline.buttonClick = function(button) {
@@ -1229,6 +1229,10 @@ $.valHooks.textarea = {
                         $(ui).find('span.thumbs-up-text').remove();
                     }
 
+                    if (resp.pipeline_id == 2 && resp.status != 'halted') {
+                        $('[data-id="' + id + '"].user-decision-positive').removeClass('hidden');
+                    }
+
                     if (resp.pipeline_id == 6) {
                         $(ui).attr('disabled', 'disabled');
                         $(ui).addClass('gray')
@@ -1246,12 +1250,12 @@ $.valHooks.textarea = {
                     if (resp.status == 'halted') {
                         $('.inquiry-contact-job-negative-modal').modal('close');
                         $('button.negative-pipeline-modal-button[data-id="' + id + '"][data-move="halt"]').addClass('inverse');
-                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').html(resp.reason);
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"] span.reason-text').html(resp.reason);
                         $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').removeClass('hidden');
                     } else if (resp.status == 'paused') {
                         $(selected_btn).addClass('inverse');
                         $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').addClass('hidden');
-                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').html("");
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"] span.reason-text').html("");
                     }
                 }
             });
