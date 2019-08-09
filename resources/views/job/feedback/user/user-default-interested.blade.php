@@ -17,7 +17,7 @@
                     <p>If you have any questions about Sports Business Solutions, <span class="sbs-red-text">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
                     <br />
                     <div class="center-align" style="margin-top: 20px;">
-                        <a class="btn sbs-red" href="/register">Create your profile</a>
+                        <a class="btn sbs-red" href="/register">Update your profile</a>
                     </div>
                 </div>
             </div>
