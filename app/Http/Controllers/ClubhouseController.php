@@ -51,6 +51,7 @@ class ClubhouseController extends Controller
 
     public function jobOptions(Request $request)
     {
+        $upgrade_options = $request->upgrade_options;
         // TODO replace with constants
         $job_premium = Product::with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Job Premium');
@@ -59,6 +60,26 @@ class ClubhouseController extends Controller
         $job_platinum = Product::with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Job Platinum');
         })->first();
+
+        if ($request->upgrade_options) {
+            $job = Job::where('id',$request->job_id)->first();
+            //\DB::enableQueryLog();
+            $job_platinum_upgrade = Product::with('tags')->whereHas('tags', function ($query) {
+                $query->where('name', 'Job Platinum Upgrade');
+            })->first();
+            //$job_premium_upgrade = Product::with('tags')->whereHas('tags', function ($query) {
+            //    $query->where('name', 'Job Premium Upgrade');
+            //})->first();
+            //dd(\DB::getQueryLog());
+
+            return view('clubhouse/job-options-upgrade', [
+                'job' => $job,
+                'job_platinum_upgrade' => $job_platinum_upgrade,
+                'job_premium_upgrade' => $job_platinum_upgrade,
+                //'job_premium_upgrade' => $job_premium_upgrade
+            ]);
+            
+        }
 
         return view('clubhouse/job-options', [
             'job_premium' => $job_premium,

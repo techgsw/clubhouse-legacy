@@ -14,7 +14,7 @@
         <div class="small right-align" style="float: right;">
             @cannot ('edit-job-featured-status')
                 @if ($job->job_type_id == 2 && $job->open == 1)
-                    <a href="/job-options" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
+                    <a data-job-id="{{ $job->id }}" class="small flat-button green job-options-upgrade-btn"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
                 @elseif ($job->job_type_id == 3 && $job->open == 1)
                     <a href="{{ $job_platinum_upgrade->options()->first()->getURL(false, 'checkout') }}/{{ $job->id }}" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
                 @endif

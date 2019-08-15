@@ -441,6 +441,29 @@ $.valHooks.textarea = {
         });
     }
 
+    Job.getJobOptionUpgrades = function (job_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/job-options/upgrade_options',
+            data: {
+                'job_id': job_id 
+            }
+        });
+    }
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var job_id = $(this).attr('data-job-id');
+                Job.getJobOptionUpgrades(job_id).done(function (view) {
+                    $('.job-options-upgrade-modal .modal-content').html(view);
+                    $('.job-options-upgrade-modal').modal('open');
+                });
+            }
+        },
+        '.job-options-upgrade-btn'
+    );
+
     $('body').on(
         {
             change: function (e, ui) {

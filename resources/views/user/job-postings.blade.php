@@ -46,6 +46,8 @@
 @include('components.contact-notes-modal')
 @include('components.inquiry-notes-modal')
 @include('components.contact-job-notes-modal')
+@include('components.job-options-upgrade-modal')
+@include('components.contact-job-notes-modal')
 @component('components.inquiry-job-contact-negative-modal')@endcomponent
 @component('components.job-contact-assign-modal')@endcomponent
 @endcan
