@@ -289,7 +289,6 @@ Route::domain($domain)->group(function () {
         Route::get('/inquiry/{id}/rate-down', 'InquiryController@rateDown');
         Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');
         Route::post('/inquiry/{id}/create-note', 'InquiryController@createNote');
-        Route::get('/inquiry/feedback/{id}', 'InquiryController@feedback');
 
         Route::get('/job', 'JobController@index');
         Route::get('/job/{id}', 'JobController@show');
