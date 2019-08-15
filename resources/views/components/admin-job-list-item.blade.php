@@ -5,6 +5,9 @@
             <img src={{ $job->image->getURL('medium') }} class="no-border">
             @endif
         </a>
+        @if ($job->job_type_id == 2)
+            <span class="small flat-button gray lighten-2 inverse heavy">Free Job</span>
+        @endif
         @if ($job->job_type_id == 3)
             <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
         @endif
