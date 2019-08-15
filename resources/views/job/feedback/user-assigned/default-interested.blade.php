@@ -12,7 +12,7 @@
                     <br />
                     <p>We’re glad to hear you’re interested in learning more about this position! Someone will be in touch with you soon to discuss next steps.</p>
                     <br />
-                    <p>If you haven’t done so already (and if you’d like to), you can create a free career profile in <a href="/"><span class="sbs-red-text">the</span>Clubhouse</a> where you can upload your latest resume and update your career preferences so we can keep you in mind for other opportunities in the future.</p>
+                    <p>If needed, you can always update your career profile in <a href="/"><span class="sbs-red-text">the</span>Clubhouse</a> where you can update your resume and career preferences so we can keep you in mind for other opportunities in the future.</p>
                     <br />
                     <p>If you have any questions about Sports Business Solutions, <span class="sbs-red-text">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
                     <br />

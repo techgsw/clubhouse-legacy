@@ -132,7 +132,7 @@ class CheckoutController extends Controller
                         }
                         if ($product_option->id == PRODUCT_OPTION_ID['platinum_job_upgrade']) {
                             $job->job_type_id = 4;
-                            $job->upgraded_at($now);
+                            $job->upgraded_at = $now;
                         }
                         $job->save();
                     }

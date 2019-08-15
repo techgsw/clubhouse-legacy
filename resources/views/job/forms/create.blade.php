@@ -78,7 +78,7 @@
             @endcan
             <div class="file-field input-field">
                 <div class="btn white black-text">
-                    <span>Job Document</span>
+                    <span>Job Description</span>
                     <input type="file" class="small" name="document" value="{{ old('document') }}">
                 </div>
                 <div class="file-path-wrapper">

@@ -34,7 +34,7 @@ class ContactJobInterestRequest extends Mailable
     public function build()
     {
         $mail = $this->from('app@sportsbusiness.solutions');
-        $mail->subject("Your {$this->contact_job->job->title} job application status with the {$this->contact_job->job->organization_name}");
+        $mail->subject("New job opportunity with the {$this->contact_job->job->organization_name}");
 
         return $mail->markdown('emails.contact.contact-job-interest-request');
     }

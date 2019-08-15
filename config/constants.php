@@ -13,13 +13,14 @@ define('PRODUCT_ID',
     array(
         'premium_job' => 49,
         'platinum_job' => 50,
+        'platinum_job_upgrade' => 51,
     )
 );
 
 define('PRODUCT_OPTION_ID',
     array(
-        'premium_job_id' => 46,
-        'platinum_job_id' => 47,
-        'platinum_job_upgrade_id' => 48,
+        'premium_job' => 46,
+        'platinum_job' => 47,
+        'platinum_job_upgrade' => 48,
     )
 );
