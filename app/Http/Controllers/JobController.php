@@ -368,11 +368,25 @@ class JobController extends Controller
 
         $profile_complete = false;
         $user = Auth::user();
-        if ($user) {
-            $profile_complete = $user->hasCompleteProfile();
-        }
 
         $pd = new Parsedown;
+
+        $breadcrumb = array( 
+            'Clubhouse' => '/',
+            'My Postings' => (!is_null($user) ? $user->can('view-admin-jobs') ? '/admin/job' : '/user/'.$user->id.'/job-postings/' : ''),
+            'Sports Industry Job Board' => '/job',
+            "$job->title with $job->organization_name" => "/job/{$job->id}"
+        );
+
+        if ($user) {
+            $profile_complete = $user->hasCompleteProfile();
+            if ($user->id != $job->user_id && $user->cannot('view-admin-jobs')) {
+                unset($breadcrumb['My Postings']);
+            }
+        } else {
+            unset($breadcrumb['My Postings']);
+        }
+
         return view('job/show', [
             'description' => $pd->text($job->description),
             'job' => $job,
@@ -381,12 +395,7 @@ class JobController extends Controller
             'profile_complete' => $profile_complete,
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'My Postings' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/user/'.Auth::user()->id.'/job-postings/',
-                'Sports Industry Job Board' => '/job',
-                "$job->title with $job->organization_name" => "/job/{$job->id}"
-            ]
+            'breadcrumb' => $breadcrumb
         ]);
     }
 

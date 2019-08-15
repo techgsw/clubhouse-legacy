@@ -154,7 +154,7 @@
         <div class="row">
             <div class="col s12 m9 offset-m3 job-inquire">
                 <a name="applications">
-                    <h5 style="margin-bottom: 0;">Contact Assignments</h5>
+                    <h5 style="margin-bottom: 0;">Candidate Assignments</h5>
                 </a>
             </div>
         </div>
@@ -164,7 +164,7 @@
         <div class="row">
             <div class="col s12 m9 offset-m3 job-inquire">
                 <a name="applications">
-                    <h5 style="margin-bottom: 0;">User Applications</h5>
+                    <h5 style="margin-bottom: 0;">Candidate Applications</h5>
                 </a>
             </div>
         </div>
@@ -177,7 +177,9 @@
     @endif
 </div>
 @component('components.pdf-view-modal')@endcomponent
-@can ('edit-job', $job)
-@component('components.inquiry-job-contact-negative-modal')@endcomponent
+@can ('review-inquiry-admin', $job)
+    @component('components.inquiry-job-contact-negative-modal')@endcomponent
+@else
+    @component('components.user-managed-inquiry-negative-modal')@endcomponent
 @endcan
 @endsection

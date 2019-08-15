@@ -13,7 +13,6 @@ use App\User;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
-use App\Mail\InquiryInterestRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -65,11 +64,7 @@ class InquiryController extends Controller
                                 }
                             } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
                                 if ($request->input('comm_type') == 'default'){
-                                    $now = new \DateTime('NOW');
-                                    $inquiry->job_interest_response_date = $now;
-                                    $inquiry->save();
-
-                                    Mail::to($inquiry->user)->send(new InquiryInterestRequest($inquiry));                                
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-positive'));
                                 }
                             }
                         } catch (Exception $e) {
@@ -130,15 +125,21 @@ class InquiryController extends Controller
 
                 if ($halt_step == 0 && $request->input('comm_type') != 'none') {
                     try {
-                        switch ($inquiry->job->recruiting_type_code) {
-                            case 'active':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
-                                break;
-                            case 'passive':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
-                                break;
-                            default:
-                                break;
+                        if (Auth::user()->hasAccess('view-admin-pipelines')) {
+                            switch ($inquiry->job->recruiting_type_code) {
+                                case 'active':
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
+                                    break;
+                                case 'passive':
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                            if ($request->input('comm_type') == 'default'){
+                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-negative'));
+                            }
                         }
                     } catch (Exception $e) {
                         Log::error($e->getMessage());

@@ -10,7 +10,7 @@
                     <br />
                     <p>We’re sorry to hear that you aren’t interested in this position. You won’t be contacted regarding <strong>any</strong> other opportunities.</p>
                     <br />
-                    <p>If you change your mind, have any questions about Sports Business Solutions, <span class="sbs-red-text">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
+                    <p>If you change your mind, have any questions about Sports Business Solutions, <span style="color: #EB2935;">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
                     <br />
                 </div>
             </div>

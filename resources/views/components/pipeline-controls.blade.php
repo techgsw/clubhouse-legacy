@@ -33,7 +33,7 @@
 @else
     <!-- halt (thumbs down) comms for user -->
     @if ($inquiry->pipeline_id == 1)
-        <button data-action="" data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button default-comm"><i class="fa fa-thumbs-down"></i></button>
+        <button data-action="" data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button default-comm user-managed"><i class="fa fa-thumbs-down"></i></button>
     <!-- end halt (thumbs down) comms -->
     <!-- forward -->
         <button data-action="inquiry-pipeline" data-comm-type="default" {{ $inquiry->pipeline_id < 2 ? '' : 'disabled' }} data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small {{ $inquiry->pipeline_id < 2 ? 'blue' : 'gray' }} default-comm user-managed"><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text"></span></button>
