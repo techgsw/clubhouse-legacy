@@ -177,7 +177,9 @@
     @endif
 </div>
 @component('components.pdf-view-modal')@endcomponent
-@can ('edit-job', $job)
-@component('components.inquiry-job-contact-negative-modal')@endcomponent
+@can ('review-inquiry-admin', $job)
+    @component('components.inquiry-job-contact-negative-modal')@endcomponent
+@else
+    @component('components.user-managed-inquiry-negative-modal')@endcomponent
 @endcan
 @endsection

@@ -1147,16 +1147,17 @@ $.valHooks.textarea = {
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
                     comm_type = $(this).attr('data-comm-type'),
+                    modal_class = ($(this).hasClass('user-managed') ? '.user-managed-inquiry-negative-modal' : '.inquiry-contact-job-negative-modal'),
                     token = $('[name="_token"]').val();
 
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-move', action);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-type', type);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm-type', comm_type);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').removeClass('inverse');
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-move', action);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-type', type);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-comm-type', comm_type);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').removeClass('inverse');
 
-                $('.inquiry-contact-job-negative-modal').modal('open');
+                $(modal_class).modal('open');
             }
         },
         'button.negative-pipeline-modal-button'
@@ -1249,6 +1250,7 @@ $.valHooks.textarea = {
 
                     if (resp.status == 'halted') {
                         $('.inquiry-contact-job-negative-modal').modal('close');
+                        $('.user-managed-inquiry-negative-modal').modal('close');
                         $('button.negative-pipeline-modal-button[data-id="' + id + '"][data-move="halt"]').addClass('inverse');
                         $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"] span.reason-text').html(resp.reason);
                         $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').removeClass('hidden');
@@ -1265,6 +1267,7 @@ $.valHooks.textarea = {
                 return;
             } else {
                 $('.inquiry-contact-job-negative-modal').modal('close');
+                $('.user-managed-inquiry-negative-modal').modal('close');
             }
 
             if (resp.pipeline_name !== undefined) {

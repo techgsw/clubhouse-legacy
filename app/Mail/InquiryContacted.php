@@ -52,6 +52,8 @@ class InquiryContacted extends Mailable
                 return $mail->markdown('emails.inquiry.contacted-passive-maybe');
             case 'passive-negative':
                 return $mail->markdown('emails.inquiry.contacted-passive-negative');
+            case 'user-managed-positive':
+                return $mail->markdown('emails.inquiry.user-managed-positive');
         }
     }
 }

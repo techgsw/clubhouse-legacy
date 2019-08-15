@@ -13,7 +13,6 @@ use App\User;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
-use App\Mail\InquiryInterestRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -69,7 +68,7 @@ class InquiryController extends Controller
                                     $inquiry->job_interest_response_date = $now;
                                     $inquiry->save();
 
-                                    Mail::to($inquiry->user)->send(new InquiryInterestRequest($inquiry));                                
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-positive'));
                                 }
                             }
                         } catch (Exception $e) {
