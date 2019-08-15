@@ -30,14 +30,6 @@ class AddJobInvitationColumns extends Migration
             ]
         );
         
-        // Add columns to hold user request token and responses for contact_job and inquiry
-        Schema::table('inquiry', function (Blueprint $table) {
-            $table->string('job_interest_token', 256)->nullable();
-            $table->dateTime('job_interest_request_date')->nullable();
-            $table->string('job_interest_response_code', 45)->nullable();
-            $table->dateTime('job_interest_response_date')->nullable();
-        });
-
         Schema::table('contact_job', function (Blueprint $table) {
             $table->string('job_interest_token', 256)->nullable();
             $table->dateTime('job_interest_request_date')->nullable();
@@ -54,13 +46,6 @@ class AddJobInvitationColumns extends Migration
     public function down()
     {
         Schema::table('contact_job', function (Blueprint $table) {
-            $table->dropColumn('job_interest_token');
-            $table->dropColumn('job_interest_response_code');
-            $table->dropColumn('job_interest_response_date');
-            $table->dropColumn('job_interest_request_date');
-        });
-
-        Schema::table('inquiry', function (Blueprint $table) {
             $table->dropColumn('job_interest_token');
             $table->dropColumn('job_interest_response_code');
             $table->dropColumn('job_interest_response_date');
