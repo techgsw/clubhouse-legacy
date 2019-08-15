@@ -1185,7 +1185,7 @@ $.valHooks.textarea = {
         }
 
         if (pipeline_id == 1 && comm_type !== 'none' && ((type == 'user') || (action == 'forward' && type == 'contact'))) {
-            result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
+            result = window.confirm("This action will notify the person via email of your opinion of them as a candidate. \n\nAre you sure?");
             if (!result) {
                 return;
             }

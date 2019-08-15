@@ -37,7 +37,12 @@ class InquiryContacted extends Mailable
      */
     public function build()
     {
-        $mail = $this->from($this->user->email);
+        if ($this->user->hasAccess('admin-index')) {
+            $mail = $this->from($this->user->email);
+        } else {
+            $mail = $this->from('app@sportsbusiness.solutions');
+        }
+
         $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
         switch ($this->action) {
             case 'active-positive':
@@ -54,6 +59,8 @@ class InquiryContacted extends Mailable
                 return $mail->markdown('emails.inquiry.contacted-passive-negative');
             case 'user-managed-positive':
                 return $mail->markdown('emails.inquiry.user-managed-positive');
+            case 'user-managed-negative':
+                return $mail->markdown('emails.inquiry.user-managed-negative');
         }
     }
 }
