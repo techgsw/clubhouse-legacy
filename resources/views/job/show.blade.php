@@ -154,7 +154,7 @@
         <div class="row">
             <div class="col s12 m9 offset-m3 job-inquire">
                 <a name="applications">
-                    <h5 style="margin-bottom: 0;">Contact Assignments</h5>
+                    <h5 style="margin-bottom: 0;">Candidate Assignments</h5>
                 </a>
             </div>
         </div>
@@ -164,7 +164,7 @@
         <div class="row">
             <div class="col s12 m9 offset-m3 job-inquire">
                 <a name="applications">
-                    <h5 style="margin-bottom: 0;">User Applications</h5>
+                    <h5 style="margin-bottom: 0;">Candidate Applications</h5>
                 </a>
             </div>
         </div>
