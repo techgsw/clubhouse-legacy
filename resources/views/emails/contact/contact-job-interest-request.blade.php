@@ -6,12 +6,12 @@
         <p>
             <a href="{{ env('CLUBHOUSE_URL') }}/contact/feedback/{{ $contact_job->id }}?interest=interested&token={{ $contact_job->job_interest_token }}">Yes, I am interested.</a>
             <br />
-            <a href="{{ env('CLUBHOUSE_URL') }}/contact/feedback/{{ $contact_job->id }}?interest=not_interested&token={{ $contact_job->job_interest_token }}">No, I am not interested.</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}/contact/feedback/{{ $contact_job->id }}?interest=not-interested&token={{ $contact_job->job_interest_token }}">No, I am not interested.</a>
         </p>
         <p>We wish you all the best as you take your next steps in your career!</p>
         <p>Sincerely,</p>
         <p>The SBS and Clubhouse Team</p>
         <br />
-        <p style="font-size: 10px; color: grey;">Don't want to hear from us again? Let us know by <a href="{{ env('CLUBHOUSE_URL') }}/contact/feedback/{{ $contact_job->id }}?interest=dnc&token={{ $contact_job->job_interest_token }}">clicking here</a></p>
+        <p style="font-size: 10px; color: grey;">Don't want to hear from us again? Let us know by <a href="{{ env('CLUBHOUSE_URL') }}/contact/feedback/{{ $contact_job->id }}?interest=do-not-contact&token={{ $contact_job->job_interest_token }}">clicking here</a></p>
     @endslot
 @endcomponent
