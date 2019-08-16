@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactJob;
+use App\Contact;
 use App\ContactJob;
 use App\Job;
 use App\Message;
@@ -26,6 +27,14 @@ class ContactJobController extends Controller
             return response()->json([
                 'type' => 'failure',
                 'message' => 'Unable to find requested job.'
+            ]);
+        }
+
+        $contact = Contact::find($request['contact_id']);
+        if (!$contact || $contact->do_not_contact) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'Unable to assign contact.'
             ]);
         }
 
