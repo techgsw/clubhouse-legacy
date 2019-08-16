@@ -80,19 +80,33 @@ class CheckoutController extends Controller
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
             $product_type = 'webinar';
             $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
-        } else if (in_array('job-premium', array_column($product_option->product->tags->toArray(), 'slug'))) {
+        } else if ($product_option->id == PRODUCT_OPTION_ID['premium_job']) {
             $product_type = 'job-premium';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
-        } else if (in_array('job-platinum', array_column($product_option->product->tags->toArray(), 'slug'))) {
+        } else if ($product_option->id == PRODUCT_OPTION_ID['platinum_job']) {
             $product_type = 'job-platinum';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
-        } else if (in_array('job-platinum-upgrade', array_column($product_option->product->tags->toArray(), 'slug'))) {
+        } else if ($product_option->id == PRODUCT_OPTION_ID['premium_job_upgrade']) {
+            $product_type = 'job-premium-upgrade';
+            $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
+            
+            $job = Job::find($job_id);
+            if (!$job || $job->user_id != $user->id) {
+                return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
+            }
+            if (in_array($job->job_type_id, array(JOB_TYPE_ID['user_platinum'], JOB_TYPE_ID['user_premium']))) {
+                return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. It looks like this job is already upgraded!']);
+            } 
+        } else if (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
             $product_type = 'job-platinum-upgrade';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
             
             $job = Job::find($job_id);
             if (!$job || $job->user_id != $user->id) {
                 return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
+            }
+            if ($job->job_type_id == JOB_TYPE_ID['user_platinum']) {
+                return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. It looks like this job is already Platinum!']);
             }
         } else {
             $product_type = 'membership';

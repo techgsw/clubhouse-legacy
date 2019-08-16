@@ -56,7 +56,7 @@
                                 @if (Auth::guest())
                                     <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
-                                    <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
+                                    <a href="{{ $job_premium->options()->find(PRODUCT_OPTION_ID['premium_job'])->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                 @endif
                             @endif
                         </div>
@@ -78,7 +78,7 @@
                                 @if (Auth::guest())
                                     <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
-                                    <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
+                                    <a href="{{ $job_platinum->options()->find(PRODUCT_OPTION_ID['platinum_job'])->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                 @endif
                             @endif
                         </div>

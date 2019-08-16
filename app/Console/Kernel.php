@@ -28,7 +28,6 @@ class Kernel extends ConsoleKernel
         Commands\ReconcileContacts::class,
         Commands\GenerateInstagramToken::class,
         Commands\UploadOrganizations::class,
-        Commands\SendJobInvite::class
     ];
 
     /**

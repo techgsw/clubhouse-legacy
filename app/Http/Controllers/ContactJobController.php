@@ -194,6 +194,13 @@ class ContactJobController extends Controller
                 'contact_job' => $contact_job
             ]);
         } elseif ($job_interest_response->code == 'do-not-contact' && $request_type == 'contact') {
+            $contact = $contact_job->contact;
+
+            if (is_null($contact->user_id)) {
+                $contact->do_not_contact = true;
+                $contact->save();
+            }
+
             return view('job/feedback/contact/default-do-not-contact', [
                 'contact_job' => $contact_job
             ]);

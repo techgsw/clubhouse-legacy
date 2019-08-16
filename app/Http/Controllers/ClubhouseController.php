@@ -53,32 +53,23 @@ class ClubhouseController extends Controller
     {
         $upgrade_options = $request->upgrade_options;
         // TODO replace with constants
-        $job_premium = Product::with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Job Premium');
-        })->first();
+        $job_premium = Product::find(PRODUCT_ID['premium_job']);
 
-        $job_platinum = Product::with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Job Platinum');
-        })->first();
+        $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
 
         if ($request->upgrade_options) {
             $job = Job::where('id',$request->job_id)->first();
-            //\DB::enableQueryLog();
-            $job_platinum_upgrade = Product::with('tags')->whereHas('tags', function ($query) {
-                $query->where('name', 'Job Platinum Upgrade');
-            })->first();
-            //$job_premium_upgrade = Product::with('tags')->whereHas('tags', function ($query) {
-            //    $query->where('name', 'Job Premium Upgrade');
-            //})->first();
-            //dd(\DB::getQueryLog());
+
+            if ($job->job_type_id == JOB_TYPE_ID['user_free']) {
+                $job_premium = Product::find(PRODUCT_ID['premium_job']);
+                $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
+            }
 
             return view('clubhouse/job-options-upgrade', [
                 'job' => $job,
-                'job_platinum_upgrade' => $job_platinum_upgrade,
-                'job_premium_upgrade' => $job_platinum_upgrade,
-                //'job_premium_upgrade' => $job_premium_upgrade
+                'job_platinum' => $job_platinum,
+                'job_premium' => $job_premium
             ]);
-            
         }
 
         return view('clubhouse/job-options', [

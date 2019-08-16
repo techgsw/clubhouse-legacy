@@ -23,11 +23,11 @@
                         <p class="center-align" style="font-size: 16px; font-weight: 400;">Become a featured job on the job board and receive additional exposure. You’ll also be assigned 15 quality candidates from the SBS database based on your search criteria.</p>
                     </div>
                     <div class="col s12 center-align" style="padding-bottom: 10px;">
-                        @if ($job_premium_upgrade)
+                        @if ($job_premium)
                             @if (Auth::guest())
                                 <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                             @else
-                                <a href="{{ $job_premium_upgrade->options()->first()->getURL(false, 'checkout') }}/{{ $job->id }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Upgrade Now</a>
+                                <a href="{{ $job_premium->options()->find(PRODUCT_OPTION_ID['premium_job_upgrade'])->getURL(false, 'checkout') }}/{{ $job->id }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Upgrade Now</a>
                             @endif
                         @endif
                     </div>
@@ -45,11 +45,11 @@
                         <p class="center-align" style="font-size: 16px; font-weight: 400;">Platinum jobs get the most social media and email promotion. We assign you 15 candidates AND we screen them for you, ensuring that by the time they get to you, they’re qualified and interested.</p>
                     </div>
                     <div class="col s12 center-align" style="padding-bottom: 10px;">
-                        @if ($job_platinum_upgrade)
+                        @if ($job_platinum)
                             @if (Auth::guest())
                                 <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                             @else
-                                <a href="{{ $job_platinum_upgrade->options()->first()->getURL(false, 'checkout') }}/{{ $job->id }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Upgrade Now</a>
+                                <a href="{{ $job_platinum->options()->find(PRODUCT_OPTION_ID['platinum_job_upgrade'])->getURL(false, 'checkout') }}/{{ $job->id }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Upgrade Now</a>
                             @endif
                         @endif
                     </div>

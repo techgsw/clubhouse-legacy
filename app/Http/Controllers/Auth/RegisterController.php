@@ -140,6 +140,7 @@ class RegisterController extends Controller
             ]);
 
             $contact->user_id = $user->id;
+            $contact->do_not_contact = false;
             $contact->save();
 
             $address = Address::create([

@@ -9,6 +9,7 @@ use App\ContactJob;
 use App\Job;
 use App\Pipeline;
 use App\Product;
+use App\ProductOption;
 use App\JobPipeline;
 use App\League;
 use App\Message;
@@ -164,16 +165,12 @@ class JobController extends Controller
                 ]
             ]);
         } else {
-            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Premium Job');
-            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Platinum Job');
+            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['premium_job']);
+            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['platinum_job']);
 
-            $job_premium = Product::with('tags')->whereHas('tags', function ($query) {
-                $query->where('name', 'Job Premium');
-            })->first();
+            $job_premium = Product::find(PRODUCT_ID['premium_job']);
 
-            $job_platinum = Product::with('tags')->whereHas('tags', function ($query) {
-                $query->where('name', 'Job Platinum');
-            })->first();
+            $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
 
             return view('job/create', [
                 'organization' => $organization[0] ?: null,
@@ -208,9 +205,8 @@ class JobController extends Controller
         $organization = Organization::find($request->organization_id);
 
         if (!$user->roles->contains('administrator')) {
-            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Premium Job');
-
-            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, 'Platinum Job');
+            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['premium_job']);
+            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['platinum_job']);
 
             if (count($available_platinum_jobs) && request('job-tier') == 'platinum') {
                 $job_type_id = 4;
@@ -314,9 +310,7 @@ class JobController extends Controller
             $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
         }
 
-        $job_platinum_upgrade = Product::with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Job Platinum Upgrade');
-        })->first();
+        $job_platinum_upgrade = ProductOption::find(PRODUCT_OPTION_ID['platinum_job_upgrade_premium']);
 
         return view('user/job-postings', [
             'breadcrumb' => [

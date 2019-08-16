@@ -25,8 +25,8 @@ class AddJobInvitationColumns extends Migration
         DB::table('job_interest_response')->insert(
             [
                 ['code' => 'interested', 'title' => 'Interested', 'description' => 'User is interested in the job invitation.'],
-                ['code' => 'not_interested', 'title' => 'Not Interested', 'description' => 'User is not interested in the job invitation.'],
-                ['code' => 'dnc', 'title' => 'Do Not Contact', 'description' => 'User does not wish to be contacted again.']
+                ['code' => 'not-interested', 'title' => 'Not Interested', 'description' => 'User is not interested in the job invitation.'],
+                ['code' => 'do-not-contact', 'title' => 'Do Not Contact', 'description' => 'User does not wish to be contacted again.']
             ]
         );
         
@@ -35,6 +35,10 @@ class AddJobInvitationColumns extends Migration
             $table->dateTime('job_interest_request_date')->nullable();
             $table->string('job_interest_response_code', 45)->nullable();
             $table->dateTime('job_interest_response_date')->nullable();
+        });
+
+        Schema::table('contact', function (Blueprint $table) {
+            $table->boolean('do_not_contact')->default(false);
         });
     }
 
@@ -50,6 +54,10 @@ class AddJobInvitationColumns extends Migration
             $table->dropColumn('job_interest_response_code');
             $table->dropColumn('job_interest_response_date');
             $table->dropColumn('job_interest_request_date');
+        });
+
+        Schema::table('contact', function (Blueprint $table) {
+            $table->dropColumn('do_not_contact');
         });
 
         Schema::dropIfExists('job_interest_response');

@@ -113,14 +113,14 @@
                     <input class="sbs-red" name="job-tier" type="radio" value="premium" id="premium" {{ ($available_premium_job_count ? 'checked' : 'disabled=disabled') }} />
                     <label for="premium">Premium ({{ $available_premium_job_count }})</label>
                     @if (!$available_premium_job_count)
-                        <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
+                        <a href="{{ $job_premium->options()->find(PRODUCT_OPTION_ID['premium_job'])->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
                     @endif
                 </p>
                 <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="platinum" id="platinum" {{ ($available_platinum_job_count ? 'checked' : 'disabled=disabled') }} />
                     <label for="platinum">Platinum ({{ $available_platinum_job_count }})</label>
                     @if (!$available_platinum_job_count)
-                        <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
+                        <a href="{{ $job_platinum->options()->find(PRODUCT_OPTION_ID['platinum_job'])->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
                     @endif
                 </p>
                 <p style="margin-top: 12px;"><a href="#job-comparison-modal">Compare Options</a></p>

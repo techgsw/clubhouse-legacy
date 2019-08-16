@@ -98,12 +98,12 @@ class JobServiceProvider extends ServiceProvider
         }
     }
 
-    public static function getAvailablePaidJobs(User $user, string $job_type)
+    public static function getAvailablePaidJobs(User $user, int $product_option_id)
     {
         // TODO this should be using a contant for id rather than searching by name
         $available_paid_jobs = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
             ->join('product_option as po', 'po.id', 'tpo.product_option_id')
-            ->where('po.name','=',$job_type)
+            ->where('po.id','=',$product_option_id)
             ->where('transaction.user_id','=', $user->id)
             ->whereNull('transaction.job_id')->get();
 
