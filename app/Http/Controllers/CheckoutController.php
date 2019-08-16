@@ -138,16 +138,30 @@ class CheckoutController extends Controller
                 if (preg_match('/sku/', $request['stripe_product_id'])) {
                     $product_option = ProductOption::with('product')->where('stripe_sku_id', $request['stripe_product_id'])->first();
 
-                    if (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade']))) {
+                    if (in_array(
+                            $product_option->id,
+                            array(
+                                PRODUCT_OPTION_ID['premium_job_upgrade'],
+                                PRODUCT_OPTION_ID['platinum_job_upgrade'],
+                                PRODUCT_OPTION_ID['platinum_job_upgrade_premium']
+                            )
+                        )
+                    ) {
                         $now = new \DateTime('NOW');
                         $job = Job::find($request['job_id']);
                         if (!$job || $job->user_id != $user->id) {
                             return false;
                         }
-                        if ($product_option->id == PRODUCT_OPTION_ID['platinum_job_upgrade']) {
-                            $job->job_type_id = 4;
-                            $job->upgraded_at = $now;
+
+                        if ($product_option->id == PRODUCT_OPTION_ID['premium_job_upgrade']) {
+                            $job->job_type_id = JOB_TYPE_ID['user_premium'];
+                        } elseif (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
+                            $job->job_type_id = JOB_TYPE_ID['user_platinum'];
+                        } else {
+                            return false;
                         }
+
+                        $job->upgraded_at = $now;
                         $job->save();
                     }
 
@@ -179,63 +193,53 @@ class CheckoutController extends Controller
                     $transaction_product_option->product_option_id = $product_option->id;
                     $transaction_product_option->save();
 
-                    // TODO we should probably just use contants here (ie product_option ids)
-                    foreach ($product_option->product->tags as $tag) {
-                        if ($tag->slug == 'career-service') {
-                            try {
-                                EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, $order->amount, 'career-service');                                
-                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
-                                Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
-                            } catch (\Exception $e) {
-                                Log::error($e->getMessage());
-                            }
-                            $checkout_type = 'career-service';
-                            break;
-                        } else if ($tag->slug == 'webinar') {
-                            try {
-                                EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
-                                Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
-                            } catch (\Exception $e) {
-                                Log::error($e->getMessage());
-                            }
-                            $checkout_type = 'webinar';
-                            break;
-                        } else if ($tag->slug == 'job-premium') {
-                            try {
-                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
-                                //EmailServiceProvider::sendJobPremiumPurchaseNotificationEmail($user, $product_option, 0, 'job-premium');
-                            } catch (\Exception $e) {
-                                Log::error($e->getMessage());
-                            }
+                    if (in_array(
+                            $product_option->id,
+                            array(
+                                PRODUCT_OPTION_ID['premium_job'],
+                                PRODUCT_OPTION_ID['platinum_job'],
+                                PRODUCT_OPTION_ID['premium_job_upgrade'],
+                                PRODUCT_OPTION_ID['platinum_job_upgrade'],
+                                PRODUCT_OPTION_ID['platinum_job_upgrade_premium'],
+                            )
+                        )
+                    ) {
+                        try {
+                            Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
+                        } catch (\Exception $e) {
+                            Log::error($e->getMessage());
+                        }
+                        if ($product_option->id == PRODUCT_OPTION_ID['premium_job']) {
                             $checkout_type = 'job-premium';
-                            break;
-                        } else if ($tag->slug == 'job-platinum') {
-                            try {
-                                //EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, 0, 'job-platinum');
-                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
-                            } catch (\Exception $e) {
-                                Log::error($e->getMessage());
-                            }
-                            $checkout_type = 'job-platinum';
-                            break;
-                        } else if ($tag->slug == 'job-premium-upgrade') {
-                            try {
-                                //EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, 0, 'job-platinum');
-                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
-                            } catch (\Exception $e) {
-                                Log::error($e->getMessage());
-                            }
+                        } elseif ($product_option->id == PRODUCT_OPTION_ID['premium_job_upgrade']) {
                             $checkout_type = 'job-premium-upgrade';
-                            break;
-                        } else if ($tag->slug == 'job-platinum-upgrade') {
-                            try {
-                                //EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, 0, 'job-platinum');
-                                Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
-                            } catch (\Exception $e) {
-                                Log::error($e->getMessage());
-                            }
+                        } elseif ($product_option->id == PRODUCT_OPTION_ID['platinum_job']) {
+                            $checkout_type = 'job-platinum';
+                        } elseif (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
                             $checkout_type = 'job-platinum-upgrade';
-                            break;
+                        }
+                    } else {
+                        foreach ($product_option->product->tags as $tag) {
+                            if ($tag->slug == 'career-service') {
+                                try {
+                                    EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, $order->amount, 'career-service');                                
+                                    Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
+                                    Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                                } catch (\Exception $e) {
+                                    Log::error($e->getMessage());
+                                }
+                                $checkout_type = 'career-service';
+                                break;
+                            } else if ($tag->slug == 'webinar') {
+                                try {
+                                    EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
+                                    Mail::to($user)->send(new UserPaidWebinar($user, $product_option));
+                                } catch (\Exception $e) {
+                                    Log::error($e->getMessage());
+                                }
+                                $checkout_type = 'webinar';
+                                break;
+                            }
                         }
                     }
                 } else if (preg_match('/plan/', $request['stripe_product_id'])) {
