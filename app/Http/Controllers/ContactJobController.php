@@ -189,12 +189,12 @@ class ContactJobController extends Controller
             return view('job/feedback/' . $request_type . '/default-interested', [
                 'contact_job' => $contact_job
             ]);
-        } elseif ($job_interest_response->code == 'not_interested') {
+        } elseif ($job_interest_response->code == 'not-interested') {
             return view('job/feedback/' . $request_type . '/default-not-interested', [
                 'contact_job' => $contact_job
             ]);
-        } elseif ($job_interest_response->code == 'dnc') {
-            return view('job/feedback/' . $request_type . '/default-do-not-contact', [
+        } elseif ($job_interest_response->code == 'do-not-contact' && $request_type == 'contact') {
+            return view('job/feedback/contact/default-do-not-contact', [
                 'contact_job' => $contact_job
             ]);
         }

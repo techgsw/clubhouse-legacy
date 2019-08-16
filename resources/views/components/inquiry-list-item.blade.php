@@ -26,7 +26,7 @@
                 @include('components.pipeline-labels')
                 @if ($inquiry->job_interest_response_code == 'interested' || (get_class($inquiry) == 'App\Inquiry' && $inquiry->pipeline_id >= 2 && $inquiry->status != 'halted'))
                     <span> <button type="button" class="flat-button small green"><i class="fa fa-user"></i>&nbsp; Interested</button></span>
-                @elseif (in_array($inquiry->job_interest_response_code, array('not_interested', 'dnc')))
+                @elseif (in_array($inquiry->job_interest_response_code, array('not-interested', 'do-not-contact')))
                     <span> <button type="button" class="flat-button small red"><i class="fa fa-user"></i>&nbsp; Not Interested</button></span>
                 @endif
                 @if ($inquiry->user)

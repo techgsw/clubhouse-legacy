@@ -1,7 +1,7 @@
 @extends('layouts.clubhouse')
 @section('title', 'Careers in Sports')
 @section('content')
-@php $response = array('interested' => 'interested', 'not_interested' => 'not interested', 'dnc' => 'not interested'); @endphp
+@php $response = array('interested' => 'interested', 'not-interested' => 'not interested', 'do-not-contact' => 'not interested'); @endphp
 <div class="container">
     <div class="row">
         <div class="col s12 m10 offset-m1">
