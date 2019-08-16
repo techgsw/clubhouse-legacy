@@ -162,6 +162,7 @@ class CheckoutController extends Controller
                         }
 
                         $job->upgraded_at = $now;
+                        $job->featured = true;
                         $job->save();
                     }
 

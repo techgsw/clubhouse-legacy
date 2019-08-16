@@ -57,7 +57,7 @@ class ClubhouseController extends Controller
 
         $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
 
-        if ($request->upgrade_options) {
+        if ($request->upgrade_options && !is_null($request->job_id)) {
             $job = Job::where('id',$request->job_id)->first();
 
             if ($job->job_type_id == JOB_TYPE_ID['user_free']) {

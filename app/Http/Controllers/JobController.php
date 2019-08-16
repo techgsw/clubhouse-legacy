@@ -246,7 +246,7 @@ class JobController extends Controller
             'description' => request('description'),
             'organization_id' => $organization->id,
             'job_type' => request('job_type'),
-            'league' => $organization->leagues()->first()->abbreviation,
+            'league' => (!is_null($organization->leagues()->first())) ? $organization->leagues()->first()->abbreviation : null,
             'recruiting_type_code' => 'passive',
             'job_type_id' => $job_type_id,
             'city' => $organization->addresses()->first()->city,
