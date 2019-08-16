@@ -2,7 +2,7 @@
     @slot('body')
         <p>Hi {{$contact_job->contact->first_name}}</p>
         <p>As a member of the Sports Business Solutions network, you have been identified as a potential match for one of our partners job openings.  The {{ $contact_job->job->organization_name }} are currently seeking a new {{ $contact_job->job->title }}, and the hiring manager would like to arrange a conversation to discuss the opportunity further.</p>
-        <p>Would like to move forward in the interview process? If so, let us know and someone will be in touch with you shortly to coordinate next steps.</p>
+        <p>Would you like to move forward in the interview process? If so, let us know and someone will be in touch with you shortly to coordinate next steps.</p>
         <p>
             <a href="{{ env('CLUBHOUSE_URL') }}/contact/feedback/{{ $contact_job->id }}?interest=interested&token={{ $contact_job->job_interest_token }}">Yes, I am interested.</a>
             <br />
