@@ -34,6 +34,8 @@ class AddJobInvitationColumns extends Migration
             $table->string('job_interest_token', 256)->nullable();
             $table->dateTime('job_interest_request_date')->nullable();
             $table->string('job_interest_response_code', 45)->nullable();
+            $table->string('job_interest_negative_response', 45)->nullable();
+            $table->string('job_interest_negative_response_description', 255)->nullable();
             $table->dateTime('job_interest_response_date')->nullable();
         });
 
