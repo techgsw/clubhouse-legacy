@@ -48,12 +48,10 @@ class JobServiceProvider extends ServiceProvider
 
             $job->organization_name = $organization->name;
 
-            if ($job->featured) {
-                $job->rank = 1;
-                $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-                if ($last_job) {
-                    $job->rank = $last_job->rank+1;
-                }
+            $job->rank = 1;
+            $last_job = Job::whereNotNull('rank')->where('featured',$job->featured)->orderBy('rank', 'desc')->first();
+            if ($last_job) {
+                $job->rank = $last_job->rank+1;
             }
 
             // If no image file is given, we're reusing the organization's image

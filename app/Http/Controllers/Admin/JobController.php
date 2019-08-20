@@ -174,10 +174,26 @@ class JobController extends Controller
 
         // Insert at last rank, i.e. one greater than the highest current
         $rank = 1;
-        $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
+        $last_job = Job::whereNotNull('rank')
+            ->where('featured', 1)
+            ->where('open', 1)
+            ->orderBy('rank', 'desc')
+            ->first();
         if ($last_job) {
             $rank = $last_job->rank+1;
         }
+
+        // Shift unfeatured neighbors with lower rank up one
+        $neighbors = Job::where('featured', 0)
+            ->where('open', 1)
+            ->orderBy('rank', 'ASC')
+            ->get();
+        foreach ($neighbors as $i => $neighbor) {
+            $neighbor->rank = $i+1;
+            $neighbor->edited_at = new \DateTime('NOW');
+            $neighbor->save();
+        }
+
 
         $job->featured = true;
         $job->rank = $rank;
@@ -224,7 +240,10 @@ class JobController extends Controller
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
-        $neighbors = Job::where('id', '!=', $id)->where('rank', $job->rank)->get();
+        $neighbors = Job::where('id', '!=', $id)
+            ->where('rank', $job->rank)
+            ->where('featured', $job->featured)
+            ->get();
         if (!$neighbors) {
             return back();
         }
@@ -259,9 +278,9 @@ class JobController extends Controller
         $job->save();
 
         // All jobs previously ranked higher
-        $neighbors = Job::where('featured', 1)
-            ->where('id', '!=', $id)
+        $neighbors = Job::where('id', '!=', $id)
             ->where('rank', '<', $rank)
+            ->where('featured', $job->featured)
             ->get();
         if (!$neighbors) {
             return back();
@@ -297,7 +316,10 @@ class JobController extends Controller
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
-        $neighbors = Job::where('id', '!=', $id)->where('rank', $job->rank)->get();
+        $neighbors = Job::where('id', '!=', $id)
+            ->where('rank', $job->rank)
+            ->where('featured', $job->featured)
+            ->get();
         if (!$neighbors) {
             return back();
         }

@@ -161,7 +161,16 @@ class Job extends Model
         $rank = $job->rank;
 
         $job->featured = false;
-        $job->rank = 0;
+        $rank = 1;
+        $last_job = Job::whereNotNull('rank')
+            ->where('open', $job->open)
+            ->where('featured',0)
+            ->orderBy('rank', 'desc')
+            ->first();
+        if ($last_job) {
+            $rank = $last_job->rank+1;
+        }
+        $job->rank = $rank;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 

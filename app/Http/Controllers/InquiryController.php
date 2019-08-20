@@ -79,7 +79,6 @@ class InquiryController extends Controller
             'phone' => request('phone'),
             'resume' => $resume,
         ]);
-        $inquiry->generateJobInterestToken();
         $inquiry->save();
 
         try {

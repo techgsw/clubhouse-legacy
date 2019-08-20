@@ -466,6 +466,18 @@ $.valHooks.textarea = {
 
     $('body').on(
         {
+            click: function (e, ui) {
+                $(this).attr('disabled', 'disabled');
+                $(this).html('Sending, please wait...');
+                e.preventDefault();
+                $('#checkout-form').submit();
+            }
+        },
+        '#checkout-submit-button'
+    );
+
+    $('body').on(
+        {
             change: function (e, ui) {
                 var target_id = $(this).attr('show-hide-target-id');
                 var target = $("#"+target_id);

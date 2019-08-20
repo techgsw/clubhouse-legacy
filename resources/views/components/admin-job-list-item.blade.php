@@ -27,16 +27,10 @@
             @endcan
             @can ('edit-job', $job)
                 <a href="/job/{{ $job->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
-                @if ($job->featured)
-                    <a href="/job/{{ $job->id }}/unfeature" class="flat-button small blue"><i class="fa fa-star"></i> {{ $job->rank }}</a>
-                    <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>
-                    <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
-                    <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
-                @else
-                    @can('view-admin-jobs')
-                        <a href="/job/{{ $job->id }}/feature" class="flat-button small blue"><i class="fa fa-star-o"></i></a>
-                    @endcan
-                @endif
+                <a href="/job/{{ $job->id }}/{{ $job->featured ? 'unfeature' : 'feature' }}" class="flat-button small blue"><i class="fa fa-star{{ $job->featured ? '' : '-o' }}"></i> {{ $job->rank }}</a>
+                <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>
+                <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
+                <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
                 <p style="font-size: 14px; font-weight: 400;">{{ $job->getTimeRemainingString() }}</p>
             @endcan
         </div>

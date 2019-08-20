@@ -240,6 +240,16 @@ class JobController extends Controller
             }
         }
 
+        if (is_null($organization->addresses()->first())) {
+            $request->session()->flash('message', new Message(
+                "The organization you selected does not have an address.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
         $job = new Job([
             'user_id' => $user->id,
             'title' => request('title'),
@@ -259,6 +269,12 @@ class JobController extends Controller
 
         try {
             $job = DB::transaction(function () use ($job, $document, $alt_image, $user, $organization) {
+                if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
+                    $user->contact->organizations()->attach($organization->id);
+                    $user->contact->organization = $organization->name;
+                    $user->contact->save();
+                }
+
                 return JobServiceProvider::store($job, $document, $alt_image);
             });
         } catch (SBSException $e) {
@@ -530,10 +546,17 @@ class JobController extends Controller
 
                 $job->title = request('title');
                 if ($request->user()->can('edit-job-featured-status', $job)) {
-                    $job->featured = request('featured') ? true : false;
-                    if (!$job->featured) {
-                        $job->rank = 0;
+                    $new_featured_status = request('featured') ? true : false;
+                    if ($job->featured != $new_featured_status) {
+                        // Stayed the same
+                        $rank = 1;
+                        $last_job = Job::whereNotNull('rank')->where('featured', $job->featured)->orderBy('rank', 'desc')->first();
+                        if ($last_job) {
+                            $rank = $last_job->rank+1;
+                        }
+                        $job->rank = $rank;
                     }
+                    $job->featured = $new_featured_status;
                 }
                 $job->description = request('description');
                 $job->organization_name = $organization_name;
@@ -545,17 +568,6 @@ class JobController extends Controller
                 $job->city = request('city');
                 $job->state = request('state');
                 $job->country = request('country');
-                if ($request->user()->can('edit-job-featured-status', $job)) {
-                    // Set rank if newly featured
-                    if ($job->featured && $job->rank == 0) {
-                        $rank = 1;
-                        $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-                        if ($last_job) {
-                            $rank = $last_job->rank+1;
-                        }
-                        $job->rank = $rank;
-                    }
-                }
 
                 if (request('document')) {
                     $doc = request()->file('document');

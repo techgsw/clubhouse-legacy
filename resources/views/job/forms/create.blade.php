@@ -88,7 +88,7 @@
         </div>
         <div class="col s12 m4">
             <div class="input-field">
-                <label for="job-type" class="active">Job Type</label>
+                <label for="job-type" class="active" data-error="{{ $errors->first('job_type') }}">Job Type</label>
                 <select id="job-type" name="job_type" class="" required>
                     <option value="" {{ old('job_type') == "" ? "selected" : "" }}>Please select...</option>
                     <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
