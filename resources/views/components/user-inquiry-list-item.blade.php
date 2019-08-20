@@ -6,7 +6,7 @@
     </div>
     <div class="col s9 m10 info">
         @can ('review-inquiry', $inquiry)
-            <div class="hide-on-small-only float-right controls">
+            <div class="hide-on-small-only float-right controls right-align">
                 @include('components.pipeline-controls', ['contact' => ($inquiry instanceof App\ContactJob ? true : false)])
                 <form id="assign-contact-job">
                     {{ csrf_field() }}

@@ -28,7 +28,7 @@
     @endif 
     <!-- end forward cold and warm -->
     <!-- forward no comm -->
-    <button data-action="inquiry-pipeline" data-comm-type="none" data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{ $inquiry->pipeline_id }}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small no-comm {{$inquiry->pipeline_id == 6 ? 'gray' : 'blue'}} user-managed" {{$inquiry->pipeline_id == 6 ? 'disabled' : ''}}><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text">{{ $contact && $inquiry->pipeline_id < 2 && $inquiry->job->recruiting_type_code !== 'passive' ? ' None' : '' }}</span></button>
+    <button data-action="inquiry-pipeline" data-comm-type="default" data-type="{{ $contact ? 'contact' : 'user' }}" data-pipeline-id="{{ $inquiry->pipeline_id }}" data-id="{{ $inquiry->id }}" data-move="forward" class="flat-button small default-comm {{$inquiry->pipeline_id == 6 ? 'gray' : 'blue'}} user-managed" {{$inquiry->pipeline_id == 6 ? 'disabled' : ''}}><i class="fa fa-thumbs-up"></i><span class="thumbs-up-text">{{ $contact && $inquiry->pipeline_id < 2 && $inquiry->job->recruiting_type_code !== 'passive' ? ' None' : '' }}</span></button>
     <!-- end forward no comm -->
 @else
     <!-- halt (thumbs down) comms for user -->

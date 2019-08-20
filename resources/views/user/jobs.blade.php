@@ -26,22 +26,26 @@
             <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>
         @endcan
     </ul>
-    @can ('view-contact')
     <div class="row">
         <div class="col s12">
             @if (count($user->contact->jobs))
-                <h5>Job Assignments</h5>
+                @can ('view-contact')
+                    <h5>Job Assignments</h5>
+                @endcan
                 @foreach ($user->contact->jobs as $job)
-                    @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $user, 'job_pipeline' => $job_pipeline])
+                    @if (Gate::allows('view-contact') || $job->job_interest_response_code == 'interested')
+                        @include('components.user-inquiry-list-item', ['inquiry' => $job, 'user' => $user, 'job_pipeline' => $job_pipeline])
+                    @endif
                 @endforeach
             @endif
         </div>
     </div>
-    @endcan
     <div class="row">
         <div class="col s12">
             @if (count($user->inquiries))
-                <h5>Job Applications</h5>
+                @can ('view-contact')
+                    <h5>Job Applications</h5>
+                @endcan
                 @foreach ($user->inquiries as $inquiry)
                     @include('components.user-inquiry-list-item', ['inquiry' => $inquiry, 'user' => $user, 'job_pipeline' => $job_pipeline])
                 @endforeach
