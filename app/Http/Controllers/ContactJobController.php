@@ -216,4 +216,41 @@ class ContactJobController extends Controller
         }
         return redirect('/');
     }
+
+    public function feedbackNegativeReason(Request $request, $id)
+    {
+        $negative_interest_reasons = array('dream-job', 'recently-promoted', 'cant-leave-team-city', 'dislike-team-city', 'personal-reasons', 'other');
+
+        $token = $request->input('token');
+        $negative_interest_reason = $request->input('negative_interest_reason');
+
+        $request_type = ((preg_match('/user-assigned/', $request->getPathInfo())) ? 'user-assigned' : 'contact');
+
+        if (is_null($token) || is_null($id) || !in_array($negative_interest_reason, $negative_interest_reasons)) {
+            return redirect('/');
+        }
+        
+        $contact_job = ContactJob::where([
+            ['id','=',$id],
+            ['job_interest_token','=',$token]
+        ])->first();
+
+        if (is_null($contact_job)) {
+            return redirect('/');
+        }
+
+        $contact_job->job_interest_negative_response = $negative_interest_reason;
+        $contact_job->save();
+
+        $request->session()->flash('message', new Message(
+            "Thank you for your feedback!",
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
+
+        return view('job/feedback/' . $request_type . '/default-thank-you', [
+            'contact_job' => $contact_job
+        ]);
+    }
 }
