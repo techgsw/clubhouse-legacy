@@ -11,6 +11,9 @@
                     <br />
                     <p>It looks like you already indicated that you are <strong>{{ $response[$contact_job->job_interest_response_code] }}</strong> in the <strong>{{ $contact_job->job->title }}</strong> position with the <strong>{{ $contact_job->job->organization->name }}</strong>.</p>
                     <br />
+                    @if (is_null($contact_job->job_interest_negative_response))
+                        @include('job.forms.negative-feedback')
+                    @endif
                     <p>If you have changed your mind, have any questions about Sports Business Solutions, <span style="color: #EB2935;">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
                     <br />
                 </div>

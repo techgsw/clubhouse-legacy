@@ -210,13 +210,17 @@ class JobController extends Controller
 
             if (count($available_platinum_jobs) && request('job-tier') == 'platinum') {
                 $job_type_id = 4;
+                $featured = true;
             } elseif (count($available_premium_jobs) && request('job-tier') == 'premium') {
                 $job_type_id = 3;
+                $featured = true;
             } else {
                 $job_type_id = 2;
+                $featured = false;
             }
         } else {
             $job_type_id = 1;
+            $featured = request('featured') ? true : false;
 
             $organizations = $user->contact->organizations;
 
@@ -262,7 +266,7 @@ class JobController extends Controller
             'city' => $organization->addresses()->first()->city,
             'state' => $organization->addresses()->first()->state,
             'country' => $organization->addresses()->first()->country,
-            'featured' => request('featured') ? true : false,
+            'featured' => $featured,
             'document' => $document ?: null,
         ]);
 
@@ -320,7 +324,9 @@ class JobController extends Controller
         $pipeline = Pipeline::orderBy('id', 'asc')->get();
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
 
-        if (Auth::user()->can('view-admin-jobs')) {
+        if (Auth::user()->cannot('view-admin-jobs') && Auth::user()->id != $user->id) {
+            return response('Forbidden.', 403);
+        } elseif (Auth::user()->can('view-admin-jobs') && Auth::user()->id == $user->id) {
             $jobs = array();
         } else {
             $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
