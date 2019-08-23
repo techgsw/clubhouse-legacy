@@ -225,11 +225,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-contact-notes', function ($user) {
             return $user->hasAccess('contact_note_show');
         });
-        Gate::define('create-contact-note', function ($user, $contact_job) {
+        Gate::define('create-contact-note', function ($user, $contact_job = null) {
             if ($user->hasAccess('contact_note_create')) {
                 return true;
             }
-            if ($user->hasAccess('job_edit_user') && $contact_job->job->user_id == $user->id) {
+            if ($user->hasAccess('job_edit_user') && !is_null($contact_job) && $contact_job->job->user_id == $user->id) {
                 return true;
             }
             return false;
