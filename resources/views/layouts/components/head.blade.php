@@ -20,7 +20,7 @@
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
     <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
     <link href="/css/daterangepicker.css" rel="stylesheet" type="text/css">
-    <link href="/css/app.css?v=23" type="text/css" rel="stylesheet"/>
+    <link href="/css/app.css?v=24" type="text/css" rel="stylesheet"/>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
