@@ -69,7 +69,7 @@
             @can('edit-job-recruiting-type')
             <div class="input-field">
                 <label for="recruiting-type-code" class="active">Recruiting Type</label>
-                <select id="recruiting-type-code" name="recruiting_type_code" class="" required>
+                <select id="recruiting-type-code" name="recruiting_type_code" class="validate" required>
                     <option value="" selected disabled>Please select...</option>
                     <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : ""}}>Passive</option>
                     <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : ""}}>Active</option>
@@ -89,7 +89,7 @@
         <div class="col s12 m4">
             <div class="input-field">
                 <label for="job-type" class="active" data-error="{{ $errors->first('job_type') }}">Job Type</label>
-                <select id="job-type" name="job_type" class="" required>
+                <select id="job-type" name="job_type" class="validate" required style="display: block; height: 0; width: 0; border: none; position: absolute; bottom: 0px; background-color: rgba(255, 255, 255, 0); padding: 0; box-shadow: none;">
                     <option value="" {{ old('job_type') == "" ? "selected" : "" }}>Please select...</option>
                     <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
                     <option value="business-operations" {{ old('job_type') == 'business-operations' ? "selected" : "" }}>Business operations</option>
