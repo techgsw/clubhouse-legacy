@@ -11,17 +11,17 @@ define('JOB_TYPE_ID',
 
 define('PRODUCT_ID',
     array(
-        'premium_job' => 49,
-        'platinum_job' => 50,
+        'premium_job' => 54,
+        'platinum_job' => 55,
     )
 );
 
 define('PRODUCT_OPTION_ID',
     array(
-        'premium_job' => 46,
-        'premium_job_upgrade' => 47,
-        'platinum_job' => 48,
-        'platinum_job_upgrade' => 49,
-        'platinum_job_upgrade_premium' => 50,
+        'premium_job' => 51,
+        'premium_job_upgrade' => 52,
+        'platinum_job' => 53,
+        'platinum_job_upgrade' => 54,
+        'platinum_job_upgrade_premium' => 55,
     )
 );
