@@ -279,7 +279,14 @@ class JobController extends Controller
                     $user->contact->save();
                 }
 
-                return JobServiceProvider::store($job, $document, $alt_image);
+                $job = JobServiceProvider::store($job, $document, $alt_image);
+
+                // TODO send email here.
+                try {
+                } catch (\Throwable $e) {
+                }
+
+                return $job;
             });
         } catch (SBSException $e) {
             Log::error($e->getMessage());

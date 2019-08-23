@@ -8,7 +8,7 @@
             <br />
             <a href="{{ env('CLUBHOUSE_URL') }}/user-assigned/feedback/{{ $contact_job->id }}?interest=not-interested&token={{ $contact_job->job_interest_token }}">No, I am not interested.</a>
         </p>
-        <p>Thank you for being a part of our community and we wish you all the best as you take your next steps in your career!</p>
+        <p>Thank you for being a part of our community and we wish you all the best as you take the next steps in your career!</p>
         <p>Sincerely,</p>
         <p>The SBS and Clubhouse Team</p>
     @endslot

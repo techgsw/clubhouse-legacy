@@ -9,7 +9,7 @@
     <!-- end backwards -->
     <!-- halt (thumbs down) comms for user -->
     @if ($inquiry->pipeline_id == 1 && !$contact)
-        <button data-action="" data-type="user" data-pipeline-id="{{$inquiry->pipeline_id}}" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button default-comm"><i class="fa fa-envelope"></i>&nbsp;<i class="fa fa-thumbs-down"></i></button>
+        <button data-action="" data-type="user" data-pipeline-id="{{$inquiry->pipeline_id}}" data-comm-type="default" data-id="{{ $inquiry->id }}" data-move="halt" class="flat-button small blue {{$inquiry->status == 'halted' ? 'inverse' : ''}} negative-pipeline-modal-button default-comm"><i class="fa fa-envelope"></i>&nbsp;<i class="fa fa-thumbs-down"></i></button>
     @endif
     <!-- end halt (thumbs down) comms -->
     <!-- halt (thumbs down) no comms -->

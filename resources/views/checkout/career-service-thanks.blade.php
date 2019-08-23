@@ -9,7 +9,7 @@
                     <h5>{{ Auth::user()->first_name }},</h5>
                     <p>Thank you for purchasing our <strong>{{ $product_option->product->name }}</strong> career service! A receipt has been emailed to you with all your purchase details.</p>
                     <p>A representative from <strong><span class="sbs-red-text">the</span>Clubhouse</strong> will be in touch soon with more information about the service and to schedule a meeting time with you.</p>
-                    <p>If for some reason you don’t hear from us within the next two business days, please email us directly at <a href="clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions.</a></p>
+                    <p>If for some reason you don’t hear from us within the next two business days, please email us directly at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions.</a></p>
                 </div>
             </div>
         </div>

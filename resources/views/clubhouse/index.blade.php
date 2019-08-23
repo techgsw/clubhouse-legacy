@@ -41,7 +41,7 @@
                                     </div>
                                 @else
                                     <h5 class="black-text" style="margin-top: 20px;">We're glad you're here!</h5>
-                                    <p class="black-text">As a member of our community you can access the <a href="/blog">blog</a>, search and apply for jobs on the <a href="/job-board">job board</a> and join us for an upcoming live <a href="/webinars">webinar</a>. If you’re a hiring manager, you can also <a href="/users/{{ Auth::user()->id }}/job-postings">post your job</a>.</p>
+                                    <p class="black-text">As a member of our community you can access the <a href="/blog">blog</a>, search and apply for jobs on the <a href="/job">job board</a> and join us for an upcoming live <a href="/webinars">webinar</a>. If you’re a hiring manager, you can also <a href="/user/{{ Auth::user()->id }}/job-postings">post your job</a>.</p>
                                     <p class="black-text">If you’re interested in getting even more access you can upgrade your membership to become a Clubhouse Pro! Benefits include:</p>
                                     <ul class="browser-default">
                                         <li>Exclusive 1:1 mentorship with industry professionals</li>
