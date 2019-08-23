@@ -149,7 +149,6 @@ class CheckoutController extends Controller
             }
             if ($job->job_type_id == JOB_TYPE_ID['user_platinum']) {
                 return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. It looks like this job is already Platinum!']);
->>>>>>> 304-austin
             }
         } else {
             $product_type = 'membership';
