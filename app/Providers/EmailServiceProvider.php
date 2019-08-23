@@ -7,6 +7,7 @@ use App\Email;
 use App\Inquiry;
 use App\Job;
 use App\Mentor;
+use App\Organization;
 use App\User;
 use App\ProductOption;
 use App\Mail\PurchaseNotification;
@@ -14,6 +15,8 @@ use App\Mail\NewUserFollowUp;
 use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\RegistrationNotification;
 use App\Mail\Admin\RegistrationSummary;
+use App\Mail\Admin\UserJobPostNotification;
+use App\Mail\Admin\UserOrganizationCreateNotification;
 use App\Mail\MentorshipRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -75,6 +78,28 @@ class EmailServiceProvider extends ServiceProvider
             ->get();
         
         Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
+    }
+
+    public static function sendUserJobPostNotificationEmail(User $user)
+    {
+        $users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'user_job_post')
+            ->select('user.*')
+            ->get();
+
+        Mail::to($users)->send(new UserJobPostNotification($user));
+    }
+
+    public static function sendUserOrganizationCreateNotificationEmail(User $user, Organization $organization)
+    {
+        $users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'user_organization_create')
+            ->select('user.*')
+            ->get();
+
+        Mail::to($users)->send(new UserOrganizationCreateNotification($user, $organization));
     }
 
     public static function sendRegistrationNotificationEmail(User $registrant)

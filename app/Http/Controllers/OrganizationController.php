@@ -11,6 +11,7 @@ use App\OrganizationType;
 use App\Message;
 use App\User;
 use App\Exceptions\SBSException;
+use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
 use App\Providers\OrganizationServiceProvider;
 use App\Providers\UtilityServiceProvider;
@@ -98,7 +99,7 @@ class OrganizationController extends Controller
                 }
                 $organization->save();
 
-                if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
+                if (count($user->contact->organizations) < 1 && !$user->roles->contains('administrator')) {
                     $user->contact->organizations()->attach($organization->id);
                     $user->contact->organization = $organization->name;
                     $user->contact->save();
@@ -145,6 +146,14 @@ class OrganizationController extends Controller
                     $organization->save();
                 }
 
+                if (!$user->roles->contains('administrator')) {
+                    try {
+                        EmailServiceProvider::sendUserOrganizationCreateNotificationEmail($user, $organization);
+                    } catch (\Throwable $e) {
+                        Log::error($e->getMessage());
+                    }
+                }
+
                 return $organization;
             });
         } catch (SBSException $e) {
@@ -155,6 +164,7 @@ class OrganizationController extends Controller
                 $code = null,
                 $icon = "error"
             ));
+            return back();
         } catch (Exception $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
@@ -163,6 +173,7 @@ class OrganizationController extends Controller
                 $code = null,
                 $icon = "error"
             ));
+            return back();
         }
 
         try {

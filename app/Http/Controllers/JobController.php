@@ -16,6 +16,7 @@ use App\Message;
 use App\Organization;
 use App\OrganizationType;
 use App\Transaction;
+use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
 use App\Providers\OrganizationServiceProvider;
 use App\Providers\JobServiceProvider;
@@ -281,9 +282,12 @@ class JobController extends Controller
 
                 $job = JobServiceProvider::store($job, $document, $alt_image);
 
-                // TODO send email here.
-                try {
-                } catch (\Throwable $e) {
+                if (!$user->roles->contains('administrator')) {
+                    try {
+                        EmailServiceProvider::sendUserJobPostNotificationEmail($user);
+                    } catch (\Throwable $e) {
+                        Log::error($e->getMessage());
+                    }
                 }
 
                 return $job;
