@@ -68,7 +68,7 @@ class JobServiceProvider extends ServiceProvider
             $job->save();
 
             if (in_array($job->job_type_id, array(4, 3))) {
-                $job->featured = true;
+                $job->featured = 1;
                 $job->save();
 
                 // TODO should be using job option id here, not name. Constant? 

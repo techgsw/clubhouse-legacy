@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Mail;
-use App\Mail\PurchaseNotification;
 use App\Mail\CancelNotification;
 use App\Mail\UserPaid;
 use App\Mail\UserPaidClubhousePro;
@@ -162,7 +161,7 @@ class CheckoutController extends Controller
                         }
 
                         $job->upgraded_at = $now;
-                        $job->featured = true;
+                        $job->featured = 1;
                         $job->save();
                     }
 
@@ -212,18 +211,38 @@ class CheckoutController extends Controller
                         }
                         if ($product_option->id == PRODUCT_OPTION_ID['premium_job']) {
                             $checkout_type = 'job-premium';
+                            try {
+                                EmailServiceProvider::sendJobPremiumPurchaseNotificationEmail($user, $product_option, $order->amount, 'premium-job');
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
                         } elseif ($product_option->id == PRODUCT_OPTION_ID['premium_job_upgrade']) {
                             $checkout_type = 'job-premium-upgrade';
+                            try {
+                                EmailServiceProvider::sendJobPremiumPurchaseNotificationEmail($user, $product_option, $order->amount, 'premium-job-upgrade');
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
                         } elseif ($product_option->id == PRODUCT_OPTION_ID['platinum_job']) {
                             $checkout_type = 'job-platinum';
+                            try {
+                                EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, $order->amount, 'platinum-job');
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
                         } elseif (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
                             $checkout_type = 'job-platinum-upgrade';
+                            try {
+                                EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, $order->amount, 'platinum-job-upgrade');
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
                         }
                     } else {
                         foreach ($product_option->product->tags as $tag) {
                             if ($tag->slug == 'career-service') {
                                 try {
-                                    EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, $order->amount, 'career-service');                                
+                                    EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, $order->amount, 'career-service');
                                     Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
                                     Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
                                 } catch (\Exception $e) {

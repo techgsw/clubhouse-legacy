@@ -195,7 +195,7 @@ class JobController extends Controller
         }
 
 
-        $job->featured = true;
+        $job->featured = 1;
         $job->rank = $rank;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
