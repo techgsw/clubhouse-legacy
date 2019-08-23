@@ -47,10 +47,10 @@
                     <span class="small flat-button green inverse">Open</span>
                 @endif
                 <a href="/job/{{ $job->id }}#applications" class="small flat-button black inverse">{{ count($job->inquiries) == 1 ? "1 inquiry" : count($job->inquiries) . " inquiries" }}</a>
-                <a href="/job/{{ $job->id }}?rating=none&sort=recent#applications" class="small flat-button black"><i class="fa fa-circle-thin"></i> {{ $job->inquiryTotals()['none'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=up&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-up"></i> {{ $job->inquiryTotals()['up'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=maybe&sort=recent#applications" class="small flat-button black"><i class="fa fa-question-circle"></i> {{ $job->inquiryTotals()['maybe'] }}</a>
-                <a href="/job/{{ $job->id }}?rating=down&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-down"></i> {{ $job->inquiryTotals()['down'] }}</a>
+                <a href="/job/{{ $job->id }}?rating=none&sort=recent#applications" class="small flat-button black"><i class="fa fa-circle-thin"></i> @php //{{ $job->inquiryTotals()['none'] }} @endphp</a>
+                <a href="/job/{{ $job->id }}?rating=up&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-up"></i> @php //{{ $job->inquiryTotals()['up'] }} @endphp</a>
+                <a href="/job/{{ $job->id }}?rating=maybe&sort=recent#applications" class="small flat-button black"><i class="fa fa-question-circle"></i> @php //{{ $job->inquiryTotals()['maybe'] }} @endphp</a>
+                <a href="/job/{{ $job->id }}?rating=down&sort=recent#applications" class="small flat-button black"><i class="fa fa-thumbs-down"></i> @php //{{ $job->inquiryTotals()['down'] }} @endphp</a>
             </p>
         @endcan
     </div>

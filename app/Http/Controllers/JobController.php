@@ -3,15 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Image;
+use App\User;
 use App\Inquiry;
 use App\ContactJob;
 use App\Job;
 use App\Pipeline;
+use App\Product;
+use App\ProductOption;
 use App\JobPipeline;
 use App\League;
 use App\Message;
 use App\Organization;
+use App\OrganizationType;
+use App\Transaction;
+use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
+use App\Providers\OrganizationServiceProvider;
+use App\Providers\JobServiceProvider;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
 use Illuminate\Http\Request;
@@ -23,6 +31,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Parsedown;
 use \Exception;
+use App\Exceptions\SBSException;
 
 class JobController extends Controller
 {
@@ -44,6 +53,19 @@ class JobController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
+        $featured_jobs = Job::where('open', '=', 1)->where('featured', '=', 1)->get()->all();
+        $featured_jobs_count = count($featured_jobs);
+        $random_featured_jobs = array();
+
+        if ($featured_jobs_count > 0) {
+            for ($i = 0; $i < 3 && $i < $featured_jobs_count; $i++) {
+                $rand = rand(0, (count($featured_jobs) -1));
+                $random_featured_jobs[] = $featured_jobs[$rand];
+                unset($featured_jobs[$rand]);
+                $featured_jobs = array_values($featured_jobs);
+            }
+        }
+
         $searching =
             request('job_type') && request('job_type') != 'all' ||
             request('league') && request('league') != 'all' ||
@@ -55,12 +77,24 @@ class JobController extends Controller
         return view('job/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sports Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
+                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
             ],
             'jobs' => $jobs,
+            'featured_jobs' => $random_featured_jobs,
             'searching' => $searching,
             'pipeline' => $pipeline,
             'leagues' => League::all()
+        ]);
+    }
+
+    public function register(Request $request)
+    {
+        return view('job/register',
+        [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job'
+            ],
         ]);
     }
 
@@ -85,7 +119,6 @@ class JobController extends Controller
             ->orderBy('job.created_at', 'desc')
             ->get();
 
-
         return view('job/assign-contact', [
             'contact_id' => $request['contact_id'],
             'jobs' => $jobs,
@@ -99,20 +132,65 @@ class JobController extends Controller
     {
         $this->authorize('create-job');
 
-        $organization = false;
-        if ($organization_id = (int)$request->organization) {
-            $organization = Organization::find($organization_id);
+        $user = Auth::User();
+
+        if (count($user->contact->organizations) == 1) {
+
+            $organization = $user->contact->organizations;
+
+            if (count($organization[0]->leagues) > 0){
+                $league = $organization[0]->leagues[0];
+            } else {
+                $league = null;
+            }
+        } else {
+            $organization = null;
+            $league = null;
         }
 
-        return view('job/create', [
-            'organization' => $organization,
-            'leagues' => League::all(),
-            'breadcrumb' => [
-                'Clubouse' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
-                'Post a job' => '/job/create'
-            ]
-        ]);
+        if ($user->roles->contains('administrator')) {
+            return view('job/create', [
+                'organization' => $organization[0] ?: null,
+                'organizations' => OrganizationServiceProvider::all(),
+                'organization_types' => OrganizationType::orderBy('name')->get(),
+                'league' => $league,
+                'leagues' => League::orderBy('abbreviation')->get(),
+                'available_premium_job_count' => 0,
+                'available_platinum_job_count' => 0,
+                'job_premium' => null,
+                'job_platinum' => null,
+                'breadcrumb' => [
+                    'Clubouse' => '/',
+                    'Sports Industry Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                    'Post a job' => '/job/create'
+                ]
+            ]);
+        } else {
+            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['premium_job']);
+            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['platinum_job']);
+
+            $job_premium = Product::find(PRODUCT_ID['premium_job']);
+
+            $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
+
+            return view('job/create', [
+                'organization' => $organization[0] ?: null,
+                'organizations' => OrganizationServiceProvider::all(),
+                'organization_types' => OrganizationType::orderBy('name')->get(),
+                'league' => $league,
+                'leagues' => League::orderBy('abbreviation')->get(),
+                'available_premium_job_count' => count($available_premium_jobs),
+                'available_platinum_job_count' => count($available_platinum_jobs),
+                'job_premium' => $job_premium,
+                'job_platinum' => $job_platinum,
+                'breadcrumb' => [
+                    'Home' => '/',
+                    'Account' => "/user/{$user->id}/account",
+                    'Job Postings' => "/user/{$user->id}/job-postings",
+                    'Post a job' => '/job/create'
+                ]
+            ]);
+        }
     }
 
     /**
@@ -121,97 +199,118 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
+        $user = Auth::user();
+        $document = request()->file('document');
+        $alt_image = request()->file('alt_image_url');
+
         $organization = Organization::find($request->organization_id);
-        if (!$organization) {
-            $request->session()->flash('message', new Message(
-                "Failed to find organization " . $request->organization_id,
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
-        }
 
-        $image = $organization->image;
-        $alt_image_file = request()->file('alt_image_url');
-        if (is_null($image) && !$alt_image_file) {
-            $request->session()->flash('message', new Message(
-                "You must upload an image.",
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
-        }
+        if (!$user->roles->contains('administrator')) {
+            $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['premium_job']);
+            $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['platinum_job']);
 
-        try {
-            $document = request()->file('document');
-            if ($document) {
-                $document = $document->store('document', 'public');
+            if (count($available_platinum_jobs) && request('job-tier') == 'platinum') {
+                $job_type_id = 4;
+                $featured = true;
+            } elseif (count($available_premium_jobs) && request('job-tier') == 'premium') {
+                $job_type_id = 3;
+                $featured = true;
             } else {
-                $request->session()->flash('message', new Message(
-                    "You must upload a document.",
-                    "danger",
-                    $code = null,
-                    $icon = "error"
-                ));
-                return back()->withInput();
+                $job_type_id = 2;
+                $featured = false;
             }
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-            $request->session()->flash('message', new Message(
-                "Sorry, the document you tried to upload failed.",
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
-        }
+        } else {
+            $job_type_id = 1;
+            $featured = request('featured') ? true : false;
 
-        try {
-            $job = DB::transaction(function () use ($alt_image_file, $image, $document, $request) {
-                $rank = 0;
-                if (request('featured')) {
-                    $rank = 1;
-                    $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-                    if ($last_job) {
-                        $rank = $last_job->rank+1;
+            $organizations = $user->contact->organizations;
+
+            if (count($organizations) >= 1) {
+                $valid_organization = false;
+                foreach ($organizations as $user_organization) {
+                    if ($ogranization->id == $user_organization) {
+                        $valid_organization = true;
                     }
                 }
 
-                $job = new Job([
-                    'user_id' => Auth::user()->id,
-                    'title' => request('title'),
-                    'description' => request('description'),
-                    'organization_name' => request('alt_organization') ?: request('organization'),
-                    'organization_id' => request('organization_id'),
-                    'league' => request('league'),
-                    'job_type' => request('job_type'),
-                    'recruiting_type_code' => request('recruiting_type_code'),
-                    'city' => request('city'),
-                    'state' => request('state'),
-                    'country' => request('country'),
-                    'rank' => $rank,
-                    'featured' => request('featured') ? true : false,
-                    'document' => $document ?: null,
-                ]);
+                if (!$valid_organization) {
+                    $request->session()->flash('message', new Message(
+                        "Invalid organization selection.",
+                        "danger",
+                        $code = null,
+                        $icon = "error"
+                    ));
+                    return back()->withInput();
+                }
+            }
+        }
 
-                // If no image file is given, we're reusing the organization's image
-                if ($alt_image_file) {
-                    // Override image
-                    $image = ImageServiceProvider::saveFileAsImage(
-                        $alt_image_file,
-                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $job->organization_name)).'-SportsBusinessSolutions',
-                        $directory = 'job/'.$job->id
-                    );
+        if (is_null($organization->addresses()->first())) {
+            $request->session()->flash('message', new Message(
+                "The organization you selected does not have an address.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
+        $job = new Job([
+            'user_id' => $user->id,
+            'title' => request('title'),
+            'description' => request('description'),
+            'organization_id' => $organization->id,
+            'job_type' => request('job_type'),
+            'league' => (!is_null($organization->leagues()->first())) ? $organization->leagues()->first()->abbreviation : null,
+            'recruiting_type_code' => 'passive',
+            'job_type_id' => $job_type_id,
+            'city' => $organization->addresses()->first()->city,
+            'state' => $organization->addresses()->first()->state,
+            'country' => $organization->addresses()->first()->country,
+            'featured' => $featured,
+            'document' => $document ?: null,
+        ]);
+
+
+        try {
+            $job = DB::transaction(function () use ($job, $document, $alt_image, $user, $organization) {
+                if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
+                    $user->contact->organizations()->attach($organization->id);
+                    $user->contact->organization = $organization->name;
+                    $user->contact->save();
                 }
 
-                $job->image_id = $image->id;
-                $job->save();
+                $job = JobServiceProvider::store($job, $document, $alt_image);
+
+                if (!$user->roles->contains('administrator')) {
+                    try {
+                        EmailServiceProvider::sendUserJobPostNotificationEmail($user);
+                    } catch (\Throwable $e) {
+                        Log::error($e->getMessage());
+                    }
+                }
 
                 return $job;
             });
+        } catch (SBSException $e) {
+            Log::error($e->getMessage());
+            $request->session()->flash('message', new Message(
+                $e->getMessage(),
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $request->session()->flash('message', new Message(
+                "Sorry, failed to save the job. Please try again.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        } catch (\Throwable $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
                 "Sorry, failed to save the job. Please try again.",
@@ -222,7 +321,41 @@ class JobController extends Controller
             return back()->withInput();
         }
 
-        return redirect()->action('JobController@show', [$job]);
+        if ($user->roles->contains('administrator')) {
+            return redirect('/admin/job');
+        } else {
+            return redirect('/user/'.$user->id.'/job-postings');
+        }
+    }
+
+    public function showPostings(Request $request)
+    {
+        $user = User::where('id', '=', $request->id)->first();
+
+        $pipeline = Pipeline::orderBy('id', 'asc')->get();
+        $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
+
+        if (Auth::user()->cannot('view-admin-jobs') && Auth::user()->id != $user->id) {
+            return response('Forbidden.', 403);
+        } elseif (Auth::user()->can('view-admin-jobs') && Auth::user()->id == $user->id) {
+            $jobs = array();
+        } else {
+            $jobs = Job::where('user_id', '=', $user->id)->orderBy('id', 'desc')->get();
+        }
+
+        $job_platinum_upgrade = ProductOption::find(PRODUCT_OPTION_ID['platinum_job_upgrade_premium']);
+
+        return view('user/job-postings', [
+            'breadcrumb' => [
+                'Home' => '/',
+                'Job Postings' => "/user/{$user->id}/job-postings"
+            ],
+            'user' => $user,
+            'jobs' => $jobs,
+            'pipeline' => $pipeline,
+            'job_pipeline' => $job_pipeline,
+            'job_platinum_upgrade' => $job_platinum_upgrade,
+        ]);
     }
 
     /**
@@ -241,14 +374,14 @@ class JobController extends Controller
             return abort(404);
         }
 
-        if (Gate::allows('view-admin-jobs')) {
+        if (in_array($job->job_type_id, array(3, 4)) && Gate::allows('edit-job', $job)) {
             $contact_applications = ContactJob::filter($id, $request)
                 ->paginate(10);
         } else {
             $contact_applications = [];
         }
 
-        if (Gate::allows('view-admin-jobs')) {
+        if (Gate::allows('edit-job', $job)) {
             $inquiries = Inquiry::filter($id, $request)
                 ->paginate(10);
         } elseif (Auth::check()) {
@@ -262,11 +395,25 @@ class JobController extends Controller
 
         $profile_complete = false;
         $user = Auth::user();
-        if ($user) {
-            $profile_complete = $user->hasCompleteProfile();
-        }
 
         $pd = new Parsedown;
+
+        $breadcrumb = array( 
+            'Clubhouse' => '/',
+            'My Postings' => (!is_null($user) ? $user->can('view-admin-jobs') ? '/admin/job' : '/user/'.$user->id.'/job-postings/' : ''),
+            'Sports Industry Job Board' => '/job',
+            "$job->title with $job->organization_name" => "/job/{$job->id}"
+        );
+
+        if ($user) {
+            $profile_complete = $user->hasCompleteProfile();
+            if ($user->id != $job->user_id && $user->cannot('view-admin-jobs')) {
+                unset($breadcrumb['My Postings']);
+            }
+        } else {
+            unset($breadcrumb['My Postings']);
+        }
+
         return view('job/show', [
             'description' => $pd->text($job->description),
             'job' => $job,
@@ -275,11 +422,7 @@ class JobController extends Controller
             'profile_complete' => $profile_complete,
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
-                "$job->title with $job->organization_name" => "/job/{$job->id}"
-            ]
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -289,12 +432,14 @@ class JobController extends Controller
      */
     public function open($id)
     {
-        $this->authorize('close-job');
-
+        // TODO check to see if the job has expired. can it be re-opened?
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
+
+        $this->authorize('close-job', $job);
+
         $job->open = true;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
@@ -308,167 +453,18 @@ class JobController extends Controller
      */
     public function close($id)
     {
-        $this->authorize('close-job');
-
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
+
+        $this->authorize('close-job', $job);
+
         $job->open = false;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
         $job = Job::unfeature($id);
-
-        return back();
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function feature($id)
-    {
-        $job = Job::find($id);
-        if (!$job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
-        }
-        $this->authorize('edit-job', $job);
-
-        // Insert at last rank, i.e. one greater than the highest current
-        $rank = 1;
-        $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-        if ($last_job) {
-            $rank = $last_job->rank+1;
-        }
-
-        $job->featured = true;
-        $job->rank = $rank;
-        $job->edited_at = new \DateTime('NOW');
-        $job->save();
-
-        return back();
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function unfeature($id)
-    {
-        $job = Job::find($id);
-        if (!$job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
-        }
-        $this->authorize('edit-job', $job);
-
-        $job = Job::unfeature($id);
-
-        return back();
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rankUp($id)
-    {  
-        $job = Job::find($id);
-        if (!$job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
-        }
-        $this->authorize('edit-job', $job);
-
-        if ($job->rank <= 1) {
-            return back();
-        }
-
-        $job->rank--;
-        $job->edited_at = new \DateTime('NOW');
-        $job->save();
-
-        $neighbors = Job::where('id', '!=', $id)->where('rank', $job->rank)->get();
-        if (!$neighbors) {
-            return back();
-        }
-        foreach ($neighbors as $neighbor) {
-            $neighbor->rank = $neighbor->rank+1;
-            $neighbor->edited_at = new \DateTime('NOW');
-            $neighbor->save();
-        }
-
-        return back();
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rankTop($id)
-    {
-        $job = Job::find($id);
-        if (!$job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
-        }
-        $this->authorize('edit-job', $job);
-
-        $rank = $job->rank;
-        if ($rank <= 1) {
-            return back();
-        }
-
-        $job->rank = 1;
-        $job->edited_at = new \DateTime('NOW');
-        $job->save();
-
-        // All jobs previously ranked higher
-        $neighbors = Job::where('featured', 1)
-            ->where('id', '!=', $id)
-            ->where('rank', '<', $rank)
-            ->get();
-        if (!$neighbors) {
-            return back();
-        }
-        foreach ($neighbors as $neighbor) {
-            $neighbor->rank = $neighbor->rank+1;
-            $neighbor->edited_at = new \DateTime('NOW');
-            $neighbor->save();
-        }
-
-        return back();
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function rankDown($id)
-    {
-        $job = Job::find($id);
-        if (!$job) {
-            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
-        }
-        $this->authorize('edit-job', $job);
-
-        // Don't allow the last job to be ranked down
-        $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-        if ($last_job && $last_job->id == $id) {
-            return back();
-        }
-
-        $job->rank++;
-        $job->edited_at = new \DateTime('NOW');
-        $job->save();
-
-        $neighbors = Job::where('id', '!=', $id)->where('rank', $job->rank)->get();
-        if (!$neighbors) {
-            return back();
-        }
-        foreach ($neighbors as $neighbor) {
-            $neighbor->rank = $neighbor->rank-1;
-            $neighbor->edited_at = new \DateTime('NOW');
-            $neighbor->save();
-        }
 
         return back();
     }
@@ -497,7 +493,8 @@ class JobController extends Controller
             'description' => $pd->text($job->description),
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Job Board' => Auth::user() && Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/job',
+                'Job Postings' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/user/'.Auth::user()->id.'/job-postings/',
+                'Sports Industry Job Board' => '/job',
                 "{$job->organization_name} - {$job->title}" => "/job/{$job->id}",
                 "Edit" => "/job/{$job->id}/edit"
             ]
@@ -565,28 +562,29 @@ class JobController extends Controller
                 }
 
                 $job->title = request('title');
-                $job->featured = request('featured') ? true : false;
-                if (!$job->featured) {
-                    $job->rank = 0;
+                if ($request->user()->can('edit-job-featured-status', $job)) {
+                    $new_featured_status = request('featured') ? true : false;
+                    if ($job->featured != $new_featured_status) {
+                        // Stayed the same
+                        $rank = 1;
+                        $last_job = Job::whereNotNull('rank')->where('featured', $job->featured)->orderBy('rank', 'desc')->first();
+                        if ($last_job) {
+                            $rank = $last_job->rank+1;
+                        }
+                        $job->rank = $rank;
+                    }
+                    $job->featured = $new_featured_status;
                 }
                 $job->description = request('description');
                 $job->organization_name = $organization_name;
                 $job->league = request('league');
                 $job->job_type = request('job_type');
-                $job->recruiting_type_code = request('recruiting_type_code');
+                if ($request->user()->can('edit-job-recruiting-type', $job)) {
+                    $job->recruiting_type_code = request('recruiting_type_code');
+                }
                 $job->city = request('city');
                 $job->state = request('state');
                 $job->country = request('country');
-                $job->featured = request('featured') ? true : false;
-                // Set rank if newly featured
-                if ($job->featured && $job->rank == 0) {
-                    $rank = 1;
-                    $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
-                    if ($last_job) {
-                        $rank = $last_job->rank+1;
-                    }
-                    $job->rank = $rank;
-                }
 
                 if (request('document')) {
                     $doc = request()->file('document');
@@ -617,4 +615,5 @@ class JobController extends Controller
         ));
         return redirect()->back();
     }
+
 }

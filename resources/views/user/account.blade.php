@@ -4,25 +4,7 @@
 @section('content')
 <div class="container">
     @component('user.header', ['user' => $user])
-        @can ('view-contact-notes')
-            <button type="button" class="view-contact-notes-btn flat-button black"
-                contact-id="{{ $user->contact->id }}"
-                contact-name="{{ $user->contact->getName() }}"
-                contact-follow-up="{{ $user->contact->follow_up_date ? $user->contact->follow_up_date->format('Y-m-d') : '' }}">
-                {{ $user->contact->getNoteCount() }} <i class="fa fa-comments"></i>
-            </button>
-        @endif
-        @if ($user->profile->resume_url)
-            <a href="{{ Storage::disk('local')->url($user->profile->resume_url) }}" class="flat-button black"><span class="hide-on-small-only">View </span> Resume</a>
-        @else
-            <a href="#" class="flat-button black disabled">No Resume</a>
-        @endif
-        @can ('edit-profile', $user)
-            <a href="/user/{{ $user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
-        @endcan
-        @can ('edit-profile', $user)
-            <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
-        @endcan
+        @include('user.components.actions')
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">
         <li class="tab"><a class="active" href="/user/{{ $user->id }}/account">Account</a></li>
@@ -35,8 +17,14 @@
             @endif
         @endcan
         <li class="tab"><a href="/user/{{ $user->id }}/profile">Profile</a></li>
-        <li class="tab"><a class="" href="/user/{{ $user->id }}/jobs">Jobs</a></li>
+        <li class="tab"><a class="" href="/user/{{ $user->id }}/jobs">My Jobs</a></li>
         <!--<li class="tab"><a href="/user/{{ $user->id }}/questions">Q&A</a></li>-->
+        @can ('create-job')
+            <li class="tab"><a class="" href="/user/{{ $user->id }}/job-postings">Job Postings</a></li>
+        @endcan
+        @can ('edit-roles')
+            <li class="tab"><a href='/admin/{{ $user->id }}/edit-roles'>Roles</a></li>
+        @endcan
     </ul>
     <div class="row">
         <div class="col s12 m12 l6">
@@ -125,6 +113,7 @@
                         <th>Product</th>
                         <th>Price</th>
                         <th>Card</th>
+                        <th></th>
                     </thead>
                     @foreach ($transactions['orders'] as $key => $value)
                         @php $created = date('m/d/Y', $value['order']['created']); @endphp
@@ -140,6 +129,11 @@
                                 <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['order']['charge_object']->source->last4 }}</td>
                             @else
                                 <td>N/A</td>
+                            @endif
+                            @if (array_key_exists($value['order']['id'], $paid_jobs) && !is_null($paid_jobs[$value['order']['id']]['job_url']))
+                                <td><a href="{{ $paid_jobs[$value['order']['id']]['job_url'] }}">View Job</a></td>
+                            @else
+                                <td><a href="/job/create">Available</a></td>
                             @endif
                         </tr>
                         @endforeach

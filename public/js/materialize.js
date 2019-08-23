@@ -3242,7 +3242,6 @@ if (jQuery) {
           if ($oldAutocomplete.length) {
             $autocomplete = $oldAutocomplete;
           }
-
           // Highlight partial match.
           var highlight = function(string, $el) {
             var img = $el.find('img');
@@ -3298,7 +3297,6 @@ if (jQuery) {
                     } else {
                       autocompleteOption.append('<span>'+ key +'</span>');
                     }
-
                     $autocomplete.append(autocompleteOption);
                     highlight(val, autocompleteOption);
                     count++;

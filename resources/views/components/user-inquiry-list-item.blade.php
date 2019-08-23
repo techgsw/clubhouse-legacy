@@ -5,8 +5,8 @@
         </a>
     </div>
     <div class="col s9 m10 info">
-        @can ('edit-inquiry', $inquiry)
-            <div class="hide-on-small-only float-right controls">
+        @can ('review-inquiry', $inquiry)
+            <div class="hide-on-small-only float-right controls right-align">
                 @include('components.pipeline-controls', ['contact' => ($inquiry instanceof App\ContactJob ? true : false)])
                 <form id="assign-contact-job">
                     {{ csrf_field() }}
@@ -27,7 +27,7 @@
         <div style="margin-bottom: 10px;">
             @include('components.pipeline-labels', ['contact' => ($inquiry instanceof App\ContactJob ? true : false)])
         </div>
-        @can ('edit-inquiry', $inquiry)
+        @can ('review-inquiry', $inquiry)
             <div class="hide-on-med-and-up controls">
                 @include('components.pipeline-controls', ['contact' => ($inquiry instanceof App\ContactJob ? true : false)])
                 <form id="assign-contact-job">

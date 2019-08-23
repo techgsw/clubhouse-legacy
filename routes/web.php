@@ -127,6 +127,16 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/contact/download', 'ContactController@download');
         Route::get('/admin/job', 'JobController@index');
 
+        //refactoring jobs to be in admin domain since we will be restricting job admins
+        Route::get('/job/register', 'JobController@register');
+        Route::get('/job/create', 'JobController@create');
+        Route::post('/job/create', 'JobController@store');
+        Route::get('/job/{id}/feature', 'JobController@feature');
+        Route::get('/job/{id}/unfeature', 'JobController@unfeature');
+        Route::get('/job/{id}/rank-up', 'JobController@rankUp');
+        Route::get('/job/{id}/rank-top', 'JobController@rankTop');
+        Route::get('/job/{id}/rank-down', 'JobController@rankDown');
+
         Route::get('/admin/pipeline', 'PipelineController@index');
         Route::get('/admin/pipeline/job', 'PipelineController@job');
         
@@ -137,19 +147,26 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/report/transactions', 'ReportController@transactions');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
+        //endpoint for editing the user roles
+        Route::get('/admin/{id}/edit-roles', 'RoleController@index');
+        Route::post('/admin/{id}/update-roles', 'RoleController@update');
     });
 
     // Admin & Ajax
     Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth', 'ajax_only']], function () {
-        Route::post('/admin/inquiry/pipeline-forward', 'InquiryController@pipelineForward');
         Route::post('/admin/inquiry/pipeline-backward', 'InquiryController@pipelineBackward');
-        Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
         Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
         
-        Route::post('/admin/contact-job/pipeline-forward/', 'ContactJobController@pipelineForward');
         Route::post('/admin/contact-job/pipeline-backward/', 'ContactJobController@pipelineBackward');
-        Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
         Route::post('/admin/contact-job/pipeline-pause/', 'ContactJobController@pipelinePause');
+    });
+
+    Route::group(['namespace' => 'Admin', 'middleware' => ['web', 'ajax_only']], function () {
+        Route::post('/admin/inquiry/pipeline-forward', 'InquiryController@pipelineForward');
+        Route::post('/admin/inquiry/pipeline-halt', 'InquiryController@pipelineHalt');
+
+        Route::post('/admin/contact-job/pipeline-forward/', 'ContactJobController@pipelineForward');
+        Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
     });
 
     // Email
@@ -214,6 +231,7 @@ Route::domain($domain)->group(function () {
         Route::post('/checkout', 'CheckoutController@store');
         Route::get('/checkout/thanks', 'CheckoutController@thanks');
         Route::get('/checkout/{id}', 'CheckoutController@index');
+        Route::get('/checkout/{id}/{job_id}', 'CheckoutController@index');
     });
 
     // Clubhouse
@@ -252,15 +270,12 @@ Route::domain($domain)->group(function () {
     });
 
     Route::group(['middleware' => ['web']], function () {
+        Route::get('job/register', 'JobController@register');
         Route::get('/job/create', 'JobController@create');
-        Route::post('/job', 'JobController@store');
+        Route::post('/job/create', 'JobController@store');
+        // Route::post('/job', 'JobController@store');
         Route::get('/job/{id}/open', 'JobController@open');
         Route::get('/job/{id}/close', 'JobController@close');
-        Route::get('/job/{id}/feature', 'JobController@feature');
-        Route::get('/job/{id}/unfeature', 'JobController@unfeature');
-        Route::get('/job/{id}/rank-up', 'JobController@rankUp');
-        Route::get('/job/{id}/rank-top', 'JobController@rankTop');
-        Route::get('/job/{id}/rank-down', 'JobController@rankDown');
         Route::get('/job/{id}/edit', 'JobController@edit');
         Route::post('/job/{id}', 'JobController@update');
         Route::post('/job/{id}/inquire', 'InquiryController@store');
@@ -268,6 +283,10 @@ Route::domain($domain)->group(function () {
         Route::get('/contact-job/{id}/rate-down', 'ContactJobController@rateDown');
         Route::get('/contact-job/{id}/show-notes', 'ContactJobController@showNotes');
         Route::post('/contact-job/{id}/create-note', 'ContactJobController@createNote');
+        Route::get('/contact/feedback/{id}', 'ContactJobController@feedback');
+        Route::post('/contact/feedback/{id}', 'ContactJobController@feedbackNegativeReason');
+        Route::get('/user-assigned/feedback/{id}', 'ContactJobController@feedback');
+        Route::post('/user-assigned/feedback/{id}', 'ContactJobController@feedbackNegativeReason');
 
         Route::get('/inquiry/{id}/rate-down', 'InquiryController@rateDown');
         Route::get('/inquiry/{id}/show-notes', 'InquiryController@showNotes');
@@ -279,7 +298,6 @@ Route::domain($domain)->group(function () {
             return redirect('/job');
         });
     });
-
 
     // Mentor
     Route::group(['middleware' => ['web']], function () {
@@ -298,6 +316,10 @@ Route::domain($domain)->group(function () {
     });
 
     // Organizations
+    Route::group(['middleware' => ['web', 'ajax_only']], function () {
+        Route::get('/organization/{id}/preview', 'OrganizationController@preview');
+    });
+
     Route::group(['middleware' => ['web']], function () {
         Route::get('/admin/organization', 'OrganizationController@index');
         Route::get('/organization/create', 'OrganizationController@create');
@@ -309,13 +331,14 @@ Route::domain($domain)->group(function () {
         Route::get('/organization/leagues', 'OrganizationController@leagues');
         Route::get('/organization/{id}', 'OrganizationController@show');
         Route::get('/organization/{id}/edit', 'OrganizationController@edit');
-        Route::get('/organization/{id}/preview', 'OrganizationController@preview');
         Route::post('/organization/{id}', 'OrganizationController@update');
         Route::get('/organization/{id}/match-contacts', 'OrganizationController@matchContacts');
     });
 
+
     // Pricing
     Route::group(['middleware' => ['web']], function () {
+        Route::get('/job-options/{upgrade_options?}', 'ClubhouseController@jobOptions');
         Route::get('/membership-options', 'ClubhouseController@membershipOptions');
         Route::get('/pro-membership', 'ClubhouseController@proMembership');
     });
@@ -362,6 +385,8 @@ Route::domain($domain)->group(function () {
         Route::get('/user/{id}/account', 'UserController@account');
         Route::get('/user/{id}/jobs', 'UserController@jobs');
         Route::get('/user/{id}/questions', 'UserController@questions');
+        Route::get('/user/{id}/job-postings', 'JobController@showPostings');
+
 
         Route::get('/user/{id}/profile', 'ProfileController@show');
         Route::get('/user/{id}/edit-profile', 'ProfileController@edit');

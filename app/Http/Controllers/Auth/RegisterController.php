@@ -11,6 +11,7 @@ use App\Contact;
 use App\Message;
 use App\Profile;
 use App\User;
+use App\Role;
 use App\Http\Controllers\Controller;
 use App\Providers\EmailServiceProvider;
 use App\Traits\ReCaptchaTrait;
@@ -42,6 +43,23 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->middleware('redirect_router');
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        if ($request->session()->get('redirect_url')) {
+            $this->redirectTo = '/job-options';
+            $message = "Thank you for joining theClubhouse community! Now, let’s help you post your open job. First, select the option below that works best for you.";
+        } else {
+            $message = "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.";
+        }
+        Session::flash('message', new Message(
+            $message,
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
     }
 
     /**
@@ -127,6 +145,9 @@ class RegisterController extends Controller
                 'user_id' => $user->id
             ]);
 
+            $roles = Role::where('code', 'job_user')->get();
+            $user->roles()->attach($roles);
+
             $address = Address::create([
                 'name' => $data['first_name'] . " " . $data['last_name']
             ]);
@@ -140,6 +161,7 @@ class RegisterController extends Controller
             }
 
             $contact->user_id = $user->id;
+            $contact->do_not_contact = false;
             $contact->save();
 
             $address = Address::create([
@@ -149,13 +171,6 @@ class RegisterController extends Controller
                 'address_id' => $address->id,
                 'contact_id' => $contact->id
             ]);
-
-            Session::flash('message', new Message(
-                "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.",
-                "success",
-                $code = null,
-                $icon = "check_circle"
-            ));
 
             return $user;
         });

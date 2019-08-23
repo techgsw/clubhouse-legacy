@@ -8,6 +8,7 @@ use App\Job;
 use App\Message;
 use App\Note;
 use App\User;
+use App\JobInterestResponse;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
@@ -78,6 +79,7 @@ class InquiryController extends Controller
             'phone' => request('phone'),
             'resume' => $resume,
         ]);
+        $inquiry->save();
 
         try {
             Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
@@ -116,12 +118,12 @@ class InquiryController extends Controller
      */
     public function createNote($id)
     {
-        $this->authorize('create-inquiry-note');
-
         $inquiry = Inquiry::find($id);
         if (!$inquiry) {
             return abort(404);
         }
+
+        $this->authorize('create-inquiry-note', $inquiry);
 
         $note = new Note();
         $note->user_id = Auth::user()->id;

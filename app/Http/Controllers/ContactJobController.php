@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactJob;
+use App\Contact;
 use App\ContactJob;
 use App\Job;
 use App\Message;
 use App\Note;
 use App\User;
+use App\JobInterestResponse;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
@@ -25,6 +27,14 @@ class ContactJobController extends Controller
             return response()->json([
                 'type' => 'failure',
                 'message' => 'Unable to find requested job.'
+            ]);
+        }
+
+        $contact = Contact::find($request['contact_id']);
+        if (!$contact || $contact->do_not_contact) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'Unable to assign contact.'
             ]);
         }
 
@@ -47,6 +57,8 @@ class ContactJobController extends Controller
                 'admin_user_id' => Auth::user()->id,
                 'job_id' => $request['job_id'],
             ]);
+            $contact_job->generateJobInterestToken();
+            $contact_job->save();
 
             $note->user_id = Auth::user()->id;
             $note->notable_id = $contact_job->contact->id;
@@ -147,6 +159,98 @@ class ContactJobController extends Controller
             'type' => 'success',
             'content' => $note->content,
             'user' => Auth::user()
+        ]);
+    }
+
+    public function feedback(Request $request, $id)
+    {
+        $token = $request->input('token');
+        $interest_code = $request->input('interest');
+
+        $request_type = ((preg_match('/user-assigned/', $request->getPathInfo())) ? 'user-assigned' : 'contact');
+
+        if (is_null($token) || is_null($id) || is_null($interest_code)) {
+            return redirect('/');
+        }
+        
+        $contact_job = ContactJob::where([
+            ['id','=',$id],
+            ['job_interest_token','=',$token]
+        ])->first();
+
+        if (!is_null($contact_job->job_interest_response_code)) {
+            return view('job/feedback/' . $request_type . '/default-expired-code', [
+                'contact_job' => $contact_job
+            ]);
+        }
+
+        $job_interest_response = JobInterestResponse::where('code','=',$interest_code)->first();
+
+        if (is_null($contact_job) || is_null($interest_code)) {
+            return redirect('/');
+        }
+
+        $contact_job->job_interest_response_code = $job_interest_response->code;
+        $contact_job->job_interest_response_date = new \DateTime('now');
+        $contact_job->save();
+
+        if ($job_interest_response->code == 'interested') {
+            return view('job/feedback/' . $request_type . '/default-interested', [
+                'contact_job' => $contact_job
+            ]);
+        } elseif ($job_interest_response->code == 'not-interested') {
+            return view('job/feedback/' . $request_type . '/default-not-interested', [
+                'contact_job' => $contact_job
+            ]);
+        } elseif ($job_interest_response->code == 'do-not-contact' && $request_type == 'contact') {
+            $contact = $contact_job->contact;
+
+            if (is_null($contact->user_id)) {
+                $contact->do_not_contact = true;
+                $contact->save();
+            }
+
+            return view('job/feedback/contact/default-do-not-contact', [
+                'contact_job' => $contact_job
+            ]);
+        }
+        return redirect('/');
+    }
+
+    public function feedbackNegativeReason(Request $request, $id)
+    {
+        $negative_interest_reasons = array('dream-job', 'recently-promoted', 'cant-leave-team-city', 'dislike-team-city', 'personal-reasons', 'other');
+
+        $token = $request->input('token');
+        $negative_interest_reason = $request->input('negative_interest_reason');
+
+        $request_type = ((preg_match('/user-assigned/', $request->getPathInfo())) ? 'user-assigned' : 'contact');
+
+        if (is_null($token) || is_null($id) || !in_array($negative_interest_reason, $negative_interest_reasons)) {
+            return redirect('/');
+        }
+        
+        $contact_job = ContactJob::where([
+            ['id','=',$id],
+            ['job_interest_token','=',$token]
+        ])->first();
+
+        if (is_null($contact_job)) {
+            return redirect('/');
+        }
+
+        $contact_job->job_interest_negative_response = $negative_interest_reason;
+        $contact_job->save();
+
+        $request->session()->flash('message', new Message(
+            "Thank you for your feedback!",
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
+
+        return view('job/feedback/' . $request_type . '/default-thank-you', [
+            'contact_job' => $contact_job
         ]);
     }
 }

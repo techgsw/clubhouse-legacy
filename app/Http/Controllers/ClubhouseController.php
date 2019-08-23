@@ -49,6 +49,39 @@ class ClubhouseController extends Controller
         ]);
     }
 
+    public function jobOptions(Request $request)
+    {
+        $upgrade_options = $request->upgrade_options;
+        // TODO replace with constants
+        $job_premium = Product::find(PRODUCT_ID['premium_job']);
+
+        $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
+
+        if ($request->upgrade_options && !is_null($request->job_id)) {
+            $job = Job::where('id',$request->job_id)->first();
+
+            if ($job->job_type_id == JOB_TYPE_ID['user_free']) {
+                $job_premium = Product::find(PRODUCT_ID['premium_job']);
+                $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
+            }
+
+            return view('clubhouse/job-options-upgrade', [
+                'job' => $job,
+                'job_platinum' => $job_platinum,
+                'job_premium' => $job_premium
+            ]);
+        }
+
+        return view('clubhouse/job-options', [
+            'job_premium' => $job_premium,
+            'job_platinum' => $job_platinum,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Job Posting Options' => '/job-options'
+            ],
+        ]);
+    }
+
     public function membershipOptions(Request $request)
     {
         $product = Product::with('tags')->whereHas('tags', function ($query) {

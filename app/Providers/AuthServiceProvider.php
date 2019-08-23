@@ -47,9 +47,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-admin-reports', function ($user) {
             return $user->hasAccess('reports_show');
         });
-
         Gate::define('view-admin-pipelines', function($user) {
             return $user->hasAccess('pipelines_show');
+        });
+        Gate::define('edit-roles', function ($user) {
+            return $user->hasAccess('edit_roles');
         });
 
         // User
@@ -98,22 +100,74 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('answer_approve');
         });
 
-        // Job board
+        // Admin board
         Gate::define('view-job-board', function ($user) {
             return $user->hasAccess('job_index');
         });
         Gate::define('view-job', function ($user) {
             return $user->hasAccess('job_show');
         });
+        Gate::define('edit-job-featured-status', function ($user) {
+            return $user->hasAccess('job_edit');
+        });
+        Gate::define('edit-job-recruiting-type', function ($user) {
+            return $user->hasAccess('job_edit');
+        });
+        Gate::define('edit-job-logo', function ($user) {
+            return $user->hasAccess('job_edit');
+        });
+
+        // User Job board
+        Gate::define('create-premium-user-job', function ($user) {
+            return $user->hasAccess('job_premium_user');
+        });
+        Gate::define('create-platinum-user-job', function ($user) {
+            return $user->hasAccess('job_platinum_user');
+        });
+        Gate::define('close-user-job', function ($user, $job) {
+            return $user->hasAccess('job_close') || $user->hasAccess('job_close_user');
+        });
         Gate::define('create-job', function ($user) {
-            return $user->hasAccess('job_create');
+            return $user->hasAccess('job_create') || $user->hasAccess('job_create_user');
         });
         Gate::define('edit-job', function ($user, $job) {
-            return $user->id == $job->user_id || $user->hasAccess('job_edit');
+            if ($user->hasAccess('job_edit')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
-        Gate::define('close-job', function ($user) {
-            return $user->hasAccess('job_close');
+        Gate::define('close-job', function ($user, $job) {
+            if ($user->hasAccess('job_close')) {
+                return true;
+            }
+            if ($user->hasAccess('job_close_user') && $job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
+        Gate::define('review-inquiry', function ($user, $inquiry) {
+            // TODO change to review
+            //dd($user->hasAccess('inquiry_edit'));
+            if ($user->hasAccess('inquiry_edit')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $inquiry->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
+        });
+        Gate::define('review-inquiry-admin', function ($user) {
+            // TODO change to review
+            if ($user->hasAccess('inquiry_edit')) {
+                return true;
+            }
+            return false;
+        });
+
+        // Generic Job board
         Gate::define('create-inquiry', function ($user) {
             return $user->hasAccess('inquiry_create');
         });
@@ -171,14 +225,26 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-contact-notes', function ($user) {
             return $user->hasAccess('contact_note_show');
         });
-        Gate::define('create-contact-note', function ($user) {
-            return $user->hasAccess('contact_note_create');
+        Gate::define('create-contact-note', function ($user, $contact_job) {
+            if ($user->hasAccess('contact_note_create')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $contact_job->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
         Gate::define('view-inquiry-notes', function ($user) {
             return $user->hasAccess('inquiry_note_show');
         });
-        Gate::define('create-inquiry-note', function ($user) {
-            return $user->hasAccess('inquiry_note_create');
+        Gate::define('create-inquiry-note', function ($user, $inquiry) {
+            if ($user->hasAccess('inquiry_note_create')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $inquiry->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
         Gate::define('delete-note', function ($user) {
             return $user->hasAccess('note_delete');
@@ -202,6 +268,17 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('follow-up', function ($user) {
             return $user->hasAccess('follow_up');
+        });
+
+        Gate::define('review-contact-job', function ($user, $contact_job) {
+            // TODO change to review
+            if ($user->hasAccess('contact_edit')) {
+                return true;
+            }
+            if ($user->hasAccess('job_edit_user') && $contact_job->job->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
 
         // Images

@@ -60,7 +60,7 @@
             </p>
         </div>
         <div class="card-action">
-            <a class="no-underline" href="/job/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> List Job</span></a>
+            <a class="no-underline" href="admin/job/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> List Job</span></a>
         </div>
     </div>
     <div class="card">

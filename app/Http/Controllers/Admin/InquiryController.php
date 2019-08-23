@@ -22,8 +22,6 @@ class InquiryController extends Controller
 {
     public function pipelineForward(Request $request)
     {
-        $this->authorize('edit-inquiry');
-
         $inquiry = Inquiry::find($request->input('id'));
         $job_pipeline = JobPipeline::all();
 
@@ -33,6 +31,8 @@ class InquiryController extends Controller
                 'message' => 'We failed, not an inquiry!'
             ]);
         }
+
+        $this->authorize('review-inquiry', $inquiry);
 
         $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
 
@@ -51,15 +51,21 @@ class InquiryController extends Controller
 
                     if ($inquiry->pipeline_id == 2 && $request->input('comm_type') != 'none') {
                         try {
-                            switch ($inquiry->job->recruiting_type_code) {
-                                case 'active':
-                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
-                                    break;
-                                case 'passive':
-                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
-                                    break;
-                                default:
-                                    break;
+                            if (Auth::user()->hasAccess('view-admin-pipelines')) {
+                                switch ($inquiry->job->recruiting_type_code) {
+                                    case 'active':
+                                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
+                                        break;
+                                    case 'passive':
+                                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                                if ($request->input('comm_type') == 'default'){
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-positive'));
+                                }
                             }
                         } catch (Exception $e) {
                             Log::error($e->getMessage());
@@ -87,10 +93,7 @@ class InquiryController extends Controller
 
     public function pipelineHalt(Request $request)
     {
-        $this->authorize('edit-inquiry');
-
         $inquiry = Inquiry::find($request->input('id'));
-        $job_pipeline = JobPipeline::all();
 
         if (!$inquiry) {
             return response()->json([
@@ -98,6 +101,11 @@ class InquiryController extends Controller
                 'message' => 'We failed!'
             ]);
         }
+
+        $this->authorize('review-inquiry', $inquiry);
+
+        $job_pipeline = JobPipeline::all();
+
         try {
             $inquiry = DB::transaction(function () use ($inquiry, $job_pipeline, $request) {
                 $halt_step = $inquiry->pipeline_id - 1;
@@ -117,15 +125,19 @@ class InquiryController extends Controller
 
                 if ($halt_step == 0 && $request->input('comm_type') != 'none') {
                     try {
-                        switch ($inquiry->job->recruiting_type_code) {
-                            case 'active':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
-                                break;
-                            case 'passive':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
-                                break;
-                            default:
-                                break;
+                        if (Auth::user()->hasAccess('view-admin-pipelines')) {
+                            switch ($inquiry->job->recruiting_type_code) {
+                                case 'active':
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
+                                    break;
+                                case 'passive':
+                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-negative'));
                         }
                     } catch (Exception $e) {
                         Log::error($e->getMessage());
@@ -214,8 +226,6 @@ class InquiryController extends Controller
 
     public function pipelineBackward(Request $request)
     {
-        $this->authorize('edit-inquiry');
-
         $inquiry = Inquiry::find($request->input('id'));
         $job_pipeline = JobPipeline::all();
 
@@ -225,6 +235,8 @@ class InquiryController extends Controller
                 'message' => 'Unable to find inquiry!'
             ]);
         }
+
+        $this->authorize('review-inquiry', $inquiry);
 
         if ($inquiry->pipeline_id < 3) {
             return response()->json([
@@ -278,12 +290,12 @@ class InquiryController extends Controller
 
     public function createNote($id, $content)
     {
-        $this->authorize('create-inquiry-note');
-
         $inquiry = Inquiry::find($id);
         if (!$inquiry) {
             return abort(404);
         }
+
+        $this->authorize('create-inquiry-note', $inquiry);
 
         $note = new Note();
         $note->user_id = Auth::user()->id;

@@ -1,5 +1,5 @@
 <!-- /resources/views/job/create.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'New Job')
 @section('content')
 <div class="container">
@@ -14,5 +14,11 @@
             @include('job.forms.create')
         </div>
     </div>
+    <div class="row">
+        <div class="col s12">
+            Having trouble? Email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a>
+        </div>
+    </div>
 </div>
+@component('components.organization-create-modal', ['leagues' => $leagues, 'organization_types' => $organization_types])@endcomponent
 @endsection

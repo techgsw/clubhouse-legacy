@@ -25,7 +25,7 @@
                 <input class="file-path " type="text" name="image_url_text" value="">
             </div>
         </div>
-        <div class="input-field col s6 m3">
+        <div class="input-field col s6 m3 hidden">
             <p class="checkbox">
                 <input type="checkbox" disabled name="type" id="type" value="service" {{ old('type') ? "checked" : "" }} />
                 <label for="type">Service</label>

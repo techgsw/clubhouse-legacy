@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'redirect_router' => \App\Http\Middleware\RedirectRouter::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'ajax_only' => \App\Http\Middleware\OnlyAjax::class,
     ];

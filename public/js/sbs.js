@@ -441,6 +441,41 @@ $.valHooks.textarea = {
         });
     }
 
+    Job.getJobOptionUpgrades = function (job_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/job-options/upgrade_options',
+            data: {
+                'job_id': job_id 
+            }
+        });
+    }
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var job_id = $(this).attr('data-job-id');
+                Job.getJobOptionUpgrades(job_id).done(function (view) {
+                    $('.job-options-upgrade-modal .modal-content').html(view);
+                    $('.job-options-upgrade-modal').modal('open');
+                });
+            }
+        },
+        '.job-options-upgrade-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $(this).attr('disabled', 'disabled');
+                $(this).html('Sending, please wait...');
+                e.preventDefault();
+                $('#checkout-form').submit();
+            }
+        },
+        '#checkout-submit-button'
+    );
+
     $('body').on(
         {
             change: function (e, ui) {
@@ -561,13 +596,18 @@ $.valHooks.textarea = {
                     options[org.name] = null;
                     return options;
                 }, {});
+
+                if (Object.keys(options).length == 1) {
+                    $('form select#organization-id').trigger('change');
+                }
+                
                 // Initialize autocompletes
                 organization_autocomplete.autocomplete({
                     data: options,
                     limit: 10,
                     onAutocomplete: function (name) {
                         target_input.val(Organization.map[name]);
-                        target_input.trigger('change');
+                        target_input.trigger('change')
                     },
                     minLength: 2,
                 });
@@ -597,11 +637,103 @@ $.valHooks.textarea = {
         });
     }
 
+    Organization.create = function (form) {
+        return $.ajax({
+            'type': 'POST',
+            'url': '/organization/create',
+            'data': form,
+        })
+    }
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var organization_name = $('form.organization-create').find('#name').val()
+                
+                Organization.create($('form.organization-create').serialize())
+                .done(function (response) {
+                    if (!response.organization) {
+                        UI.displayMessage({ type: 'danger', message: response.message });
+                        return; 
+                    }
+
+                    $('input#organization-id').attr('value', response.organization.id);
+                    $('input#organization.organization-autocomplete').attr('value', response.organization.name);
+                    $('input#organization.organization-autocomplete').val(response.organization.name);
+                    
+                    /*
+                    Organization.getPreview(response.id, 'medium')
+                        .done(function (resp) {
+                            $('img#organization-image').attr('src', resp.image_url);
+                            $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                            $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                            $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                            $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                            $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                            $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+
+                            UI.displayMessage({ type: 'success', message: "Successfully added you to the " + resp.name  + " organization" });
+                        })
+                        .fail(function (response) {
+                            UI.displayMessage({ type: 'danger', message: "We were unable to create your organization." });
+                        });
+                    */
+                })
+                .fail(function (response) {
+                    UI.displayMessage({ type: 'danger', message: reps.message });
+                });
+                
+                $('.organization-create-modal').modal('close');
+            }
+        },
+        'form.organization-create .submit-org-create'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $('.organization-create-modal').modal('close');
+            }
+        },
+        'form.organization-create .cancel-organization-form'
+    );
+
+    $('body').on(
+        {
+            change: function(e, ui) {
+                var org_id = parseInt($(this).val());
+
+                $('img#organization-image').attr('src', '/images/progress.gif');
+                    $('div.organization-image-preview').removeClass('hidden');
+                    Organization.getPreview(org_id, 'medium')
+                        .done(function (resp) {
+                            $('img#organization-image').attr('src', resp.image_url);
+                            $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
+                            $('form.organization-field-autocomplete select[name="league"]').trigger('change');
+                            $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                            $('form.organization-field-autocomplete input[name="city"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                            $('form.organization-field-autocomplete select[name="state"]').trigger('change');
+                            $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                            $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+
+                        })
+                        .fail(function (resp) {
+                            console.error(resp);
+                        });
+            }
+        },
+        'form select#organization-id'
+    );
+
     // TODO Move this
     $('body').on(
         {
             change: function (e, ui) {
                 var org_id = parseInt($(this).val());
+
                 $('img#organization-image').attr('src', '/images/progress.gif');
                 $('div.organization-image-preview').removeClass('hidden');
                 Organization.getPreview(org_id, 'medium')
@@ -609,12 +741,25 @@ $.valHooks.textarea = {
                         $('img#organization-image').attr('src', resp.image_url);
                         $('form.organization-field-autocomplete select[name="league"]').val(resp.league);
                         $('form.organization-field-autocomplete select[name="league"]').trigger('change');
-                        $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                        if (resp.address.city !== null) {
+                            $('form.organization-field-autocomplete input[name="city"]').val(resp.address.city);
+                        } else {
+                            $('form.organization-field-autocomplete input[name="city"]').val('');
+                        }
                         $('form.organization-field-autocomplete input[name="city"]').trigger('change');
-                        $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                        if (resp.address.state !== null) {
+                            $('form.organization-field-autocomplete select[name="state"]').val(resp.address.state);
+                        } else {
+                            $('form.organization-field-autocomplete select[name="state"]').val("Select one");
+                            $('#state option[selected="selected"]').each(function(ele) { ele.removeAttr('selected')});
+                            $($('#state option')[0]).attr('selected', 'selected');
+                        }
                         $('form.organization-field-autocomplete select[name="state"]').trigger('change');
-                        $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
-                        $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+
+                         if (resp.address.state !== null) {
+                            $('form.organization-field-autocomplete select[name="country"]').val(resp.address.country);
+                            $('form.organization-field-autocomplete select[name="country"]').trigger('change');
+                         }
                     })
                     .fail(function (resp) {
                         console.error(resp);
@@ -622,6 +767,15 @@ $.valHooks.textarea = {
             }
         },
         'form.organization-field-autocomplete input#organization-id'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $('.organization-create-modal').modal('open');
+            }
+        },
+        '#organization-modal-open'
     );
 
     // Open contact job assigment modal
@@ -930,6 +1084,19 @@ $.valHooks.textarea = {
         },
         '.tag-autocomplete'
     );
+    
+    $('body').on(
+        {
+            click: function(e, ui){
+                result = window.confirm("Are you sure? \nThis action modifies user roles.");
+                if (!result) {
+                    UI.displayMessage({type: 'warning', message: "You have unsaved changes."})
+                    e.preventDefault();
+                }
+            }
+        },
+        '.submit-roles'
+    );
 
     $('body').on(
         {
@@ -1015,16 +1182,17 @@ $.valHooks.textarea = {
                     action = $(this).attr('data-move'),
                     type = $(this).attr('data-type'),
                     comm_type = $(this).attr('data-comm-type'),
+                    modal_class = ($(this).hasClass('user-managed') ? '.user-managed-inquiry-negative-modal' : '.inquiry-contact-job-negative-modal'),
                     token = $('[name="_token"]').val();
 
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-move', action);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-type', type);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').attr('data-comm-type', comm_type);
-                $('.inquiry-contact-job-negative-modal button[data-action="inquiry-pipeline"]').removeClass('inverse');
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-id', inquiry_id);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-pipeline-id', pipeline_id);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-move', action);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-type', type);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').attr('data-comm-type', comm_type);
+                $(modal_class + ' button[data-action="inquiry-pipeline"]').removeClass('inverse');
 
-                $('.inquiry-contact-job-negative-modal').modal('open');
+                $(modal_class).modal('open');
             }
         },
         'button.negative-pipeline-modal-button'
@@ -1032,7 +1200,7 @@ $.valHooks.textarea = {
 
     UI.Pipeline.clearNegativeReason = function(id, type) {
         $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').addClass('hidden');
-        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"]').html("");
+        $('.reason-note-button[data-id="' + id + '"][data-type="'+ type + '"] span.reason-text').html("");
     }
 
     UI.Pipeline.buttonClick = function(button) {
@@ -1052,7 +1220,7 @@ $.valHooks.textarea = {
         }
 
         if (pipeline_id == 1 && comm_type !== 'none' && ((type == 'user') || (action == 'forward' && type == 'contact'))) {
-            result = window.confirm("Are you sure? \nThis action sends an email, and cannot be undone.");
+            result = window.confirm("This action will notify the person via email of your opinion of them as a candidate. \n\nAre you sure?");
             if (!result) {
                 return;
             }
@@ -1075,7 +1243,11 @@ $.valHooks.textarea = {
                         });    
                     }
 
-                    if (resp.pipeline_id != 1 && ($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm') || $(ui).hasClass('default-comm'))) {
+                    if (resp.pipeline_id != 1
+                        && (($(ui).hasClass('cold-comm') || $(ui).hasClass('warm-comm'))
+                        || (($(ui).hasClass('default-comm') || $(ui).hasClass('user-managed')) && !$(ui).hasClass('admin'))
+                        )
+                    ) {
                         $(ui).remove();
                     }
                 }
@@ -1097,6 +1269,10 @@ $.valHooks.textarea = {
                         $(ui).find('span.thumbs-up-text').remove();
                     }
 
+                    if (resp.pipeline_id == 2 && resp.status != 'halted') {
+                        $('[data-id="' + id + '"].user-decision-positive').removeClass('hidden');
+                    }
+
                     if (resp.pipeline_id == 6) {
                         $(ui).attr('disabled', 'disabled');
                         $(ui).addClass('gray')
@@ -1113,13 +1289,14 @@ $.valHooks.textarea = {
 
                     if (resp.status == 'halted') {
                         $('.inquiry-contact-job-negative-modal').modal('close');
+                        $('.user-managed-inquiry-negative-modal').modal('close');
                         $('button.negative-pipeline-modal-button[data-id="' + id + '"][data-move="halt"]').addClass('inverse');
-                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').html(resp.reason);
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"] span.reason-text').html(resp.reason);
                         $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').removeClass('hidden');
                     } else if (resp.status == 'paused') {
                         $(selected_btn).addClass('inverse');
                         $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').addClass('hidden');
-                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"]').html("");
+                        $('.reason-note-button[data-id="' + id + '"][data-type="' + type + '"] span.reason-text').html("");
                     }
                 }
             });
@@ -1129,6 +1306,7 @@ $.valHooks.textarea = {
                 return;
             } else {
                 $('.inquiry-contact-job-negative-modal').modal('close');
+                $('.user-managed-inquiry-negative-modal').modal('close');
             }
 
             if (resp.pipeline_name !== undefined) {
@@ -1645,21 +1823,30 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                var inputId = $(this).attr('input-id');
-                if (!inputId) {
+                var input_id, value, input, form;
+
+                input_id = $(this).attr('input-id');
+                if (!input_id) {
                     return;
                 }
-                var value = $(this).attr('value');
+                value = $(this).attr('value');
                 if (!value) {
                     return;
                 }
-                var input = $('#'+inputId);
+
+                if (value == 'all') {
+                    $('#filter').val('');
+                }
+
+                input = $('#'+input_id);
                 if (!input) {
                     return;
                 }
 
                 input.val(value);
-                input.change();
+
+                form = $(this).parents('form');
+                form.submit();
             }
         },
         'button.input-control'

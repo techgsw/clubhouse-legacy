@@ -1,46 +1,33 @@
 <a href="{{ $job->getURL() }}">
-    <div class="row job-index {{ $job->featured ? 'featured-job' : '' }}">
-        <div class="col s3 m2 center-align">
-            @if (!is_null($job->image))
-            <img style="margin-top: 12px;" src={{ $job->image->getURL('medium') }} class="thumb">
-            @endif
-        </div>
-        <div class="col s9 m7">
-            <h5>{{ $job->title }}</h5>
-            <p style="font-size: 16px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization_name }}</p>
-            <p style="margin: 0 0 6px 0;"><i class="fa fa-map-pin icon-left" aria-hidden="true"></i>{{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
-            <p class="small tags">
-                @if ($job->isNew())
-                    <span class="label blue white-text" style="letter-spacing: 0.6px;"><b>NEW</b></span>
+    <div class="card medium" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
+        <div class="card-content" style="padding: 10px;">
+            <div class="col s12 center">
+                @if (!is_null($job->image))
+                <img class="thumb" style="margin-top: 12px; max-height: 60px;" src="{{ $job->image->getURL('small') }}" />
                 @endif
-            </p>
-        </div>
-        <div class="col s12 m3 center-align hide-on-small-only">
-            <div>
-                @can ('create-inquiry')
-                    <a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn white black-text">Apply now</a>
-                @else
-                    <a style="margin-top: 12px;" href="/register" class="btn white black-text">Join to apply</a>
-                @endcan
             </div>
-            @can ('edit-job', $job)
-                <div class="small" style="margin-top: 16px;">
-                    <a href="/job/{{ $job->id }}/edit" class="flat-button small blue"><i class="fa fa-pencil"></i></a>
-                    @if ($job->featured)
-                        <a href="/job/{{ $job->id }}/unfeature" class="flat-button small blue"><i class="fa fa-star"></i> {{ $job->rank }}</a>
-                        <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>
-                        <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
-                        <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
-                    @else
-                        <a href="/job/{{ $job->id }}/feature" class="flat-button small blue"><i class="fa fa-star-o"></i></a>
-                    @endif
+            <div class="col s12 center-align">
+                <h5 class="" style="font-size: 1.2rem" title="{{ $job->title }}">{{ $job->title }}</h5>
+                <p style="font-size: 16px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization_name }}</p>
+                <div style="margin-top: 10px;">
+                    <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode($job->getURL($absolute=true))?>&title=<?=urlencode($job->title)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$job->title?> | Sports Business Solutions&body=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                 </div>
-            @endcan
-            <div style="margin-top: 10px;">
-                <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
-                <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode($job->getURL($absolute=true))?>&title=<?=urlencode($job->title)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
-                <a class="no-underline" target="_blank" href="mailto:?Subject=<?=$job->title?> | Sports Business Solutions&body=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                @if ($job->isNew())
+                    <span class="label blue white-text" style="letter-spacing: 0.6px; font-size: 10px;"><b>NEW</b></span>
+                @endif
+                @if ($job->featured)
+                    <span class="label sbs-red" style="letter-spacing: 0.6px; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+                @endif
+            </div>
+            <div class="col s12 center" style="height: 40px;">
+                @can ('create-inquiry')
+                    <a style="position: absolute; bottom: 15px; left: 50%; margin-left: -45px; width: 90px;" href="{{ $job->getURL() }}" class="btn btn-small  white black-text">Apply</a>
+                @else
+                    <a style="position: absolute; bottom: 15px; left: 50%; margin-left: -45px; width: 90px;" href="/register" class="btn btn-small white black-text">Apply</a>
+                @endcan
             </div>
         </div>
     </div>

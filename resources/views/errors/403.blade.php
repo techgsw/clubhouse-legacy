@@ -6,8 +6,8 @@
         <div class="row">
             <div class="col s12">
                 <p>Please login or register for a free account to access this content.</p>
-                <a class="btn btn-large sbs-red" href="/login">Login</a>
-                <a class="btn btn-large sbs-red" href="/register">Register</a>
+                <a class="btn btn sbs-red" href="/login">Login</a>
+                <a class="btn btn sbs-red" href="/register">Register</a>
             </div>
         </div>
     @else

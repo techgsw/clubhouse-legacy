@@ -15,7 +15,8 @@ class Job extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'edited_at'
+        'edited_at',
+        'upgraded_at'
     ];
 
     public function user()
@@ -90,6 +91,61 @@ class Job extends Model
         return $url;
     }
 
+    public function getTimeRemainingString()
+    {
+        $create_date = clone($this->created_at);
+
+        $start_date = ((!is_null($this->upgraded_at)) ? $this->upgraded_at : $create_date);
+
+        if ($this->job_type_id == JOB_TYPE_ID['sbs_default']) {
+            return 'Does not expire'; 
+        } else if ($this->job_type_id == JOB_TYPE_ID['user_free']) {
+            $end_time = $start_date->add(new \DateInterval('P30D'));
+        } else if ($this->job_type_id == JOB_TYPE_ID['user_premium']) {
+            $end_time = $start_date->add(new \DateInterval('P45D'));
+        } else if ($this->job_type_id == JOB_TYPE_ID['user_platinum']) {
+            $end_time = $start_date->add(new \DateInterval('P60D'));
+        } 
+
+        $end_time = $end_time->format('Y-m-d H:i:s');
+        // calculation of extendedtimediff by auction extended_end_time
+        $seconds_left = (strtotime($end_time) - microtime(true));
+
+        $days=(int)($seconds_left/86400);
+        if ($days != 0 )
+        {
+            $day_string = "{$days}d ";
+        }
+
+        $hours = (int)(($seconds_left-($days*86400))/3600);
+        if ($days != 0 or $hours != 0) {
+            $hour_string = "{$hours}h ";
+        }
+
+        $minutes = (int)(($seconds_left-$days*86400-$hours*3600)/60);
+        if ($days != 0 or $hours != 0 or $minutes != 0) {
+            $minutes_string = "{$minutes}m ";
+        }
+
+        $seconds = (int)(($seconds_left-$days*86400-$hours*3600-$minutes*60));
+        if ($days != 0 or $hours != 0 or $minutes != 0 or $seconds != 0) {
+            $seconds_string = "{$seconds}s";
+        }
+
+        $countdown_string = "$day_string$hour_string";
+
+        $is_over =  ($seconds_left <= 0);
+
+        if ($is_over)
+        {
+            return 'Expired on '.$end_time;
+        }
+        else
+        {
+            return 'Posting expires in '.$countdown_string;
+        }
+    }
+
     public static function open()
     {
         return Job::where('open', true)->orderBy('created_at', 'desc');
@@ -105,7 +161,16 @@ class Job extends Model
         $rank = $job->rank;
 
         $job->featured = false;
-        $job->rank = 0;
+        $rank = 1;
+        $last_job = Job::whereNotNull('rank')
+            ->where('open', $job->open)
+            ->where('featured',0)
+            ->orderBy('rank', 'desc')
+            ->first();
+        if ($last_job) {
+            $rank = $last_job->rank+1;
+        }
+        $job->rank = $rank;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 

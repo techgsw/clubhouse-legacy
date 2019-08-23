@@ -54,6 +54,26 @@ class PurchaseNotification extends Mailable
                     ->subject('Membership Purchase Notification - theClubhouse')
                     ->markdown('emails.internal.purchase-notification');
                 break;
+            case 'premium-job':
+                return $this->from('app@sportsbusiness.solutions')
+                    ->subject('Preimium Job Purchase Notification - theClubhouse')
+                    ->markdown('emails.internal.purchase-notification');
+                break;
+            case 'premium-job-upgrade':
+                return $this->from('app@sportsbusiness.solutions')
+                    ->subject('Preimium Job Upgrade Purchase Notification - theClubhouse')
+                    ->markdown('emails.internal.purchase-notification');
+                break;
+            case 'platinum-job':
+                return $this->from('app@sportsbusiness.solutions')
+                    ->subject('Platinum Job Purchase Notification - theClubhouse')
+                    ->markdown('emails.internal.purchase-notification');
+                break;
+            case 'platinum-job-upgrade':
+                return $this->from('app@sportsbusiness.solutions')
+                    ->subject('Platinum Job Upgrade Purchase Notification - theClubhouse')
+                    ->markdown('emails.internal.purchase-notification');
+                break;
             default:
                 return;
         }

@@ -1,26 +1,73 @@
 @extends('layouts.clubhouse')
 @section('title', 'Job Board')
 @section('hero')
-    <div class="row hero bg-image job-board">
+    <div class="row hero bg-image job-board" style="padding: 40px 0;">
         <div class="col s12">
-            <img class="responsive-img" src="/images/clubhouse/job-board-white.png" />
-            <h4 class="header">Sports Job Board</h4>
-            <p>Here are some of the most sought-after jobs in sports. Apply today!</p>
+            <h4 class="header">Sports Industry Job Board</h4>
+            <p>Are you a recruiter or employer and want to post your job? <a class="" href="{{ Auth::user() ? '/job-options' : '/register?type=employer' }}">Click here.</a></p>
+            @if (!$searching)
+            <a id="search-link" href="#job-board-search" class="btn sbs-red">SEARCH</a>
+            @endif
         </div>
     </div>
 @endsection
 @section('content')
+@if (!$searching)
 <div class="container">
-    <div style="margin-bottom: 12px;">
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="card-flex-container">
+            @php $i = 0; @endphp
+            @php $featured_jobs_count = count($featured_jobs); @endphp
+            @foreach ($featured_jobs as $job)
+                <a href="{{ $job->getURL() }}" class="no-underline">
+                <div class="card medium">
+                    <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
+                        <div class="col s12 center" style="">
+                            @if (!is_null($job->image))
+                                <img style="height: 100px;" src="{{ $job->image->getURL('medium') }}" class="thumb">
+                            @endif
+                        </div>
+                        <div class="col s12 center" style="">
+                            <h5 style="font-size: 18px;">{{ $job->title }}</h5>
+                            <p style="font-size: 14px; letter-spacing: .6px; font-weight: 700; margin: 0 0 6px 0;">{{ $job->organization_name }}</p>
+                            @if ($job->isNew())
+                                <span class="label blue white-text" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b>NEW</b></span>
+                            @endif
+                            @if ($job->featured)
+                                <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
+                            @endif
+                            @can ('create-inquiry')
+                                <p><a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply</a></p>
+                            @else
+                                <p><a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply</a></p>
+                            @endcan
+                        </div>
+                    </div>
+                </div>
+                </a>
+                @php $i++; @endphp
+            @endforeach
+        </div>
+    </div>
+</div>
+@endif
+<div id="job-board-search" class="container-fluid" style="margin-top: -15px;">
+    <div class="row" style="margin-bottom: 12px;">
         <button class="text grey-text show-hide-sm hide-on-med-and-up" show-hide-id="job-search-form">
             <span class="show-options {{ $searching ? 'hidden' : ''}}"><i class="fa fa-caret-square-o-down icon-left"></i>Show search options</span>
             <span class="hide-options {{ $searching ? '' : 'hidden'}}"><i class="fa fa-caret-square-o-up icon-left"></i>Hide search options</span>
         </button>
     </div>
-    <div id="job-search-form" class="{{ $searching ? '' : 'hide-on-small-only'}}">
-        @include('forms.job-search')
+    <div class="container">
+        <div id="job-search-form" class="row {{ $searching ? '' : 'hide-on-small-only'}}">
+            @include('forms.job-search')
+        </div>
     </div>
+</div>
+<div class="container">
     @if (count($jobs) > 0)
+        <div class="row">
+        <div class="card-flex-container">
         @php
             $featured = false;
         @endphp
@@ -38,14 +85,15 @@
                 @endphp
                 <!--</div>-->
             @endif
-            @include('components.job-list-item', ['job' => $job])
+                @include('components.job-list-item', ['job' => $job])
         @endforeach
         @if ($featured)
             @php
                 $featured = false;
             @endphp
-            </div>
         @endif
+        </div>
+        </div>
         <div class="row">
             <div class="col s12 center-align">
                 {{ $jobs->appends(request()->all())->links('components.pagination') }}

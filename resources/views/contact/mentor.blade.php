@@ -28,7 +28,7 @@
         @endcan
         @if ($contact->user)
             <li class="tab"><a href="/user/{{ $contact->user->id }}/profile">Profile</a></li>
-            <li class="tab"><a href="/user/{{ $contact->user->id }}/jobs">Jobs</a></li>
+            <li class="tab"><a href="/user/{{ $contact->user->id }}/jobs">My Jobs</a></li>
             <li class="tab"><a href="/user/{{ $contact->user->id }}/questions">Q&A</a></li>
         @endif
     </ul>

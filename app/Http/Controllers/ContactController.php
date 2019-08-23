@@ -33,6 +33,12 @@ class ContactController extends Controller
      */
     public function show($id)
     {
+        
+        foreach(auth()->user()->roles as $role){
+            if ($role->code == 'admin' || $role->code == 'superuser'){
+                $this->authorize('edit-roles', Auth::User());
+            }
+        }
         $contact = Contact::with('address')->find($id);
         if (!$contact) {
             return abort(404);

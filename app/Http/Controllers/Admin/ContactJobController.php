@@ -14,6 +14,8 @@ use App\Contact;
 use App\Http\Requests\StoreJob;
 use App\Mail\Admin\ContactColdComm;
 use App\Mail\Admin\ContactWarmComm;
+use App\Mail\ContactJobInterestRequest;
+use App\Mail\ContactJobUserInterestRequest;
 use App\Mail\InquiryContacted;
 use App\Mail\InquirySubmitted;
 use Illuminate\Http\Request;
@@ -26,17 +28,18 @@ class ContactJobController extends Controller
 {
     public function pipelineForward(Request $request)
     {
-        $this->authorize('edit-contact');
-
         $contact_job = ContactJob::find($request->input('id'));
-        $job_pipeline = JobPipeline::all();
-
         if (!$contact_job) {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'We failed!'
             ]);
         }
+
+        $this->authorize('review-contact-job', $contact_job);
+
+        $job_pipeline = JobPipeline::all();
+
 
         $max_pipeline_step = JobPipeline::orderBy('pipeline_id', 'desc')->first();
 
@@ -56,11 +59,22 @@ class ContactJobController extends Controller
 
                     if ($contact_job->pipeline_id == 2) {
                         try {
-                            if ($contact_job->job->recruiting_type_code == "active") {
+                            if ($contact_job->job->recruiting_type_code == "active" && Auth::user()->hasAccess('view-admin-pipelines')) {
                                 if ($request->input('comm_type') == "warm") {
                                     Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job));
                                 } else if ($request->input('comm_type') == 'cold'){
                                     Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job));                                
+                                }
+                            } else if ($contact_job->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                                if ($request->input('comm_type') == 'default') {
+                                    $now = new \DateTime('NOW');
+                                    $contact_job->job_interest_response_date = $now;
+                                    $contact_job->save();
+                                    if (!is_null($contact_job->contact->user)) {
+                                        Mail::to($contact_job->contact)->send(new ContactJobUserInterestRequest($contact_job));                                
+                                    } else {
+                                        Mail::to($contact_job->contact)->send(new ContactJobInterestRequest($contact_job));                                
+                                    }
                                 }
                             }
                         } catch (Exception $e) {
@@ -90,11 +104,7 @@ class ContactJobController extends Controller
 
     public function pipelineHalt(Request $request)
     {
-        $this->authorize('edit-contact');
-
         $contact_job = ContactJob::find($request->input('id'));
-        $job_pipeline = JobPipeline::all();
-
         if (!$contact_job) {
             return response()->json([
                 'type' => 'failure',
@@ -109,6 +119,11 @@ class ContactJobController extends Controller
                 'status' => $contact_job->status,
             ]);
         }
+
+        $this->authorize('review-contact-job', $contact_job);
+
+        $job_pipeline = JobPipeline::all();
+
         try {
             $contact_job = DB::transaction(function () use ($contact_job, $job_pipeline, $request) {
                 $contact_job->status = 'halted';
@@ -270,12 +285,12 @@ class ContactJobController extends Controller
 
     public function createNote($contact_job_id, $content)
     {
-        $this->authorize('create-contact-note');
-
         $contact = ContactJob::find($contact_job_id);
         if (!$contact) {
             throw new \Exception('Note creation failed');
         }
+
+        $this->authorize('create-contact-note', $contact);
 
         $note = new Note();
         $note->user_id = Auth::user()->id;

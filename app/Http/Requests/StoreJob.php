@@ -28,8 +28,8 @@ class StoreJob extends FormRequest
             'organization_id' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'city' => 'required',
-            'state' => 'required',
+            //'city' => 'required',
+            //'state' => 'required',
             'document' => 'mimes:pdf|max:2000',
         ];
     }

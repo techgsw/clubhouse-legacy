@@ -11,17 +11,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col m6">
-        <div class="card horizontal">
-            <div class="card-stacked">
-                <div class="card-content">
-                    <span class="card-title grey-text">Membership</span>
-                    <p><strong>TAGS</strong> <span class="flat-button grey small">Membership</span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col m6">
+    <div class="col m4">
         <div class="card horizontal">
             <div class="card-stacked">
                 <div class="card-content">

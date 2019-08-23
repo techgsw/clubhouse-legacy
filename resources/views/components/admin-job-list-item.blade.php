@@ -1,10 +1,19 @@
 <div class="row job-admin">
-    <div class="col s3 m2">
+    <div class="col s3 m2 center">
         <a href="/job/{{$job->id}}" class="no-underline">
             @if (!is_null($job->image))
             <img src={{ $job->image->getURL('medium') }} class="no-border">
             @endif
         </a>
+        @if ($job->job_type_id == 2)
+            <span class="small flat-button gray lighten-2 inverse heavy">Free Job</span>
+        @endif
+        @if ($job->job_type_id == 3)
+            <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
+        @endif
+        @if ($job->job_type_id == 4)
+            <span class="small flat-button black inverse heavy">Platinum Job</span>
+        @endif
     </div>
     <div class="col s9 m10">
         <div class="small" style="float: right;">
@@ -18,14 +27,11 @@
             @endcan
             @can ('edit-job', $job)
                 <a href="/job/{{ $job->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
-                @if ($job->featured)
-                    <a href="/job/{{ $job->id }}/unfeature" class="flat-button small blue"><i class="fa fa-star"></i> {{ $job->rank }}</a>
-                    <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>
-                    <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
-                    <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
-                @else
-                    <a href="/job/{{ $job->id }}/feature" class="flat-button small blue"><i class="fa fa-star-o"></i></a>
-                @endif
+                <a href="/job/{{ $job->id }}/{{ $job->featured ? 'unfeature' : 'feature' }}" class="flat-button small blue"><i class="fa fa-star{{ $job->featured ? '' : '-o' }}"></i> {{ $job->rank }}</a>
+                <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>
+                <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
+                <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
+                <p style="font-size: 14px; font-weight: 400;">{{ $job->getTimeRemainingString() }}</p>
             @endcan
         </div>
         <a href="/job/{{$job->id}}">
