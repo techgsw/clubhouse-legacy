@@ -51,7 +51,7 @@ class InquiryController extends Controller
 
                     if ($inquiry->pipeline_id == 2 && $request->input('comm_type') != 'none') {
                         try {
-                            if (Auth::user()->hasAccess('view-admin-pipelines')) {
+                            if (\Gate::allows('view-admin-pipelines')) {
                                 switch ($inquiry->job->recruiting_type_code) {
                                     case 'active':
                                         Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
@@ -125,7 +125,7 @@ class InquiryController extends Controller
 
                 if ($halt_step == 0 && $request->input('comm_type') != 'none') {
                     try {
-                        if (Auth::user()->hasAccess('view-admin-pipelines')) {
+                        if (\Gate::allows('view-admin-pipelines')) {
                             switch ($inquiry->job->recruiting_type_code) {
                                 case 'active':
                                     Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));

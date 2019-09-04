@@ -59,7 +59,7 @@ class ContactJobController extends Controller
 
                     if ($contact_job->pipeline_id == 2) {
                         try {
-                            if ($contact_job->job->recruiting_type_code == "active" && Auth::user()->hasAccess('view-admin-pipelines')) {
+                            if ($contact_job->job->recruiting_type_code == "active" && \Gate::allows('view-admin-pipelines')) {
                                 if ($request->input('comm_type') == "warm") {
                                     Mail::to($contact_job->contact)->send(new ContactWarmComm($contact_job));
                                 } else if ($request->input('comm_type') == 'cold'){

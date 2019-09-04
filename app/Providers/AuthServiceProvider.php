@@ -48,7 +48,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAccess('reports_show');
         });
         Gate::define('view-admin-pipelines', function($user) {
-            return $user->hasAccess('pipelines_show');
+            return $user->hasAccess('pipeline_show');
         });
         Gate::define('edit-roles', function ($user) {
             return $user->hasAccess('edit_roles');
