@@ -83,6 +83,7 @@ class InquiryController extends Controller
 
         try {
             Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
+            Mail::to(User::find($job->user_id))->send(new InquiryNotification($job, Auth::user(), User::find($job->user_id)));
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
