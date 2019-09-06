@@ -85,8 +85,7 @@ class InquiryController extends Controller
         try {
             Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
             if ($job->job_type_id != JOB_TYPE_ID['sbs_default']) {
-                $job_user = User::find($job->user_id);
-                Mail::to($job_user)->send(new InquiryNotification($job, Auth::user()));
+                Mail::to(User::find($job->user_id))->send(new InquiryNotification($job, Auth::user()));
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());
