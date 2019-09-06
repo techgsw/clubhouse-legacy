@@ -15,18 +15,16 @@ class InquiryNotification extends Mailable
 
     public $job;
     public $inquiry_user;
-    public $job_user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Job $job, User $inquiry_user, User $job_user)
+    public function __construct(Job $job, User $inquiry_user)
     {
         $this->job = $job;
         $this->inquiry_user = $inquiry_user;
-        $this->job_user = $job_user;
     }
 
     /**

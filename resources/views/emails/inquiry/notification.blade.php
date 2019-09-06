@@ -1,10 +1,6 @@
 @component('emails.layout')
     @slot('body')
-        <p>THIS IS A TEST EMAIL NOTIFICATION. PLEASE IGNORE.</p>
-        <p>{{ ucwords($job_user->first_name) }},</p>
-        <p>{{ ucwords($inquiry_user->first_name) }} {{ ucwords($inquiry_user->last_name) }} applied for <strong>{{ $job->title }}</strong></p>
-        <p><a href="{{ env('CLUBHOUSE_URL') }}/job/{{ $job->id }}">Click here</a> to return to the job listing</p>
-        <p>Placeholder text placeholder text blah blah</p>
-        <p>Regards,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
+        <p>{{ ucwords($user->first_name) }} {{ ucwords($user->last_name) }} just applied for the {{ $job->title }} position with the {{ $job->organization }}</p>
+        <p><a href="{{ config('app.url') }}/job/{{ $job->id }}">Click here</a> to view their application.</p>
     @endslot
 @endcomponent
