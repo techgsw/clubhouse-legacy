@@ -15,7 +15,8 @@ class SearchServiceProvider extends ServiceProvider
      * @param string $search_string The search string typed in by the user
      * @return array $search_list An array of \App\Search
      */
-    public static function parseSearchString($search_string) {
+    public static function parseSearchString($search_string)
+    {
         // capture words wrapped between double quotes
         $regexp = "/[\s]*\\\"([^\\\"]+)\\\"[\s]*"
             // delimit words by whitespace

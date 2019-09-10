@@ -8,6 +8,7 @@ use App\Search;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Contact extends Model
 {
@@ -193,12 +194,17 @@ class Contact extends Model
                     $contacts = $operatorIsOr ? $contacts->orWhere('contact.email', 'like', "%$search_value%") : $contacts->where('contact.email', 'like', "%$search_value%");
                     break;
                 case 'owner':
-                    //TODO: figure out how to support OR here, chained owner labels might also be broken
-                    $contacts = $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
-                        ->join('user', function ($join_user) use ($search_value) {
-                            $join_user->on('contact_relationship.user_id', '=', 'user.id')
-                                ->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$search_value%");
-                        });
+                    if ($contacts->getQuery()->joins === null
+                        || array_search('contact_relationship', array_column((array)$contacts->getQuery()->joins, 'table')) === false
+                        || array_search('user', array_column((array)$contacts->getQuery()->joins, 'table')) === false
+                    ) {
+                        $contacts = $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
+                            ->join('user', function ($join_user) use ($search_value) {
+                                $join_user->on('contact_relationship.user_id', '=', 'user.id');
+                            });
+                    }
+                    $contacts = $operatorIsOr ? $contacts->orWhere(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$search_value%")
+                        : $contacts->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$search_value%");
                     break;
                 case 'organization':
                     $contacts = $operatorIsOr ? $contacts->orWhere('contact.organization', 'like', "%$search_value%") : $contacts->where('contact.organization', 'like', "%$search_value%");
@@ -252,7 +258,8 @@ class Contact extends Model
                     break;
                 case 'name':
                 case 'default':
-                    $contacts = $operatorIsOr ? $contacts->orWhere(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%") : $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%");
+                    $contacts = $operatorIsOr ? $contacts->orWhere(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%")
+                        : $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%");
                     break;
                 default:
                     // Ignore search. Desired index could not be found.
