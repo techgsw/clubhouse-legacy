@@ -3,55 +3,51 @@
 
 namespace App\Providers;
 
+use App\Search;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\ServiceProvider;
 
-class SearchServiceProvider
+class SearchServiceProvider extends ServiceProvider
 {
 
     /**
      * This will parse a search string into an object with all search terms, index types and operators clearly defined
-     * @param string $search The search string typed in by the user
-     * @return array $parsed_search An array of associative arrays, each with keys "operator", "index" and "value"
+     * @param string $search_string The search string typed in by the user
+     * @return array $search_list An array of \App\Search
      */
-    public static function parseSearchString($search) {
+    public static function parseSearchString($search_string) {
         // capture words wrapped between double quotes
         $regexp = "/[\s]*\\\"([^\\\"]+)\\\"[\s]*"
-            // capture words wrapped between single quotes
-            ."|[\s]*'([^']+)'[\s]*"
             // delimit words by whitespace
             ."|[\s]+"
             // delimit words by colon but keep the colon
             ."|(?<=[:])/";
 
-        $parsed_search = array();
-        $words = preg_split($regexp, $search, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $search_list = array();
+        $words = preg_split($regexp, $search_string, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
         $word = current($words);
         // we're expecting the order of the query string to be [operator] [index]:[value] or just [index]:[value]
         // we'll assume AND if we don't see an operator and "default" if we don't see an index
         while ($word !== false) {
-            $index_block = array(
-                "operator" => "AND",
-                "index" => "default",
-                "value" => ""
-            );
+            $search_block = new Search();
             if (strcasecmp($word, "or") === 0 || strcasecmp($word, "and") === 0) {
-                $index_block["operator"] = $word;
+                $search_block->setOperator($word);
                 $word = next($words);
                 if ($word === false) {
                     break;
                 }
             }
             if (strpos($word, ":") !== false) {
-                $index_block["index"] = explode(":", $word, 2)[0];
+                $search_block->setIndex(explode(":", $word, 2)[0]);
                 $word = next($words);
                 if ($word === false) {
                     break;
                 }
             }
-            $index_block["value"] = $word;
+            $search_block->setValue($word);
             $word = next($words);
-            array_push($parsed_search, $index_block);
+            array_push($search_list, $search_block);
         }
-        return $parsed_search;
+        return $search_list;
     }
 }
