@@ -173,7 +173,7 @@ class Contact extends Model
         return !$personal_match || !$employment_match || !address_match;
     }
 
-    public static function search(string $sort_type, $searches)
+    public static function search($sort_type, $searches)
     {
         $contacts = Contact::where('contact.id', '>', 0);
 
