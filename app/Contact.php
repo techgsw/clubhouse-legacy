@@ -174,7 +174,7 @@ class Contact extends Model
 
     public static function search(Request $request)
     {
-        $contacts = Contact::where('id', '>', 0);
+        $contacts = Contact::where('contact.id', '>', 0);
 
         $term = $request->query->get('term');
 
@@ -189,6 +189,13 @@ class Contact extends Model
             break;
         case 'email':
             $contacts = $contacts->where('contact.email', 'like', "%$term%");
+            break;
+        case 'owner':
+            $contacts = $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
+                ->join('user', function ($join_user) use ($term) {
+                    $join_user->on('contact_relationship.user_id', '=', 'user.id')
+                        ->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$term%");
+                });
             break;
         case 'name':
         default:
@@ -272,6 +279,6 @@ class Contact extends Model
             break;
         }
 
-        return $contacts;
+        return $contacts->select('contact.*');
     }
 }
