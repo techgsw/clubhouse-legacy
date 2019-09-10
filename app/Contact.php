@@ -4,6 +4,7 @@ namespace App;
 
 use App\Note;
 use App\Profile;
+use App\Search;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -172,111 +173,114 @@ class Contact extends Model
         return !$personal_match || !$employment_match || !address_match;
     }
 
-    public static function search(Request $request)
+    public static function search(string $sort_type, $searches)
     {
         $contacts = Contact::where('contact.id', '>', 0);
 
-        $term = $request->query->get('term');
-
-        $index = $request->query->get('index') ?: 'name';
-        switch ($index) {
-        case 'id':
-            $term = (int)$term;
-            $contacts = $contacts->where('contact.id', $term);
-            break;
-        case 'title':
-            $contacts = $contacts->where('contact.title', 'like', "%$term%");
-            break;
-        case 'email':
-            $contacts = $contacts->where('contact.email', 'like', "%$term%");
-            break;
-        case 'owner':
-            $contacts = $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
-                ->join('user', function ($join_user) use ($term) {
-                    $join_user->on('contact_relationship.user_id', '=', 'user.id')
-                        ->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$term%");
-                });
-            break;
-        case 'name':
-        default:
-            $contacts = $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$term%");
+        foreach ($searches as $search) {
+            $search_value = $search->getValue();
+            $operatorIsOr = strcasecmp($search->getOperator(), "OR") === 0;
+            $index = $search->getIndex();
+            switch ($index) {
+                case 'id':
+                    $search_value = (int)$search_value;
+                    $contacts = $operatorIsOr ? $contacts->orWhere('contact.id', $search_value) : $contacts->where('contact.id', $search_value);
+                    break;
+                case 'title':
+                    $contacts = $operatorIsOr ? $contacts->orWhere('contact.title', 'like', "%$search_value%") : $contacts->where('contact.title', 'like', "%$search_value%");
+                    break;
+                case 'email':
+                    $contacts = $operatorIsOr ? $contacts->orWhere('contact.email', 'like', "%$search_value%") : $contacts->where('contact.email', 'like', "%$search_value%");
+                    break;
+                case 'owner':
+                    //TODO: figure out how to support OR here, chained owner labels might also be broken
+                    $contacts = $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
+                        ->join('user', function ($join_user) use ($search_value) {
+                            $join_user->on('contact_relationship.user_id', '=', 'user.id')
+                                ->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$search_value%");
+                        });
+                    break;
+                case 'organization':
+                    $contacts = $operatorIsOr ? $contacts->orWhere('contact.organization', 'like', "%$search_value%") : $contacts->where('contact.organization', 'like', "%$search_value%");
+                    break;
+                case 'job_seeking_type':
+                    switch ($search_value) {
+                        case 'internship':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_type', 'internship') : $contacts->where('contact.job_seeking_type', 'internship');
+                            break;
+                        case 'entry_level':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_type', 'entry_level') : $contacts->where('contact.job_seeking_type', 'entry_level');
+                            break;
+                        case 'mid_level':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_type', 'mid_level') : $contacts->where('contact.job_seeking_type', 'mid_level');
+                            break;
+                        case 'entry_level_management':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_type', 'entry_level_management') : $contacts->where('contact.job_seeking_type', 'entry_level_management');
+                            break;
+                        case 'mid_level_management':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_type', 'mid_level_management') : $contacts->where('contact.job_seeking_type', 'mid_level_management');
+                            break;
+                        case 'executive':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_type', 'executive') : $contacts->where('contact.job_seeking_type', 'executive');
+                            break;
+                        case 'all':
+                        default:
+                            break;
+                    }
+                    break;
+                case 'job_seeking_status':
+                    switch ($search_value) {
+                        case 'unemployed':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_status', 'unemployed') : $contacts->where('contact.job_seeking_status', 'unemployed');
+                            break;
+                        case 'employed_active':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_status', 'employed_active') : $contacts->where('contact.job_seeking_status', 'employed_active');
+                            break;
+                        case 'employed_passive':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_status', 'employed_passive') : $contacts->where('contact.job_seeking_status', 'employed_passive');
+                            break;
+                        case 'employed_future':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_status', 'employed_future') : $contacts->where('contact.job_seeking_status', 'employed_future');
+                            break;
+                        case 'employed_not':
+                            $contacts = $operatorIsOr ? $contacts->orWhere('contact.job_seeking_status', 'employed_not') : $contacts->where('contact.job_seeking_status', 'employed_not');
+                            break;
+                        case 'all':
+                        default:
+                            break;
+                    }
+                    break;
+                case 'name':
+                case 'default':
+                    $contacts = $operatorIsOr ? $contacts->orWhere(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%") : $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%");
+                    break;
+                default:
+                    // Ignore search. Desired index could not be found.
+            }
         }
 
-        $organization_name = $request->query->get('organization_name');
-        if (!empty($organization_name)) {
-            $contacts = $contacts->where('contact.organization', $organization_name);
-        }
-
-        $sort = $request->query->get('sort');
-        switch ($sort) {
-        case 'id-desc':
-            $contacts = $contacts->orderBy('contact.id', 'desc');
-            break;
-        case 'id-asc':
-            $contacts = $contacts->orderBy('contact.id', 'asc');
-            break;
-        case 'email-desc':
-            $contacts = $contacts->orderBy('contact.email', 'desc');
-            break;
-        case 'email-asc':
-            $contacts = $contacts->orderBy('contact.email', 'asc');
-            break;
-        case 'name-desc':
-            $contacts = $contacts->orderBy('contact.last_name', 'desc');
-            break;
-        case 'name-asc':
-            $contacts = $contacts->orderBy('contact.last_name', 'asc');
-            break;
-        default:
-            $contacts = $contacts->orderBy('contact.id', 'desc');
-            break;
-        }
-
-        $job_seeking_type = $request->query->get('job_seeking_type');
-        switch ($job_seeking_type) {
-        case 'internship':
-            $contacts = $contacts->where('contact.job_seeking_type', 'internship');
-            break;
-        case 'entry_level':
-            $contacts = $contacts->where('contact.job_seeking_type', 'entry_level');
-            break;
-        case 'mid_level':
-            $contacts = $contacts->where('contact.job_seeking_type', 'mid_level');
-            break;
-        case 'entry_level_management':
-            $contacts = $contacts->where('contact.job_seeking_type', 'entry_level_management');
-            break;
-        case 'mid_level_management':
-            $contacts = $contacts->where('contact.job_seeking_type', 'mid_level_management');
-            break;
-        case 'executive':
-            $contacts = $contacts->where('contact.job_seeking_type', 'executive');
-            break;
-        case 'all':
-        default:
-            break;
-        }
-
-        $job_seeking_status = $request->query->get('job_seeking_status');
-        switch ($job_seeking_status) {
-        case 'unemployed':
-            $contacts = $contacts->where('contact.job_seeking_status', 'unemployed');
-            break;
-        case 'employed_active':
-            $contacts = $contacts->where('contact.job_seeking_status', 'employed_active');
-            break;
-        case 'employed_passive':
-            $contacts = $contacts->where('contact.job_seeking_status', 'employed_passive');
-            break;
-        case 'employed_future':
-            $contacts = $contacts->where('contact.job_seeking_status', 'employed_future');
-            break;
-        case 'employed_not':
-            $contacts = $contacts->where('contact.job_seeking_status', 'employed_not');
-            break;
-        case 'all':
-        default:
-            break;
+        switch ($sort_type) {
+            case 'id-desc':
+                $contacts = $contacts->orderBy('contact.id', 'desc');
+                break;
+            case 'id-asc':
+                $contacts = $contacts->orderBy('contact.id', 'asc');
+                break;
+            case 'email-desc':
+                $contacts = $contacts->orderBy('contact.email', 'desc');
+                break;
+            case 'email-asc':
+                $contacts = $contacts->orderBy('contact.email', 'asc');
+                break;
+            case 'name-desc':
+                $contacts = $contacts->orderBy('contact.last_name', 'desc');
+                break;
+            case 'name-asc':
+                $contacts = $contacts->orderBy('contact.last_name', 'asc');
+                break;
+            default:
+                $contacts = $contacts->orderBy('contact.id', 'desc');
+                break;
         }
 
         return $contacts->select('contact.*');

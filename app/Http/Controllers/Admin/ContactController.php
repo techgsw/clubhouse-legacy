@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Contact;
 use App\Message;
+use App\Providers\SearchServiceProvider;
+use App\Search;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -18,7 +20,10 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view-contact');
-        $contacts = Contact::search($request);
+        $searches = SearchServiceProvider::parseSearchString($request->query->get('term'));
+        array_push($searches, new Search("AND", "job_seeking_type", $request->query->get('job_seeking_type')));
+        array_push($searches, new Search("AND", "job_seeking_status", $request->query->get('job_seeking_status')));
+        $contacts = Contact::search( $request->query->get('sort'), $searches);
         $count = $contacts->count();
         $contacts = $contacts->paginate(15);
 
@@ -34,7 +39,10 @@ class ContactController extends Controller
     public function download(Request $request)
     {
         $this->authorize('view-contact');
-        $contacts = Contact::search($request);
+        $searches = SearchServiceProvider::parseSearchString($request->query->get('term'));
+        array_push($searches, new Search("AND", "job_seeking_type", $request->query->get('job_seeking_type')));
+        array_push($searches, new Search("AND", "job_seeking_status", $request->query->get('job_seeking_status')));
+        $contacts = Contact::search($searches);
         $contacts = $contacts->get();
 
         if (count($contacts) < 1) {
