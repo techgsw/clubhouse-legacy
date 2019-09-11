@@ -12,6 +12,7 @@ use App\JobInterestResponse;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
+use App\Mail\InquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -83,6 +84,9 @@ class InquiryController extends Controller
 
         try {
             Mail::to(Auth::user())->send(new InquirySubmitted($job, Auth::user()));
+            if ($job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                Mail::to(User::find($job->user_id))->send(new InquiryNotification($job, Auth::user()));
+            }
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
