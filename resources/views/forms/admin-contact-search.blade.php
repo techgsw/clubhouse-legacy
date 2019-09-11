@@ -1,7 +1,7 @@
 <form id="admin-contact-search" action="/admin/contact" method="get">
     <div class="row">
         <div class="col s11 input-field">
-            <input id="search_term" type="text" name="term" value="{{ request('term') }}">
+            <input id="search_term" type="text" name="search" value="{{ request('search') }}">
             <label for="search_term">Search for</label>
         </div>
         <div class="col s1 center-align input-field">
