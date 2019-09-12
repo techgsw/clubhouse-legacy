@@ -20,10 +20,7 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view-contact');
-        $searches = SearchServiceProvider::parseSearchString($request->query->get('search'));
-        array_push($searches, new Search("AND", "job_seeking_type", $request->query->get('job_seeking_type')));
-        array_push($searches, new Search("AND", "job_seeking_status", $request->query->get('job_seeking_status')));
-        $contacts = Contact::search( $request->query->get('sort'), $searches);
+        $contacts = $this->searchForContacts($request);
         $count = $contacts->count();
         $contacts = $contacts->paginate(15);
 
@@ -39,10 +36,7 @@ class ContactController extends Controller
     public function download(Request $request)
     {
         $this->authorize('view-contact');
-        $searches = SearchServiceProvider::parseSearchString($request->query->get('search'));
-        array_push($searches, new Search("AND", "job_seeking_type", $request->query->get('job_seeking_type')));
-        array_push($searches, new Search("AND", "job_seeking_status", $request->query->get('job_seeking_status')));
-        $contacts = Contact::search($searches);
+        $contacts = $this->searchForContacts($request);
         $contacts = $contacts->get();
 
         if (count($contacts) < 1) {
@@ -82,5 +76,18 @@ class ContactController extends Controller
             }
             fclose($handle);
         }, 200, $headers);
+    }
+
+    private function searchForContacts(Request $request) {
+        $searches = SearchServiceProvider::parseSearchString($request->query->get('search'));
+        $job_seeking_type = $request->query->get('job_seeking_type');
+        if ($job_seeking_type !== null) {
+            array_push($searches, new Search("AND", "job_seeking_type", $job_seeking_type));
+        }
+        $job_seeking_status = $request->query->get('job_seeking_status');
+        if ($job_seeking_status !== null) {
+            array_push($searches, new Search("AND", "job_seeking_status", $job_seeking_status));
+        }
+        return Contact::search( $request->query->get('sort'), $searches);
     }
 }
