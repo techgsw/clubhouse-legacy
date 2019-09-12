@@ -185,7 +185,7 @@ class Contact extends Model
             switch ($index) {
                 case 'id':
                     $search_value = (int)$search_value;
-                    $contacts = $contacts->where('contact.id', $search_value, $conjunction);
+                    $contacts = $contacts->where('contact.id', '=', $search_value, $conjunction);
                     break;
                 case 'title':
                     $contacts = $contacts->where('contact.title', 'like', "%$search_value%", $conjunction);
@@ -234,22 +234,22 @@ class Contact extends Model
                 case 'job_seeking_type':
                     switch ($search_value) {
                         case 'internship':
-                            $contacts = $contacts->where('contact.job_seeking_type', 'internship', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'internship', $conjunction);
                             break;
                         case 'entry_level':
-                            $contacts = $contacts->where('contact.job_seeking_type', 'entry_level', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'entry_level', $conjunction);
                             break;
                         case 'mid_level':
-                            $contacts = $contacts->where('contact.job_seeking_type', 'mid_level', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'mid_level', $conjunction);
                             break;
                         case 'entry_level_management':
-                            $contacts = $contacts->where('contact.job_seeking_type', 'entry_level_management', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'entry_level_management', $conjunction);
                             break;
                         case 'mid_level_management':
-                            $contacts = $contacts->where('contact.job_seeking_type', 'mid_level_management', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'mid_level_management', $conjunction);
                             break;
                         case 'executive':
-                            $contacts = $contacts->where('contact.job_seeking_type', 'executive', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'executive', $conjunction);
                             break;
                         case 'all':
                         default:
@@ -259,19 +259,19 @@ class Contact extends Model
                 case 'job_seeking_status':
                     switch ($search_value) {
                         case 'unemployed':
-                            $contacts = $contacts->where('contact.job_seeking_status', 'unemployed', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'unemployed', $conjunction);
                             break;
                         case 'employed_active':
-                            $contacts = $contacts->where('contact.job_seeking_status', 'employed_active', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_active', $conjunction);
                             break;
                         case 'employed_passive':
-                            $contacts = $contacts->where('contact.job_seeking_status', 'employed_passive', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_passive', $conjunction);
                             break;
                         case 'employed_future':
-                            $contacts = $contacts->where('contact.job_seeking_status', 'employed_future', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_future', $conjunction);
                             break;
                         case 'employed_not':
-                            $contacts = $contacts->where('contact.job_seeking_status', 'employed_not', $conjunction);
+                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_not', $conjunction);
                             break;
                         case 'all':
                         default:
