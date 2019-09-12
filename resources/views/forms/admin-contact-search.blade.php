@@ -19,6 +19,8 @@
                         <li><b><code>title:</code></b> Search by job title of contact</li>
                         <li><b><code>email:</code></b> Search by contact's email</li>
                         <li><b><code>owner:</code></b> Search by the name of the user that owns the contact's account, if applicable</li>
+                        <li><b><code>note:</code></b> Search by the contents of the contact's notes</li>
+                        <li><b><code>location:</code></b> Search by parts of the contact's address</li>
                         <li><b><code>job_seeking_type:</code></b> Search by the "goal", or type of job the contact is seeking. Possible options are <code>internship</code>, <code>entry_level</code>, <code>mid_level</code>, <code>entry_level_management</code>, <code>mid_level_management</code> or <code>executive></code></li>
                         <li><b><code>job_seeking_status:</code></b> Search by the contact's current job & job seeking status. Possible options are <code>unemployed</code>, <code>employed_active</code> (actively seeking), <code>employed_passive</code> (passively seeking), <code>employed_future</code> (maybe later) or <code>employed_not</code> (not seeking)</li>
                     </ul>

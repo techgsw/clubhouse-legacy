@@ -199,11 +199,34 @@ class Contact extends Model
                         || array_search('user', array_column((array)$contacts->getQuery()->joins, 'table')) === false
                     ) {
                         $contacts = $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
-                            ->join('user', function ($join_user) use ($search_value) {
+                            ->join('user', function ($join_user) {
                                 $join_user->on('contact_relationship.user_id', '=', 'user.id');
                             });
                     }
                     $contacts = $contacts->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'note':
+                    if ($contacts->getQuery()->joins === null
+                        || array_search('note', array_column((array)$contacts->getQuery()->joins, 'table')) === false
+                    ) {
+                        $contacts = $contacts->join('note', function ($join_note) {
+                            $join_note->on('contact.id', '=', 'note.notable_id')
+                                ->where('note.notable_type', '=', 'App\\Contact');
+                        });
+                    }
+                    $contacts = $contacts->where('note.content', 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'location':
+                    if ($contacts->getQuery()->joins === null
+                        || array_search('address_contact', array_column((array)$contacts->getQuery()->joins, 'table')) === false
+                        || array_search('address', array_column((array)$contacts->getQuery()->joins, 'table')) === false
+                    ) {
+                        $contacts = $contacts->join('address_contact', 'contact.id', '=', 'address_contact.contact_id')
+                            ->join('address', function ($join_address) {
+                                $join_address->on('address_contact.address_id', '=', 'address.id');
+                            });
+                    }
+                    $contacts = $contacts->where(DB::raw('CONCAT(address.line1, " ", address.line2, " ", address.city, " ", address.state, " ", address.postal_code, " ", address.country, " ")'), 'like', "%$search_value%", $conjunction);
                     break;
                 case 'organization':
                     $contacts = $contacts->where('contact.organization', 'like', "%$search_value%", $conjunction);
