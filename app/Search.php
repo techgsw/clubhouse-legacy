@@ -1,8 +1,8 @@
 <?php
 
-
 namespace App;
 
+use App\Exceptions\InvalidSearchException;
 
 /**
  * This object holds search blocks used when parsing searches with our custom syntax.
@@ -15,12 +15,15 @@ class Search
     protected $index;
     protected $value;
 
+    /**
+     * @throws InvalidSearchException
+     */
     public function __construct(
-        $operator = "AND",
+        $operator = "and",
         $index = "default",
         $value = null
     ) {
-        $this->operator = $operator;
+        $this->operator = $this->validateOperator($operator);
         $this->index = $index;
         $this->value = $value;
     }
@@ -40,9 +43,12 @@ class Search
         return $this->value;
     }
 
+    /**
+     * @throws InvalidSearchException
+     */
     public function setOperator(string $operator)
     {
-        $this->operator = $operator;
+        $this->operator = $this->validateOperator($operator);
         return $this;
     }
 
@@ -56,5 +62,14 @@ class Search
     {
         $this->value = $value;
         return $this;
+    }
+
+    private function validateOperator($operator) {
+        if (in_array($operator, array("and", "or"))) {
+            return $operator;
+        } else {
+            throw new InvalidSearchException(
+                "Operator ".$operator." is invalid. Should be 'and' or 'or'.");
+        }
     }
 }

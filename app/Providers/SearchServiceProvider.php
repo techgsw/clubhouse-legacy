@@ -32,7 +32,7 @@ class SearchServiceProvider extends ServiceProvider
         while ($word !== false) {
             $search_block = new Search();
             if (strcasecmp($word, "or") === 0 || strcasecmp($word, "and") === 0) {
-                $search_block->setOperator($word);
+                $search_block->setOperator(strtolower($word));
                 $word = next($words);
                 if ($word === false) {
                     break;

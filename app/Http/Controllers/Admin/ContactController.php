@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\InvalidSearchException;
 use App\Http\Controllers\Controller;
 use App\Contact;
 use App\Message;
 use App\Providers\SearchServiceProvider;
 use App\Search;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -21,6 +23,9 @@ class ContactController extends Controller
     {
         $this->authorize('view-contact');
         $contacts = $this->searchForContacts($request);
+        if ($contacts instanceof RedirectResponse) {
+            return $contacts;
+        }
         $count = $contacts->count();
         $contacts = $contacts->paginate(15);
 
@@ -37,6 +42,9 @@ class ContactController extends Controller
     {
         $this->authorize('view-contact');
         $contacts = $this->searchForContacts($request);
+        if ($contacts instanceof RedirectResponse) {
+            return $contacts;
+        }
         $contacts = $contacts->get();
 
         if (count($contacts) < 1) {
@@ -79,15 +87,25 @@ class ContactController extends Controller
     }
 
     private function searchForContacts(Request $request) {
-        $searches = SearchServiceProvider::parseSearchString($request->query->get('search'));
-        $job_seeking_type = $request->query->get('job_seeking_type');
-        if ($job_seeking_type !== null) {
-            array_push($searches, new Search("AND", "job_seeking_type", $job_seeking_type));
+        try {
+            $searches = SearchServiceProvider::parseSearchString($request->query->get('search'));
+            $job_seeking_type = $request->query->get('job_seeking_type');
+            if ($job_seeking_type !== null) {
+                array_push($searches, new Search("and", "job_seeking_type", $job_seeking_type));
+            }
+            $job_seeking_status = $request->query->get('job_seeking_status');
+            if ($job_seeking_status !== null) {
+                array_push($searches, new Search("and", "job_seeking_status", $job_seeking_status));
+            }
+            return Contact::search($request->query->get('sort'), $searches);
+        } catch (InvalidSearchException $e) {
+            $request->session()->flash('message', new Message(
+                $e->getMessage(),
+                "danger",
+                $e->getCode(),
+                "error"
+            ));
+            return redirect()->back();
         }
-        $job_seeking_status = $request->query->get('job_seeking_status');
-        if ($job_seeking_status !== null) {
-            array_push($searches, new Search("AND", "job_seeking_status", $job_seeking_status));
-        }
-        return Contact::search( $request->query->get('sort'), $searches);
     }
 }

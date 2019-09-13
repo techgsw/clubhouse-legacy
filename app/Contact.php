@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exceptions\InvalidSearchException;
 use App\Note;
 use App\Profile;
 use App\Search;
@@ -283,7 +284,7 @@ class Contact extends Model
                     $contacts = $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%", $conjunction);
                     break;
                 default:
-                    // Ignore search. Desired index could not be found.
+                    throw new InvalidSearchException("Label ".$index." does not exist.");
             }
         }
 
