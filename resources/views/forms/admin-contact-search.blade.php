@@ -1,20 +1,36 @@
 <form id="admin-contact-search" action="/admin/contact" method="get">
     <div class="row">
-        <div class="col s7 m9 input-field">
-            <input id="search_term" type="text" name="term" value="{{ request('term') }}">
+        <div class="col s11 input-field">
+            <input id="search_term" type="text" name="search" value="{{ request('search') }}">
             <label for="search_term">Search for</label>
         </div>
-        <div class="col s5 m3 center-align input-field">
-            <select name="index">
-                <option value="name" {{ request('index') == "name" ? "selected" : "" }}>by name</option>
-                <option value="title" {{ request('index') == "title" ? "selected" : "" }}>by title</option>
-                <option value="email" {{ request('index') == "email" ? "selected" : "" }}>by email</option>
-                <option value="id" {{ request('index') == "id" ? "selected" : "" }}>by ID</option>
-            </select>
-        </div>
-        <div class="col s12 input-field">
-            <input id="organization_name" type="text" name="organization_name" class="organization-autocomplete" value="{{ request('organization_name') }}">
-            <label for="organization_name">Organization</label>
+        <div class="col s1 center-align input-field">
+            <a href="#search-syntax-info" class="btn-floating red">
+                <i class="material-icons">info_outline</i>
+            </a>
+            <div id="search-syntax-info" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h3>Contact Search Syntax</h3>
+                    <p>The following labels may be used to search by specific fields. If no label is specified, search will default to <code>name:</code>.</p>
+                    <ul class="left-align">
+                        <li><b><code>name:</code></b> Search by contact's name</li>
+                        <li><b><code>id:</code></b> Search by contact's database ID</li>
+                        <li><b><code>organization:</code></b> Search by contact's current organization</li>
+                        <li><b><code>title:</code></b> Search by job title of contact</li>
+                        <li><b><code>email:</code></b> Search by contact's email</li>
+                        <li><b><code>owner:</code></b> Search by the name of the user that owns the contact's account, if applicable</li>
+                        <li><b><code>note:</code></b> Search by the contents of the contact's notes</li>
+                        <li><b><code>location:</code></b> Search by parts of the contact's address</li>
+                        <li><b><code>job_seeking_type:</code></b> Search by the "goal", or type of job the contact is seeking. Possible options are <code>internship</code>, <code>entry_level</code>, <code>mid_level</code>, <code>entry_level_management</code>, <code>mid_level_management</code> or <code>executive></code></li>
+                        <li><b><code>job_seeking_status:</code></b> Search by the contact's current job & job seeking status. Possible options are <code>unemployed</code>, <code>employed_active</code> (actively seeking), <code>employed_passive</code> (passively seeking), <code>employed_future</code> (maybe later) or <code>employed_not</code> (not seeking)</li>
+                    </ul>
+                    <p>The first word or "quoted phrase" after the label will be used by that label. For example, <code>organization:"Sports Business Solutions"</code> will search for an organization of "Sports Business Solutions", but <code>organization:Sports Business Solutions</code> will search for an organization of "Sports", a name with "Business" and a name with "Solutions" in it.</p>
+                    <p>You can also use <code>AND</code> and <code>OR</code> to chain searches together. By default, any labels, words, or phrases next to each other will default to <code>AND</code>.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-close btn-flat">Close</a>
+                </div>
+            </div>
         </div>
         <div class="col s6 m3 center-align input-field">
             <select class="browser-default" name="job_seeking_type" style="margin-top: 0; height: 36px;">
