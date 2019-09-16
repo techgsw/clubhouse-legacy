@@ -1,5 +1,13 @@
 <?php
 
+define('JOB_STATUS_ID',
+    array(
+        'open' => 1,
+        'closed' => 2,
+        'expired' => 3
+    )
+);
+
 define('JOB_TYPE_ID',
     array(
         'sbs_default' => 1,
