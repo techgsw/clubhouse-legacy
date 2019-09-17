@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class Job extends Model
 {
     protected $table = 'job';
-    protected $guarded = [
-        'open'
-    ];
     protected $dates = [
         'created_at',
         'updated_at',
@@ -145,11 +142,6 @@ class Job extends Model
         }
     }
 
-    public static function open()
-    {
-        return Job::where('open', true)->orderBy('created_at', 'desc');
-    }
-
     public static function unfeature($id)
     {
         $job = Job::find($id);
@@ -162,7 +154,7 @@ class Job extends Model
         $job->featured = false;
         $rank = 1;
         $last_job = Job::whereNotNull('rank')
-            ->where('open', $job->open)
+            ->where('job_status_id', $job->job_status_id)
             ->where('featured',0)
             ->orderBy('rank', 'desc')
             ->first();
@@ -205,20 +197,12 @@ class Job extends Model
             }
             // Admins can filter by status
             $status = request('status');
-            switch ($status) {
-                case 'open':
-                    $jobs = $jobs->where('open', true);
-                    break;
-                case 'closed':
-                    $jobs = $jobs->where('open', false);
-                    break;
-                case 'all':
-                default:
-                    break;
+            if (array_key_exists($status, JOB_STATUS_ID)) {
+                $jobs = $jobs->where('job_status_id', JOB_STATUS_ID[$status]);
             }
         } else {
             // Users can only see open jobs
-            $jobs = Job::where('open', true);
+            $jobs = Job::where('job_status_id', JOB_STATUS_ID['open']);
         }
 
         $type = request('job_type');

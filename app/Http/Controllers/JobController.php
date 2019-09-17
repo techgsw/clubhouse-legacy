@@ -53,7 +53,7 @@ class JobController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        $featured_jobs = Job::where('open', '=', 1)->where('featured', '=', 1)->get()->all();
+        $featured_jobs = Job::where('job_status_id', '=', JOB_STATUS_ID['open'])->where('featured', '=', 1)->get()->all();
         $featured_jobs_count = count($featured_jobs);
         $random_featured_jobs = array();
 
@@ -440,7 +440,7 @@ class JobController extends Controller
 
         $this->authorize('close-job', $job);
 
-        $job->open = true;
+        $job->job_status_id = JOB_STATUS_ID['open'];
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
@@ -460,7 +460,7 @@ class JobController extends Controller
 
         $this->authorize('close-job', $job);
 
-        $job->open = false;
+        $job->job_status_id = JOB_STATUS_ID['closed'];
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 

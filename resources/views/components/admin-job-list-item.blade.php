@@ -18,10 +18,10 @@
     <div class="col s9 m10">
         <div class="small" style="float: right;">
             @can ('close-job', $job)
-                @if (is_null($job->open) || $job->open == false)
+                @if (is_null($job->job_status_id) || $job->job_status_id == JOB_STATUS_ID['closed'])
                     <a href="/job/{{ $job->id }}/open" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Open</a>
                 @endif
-                @if (is_null($job->open) || $job->open == true)
+                @if (is_null($job->job_status_id) || $job->job_status_id == JOB_STATUS_ID['open'])
                     <a href="/job/{{ $job->id }}/close" class="small flat-button red"><i class="fa fa-ban"></i> Close</a>
                 @endif
             @endcan
@@ -47,10 +47,12 @@
                 @if ($job->featured)
                     <!--<span class="small flat-button red inverse" style="letter-spacing: 0.6px;"><b>Featured</b></span>-->
                 @endif
-                @if (is_null($job->open))
+                @if (is_null($job->job_status_id))
                     <span class="small flat-button black inverse">Not open</span>
-                @elseif ($job->open == false)
+                @elseif ($job->job_status_id == JOB_STATUS_ID['closed'])
                     <span class="small flat-button red inverse">Closed</span>
+                @elseif ($job->job_status_id == JOB_STATUS_ID['expired'])
+                    <span class="small flat-button red inverse">Expired</span>
                 @else
                     <span class="small flat-button green inverse">Open</span>
                 @endif
