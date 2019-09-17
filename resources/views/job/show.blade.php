@@ -46,7 +46,11 @@
                     @endif
                 @endcan
                 @can ('edit-job', $job)
-                    <a href="/job/{{ $job->id }}/edit" class="flat-button small blue"><i class="fa fa-pencil"></i> Edit</a>
+                    @if ($job->job_status_id == JOB_STATUS_ID['expired'] && Auth::user()->cannot('edit-expired-job'))
+                        <a class="small flat-button grey tooltipped" disabled="true" data-tooltip="You cannot edit expired jobs"><i class="fa fa-pencil"></i> Edit</a>
+                    @else
+                        <a href="/job/{{ $job->id }}/edit" class="small flat-button blue" ><i class="fa fa-pencil"></i> Edit</a>
+                    @endif
                 @endcan
                 </p>
             </div>
