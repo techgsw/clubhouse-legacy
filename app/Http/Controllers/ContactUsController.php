@@ -64,7 +64,7 @@ class ContactUsController extends Controller
         }
         Mail::to($to)->send(new Contact($request));
 
-        return redirect()->action('ContactController@thanks');
+        return redirect()->action('ContactUsController@thanks');
     }
 
     public function thanks()
