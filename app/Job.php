@@ -91,8 +91,15 @@ class Job extends Model
 
     public function getTimeRemainingString()
     {
-        $start_date = clone($this->extended_at);
+        if (!is_null($this->extended_at) && strtotime($this->extended_at) > strtotime($this->upgraded_at)) {
+            $start_date = clone($this->extended_at);
+        } else if (!is_null($this->upgraded_at)) {
+            $start_date = clone($this->upgraded_at);
+        } else {
+            $start_date = clone($this->created_at);
+        }
 
+        //TODO: move the rest of this to a helper class
         if ($this->job_type_id == JOB_TYPE_ID['sbs_default']) {
             return 'Does not expire'; 
         } else if ($this->job_type_id == JOB_TYPE_ID['user_free']) {

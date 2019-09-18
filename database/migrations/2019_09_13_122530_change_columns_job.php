@@ -48,8 +48,6 @@ class ChangeColumnsJob extends Migration
         });
 
         DB::table('job')->update([
-            // if the job has been upgraded recently then we want to use that date for reference
-            'extended_at' => DB::raw('(CASE WHEN upgraded_at IS NULL THEN created_at ELSE upgraded_at END)'),
             // see constants.php
             'job_status_id' => DB::raw('(CASE open WHEN 0 THEN 2 ELSE 1 END)')
         ]);
