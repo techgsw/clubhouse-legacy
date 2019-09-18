@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
+use App\Providers\JobServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -53,6 +54,10 @@ class Kernel extends ConsoleKernel
             $end->setTime(17, 0, 0);
             EmailServiceProvider::sendRegistrationSummaryEmail($start, $end);
         })->dailyAt('17:30');
+
+        $schedule->call(function () {
+            JobServiceProvider::expireJobs();
+        })->everyThirtyMinutes();
 
         if (env('APP_ENV') == 'production') {
             $schedule->call(function () {
