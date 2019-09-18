@@ -27,6 +27,10 @@
         @endcan
     </ul>
     <div class="row">
+        <div class="col s12">
+            <p>Account Created: {{$user->created_at->format('n/j/Y \a\t g:i:s A')}}</p>
+            <p>Last Login: {{is_null($user->last_login_at) ? '' : $user->last_login_at->format('n/j/Y \a\t g:i:s A')}}</p>
+        </div>
         <div class="col s12 m12 l6">
             {{ csrf_field() }}
             <h4>Subscriptions</h4>
