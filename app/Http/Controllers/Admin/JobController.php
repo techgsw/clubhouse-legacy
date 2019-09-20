@@ -176,7 +176,7 @@ class JobController extends Controller
         $rank = 1;
         $last_job = Job::whereNotNull('rank')
             ->where('featured', 1)
-            ->where('open', 1)
+            ->where('job_status_id', JOB_STATUS_ID['open'])
             ->orderBy('rank', 'desc')
             ->first();
         if ($last_job) {
@@ -185,7 +185,7 @@ class JobController extends Controller
 
         // Shift unfeatured neighbors with lower rank up one
         $neighbors = Job::where('featured', 0)
-            ->where('open', 1)
+            ->where('job_status_id', JOB_STATUS_ID['open'])
             ->orderBy('rank', 'ASC')
             ->get();
         foreach ($neighbors as $i => $neighbor) {

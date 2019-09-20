@@ -53,7 +53,7 @@ class JobController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        $featured_jobs = Job::where('open', '=', 1)->where('featured', '=', 1)->get()->all();
+        $featured_jobs = Job::where('job_status_id', '=', JOB_STATUS_ID['open'])->where('featured', '=', 1)->get()->all();
         $featured_jobs_count = count($featured_jobs);
         $random_featured_jobs = array();
 
@@ -438,9 +438,13 @@ class JobController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
 
+        if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+            return redirect()->back()->withErrors(['msg' => 'This job has expired and cannot be opened.']);
+        }
+
         $this->authorize('close-job', $job);
 
-        $job->open = true;
+        $job->job_status_id = JOB_STATUS_ID['open'];
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
@@ -458,9 +462,13 @@ class JobController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
 
+        if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+            return redirect()->back()->withErrors(['msg' => 'This job has already expired.']);
+        }
+
         $this->authorize('close-job', $job);
 
-        $job->open = false;
+        $job->job_status_id = JOB_STATUS_ID['closed'];
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
@@ -479,6 +487,11 @@ class JobController extends Controller
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
+
+        if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+            return redirect()->back()->withErrors(['msg' => 'This job has expired and cannot be edited.']);
+        }
+
         $this->authorize('edit-job', $job);
 
         $reuse_organization_fields =
@@ -509,6 +522,10 @@ class JobController extends Controller
     public function update(UpdateJob $request, $id)
     {
         $job = Job::find($id);
+
+        if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+            return redirect()->back()->withErrors(['msg' => 'This job has expired and cannot be edited.']);
+        }
         
         $organization = Organization::find($request->organization_id);
         if (!$organization) {

@@ -108,6 +108,7 @@
                 <option value="all" {{ request('status') == "all" ? "selected" : "" }}>All</option>
                 <option value="open" {{ request('status') == "" || request('status') == "open" ? "selected" : "" }}>Open</option>
                 <option value="closed" {{ request('status') == "closed" ? 'selected' : '' }}>Closed</option>
+                <option value="expired" {{ request('status') == "expired" ? 'selected' : '' }}>Expired</option>
             </select>
         </div>
         <div class="col s12 m3 input-field">

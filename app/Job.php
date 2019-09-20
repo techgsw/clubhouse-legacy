@@ -9,14 +9,12 @@ use Illuminate\Support\Facades\Auth;
 class Job extends Model
 {
     protected $table = 'job';
-    protected $guarded = [
-        'open'
-    ];
     protected $dates = [
         'created_at',
         'updated_at',
         'edited_at',
-        'upgraded_at'
+        'upgraded_at',
+        'extended_at'
     ];
 
     public function user()
@@ -93,10 +91,15 @@ class Job extends Model
 
     public function getTimeRemainingString()
     {
-        $create_date = clone($this->created_at);
+        if (!is_null($this->extended_at) && strtotime($this->extended_at) > strtotime($this->upgraded_at)) {
+            $start_date = clone($this->extended_at);
+        } else if (!is_null($this->upgraded_at)) {
+            $start_date = clone($this->upgraded_at);
+        } else {
+            $start_date = clone($this->created_at);
+        }
 
-        $start_date = ((!is_null($this->upgraded_at)) ? $this->upgraded_at : $create_date);
-
+        //TODO: move the rest of this to a helper class
         if ($this->job_type_id == JOB_TYPE_ID['sbs_default']) {
             return 'Does not expire'; 
         } else if ($this->job_type_id == JOB_TYPE_ID['user_free']) {
@@ -108,6 +111,11 @@ class Job extends Model
         } 
 
         $end_time = $end_time->format('Y-m-d H:i:s');
+
+        if ($this->job_status_id == JOB_STATUS_ID['expired']) {
+            return 'Expired on '.$end_time;
+        }
+
         // calculation of extendedtimediff by auction extended_end_time
         $seconds_left = (strtotime($end_time) - microtime(true));
 
@@ -146,11 +154,6 @@ class Job extends Model
         }
     }
 
-    public static function open()
-    {
-        return Job::where('open', true)->orderBy('created_at', 'desc');
-    }
-
     public static function unfeature($id)
     {
         $job = Job::find($id);
@@ -163,7 +166,7 @@ class Job extends Model
         $job->featured = false;
         $rank = 1;
         $last_job = Job::whereNotNull('rank')
-            ->where('open', $job->open)
+            ->where('job_status_id', $job->job_status_id)
             ->where('featured',0)
             ->orderBy('rank', 'desc')
             ->first();
@@ -206,20 +209,12 @@ class Job extends Model
             }
             // Admins can filter by status
             $status = request('status');
-            switch ($status) {
-                case 'open':
-                    $jobs = $jobs->where('open', true);
-                    break;
-                case 'closed':
-                    $jobs = $jobs->where('open', false);
-                    break;
-                case 'all':
-                default:
-                    break;
+            if (array_key_exists($status, JOB_STATUS_ID)) {
+                $jobs = $jobs->where('job_status_id', JOB_STATUS_ID[$status]);
             }
         } else {
             // Users can only see open jobs
-            $jobs = Job::where('open', true);
+            $jobs = Job::where('job_status_id', JOB_STATUS_ID['open']);
         }
 
         $type = request('job_type');

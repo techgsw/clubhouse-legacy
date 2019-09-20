@@ -116,6 +116,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-job-logo', function ($user) {
             return $user->hasAccess('job_edit');
         });
+        Gate::define('edit-expired-jobs', function ($user) {
+            return $user->hasAccess('job_edit_expired');
+        });
 
         // User Job board
         Gate::define('create-premium-user-job', function ($user) {

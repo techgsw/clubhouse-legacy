@@ -38,15 +38,19 @@
                 <!-- Job controls -->
                 <p class="small">
                 @can ('close-job', $job)
-                    @if (is_null($job->open) || $job->open == false)
+                    @if (is_null($job->job_status_id) || $job->job_status_id == JOB_STATUS_ID['closed'])
                         <a href="/job/{{ $job->id }}/open" class="flat-button small green"><i class="fa fa-check"></i> Open</a>
                     @endif
-                    @if (is_null($job->open) || $job->open == true)
+                    @if (is_null($job->job_status_id) || $job->job_status_id == JOB_STATUS_ID['open'])
                         <a href="/job/{{ $job->id }}/close" class="flat-button small red"><i class="fa fa-ban"></i> Close</a>
                     @endif
                 @endcan
                 @can ('edit-job', $job)
-                    <a href="/job/{{ $job->id }}/edit" class="flat-button small blue"><i class="fa fa-pencil"></i> Edit</a>
+                    @if ($job->job_status_id == JOB_STATUS_ID['expired'] && Auth::user()->cannot('edit-expired-job'))
+                        <a class="small flat-button grey tooltipped" disabled="true" data-tooltip="You cannot edit expired jobs"><i class="fa fa-pencil"></i> Edit</a>
+                    @else
+                        <a href="/job/{{ $job->id }}/edit" class="small flat-button blue" ><i class="fa fa-pencil"></i> Edit</a>
+                    @endif
                 @endcan
                 </p>
             </div>
@@ -74,10 +78,12 @@
                 <p><a target="_blank" href="{{ Storage::disk('local')->url($job->document) }}">View job description</a></p>
             @endif
             @can ('close-job', $job)
-                @if (is_null($job->open))
+                @if (is_null($job->job_status_id))
                     <div class="chip">Not open</div>
-                @elseif ($job->open == false)
+                @elseif ($job->job_status_id == JOB_STATUS_ID['closed'])
                     <div class="chip sbs-red white-text">Closed</div>
+                @elseif ($job->job_status_id == JOB_STATUS_ID['expired'])
+                    <div class="chip sbs-red white-text">Expired</div>
                 @else
                     <div class="chip green white-text">Open</div>
                 @endif

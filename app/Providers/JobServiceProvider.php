@@ -107,4 +107,30 @@ class JobServiceProvider extends ServiceProvider
 
         return $available_paid_jobs;
     }
+
+    public static function expireJobs()
+    {
+        Job::where(function($user_free_where) {
+            $user_free_where->where('job_type_id', JOB_TYPE_ID['user_free'])
+                ->where(DB::raw('TIMESTAMPDIFF(DAY,'
+                    // the latest of these dates, COALESCE defaults to created_at if null
+                    .'GREATEST(COALESCE(upgraded_at,created_at), COALESCE(extended_at,created_at)),'
+                    .'NOW())'
+                ), '>=', '30');
+        })->orWhere(function($user_premium_where) {
+            $user_premium_where->where('job_type_id', JOB_TYPE_ID['user_premium'])
+                ->where(DB::raw('TIMESTAMPDIFF(DAY,'
+                    // the latest of these dates, COALESCE defaults to created_at if null
+                    .'GREATEST(COALESCE(upgraded_at,created_at), COALESCE(extended_at,created_at)),'
+                    .'NOW())'
+                ), '>=', '45');
+        })->orWhere(function($user_platinum_where) {
+            $user_platinum_where->where('job_type_id', JOB_TYPE_ID['user_platinum'])
+                ->where(DB::raw('TIMESTAMPDIFF(DAY,'
+                    // the latest of these dates, COALESCE defaults to created_at if null
+                    .'GREATEST(COALESCE(upgraded_at,created_at), COALESCE(extended_at,created_at)),'
+                    .'NOW())'
+                ), '>=', '60');
+        })->update(['job_status_id' => JOB_STATUS_ID['expired']]);
+    }
 }
