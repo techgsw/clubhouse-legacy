@@ -110,11 +110,12 @@ class Job extends Model
             $end_time = $start_date->add(new \DateInterval('P60D'));
         } 
 
+        $end_time = $end_time->format('Y-m-d H:i:s');
+
         if ($this->job_status_id == JOB_STATUS_ID['expired']) {
             return 'Expired on '.$end_time;
         }
 
-        $end_time = $end_time->format('Y-m-d H:i:s');
         // calculation of extendedtimediff by auction extended_end_time
         $seconds_left = (strtotime($end_time) - microtime(true));
 
