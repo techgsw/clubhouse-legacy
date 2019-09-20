@@ -57,7 +57,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             JobServiceProvider::expireJobs();
-        })->everyThirtyMinutes();
+        })->everyMinute();
 
         if (env('APP_ENV') == 'production') {
             $schedule->call(function () {
