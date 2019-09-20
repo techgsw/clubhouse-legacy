@@ -91,6 +91,10 @@ class Job extends Model
 
     public function getTimeRemainingString()
     {
+        if ($this->job_status_id == JOB_STATUS_ID['expired']) {
+            return 'This job has expired.';
+        }
+
         if (!is_null($this->extended_at) && strtotime($this->extended_at) > strtotime($this->upgraded_at)) {
             $start_date = clone($this->extended_at);
         } else if (!is_null($this->upgraded_at)) {

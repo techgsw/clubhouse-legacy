@@ -30,6 +30,13 @@ class ContactJobController extends Controller
             ]);
         }
 
+        if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'This job has expired. Contact can no longer be assigned.'
+            ]);
+        }
+
         $contact = Contact::find($request['contact_id']);
         if (!$contact || $contact->do_not_contact) {
             return response()->json([

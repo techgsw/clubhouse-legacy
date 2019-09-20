@@ -31,6 +31,10 @@ class InquiryController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
         }
 
+        if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+            return redirect()->back()->withErrors(['msg' => 'This job has expired and can no longer accept applications.']);
+        }
+
         $inquiry = Inquiry::where('user_id','=',Auth::user()->id)->where('job_id','=',$job->id)->first();
 
         if (!is_null($inquiry)) {
