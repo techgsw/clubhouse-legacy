@@ -33,7 +33,7 @@
                 {{ csrf_field() }}
             </form>
             @if (is_null($job->job_id))
-                <button class="contact-job-assignment-btn btn sbs-red small" {{ ($job->job_type_id == 2 ? 'disabled' : '') }} contact-id="{{ $contact_id }}" job-id="{{ $job->id }}">Assign to job</button>
+                <button class="contact-job-assignment-btn btn sbs-red small" contact-id="{{ $contact_id }}" job-id="{{ $job->id }}">Assign to job</button>
                 <p class="assigned-by hidden"><strong>Assigned by:</strong> <span class="admin-name"></span></p>
                 <p class="assigned-at hidden"><strong>At:</strong> <span class="assigned-date"></span></p>
             @else
