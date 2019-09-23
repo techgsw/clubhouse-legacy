@@ -14,8 +14,11 @@ class CreateUserLastLogin extends Migration
     public function up()
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->timestamp('last_login_at')->nullable()->default(null);
+            $table->timestamp('last_login_at')->nullable()->default(DB::raw('NOW()'));
         });
+        DB::table('user')->update([
+            'last_login_at' => DB::raw('created_at')
+        ]);
     }
 
     /**
