@@ -179,114 +179,8 @@ class Contact extends Model
     {
         $contacts = Contact::where('contact.id', '>', 0);
 
-        foreach ($searches as $search) {
-            $search_value = $search->getValue();
-            $conjunction = strtolower($search->getOperator());
-            $index = $search->getIndex();
-            switch ($index) {
-                case 'id':
-                    $search_value = (int)$search_value;
-                    $contacts = $contacts->where('contact.id', '=', $search_value, $conjunction);
-                    break;
-                case 'title':
-                    $contacts = $contacts->where('contact.title', 'like', "%$search_value%", $conjunction);
-                    break;
-                case 'email':
-                    $contacts = $contacts->where('contact.email', 'like', "%$search_value%", $conjunction);
-                    break;
-                case 'owner':
-                    if ($contacts->getQuery()->joins === null
-                        || array_search('contact_relationship', array_column((array)$contacts->getQuery()->joins, 'table')) === false
-                        || array_search('user', array_column((array)$contacts->getQuery()->joins, 'table')) === false
-                    ) {
-                        $contacts = $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
-                            ->join('user', function ($join_user) {
-                                $join_user->on('contact_relationship.user_id', '=', 'user.id');
-                            });
-                    }
-                    $contacts = $contacts->where(DB::raw('CONCAT(user.first_name, " ", user.last_name)'), 'like', "%$search_value%", $conjunction);
-                    break;
-                case 'note':
-                    if ($contacts->getQuery()->joins === null
-                        || array_search('note', array_column((array)$contacts->getQuery()->joins, 'table')) === false
-                    ) {
-                        $contacts = $contacts->join('note', function ($join_note) {
-                            $join_note->on('contact.id', '=', 'note.notable_id')
-                                ->where('note.notable_type', '=', 'App\\Contact');
-                        });
-                    }
-                    $contacts = $contacts->where('note.content', 'like', "%$search_value%", $conjunction);
-                    break;
-                case 'location':
-                    if ($contacts->getQuery()->joins === null
-                        || array_search('address_contact', array_column((array)$contacts->getQuery()->joins, 'table')) === false
-                        || array_search('address', array_column((array)$contacts->getQuery()->joins, 'table')) === false
-                    ) {
-                        $contacts = $contacts->join('address_contact', 'contact.id', '=', 'address_contact.contact_id')
-                            ->join('address', function ($join_address) {
-                                $join_address->on('address_contact.address_id', '=', 'address.id');
-                            });
-                    }
-                    $contacts = $contacts->where(DB::raw('CONCAT(address.line1, " ", address.line2, " ", address.city, " ", address.state, " ", address.postal_code, " ", address.country, " ")'), 'like', "%$search_value%", $conjunction);
-                    break;
-                case 'organization':
-                    $contacts = $contacts->where('contact.organization', 'like', "%$search_value%", $conjunction);
-                    break;
-                case 'job_seeking_type':
-                    switch ($search_value) {
-                        case 'internship':
-                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'internship', $conjunction);
-                            break;
-                        case 'entry_level':
-                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'entry_level', $conjunction);
-                            break;
-                        case 'mid_level':
-                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'mid_level', $conjunction);
-                            break;
-                        case 'entry_level_management':
-                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'entry_level_management', $conjunction);
-                            break;
-                        case 'mid_level_management':
-                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'mid_level_management', $conjunction);
-                            break;
-                        case 'executive':
-                            $contacts = $contacts->where('contact.job_seeking_type', '=', 'executive', $conjunction);
-                            break;
-                        case 'all':
-                        default:
-                            break;
-                    }
-                    break;
-                case 'job_seeking_status':
-                    switch ($search_value) {
-                        case 'unemployed':
-                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'unemployed', $conjunction);
-                            break;
-                        case 'employed_active':
-                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_active', $conjunction);
-                            break;
-                        case 'employed_passive':
-                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_passive', $conjunction);
-                            break;
-                        case 'employed_future':
-                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_future', $conjunction);
-                            break;
-                        case 'employed_not':
-                            $contacts = $contacts->where('contact.job_seeking_status', '=', 'employed_not', $conjunction);
-                            break;
-                        case 'all':
-                        default:
-                            break;
-                    }
-                    break;
-                case 'name':
-                case 'default':
-                    $contacts = $contacts->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%", $conjunction);
-                    break;
-                default:
-                    throw new InvalidSearchException("Label ".$index." does not exist.");
-            }
-        }
+        $contacts = self::buildWhere($contacts, $searches);
+
 
         switch ($sort_type) {
             case 'id-desc':
@@ -312,6 +206,128 @@ class Contact extends Model
                 break;
         }
 
+        // joins can't be added into subqueries, so they can't be included in the recursive buildWhere
+        // there also isn't a good way to look up column usage without recursively searching through
+        // subqueries in getQuery()->wheres. so we need to check the sql output for the column.
+        $query_string = $contacts->toSql();
+        Log::info($query_string);
+        if (strpos($query_string, 'note') !== false) {
+            $contacts->join('note', function ($join_note) {
+                return $join_note->on('contact.id', '=', 'note.notable_id')
+                    ->where('note.notable_type', '=', 'App\\Contact');
+            });
+        }
+        if (strpos($query_string, 'owner') !== false) {
+            $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
+                ->join('user AS owner', function ($join_user) {
+                    $join_user->on('contact_relationship.user_id', '=', 'owner.id');
+                });
+        }
+        if (strpos($query_string, 'address') !== false) {
+            $contacts->join('address_contact', 'contact.id', '=', 'address_contact.contact_id')
+                ->join('address', function ($join_address) {
+                    $join_address->on('address_contact.address_id', '=', 'address.id');
+                });
+        }
+        Log::info($contacts->toSql());
+
         return $contacts->select('contact.*');
+    }
+
+    private static function buildWhere($query, $searches) {
+        foreach ($searches as $search_key => $search) {
+            $search_value = $search->getValue();
+            $conjunction = strtolower($search->getConjunction());
+            $label = $search->getLabel();
+            switch ($label) {
+                case 'id':
+                    $search_value = (int)$search_value;
+                    $query = $query->where('contact.id', '=', $search_value, $conjunction);
+                    break;
+                case 'title':
+                    $query = $query->where('contact.title', 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'email':
+                    $query = $query->where('contact.email', 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'owner':
+                    $query = $query->where(DB::raw('CONCAT(owner.first_name, " ", owner.last_name)'), 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'note':
+                    $query = $query->where('note.content', 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'location':
+                    $query = $query->where(DB::raw('CONCAT(address.line1, " ", address.line2, " ", address.city, " ", address.state, " ", address.postal_code, " ", address.country, " ")'), 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'organization':
+                    $query = $query->where('contact.organization', 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'job_seeking_type':
+                    switch ($search_value) {
+                        case 'internship':
+                            $query = $query->where('contact.job_seeking_type', '=', 'internship', $conjunction);
+                            break;
+                        case 'entry_level':
+                            $query = $query->where('contact.job_seeking_type', '=', 'entry_level', $conjunction);
+                            break;
+                        case 'mid_level':
+                            $query = $query->where('contact.job_seeking_type', '=', 'mid_level', $conjunction);
+                            break;
+                        case 'entry_level_management':
+                            $query = $query->where('contact.job_seeking_type', '=', 'entry_level_management', $conjunction);
+                            break;
+                        case 'mid_level_management':
+                            $query = $query->where('contact.job_seeking_type', '=', 'mid_level_management', $conjunction);
+                            break;
+                        case 'executive':
+                            $query = $query->where('contact.job_seeking_type', '=', 'executive', $conjunction);
+                            break;
+                        case 'all':
+                        default:
+                            break;
+                    }
+                    break;
+                case 'job_seeking_status':
+                    switch ($search_value) {
+                        case 'unemployed':
+                            $query = $query->where('contact.job_seeking_status', '=', 'unemployed', $conjunction);
+                            break;
+                        case 'employed_active':
+                            $query = $query->where('contact.job_seeking_status', '=', 'employed_active', $conjunction);
+                            break;
+                        case 'employed_passive':
+                            $query = $query->where('contact.job_seeking_status', '=', 'employed_passive', $conjunction);
+                            break;
+                        case 'employed_future':
+                            $query = $query->where('contact.job_seeking_status', '=', 'employed_future', $conjunction);
+                            break;
+                        case 'employed_not':
+                            $query = $query->where('contact.job_seeking_status', '=', 'employed_not', $conjunction);
+                            break;
+                        case 'all':
+                        default:
+                            break;
+                    }
+                    break;
+                case '(':
+                    if ($conjunction === "and") {
+                        $query = $query->where(function($query) use ($search_value) {
+                            return self::buildWhere($query, $search_value);
+                        });
+                    } else if ($conjunction === "or") {
+                        $query = $query->orWhere(function($query) use ($search_value) {
+                            return self::buildWhere($query, $search_value);
+                        });
+                    }
+                    break;
+                case 'name':
+                case 'default':
+                    $query = $query->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%", $conjunction);
+                    break;
+                default:
+                    throw new InvalidSearchException("Label ".$label." does not exist.");
+            }
+        }
+        return $query;
     }
 }

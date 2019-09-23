@@ -11,31 +11,32 @@ use App\Exceptions\InvalidSearchException;
  */
 class Search
 {
-    protected $operator;
-    protected $index;
+    protected $conjunction;
+    protected $label;
     protected $value;
 
     /**
      * @throws InvalidSearchException
      */
     public function __construct(
-        $operator = "and",
-        $index = "default",
+        $conjunction = "and",
+        //TODO: validate label of "(", make sure value is an array???
+        $label = "default",
         $value = null
     ) {
-        $this->operator = $this->validateOperator($operator);
-        $this->index = $index;
+        $this->conjunction = $this->validateConjunction($conjunction);
+        $this->label = $label;
         $this->value = $value;
     }
 
-    public function getOperator()
+    public function getConjunction()
     {
-        return $this->operator;
+        return $this->conjunction;
     }
 
-    public function getIndex()
+    public function getLabel()
     {
-        return $this->index;
+        return $this->label;
     }
 
     public function getValue()
@@ -46,30 +47,30 @@ class Search
     /**
      * @throws InvalidSearchException
      */
-    public function setOperator(string $operator)
+    public function setConjunction(string $conjunction)
     {
-        $this->operator = $this->validateOperator($operator);
+        $this->conjunction = $this->validateConjunction($conjunction);
         return $this;
     }
 
-    public function setIndex(string $index)
+    public function setLabel(string $label)
     {
-        $this->index = $index;
+        $this->label = $label;
         return $this;
     }
 
-    public function setValue(string $value)
+    public function setValue($value)
     {
         $this->value = $value;
         return $this;
     }
 
-    private function validateOperator($operator) {
-        if (in_array($operator, array("and", "or"))) {
-            return $operator;
+    private function validateConjunction($conjunction) {
+        if (in_array($conjunction, array("and", "or"))) {
+            return $conjunction;
         } else {
             throw new InvalidSearchException(
-                "Operator ".$operator." is invalid. Should be 'and' or 'or'.");
+                "Conjunction ".$conjunction." is invalid. Should be 'and' or 'or'.");
         }
     }
 }
