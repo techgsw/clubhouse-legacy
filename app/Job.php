@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 class Job extends Model
 {
     protected $table = 'job';
+    protected $guarded = [
+        'job_status_id'
+    ];
     protected $dates = [
         'created_at',
         'updated_at',
