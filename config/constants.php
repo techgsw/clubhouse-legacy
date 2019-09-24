@@ -31,5 +31,6 @@ define('PRODUCT_OPTION_ID',
         'platinum_job' => 53,
         'platinum_job_upgrade' => 54,
         'platinum_job_upgrade_premium' => 55,
+        'job_extension' => 56
     )
 );

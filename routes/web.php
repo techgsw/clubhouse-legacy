@@ -338,7 +338,7 @@ Route::domain($domain)->group(function () {
 
     // Pricing
     Route::group(['middleware' => ['web']], function () {
-        Route::get('/job-options/{upgrade_options?}', 'ClubhouseController@jobOptions');
+        Route::get('/job-options/{option_type}', 'ClubhouseController@jobOptions');
         Route::get('/membership-options', 'ClubhouseController@membershipOptions');
         Route::get('/pro-membership', 'ClubhouseController@proMembership');
     });
