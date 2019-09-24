@@ -32,17 +32,14 @@ class SearchServiceProvider extends ServiceProvider
         $words = preg_split($regexp, $search_string, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
         // we're expecting the order of the query string to be [conjunction] [label]:[value] or just [label]:[value]
         // we'll assume AND if we don't see a conjunction and "default" if we don't see a label
-        Log::info(print_r($words, true));
         while (current($words) !== false) {
             self::buildSearchObject($words, $search_list);
         }
-        Log::info(print_r($search_list, true));
         return $search_list;
     }
 
     private static function buildSearchObject(&$words, &$search_list) {
         $word = current($words);
-        Log::info($word);
         if ($word === false) {
             return;
         }
@@ -53,7 +50,6 @@ class SearchServiceProvider extends ServiceProvider
             if ($word === false) {
                 return;
             }
-            Log::info($word);
         }
         if (strpos($word, ":") !== false) {
             $search_block->setLabel(explode(":", $word, 2)[0]);
@@ -61,10 +57,8 @@ class SearchServiceProvider extends ServiceProvider
             if ($word === false) {
                 return;
             }
-            Log::info($word);
         }
         if ($word === "(") {
-            $search_block->setLabel($word);
             $search_group_list = array();
             next($words);
             while(current($words) !== ")" && current($words) !== false) {

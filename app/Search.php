@@ -11,6 +11,11 @@ use App\Exceptions\InvalidSearchException;
  */
 class Search
 {
+    const VALID_CONJUNCTIONS = array('and', 'or');
+    // this tells the query builder that the value is an array of Search objects
+    const GROUP_LABEL = 'search_group';
+    const DEFAULT_LABEL = 'search_group';
+
     protected $conjunction;
     protected $label;
     protected $value;
@@ -20,12 +25,15 @@ class Search
      */
     public function __construct(
         $conjunction = "and",
-        //TODO: validate label of "(", make sure value is an array???
-        $label = "default",
+        $label = self::DEFAULT_LABEL,
         $value = null
     ) {
         $this->conjunction = $this->validateConjunction($conjunction);
-        $this->label = $label;
+        if (is_array($value)) {
+            $this->label = self::GROUP_LABEL;
+        } else {
+            $this->label = $label;
+        }
         $this->value = $value;
     }
 
@@ -62,15 +70,20 @@ class Search
     public function setValue($value)
     {
         $this->value = $value;
+        if (is_array($value)) {
+            $this->label = self::GROUP_LABEL;
+        }
         return $this;
     }
 
     private function validateConjunction($conjunction) {
-        if (in_array($conjunction, array("and", "or"))) {
+        if (in_array($conjunction, self::VALID_CONJUNCTIONS)) {
             return $conjunction;
         } else {
             throw new InvalidSearchException(
-                "Conjunction ".$conjunction." is invalid. Should be 'and' or 'or'.");
+                "Conjunction ".$conjunction." is invalid. "
+                ."Should be one of ".implode(", ", self::VALID_CONJUNCTIONS));
         }
     }
+
 }

@@ -181,7 +181,6 @@ class Contact extends Model
 
         $contacts = self::buildWhere($contacts, $searches);
 
-
         switch ($sort_type) {
             case 'id-desc':
                 $contacts = $contacts->orderBy('contact.id', 'desc');
@@ -210,26 +209,24 @@ class Contact extends Model
         // there also isn't a good way to look up column usage without recursively searching through
         // subqueries in getQuery()->wheres. so we need to check the sql output for the column.
         $query_string = $contacts->toSql();
-        Log::info($query_string);
-        if (strpos($query_string, 'note') !== false) {
-            $contacts->join('note', function ($join_note) {
-                return $join_note->on('contact.id', '=', 'note.notable_id')
-                    ->where('note.notable_type', '=', 'App\\Contact');
+        if (strpos($query_string, 'contact_note') !== false) {
+            $contacts->join('note AS contact_note', function ($join_note) {
+                return $join_note->on('contact.id', '=', 'contact_note.notable_id')
+                    ->where('contact_note.notable_type', '=', 'App\\Contact');
             });
         }
-        if (strpos($query_string, 'owner') !== false) {
+        if (strpos($query_string, 'contact_owner') !== false) {
             $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
-                ->join('user AS owner', function ($join_user) {
-                    $join_user->on('contact_relationship.user_id', '=', 'owner.id');
+                ->join('user AS contact_owner', function ($join_user) {
+                    $join_user->on('contact_relationship.user_id', '=', 'contact_owner.id');
                 });
         }
-        if (strpos($query_string, 'address') !== false) {
+        if (strpos($query_string, 'contact_address') !== false) {
             $contacts->join('address_contact', 'contact.id', '=', 'address_contact.contact_id')
-                ->join('address', function ($join_address) {
-                    $join_address->on('address_contact.address_id', '=', 'address.id');
+                ->join('address AS contact_address', function ($join_address) {
+                    $join_address->on('address_contact.address_id', '=', 'contact_address.id');
                 });
         }
-        Log::info($contacts->toSql());
 
         return $contacts->select('contact.*');
     }
@@ -251,13 +248,13 @@ class Contact extends Model
                     $query = $query->where('contact.email', 'like', "%$search_value%", $conjunction);
                     break;
                 case 'owner':
-                    $query = $query->where(DB::raw('CONCAT(owner.first_name, " ", owner.last_name)'), 'like', "%$search_value%", $conjunction);
+                    $query = $query->where(DB::raw('CONCAT(contact_owner.first_name, " ", contact_owner.last_name)'), 'like', "%$search_value%", $conjunction);
                     break;
                 case 'note':
-                    $query = $query->where('note.content', 'like', "%$search_value%", $conjunction);
+                    $query = $query->where('contact_note.content', 'like', "%$search_value%", $conjunction);
                     break;
                 case 'location':
-                    $query = $query->where(DB::raw('CONCAT(address.line1, " ", address.line2, " ", address.city, " ", address.state, " ", address.postal_code, " ", address.country, " ")'), 'like', "%$search_value%", $conjunction);
+                    $query = $query->where(DB::raw('CONCAT(contact_address.line1, " ", contact_address.line2, " ", contact_address.city, " ", contact_address.state, " ", contact_address.postal_code, " ", contact_address.country, " ")'), 'like', "%$search_value%", $conjunction);
                     break;
                 case 'organization':
                     $query = $query->where('contact.organization', 'like', "%$search_value%", $conjunction);
@@ -309,7 +306,7 @@ class Contact extends Model
                             break;
                     }
                     break;
-                case '(':
+                case Search::GROUP_LABEL:
                     if ($conjunction === "and") {
                         $query = $query->where(function($query) use ($search_value) {
                             return self::buildWhere($query, $search_value);
@@ -321,7 +318,7 @@ class Contact extends Model
                     }
                     break;
                 case 'name':
-                case 'default':
+                case Search::DEFAULT_LABEL:
                     $query = $query->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%$search_value%", $conjunction);
                     break;
                 default:
