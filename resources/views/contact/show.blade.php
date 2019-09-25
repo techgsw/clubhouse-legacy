@@ -45,6 +45,7 @@
             @endif
         @endcan
     </ul>
+    <p>Contact Created: {{$contact->created_at->format('n/j/Y \a\t g:i:s A')}}</p>
     @can ('add-contact-relationship')
         <form id="create-contact-relationship" action="/contact/refer" method="post" class="compact">
             {{ csrf_field() }}
