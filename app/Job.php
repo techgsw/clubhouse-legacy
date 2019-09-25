@@ -122,28 +122,27 @@ class Job extends Model
         // calculation of extendedtimediff by auction extended_end_time
         $seconds_left = (strtotime($end_time) - microtime(true));
 
+        $countdown_string='';
+
         $days=(int)($seconds_left/86400);
-        if ($days != 0 )
-        {
-            $day_string = "{$days}d ";
+        if ($days != 0 ) {
+            $countdown_string .= "{$days}d ";
         }
 
         $hours = (int)(($seconds_left-($days*86400))/3600);
         if ($days != 0 or $hours != 0) {
-            $hour_string = "{$hours}h ";
+            $countdown_string .= "{$hours}h ";
         }
 
         $minutes = (int)(($seconds_left-$days*86400-$hours*3600)/60);
-        if ($days != 0 or $hours != 0 or $minutes != 0) {
-            $minutes_string = "{$minutes}m ";
+        if ($days == 0 and ($hours != 0 or $minutes != 0)) {
+            $countdown_string .= "{$minutes}m ";
         }
 
         $seconds = (int)(($seconds_left-$days*86400-$hours*3600-$minutes*60));
-        if ($days != 0 or $hours != 0 or $minutes != 0 or $seconds != 0) {
-            $seconds_string = "{$seconds}s";
+        if ($days == 0 and $hours == 0 and ($minutes != 0 or $seconds != 0)) {
+            $countdown_string .= "{$seconds}s";
         }
-
-        $countdown_string = "$day_string$hour_string";
 
         $is_over =  ($seconds_left <= 0);
 
