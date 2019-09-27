@@ -54,6 +54,9 @@ class LoginController extends Controller
                 }
             }
         }
+
+        $user->last_login_at = new \DateTime();
+        $user->save();
     }
 
     public function showLoginForm()
