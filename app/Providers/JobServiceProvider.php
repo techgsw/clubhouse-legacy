@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Uploadedfile;
 use App\Exceptions\SBSException;
-use PhpParser\Node\Expr\BinaryOp\Coalesce;
 
 class JobServiceProvider extends ServiceProvider
 {
@@ -143,6 +142,7 @@ class JobServiceProvider extends ServiceProvider
         foreach ($jobs as $job) {
             $job->job_status_id = JOB_STATUS_ID['expired'];
             $job->save();
+            EmailServiceProvider::sendJobExpirationNotificationEmail($job);
         }
     }
 }
