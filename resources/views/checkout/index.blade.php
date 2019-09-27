@@ -21,6 +21,8 @@
                 <p><strong>You’re just a few steps away from posting your job! First, input your credit card information below. After making your purchase, you’ll then be asked to share your job listing details.</strong></p>
             @elseif (in_array($product_type, array('job-premium-upgrade', 'job-platinum-upgrade')))
                 <p><strong>You’re just a few steps away from upgrading your job!</strong></p>
+            @elseif ($product_type == 'job-extension')
+                <p><strong>Thank you for staying on with theClubhouse. Just a few more steps and you are all set.</strong></p>
             @else
                 <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you'll be ready to begin your <span class="sbs-red-text">30 day Free Trial</span>.</strong></p>
             @endif

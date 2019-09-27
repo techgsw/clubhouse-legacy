@@ -10,12 +10,14 @@ use App\User;
 use App\Inquiry;
 use App\ContactJob;
 use App\Providers\ImageServiceProvider;
+use function foo\func;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Uploadedfile;
 use App\Exceptions\SBSException;
+use PhpParser\Node\Expr\BinaryOp\Coalesce;
 
 class JobServiceProvider extends ServiceProvider
 {
@@ -110,27 +112,37 @@ class JobServiceProvider extends ServiceProvider
 
     public static function expireJobs()
     {
-        Job::where(function($user_free_where) {
-            $user_free_where->where('job_type_id', JOB_TYPE_ID['user_free'])
-                ->where(DB::raw('TIMESTAMPDIFF(DAY,'
-                    // the latest of these dates, COALESCE defaults to created_at if null
-                    .'GREATEST(COALESCE(upgraded_at,created_at), COALESCE(extended_at,created_at)),'
-                    .'NOW())'
-                ), '>=', '30');
-        })->orWhere(function($user_premium_where) {
-            $user_premium_where->where('job_type_id', JOB_TYPE_ID['user_premium'])
-                ->where(DB::raw('TIMESTAMPDIFF(DAY,'
-                    // the latest of these dates, COALESCE defaults to created_at if null
-                    .'GREATEST(COALESCE(upgraded_at,created_at), COALESCE(extended_at,created_at)),'
-                    .'NOW())'
-                ), '>=', '45');
-        })->orWhere(function($user_platinum_where) {
-            $user_platinum_where->where('job_type_id', JOB_TYPE_ID['user_platinum'])
-                ->where(DB::raw('TIMESTAMPDIFF(DAY,'
-                    // the latest of these dates, COALESCE defaults to created_at if null
-                    .'GREATEST(COALESCE(upgraded_at,created_at), COALESCE(extended_at,created_at)),'
-                    .'NOW())'
-                ), '>=', '60');
-        })->update(['job_status_id' => JOB_STATUS_ID['expired']]);
+        $jobs = Job::where('job_status_id', '!=', JOB_STATUS_ID['expired'])
+            ->where(function($expire_time_wheres) {
+                $expire_time_wheres->where(function($extended_at_where) {
+                    // regardless of job type, if extended_at is the latest time, check if it's been 30 days
+                    $extended_at_where->where('job_type_id', '!=', JOB_TYPE_ID['sbs_default'])
+                        ->where(DB::raw('COALESCE(extended_at,0)'), '>', DB::raw('COALESCE(upgraded_at,0)'))
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY, extended_at, NOW())'), '>=', '30');
+                })->orWhere(function($user_free_where) {
+                    $user_free_where->where('job_type_id', JOB_TYPE_ID['user_free'])
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY,'
+                            .'COALESCE(upgraded_at,created_at),'
+                            .'NOW())'
+                        ), '>=', '30');
+                })->orWhere(function($user_premium_where) {
+                    $user_premium_where->where('job_type_id', JOB_TYPE_ID['user_premium'])
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY,'
+                            .'COALESCE(upgraded_at,created_at),'
+                            .'NOW())'
+                        ), '>=', '45');
+                })->orWhere(function($user_platinum_where) {
+                    $user_platinum_where->where('job_type_id', JOB_TYPE_ID['user_platinum'])
+                        ->where(DB::raw('TIMESTAMPDIFF(DAY,'
+                            .'COALESCE(upgraded_at,created_at),'
+                            .'NOW())'
+                        ), '>=', '60');
+                });
+            })->get();
+
+        foreach ($jobs as $job) {
+            $job->job_status_id = JOB_STATUS_ID['expired'];
+            $job->save();
+        }
     }
 }
