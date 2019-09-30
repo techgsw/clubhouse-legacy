@@ -12,7 +12,7 @@
     <div class="row organization-show">
         <div class="col s12">
             <div style="float: right; margin-top: 6px;">
-                @can ('edit-organization')
+                @can ('edit-organization', $organization)
                     <a href="/organization/{{ $organization->id }}/edit" class="flat-button blue"><i class="icon-left fa fa-pencil"></i>Edit</a>
                 @endcan
                 @can ('create-job')

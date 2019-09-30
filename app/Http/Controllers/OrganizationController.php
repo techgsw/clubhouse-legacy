@@ -226,12 +226,12 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit-organization');
-
         $organization = Organization::find($id);
         if (!$organization) {
             return redirect()->back()->withErrors(['msg' => 'Could not find organization']);
         }
+
+        $this->authorize('edit-organization', $organization);
 
         $organization_types = OrganizationType::all();
         $leagues = League::all();
@@ -424,12 +424,12 @@ class OrganizationController extends Controller
 
     public function matchContacts($id)
     {
-        $this->authorize('edit-organization');
-
         $organization = Organization::find($id);
         if (empty($organization)) {
             return back();
         }
+
+        $this->authorize('edit-organization', $organization);
 
         $count = 0;
         try {
