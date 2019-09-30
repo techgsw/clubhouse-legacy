@@ -47,7 +47,7 @@ class JobController extends Controller
         } else {
             // Default: order like front-end
             $jobs = $jobs->orderBy('featured', 'desc')
-                ->orderBy('rank', 'asc')
+                ->orderBy('rank', 'desc')
                 ->orderBy('job.created_at', 'desc');
         }
         $count = $jobs->count();
@@ -224,7 +224,7 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function rankUp($id)
+    public function rankDown($id)
     {  
         $job = Job::find($id);
         if (!$job) {
@@ -268,25 +268,27 @@ class JobController extends Controller
         }
         $this->authorize('edit-job', $job);
 
-        $rank = $job->rank;
-        if ($rank <= 1) {
+        $old_rank = $job->rank;
+
+        $highest_job = Job::where('featured', $job->featured)->whereNotNull('rank')->orderBy('rank', 'desc')->first();
+        if ($highest_job && $highest_job->id == $id) {
             return back();
         }
 
-        $job->rank = 1;
+        $job->rank = $highest_job->rank;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
         // All jobs previously ranked higher
         $neighbors = Job::where('id', '!=', $id)
-            ->where('rank', '<', $rank)
+            ->where('rank', '>', $old_rank)
             ->where('featured', $job->featured)
             ->get();
         if (!$neighbors) {
             return back();
         }
         foreach ($neighbors as $neighbor) {
-            $neighbor->rank = $neighbor->rank+1;
+            $neighbor->rank = $neighbor->rank-1;
             $neighbor->edited_at = new \DateTime('NOW');
             $neighbor->save();
         }
@@ -298,7 +300,7 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function rankDown($id)
+    public function rankUp($id)
     {
         $job = Job::find($id);
         if (!$job) {
@@ -306,7 +308,7 @@ class JobController extends Controller
         }
         $this->authorize('edit-job', $job);
 
-        // Don't allow the last job to be ranked down
+        // Don't allow the highest job to be ranked up
         $last_job = Job::whereNotNull('rank')->orderBy('rank', 'desc')->first();
         if ($last_job && $last_job->id == $id) {
             return back();
