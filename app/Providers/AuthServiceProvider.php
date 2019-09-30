@@ -196,8 +196,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-organization', function ($user) {
             return $user->hasAccess('organization_create');
         });
-        Gate::define('edit-organization', function ($user) {
-            return $user->hasAccess('organization_edit');
+        Gate::define('edit-organization', function ($user, $organization) {
+            if ($user->hasAccess('organization_edit')) {
+                return true;
+            }
+            if ($user->hasAccess('organization_edit_user') && $organization->user_id == $user->id) {
+                return true;
+            }
+            return false;
         });
 
         // Blog

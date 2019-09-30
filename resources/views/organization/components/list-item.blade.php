@@ -22,7 +22,7 @@
                         @can ('create-job')
                             <a href="/job/create?organization={{ $organization->id }}" style="margin-left: 2px;" class="small flat-button blue"><i class="fa fa-plus"></i> New Job</a>
                         @endcan
-                        @can ('edit-organization')
+                        @can ('edit-organization', $organization)
                             <a href="/organization/{{ $organization->id }}/edit" style="margin-left: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
                         @endcan
                     </div>
