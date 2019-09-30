@@ -14,7 +14,7 @@ class Search
     const VALID_CONJUNCTIONS = array('and', 'or');
     // this tells the query builder that the value is an array of Search objects
     const GROUP_LABEL = 'search_group';
-    const DEFAULT_LABEL = 'search_group';
+    const DEFAULT_LABEL = 'search_default';
 
     protected $conjunction;
     protected $label;
