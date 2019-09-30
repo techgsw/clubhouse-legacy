@@ -49,7 +49,7 @@ class JobController extends Controller
 
         $jobs = Job::filter($request)
             ->orderBy('featured', 'desc')
-            ->orderBy('rank', 'asc')
+            ->orderBy('rank', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -115,7 +115,7 @@ class JobController extends Controller
             })
             ->leftJoin('user as ua', 'cj.admin_user_id', 'ua.id')
             ->orderBy('job.featured', 'desc')
-            ->orderBy('job.rank', 'asc')
+            ->orderBy('job.rank', 'desc')
             ->orderBy('job.created_at', 'desc')
             ->get();
 
