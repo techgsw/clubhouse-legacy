@@ -1028,6 +1028,15 @@ select.browser-default {
     margin-top: 4px;
 }
 
+/* Materialize fix to display a tooltip on required dropdowns that are empty */
+select[required] {
+    display: block;
+    height: 0;
+    padding: 0;
+    width: 0;
+    position: absolute;
+}
+
 /**
  * Misc 
  */

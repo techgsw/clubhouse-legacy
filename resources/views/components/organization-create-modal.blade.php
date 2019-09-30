@@ -32,7 +32,7 @@
                                 <div class="btn white black-text">
                                     <i class="material-icons medium">add_a_photo</i>
                                     <span>Upload Image</span>
-                                    <input type="file" name="image_url" value="{{ old('image_url') }}">
+                                    <input type="file" name="image_url" value="{{ old('image_url') }}" required>
                                 </div>
                                 <div class="file-path-wrapper">
                                     <input class="file-path" type="text" name="image_url_text" value="{{ old('image_url_text') }}">

@@ -1,5 +1,5 @@
 <div class="input-field col s12">
-    <input id="line1" type="text" class="{{ $errors->has('line1') ? 'invalid' : '' }}" name="line1" value="{{ old('line1') ?: $address->line1 }}">
+    <input id="line1" type="text" class="{{ $errors->has('line1') ? 'invalid' : '' }}" name="line1" value="{{ old('line1') ?: $address->line1 }}" required>
     <label for="line1" data-error="{{ $errors->first('line1') }}">Street Address</label>
 </div>
 <div class="input-field col s12">
@@ -7,16 +7,17 @@
     <label for="line2" data-error="{{ $errors->first('line2') }}">Line 2</label>
 </div>
 <div class="input-field col s12 m8">
-    <input id="city" type="text" class="{{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') ?: $address->city }}">
+    <input id="city" type="text" class="{{ $errors->has('city') ? 'invalid' : '' }}" name="city" value="{{ old('city') ?: $address->city }}" required>
     <label for="city" data-error="{{ $errors->first('city') }}">City</label>
 </div>
 <div class="input-field col s12 m4">
-    <input id="postal-code" type="text" class="{{ $errors->has('postal_code') ? 'invalid' : '' }}" name="postal_code" value="{{ old('postal_code') ?: $address->postal_code }}">
+    <input id="postal-code" type="text" class="{{ $errors->has('postal_code') ? 'invalid' : '' }}" name="postal_code" value="{{ old('postal_code') ?: $address->postal_code }}" required>
     <label for="postal-code" data-error="{{ $errors->first('postal_code') }}">Postal Code</label>
 </div>
 <div class="input-field col s6">
-    <select name="state">
-        <option value="" {{ old("state") == "" ? "selected" : is_null($address->state) ? "selected" : "" }} disabled>U.S.A.</option>
+    <select name="state" required>
+        <option value="" {{ old("state") == "" ? "selected" : is_null($address->state) ? "selected" : "" }}></option>
+        <option disabled>U.S.A.</option>
         <option value="AL" {{ old('state') == "AL" ? "selected" : $address->state == "AL" ? 'selected' : '' }}>Alabama</option>
         <option value="AK" {{ old('state') == "AK" ? 'selected' : $address->state == "AK" ? 'selected' : '' }}>Alaska</option>
         <option value="AZ" {{ old('state') == "AZ" ? 'selected' : $address->state == "AZ" ? 'selected' : '' }}>Arizona</option>
