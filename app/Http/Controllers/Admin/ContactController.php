@@ -45,7 +45,7 @@ class ContactController extends Controller
         if ($contacts instanceof RedirectResponse) {
             return $contacts;
         }
-        $contacts = $contacts->get();
+        $contacts = $contacts->with('user')->get();
 
         if (count($contacts) < 1) {
             $request->session()->flash('message', new Message(
@@ -63,7 +63,10 @@ class ContactController extends Controller
             'last_name',
             'email',
             'title',
-            'organization'
+            'organization',
+            'contact_created',
+            'account_created',
+            'last_login'
         ];
         $filename = "contacts-".$now->format("Y-m-d").".csv";
 
@@ -78,7 +81,15 @@ class ContactController extends Controller
             foreach ($contacts as $contact) {
                 $row = array();
                 foreach($column_titles as $attribute) {
-                    $row[] = $contact->$attribute;
+                    if($attribute == 'contact_created') {
+                        $row[] = $contact->created_at;
+                    } else if ($contact->user && $attribute == 'account_created') {
+                        $row[] = $contact->user->created_at;
+                    } else if ($contact->user && $attribute == 'last_login') {
+                        $row[] = $contact->user->last_login_at;
+                    } else {
+                        $row[] = $contact->$attribute;
+                    }
                 }
                 fputcsv($handle, $row);
             }
