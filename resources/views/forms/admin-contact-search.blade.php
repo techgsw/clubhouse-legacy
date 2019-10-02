@@ -61,6 +61,8 @@
                 <option value="email-desc" {{ request('sort') == "email-desc" ? "selected" : "" }}>Email (Z to A)</option>
                 <option value="name-asc" {{ request('sort') == "name-asc" ? "selected" : "" }}>Name (A to Z)</option>
                 <option value="name-desc" {{ request('sort') == "name-desc" ? "selected" : "" }}>Name (Z to A)</option>
+                <option value="creation-date-desc" {{ request('sort') == "creation-date-desc" ? "selected" : "" }}>Contact Created (last to first)</option>
+                <option value="last-login-date-desc" {{ request('sort') == "last-login-date-desc" ? "selected" : "" }}>Last Login (last to first)</option>
             </select>
         </div>
         <div class="col s6 m3 center-align input-field">

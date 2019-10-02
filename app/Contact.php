@@ -200,6 +200,12 @@ class Contact extends Model
             case 'name-asc':
                 $contacts = $contacts->orderBy('contact.last_name', 'asc');
                 break;
+            case 'creation-date-desc':
+                $contacts = $contacts->orderBy('contact.created_at', 'desc');
+                break;
+            case 'last-login-date-desc':
+                $contacts = $contacts->orderBy('contact_user.last_login_at', 'desc');
+                break;
             default:
                 $contacts = $contacts->orderBy('contact.id', 'desc');
                 break;
@@ -226,6 +232,11 @@ class Contact extends Model
                 ->join('address AS contact_address', function ($join_address) {
                     $join_address->on('address_contact.address_id', '=', 'contact_address.id');
                 });
+        }
+        if (strpos($query_string, 'contact_user') !== false) {
+            $contacts->join('user AS contact_user', function ($join_user) {
+                $join_user->on('contact.user_id', '=', 'contact_user.id');
+            });
         }
 
         return $contacts->select('contact.*');
