@@ -35,6 +35,7 @@ class InquiryNotification extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
+                    ->subject('New Candidate Application for '.$this->job->title.' - theClubhouse')
                     ->markdown('emails.inquiry.notification');
     }
 }
