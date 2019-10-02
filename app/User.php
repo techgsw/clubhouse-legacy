@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function postings()
+    {
+        return $this->hasMany(Job::class);
+    }
+
     public function hasAccess($resource_code)
     {
         $roles = $this->roles;

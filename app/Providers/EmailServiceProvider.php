@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Mail\JobNoActionReminder;
 use Mail;
 use App\Email;
 use App\Inquiry;
@@ -169,6 +170,28 @@ class EmailServiceProvider extends ServiceProvider
             ->get();
 
         Mail::to($users)->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
+    }
+
+    public static function sendJobNoActionReminderEmails()
+    {
+        $users = User::with(['postings.inquiries' => function($inquiries_query) {
+                $inquiries_query->where('inquiry.pipeline_id', '=', 1);
+            },
+            'postings.assignments' => function($assignments_query) {
+                $assignments_query->where('contact_job.pipeline_id', '=', 1);
+            }])
+            ->join('job', 'user.id', 'job.user_id')
+            ->join('inquiry', function ($join_inquiry) {
+                $join_inquiry->on('job.id', '=', 'inquiry.job_id')
+                    ->where('inquiry.pipeline_id', '=', 1);
+            })->join('contact_job', function ($join_contact_job) {
+                $join_contact_job->on('job.id', '=', 'contact_job.job_id')
+                    ->where('contact_job.pipeline_id', '=', 1);
+            })->select('user.*')->distinct()->get();
+
+        foreach ($users as $user) {
+            Mail::to($user)->send(new JobNoActionReminder($user, $user->postings));
+        }
     }
 
     public static function addToMailchimp(User $user)
