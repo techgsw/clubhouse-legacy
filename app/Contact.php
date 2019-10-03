@@ -318,12 +318,12 @@ class Contact extends Model
                     break;
                 case Search::GROUP_LABEL:
                     if ($conjunction === "and") {
-                        $query = $query->where(function($query) use ($search) {
-                            return self::buildWhere($query, $search);
+                        $query = $query->where(function($query) use ($search_value) {
+                            return self::buildWhere($query, $search_value);
                         });
                     } else if ($conjunction === "or") {
-                        $query = $query->orWhere(function($query) use ($search) {
-                            return self::buildWhere($query, $search);
+                        $query = $query->orWhere(function($query) use ($search_value) {
+                            return self::buildWhere($query, $search_value);
                         });
                     }
                     break;
