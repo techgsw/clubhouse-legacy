@@ -13,6 +13,7 @@ use App\User;
 use App\ProductOption;
 use App\Mail\PurchaseNotification;
 use App\Mail\NewUserFollowUp;
+use App\Mail\UserPostJobFollowUp;
 use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\RegistrationNotification;
 use App\Mail\Admin\RegistrationSummary;
@@ -93,8 +94,9 @@ class EmailServiceProvider extends ServiceProvider
         Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
     }
 
-    public static function sendUserJobPostNotificationEmail(User $user)
+    public static function sendUserJobPostNotificationEmail(User $user, Job $job)
     {
+        Mail::to($user)->send(new UserPostJobFollowUp($user, $job));
         $users = User::join('email_user', 'user.id', 'email_user.user_id')
             ->join('email', 'email_user.email_id', 'email.id')
             ->where('email.code', 'user_job_post')

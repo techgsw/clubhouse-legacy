@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use App\Image;
 use App\User;
 use App\Inquiry;
@@ -228,7 +229,7 @@ class JobController extends Controller
             if (count($organizations) >= 1) {
                 $valid_organization = false;
                 foreach ($organizations as $user_organization) {
-                    if ($ogranization->id == $user_organization) {
+                    if ($organization->id == $user_organization) {
                         $valid_organization = true;
                     }
                 }
@@ -284,7 +285,7 @@ class JobController extends Controller
 
                 if (!$user->roles->contains('administrator')) {
                     try {
-                        EmailServiceProvider::sendUserJobPostNotificationEmail($user);
+                        EmailServiceProvider::sendUserJobPostNotificationEmail($user, $job);
                     } catch (\Throwable $e) {
                         Log::error($e->getMessage());
                     }
