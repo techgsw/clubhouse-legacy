@@ -59,6 +59,10 @@ class Kernel extends ConsoleKernel
             JobServiceProvider::expireJobs();
         })->everyMinute();
 
+        $schedule->call(function() {
+            EmailServiceProvider::sendJobNoActionReminderEmails();
+        })->weeklyOn(date('w', strtotime('Monday')), '00:00');
+
         if (env('APP_ENV') == 'production') {
             $schedule->call(function () {
                 ImageServiceProvider::pushToS3();
