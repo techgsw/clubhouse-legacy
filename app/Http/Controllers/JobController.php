@@ -288,7 +288,7 @@ class JobController extends Controller
                     try {
                         EmailServiceProvider::sendUserJobPostNotificationEmail($user);
                         if (count($user->postings) == 1) {
-                            Mail::to($user)->send(new FirstJobPostIntroduction($user));
+                            Mail::to($user)->send(new FirstJobPostIntroduction($user, $job));
                         }
                     } catch (\Throwable $e) {
                         Log::error($e->getMessage());
