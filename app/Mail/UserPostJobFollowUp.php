@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class FirstJobPostIntroduction extends Mailable
+class UserPostJobFollowUp extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,6 +34,6 @@ class FirstJobPostIntroduction extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-                    ->markdown('emails.inquiry.introduction');
+                    ->markdown('emails.user-post-job-follow-up');
     }
 }

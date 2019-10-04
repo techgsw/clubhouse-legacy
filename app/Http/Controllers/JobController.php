@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Mail;
 use App\Image;
-use App\Mail\FirstJobPostIntroduction;
 use App\User;
 use App\Inquiry;
 use App\ContactJob;
@@ -286,10 +285,7 @@ class JobController extends Controller
 
                 if (!$user->roles->contains('administrator')) {
                     try {
-                        EmailServiceProvider::sendUserJobPostNotificationEmail($user);
-                        if (count($user->postings) == 1) {
-                            Mail::to($user)->send(new FirstJobPostIntroduction($user, $job));
-                        }
+                        EmailServiceProvider::sendUserJobPostNotificationEmail($user, $job);
                     } catch (\Throwable $e) {
                         Log::error($e->getMessage());
                     }
