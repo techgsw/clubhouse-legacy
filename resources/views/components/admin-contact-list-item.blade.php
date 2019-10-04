@@ -48,10 +48,8 @@
         @if ($last_note)
             <p class="small italic">{{ $last_note->create_user_name }} {{ $last_note->created_at->format('m/d/Y') }}</p>
         @endif
-            <p class="small">Contact Created: {{$contact->created_at->format('n/j/Y \a\t g:i:s A')}}</p>
         @if ($contact->user)
-            <p class="small">User Created: {{$contact->user->created_at->format('n/j/Y \a\t g:i:s A')}}</p>
-            <p class="small">Last Login: {{is_null($contact->user->last_login_at) ? '' : $contact->user->last_login_at->format('n/j/Y \a\t g:i:s A')}}</p>
+            <p class="small">Last Login: {{is_null($contact->user->last_login_at) ? '' : $contact->user->last_login_at->format('n/j/Y')}}</p>
         @endif
     </div>
 </div>
