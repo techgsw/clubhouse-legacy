@@ -451,17 +451,40 @@ $.valHooks.textarea = {
         });
     }
 
+    Job.getJobOptionExtension = function (job_id) {
+        return $.ajax({
+            type: 'GET',
+            url: '/job-options/extend_options',
+            data: {
+                'job_id': job_id
+            }
+        });
+    }
+
     $('body').on(
         {
             click: function (e, ui) {
                 var job_id = $(this).attr('data-job-id');
                 Job.getJobOptionUpgrades(job_id).done(function (view) {
-                    $('.job-options-upgrade-modal .modal-content').html(view);
-                    $('.job-options-upgrade-modal').modal('open');
+                    $('.job-options-modal .modal-content').html(view);
+                    $('.job-options-modal').modal('open');
                 });
             }
         },
         '.job-options-upgrade-btn'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var job_id = $(this).attr('data-job-id');
+                Job.getJobOptionExtension(job_id).done(function (view) {
+                    $('.job-options-modal .modal-content').html(view);
+                    $('.job-options-modal').modal('open');
+                });
+            }
+        },
+        '.job-options-extend-btn'
     );
 
     $('body').on(

@@ -131,14 +131,22 @@ class CheckoutController extends Controller
         } else if ($product_option->id == PRODUCT_OPTION_ID['premium_job_upgrade']) {
             $product_type = 'job-premium-upgrade';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
-            
+
             $job = Job::find($job_id);
             if (!$job || $job->user_id != $user->id) {
-                return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
+                return redirect('/user/' . $user->id . '/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
             }
             if (in_array($job->job_type_id, array(JOB_TYPE_ID['user_platinum'], JOB_TYPE_ID['user_premium']))) {
-                return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. It looks like this job is already upgraded!']);
-            } 
+                return redirect('/user/' . $user->id . '/job-postings')->withErrors(['msg' => 'We are sorry. It looks like this job is already upgraded!']);
+            }
+        } else if ($product_option->id == PRODUCT_OPTION_ID['job_extension']) {
+            $product_type = 'job-extension';
+            $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
+
+            $job = Job::find($job_id);
+            if (!$job || $job->user_id != $user->id) {
+                return redirect('/user/' . $user->id . '/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
+            }
         } else if (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
             $product_type = 'job-platinum-upgrade';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
@@ -185,7 +193,8 @@ class CheckoutController extends Controller
                             array(
                                 PRODUCT_OPTION_ID['premium_job_upgrade'],
                                 PRODUCT_OPTION_ID['platinum_job_upgrade'],
-                                PRODUCT_OPTION_ID['platinum_job_upgrade_premium']
+                                PRODUCT_OPTION_ID['platinum_job_upgrade_premium'],
+                                PRODUCT_OPTION_ID['job_extension']
                             )
                         )
                     ) {
@@ -195,16 +204,23 @@ class CheckoutController extends Controller
                             return false;
                         }
 
-                        if ($product_option->id == PRODUCT_OPTION_ID['premium_job_upgrade']) {
-                            $job->job_type_id = JOB_TYPE_ID['user_premium'];
-                        } elseif (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
-                            $job->job_type_id = JOB_TYPE_ID['user_platinum'];
+                        if ($product_option->id == PRODUCT_OPTION_ID['job_extension']) {
+                            $job->extended_at = $now;
+                            if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+                                $job->job_status_id = JOB_STATUS_ID['open'];
+                            }
                         } else {
-                            return false;
+                            if ($product_option->id == PRODUCT_OPTION_ID['premium_job_upgrade']) {
+                                $job->job_type_id = JOB_TYPE_ID['user_premium'];
+                            } elseif (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
+                                $job->job_type_id = JOB_TYPE_ID['user_platinum'];
+                            } else {
+                                return false;
+                            }
+                            $job->upgraded_at = $now;
+                            $job->featured = 1;
                         }
 
-                        $job->upgraded_at = $now;
-                        $job->featured = 1;
                         $job->save();
                     }
 
@@ -244,6 +260,7 @@ class CheckoutController extends Controller
                                 PRODUCT_OPTION_ID['premium_job_upgrade'],
                                 PRODUCT_OPTION_ID['platinum_job_upgrade'],
                                 PRODUCT_OPTION_ID['platinum_job_upgrade_premium'],
+                                PRODUCT_OPTION_ID['job_extension'],
                             )
                         )
                     ) {
@@ -277,6 +294,13 @@ class CheckoutController extends Controller
                             $checkout_type = 'job-platinum-upgrade';
                             try {
                                 EmailServiceProvider::sendJobPlatinumPurchaseNotificationEmail($user, $product_option, $order->amount, 'platinum-job-upgrade');
+                            } catch (\Exception $e) {
+                                Log::error($e->getMessage());
+                            }
+                        } elseif ($product_option->id == PRODUCT_ID['job_extension']) {
+                            $checkout_type = 'job-extension';
+                            try {
+                                EmailServiceProvider::sendJobExtensionPurchaseNotificationEmail($user, $product_option, $order->amount, 'job-extension');
                             } catch (\Exception $e) {
                                 Log::error($e->getMessage());
                             }
@@ -479,6 +503,10 @@ class CheckoutController extends Controller
             case 'job-platinum-upgrade':
                 $view = 'job-platinum-upgrade-thanks';
                 $breadcrumb['Job Posting Platinum Upgrade'] = '/job-options';
+                break;
+            case 'job-extension':
+                $view = 'job-extension-thanks';
+                $breadcrumb['Job Extension'] = '/job-options';
                 break;
             case 'membership':
                 $view = 'membership-thanks';

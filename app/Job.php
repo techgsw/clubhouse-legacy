@@ -94,16 +94,16 @@ class Job extends Model
 
     public function getTimeRemainingString()
     {
-        if (!is_null($this->extended_at) && strtotime($this->extended_at) > strtotime($this->upgraded_at)) {
-            $start_date = clone($this->extended_at);
-        } else if (!is_null($this->upgraded_at)) {
+        if (!is_null($this->upgraded_at)) {
             $start_date = clone($this->upgraded_at);
         } else {
             $start_date = clone($this->created_at);
         }
 
-        //TODO: move the rest of this to a helper class
-        if ($this->job_type_id == JOB_TYPE_ID['sbs_default']) {
+        if (!is_null($this->extended_at) && strtotime($this->extended_at) > strtotime($this->upgraded_at)) {
+            // extensions are only for 30 days regardless of job type
+            $end_time = clone($this->extended_at)->add(new \DateInterval('P30D'));
+        } else if ($this->job_type_id == JOB_TYPE_ID['sbs_default']) {
             return 'Does not expire'; 
         } else if ($this->job_type_id == JOB_TYPE_ID['user_free']) {
             $end_time = $start_date->add(new \DateInterval('P30D'));
@@ -111,8 +111,9 @@ class Job extends Model
             $end_time = $start_date->add(new \DateInterval('P45D'));
         } else if ($this->job_type_id == JOB_TYPE_ID['user_platinum']) {
             $end_time = $start_date->add(new \DateInterval('P60D'));
-        } 
+        }
 
+        //TODO: move the rest of this to a helper class
         $end_time = $end_time->format('Y-m-d H:i:s');
 
         if ($this->job_status_id == JOB_STATUS_ID['expired']) {

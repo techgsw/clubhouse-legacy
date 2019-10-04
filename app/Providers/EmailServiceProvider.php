@@ -18,6 +18,7 @@ use App\Mail\Admin\RegistrationSummary;
 use App\Mail\Admin\UserJobPostNotification;
 use App\Mail\Admin\UserOrganizationCreateNotification;
 use App\Mail\MentorshipRequest;
+use App\Mail\JobExpirationNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
@@ -77,6 +78,17 @@ class EmailServiceProvider extends ServiceProvider
             ->select('user.*')
             ->get();
         
+        Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
+    }
+
+    public static function sendJobExtensionPurchaseNotificationEmail(User $user, ProductOption $product_option, $amount, $type)
+    {
+        $admin_users = User::join('email_user', 'user.id', 'email_user.user_id')
+            ->join('email', 'email_user.email_id', 'email.id')
+            ->where('email.code', 'job_extension')
+            ->select('user.*')
+            ->get();
+
         Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
     }
 
@@ -169,6 +181,11 @@ class EmailServiceProvider extends ServiceProvider
             ->get();
 
         Mail::to($users)->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
+    }
+
+    public static function sendJobExpirationNotificationEmail(Job $job) {
+        $user = User::find($job->user_id);
+        Mail::to($user)->send(new JobExpirationNotification($job, $user));
     }
 
     public static function addToMailchimp(User $user)

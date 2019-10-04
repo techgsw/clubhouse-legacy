@@ -18,6 +18,7 @@
                 @elseif ($job->job_type_id == 3 && $job->job_status_id == JOB_STATUS_ID['open'])
                     <a href="{{ $job_platinum_upgrade->getURL(false, 'checkout') }}/{{ $job->id }}" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Upgrade</a>
                 @endif
+                    <a href="javascript: void(0);" data-job-id="{{ $job->id }}" class="small flat-button green job-options-extend-btn"><i class="fa fa-clock-o"></i> Extend</a>
             @endcan
             @can ('close-job', $job)
                 @if (is_null($job->job_status_id) || $job->job_status_id == JOB_STATUS_ID['closed'])

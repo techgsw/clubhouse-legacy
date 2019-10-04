@@ -7,6 +7,7 @@ use App\Mentor;
 use App\Post;
 use App\Product;
 use App\Message;
+use App\ProductOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -51,25 +52,25 @@ class ClubhouseController extends Controller
 
     public function jobOptions(Request $request)
     {
-        $upgrade_options = $request->upgrade_options;
-        // TODO replace with constants
         $job_premium = Product::find(PRODUCT_ID['premium_job']);
-
         $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
 
-        if ($request->upgrade_options && !is_null($request->job_id)) {
+        if (!is_null($request->job_id)) {
             $job = Job::where('id',$request->job_id)->first();
-
-            if ($job->job_type_id == JOB_TYPE_ID['user_free']) {
-                $job_premium = Product::find(PRODUCT_ID['premium_job']);
-                $job_platinum = Product::find(PRODUCT_ID['platinum_job']);
+            if ($request->option_type == 'upgrade_options') {
+                return view('clubhouse/job-options-upgrade', [
+                    'job' => $job,
+                    'job_platinum' => $job_platinum,
+                    'job_premium' => $job_premium
+                ]);
+            } elseif ($request->option_type == 'extend_options') {
+                $job_extension = ProductOption::find(PRODUCT_OPTION_ID['job_extension']);
+                return view('clubhouse/job-options-extend', [
+                    'job' => $job,
+                    'job_extension' => $job_extension,
+                    'job_type_id' => $job->job_type_id
+                ]);
             }
-
-            return view('clubhouse/job-options-upgrade', [
-                'job' => $job,
-                'job_platinum' => $job_platinum,
-                'job_premium' => $job_premium
-            ]);
         }
 
         return view('clubhouse/job-options', [
