@@ -223,20 +223,14 @@ class Contact extends Model
         }
         if (strpos($query_string, 'contact_owner') !== false) {
             $contacts->join('contact_relationship', 'contact.id', '=', 'contact_relationship.contact_id')
-                ->join('user AS contact_owner', function ($join_user) {
-                    $join_user->on('contact_relationship.user_id', '=', 'contact_owner.id');
-                });
+                ->join('user AS contact_owner', 'contact_relationship.user_id', '=', 'contact_owner.id');
         }
         if (strpos($query_string, 'contact_address') !== false) {
             $contacts->join('address_contact', 'contact.id', '=', 'address_contact.contact_id')
-                ->join('address AS contact_address', function ($join_address) {
-                    $join_address->on('address_contact.address_id', '=', 'contact_address.id');
-                });
+                ->join('address AS contact_address', 'address_contact.address_id', '=', 'contact_address.id');
         }
         if (strpos($query_string, 'contact_user') !== false) {
-            $contacts->join('user AS contact_user', function ($join_user) {
-                $join_user->on('contact.user_id', '=', 'contact_user.id');
-            });
+            $contacts->join('user AS contact_user', 'contact.user_id', '=', 'contact_user.id');
         }
 
         return $contacts->select('contact.*');
@@ -265,7 +259,12 @@ class Contact extends Model
                     $query = $query->where('contact_note.content', 'like', "%$search_value%", $conjunction);
                     break;
                 case 'location':
-                    $query = $query->where(DB::raw('CONCAT(contact_address.line1, " ", contact_address.line2, " ", contact_address.city, " ", contact_address.state, " ", contact_address.postal_code, " ", contact_address.country, " ")'), 'like', "%$search_value%", $conjunction);
+                    $query = $query->where(DB::raw('CONCAT(COALESCE(contact_address.line1, " "), " ", '
+                        .'COALESCE(contact_address.line2, " "), " ", '
+                        .'COALESCE(contact_address.city, " "), " ", '
+                        .'COALESCE(contact_address.state, " "), " ", '
+                        .'COALESCE(contact_address.postal_code, " "), " ", '
+                        .'COALESCE(contact_address.country, " "), " ")'), 'like', "%$search_value%", $conjunction);
                     break;
                 case 'organization':
                     $query = $query->where('contact.organization', 'like', "%$search_value%", $conjunction);
@@ -319,12 +318,12 @@ class Contact extends Model
                     break;
                 case Search::GROUP_LABEL:
                     if ($conjunction === "and") {
-                        $query = $query->where(function($query) use ($search) {
-                            return self::buildWhere($query, $search);
+                        $query = $query->where(function($query) use ($search_value) {
+                            return self::buildWhere($query, $search_value);
                         });
                     } else if ($conjunction === "or") {
-                        $query = $query->orWhere(function($query) use ($search) {
-                            return self::buildWhere($query, $search);
+                        $query = $query->orWhere(function($query) use ($search_value) {
+                            return self::buildWhere($query, $search_value);
                         });
                     }
                     break;
