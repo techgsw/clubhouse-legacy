@@ -14,7 +14,8 @@
                 </ul>
             @endif
         @endforeach
-        <p>After reviewing the applicants please give &#x1F44D; or &#x1F44E; in the system to notify candidates. Please note, applicants will be notified through a no-reply email so candidates will not have your contact info. If interested or &#x1F44D;, please be sure to contact directly to coordinate next steps.</p>
+        <p>After reviewing the applicants please give &#x1F44D; or &#x1F44E; in the system to notify candidates.</p>
+        <p>Please note, once an action is selected applicants will be notified through a no-reply email. Candidates will not have your contact info, so no further action needs to be taken for &#x1F44E;, but please be sure to contact the applicants directly after pressing &#x1F44D; to coordinate next steps.</p>
         <p><a href="{{env('CLUBHOUSE_URL')}}/user/{{$user->id}}/job-postings">Click here to see all of your job postings.</a></p>
     @endslot
 @endcomponent
