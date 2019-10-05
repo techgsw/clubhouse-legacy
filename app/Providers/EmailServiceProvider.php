@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Mail\JobExpirationReminder;
 use App\Mail\JobNoActionReminder;
 use Mail;
 use App\Email;
@@ -189,6 +190,11 @@ class EmailServiceProvider extends ServiceProvider
     public static function sendJobExpirationNotificationEmail(Job $job) {
         $user = User::find($job->user_id);
         Mail::to($user)->send(new JobExpirationNotification($job, $user));
+    }
+
+    public static function sendJobExpirationReminderEmail(Job $job, int $number_of_days) {
+        $user = User::find($job->user_id);
+        Mail::to($user)->send(new JobExpirationReminder($job, $user, $number_of_days));
     }
 
     public static function sendJobNoActionReminderEmails()

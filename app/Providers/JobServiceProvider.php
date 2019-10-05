@@ -120,4 +120,12 @@ class JobServiceProvider extends ServiceProvider
         }
     }
 
+    public static function sendExpirationReminder(int $number_of_days) {
+        $jobs = Job::findExpiredJobs($number_of_days, false);
+
+        foreach ($jobs as $job) {
+            EmailServiceProvider::sendJobExpirationReminderEmail($job, $number_of_days);
+        }
+    }
+
 }
