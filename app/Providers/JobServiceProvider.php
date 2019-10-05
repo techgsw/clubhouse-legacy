@@ -111,7 +111,7 @@ class JobServiceProvider extends ServiceProvider
 
     public static function expireJobs()
     {
-        $jobs = Job::getExpiredJobsAfterDays(0);
+        $jobs = Job::findExpiredJobs();
 
         foreach ($jobs as $job) {
             $job->job_status_id = JOB_STATUS_ID['expired'];

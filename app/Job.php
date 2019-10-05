@@ -245,33 +245,42 @@ class Job extends Model
         return $jobs;
     }
 
-    public static function getExpiredJobsAfterDays(int $number_of_days)
+    /**
+     * Extract jobs that should be marked as expired
+     *
+     * @param int $in_number_of_days include jobs that will expire after a certain number of days
+     * @param bool $include_jobs_after include jobs that should have expired after the number of days
+     * @return mixed
+     */
+    public static function findExpiredJobs($in_number_of_days = 0, $include_jobs_after = true)
     {
+        $days_operator = $include_jobs_after ? '>=' : '=';
+
         return Job::where('job_status_id', '!=', JOB_STATUS_ID['expired'])
-            ->where(function($expire_time_wheres) use ($number_of_days) {
-                $expire_time_wheres->where(function($extended_at_where) use ($number_of_days) {
-                    // regardless of job type, if extended_at is the latest time, check if it's been 30 days minus $number_of_days
+            ->where(function($expire_time_wheres) use ($in_number_of_days, $days_operator) {
+                $expire_time_wheres->where(function($extended_at_where) use ($in_number_of_days, $days_operator) {
+                    // regardless of job type, if extended_at is the latest time, check if it's been 30 days
                     $extended_at_where->where('job_type_id', '!=', JOB_TYPE_ID['sbs_default'])
                         ->where(\DB::raw('COALESCE(extended_at,0)'), '>', \DB::raw('COALESCE(upgraded_at,0)'))
-                        ->where(\DB::raw('TIMESTAMPDIFF(DAY, extended_at, NOW())'), '>=', 30 - $number_of_days);
-                })->orWhere(function($user_free_where) use ($number_of_days) {
+                        ->where(\DB::raw('TIMESTAMPDIFF(DAY, extended_at, NOW())'), $days_operator, 30 - $in_number_of_days);
+                })->orWhere(function($user_free_where) use ($in_number_of_days, $days_operator) {
                     $user_free_where->where('job_type_id', JOB_TYPE_ID['user_free'])
                         ->where(\DB::raw('TIMESTAMPDIFF(DAY,'
                             .'COALESCE(upgraded_at,created_at),'
                             .'NOW())'
-                        ), '>=', 30 - $number_of_days);
-                })->orWhere(function($user_premium_where)  use ($number_of_days) {
+                        ), $days_operator, 30 - $in_number_of_days);
+                })->orWhere(function($user_premium_where)  use ($in_number_of_days, $days_operator) {
                     $user_premium_where->where('job_type_id', JOB_TYPE_ID['user_premium'])
                         ->where(\DB::raw('TIMESTAMPDIFF(DAY,'
                             .'COALESCE(upgraded_at,created_at),'
                             .'NOW())'
-                        ), '>=', 45 - $number_of_days);
-                })->orWhere(function($user_platinum_where) use ($number_of_days) {
+                        ), $days_operator, 45 - $in_number_of_days);
+                })->orWhere(function($user_platinum_where) use ($in_number_of_days, $days_operator) {
                     $user_platinum_where->where('job_type_id', JOB_TYPE_ID['user_platinum'])
                         ->where(\DB::raw('TIMESTAMPDIFF(DAY,'
                             .'COALESCE(upgraded_at,created_at),'
                             .'NOW())'
-                        ), '>=', 60 - $number_of_days);
+                        ), $days_operator, 60 - $in_number_of_days);
                 });
             })->get();
     }
