@@ -111,33 +111,7 @@ class JobServiceProvider extends ServiceProvider
 
     public static function expireJobs()
     {
-        $jobs = Job::where('job_status_id', '!=', JOB_STATUS_ID['expired'])
-            ->where(function($expire_time_wheres) {
-                $expire_time_wheres->where(function($extended_at_where) {
-                    // regardless of job type, if extended_at is the latest time, check if it's been 30 days
-                    $extended_at_where->where('job_type_id', '!=', JOB_TYPE_ID['sbs_default'])
-                        ->where(DB::raw('COALESCE(extended_at,0)'), '>', DB::raw('COALESCE(upgraded_at,0)'))
-                        ->where(DB::raw('TIMESTAMPDIFF(DAY, extended_at, NOW())'), '>=', '30');
-                })->orWhere(function($user_free_where) {
-                    $user_free_where->where('job_type_id', JOB_TYPE_ID['user_free'])
-                        ->where(DB::raw('TIMESTAMPDIFF(DAY,'
-                            .'COALESCE(upgraded_at,created_at),'
-                            .'NOW())'
-                        ), '>=', '30');
-                })->orWhere(function($user_premium_where) {
-                    $user_premium_where->where('job_type_id', JOB_TYPE_ID['user_premium'])
-                        ->where(DB::raw('TIMESTAMPDIFF(DAY,'
-                            .'COALESCE(upgraded_at,created_at),'
-                            .'NOW())'
-                        ), '>=', '45');
-                })->orWhere(function($user_platinum_where) {
-                    $user_platinum_where->where('job_type_id', JOB_TYPE_ID['user_platinum'])
-                        ->where(DB::raw('TIMESTAMPDIFF(DAY,'
-                            .'COALESCE(upgraded_at,created_at),'
-                            .'NOW())'
-                        ), '>=', '60');
-                });
-            })->get();
+        $jobs = Job::getExpiredJobsAfterDays(0);
 
         foreach ($jobs as $job) {
             $job->job_status_id = JOB_STATUS_ID['expired'];
@@ -145,4 +119,5 @@ class JobServiceProvider extends ServiceProvider
             EmailServiceProvider::sendJobExpirationNotificationEmail($job);
         }
     }
+
 }

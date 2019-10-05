@@ -244,4 +244,35 @@ class Job extends Model
 
         return $jobs;
     }
+
+    public static function getExpiredJobsAfterDays(int $number_of_days)
+    {
+        return Job::where('job_status_id', '!=', JOB_STATUS_ID['expired'])
+            ->where(function($expire_time_wheres) use ($number_of_days) {
+                $expire_time_wheres->where(function($extended_at_where) use ($number_of_days) {
+                    // regardless of job type, if extended_at is the latest time, check if it's been 30 days minus $number_of_days
+                    $extended_at_where->where('job_type_id', '!=', JOB_TYPE_ID['sbs_default'])
+                        ->where(\DB::raw('COALESCE(extended_at,0)'), '>', \DB::raw('COALESCE(upgraded_at,0)'))
+                        ->where(\DB::raw('TIMESTAMPDIFF(DAY, extended_at, NOW())'), '>=', 30 - $number_of_days);
+                })->orWhere(function($user_free_where) use ($number_of_days) {
+                    $user_free_where->where('job_type_id', JOB_TYPE_ID['user_free'])
+                        ->where(\DB::raw('TIMESTAMPDIFF(DAY,'
+                            .'COALESCE(upgraded_at,created_at),'
+                            .'NOW())'
+                        ), '>=', 30 - $number_of_days);
+                })->orWhere(function($user_premium_where)  use ($number_of_days) {
+                    $user_premium_where->where('job_type_id', JOB_TYPE_ID['user_premium'])
+                        ->where(\DB::raw('TIMESTAMPDIFF(DAY,'
+                            .'COALESCE(upgraded_at,created_at),'
+                            .'NOW())'
+                        ), '>=', 45 - $number_of_days);
+                })->orWhere(function($user_platinum_where) use ($number_of_days) {
+                    $user_platinum_where->where('job_type_id', JOB_TYPE_ID['user_platinum'])
+                        ->where(\DB::raw('TIMESTAMPDIFF(DAY,'
+                            .'COALESCE(upgraded_at,created_at),'
+                            .'NOW())'
+                        ), '>=', 60 - $number_of_days);
+                });
+            })->get();
+    }
 }
