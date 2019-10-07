@@ -4,7 +4,7 @@
     <div class="row hero bg-image job-board" style="padding: 40px 0;">
         <div class="col s12">
             <h4 class="header">Sports Industry Job Board</h4>
-            <p>Are you a recruiter or employer and want to post your job? <a class="" href="{{ Auth::user() ? '/job-options' : '/register?type=employer' }}">Click here.</a></p>
+            <p>Are you a recruiter or employer and want to post your job? <a class="" href="/job-options">Click here.</a></p>
             @if (!$searching)
             <a id="search-link" href="#job-board-search" class="btn sbs-red">SEARCH</a>
             @endif
