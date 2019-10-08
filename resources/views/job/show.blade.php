@@ -37,6 +37,11 @@
             <div class="right">
                 <!-- Job controls -->
                 <p class="small">
+                @can ('edit-job-featured-status')
+                   @if ($job->job_type_id != JOB_TYPE_ID['sbs_default'])
+                        <a href="/job/{{ $job->id }}/make-admin" class="small flat-button green convert-to-admin-job-button"><i class="fa fa-arrow-circle-up"></i> Convert to Admin Job</a>
+                   @endif
+                @endcan
                 @can ('close-job', $job)
                     @if (is_null($job->job_status_id) || $job->job_status_id == JOB_STATUS_ID['closed'])
                         <a href="/job/{{ $job->id }}/open" class="flat-button small green"><i class="fa fa-check"></i> Open</a>

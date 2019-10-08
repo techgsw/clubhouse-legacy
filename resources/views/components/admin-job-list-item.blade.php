@@ -26,6 +26,9 @@
                 @endif
             @endcan
             @can ('edit-job', $job)
+                @if ($job->job_type_id != JOB_TYPE_ID['sbs_default'])
+                    <a href="/job/{{ $job->id }}/make-admin" class="small flat-button green convert-to-admin-job-button"><i class="fa fa-arrow-circle-up"></i> Convert to Admin Job</a>
+                @endif
                 <a href="/job/{{ $job->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
                 <a href="/job/{{ $job->id }}/{{ $job->featured ? 'unfeature' : 'feature' }}" class="flat-button small blue"><i class="fa fa-star{{ $job->featured ? '' : '-o' }}"></i> {{ $job->rank }}</a>
                 <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>

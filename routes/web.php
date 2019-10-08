@@ -136,6 +136,7 @@ Route::domain($domain)->group(function () {
         Route::get('/job/{id}/rank-up', 'JobController@rankUp');
         Route::get('/job/{id}/rank-top', 'JobController@rankTop');
         Route::get('/job/{id}/rank-down', 'JobController@rankDown');
+        Route::get('/job/{id}/make-admin', 'JobController@convertToAdminJob');
 
         Route::get('/admin/pipeline', 'PipelineController@index');
         Route::get('/admin/pipeline/job', 'PipelineController@job');

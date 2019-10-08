@@ -334,5 +334,29 @@ class JobController extends Controller
         return back();
     }
 
+    /**
+     * Converts a non-admin job to an admin or 'sbs_default' job.
+     * This makes sure the job doesn't expire if admins have agreed to take control of a user posting,
+     * and could provide for more granular controls in the future.
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function convertToAdminJob($id) {
+        $job = Job::find($id);
+        if (!$job) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
+        } else if ($job->job_type_id == JOB_TYPE_ID['sbs_default']) {
+            return redirect()->back()->withErrors(['msg' => 'Job ' . $id . ' is already an admin job']);
+        }
+        $this->authorize('edit-job', $job);
+
+        $job->job_type_id = JOB_TYPE_ID['sbs_default'];
+        $job->edited_at = new \DateTime('NOW');
+        $job->save();
+
+        return back();
+    }
 
 }

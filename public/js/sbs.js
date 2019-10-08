@@ -514,6 +514,15 @@ $.valHooks.textarea = {
         'input[type="checkbox"].show-hide'
     );
 
+    $('body').on(
+        {
+            click: function (e, ui) {
+                return window.confirm("This action will convert this job to an admin job posting. Admin job postings do not expire. \n\nAre you sure?");
+            }
+        },
+        '.convert-to-admin-job-button'
+    );
+
     League.create = function (name) {
         return $.ajax({
             'type': 'POST',
