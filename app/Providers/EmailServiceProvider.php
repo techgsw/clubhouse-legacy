@@ -193,20 +193,23 @@ class EmailServiceProvider extends ServiceProvider
 
     public static function sendJobNoActionReminderEmails()
     {
-        $users = User::with(['postings.inquiries' => function($inquiries_query) {
+        $users = User::with(['postings' => function($postings_query) {
+                $postings_query->where('job.job_status_id', '=', JOB_STATUS_ID['open']);
+            },
+            'postings.inquiries' => function($inquiries_query) {
                 $inquiries_query->where('inquiry.pipeline_id', '=', 1);
             },
             'postings.assignments' => function($assignments_query) {
                 $assignments_query->where('contact_job.pipeline_id', '=', 1);
             }])
-            ->join('job', 'user.id', 'job.user_id')
-            ->join('inquiry', function ($join_inquiry) {
-                $join_inquiry->on('job.id', '=', 'inquiry.job_id')
-                    ->where('inquiry.pipeline_id', '=', 1);
-            })->join('contact_job', function ($join_contact_job) {
-                $join_contact_job->on('job.id', '=', 'contact_job.job_id')
-                    ->where('contact_job.pipeline_id', '=', 1);
-            })->select('user.*')->distinct()->get();
+            ->join('job', function ($join_job) {
+                $join_job->on('user.id', '=', 'job.user_id')
+                    ->where('job_status_id', '=', JOB_STATUS_ID['open']);
+            })->leftJoin('inquiry', 'job.id', '=', 'inquiry.job_id')
+            ->leftJoin('contact_job', 'job.id', '=', 'contact_job.job_id')
+            ->where('inquiry.pipeline_id', '=', 1)
+            ->orWhere('contact_job.pipeline_id', '=', 1)
+            ->select('user.*')->distinct()->get();
 
         foreach ($users as $user) {
             Mail::to($user)->send(new JobNoActionReminder($user, $user->postings));
