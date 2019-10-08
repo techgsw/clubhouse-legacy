@@ -59,6 +59,11 @@ class Kernel extends ConsoleKernel
             JobServiceProvider::expireJobs();
         })->everyMinute();
 
+        $schedule->call(function () {
+            JobServiceProvider::sendExpirationReminder(10);
+            JobServiceProvider::sendExpirationReminder(3);
+        })->dailyAt('9:00');
+
         $schedule->call(function() {
             EmailServiceProvider::sendJobNoActionReminderEmails();
         })->weeklyOn(date('w', strtotime('Monday')), '00:00');
