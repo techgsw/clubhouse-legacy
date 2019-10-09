@@ -20,6 +20,11 @@
                 @endif
                     <a href="javascript: void(0);" data-job-id="{{ $job->id }}" class="small flat-button green job-options-extend-btn"><i class="fa fa-clock-o"></i> Extend</a>
             @endcan
+            @can ('edit-job-featured-status')
+                @if ($job->job_type_id != JOB_TYPE_ID['sbs_default'])
+                    <a href="/job/{{ $job->id }}/make-admin" class="small flat-button green convert-to-admin-job-button"><i class="fa fa-arrow-circle-up"></i> Convert to Admin Job</a>
+                @endif
+            @endcan
             @can ('close-job', $job)
                 @if (is_null($job->job_status_id) || $job->job_status_id == JOB_STATUS_ID['closed'])
                     <a href="/job/{{ $job->id }}/open" class="small flat-button green"><i class="fa fa-arrow-circle-up"></i> Open</a>
