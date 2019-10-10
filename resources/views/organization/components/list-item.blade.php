@@ -17,7 +17,7 @@
                 @endif
                 <div class="small" style="margin-top: 12px;">
                     <a href="/admin/job?organization={{urlencode($organization->name)}}" style="margin-left: 2px;" class="small flat-button black"><i class="fa fa-briefcase"></i> {{ $organization->jobs()->count() }} jobs</a>
-                    <a href="/admin/contact?organization_name={{urlencode($organization->name)}}" style="margin-left: 2px;" class="small flat-button black"><i class="fa fa-user"></i> {{ $organization->contacts()->count() }} contacts</a>
+                    <a href="/admin/contact?search={{urlencode('organization:"'.$organization->name.'"')}}" style="margin-left: 2px;" class="small flat-button black"><i class="fa fa-user"></i> {{ $organization->contacts()->count() }} contacts</a>
                     <div style="margin-top: 4px">
                         @can ('create-job')
                             <a href="/job/create?organization={{ $organization->id }}" style="margin-left: 2px;" class="small flat-button blue"><i class="fa fa-plus"></i> New Job</a>
