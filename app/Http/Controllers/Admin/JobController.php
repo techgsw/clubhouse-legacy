@@ -351,8 +351,10 @@ class JobController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Job ' . $id . ' is already an admin job']);
         }
         $this->authorize('edit-job', $job);
+        $user = Auth::User();
 
         $job->job_type_id = JOB_TYPE_ID['sbs_default'];
+        $job->user_id = $user->id;
         $job->edited_at = new \DateTime('NOW');
         $job->save();
 
