@@ -46,7 +46,7 @@
                     </a>
                 </div>
                 <div class="card" style="flex: 0 0 120px; padding: 10px 24px; text-align: center; margin: 12px; text-transform: uppercase; letter-spacing: 0.6px;">
-                    <a href="/admin/contact?organization_name={{urlencode($organization->name)}}">
+                    <a href="/admin/contact?search={{urlencode('organization:"'.$organization->name.'"')}}">
                         <p style="font-size: 22px; color: #EB2935; margin-bottom: 6px;">{{ $organization->contacts()->count() }}</p>
                         <p style="margin-top: 6px;">contacts</p>
                     </a>
