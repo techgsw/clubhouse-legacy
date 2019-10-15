@@ -517,7 +517,7 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function (e, ui) {
-                return window.confirm("This action will convert this job to an admin job posting. Admin job postings do not expire. \n\nAre you sure?");
+                return window.confirm("This action will convert this job to an admin job posting. Admin job postings do not expire. You will become the new owner of this job posting and the original owner will no longer have access to this posting. \n\nAre you sure?");
             }
         },
         '.convert-to-admin-job-button'
