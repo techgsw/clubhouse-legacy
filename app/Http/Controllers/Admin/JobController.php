@@ -76,8 +76,13 @@ class JobController extends Controller
      */
     public function store(StoreJob $request)
     {
+        //FIXME: CAUTION - I don't think this is getting called properly.
+        // It looks like any call to POST /job/create is going to the regular controller which already has handling for admins
+        // We'll need to look into how web.php/Laravel handles routing like this.
+
         $document = request()->file('document');
         $alt_image = request()->file('alt_image_url');
+
         $job = new Job([
             'user_id' => Auth::user()->id,
             'title' => request('title'),

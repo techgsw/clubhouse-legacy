@@ -40,7 +40,7 @@
                 @can ('edit-job-recruiting-type', $job)
                 <div class="input-field col s12">
                     <label for="recruiting-type-code" class="active">Recruiting Type</label>
-                    <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default" required>
+                    <select id="recruiting-type-code" name="recruiting_type_code" class="browser-default">
                         <option value="passive" {{ old('recruiting_type_code') == "passive" ? "selected" : $job->recruiting_type_code == "passive" ? "selected" : "" }}>Passive</option>
                         <option value="active" {{ old('recruiting_type_code') == "active" ? "selected" : $job->recruiting_type_code == "active" ? "selected" : "" }}>Active</option>
                     </select>
