@@ -207,6 +207,7 @@ class JobController extends Controller
         $organization = Organization::find($request->organization_id);
 
         if (!$user->roles->contains('administrator')) {
+            $recruiting_type_code = 'passive';
             $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['premium_job']);
             $available_platinum_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['platinum_job']);
 
@@ -221,6 +222,7 @@ class JobController extends Controller
                 $featured = false;
             }
         } else {
+            $recruiting_type_code = $request->recruiting_type_code;
             $job_type_id = 1;
             $featured = request('featured') ? true : false;
 
@@ -263,7 +265,7 @@ class JobController extends Controller
             'organization_id' => $organization->id,
             'job_type' => request('job_type'),
             'league' => (!is_null($organization->leagues()->first())) ? $organization->leagues()->first()->abbreviation : null,
-            'recruiting_type_code' => 'passive',
+            'recruiting_type_code' => $recruiting_type_code,
             'job_type_id' => $job_type_id,
             'city' => $organization->addresses()->first()->city,
             'state' => $organization->addresses()->first()->state,
