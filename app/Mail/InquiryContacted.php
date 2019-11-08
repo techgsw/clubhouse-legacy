@@ -37,7 +37,7 @@ class InquiryContacted extends Mailable
      */
     public function build()
     {
-        if ($this->user->hasAccess('admin-index')) {
+        if (\Gate::allows('view-admin-dashboard')) {
             $mail = $this->from($this->user->email);
         } else {
             $mail = $this->from('app@sportsbusiness.solutions');
