@@ -99,14 +99,14 @@ class OrganizationController extends Controller
                 }
                 $organization->save();
 
-                if (count($user->contact->organizations) < 1) {
-                    if (!$user->roles->contains('administrator')) {
+                if (!$user->roles->contains('administrator')) {
+                    if (count($user->contact->organizations) < 1) {
                         $user->contact->organizations()->attach($organization->id);
                         $user->contact->organization = $organization->name;
                         $user->contact->save();
+                    } else {
+                        throw new SBSException('This account is already associated with an organization.');
                     }
-                } else {
-                    throw new SBSException('This account is already associated with an organization.');
                 }
 
                 if ($request->organization_type_id == 2 /* League */) {
