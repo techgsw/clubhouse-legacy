@@ -3,52 +3,19 @@
 @section('hero')
     <div class="row hero bg-image home">
         <div class="col s12 m8 offset-m2">
-            <h4 class="header">At Sports Business Solutions, we help people succeed in sports business.</h4>
-            <p>We provide Training, Consulting, and Recruiting services for sports teams and provide Career Services for those interested in working in sports.</p>
+            <h4 class="header">At SBS, we help people succeed in sports business.</h4>
+            <p>We provide sales training, consulting, and recruiting services to sports teams and properties across North America.</p>
+            <a href="/services" class="btn btn-large sbs-red">Learn More</a>
+            <a href="/#clients-list" class="btn btn-large sbs-red">Our Clients</a>
         </div>
     </div>
 @endsection
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col s12 center-align">
-            <h3 class="heavy">Let's get started</h3>
-        </div>
-    </div>
-    <div class="row hide-on-med-and-up">
-        <div class="col s12 center-align">
-            <a href="/services" class="btn sbs-red">I'm at a sports team</a>
-        </div>
-    </div>
-    <div class="row hide-on-med-and-up">
-        <div class="col s12 center-align">
-            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn sbs-red">I'm a job seeker</a>
-        </div>
-    </div>
-    <div class="row hide-on-small-only">
-        <div class="col m6 right-align">
-            <a href="/services" class="btn btn-large sbs-red">I'm at a sports team</a>
-        </div>
-        <div class="col m6 left-align">
-            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn btn-large sbs-red">I'm a job seeker</a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 center-align">
-            <a name="clients"><h3>Our Clients Include</h3></a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 center-align">
-            <img src="/images/home/clients.jpg?v=2" alt="" style="margin-bottom: 60px;">
-        </div>
-    </div>
-</div>
 <div class="sbs-row">
     <div class="sbs-col-6 bg-img training hide-on-med-and-up"></div>
     <div class="sbs-col-6 gray">
         <h3>Training &amp; Consulting</h3>
-        <p>With more than 10 years of sports industry experience and a passion for teaching and coaching we’re excited to help you and your team succeed. Let us know the challenges you’re facing and we’ll work together to provide a solution that helps you accomplish your business objectives and take your team to the next level.</p>
+        <p>With more than 30 years of combined sales experience and a passion for teaching and coaching, we’re excited to help your team succeed. Let us know the challenges you’re facing, and we’ll work together to provide a custom solution that helps you accomplish your business objectives and take your team to the next level.</p>
         <div class="input-field">
             <a href="/training-consulting" class="btn btn-large sbs-red">Learn more</a>
         </div>
@@ -68,13 +35,20 @@
 <div class="sbs-row">
     <div class="sbs-col-6 bg-img services hide-on-med-and-up"></div>
     <div class="sbs-col-6 gray">
-        <h3>Career Services</h3>
-        <p>More than 300 colleges and universities are now offering degrees in sports management and the demand for jobs in sports has never been higher. We believe that with the right game plan and industry contacts, your dream job in sports is within reach. Let us give you the edge you need to compete for, and land, the most sought after jobs in sports.</p>
+        <h3><span class="sbs-red-text">the</span>Clubhouse</h3>
+        <p><span class="sbs-red-text">the</span>Clubhouse is a place where current and aspiring sports industry professionals go to learn, network, browse career opportunities and share best practices in an effort to succeed in the sports industry.</p>
         <div class="input-field">
-            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn btn-large sbs-red">Learn more</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}" class="btn btn-large sbs-red">Learn more</a>
         </div>
     </div>
     <div class="sbs-col-6 bg-img services hide-on-small-only"></div>
+</div>
+<div class="container">
+    <div id="clients-list" class="row" style="padding: 30px 0 0 0;">
+        <div class="col s12 center-align">
+            <img src="/images/home/clients.jpg?v=2" alt="">
+        </div>
+    </div>
 </div>
 <div class="container">
     <div class="row" style="padding: 30px 0;">
@@ -87,11 +61,11 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Early on in his career with the Suns, Bob exhibited a strong commitment to developing both his craft and the skill sets of those around him. Quickly working his way up the ranks as a sales executive, Bob earned the trust of customers, co-workers, executives and ownership alike. And when he transitioned to a management role, he brought that same level of dedication and commitment to the development of those that he managed. Any person aspiring to succeed in the sports and entertainment business would be well advised to seek Bob’s input and advice.</p>
+                                <p>Bob Hamer is a great mentor of mine and someone I hold in the highest regard. An expert in Ticket Sales, Bob has a strong work ethic for driving revenue while helping grow the careers of those around him. Bob’s management experience includes overseeing group, season ticket, and premium sales teams that exceeded sales goals regardless of team performance. His passion for growing careers coupled with his overall professionalism and vast network throughout the sports industry make him stand out amongst his peers. I was fortunate enough to work for Bob for two years with the Phoenix Suns and am privileged to call him a close friend.</p>
                                 <p class="heavy">
-                                    Jason Rowley<br/>
-                                    President<br/>
-                                    Phoenix Suns &amp; Mercury
+                                    Dave Baldwin<br/>
+                                    SVP Ticket Sales & Service<br/>
+                                    Ilitch Holdings
                                 </p>
                             </div>
                         </div>
@@ -104,11 +78,11 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Bob has worked his way through the ranks of minor league hockey, WNBA and NBA to sell and then lead sales campaigns at the highest levels. No matter what he was focused on during our time working together at the Suns and Mercury, he was passionate and thorough in developing the most innovative and efficient process to not only meet a goal, but shatter it. Simply put, Bob has the ability to evaluate and develop talent in the sports industry because he has been the best at every level.</p>
+                                <p>I had an amazing experience working with Jason and SBS! They are very personable, knowledgeable, and provided great insight throughout my interview process. Would definitely recommend their guidance from training to interview prep. </p>
                                 <p class="heavy">
-                                    Amber Cox<br/>
-                                    Vice President - Marketing<br/>
-                                    Connecticut Sun &amp; NE Black Wolves
+                                    Aaron Lampkin<br/>
+                                    Director of Sales<br/>
+                                    Seattle Sounders FC
                                 </p>
                             </div>
                         </div>
@@ -121,13 +95,11 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>We’ve had the opportunity to work with SBS multiple times with focuses on different areas of our ticket sales business and both training sessions were very well received by our staff.</p>
-                                <p>Most recently we had Adam Vogel in to focus on maximizing our service initiatives and B2B selling. As expected, Adam came in with his wealth of industry knowledge and helped reaffirm our current processes while adding new approaches to various topics.</p>
-                                <p>Adam had a unique way of bringing creative and practical sales approaches to our team, which made it easy to immediately implement following our two-day training session. Our team had nothing but positive things to say about the overall experience and we look forward to working with SBS again in the future.</p>
+                                <p>I appreciated Josh and SBS coming out and spending time with us. I love the think-tank atmosphere the SBS team brings with them for training. There is nothing better than engaging in conversation about real situations and ideas as a team and then having people like Josh and Bob there to help guide the conversation. We look forward to seeing Josh and the SBS team again for another training session.  </p>
                                 <p class="heavy">
-                                    James Armold<br/>
-                                    Director of Ticket Sales & Service<br/>
-                                    D.C. United 
+                                    Matt Walsh<br/>
+                                    Account Executive<br/>
+                                    Texas Rangers
                                 </p>
                             </div>
                         </div>
@@ -140,11 +112,30 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Bob Hamer is a great mentor of mine and someone I hold in the highest regard. An expert in Ticket Sales, Bob has a strong work ethic for driving revenue while helping grow the careers of those around him. Bob’s management experience includes overseeing group, season ticket, and premium sales teams that exceeded sales goals regardless of team performance. His passion for growing careers coupled with his overall professionalism and vast network throughout the sports industry make him stand out amongst his peers. I was fortunate enough to work for Bob for two years with the Phoenix Suns and am privileged to call him a close friend.</p>
+                                <p>We’ve had the opportunity to work with SBS multiple times with focuses on different areas of our business, and all of their training sessions have been very well received by our staff. They have a unique way of bringing creative and practical sales approaches to our team, which makes it easy to implement following the session. We look forward to working with them again in the future.</p>
                                 <p class="heavy">
-                                    Dave Baldwin<br/>
-                                    Vice President – Ticket Sales &amp; Service<br/>
-                                    Miami Dolphins
+                                    James Armold<br/>
+                                    Vice President Ticket Sales & Service<br/>
+                                    D.C. United
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/home/testimonial/miami_dolphins.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>I’ve known Bob Hamer since we entered the sports industry together with the Phoenix Suns over a decade ago. From those early days as reps “smiling and dialing” to today, Bob has always had a genuine desire to help people. Whether it was assisting his clients or coworkers back then or helping aspiring professionals or teams in achieving their goals today, Bob’s dedication to others and commitment to excellence have been exemplary.  </p>
+                                <p>We partnered with Bob to do some sales training earlier this year, and our staff really enjoyed his down-to-earth approach in presenting the skills and techniques necessary to thrive in sales. They also appreciated the real-life examples and practical solutions he used to illustrate what was being taught.</p>
+                                <p>If you have any training, consulting or recruiting needs, I highly recommend Bob and his SBS team.</p>
+                                <p class="heavy">
+                                    Colby Zobell<br/>
+                                    Director, Sales & Service Academy<br/>
+                                    Utah Jazz
                                 </p>
                             </div>
                         </div>
