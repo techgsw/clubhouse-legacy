@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col s12 center-align">
             <h3 style="margin: 0;">Josh Belkoff</h3>
-            <h5>Consultant, Ticket Sales &amp; Development</h5>
+            <h5>Sr. Director, Business Development</h5>
         </div>
     </div>
     <div class="row">
@@ -20,12 +20,7 @@
             <p>In that role Josh focused on selling season tickets, group tickets, and premium hospitality for the NBA’s Phoenix Suns and WNBA’s Phoenix Mercury. After 6 months, he was promoted to an Account Executive, where he focused on selling new full season ticket memberships and premium hospitality. Josh excelled amongst his peers and had an unmatched passion for the industry. He wanted to be the best on his team and be looked at as one of the best in the industry. During his time as an Account Executive, he was #1 in both membership sales and new season ticket sales revenue. Shortly after that campaign, Josh was promoted to Team Leader of the New Business Team. In that role he was still selling, but also helped recruit, train and develop the entry level sales consultants. </p>
             <p>In June of 2014, only two years removed from his first day of employment at the Suns, he was promoted to the Manager of the New Business Development program, one of the fastest leadership ascensions in the departments history. He spent three seasons in that role, recruiting, training, leading, and developing the entry level sales consultants. During his tenure there, Josh grew the sales staff from 14 to 19 team members and helped more than 40 people get promoted to senior level positions in sports, with teams all over the country. </p>
             <p>In 2017 after three years managing the New Business Team, Josh was ready for a new challenge and was promoted to the Senior Manager of Premium Sales. In that role he oversaw the ticket sales strategy and renewal efforts for the Arizona Rattlers (IFL) football team, which grew new business by 12% and renewals grew to 91%. In that role Josh also created and executed the strategy to sell Phoenix Suns Premium Party Suites and Concert Suites for events happening at Talking Stick Resort Arena. While he wasn’t around to finish the campaign, the day he left they were tracking 134% to goal.</p>
-            <p>Throughout his time at the Suns, Josh stayed in constant contact with Bob Hamer at SBS. Bob was one of his first and biggest mentors in the industry. When the opportunity arose to join Bob and his team at SBS Josh knew it was the perfect fit and the right next step for his career. As the Senior Director of Recruiting & Development at SBS, Josh focuses on building relationships with the collegiate sports management programs in an effort to help their students find work in the industry. He also provides sales training and consulting support to SBS’ growing portfolio of professional and collegiate clients and assists with supporting SBS’ growing recruiting business. He wears many hats but at his core he’s committed to helping others achieve success in the industry, the way he has over the last 6 years.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 center-align">
-            <a href="/files/josh-belkoff-resume.pdf" target="_blank" class="btn sbs-red">Download resume</a>
+            <p>Throughout his time at the Suns, Josh stayed in constant contact with Bob Hamer at SBS. Bob was one of his first and biggest mentors in the industry. When the opportunity arose to join his team at SBS Josh knew it was the perfect fit and the right next step for his career. As the Senior Director of Business Development at SBS, Josh sells and delivers sales training and consulting services to SBS’ growing portfolio of professional, minor league and college clients. At his core he’s committed to helping others achieve success in the industry, the same way he has over the last eight years both at the Suns and with SBS.</p>
         </div>
     </div>
     <div class="row">
@@ -49,7 +44,6 @@
                         <p><b>Favorite type of Pizza:</b> Cheese (one bite, everybody knows the rules) </p>
                         <p><b>Favorite music:</b> EDM, Country, Top 40’s</p>
                         <p><b>Something most people don't know about me:</b> I am a promotional sunglasses connoisseur. If I am at an event or school, I always have to purchase or get sunglasses that we’re tailored for that specific event.</p>
-                        <p><b>That's a little about me, I'd love to learn more about you! Click <a href="/contact">here</a> and tell us more.</p>
                     </div>
                 </li>
             </ul>

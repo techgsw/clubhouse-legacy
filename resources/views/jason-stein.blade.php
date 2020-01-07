@@ -23,11 +23,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 center-align">
-            <a href="/files/jason-stein-resume.pdf" target="_blank" class="btn sbs-red">Download resume</a>
-        </div>
-    </div>
-    <div class="row">
         <div class="col s12">
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
@@ -48,7 +43,6 @@
                         <p><b>Favorite type of Pizza:</b> Bacon, Pepperoni and Jalapeños</p>
                         <p><b>Favorite music:</b> 90’s Hip-Hop and R&amp;B</p>
                         <p><b>Something most people don't know about me:</b> Nearly since birth, I have lived with no sense of smell (anosmia) due to a lack of functioning olfactory bulbs.</p>
-                        <p><b>That's a little about me, I'd love to learn more about you! Click <a href="/contact">here</a> and tell us more.</p>
                     </div>
                 </li>
             </ul>
