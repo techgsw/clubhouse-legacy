@@ -1354,6 +1354,9 @@ form#edit-job img {
     color: #FFFFFF;
     transition: all 0.2s linear;
 }
+.red-hover:hover .sbs-red-text {
+    color: #FFFFFF;
+}
 
 /**
  * Instagram
