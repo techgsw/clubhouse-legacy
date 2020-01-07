@@ -57,8 +57,12 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/detroit-tigers.png" alt="">
-                            <img class="logo" src="/images/home/testimonial/detroit-red-wings.jpeg" alt="" style="height:100px">
+                            <div class="col s12 m6">
+                                <img class="logo" src="/images/home/testimonial/detroit-tigers-logo-transparent.png" alt="">
+                            </div>
+                            <div class="col s12 m6">
+                                <img class="logo" src="/images/home/testimonial/red-wings-transparent.png" alt="">
+                            </div>
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -75,7 +79,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/seattle-sounders.jpeg" alt="" style="height:130px">
+                            <img class="logo" src="/images/home/testimonial/seattle-sounders-fc-logo-transparent.png">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -93,7 +97,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/texas-rangers.png" alt="" style="height:180px">
+                            <img class="logo" src="/images/home/testimonial/texas-rangers-transparent.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
