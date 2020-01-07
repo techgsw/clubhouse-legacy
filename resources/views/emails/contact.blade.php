@@ -15,6 +15,9 @@
         <p>{!! nl2br(e($request->body)) !!}</p>
         <p>
             {{ $request->first_name }} {{ $request->last_name }}<br/>
+            @if (!is_null($request->organization))
+                {{ $request->organization }}<br/>
+            @endif
             {{ $request->email }}<br/>
             {{ $request->phone }}
         </p>

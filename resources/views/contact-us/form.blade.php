@@ -9,7 +9,7 @@
     </div>
     <form action="/contact" method="post">
         {{ csrf_field() }}
-        <h3 class="header">Contact us</h3>
+        <h3 class="header">Contact Sports Business Solutions</h3>
         <div class="row">
             <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
                 <input id="first-name" type="text" name="first_name" value="{{ old('first_name') }}" required>
@@ -31,16 +31,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s12 m6">
+                <input id="organization" type="text" name="organization" value="{{ old('organization') }}">
+                <label for="organization">Organization</label>
+            </div>
+            <div class="input-field col s12 m6">
                 <select name="about">
                     <option value="" {{ old('state') == "" ? "selected" : "" }}></option>
-                    <option value="sales-training" {{ old('state') == "sales-training" ? "selected" : $interest == "sales-training" ? "selected" : "" }}>Sales training</option>
-                    <option value="consulting" {{ old('state') == "consulting" ? "selected" : $interest == "consulting" ? "selected" : "" }}>Consulting</option>
+                    <option value="sales-training-consulting" {{ old('state') == "sales-training-consulting" ? "selected" : $interest == "sales-training-consulting" ? "selected" : "" }}>Sales Training & Consulting</option>
                     <option value="recruiting" {{ old('state') == "recruiting" ? "selected" : $interest == "recruiting" ? "selected" : "" }}>Recruiting</option>
-                    <option value="career-services" {{ old('state') == "career-services" ? "selected" : $interest == "career-services" ? "selected" : "" }}>Job seeker career services</option>
-                    <option value="coaching" {{ old('state') == "coaching" ? "selected" : $interest == "coaching" ? "selected" : "" }}>Industry professional coaching</option>
-                    <option value="combine" {{ old('state') == "combine" ? "selected" : $interest == "combine" ? "selected" : "" }}>Sports Sales Combine</option>
-                    <option value="keynote" {{ old('state') == "keynote" ? "selected" : $interest == "keynote" ? "selected" : "" }}>Keynote speaker opportunities</option>
+                    <option value="clubhouse" {{ old('state') == "clubhouse" ? "selected" : $interest == "clubhouse" ? "selected" : "" }}>theClubhouse</option>
                     <option value="other" {{ old('state') == "other" ? "selected" : $interest == "other" ? "selected" : "" }}>Other</option>
                 </select>
                 <label>I'm interested in:</label>
