@@ -4,9 +4,9 @@
     <div class="row bg-image hero archives">
         <div class="col s12">
             <h4 class="header">Sports Business Archives</h4>
-            <p>We go all over the country conducting sales training, keynote speeches, hiring events and more.</p>
-            <a href="#past-sessions" class="btn btn-large sbs-red">VIEW GALLERY</a>
-            <a href="#other-contributions" class="btn btn-large sbs-red">MEDIA CONTRIBUTIONS</a>
+            <a href="#press-releases" class="btn btn-large sbs-red">Press Releases</a>
+            <a href="#other-contributions" class="btn btn-large sbs-red">Media Contributions</a>
+            <a href="#training-videos" class="btn btn-large sbs-red">Training Videos</a>
         </div>
     </div>
 @endsection
@@ -18,41 +18,9 @@
             @include('layouts.components.errors')
         </div>
     </div>
-    <div class="row">
-        <div class="col s12 center">
-            <h4>Check out all the places we’ve been!</h4>
-            <img src="/images/archives/client-map.jpg?v=1" alt="Client Map" />
-        </div>
-    </div>
-    <div class="row" id="past-sessions">
+    <div class="row center" id="press-releases">
         <div class="col s12">
-            <a name="sessions"></a>
-            <h4>Past sessions</h4>
-            <hr />
-                <div class="center">
-                    @if (count($sessions) > 0)
-                        @foreach ($sessions as $index => $session)
-                            @foreach ($session->images as $index => $image)
-                                <div class="session-image" style="background-image: url('{{ $image->getURL('medium') }}')">
-                                    <div class="overlay">
-                                        <span class="overlay-text">{{ $session->title }}</span>
-                                    </div>
-                                    <img class="materialboxed" style="" data-caption="{{ $session->title }}" src="{{ $image->getURL('large') }}" />
-                                </div>
-                            @endforeach
-                        @endforeach
-                    @endif
-                </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 center">
-            <a href="/gallery" class="btn sbs-red">View Gallery</a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12">
-            <h4>Press releases</h4>
+            <h4>Press Releases</h4>
             <hr />
         </div>
     </div>
@@ -134,17 +102,10 @@
                 <p class="icon fa fa-chevron-circle-right fa-2x"></p>
             </a>
         </div>
-        <div class="col s6 m4 l3">
-            <a class="press-release" target="_blank" href="https://sportsbusiness.solutions/storage/press-release/SBS-NewHirePressRelease-AdamVogel.pdf">
-                <p>03.26.18</p>
-                <h6>New hire Adam Vogel</h6>
-                <p class="icon fa fa-chevron-circle-right fa-2x"></p>
-            </a>
-        </div>
     </div>
-    <div class="row" id="other-contributions">
+    <div class="row center" id="other-contributions">
         <div class="col s12">
-            <h4>Other contributions</h4>
+            <h4>Other SBS Media Contributions</h4>
             <hr />
         </div>
     </div>
@@ -275,9 +236,9 @@
             </a>
         </div>
     </div>
-    <div class="row">
+    <div class="row center" id="training-videos">
         <div class="col s12">
-            <h4>Training videos</h4>
+            <h4>Training Videos</h4>
             <hr />
         </div>
     </div>
