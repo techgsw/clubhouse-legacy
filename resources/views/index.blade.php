@@ -57,7 +57,8 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/phoenix-suns-sports-business-solutions.png" alt="">
+                            <img class="logo" src="/images/home/testimonial/detroit-tigers.png" alt="">
+                            <img class="logo" src="/images/home/testimonial/detroit-red-wings.jpeg" alt="" style="height:100px">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -74,7 +75,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/connecticut_sun.png" alt="">
+                            <img class="logo" src="/images/home/testimonial/seattle-sounders.jpeg" alt="" style="height:130px">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -84,6 +85,7 @@
                                     Director of Sales<br/>
                                     Seattle Sounders FC
                                 </p>
+                                <p>* Aaron was a placement we made at the Seattle Sounders.</p>
                             </div>
                         </div>
                     </div>
@@ -91,7 +93,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/dc-united-sports-business-solutions.png" alt="">
+                            <img class="logo" src="/images/home/testimonial/texas-rangers.png" alt="" style="height:180px">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -108,7 +110,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/miami_dolphins.png" alt="">
+                            <img class="logo" src="/images/home/testimonial/dc-united-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -125,7 +127,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/home/testimonial/miami_dolphins.png" alt="">
+                            <img class="logo" src="/images/home/testimonial/utah-jazz.png" alt="" style="height:130px">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
