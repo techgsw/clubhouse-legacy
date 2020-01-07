@@ -79,7 +79,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/texas-rangers-sports-business-solutions.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/phoenix-suns-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -96,7 +96,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/International-Speedway-Corporation-SportsBusinessSolutions.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/one-world-observatory.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -113,7 +113,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/university-of-arizona-sports-business-solutions.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/the-kennedy-center.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -130,7 +130,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/denver-nuggets-sports-business-solutions.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/new-york-jets-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
@@ -147,7 +147,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/one-world-observatory.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/seat-geek.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
