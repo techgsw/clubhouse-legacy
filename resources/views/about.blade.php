@@ -113,7 +113,7 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/the-kennedy-center.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/the-kennedy-center.png" alt="" style="height:125px">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
