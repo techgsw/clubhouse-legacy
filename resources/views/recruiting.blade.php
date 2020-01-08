@@ -81,12 +81,101 @@
             </div>
         </div>
     </div>
-    <div class="row center-align" style="margin-top: 40px; margin-bottom: 50px;">
+    <div class="row center-align" style="margin-top: 40px; margin-bottom: 30px;">
         <div class="col s12">
             <h3 id="recruiting-clients">Recruiting clients & testimonials</h3>
         </div>
+    </div>
+    <div class="row center-align clients">
         <div class="col s12">
-            <img src="/images/recruiting/recruiting-clients.jpg?v=1" alt="">
+            <img class="logo" src="/images/recruiting/clients/nba/image5.jpeg" alt="" >
+            <img class="logo" src="/images/recruiting/clients/nhl/image16.jpeg" alt="" >
+            <img class="logo" src="/images/recruiting/clients/mlb/image14.png" alt="" style="height:100px;">
+            <img class="logo" src="/images/recruiting/clients/mls/image21.png" alt="" >
+            <img class="logo" src="/images/recruiting/clients/nfl/image6.jpeg" alt="" >
+            <img class="logo" src="/images/recruiting/clients/other/image50.png" alt="" >
+        </div>
+        <div class="col s12">
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header">See more clients<span style="float: right;">+</span></div>
+                    <div class="collapsible-body" style="padding:0;">
+                        <nav class="nav-clients">
+                            <ul class="tabs">
+                                <li class="tab"><a class="active" href="#nba">NBA</a></li>
+                                <li class="tab"><a href="#nhl">NHL</a></li>
+                                <li class="tab"><a href="#mlb">MLB</a></li>
+                                <li class="tab"><a href="#mls">MLS</a></li>
+                                <li class="tab"><a href="#nfl">NFL</a></li>
+                                <li class="tab"><a href="#other">Other</a></li>
+                            </ul>
+                        </nav>
+                        <div id="nba" style="padding:30px;">
+                            <img class="logo" src="/images/recruiting/clients/nba/image1.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nba/image2.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nba/image3.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nba/image4.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nba/image5.jpeg" alt="" >
+                        </div>
+                        <div id="nhl" style="padding:30px;">
+                            <img class="logo" src="/images/recruiting/clients/nhl/image16.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nhl/image17.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nhl/image18.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nhl/image19.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nhl/image20.png" alt="" >
+                        </div>
+                        <div id="mlb" style="padding:30px;">
+                            <img class="logo" src="/images/recruiting/clients/mlb/image11.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mlb/image12.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mlb/image13.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mlb/image14.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mlb/image15.png" alt="" >
+                        </div>
+                        <div id="mls" style="padding:30px;">
+                            <img class="logo" src="/images/recruiting/clients/mls/image21.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mls/image22.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mls/image23.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mls/image24.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mls/image25.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mls/image26.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/mls/image27.png" alt="" >
+                        </div>
+                        <div id="nfl" style="padding:30px;">
+                            <img class="logo" src="/images/recruiting/clients/nfl/image6.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nfl/image7.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nfl/image8.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nfl/image9.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/nfl/image10.jpeg" alt="" >
+                        </div>
+                        <div id="other" style="padding:30px;">
+                            <img class="logo" src="/images/recruiting/clients/other/image28.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image29.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image30.gif" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image31.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image32.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image33.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image34.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image35.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image36.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image37.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image38.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image39.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image40.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image41.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image42.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image43.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image44.jpeg" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image45.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image46.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image47.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image48.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image49.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image50.png" alt="" >
+                            <img class="logo" src="/images/recruiting/clients/other/image51.png" alt="" >
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
