@@ -88,12 +88,12 @@
     </div>
     <div class="row center-align clients">
         <div class="col s12">
-            <img class="logo" src="/images/recruiting/clients/nba/image5.jpeg" alt="" >
+            <img class="logo" src="/images/recruiting/clients/nba/image1.png" alt="" >
             <img class="logo" src="/images/recruiting/clients/nhl/image16.jpeg" alt="" >
-            <img class="logo" src="/images/recruiting/clients/mlb/image14.png" alt="" style="height:100px;">
-            <img class="logo" src="/images/recruiting/clients/mls/image21.png" alt="" >
-            <img class="logo" src="/images/recruiting/clients/nfl/image6.jpeg" alt="" >
-            <img class="logo" src="/images/recruiting/clients/other/image50.png" alt="" >
+            <img class="logo" src="/images/recruiting/clients/mlb/image15.png" alt="" style="height:100px">
+            <img class="logo" src="/images/recruiting/clients/mls/image27.png" alt="" style="height:100px" >
+            <img class="logo" src="/images/recruiting/clients/nfl/image10.jpeg" alt="" >
+            <img class="logo" src="/images/recruiting/clients/other/image51.png" alt="" style="height:100px" >
         </div>
         <div class="col s12">
             <ul class="collapsible">
