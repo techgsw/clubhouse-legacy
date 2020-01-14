@@ -12,7 +12,7 @@
                 <ul id="services-dropdown" class="dropdown-content">
                     <li><a href="/training-consulting">Training &amp; Consulting</a></li>
                     <li><a href="/recruiting">Recruiting</a></li>
-                    <li><a href="{{ env('CLUBHOUSE_URL') }}/career-services">Career Services</a></li>
+                    <li><a href="{{ env('CLUBHOUSE_URL') }}"><span class="sbs-red-text">the</span>Clubhouse</a></li>
                 </ul>
                 <li><a href="/archives">Archives</a></li>
                 <li><a href="{{ env('CLUBHOUSE_URL') }}/blog">Blog</a></li>
