@@ -32,30 +32,18 @@ class ContactUsController extends Controller
             return back()->withInput();
         }
 
-        $to = 'clubhouse@sportsbusiness.solutions';
+        $to = 'bob@sportsbusiness.solutions';
         $request->interested_in = null;
         if (request('about')) {
             switch (request('about')) {
-                case "sales-training":
-                    $request->interested_in = "sales training";
-                    break;
-                case "consulting":
-                    $request->interested_in = "consulting";
+                case "sales-training-consulting":
+                    $request->interested_in = "Sales Training & Consulting";
                     break;
                 case "recruiting":
-                    $request->interested_in = "recruiting";
+                    $request->interested_in = "Recruiting";
                     break;
-                case "career-services":
-                    $request->interested_in = "job-seeker career services";
-                    break;
-                case "coaching":
-                    $request->interested_in = "industry professional coaching";
-                    break;
-                case "combine":
-                    $request->interested_in = "Sports Sales Combine";
-                    break;
-                case "keynote":
-                    $request->interested_in = "keynote speaker opportunities";
+                case "clubhouse":
+                    $request->interested_in = "theClubhouse";
                     break;
                 case "other":
                     $request->interested_in = null;
