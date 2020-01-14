@@ -4,7 +4,7 @@
     <div class="row hero bg-image services">
         <div class="col s12">
             <h4 class="header">Services</h4>
-            <p>We provide training, consulting and recruiting services for sports teams and career services for sports industry job seekers.</p>
+            <p>We provide sales training, consulting, and recruiting services to sports teams and properties across North America.</p>
             <a href="/contact" class="btn btn-large sbs-red">Become a client</a>
         </div>
     </div>
@@ -15,46 +15,46 @@
         <div class="center-align gray-bg red-hover" style="display: flex; flex-direction: column; justify-content: space-between; flex: 1 1 33%; padding: 20px 30px;">
             <div>
                 <h4>Training &amp; Consulting</h4>
-                <p>With 50+ sports sales teams and more than 600 sellers trained in the last three years we've quickly become a household name in the sports sales training and consulting space.</p>
+                <p>With 100+ sports sales teams and more than 1,000 sellers trained in the last five years we’re now a household name in the sales training and consulting space.</p>
             </div>
             <a href="/training-consulting" class="btn" style="margin-top: 30px;">Learn more</a>
         </div>
         <div class="center-align gray-bg red-hover" style="display: flex; flex-direction: column; justify-content: space-between; flex: 1 1 33%; padding: 20px 30px;">
             <div>
                 <h4>Recruiting</h4>
-                <p>As former hiring managers with sports teams, we know the company organizational charts and job descriptions for your open positions, along with the skills required to excel in those roles.</p>
+                <p>We’ve made more than 100 placements over the last 4 years, as many as anyone else out there. We can help you find a star, quicker, and for a more affordable rate.</p>
             </div>
             <a href="/recruiting-3" class="btn" style="margin-top: 30px;">Learn more</a>
         </div>
         <div class="center-align gray-bg red-hover" style="display: flex; flex-direction: column; justify-content: space-between; flex: 1 1 33%; padding: 20px 30px;">
             <div>
-                <h4>Career Services</h4>
-                <p>With a combined 20 years of sports business industry success we not only understand how to get a job in sports, but how to be great and grow your career once you do.</p>
+                <h4><span class="sbs-red-text">the</span>Clubhouse</h4>
+                <p>We’ve built an educational content platform filled with industry best practices and career guidance for current and aspiring sports business professionals. Join our community for free and take your game to the next level.</p>
             </div>
-            <a href="{{ env('CLUBHOUSE_URL') }}/career-services" class="btn" style="margin-top: 30px;">Learn more</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}" class="btn" style="margin-top: 30px;">Learn more</a>
         </div>
     </div>
     <div class="row hide-on-med-and-up">
         <div class="col s12 center-align gray-bg red-hover">
             <div>
                 <h4>Training &amp; Consulting</h4>
-                <p>With 25+ sports sales teams and more than 400 sellers trained in the last two years we've quickly become a household name in the sports sales training and consulting space.</p>
+                <p>With 100+ sports sales teams and more than 1,000 sellers trained in the last five years we’re now a household name in the sales training and consulting space.</p>
             </div>
             <a href="/training-consulting" class="btn" style="margin-bottom: 20px;">Learn more</a>
         </div>
         <div class="col s12 center-align gray-bg red-hover">
             <div>
                 <h4>Recruiting</h4>
-                <p>As former hiring managers with sports teams, we know the company organizational charts and job descriptions for your open positions, along with the skills required to excel in those roles.</p>
+                <p>We’ve made more than 100 placements over the last 4 years, as many as anyone else out there. We can help you find a star, quicker, and for a more affordable rate.</p>
             </div>
             <a href="/recruiting-3" class="btn" style="margin-bottom: 20px;">Learn more</a>
         </div>
         <div class="col s12 center-align gray-bg red-hover">
             <div>
-                <h4>Career Services</h4>
-                <p>With 10 years of sports industry success we not only understand how to get a job in sports, but how to be great and grow your career once you do.</p>
+                <h4><span class="sbs-red-text">the</span>Clubhouse</h4>
+                <p>We’ve built an educational content platform filled with industry best practices and career guidance for current and aspiring sports business professionals. Join our community for free and take your game to the next level.</p>
             </div>
-            <a href="/career-services" class="btn" style="margin-bottom: 20px;">Learn more</a>
+            <a href="{{ env('CLUBHOUSE_URL') }}" class="btn" style="margin-bottom: 20px;">Learn more</a>
         </div>
     </div>
     <div class="row">
@@ -83,7 +83,7 @@
         <div class="col s12 m4 offset-m2 center-align">
             <img class="panel-icon" src="/images/services/network.png" alt="">
             <h4>Network</h4>
-            <p>We have personal relationships with nearly 200 sports teams and have a combined 20 years of industry best practices and success stories to share. When you partner with us, you benefit from our best-in-class expertise.</p>
+            <p>We have personal relationships with 300+ sports team organizations and have a combined 30+ years of industry best practices and success stories to share. When you partner with us, you benefit from our best-in-class expertise and network.</p>
         </div>
         <div class="col s12 m4 center-align">
             <img class="panel-icon" src="/images/services/passion.png" alt="">
