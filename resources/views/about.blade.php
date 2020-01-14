@@ -11,15 +11,14 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <p>Sports Business Solutions was launched in 2014 with a simple mission in mind, to help others achieve success in sports business. But what exactly that looked like was unclear at the time. Truth be told, SBS began as just an idea and its story is still being written today.</p>
-            <p>The company was founded by sports business industry professional Bob Hamer. Bob had been working for the Phoenix Suns for just over 8 years. He had risen from an entry level salesperson at the Suns to the Vice President of Ticket Sales and Service. Originally from Southern California and a graduate of the University of Arizona, Bob had strong ties to the West Coast. He loved living in Phoenix, had a great job with the Suns, was financially secure, and he had achieved a good deal of success. On the outside he looked to be living the dream and his future looked all but certain. But was it?</p>
+            <p>Sports Business Solutions was launched in 2014 with a simple mission in mind, to help others achieve success in sports. The company was founded by sports industry professional, Bob Hamer. Originally from Orange County, CA and a graduate of the University of Arizona, Bob started his career in sports at the Phoenix Suns right after graduation in 2006. In just eight years he grew his career at the Suns from an entry level salesperson, to the Vice President of Ticket Sales & Service. He was in a great spot with the Suns and they were good to him, but something was missing, and he felt he owed it to himself to figure it out.</p>
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
                     <div class="collapsible-header">Read more<span style="float: right;">+</span></div>
                     <div class="collapsible-body" style="padding-top: 0;">
-                        <p>To this day Bob owes much of his professional success to the Phoenix Suns and the leadership team he worked for. He had an unbelievable experience there but something was missing and he felt he owed it to himself to figure it out. In his down time he began to think about his job, his life, and his future. Through this exploration he began to realize that his true passions in life were family, sports, business and helping other people succeed. He wanted to do something professionally that allowed him to combine them all. These pillars would become the foundation for which Sports Business Solutions was built on, and they continue to guide the business today.</p>
-                        <p>Sports Business Solutions was launched as a way to help more people. In just a short time, it’s safe to say they have. The company has grown from an idea in 2014 to a real life business. They now have more than 60 sports team clients across the country in all major leagues and markets. To those clients they provide regular sales training, consulting and recruiting services and through their efforts they have helped more than 600 salespeople and sports industry employees accomplish their goals. Beyond that they’ve hosted multiple hiring events for aspiring sports industry professionals and have helped more than 80 of them get their start in sports.</p>
-                        <p>But more than anything SBS is about people. They’re fueled every day by their passion to build relationships with every sports industry professional and help make a positive impact on them personally and professionally. They are ambitious and driven to grow the business but are committed to keeping great balance and operating with high integrity along the way. The company is living proof that with passion, commitment and hard work you can create a successful business out of an idea.</p>
+                        <p>In his down time, he began to think about his job, his life, and his future. Through this exploration he began to realize that his true passions were family, sports, business and helping others succeed. Going forward, he wanted to build something new that would allow him to combine those passions, gain more autonomy and flexibility, and positively impact more careers than just those who worked for him in Phoenix. Bob’s passions in 2014 would become the foundation for which Sports Business Solutions was built on, and they continue to guide the business today.</p>
+                        <p>SBS was launched to help more people, and after just five years in business, it’s safe to say they’ve now done that in a big way. The company has grown from a small one-man operation in 2014 to a boutique consulting firm with six team members scattered all over North America. They have more than 135 clients across the US and Canada, representing all major leagues and markets. To those clients they provide regular sales training, consulting and recruiting services. Through their efforts they have directly helped more than 1,000 salespeople develop their skills, they have placed more than 100 candidates in new jobs in sports, and through their educational content platform <a href="{{env('CLUBHOUSE_URL')}}"><span class="sbs-red-text">the</span>Clubhouse</a>, they’ve impacted thousands of current and aspiring sports industry professionals. </p>
+                        <p>But more than anything SBS is about people. They’re fueled every day by their passion to build relationships with sports industry professionals and help make a positive impact on them personally and professionally. They are ambitious and driven to continue growing their business, but they are committed to keeping great life balance and operating with high integrity along the way. The company is living proof that with passion, commitment and hard work you can create a successful business out of an idea.</p>
                     </div>
                 </li>
             </ul>
@@ -30,19 +29,19 @@
             <h3 class="center-align">Meet the team</h3>
         </div>
         <div class="about-cards col s12">
-            <div class="about-card">
+            <div class="about-card col s4">
                 <a href="/bob-hamer" class="no-underline">
                     <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
                 </a>
             </div>
-            <div class="about-card">
+            <div class="about-card col s4">
                 <a href="/mike-rudner" class="no-underline">
                     <img src="/images/about/mike.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Mike Rudner<span class="about-position">Vice President,<br/>Business Operations</span></h5>
                 </a>
             </div>
-            <div class="about-card">
+            <div class="about-card col s4">
                 <a href="/jason-stein" class="no-underline">
                     <img src="/images/about/jason.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Jason Stein<span class="about-position">Vice President,<br/>Recruiting &amp; Development</span></h5>
@@ -50,23 +49,21 @@
             </div>
         </div>
         <div class="about-cards col s12">
-            <div class="about-card">
+            <div class="about-card col s4">
                 <a href="/josh-belkoff" class="no-underline">
                     <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Consultant,<br/>Ticket Sales &amp; Development</span></h5>
+                    <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Business Development</span></h5>
                 </a>
             </div>
-            <div class="about-card">
-                <a href="/adam-vogel" class="no-underline">
-                    <img src="/images/about/adam.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5 class="sbs-red-text">Adam Vogel<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
+            <div class="about-card col s4">
+                <a href="/kevin-klammer" class="no-underline">
+                    <img src="/images/about/kevin.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Kevin Klammer<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
                 </a>
             </div>
-            <div class="about-card">
-                <a href="/andrea-urbain" class="no-underline">
-                    <img src="/images/about/andrea-urbain.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5 class="sbs-red-text">Andrea St. Urbain<span class="about-position">Consultant,<br/>Premium Service &amp; Retention</span></h5>
-                </a>
+            <div class="about-card col s4">
+                <img src="/images/about/darren.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                <h5 class="sbs-red-text">Darren Arnold<span class="about-position">Advisor,<br/>Canadian Business Operations</span></h5>
             </div>
         </div>
     </div>
@@ -82,67 +79,15 @@
                 <div class="carousel-item" href="#">
                     <div class="row">
                         <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/texas-rangers-sports-business-solutions.png" alt="">
+                            <img class="logo" src="/images/about/testimonials/phoenix-suns-sports-business-solutions.png" alt="">
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>I am thankful for the professionalism and partnership with Sports Business Solutions.  We have hosted Bob before and had an excellent experience.  We were looking bring in someone for some additional training before opening out Sales Center for Globe Life Field as well as put a few new representatives through the Sports Business Solutions training who had not experienced it before.  In discussing options, Bob was unavailable during the time frame we needed, so Josh Belkoff was recommended.</p>
-                                <p>Anytime someone other than the organizational leader comes in, there can be some worry.  Will the quality be the same?  Will the personal touch be present?  Will the training itself be as valuable?  I can say without a doubt now that from start to finish, Josh is a pro!  As we worked together to develop the training schedule, to the daily debriefs, every aspect of Josh’s presentation was top notch!  Josh is a connector.  He has the experience and expertise to fit into any sales training platform you are seeking.  Thank you Sports Business Solutions for making training valuable and memorable.</p>
+                                <p>I worked with and for Bob during my first 6+ years with the Phoenix Suns organization. During that time he established himself as true leader with a sincere passion for helping others succeed. I am fortunate to have aligned myself with Bob at the beginning of my career to see what it truly takes to be successful in this industry. I can confidently say that I wouldn’t be where I am today without Bob’s support and direction.</p>
                                 <p class="heavy">
-                                    Nick Richardson<br/>
-                                    Manager, Inside Sales<br/>
-                                    Texas Rangers 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/International-Speedway-Corporation-SportsBusinessSolutions.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>It was a pleasure working Jason and the entire SBS team. Their professionalism and expertise far exceeded our expectations. Our Training and Hiring event was extremely successful and we are already exploring additional ways to incorporate SBS into future plans. I highly recommend working with Jason, Adam and Josh!!!</p>
-                                <p class="heavy">
-                                    Tom Canello<br/>
-                                    Managing Director<br />
-                                    ISC
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/university-of-arizona-sports-business-solutions.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>Working with Sport Business Solutions has helped prepare our sales team to overcome all obstacles. Not only focusing on the sales process, but also the customer service side of the business was crucial to building lasting relationships with our fan base.  We are very pleased with the direction we are headed after our training with SBS.</p>
-                                <p class="heavy">
-                                    Chris Celona<br/>
-                                    Associate Athletic Director, Ticket Sales & CRM<br />
-                                    University of Arizona 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/about/testimonials/denver-nuggets-sports-business-solutions.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We had Bob and Adam of SBS out to Denver to train our staff. I would highly recommend both Bob and Adam to any sports organization looking for sales trainers that are extremely collaborative, and who can customize their sessions to your specific market and needs. Our staff was very engaged, and had some great takeaways they can implement right away.</p>
-                                <p class="heavy">
-                                    Elliott Crichfield<br/>
-                                    Senior Manager of Inside Sales<br />
-                                    Denver Nuggets 
+                                    Kyle Pottinger<br/>
+                                    SVP, Ticket Sales & Service<br/>
+                                    Phoenix Suns
                                 </p>
                             </div>
                         </div>
@@ -155,11 +100,62 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>What really impresses me about everyone at Sports Business Solutions is how they connect with each person in on our staff. They asked for a part of the process we specifically want to work on and they make sure it is covered. The overall ability to keep the room engaged for a whole day is a testament to their craft in training. We look forward to working with SBS in the future!</p>
+                                <p>What really impressed me about SBS was how they connected with each person in the training. The trainers ask for a part of the process the reps specifically want to work on and they make sure it gets covered. Their overall ability to keep the room engaged for a whole day was a testament to their training. We look forward to working with them again in the future! </p>
                                 <p class="heavy">
                                     Erik Roberts<br/>
-                                    Assistant Manager, Group Sales<br />
-                                    One World Observatory 
+                                    Manager, Group Sales<br />
+                                    One World Observatory
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/the-kennedy-center.png" alt="" style="height:125px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>We couldn’t be more thrilled with the sales training we received from Sports Business Solutions. It became immediately clear the first day our trainer spent speaking with our sales team that the time management and outbound marketing skills and strategies he was sharing are just as applicable to the performing arts business as they are to the sports industry. In-person, on-site training of this high caliber is typically beyond our financial means, but SBS worked with us in creating a sales training partnership that allows us to benefit from their immense expertise while staying within our limited budget. </p>
+                                <p class="heavy">
+                                    Scott Sanger<br/>
+                                    Group Sales Manager<br />
+                                    The John F. Kennedy Center for the Performing Arts
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/new-york-jets-sports-business-solutions.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>What separates SBS from other agencies is their combination of sports industry experience and recruiting experience.  Some sports executives try to get into recruiting and some recruiters try to get into sports, but SBS marries those two things better than any other group out there. It shows with their attention to detail and quality of candidates they send our way.  We’ll continue to use SBS to help us fill positions for the foreseeable future.</p>
+                                <p class="heavy">
+                                    Roberto Beltramini<br/>
+                                    Vice President, Premium Partnerships, Groups & Inside Sales and Service<br />
+                                    New York Jets
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/about/testimonials/seat-geek.png" alt="">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>I had the pleasure of hiring Bob Hamer and working with him in Phoenix for the better part of seven years. Bob has a sharp eye for revenue generation and creating systems that enhance results. His ability to identify and hire great talent, as well as teaching this talent to succeed, is first class. I consider Bob a trusted advisor and would want him as part of my team.</p>
+                                <p class="heavy">
+                                    Jeff Ianello<br/>
+                                    Executive Vice President, Client Partnerships<br />
+                                    SeatGeek
                                 </p>
                             </div>
                         </div>

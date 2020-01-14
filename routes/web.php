@@ -28,11 +28,8 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/mike-rudner', function () {
         return view('mike-rudner');
     });
-    Route::get('/adam-vogel', function () {
-        return view('adam-vogel');
-    });
-    Route::get('/andrea-urbain', function () {
-        return view('andrea-urbain');
+    Route::get('/kevin-klammer', function () {
+        return view('kevin-klammer');
     });
     Route::get('/blog', function () {
         return redirect('https://blog.sportsbusiness.solutions/');

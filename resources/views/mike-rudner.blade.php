@@ -24,11 +24,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 center-align">
-            <a href="/files/mike-rudner-resume.pdf" target="_blank" class="btn sbs-red">Download resume</a>
-        </div>
-    </div>
-    <div class="row">
         <div class="col s12">
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
@@ -49,7 +44,6 @@
                         <p><b>Favorite type of Pizza:</b> Meat Lovers</p>
                         <p><b>Favorite music:</b> Pop</p>
                         <p><b>Something most people don't know about me:</b> I was the co-captain of my high school bowling team and bowled competitively in college</p>
-                        <p><b>That's a little about me, I'd love to learn more about you! Click <a href="/contact">here</a> and tell us more.</p>
                     </div>
                 </li>
             </ul>
