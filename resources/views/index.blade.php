@@ -11,7 +11,7 @@
     </div>
 @endsection
 @section('content')
-<div class="sbs-row">
+<div class="sbs-row" style="margin-top: -1rem">
     <div class="sbs-col-6 bg-img training hide-on-med-and-up"></div>
     <div class="sbs-col-6 gray">
         <h3>Training &amp; Consulting</h3>
