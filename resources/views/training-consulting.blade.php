@@ -4,123 +4,14 @@
     <div class="row hero bg-image training-consulting">
         <div class="col s12">
             <h4 class="header">Training &amp; Consulting</h4>
-            <p>Our goal is simple: to understand our clients challenges and provide solutions that deliver results and optimize team performance.</p>
-            <a href="#why" class="btn btn-large sbs-red">Let's get started</a>
-            <a href="#training-clients" class="btn btn-large sbs-red">See Our Clients</a>
+            <p>Our only focus is helping you and your team succeed.</p>
+            <a href="#areas-of-expertise" class="btn btn-large sbs-red">Book Training Now</a>
+            <a href="#training-clients" class="btn btn-large sbs-red">Clients & Testimonials</a>
         </div>
     </div>
 @endsection
 @section('content')
-<div class="container-fluid" style="margin-top: -15px; background: #F2F2F2;">
-    <div class="row">
-        <div class="col s12">
-            <div class="carousel testimonial carousel-slider center" data-indicators="true">
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/san-diego-padres.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We had Bob out to San Diego after I transitioned into my new role overseeing the group department. His insights helped both the staff and myself set the tone for the upcoming season. Our staff benefitted most from the one-on-one settings where he could dive into each of their books of business and look for areas of opportunity. This coupled with his extensive background in the NBA and their group sales best practices really opened our reps eyes to what other programs are out there. For myself, getting an opportunity to spend time with Bob and talk through short and long term strategy, staffing and philosophy allowed me to focus on what was important for the 2015 season and beyond.</p>
-                                <p class="heavy">
-                                    Curt Waugh<br/>
-                                    Senior Director, Ticket Sales<br/>
-                                    San Diego Padres<br/>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/learfield-texas-tech-sports-business-solutions.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We were looking for a company who could provide training that would help our sales team to continue to grow and develop. What we found with Sports Business Solutions and Adam was someone who brought enthusiasm, new ideas, and a fresh perspective to how our ticket sales staff worked every day. Almost instantly our sales staff has been able to implement the tactics and tools he provided into their sales flow.</p>
-                                <p class="heavy">
-                                    Brent Fletcher<br/>
-                                    Associate Athletic Director for Ticket Services<br/>
-                                    Texas Tech University 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/arizona-diamondbacks.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We decided to partner with Bob Hamer for our training needs because we felt there was great value in his hands-on experience as a past sports sales professional who worked his way from an entry sales rep to a leadership role as a Vice President. His experience brings credibility that separates him from other trainers and it is that credibility which created immediate buy-in from our staff. Bob has been conducting ongoing training with us over a long-term period of many months. We felt it was important for our reps to have constant and consistent sales training with the same facilitator in order to truly change behavior. The largest transformation has been with our staff’s approach to B2B selling. We began seeing immediate results after incorporating his training into our business campaign. Bob has been a valuable resource for our organization and will continue to be a key part of our training strategies in the future.</p>
-                                <p class="heavy">
-                                    John Fisher<br/>
-                                    Senior Vice President, Ticket Sales & Marketing<br/>
-                                    Arizona Diamondbacks
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/sacramento-kings.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We were lucky to have Sports Business Solutions in to work 1 on 1 with our Sacramento Kings group sales team. It was the perfect mix of honest coaching delivered through the lens of real world experience. As a result following the training, we hit all of our off-season group sales goals and are already pacing 50% ahead of where we were this time last season.</p>
-                                <p class="heavy">
-                                    Phil Horn<br/>
-                                    Senior Vice President, Sales & Service<br/>
-                                    Sacramento Kings
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/buffalo-bills-sports-business-solutions.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We were lucky to have Adam in for three days of training.  Even though we are a football team, Adam hit it out of the park. He did a great job connecting with our staff.  He helped instill more confidence in our reps, especially on the B2B side. Our reps made more appointments in the month following training than they had made all year. We were impressed with the time Adam took to customize the training for our market and our staff. We look forward to having him back!</p>
-                                <p class="heavy">
-                                    Chris Colleary<br/>
-                                    Vice President, Ticket Sales & Service<br/>
-                                    Buffalo Bills 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item" href="#">
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <img class="logo" src="/images/testimonials/atlanta-falcons-sports-business-solutions.png" alt="">
-                        </div>
-                        <div class="col s12 m8 left-align">
-                            <div class="testimonial-content">
-                                <p>We thoroughly enjoyed the training provided by Adam Vogel and Sports Business Solutions.  He was professional, knowledgeable, charismatic, and really captured the attention of our team during their time spent with him.  We’ve seen immediate improvement in the management of sales reps call campaigns and their sales approach. Adam was fantastic and I’d recommend him to any team that’s looking to provide their sales staff with a shot of solid training.</p>
-                                <p class="heavy">
-                                    Warren Parr<br/>
-                                    Senior Director of Ticket Sales<br/>
-                                    Atlanta Falcons 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="container">
     <div class="row">
         <div class="col s12 center-align" style="margin-top: 20px">
@@ -159,7 +50,7 @@
             </div>
         </div>
     </div>
-    <div class="row white-text">
+    <div class="row white-text" id="areas-of-expertise">
         <div class="col s12" style="background-image: url('/images/training-consulting/recruiting.jpg'); background-size: cover;">
             <h5 class="center-align" style="margin-top: 30px;">Areas of expertise &amp; training solutions</h4>
             <div class="row" style="margin: 0 50px;">
@@ -192,10 +83,137 @@
     </div>
     <div class="row center-align" style="margin-top: 40px; margin-bottom: 50px;">
         <div class="col s12">
-            <h3 id="training-clients">Our training &amp; consulting clients</h3>
+            <h3 id="training-clients">Training and consulting clients & testimonials</h3>
         </div>
         <div class="col s12">
             <img src="/images/training-consulting/training-clients.jpg?v=1" alt="">
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" style="padding: 30px 0;">
+        <div class="col s12">
+            <div class="carousel testimonial carousel-slider center" data-indicators="true">
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/training-consulting/testimonials/pittsburgh-penguins.png" alt="" style="height:150px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>SBS has a great approach that simplifies the sales process. They were perfect for our staff which included both new and tenured staff members. Looking forward to working with Bob and his team again in the future!</p>
+                                <p class="heavy">
+                                    Chad Slencak<br/>
+                                    Vice President of Ticket Sales<br/>
+                                    Pittsburgh Penguins<br/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/training-consulting/testimonials/ohio-state.png" alt="" style="height:150px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>Josh did an excellent job in training our staff! We were really impressed with his ability to tie together his sales background in the industry to the challenges our reps face every day. The tailored approach was extremely helpful, and we would love to have Josh work with our team on an annual basis.</p>
+                                <p class="heavy">
+                                    Jason Rost<br/>
+                                    Director of Ticket Sales<br/>
+                                    Ohio State University
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/training-consulting/testimonials/stockton-kings.png" alt="" style="height:175px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>From the moment Josh stepped foot on our sales floor, he brought passion and energy that spread like wildfire throughout our office. After two full days of some of the most engaging training I’ve ever seen, our team responded with their best sales day of the month closing eight season memberships and four group outings. We can’t wait to see Josh again.</p>
+                                <p class="heavy">
+                                    Dustin Toms<br/>
+                                    Vice President of Business Operations<br/>
+                                    Stockton Kings
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/training-consulting/testimonials/portland-timbers.png" alt="" style="height:145px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>I have sat through many training sessions over the years and truly found the two days we spent with Bob and the Sports Business Solutions team to be some of the best. He provided some very tangible takeaways and I found those and the real-life examples he shared to be both valuable and impactful.</p>
+                                <p class="heavy">
+                                    Jason Breiter<br/>
+                                    Manager, Group Sales & Hospitality<br/>
+                                    Portland Timbers
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/training-consulting/testimonials/florida-state.png" alt="" style="height:145px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>Having Josh and SBS visit and train our Sales & Retention staff before the start of the season was fantastic! Josh brought a ton of energy and was able to keep our reps focused on definitive next steps and renewing/closing fence sitters before kickoff. The follow up webinars are a great touch and we look forward to welcoming back Josh again in the future!</p>
+                                <p class="heavy">
+                                    Mark Cameron<br/>
+                                    Sr. Director of Sales, Service, & Retention<br/>
+                                    Florida State University
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/training-consulting/testimonials/dallas-mavericks.png" alt="" style="height:125px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>Bob was great for our team. Him starting with a high-level view and then giving us a good idea of how our product fits in other organizations, and vice-versa- how other organizations and businesses can benefit from us. Then getting into the details with us, walking through real conversations, and working with us on live calls made the training more applicable, and the takeaways stronger.</p>
+                                <p class="heavy">
+                                    Theo Hodges<br/>
+                                    Vice President of Sales<br/>
+                                    Dallas Mavericks
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" href="#">
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img class="logo" src="/images/training-consulting/testimonials/oregon-state.png" alt="" style="height:175px">
+                        </div>
+                        <div class="col s12 m8 left-align">
+                            <div class="testimonial-content">
+                                <p>We had a great two days of training with Josh. We have a green staff, and Josh immediately established a safe environment that encouraged participation and question asking. Over the two days, he laid a solid foundation for our team to build upon and flourish. We look forward to working with Josh again in the future.</p>
+                                <p class="heavy">
+                                    Ashton Miller<br/>
+                                    Director of Sales<br/>
+                                    Oregon State University
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
