@@ -225,6 +225,11 @@ div.row.clients img {
     padding-left: 5px;
     padding-right: 5px;
 }
+ div.row.clients .collapsible-header {
+     background-color: #F0F0F0;
+     font-weight: bold;
+     box-shadow: 0px 3px 4px #999;
+ }
 
 .hidden {
     display: none;
