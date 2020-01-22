@@ -439,9 +439,7 @@ class CheckoutController extends Controller
         $user = Auth::user();
 
         try {
-            $stripe_customer = StripeServiceProvider::getCustomer($user);
             StripeServiceProvider::cancelUserSubscription($request['subscription_id']);
-            $subscriptions = StripeServiceProvider::getCustomer($user)->subscriptions;
 
             try {
                 Mail::to(env('CLUBHOUSE_EMAIL'))->send(new CancelNotification($user));
@@ -454,13 +452,18 @@ class CheckoutController extends Controller
             if ($role) {
                 $role->delete();
             }
+        } Catch (\Stripe\Error\Base $e) {
+            Log::error($e);
+            return response()->json([
+                'type' => 'failure',
+            ]);
         } Catch (Exception $e) {
+            // not a stripe error, cancel was successful. user doesn't need to know about these errors.
             Log::error($e);
         }
 
         return response()->json([
             'type' => 'success',
-            'subscriptions' => $subscriptions
         ]);
     }
 
