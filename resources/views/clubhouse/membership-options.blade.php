@@ -54,7 +54,7 @@
                             <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Pro - <span class="sbs-red-text">Paid</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
-                                <p style="font-size: 16px; min-height: 80px;">Take your skills to the next level! Connect with industry pros and gain insight you can’t get anywhere else.</p>
+                                <p style="font-size: 16px; min-height: 80px;">Take your skills to the next level! Connect with industry pros and gain insight you can't get anywhere else.</p>
                                 <ul class="fa-check-override">
                                     <li>Everything listed in the Free membership</li>
                                     <li>Exclusive 1:1 mentorship with sports industry professionals</li>
