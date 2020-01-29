@@ -49,7 +49,7 @@
                                         <li>Free career services</li>
                                     </ul>
                                     <div class="center-align">
-                                        <a href="/membership-options" class="btn sbs-red" style="margin-top: 20px;"> Become a Clubhouse Pro</a>
+                                        <a href="/pro-membership" class="btn sbs-red" style="margin-top: 20px;"> Become a Clubhouse Pro</a>
                                     </div>
                                 @endcan
                             </div>
