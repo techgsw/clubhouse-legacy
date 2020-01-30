@@ -6,7 +6,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/digital-marketing-white.png" />
             <h4 class="header">Sports Industry Blog</h4>
-            <p>These blog articles are created for the industry, by the industry. Our hope is you can learn about these topics from some of the best in the business.</p>
+            <p>Our blog is filled with industry best practices, advice, and career stories in sports. If you’re interested in contributing to our blog, email us <a href="mailto:clubhouse@sportsbusiness.solutions">here</a>.</p>
         </div>
     </div>
 @endsection
