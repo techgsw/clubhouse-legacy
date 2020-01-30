@@ -195,6 +195,7 @@ Route::domain($domain)->group(function () {
 
         Route::post('/tag', 'TagController@store');
         Route::get('/tag/all', 'TagController@all');
+        Route::get('/tag/posts', 'TagController@posts');
     });
 
     // Blog
