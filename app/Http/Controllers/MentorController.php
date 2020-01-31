@@ -21,6 +21,7 @@ class MentorController extends Controller
             ->where('active', true)
             ->search($request)
             ->select('contact.*', 'mentor.*')
+            ->orderBy(\DB::raw('RAND()'))
             ->paginate(15);
 
         $tags = Tag::has('mentors')->get();
@@ -31,7 +32,8 @@ class MentorController extends Controller
                 'Sports Industry Mentors' => "/mentor"
             ],
             'mentors' => $mentors,
-            'tags' => $tags
+            'tags' => $tags,
+            'tag' => $request->tag
         ]);
     }
 

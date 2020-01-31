@@ -1040,6 +1040,12 @@ textarea:focus,
     top: 0;
 }
 
+#mentor-search .input-field {
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0px 0px 2px 1px #888 ;
+}
+
 .switch label input[type=checkbox]:checked + .lever {
     background-color: #FF7981;
 }

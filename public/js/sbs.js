@@ -1957,6 +1957,16 @@ $.valHooks.textarea = {
         '#dropzone-previews .dz-preview-flex-container .image-remove-link'
     );
 
+    //Mentor select to search
+    $('body').on(
+        {
+            change: function() {
+                $('#mentor-search').submit();
+            }
+        },
+        '#mentor-search div select'
+    );
+
     /**
      * PDF viewer modal.
      *

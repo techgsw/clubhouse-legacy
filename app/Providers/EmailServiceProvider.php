@@ -184,7 +184,9 @@ class EmailServiceProvider extends ServiceProvider
             ->select('user.*')
             ->get();
 
-        Mail::to($users)->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
+        Mail::to($mentor->contact->email, $mentor->contact->first_name.' '.$mentor->contact->last_name)
+            ->cc($users)
+            ->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
     }
 
     public static function sendJobExpirationNotificationEmail(Job $job) {
