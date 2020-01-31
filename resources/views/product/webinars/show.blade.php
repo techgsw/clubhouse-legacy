@@ -43,7 +43,7 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this webinar?</h4>
-                                    <a href="/membership-options" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                    <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                 </div>
                             </div> 
                         </div>

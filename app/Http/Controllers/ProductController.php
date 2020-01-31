@@ -464,7 +464,7 @@ class ProductController extends Controller
         // TODO Need a way to delete products, webinars, etc. Currently hiding product id 53
         $inactive_products = Product::where('active', false)->with('tags')->where('id', '!=', 53)->whereHas('tags', function ($query) {
             $query->where('name', 'Webinar');
-        })->orderBy('id', 'desc')->get();
+        })->orderBy('id', 'desc')->paginate(5);
 
         return view('product/webinars', [
             'active_products' => $active_products,
