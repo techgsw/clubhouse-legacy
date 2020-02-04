@@ -166,10 +166,10 @@ class ProductController extends Controller
                             if (!is_null($stripe_product)) {
                                 StripeServiceProvider::deleteProduct($stripe_product);
                             }
-                            if (!is_null($stripe_sku)) {
+                            if (isset($stripe_sku)) {
                                 StripeServiceProvider::deleteSku($stripe_sku);
                             }
-                            throw new Exception('Unable to update product option with stripe sku id or zoom id.');
+                            throw new Exception('Unable to update product option with stripe sku id or zoom id', 0, $e);
                         }
                     }
                 }
@@ -455,20 +455,44 @@ class ProductController extends Controller
         ]);
     }
 
-    public function webinars()
+    public function webinars(Request $request)
     {
-        $active_products = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Webinar');
-        })->get();
-
         // TODO Need a way to delete products, webinars, etc. Currently hiding product id 53
-        $inactive_products = Product::where('active', false)->with('tags')->where('id', '!=', 53)->whereHas('tags', function ($query) {
+        $inactive_products_query = Product::where('active', false)->with('tags')->where('id', '!=', 53)->whereHas('tags', function ($query) {
             $query->where('name', 'Webinar');
-        })->orderBy('id', 'desc')->paginate(5);
+        });
+
+        $active_tag = null;
+        $active_products = null;
+        if ($request->tag) {
+            $inactive_products_query = $inactive_products_query->whereHas('tags', function ($query) use ($request)  {
+                $query->where('slug', $request->tag);
+            });
+            $results = Tag::where('slug', $request->tag)->get();
+            if (count($results) > 0) {
+                $active_tag = $results[0];
+            }
+        } else {
+            // Only show active products when there's no tag search
+            $active_products = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
+                $query->where('name', 'Webinar');
+            })->get();
+        }
+
+        $inactive_products = $inactive_products_query->orderBy('id', 'desc')->paginate(5);
+
+        $tags = Tag::join('product_tag', function($join) {
+            $join->on('name', 'tag_name')
+                ->where('name', '!=', 'webinar')
+                // using raw query because of https://github.com/laravel/framework/issues/19695
+                ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name = 'webinar')");
+        })->orderBy('name', 'dec')->get();
 
         return view('product/webinars', [
             'active_products' => $active_products,
             'inactive_products' => $inactive_products,
+            'active_tag' => $active_tag,
+            'tags' => $tags,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Educational Webinars' => '/webinars'
