@@ -5,7 +5,7 @@
         <div class="col s12">
             <h4 class="header">Recruiting</h4>
             <p>It’s hard to do great things without great people. Let us help you find your next sports industry leader.</p>
-            <a href="#areas-of-expertise" class="btn btn-large sbs-red">Book training now</a>
+            <a href="#areas-of-expertise" class="btn btn-large sbs-red">Book recruiting now</a>
             <a href="#recruiting-clients" class="btn btn-large sbs-red">Clients & Testimonials</a>
         </div>
     </div>
