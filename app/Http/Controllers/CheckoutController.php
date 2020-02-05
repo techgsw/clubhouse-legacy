@@ -75,8 +75,41 @@ class CheckoutController extends Controller
         }
 
         if (in_array('career-service', array_column($product_option->product->tags->toArray(), 'slug'))) {
-            $product_type = 'career-service';
-            $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
+            if ($user->can('view-clubhouse')) {
+                try {
+                    EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, 0, 'career-service');
+                    Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+
+                    $response = DB::transaction(function () use ($product_option, $user) {
+                        try {
+                            $product_option->quantity = $product_option->quantity - 1;
+                            $product_option->save();
+                        } catch (\Exception $e) {
+                            Log::error($e->getMessage());
+                        }
+
+                        $transaction = new Transaction();
+                        $transaction->user_id = $user->id;
+                        $transaction->amount = 0;
+                        $transaction->save();
+
+                        $transaction_product_option = new TransactionProductOption();
+                        $transaction_product_option->transaction_id = $transaction->id;
+                        $transaction_product_option->product_option_id = $product_option->id;
+                        $transaction_product_option->save();
+
+                        return array('type' => 'career-service', 'product_option_id' => $product_option->id);
+                    });
+
+                    return redirect()->action('CheckoutController@thanks', $response);
+                } catch (Exception $e) {
+                    Log::error($e);
+                    return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
+                }
+            } else {
+                $product_type = 'career-service';
+                $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
+            }
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
             if ($product_option->price > 0) {
                 $product_type = 'webinar';
