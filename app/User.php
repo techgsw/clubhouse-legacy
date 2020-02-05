@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Mail\UserPasswordReset;
 use App\Note;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -323,5 +324,13 @@ class User extends Authenticatable
             ->where('note.created_at', '>=', $start_date->format('Y-m-d 00:00:00'))
             ->where('note.created_at','<=', $end_date->format('Y-m-d 23:59:59'));
         return $notes->count();
+    }
+
+    /**
+     * Override for a custom password reset notification.
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        \Mail::to($this)->send(new UserPasswordReset($this, $token));
     }
 }
