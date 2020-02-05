@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\SBSException;
 use Mail;
 use App\Mail\CancelNotification;
 use App\Mail\UserPaid;
@@ -439,7 +440,7 @@ class CheckoutController extends Controller
         $user = Auth::user();
 
         try {
-            StripeServiceProvider::cancelUserSubscription($request['subscription_id']);
+            StripeServiceProvider::cancelUserSubscription($user, $request['subscription_id']);
 
             try {
                 Mail::to(env('CLUBHOUSE_EMAIL'))->send(new CancelNotification($user));
@@ -453,6 +454,11 @@ class CheckoutController extends Controller
                 $role->delete();
             }
         } Catch (\Stripe\Error\Base $e) {
+            Log::error($e);
+            return response()->json([
+                'type' => 'failure',
+            ]);
+        } Catch (SBSException $e) {
             Log::error($e);
             return response()->json([
                 'type' => 'failure',
