@@ -34,36 +34,34 @@
     <form method="post" id="checkout-form" action="/checkout">
         {{ csrf_field() }}
         <input type="hidden" name="stripe_product_id" value="{{ ($product_option->stripe_plan_id ? $product_option->stripe_plan_id : $product_option->stripe_sku_id) }}" /> 
-        <input type="hidden" name="job_id" value="{{ $job_id }}" />
-        @if (!(Gate::allows('view-clubhouse') && $product_type == 'career-service'))
-            <div class="row">
-                <div class="col s12 m6 hidden" id="card-waiting">
-                    <div class="row valign-wrapper">
-                        <div class="col s2">
-                            <img src="/images/progress.gif" class="responsive-img circle" />
-                        </div>
-                        <div class="col s10">
-                            <h4>Adding card, please wait.</h4>
-                        </div>
+        <input type="hidden" name="job_id" value="{{ $job_id }}" /> 
+        <div class="row">
+            <div class="col s12 m6 hidden" id="card-waiting">
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        <img src="/images/progress.gif" class="responsive-img circle" />
+                    </div>
+                    <div class="col s10">
+                        <h4>Adding card, please wait.</h4>
                     </div>
                 </div>
-                <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}" id="payment-method-wrapper">
-                    <select class="" name="payment_method" id="payment-method">
-                        @if (count($payment_methods) > 0)
-                            @foreach ($payment_methods as $index => $method)
-                                <option value="{{ $method->id }}" {{ $index == 0 ? "selected" : "" }} >XXX-XXX-XXX-{{ $method->last4 }}</option>
-                            @endforeach
-                        @else
-                            <option value="" "selected" disabled>Please select...</option>
-                        @endif
-                    </select>
-                    <label for="payment-method">Payment method</label>
-                </div>
-                <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}">
-                    <button id="add-cc-button" type="button" class="btn btn-medium sbs-red">Add card</button>
-                </div>
             </div>
-        @endif
+            <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}" id="payment-method-wrapper">
+                <select class="" name="payment_method" id="payment-method">
+                    @if (count($payment_methods) > 0)
+                        @foreach ($payment_methods as $index => $method)
+                            <option value="{{ $method->id }}" {{ $index == 0 ? "selected" : "" }} >XXX-XXX-XXX-{{ $method->last4 }}</option>
+                        @endforeach
+                    @else
+                        <option value="" "selected" disabled>Please select...</option>
+                    @endif
+                </select>
+                <label for="payment-method">Payment method</label>
+            </div>
+            <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}">
+                <button id="add-cc-button" type="button" class="btn btn-medium sbs-red">Add card</button>
+            </div>
+        </div>
         <div class="row">
             <div class="col s12">
                 <div class="card-panel grey lighten-5 z-depth-1 product-card" data-product-type="{{ $product_type }}">
@@ -118,11 +116,7 @@
                         <div class="col s2">
                             @if ($product_option->price > 0)
                                 @can ('view-clubhouse')
-                                    @if ($product_type == 'career-service')
-                                        <h4><strong>FREE</strong></h4>
-                                    @else
-                                        <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
-                                    @endif
+                                    <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
                                 @else
                                     <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ($product_option->price == 7.0 ? ' / Month' : '/ Year') : '') }}</span></h4>
                                 @endcan
@@ -147,8 +141,6 @@
                     <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">RSVP Now</button>
                 @elseif ($product_type == 'membership')
                     <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Begin Now</button>
-                @elseif (Gate::allows('view-clubhouse') && $product_type == 'career-service')
-                    <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Sign Up Now</button>
                 @else
                     <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Pay Now</button>
                 @endif
