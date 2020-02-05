@@ -38,11 +38,6 @@
         </div>
         <hr class="sbs-red" style="color: #EB2935;" />
     @endif
-    <div class="tag-cloud center-align">
-        @foreach ($tags as $tag)
-            <a href="{{ "webinars?tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
-        @endforeach
-    </div>
     @if (count($inactive_products) > 0)
         <div class="row">
             <div class="col s12">
@@ -51,6 +46,11 @@
                     MATCHING <strong>{{$active_tag->name}}</strong>
                 @endif
                 </h4>
+            </div>
+            <div class="tag-cloud center-align">
+                @foreach ($tags as $tag)
+                    <a href="{{ "webinars?tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                @endforeach
             </div>
         </div>
         <div class="row">
