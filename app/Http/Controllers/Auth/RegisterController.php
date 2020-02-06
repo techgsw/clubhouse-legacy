@@ -57,9 +57,7 @@ class RegisterController extends Controller
         if ($redirect_url == '/job-options') {
             $message = "Thank you for joining theClubhouse community! Now, let’s help you post your open job. First, select the option below that works best for you.";
         } else if ($redirect_url == '/pro-membership') {
-
-            //TODO: Check with bob and see what he wants for a custom message
-
+            $message = "Thank you for becoming a member of theClubhouse!";
         } else {
             $message = "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.";
         }
