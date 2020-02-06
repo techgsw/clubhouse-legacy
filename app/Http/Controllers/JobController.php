@@ -231,7 +231,7 @@ class JobController extends Controller
             if (count($organizations) >= 1) {
                 $valid_organization = false;
                 foreach ($organizations as $user_organization) {
-                    if ($organization->id == $user_organization) {
+                    if ($organization->id == $user_organization->id) {
                         $valid_organization = true;
                     }
                 }
