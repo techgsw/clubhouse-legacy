@@ -13,7 +13,7 @@
     <div class="row" style="margin-top: -5px;margin-left:5px">
         @foreach($product->tags as $tag)
             @if ($tag->name != 'Webinar')
-                <a href="{{ "webinars?tag=" . $tag->slug }}" class="small flat-button black" style="display: inline-block; margin-left:4px">{{ $tag->name }}</a>
+                <a href="/webinars?tag={{ $tag->slug }}" class="small flat-button black" style="display: inline-block; margin-left:4px">{{ $tag->name }}</a>
             @endif
         @endforeach
     </div>

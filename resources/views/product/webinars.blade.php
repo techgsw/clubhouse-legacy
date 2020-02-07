@@ -7,8 +7,8 @@
             <img class="responsive-img" src="/images/clubhouse/event-white.png" />
             <h4 class="header">Educational Webinars</h4>
             <p>Join these live events for FREE and listen in as sports industry pros discuss the topics of the day.</p>
-            <a href="{{is_null($active_tag) ? '#upcoming' : 'webinars#upcoming'}}" class="btn btn-large sbs-red">UPCOMING WEBINAR EVENTS</a>
-            <a href="{{is_null($active_tag) ? '#past' : 'webinars#past'}}" class="btn btn-large sbs-red">PAST WEBINAR EVENTS</a>
+            <a href="{{is_null($active_tag) ? '#upcoming' : '/webinars#upcoming'}}" class="btn btn-large sbs-red">UPCOMING WEBINAR EVENTS</a>
+            <a href="{{is_null($active_tag) ? '#past' : '/webinars#past'}}" class="btn btn-large sbs-red">PAST WEBINAR EVENTS</a>
         </div>
     </div>
 @endsection
@@ -49,7 +49,7 @@
             </div>
             <div class="tag-cloud center-align">
                 @foreach ($tags as $tag)
-                    <a href="{{ "webinars?tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                    <a href="/webinars?tag={{ $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>
@@ -62,7 +62,7 @@
                                 <div class="hide-on-med-and-up" style="height: 10px"><br></div>
                                 @foreach($product->tags as $tag)
                                     @if ($tag->name != 'Webinar')
-                                        <a href="{{ "webinars?tag=" . $tag->slug }}" class="small flat-button black" style="display: inline-block; margin:4px; float: right">{{ $tag->name }}</a>
+                                        <a href="/webinars?tag={{ $tag->slug }}" class="small flat-button black" style="display: inline-block; margin:4px; float: right">{{ $tag->name }}</a>
                                     @endif
                                 @endforeach
                             </li>
