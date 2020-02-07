@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Exceptions\SBSException;
 use App\Product;
 use App\ProductOption;
 use App\User;
@@ -258,13 +259,21 @@ class StripeServiceProvider extends ServiceProvider
         return $stripe_subscription;
     }
 
-    public static function cancelUserSubscription(string $subscription_id)
+    public static function cancelUserSubscription(User $user, string $subscription_id)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
         $subscription = Stripe\Subscription::retrieve($subscription_id);
 
-        $subscription->cancel();
+        if (!is_null($subscription) && !is_null($subscription->customer) && !is_null($user->stripe_customer_id)
+            && $subscription->customer == $user->stripe_customer_id
+        ) {
+            $subscription->cancel();
+        } else {
+            throw new SBSException('Subscription customer ID '.$subscription->customer.' for '.$subscription_id
+                .' does not match user stripe ID '.$user->stripe_customer_id.' , or there are null values.');
+        }
+
     }
 
     public static function purchaseSku(User $user, string $source_token, string $sku_id)

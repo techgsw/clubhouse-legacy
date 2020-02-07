@@ -67,6 +67,8 @@
                     }).done(function (response) {
                         if (response.type == 'success') {
                             location.reload()
+                        } else {
+                            window.alert("Sorry, there was an error cancelling your subscription. Please try again.")
                         }
                         $(this).attr('disabled', false);
                     });
