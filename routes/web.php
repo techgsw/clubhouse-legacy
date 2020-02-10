@@ -38,7 +38,7 @@ Route::domain(env('APP_URL'))->group(function () {
         return view('gallery');
     });
     Route::get('/gallery-2', function () {
-        return redirect('gallery');
+        return redirect('/gallery');
     });
     Route::get('/network', function () {
         return view('network');
@@ -47,13 +47,13 @@ Route::domain(env('APP_URL'))->group(function () {
         return view('privacy-policy');
     });
     Route::get('/refund-policy-2', function () {
-        return redirect('refund-policy');
+        return redirect('/refund-policy');
     });
     Route::get('/refund-policy', function () {
         return view('refund-policy');
     });
     Route::get('/sports-business-solutions-career-success-stories', function () {
-        return redirect('success-stories');
+        return redirect('/success-stories');
     });
     Route::get('/success-stories', function () {
         return view('success-stories');
@@ -62,13 +62,13 @@ Route::domain(env('APP_URL'))->group(function () {
         return view('terms-of-service');
     });
     Route::get('/video', function () {
-        return redirect('videos');
+        return redirect('/videos');
     });
     Route::get('/videos', function () {
         return view('videos');
     });
     Route::get('/recruiting-3', function () {
-        return redirect('recruiting');
+        return redirect('/recruiting');
     });
     Route::get('/recruiting', function () {
         return view('recruiting');

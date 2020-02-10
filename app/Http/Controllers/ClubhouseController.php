@@ -102,7 +102,7 @@ class ClubhouseController extends Controller
     public function proMembership(Request $request)
     {
         if (Auth::guest()) {
-            return redirect('register?type=pro');
+            return redirect('/register?type=pro');
         }
 
         $product = Product::with('tags')->whereHas('tags', function ($query) {
