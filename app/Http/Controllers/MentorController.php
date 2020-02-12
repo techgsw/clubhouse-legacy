@@ -17,11 +17,15 @@ class MentorController extends Controller
 {
     public function index(Request $request)
     {
+        if (!$request->session()->get('mentor_seed')) {
+            $request->session()->put('mentor_seed', rand());
+        }
+
         $mentors = Mentor::with('contact')
             ->where('active', true)
             ->search($request)
             ->select('contact.*', 'mentor.*')
-            ->orderBy(\DB::raw('RAND()'))
+            ->inRandomOrder($request->session()->get('mentor_seed'))
             ->paginate(15);
 
         $tags = Tag::has('mentors')->get();

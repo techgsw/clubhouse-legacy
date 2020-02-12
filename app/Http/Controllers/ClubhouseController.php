@@ -28,7 +28,7 @@ class ClubhouseController extends Controller
 
         $mentors = Mentor::with('contact')
             ->where('active', true)
-            ->orderBy(\DB::raw('RAND()'))
+            ->inRandomOrder()
             ->limit(20)
             ->get();
 
@@ -38,7 +38,7 @@ class ClubhouseController extends Controller
 
         $jobs = Job::where('job_status_id', JOB_STATUS_ID['open'])
             ->orderBy('featured', 'desc')
-            ->orderBy(\DB::raw('RAND()'))
+            ->inRandomOrder()
             ->limit(3)
             ->get();
 
