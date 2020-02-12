@@ -16,7 +16,7 @@
                     <form id="create-tag" action="/tag" method="post" class="prevent-default">
                         {{ csrf_field() }}
                         <i class="fa fa-tags fa-small prefix" style="font-size: 1.5rem; margin-top: 12px;" aria-hidden="true"></i>
-                        <input type="text" id="tag-autocomplete-input" class="tag-autocomplete" target-input-id="post-tags-json" target-view-id="post-tags">
+                        <input type="text" id="tag-autocomplete-input" class="tag-autocomplete posts" target-input-id="post-tags-json" target-view-id="post-tags">
                         <label for="tag-autocomplete-input">Tags</label>
                     </form>
                 </div>

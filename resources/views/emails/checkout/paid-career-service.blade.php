@@ -1,10 +1,10 @@
 @component('emails.layout')
     @slot ('title')
-        Career Service Purchase - theClubhouse
+        Career Service {{ \Gate::allows('view-clubhouse') ? 'Signup' : 'Purchase'}} - theClubhouse
     @endslot
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
-        <p>Thanks for purchasing one of our Clubhouse Career Services! We’ve got you signed up for the following session:</p>
+        <p>Thanks for {{ \Gate::allows('view-clubhouse') ? 'signing up for' : 'purchasing'}} one of our Clubhouse Career Services! We’ve got you signed up for the following session:</p>
         <p>{{ $product_option->product->name }}</p>
         <p>Here’s what happens next:</p>
         <ul>

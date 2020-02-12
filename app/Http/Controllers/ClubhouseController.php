@@ -28,6 +28,7 @@ class ClubhouseController extends Controller
 
         $mentors = Mentor::with('contact')
             ->where('active', true)
+            ->orderBy(\DB::raw('RAND()'))
             ->limit(20)
             ->get();
 
@@ -35,9 +36,9 @@ class ClubhouseController extends Controller
             $query->where('name', 'Webinar');
         })->limit(2)->get();
 
-        $jobs = Job::orderBy('featured', 'desc')
-            ->orderBy('rank', 'asc')
-            ->orderBy('created_at', 'desc')
+        $jobs = Job::where('job_status_id', JOB_STATUS_ID['open'])
+            ->orderBy('featured', 'desc')
+            ->orderBy(\DB::raw('RAND()'))
             ->limit(3)
             ->get();
 
@@ -100,6 +101,10 @@ class ClubhouseController extends Controller
 
     public function proMembership(Request $request)
     {
+        if (Auth::guest()) {
+            return redirect('/register?type=pro');
+        }
+
         $product = Product::with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Membership');
         })->first();

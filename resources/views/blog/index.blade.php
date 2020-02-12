@@ -6,7 +6,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/digital-marketing-white.png" />
             <h4 class="header">Sports Industry Blog</h4>
-            <p>These blog articles are created for the industry, by the industry. Our hope is you can learn about these topics from some of the best in the business.</p>
+            <p>Our blog is filled with industry best practices, advice, and career stories in sports. If you’re interested in contributing to our blog, email us <a href="mailto:clubhouse@sportsbusiness.solutions">here</a>.</p>
         </div>
     </div>
 @endsection
@@ -34,9 +34,15 @@
                     <label for="search">Search</label>
                 </div>
                 <div class="input-field" style="flex: 0 0 auto;">
-                    <button type="submit" name="submit" class="flat-button black">Go</button>
+                    <button type="submit" name="submit" class="btn sbs-red btn-xs">Go</button>
                 </div>
             </form>
+            <!-- Tags -->
+            <div class="tag-cloud">
+                @foreach ($tags as $tag)
+                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                @endforeach
+            </div>
         </div>
     </div>
     <div class="row">
@@ -66,7 +72,7 @@
                             </div>
                             <div class="col s8 m9">
                                 <h5 style="margin-top: 0; margin-bottom: 0;"><a href="/post/{{ $post->title_url }}" class="no-underline">{{ $post->title }}</a></h5>
-                                <p class="small light" style="margin-top: 3px;">By <span style="text-transform: uppercase;"><?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?></span></p>
+                                <p class="small light" style="margin-top: 3px;">By <span style="text-transform: uppercase;">{{(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)}}</span></p>
                                 @php
                                     // TODO I'm sure this could be more elegant.
                                     $parsedown = new Parsedown();
@@ -83,6 +89,10 @@
                                     <p class="">{{ $body }}</p>
                                 @endif
                                 <a href="/post/{{ $post->title_url }}" class="btn sbs-red btn-small"> Read more</a>
+                                <div class="hide-on-med-and-up" style="height: 10px"><br></div>
+                                @foreach($post->tags as $tag)
+                                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black small" style="float:right;margin:2px;">{{ $tag->name }}</a>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -94,7 +104,7 @@
                 </div>
             @endif
         </div>
-        <div class="col hide-on-small-only m4 l3">
+        <div class="col hide-on-small-and-down m4 l3">
             <!-- Search -->
             <form action="/blog" method="get">
                 <div class="input-field">
@@ -104,23 +114,11 @@
                 <input type="hidden" name="tag" value="{{ request('tag') }}">
             </form>
             <!-- Tags -->
-            <!--
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
                     <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
-            -->
-        </div>
-        <div class="col s12 hide-on-med-and-up">
-            <!-- Tags -->
-            <!--
-            <div class="tag-cloud">
-                @foreach ($tags as $tag)
-                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black small" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
-                @endforeach
-            </div>
-            -->
         </div>
     </div>
 </div>

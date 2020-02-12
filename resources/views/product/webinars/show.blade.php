@@ -43,7 +43,7 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this webinar?</h4>
-                                    <a href="/membership-options" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                    <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                 </div>
                             </div> 
                         </div>
@@ -62,6 +62,11 @@
                 </div>
             @endcan
             <h4>{{ $product->name }}</h4>
+            @foreach($product->tags as $tag)
+                @if ($tag->name != 'Webinar')
+                    <a href="/webinars?tag={{ $tag->slug }}" class="small flat-button black" style="display: inline-block; margin-left:4px">{{ $tag->name }}</a>
+                @endif
+            @endforeach
             {!! $pd->text($product->getCleanDescription()) !!}
             @if ($product->active)
                 @if (count($product->options) > 0)

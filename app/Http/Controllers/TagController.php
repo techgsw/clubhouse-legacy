@@ -67,4 +67,14 @@ class TagController extends Controller
         $tags = Tag::all();
         return response()->json($tags);
     }
+
+    /**
+     * Return all tags for blog posts
+     * @return \Illuminate\Http\Response
+     */
+    public function posts(Request $request)
+    {
+        $tags = Tag::has('posts')->get();
+        return response()->json($tags);
+    }
 }

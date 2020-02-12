@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col m6">
                     <h4 class="" style="margin-top: 0; font-weight: 300;">Welcome to theClubhouse!</h4>
-                    <h5><i>The voice of the sports industry</i></h5>
-                    <p>theClubhouse is a place where current and aspiring sports business professionals can go to learn, network, browse career opportunities, and share best practices in an effort to grow their career in sports.</p>
-                    <p>Whether you want to meet industry pros, you have a desire to give back, or you’re looking for a job in sports, we’re confident that this platform is your ticket to sports industry success.</p>
+                    <h5><i>THE sports business community</i></h5>
+                    <p>theClubhouse is a place where current and aspiring sports business professionals go to learn, network, browse career opportunities and share best practices in an effort to grow their career in sports.</p>
+                    <p>Whether you want to connect with industry pros, you have a desire to give back, or you’re looking for a job in sports, we’re confident this platform is your ticket to sports industry success.</p>
                 </div>
                 <div class="col m6" style="position: relative;">
                     <div class="fill-grey hide-on-small-only" style="position: absolute; top: -40px; width: 100%;">
@@ -49,7 +49,7 @@
                                         <li>Free career services</li>
                                     </ul>
                                     <div class="center-align">
-                                        <a href="/membership-options" class="btn sbs-red" style="margin-top: 20px;"> Become a Clubhouse Pro</a>
+                                        <a href="/pro-membership" class="btn sbs-red" style="margin-top: 20px;"> Become a Clubhouse Pro</a>
                                     </div>
                                 @endcan
                             </div>

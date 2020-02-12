@@ -48,9 +48,16 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        if ($request->session()->get('redirect_url')) {
-            $this->redirectTo = '/job-options';
+        $redirect_url = $request->session()->get('redirect_url');
+
+        if ($redirect_url) {
+            $this->redirectTo = $redirect_url;
+        }
+
+        if ($redirect_url == '/job-options') {
             $message = "Thank you for joining theClubhouse community! Now, let’s help you post your open job. First, select the option below that works best for you.";
+        } else if ($redirect_url == '/pro-membership') {
+            $message = "Thank you for becoming a member of theClubhouse!";
         } else {
             $message = "Thank you for becoming a member of theClubhouse! We’re very excited to have you. Start by choosing the membership option that works best for you below.";
         }

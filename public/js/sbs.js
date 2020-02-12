@@ -924,6 +924,14 @@ $.valHooks.textarea = {
         });
     }
 
+    Tag.getPostOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/tag/posts',
+            'data': {}
+        });
+    }
+
     Tag.addToEntity = function (name, json_input, view) {
         // Append to JSON input
         var tags = JSON.parse(json_input.val());
@@ -967,24 +975,34 @@ $.valHooks.textarea = {
                     console.warn("Missing view element for tags");
                 }
 
-                Tag.getOptions().done(function (data) {
-                    var tags = {}
-                    data.forEach(function (t) {
-                        Tag.map[t.name] = t.slug;
-                        tags[t.name] = "";
+                if (tag_autocomplete.hasClass('posts')) {
+                    Tag.getPostOptions().done( function(data) {
+                        Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
                     });
-                    var x = autocomplete.autocomplete({
-                        data: tags,
-                        limit: 10,
-                        onAutocomplete: function (val) {
-                            Tag.addToEntity(val, json_input, view_element);
-                            autocomplete.val("");
-                        },
-                        minLength: 2,
+                } else {
+                    Tag.getOptions().done( function(data) {
+                        Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
                     });
-                });
+                }
             });
         }
+    }
+
+    Tag.populateAutocompleteOptions = function(data, autocomplete, json_input, view_element) {
+        var tags = {}
+        data.forEach(function (t) {
+            Tag.map[t.name] = t.slug;
+            tags[t.name] = "";
+        });
+        var x = autocomplete.autocomplete({
+            data: tags,
+            limit: 10,
+            onAutocomplete: function (val) {
+                Tag.addToEntity(val, json_input, view_element);
+                autocomplete.val("");
+            },
+            minLength: 2,
+        });
     }
 
     UI.initializeDatePicker = function() {
@@ -1937,6 +1955,16 @@ $.valHooks.textarea = {
             }
         },
         '#dropzone-previews .dz-preview-flex-container .image-remove-link'
+    );
+
+    //Mentor select to search
+    $('body').on(
+        {
+            change: function() {
+                $('#mentor-search').submit();
+            }
+        },
+        '#mentor-search div select'
     );
 
     /**

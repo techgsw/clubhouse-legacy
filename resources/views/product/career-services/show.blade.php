@@ -45,7 +45,7 @@
                     @foreach ($product->options as $option)
                         @if ($option->price > 0)
                             @can ('view-clubhouse')
-                                <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format(round($option->price / 2), 2)}} (50% Off / Clubhouse Pro)</option>
+                                <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format(round($option->price / 2), 2)}} (FREE with Clubhouse Pro)</option>
                             @else
                                 <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}}</option>
                             @endcan
@@ -54,12 +54,16 @@
                         @endif
                     @endforeach
                 </select>
-                @cannot ('view-clubhouse')
-                    <p>Want to save <strong>50%</strong> on Career Services? <a href="/membership-options">Click here to become a <strong>Clubhouse Pro</strong></a></p>
+                @can ('view-clubhouse')
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">SIGN UP</a>
+                    </div>
+                @else
+                    <p>Want to get <strong>FREE</strong> Career Services? <a href="/membership-options">Click here to become a <strong>Clubhouse Pro</strong></a></p>
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
+                    </div>
                 @endcannot
-                <div class="input-field" style="margin-top: 30px;">
-                    <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
-                </div>
             @else
                 @can ('view-clubhouse')
                     <p>This career service is currently unavailable.</p>

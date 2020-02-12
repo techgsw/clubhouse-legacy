@@ -3,28 +3,27 @@
 namespace App\Mail;
 
 use App\User;
-use App\ProductOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserPaidCareerService extends Mailable
+class UserPasswordReset extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
-    public $product_option;
+    public $token;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, ProductOption $product_option)
+    public function __construct(User $user, string $token)
     {
         $this->user = $user;
-        $this->product_option = $product_option;
+        $this->token = $token;
     }
 
     /**
@@ -35,7 +34,7 @@ class UserPaidCareerService extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Career Service '.(\Gate::allows('view-clubhouse') ? 'Signup' : 'Payment').' - theClubhouse')
-            ->markdown('emails.checkout.paid-career-service');
+            ->subject('Reset Password - theClubhouse')
+            ->markdown('emails.reset-password');
     }
 }
