@@ -40,7 +40,7 @@
             <!-- Tags -->
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
-                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                    <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>
@@ -54,7 +54,7 @@
                         searching for <b>{{ request('search') }}</b>
                     @endif
                     @if (request('tag'))
-                        tagged <b>{{ $tag->name }}</b>
+                        tagged <b>{{ $result_tag->name }}</b>
                     @endif
                     <a href="/blog" style="float: right;">Clear</a>
                 </div>
@@ -91,7 +91,7 @@
                                 <a href="/post/{{ $post->title_url }}" class="btn sbs-red btn-small"> Read more</a>
                                 <div class="hide-on-med-and-up" style="height: 10px"><br></div>
                                 @foreach($post->tags as $tag)
-                                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black small" style="float:right;margin:2px;">{{ $tag->name }}</a>
+                                    <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="float:right;margin:2px;">{{ $tag->name }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -116,7 +116,7 @@
             <!-- Tags -->
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
-                    <a href="{{ $url . "tag=" . $tag->slug }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                    <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>

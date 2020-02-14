@@ -39,7 +39,7 @@ class BlogController extends Controller
             ],
             'posts' => $posts,
             'tags' => $tags,
-            'tag' => $tag
+            'result_tag' => $tag
         ]);
     }
 
