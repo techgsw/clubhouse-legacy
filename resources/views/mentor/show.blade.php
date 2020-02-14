@@ -43,7 +43,7 @@
         </div>
         <div class="col s12 m5 right-align">
             @foreach($mentor->tags as $tag)
-                <a href="/mentor?tag={{ $tag->name }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+                <a href="/mentor?tag={{ urlencode($tag->name) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
             @endforeach
         </div>
         <div class="col s12 m9 mentor-description">
