@@ -486,7 +486,7 @@ class ProductController extends Controller
                 ->where('name', '!=', 'webinar')
                 // using raw query because of https://github.com/laravel/framework/issues/19695
                 ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name = 'webinar')");
-        })->orderBy('name', 'dec')->get();
+        })->orderBy('name', 'dec')->get()->keyBy('name');
 
         return view('product/webinars', [
             'active_products' => $active_products,
