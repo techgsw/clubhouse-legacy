@@ -38,8 +38,15 @@
                 @endif
             @endif
         </div>
-        <div class="col s12 m9 mentor-description">
+        <div class="col s12 m4">
             <h4>{{ $mentor->contact->getName() }}</h4>
+        </div>
+        <div class="col s12 m5 right-align">
+            @foreach($mentor->tags as $tag)
+                <a href="/mentor?tag={{ urlencode($tag->name) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+            @endforeach
+        </div>
+        <div class="col s12 m9 mentor-description">
             <h5>{{ $mentor->contact->getTitle() }}</h5>
             <p>{!! nl2br(e($mentor->description)) !!}</p>
             @php
