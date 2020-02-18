@@ -26,7 +26,7 @@
                 @endif
             @endif
             @foreach($mentor->tags as $tag)
-                <a href="/mentor?tag={{ $tag->name }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+                <a href="/mentor?tag={{ urlencode($tag->name) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
             @endforeach
             <!--<p>{{ $mentor->description }}</p>-->
         </div>
