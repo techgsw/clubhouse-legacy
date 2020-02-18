@@ -78,8 +78,6 @@ class CheckoutController extends Controller
         if (in_array('career-service', array_column($product_option->product->tags->toArray(), 'slug'))) {
             if ($user->can('view-clubhouse')) {
                 try {
-                    EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, 0, 'career-service');
-                    Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
 
                     $response = DB::transaction(function () use ($product_option, $user) {
                         try {
@@ -98,6 +96,13 @@ class CheckoutController extends Controller
                         $transaction_product_option->transaction_id = $transaction->id;
                         $transaction_product_option->product_option_id = $product_option->id;
                         $transaction_product_option->save();
+
+                        try {
+                            EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, 0, 'career-service');
+                            Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                        } catch (Exception $e) {
+                            Log::error($e);
+                        }
 
                         return array('type' => 'career-service', 'product_option_id' => $product_option->id);
                     });
