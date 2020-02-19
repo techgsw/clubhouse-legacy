@@ -20,40 +20,42 @@
                 @if (!is_null($mentor->contact->organizations()->first()->image))
                     <div style="height: 100px;">
                         <a href="{{ $mentor->getUrl() }}" class="no-underline">
-                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" class="responsive-img" style="margin-top: -20px; max-height: 100px;" />
+                            <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" class="responsive-img" style="max-height: 100px;" />
                         </a>
                     </div>
                 @endif
             @endif
-            @foreach($mentor->tags as $tag)
-                <a href="/mentor?tag={{ urlencode($tag->name) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
-            @endforeach
+            <div style="margin-top:10px">
+                @foreach($mentor->tags as $tag)
+                    <a href="/mentor?tag={{ $tag->name }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+                @endforeach
+            </div>
             <!--<p>{{ $mentor->description }}</p>-->
         </div>
         <div style="height: 55px">
-        </div>
-        <div class="small" style="margin-top: 12px; text-align: center; position: absolute; bottom: 20px; left: 50%; margin-left: -50%; padding: 0 10px; width: 100%;">
-            <div style="margin-top: -10px">
-                @can ('view-clubhouse')
-                    @php
-                        $timezones = array(
-                            'hst' => 'Hawaii (GMT-10:00)',
-                            'akdt' => 'Alaska (GMT-09:00)',
-                            'pst' => 'Pacific Time (US & Canada) (GMT-08:00)',
-                            'azt' => 'Arizona (GMT-07:00)',
-                            'mst' => 'Mountain Time (US & Canada) (GMT-07:00)',
-                            'cdt' => 'Central Time (US & Canada) (GMT-06:00)',
-                            'est' => 'Eastern Time (US & Canada) (GMT-05:00)'
-                        );
-                    @endphp
-                    <a class="small flat-button red mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
-                @else
-                    <p style="font-size: 14px;">Want to schedule a call?</p>
-                    <a class="small flat-button red" href="/pro-membership">Become a Clubhouse Pro</a>
-                @endcan
-                @can ('edit-mentor')
-                    <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
-                @endcan
+            <div class="small" style="margin-top: 12px; text-align: center; position: absolute; bottom: 20px; left: 50%; margin-left: -50%; padding: 0 10px; width: 100%;">
+                <div style="margin-top: -10px">
+                    @can ('view-clubhouse')
+                        @php
+                            $timezones = array(
+                                'hst' => 'Hawaii (GMT-10:00)',
+                                'akdt' => 'Alaska (GMT-09:00)',
+                                'pst' => 'Pacific Time (US & Canada) (GMT-08:00)',
+                                'azt' => 'Arizona (GMT-07:00)',
+                                'mst' => 'Mountain Time (US & Canada) (GMT-07:00)',
+                                'cdt' => 'Central Time (US & Canada) (GMT-06:00)',
+                                'est' => 'Eastern Time (US & Canada) (GMT-05:00)'
+                            );
+                        @endphp
+                        <a class="small flat-button red mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
+                    @else
+                        <p style="font-size: 14px;">Want to schedule a call?</p>
+                        <a class="small flat-button red" href="/pro-membership">Become a Clubhouse Pro</a>
+                    @endcan
+                    @can ('edit-mentor')
+                        <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
+                    @endcan
+                </div>
             </div>
         </div>
     </div>
