@@ -1045,12 +1045,6 @@ textarea:focus,
     top: 0;
 }
 
-#mentor-search .input-field {
-    max-width: 400px;
-    margin: auto;
-    box-shadow: 0px 0px 2px 1px #888 ;
-}
-
 .switch label input[type=checkbox]:checked + .lever {
     background-color: #FF7981;
 }
@@ -2047,5 +2041,28 @@ p.icon {
 
     #clubhouse-title-text {
         margin-top: 80px;
+    }
+}
+
+/**
+ * Fix for Materialize dropdowns not working on mobile. Reverts back to browser-default
+ */
+@media only screen and (max-width: 768px) {
+    #mentor-search select {
+        display: block;
+        margin-top: 5px;
+    }
+    #job-search-form select {
+        display: block;
+        margin-top: 6px;
+        color: #000;
+    }
+    #mentor-search .select-wrapper input.select-dropdown,
+    #job-search-form .select-wrapper input.select-dropdown {
+        display: none;
+    }
+    #mentor-search .select-wrapper span.caret,
+    #job-search-form .select-wrapper span.caret {
+        display: none;
     }
 }
