@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\League;
 use App\Mentor;
 use App\Message;
 use App\Tag;
@@ -29,6 +30,7 @@ class MentorController extends Controller
             ->paginate(15);
 
         $tags = Tag::has('mentors')->get();
+        $leagues = League::has('organizations.contacts.mentor')->select('league.abbreviation')->get();
 
         return view('mentor/index', [
             'breadcrumb' => [
@@ -37,7 +39,9 @@ class MentorController extends Controller
             ],
             'mentors' => $mentors,
             'tags' => $tags,
-            'tag' => $request->tag
+            'leagues' => $leagues,
+            'tag' => $request->tag,
+            'league' => $request->league
         ]);
     }
 
