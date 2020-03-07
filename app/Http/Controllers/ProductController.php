@@ -113,63 +113,77 @@ class ProductController extends Controller
                 $tag_names = json_decode($tag_json);
                 $product->tags()->sync($tag_names);
 
-                try {
-                    $stripe_product = StripeServiceProvider::createProduct($product);
-                    $product->stripe_product_id = $stripe_product->id;
-                    $product->save();
-                } catch (Exception $e) {
-                    Log::error($e);
-                    if (!is_null($stripe_product)) {
-                        StripeServiceProvider::deleteProduct($stripe_product);
-                    }
-                    throw new Exception('Unable to update product with stripe id.');
-                }
-
-                $webinar_tag = false;
-                if (in_array('Webinar', $tag_names)) {
-                   $webinar_tag = true;
-                }
-
-                foreach ($product->options as $key => $option) {
-                    if ($product->type == 'service') {
-                        try {
-                            $stripe_plan = StripeServiceProvider::createPlan($stripe_product, $option);
-                            $option->stripe_plan_id = $stripe_plan->id;
-                            $option->save();
-                        } catch (Exception $e) {
-                            Log::error($e);
-                            if (!is_null($stripe_product)) {
-                                StripeServiceProvider::deleteProduct($stripe_product);
-                            }
-                            if (!is_null($stripe_plan)) {
-                                StripeServiceProvider::deletePlan($stripe_plan);
-                            }
-                            throw new Exception('Unable to update product option with stripe plan id.');
+                if (in_array('#SameHere', $tag_names)) {
+                    // #SameHere webinars are designed to have anonymous registration. Users do not have to log in or purchase the product to attend
+                    foreach ($product->options as $key => $option) {
+                        if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
+                            throw new Exception('Invalid Webinar description. Format must be T[am|pm] [GMT|PST|EST]');
                         }
-                    } else {
-                        try {
-                            if ($option->price > 0) {
+                        $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', preg_replace( '/join_url:.*$/', '', $option->description)));
+                        $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date, false);
+                        $option->zoom_webinar_id = $webinar->id;
+                        $option->description .= ' join_url:'.$webinar->join_url;
+                        $option->save();
+                    }
+                } else {
+                    try {
+                        $stripe_product = StripeServiceProvider::createProduct($product);
+                        $product->stripe_product_id = $stripe_product->id;
+                        $product->save();
+                    } catch (Exception $e) {
+                        Log::error($e);
+                        if (!is_null($stripe_product)) {
+                            StripeServiceProvider::deleteProduct($stripe_product);
+                        }
+                        throw new Exception('Unable to update product with stripe id.');
+                    }
+
+                    $webinar_tag = false;
+                    if (in_array('Webinar', $tag_names)) {
+                        $webinar_tag = true;
+                    }
+
+                    foreach ($product->options as $key => $option) {
+                        if ($product->type == 'service') {
+                            try {
+                                $stripe_plan = StripeServiceProvider::createPlan($stripe_product, $option);
+                                $option->stripe_plan_id = $stripe_plan->id;
+                                $option->save();
+                            } catch (Exception $e) {
+                                Log::error($e);
+                                if (!is_null($stripe_product)) {
+                                    StripeServiceProvider::deleteProduct($stripe_product);
+                                }
+                                if (!is_null($stripe_plan)) {
+                                    StripeServiceProvider::deletePlan($stripe_plan);
+                                }
+                                throw new Exception('Unable to update product option with stripe plan id.');
+                            }
+                        } else {
+                            try {
+                                if ($option->price > 0) {
                                     $stripe_sku = StripeServiceProvider::createSku($stripe_product, $option);
                                     $option->stripe_sku_id = $stripe_sku->id;
-                            }
-                            if ($webinar_tag == true) {
-                                if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
-                                    throw new Exception('Invalid Webinar description. Format must be T[am|pm] [GMT|PST|EST]');
                                 }
-                                $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
-                                $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date);
-                                $option->zoom_webinar_id = $webinar->id;
+                                if ($webinar_tag == true) {
+                                    if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
+                                        throw new Exception('Invalid Webinar description. Format must be T[am|pm] [GMT|PST|EST]');
+                                    }
+                                    $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
+                                    $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date, true);
+                                    $option->zoom_webinar_id = $webinar->id;
+                                }
+                                $option->save();
+                            } catch (Exception $e) {
+                                Log::error($e);
+                                if (!is_null($stripe_product)) {
+                                    StripeServiceProvider::deleteProduct($stripe_product);
+                                }
+                                if (isset($stripe_sku)) {
+                                    StripeServiceProvider::deleteSku($stripe_sku);
+                                }
+                                throw new Exception('Unable to update product option with stripe sku id or zoom id', 0, $e);
                             }
-                            $option->save();
-                        } catch (Exception $e) {
-                            Log::error($e);
-                            if (!is_null($stripe_product)) {
-                                StripeServiceProvider::deleteProduct($stripe_product);
-                            }
-                            if (isset($stripe_sku)) {
-                                StripeServiceProvider::deleteSku($stripe_sku);
-                            }
-                            throw new Exception('Unable to update product option with stripe sku id or zoom id', 0, $e);
                         }
                     }
                 }
@@ -278,18 +292,6 @@ class ProductController extends Controller
                     }
                 }
 
-                // Delete options that are not posted
-                foreach ($options as $id => $opt) {
-                    ProductOptionRole::where('product_option_id', $id)->delete();
-                    $opt->delete();
-
-                    if ($product->type == 'service') {
-                        StripeServiceProvider::deletePlan($opt);
-                    } else {
-                        StripeServiceProvider::deleteSku($opt);
-                    }
-                }
-
                 $image_file = request()->file('image_url');
                 if ($image_file) {
                     $image = ImageServiceProvider::saveFileAsImage(
@@ -305,33 +307,66 @@ class ProductController extends Controller
                 $tag_names = json_decode($tag_json);
                 $product->tags()->sync($tag_names);
 
-                $stripe_product = StripeServiceProvider::updateProduct($product);
-
-                $webinar_tag = false;
-                if (in_array('Webinar', $tag_names)) {
-                   $webinar_tag = true;
+                $same_here_tag = false;
+                if (in_array('#SameHere', $tag_names)) {
+                    $same_here_tag = true;
                 }
 
-                foreach ($updated_options as $key => $option) {
+                // Delete options that are not posted
+                foreach ($options as $id => $opt) {
+                    ProductOptionRole::where('product_option_id', $id)->delete();
+                    $opt->delete();
+
                     if ($product->type == 'service') {
-                        $stripe_plan = StripeServiceProvider::updatePlan($stripe_product, $option);
-                        $option->stripe_plan_id = $stripe_plan->id;
-                    } else {
-                        if ($option->price > 0) {
-                            $stripe_sku = StripeServiceProvider::updateSku($stripe_product, $option);
-                            $option->stripe_sku_id = $stripe_sku->id;
+                        StripeServiceProvider::deletePlan($opt);
+                    } else if ($same_here_tag == false) {
+                        StripeServiceProvider::deleteSku($opt);
+                    }
+                }
+
+                if ($same_here_tag == true) {
+                    // #SameHere webinars are designed to have anonymous registration. Users do not have to log in or purchase the product to attend
+                    foreach ($product->options as $key => $option) {
+                        if (is_null($option->zoom_webinar_id)) {
+                            if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
+                                throw new Exception('Invalid Webinar description. Format must be T[am|pm] [GMT|PST|EST]');
+                            }
+                            $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', preg_replace('/join_url:.*$/', '', $option->description)));
+                            $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date, false);
+                            $option->zoom_webinar_id = $webinar->id;
+                            $option->description .= ' join_url:'.$webinar->join_url;
+                        }
+                        $option->save();
+                    }
+                } else {
+                    $stripe_product = StripeServiceProvider::updateProduct($product);
+
+                    $webinar_tag = false;
+                    if (in_array('Webinar', $tag_names)) {
+                        $webinar_tag = true;
+                    }
+
+                    foreach ($updated_options as $key => $option) {
+                        if ($product->type == 'service') {
+                            $stripe_plan = StripeServiceProvider::updatePlan($stripe_product, $option);
+                            $option->stripe_plan_id = $stripe_plan->id;
                         } else {
-                            if ($webinar_tag == true && is_null($option->zoom_webinar_id)) {
-                                if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
-                                    throw new Exception('Invalid webinar description. Format must be T[am|pm] [GMT|PST|EST]');
+                            if ($option->price > 0) {
+                                $stripe_sku = StripeServiceProvider::updateSku($stripe_product, $option);
+                                $option->stripe_sku_id = $stripe_sku->id;
+                            } else {
+                                if ($webinar_tag == true && is_null($option->zoom_webinar_id)) {
+                                    if (!preg_match('/^\d+:?\d*[(am)|(pm)]+\s[A-z]+/i', $option->description)) {
+                                        throw new Exception('Invalid webinar description. Format must be T[am|pm] [GMT|PST|EST]');
+                                    }
+                                    $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
+                                    $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date);
+                                    $option->zoom_webinar_id = $webinar->id;
                                 }
-                                $date = new \DateTime($option->name . ' ' . preg_replace('/ [A-z]+/', '', $option->description));
-                                $webinar = ZoomServiceProvider::createWebinar($product->name, $product->description, $date);
-                                $option->zoom_webinar_id = $webinar->id;
                             }
                         }
+                        $option->save();
                     }
-                    $option->save();
                 }
 
                 return $product;

@@ -30,9 +30,15 @@
                 <h5 style="text-align: center;">Coming soon.</h5>
             @else
                 @foreach ($active_products as $product)
-                    <div class="col l6">
-                        @include('product.webinars.components.list-item', ['product' => $product])
-                    </div>
+                    @if (is_null(array_first($product->tags, function ($tag) { return $tag->name == '#SameHere'; })))
+                        <div class="col l6">
+                            @include('product.webinars.components.list-item', ['product' => $product])
+                        </div>
+                    @else
+                        <div class="col l6">
+                            @include('same-here.webinars.components.list-item', ['product' => $product])
+                        </div>
+                    @endif
                 @endforeach
             @endif
         </div>

@@ -18,7 +18,7 @@ class ZoomServiceProvider extends ServiceProvider
         return CURLServiceProvider::sendGetRequest($path);
     }
 
-    public static function createWebinar(string $topic, string $description, \DateTime $start_time)
+    public static function createWebinar(string $topic, string $description, \DateTime $start_time, boolean $require_registration)
     {
         $path = 'users/' . env('ZOOM_USER_ID') . '/webinars';
 
@@ -29,7 +29,7 @@ class ZoomServiceProvider extends ServiceProvider
             'start_time' => $start_time->format('Y-m-d') . 'T' . $start_time->format('H:i:s'),
             //'password' => substr(uniqid(), 0, 10),
             'settings' => array(
-                'approval_type' => 0,
+                'approval_type' => $require_registration ? 0 : 2,
                 'host_video' => true,
                 'panelists_video' => true,
                 'practice_session' => true,
@@ -53,4 +53,6 @@ class ZoomServiceProvider extends ServiceProvider
         
         return CURLServiceProvider::sendPostRequest($path, $data);
     }
+
+
 }

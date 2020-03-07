@@ -400,4 +400,11 @@ Route::domain($domain)->group(function () {
         Route::get('/webinars', 'ProductController@webinars');
         Route::get('/webinars/{id}', 'ProductController@showWebinars');
     });
+
+    // #SameHere
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/same-here', 'SameHereController@index');
+        Route::get('/same-here/webinars', 'SameHereController@webinars');
+        Route::get('/same-here/webinars/{id}', 'SameHereController@showWebinars');
+    });
 });

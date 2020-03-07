@@ -16,7 +16,8 @@
             <div class="card-stacked">
                 <div class="card-content">
                     <span class="card-title grey-text">Webinars</span>
-                    <p><strong>TAGS</strong> <span class="flat-button grey small">Webinar</span></p>
+                    <p><strong>TAGS</strong> <span class="flat-button grey small">Webinar</span> <strong>AND/OR</strong>  <span class="flat-button grey small">#SameHere</span></p>
+                    <p>to display on either page</p>
                 </div>
             </div>
         </div>
