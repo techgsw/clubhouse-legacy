@@ -31,10 +31,6 @@ class SameHereController extends Controller
 
     public function blog(Request $request)
     {
-        $request->request->add(array('tag' => '#SameHere'));
-        $posts = Post::search($request)->where('post_type_code', 'blog')->paginate(15);
-        $tags = Tag::has('posts')->orderBy('name', 'dec')->get();
-
         $tag = null;
         if ($request->tag) {
             $results = Tag::where('slug', $request->tag)->get();
@@ -43,12 +39,26 @@ class SameHereController extends Controller
             }
         }
 
-        return view('blog/index', [
+        // add the #SameHere tag to the request after we've checked for specific tags the user is searching for
+        $posts = Post::search($request)->whereHas('tags', function ($query) {
+            $query->where('name', '#SameHere');
+            $query->where('post_type_code', 'blog');
+        })->where('post_type_code', 'blog')->paginate(15);
+        $tags = Tag::join('post_tag', function($join) {
+            $join->on('name', 'tag_name')
+                // using raw query because of https://github.com/laravel/framework/issues/19695
+                ->whereRaw("post_id IN (SELECT post_id FROM post_tag WHERE tag_name = '#SameHere')");
+        })->orderBy('name', 'dec')->get()->keyBy('name');
+
+        return view('same-here/blog', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sports Industry Blog' => '/blog'
+                '#SameHere' => '/same-here',
+                '#SameHere Solutions Blog' => '/same-here/blog'
             ],
             'posts' => $posts,
+            'tags' => $tags,
+            'result_tag' => $tag
         ]);
     }
 
