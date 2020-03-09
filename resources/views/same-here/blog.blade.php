@@ -1,4 +1,4 @@
-@extends('layouts.clubhouse')
+@extends('layouts.same-here')
 @section('title', '#SameHere Blog')
 @php
     if (request('search')) {
