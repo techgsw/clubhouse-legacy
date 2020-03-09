@@ -18,7 +18,7 @@ class ZoomServiceProvider extends ServiceProvider
         return CURLServiceProvider::sendGetRequest($path);
     }
 
-    public static function createWebinar(string $topic, string $description, \DateTime $start_time, boolean $require_registration)
+    public static function createWebinar(string $topic, string $description, \DateTime $start_time, $require_registration)
     {
         $path = 'users/' . env('ZOOM_USER_ID') . '/webinars';
 

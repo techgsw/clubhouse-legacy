@@ -1173,18 +1173,18 @@ $.valHooks.textarea = {
         'span.tag button.x'
     );
 
-    Instagram.getFeed = function () {
+    Instagram.getFeed = function (is_same_here) {
         return $.ajax({
             type: "GET",
             url: "/social/instagram",
-            params: {},
+            data: { is_same_here: is_same_here},
         });
     }
 
     Instagram.init = function () {
         var ig = $('#instagram');
         if (ig.length > 0) {
-            Instagram.getFeed().done(
+            Instagram.getFeed($('#instagram.same-here').length > 0).done(
                 function (resp, status, xhr) {
                     if (xhr.status == 200) {
                         ig.find('.preloader-wrapper').remove();

@@ -25,6 +25,11 @@ class SocialMediaServiceProvider extends ServiceProvider
             $access_token = env('CLUBHOUSE_INSTAGRAM_ACCESS_TOKEN');
             $client_id = env('CLUBHOUSE_INSTAGRAM_CLIENT_ID');
             $user_id = env('CLUBHOUSE_INSTAGRAM_USER_ID');
+        } else if ($context == 'same-here') {
+            $access_token = env('SAMEHERE_INSTAGRAM_ACCESS_TOKEN');
+            $client_id = env('SAMEHERE_INSTAGRAM_CLIENT_ID');
+            $user_id = env('SAMEHERE_INSTAGRAM_USER_ID');
+            $limit = 5;
         } else {
             $access_token = env('INSTAGRAM_ACCESS_TOKEN');
             $client_id = env('INSTAGRAM_CLIENT_ID');
@@ -57,7 +62,9 @@ class SocialMediaServiceProvider extends ServiceProvider
         $feed = [];
         $post_count = count($response->data);
         if ($post_count > 0) {
-            $limit = ($post_count > 8 ? 9 : $post_count);
+            if (!isset($limit) || is_null($limit)) {
+                $limit = ($post_count > 8 ? 9 : $post_count);
+            }
             for ($i = 0; $i < $limit; $i++) {
                 $item = $response->data[$i];
                 if (!$item) {

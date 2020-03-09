@@ -15,9 +15,14 @@ class SameHereController extends Controller
      */
     public function index(Request $request)
     {
+        $posts = Post::where('post_type_code', 'blog')->whereHas('tags', function ($query) {
+            $query->where('name', '#SameHere');
+            $query->where('post_type_code', 'blog');
+        })->orderBy('id', 'DESC')->limit(3)->get();
 
-        //TODO: pull latest three same_here posts
-        //TODO: pull latest two webinars
+        $webinars = Product::where('active', true)->with('options')->whereHas('tags', function ($query) {
+            $query->where('name', '#SameHere');
+        })->orderBy('id', 'DESC')->limit(2)->get();
 
         //TODO: discussion board specifics
 
@@ -25,7 +30,9 @@ class SameHereController extends Controller
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 '#SameHere' => '/same-here'
-            ]
+            ],
+            'posts' => $posts,
+            'webinars' => $webinars
         ]);
     }
 
