@@ -1,5 +1,5 @@
 <!-- /resources/views/product/show.blade.php -->
-@extends('layouts.clubhouse')
+@extends('layouts.same-here')
 @section('title', "$product->name")
 @section('description', $product->getCleanDescription())
 @section('url', Request::fullUrl())
@@ -48,7 +48,7 @@
             @endcan
             <h4>{{ $product->name }}</h4>
             @foreach($product->tags as $tag)
-                @if ($tag->name != 'Webinar')
+                @if ($tag->name != '#SameHere' && $tag->name != 'Webinar')
                     <a href="/same-here/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin-left:4px">{{ $tag->name }}</a>
                 @endif
             @endforeach

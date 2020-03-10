@@ -5,7 +5,8 @@
 <div class="container">
     @if(is_null($active_tag))
         <div class="row">
-            <div class="col s12">
+            <div class="col s12 center-align">
+                <h2>Mental Health Discussions</h2>
                 <p>The mission of #SameHere Solutions is to help those in the sports business who are struggling, to get the support and resources they need to stay strong both in and out of the office.</p>
                 <br />
                 <h4 id="upcoming" style="font-weight: bold; text-align: center;">UPCOMING EVENTS</h4>
@@ -16,7 +17,7 @@
                 <h5 style="text-align: center;">Coming soon.</h5>
             @else
                 @foreach ($active_products as $product)
-                    <div class="col l6">
+                    <div class="col s12 m6">
                         @include('same-here.webinars.components.list-item', ['product' => $product])
                     </div>
                 @endforeach

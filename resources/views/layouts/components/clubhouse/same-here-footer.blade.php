@@ -3,7 +3,7 @@
         <div class="row center-align">
             <h4><strong>Let's get social! Follow our organizations below.</strong></h4>
         </div>
-        <div class="row" style="height:150px;">
+        <div class="row">
             <div class="col m3 offset-m1 s12">
                 <div class="row center-align same-here-social">
                     <h5><a href="{{ env('APP_URL') }}">Sports Business Solutions</a></h5>
@@ -31,7 +31,10 @@
                 </div>
             </div>
             <div class="col m4 s12">
-                <div style="padding:20px 50px;">
+                <div class="hide-on-med-and-up center-align">
+                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:samehere@sportsbusiness.solutions">samehere@sportsbusiness.solutions</a></h5>
+                </div>
+                <div class="hide-on-small-and-down" style="padding:20px 50px;">
                     <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:samehere@sportsbusiness.solutions">samehere@sportsbusiness.solutions</a></h5>
                 </div>
             </div>

@@ -10,10 +10,13 @@
             @endcan
         </div>
     </div>
-    <div class="row" style="margin-top: -5px;margin-left:5px">
+    <div class="row center-align">
+        <a href="{{$product->getURL(false, 'same-here/webinars')}}">
+            <h5><strong>{{$product->name}}</strong><br>{{$product->options[0]->name}}</h5>
+        </a>
         @foreach($product->tags as $tag)
-            @if ($tag->name != 'Webinar')
-                <a href="/same-here/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin-left:4px">{{ $tag->name }}</a>
+            @if ($tag->name != '#SameHere' && $tag->name != 'Webinar')
+                <a href="/same-here/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin:2px">{{ $tag->name }}</a>
             @endif
         @endforeach
     </div>

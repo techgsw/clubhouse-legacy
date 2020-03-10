@@ -16,18 +16,18 @@
             <div class="col s12 center-align">
                 <h4><strong>As sports industry professionals we all faces challenges that can affect our mental health.</strong></h4>
             </div>
-            <div class="col s8 offset-s2 center-align">
+            <div class="col s12 m8 offset-m2 center-align">
                 <p>This is THE destination for those of us in sports business, at all levels, to talk about those challenges and get the support we need to persevere. Whether it's in your career or your personal life, everyone is going through something. By joining this community we will provide you with resources, peer-to-peer support, and even recommendations to ensure you're staying healthy both in and out of the front office.</p>
             </div>
         </div>
         <div class="row gray-bg" style="padding: 30px 30px;">
-            <div class="col s6">
+            <div class="col s12 m6">
                 <h5><strong>What's our why?</strong></h5>
                 <p>This is a collaboration between Bob Hamer the President & Founder of Sports Business Solutions and Eric Kussin, the Founder of the Non Profit We're All a Little "Crazy" and creator of the #SameHere Global Mental Health Movement.</p>
                 <p>Together we have more than 30 years of experience in sports business. We worked together at the Phoenix Suns and we both have faced mental health challenges. Our vision is to share stories, strategies, and resources in an effort to help others in sports overcome the challenges we all face at some point or another.</p>
                 <p>You can learn more about Bob & Eric's mental health journeys by clicking on their profiles.</p>
             </div>
-            <div class="col s3 center-align">
+            <div class="col s6 m3 center-align">
                 <a href="/bob-hamer" class="no-underline">
                     <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
@@ -37,7 +37,7 @@
                     </h5>
                 </a>
             </div>
-            <div class="col s3 center-align">
+            <div class="col s6 m3 center-align">
                 <a href="/bob-hamer" class="no-underline">
                     <img src="/images/same-here/eric-kussin.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
@@ -54,15 +54,15 @@
     <br>
     <div class="container-fluid" style="background-color: #EB2935;color: #FFFFFF;">
         <div class="row" style="padding:40px 0px;">
-            <div class="col s6 offset-s3 center-align">
+            <div class="col s12 m6 offset-m3 center-align">
                 <h5><strong>Join our community today!</strong></h5>
                 <p>We will provide you with resources, peer-to-peer support, and even recommendations to ensure you're staying healthy both in and out of the front office.</p>
                 <div class="row">
-                    <div class="input-field same-here col s6 offset-s1">
+                    <div class="input-field same-here col s12 m6 offset-m1">
                         <input id="email" name="email" type="text">
                         <label for="email">Email address</label>
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 m4">
                         <button type="submit" class="flat-button btn-large same-here white">Sign up</button>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
     <div class="container-fluid gray-bg">
         <div class="container" style="padding:40px 0px;">
             <div class="row">
-                <div class="col s8 offset-s2 center-align">
+                <div class="col s12 m8 offset-m2 center-align">
                     <h4>#SameHere Solutions Blog</h4>
                     <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:samehere@sportsbusiness.solutions">message us</a>.</p>
                 </div>
@@ -103,7 +103,7 @@
     </div>
     <div class="container" style="padding:40px 0px;">
         <div class="row">
-            <div class="col s8 offset-s2 center-align">
+            <div class="col s12 m8 offset-m2 center-align">
                 <h4>Mental Health Discussions</h4>
                 <p>The mission of #SameHere Solutions is to help those in the sports business who are struggling, to get the support and resources they need to stay strong both in and out of the office. These sessions are live and interactive and if you want to hear from others that may have the same challenges you do, you should join us. Attendance can be anonymous among other attendees.</p>
             </div>
@@ -123,8 +123,8 @@
             @if (count($webinars) > 0)
                 <div class="col m1 hide-on-small-and-down"></div>
                 @foreach ($webinars as $index => $webinar)
-                    <div class="col m5">
-                        @include('product.webinars.components.list-item', ['product' => $webinar])
+                    <div class="col s12 m5">
+                        @include('same-here.webinars.components.list-item', ['product' => $webinar])
                     </div>
                 @endforeach
             @else
