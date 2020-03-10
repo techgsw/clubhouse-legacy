@@ -46,9 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="same-here-feed">
-        @include('layouts.components.same-here-instagram')
-    </div>
+    @include('layouts.components.same-here-instagram')
     <div class="footer-copyright">
         <div class="container">
             <p class="small">Copyright &copy; 2018 Sports Business Solutions | All Rights Reserved</p>

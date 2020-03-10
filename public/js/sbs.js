@@ -1183,17 +1183,32 @@ $.valHooks.textarea = {
 
     Instagram.init = function () {
         var ig = $('#instagram');
+        var is_same_here = $('.same-here-instagram-feed').length > 0;
         if (ig.length > 0) {
-            Instagram.getFeed($('#instagram.same-here').length > 0).done(
+            Instagram.getFeed(is_same_here).done(
                 function (resp, status, xhr) {
                     if (xhr.status == 200) {
                         ig.find('.preloader-wrapper').remove();
                         ig.append(resp);
                     } else {
-                        ig.find('.preloader-wrapper').remove();
-                        ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
+                        if (is_same_here) {
+                            $('.same-here-instagram-feed').remove();
+                        } else {
+                            ig.find('.preloader-wrapper').remove();
+                            ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
+                        }
                         console.error("Failed to load Instagram feed.");
                     }
+                }
+            ).fail(
+                function () {
+                    if (is_same_here) {
+                        $('.same-here-instagram-feed').remove();
+                    } else {
+                        ig.find('.preloader-wrapper').remove();
+                        ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
+                    }
+                    console.error("Failed to load Instagram feed.");
                 }
             );
         }
