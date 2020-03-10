@@ -804,8 +804,8 @@ TODO: move the below to a "#SameHere" section, or something specific to email in
     line-height: 35px;
     width: 100%;
     border-radius: 2px;
-    border-color: #FFFFFF;
-    color: #FFFFFF;
+    border-color: #FFF;
+    color: #FFF;
 }
 .flat-button.same-here:hover {
     background-color: #FFFFFF !important;
@@ -820,6 +820,10 @@ TODO: move the below to a "#SameHere" section, or something specific to email in
 }
 .input-field.same-here input[type="text"]:focus + label {
     color: #FFF !important;
+}
+.input-field.same-here input[type="submit"]:focus {
+    border-color: #FFF !important;
+    box-shadow: 1px 1px 2px 2px #900 !important;
 }
 .input-field.same-here label {
     color: #DDD;

@@ -17,7 +17,7 @@
                     <a class="flat-button" href="https://twitter.com/SportsBizSol"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                 </div>
             </div>
-            <div class="col m3 s12"  style="border-right: 1px solid #000;">
+            <div class="col m3 s12"  style="border-right: 1px solid #888;">
                 <div class="row center-align same-here-social">
                     <h5><a href="https://weareallalittlecrazy.org/">We're All A Little "Crazy"</a></h5>
                     <br>

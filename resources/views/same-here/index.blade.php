@@ -53,21 +53,7 @@
     </div>
     <br>
     <div class="container-fluid" style="background-color: #EB2935;color: #FFFFFF;">
-        <div class="row" style="padding:40px 0px;">
-            <div class="col s12 m6 offset-m3 center-align">
-                <h5><strong>Join our community today!</strong></h5>
-                <p>We will provide you with resources, peer-to-peer support, and even recommendations to ensure you're staying healthy both in and out of the front office.</p>
-                <div class="row">
-                    <div class="input-field same-here col s12 m6 offset-m1">
-                        <input id="email" name="email" type="text">
-                        <label for="email">Email address</label>
-                    </div>
-                    <div class="input-field col s12 m4">
-                        <button type="submit" class="flat-button btn-large same-here white">Sign up</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('same-here.newsletter')
     </div>
     <div class="container-fluid gray-bg">
         <div class="container" style="padding:40px 0px;">
