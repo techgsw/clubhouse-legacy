@@ -40,7 +40,6 @@ if (!SBS) {
             // Description
             option.find('.option-description').attr('name', 'option['+i+'][description]');
             option.find('.option-description').attr('id', 'option-'+i+'-description');
-            option.find('.option-description-editor').attr('id', 'option-'+i+'-description-editor');
             option.find('.markdown-editor').attr('id', 'description-'+i+'-editor');
             option.find('.markdown-input').attr('editor-id', 'description-'+i+'-editor');
         });
@@ -49,16 +48,10 @@ if (!SBS) {
     Product.Form.addOption = function () {
         var form = $('form#product');
         var option = Product.Form.optionTemplate.clone();
-        // Add markdown editor classes
-        option.find('.option-description').addClass('markdown-input');
-        option.find('.option-description-editor').addClass('markdown-editor');
         // Append to the list
         form.find('.options').append(option);
         // Index options
         Product.Form.indexOptions();
-        // Initialize the markdown editor on the last option. This depends on
-        // the prior successful indexing.
-        SBS.createMarkdownEditor(option.find('.option-description'));
     }
 
     Product.Form.removeOption = function (i) {
