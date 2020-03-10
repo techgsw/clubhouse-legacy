@@ -27,7 +27,7 @@
                 <p>Together we have more than 30 years of experience in sports business. We worked together at the Phoenix Suns and we both have faced mental health challenges. Our vision is to share stories, strategies, and resources in an effort to help others in sports overcome the challenges we all face at some point or another.</p>
             </div>
             <div class="col s6 m3 center-align">
-                <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                <img src="/images/same-here/bob-same-here.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                 <h5>
                     Bob Hamer
                     <span class="about-position">President & Founder</span>

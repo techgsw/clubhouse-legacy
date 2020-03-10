@@ -53,6 +53,4 @@ class ZoomServiceProvider extends ServiceProvider
         
         return CURLServiceProvider::sendPostRequest($path, $data);
     }
-
-
 }
