@@ -25,29 +25,24 @@
                 <h5><strong>What's our why?</strong></h5>
                 <p>This is a collaboration between Bob Hamer the President & Founder of Sports Business Solutions and Eric Kussin, the Founder of the Non Profit We're All a Little "Crazy" and creator of the #SameHere Global Mental Health Movement.</p>
                 <p>Together we have more than 30 years of experience in sports business. We worked together at the Phoenix Suns and we both have faced mental health challenges. Our vision is to share stories, strategies, and resources in an effort to help others in sports overcome the challenges we all face at some point or another.</p>
-                <p>You can learn more about Bob & Eric's mental health journeys by clicking on their profiles.</p>
             </div>
             <div class="col s6 m3 center-align">
-                <a href="/bob-hamer" class="no-underline">
-                    <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5>
-                        Bob Hamer
-                        <span class="about-position">President & Founder</span>
-                        <span class="about-position sbs-red-text">Sports Business Solutions</span>
-                    </h5>
-                </a>
+                <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                <h5>
+                    Bob Hamer
+                    <span class="about-position">President & Founder</span>
+                    <span class="about-position sbs-red-text">Sports Business Solutions</span>
+                </h5>
             </div>
             <div class="col s6 m3 center-align">
-                <a href="/bob-hamer" class="no-underline">
-                    <img src="/images/same-here/eric-kussin.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5>
-                        Eric Kussin
-                        <span class="about-position">CEO & Founder</span>
-                        <span class="about-position sbs-red-text">We're All A Little "Crazy":</span>
-                        <span class="about-position">Global Mental Health Alliance&#8482;</span>
-                        <span class="about-position">The #SameHere Movement&#8482;</span>
-                    </h5>
-                </a>
+                <img src="/images/same-here/eric-kussin.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                <h5>
+                    Eric Kussin
+                    <span class="about-position">CEO & Founder</span>
+                    <span class="about-position sbs-red-text">We're All A Little "Crazy":</span>
+                    <span class="about-position">Global Mental Health Alliance&#8482;</span>
+                    <span class="about-position">The #SameHere Movement&#8482;</span>
+                </h5>
             </div>
         </div>
     </div>

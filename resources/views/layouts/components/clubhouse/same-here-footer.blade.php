@@ -15,6 +15,9 @@
                     &nbsp;
                     &nbsp;
                     <a class="flat-button" href="https://twitter.com/SportsBizSol"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    &nbsp;
+                    &nbsp;
+                    <a class="flat-button" href="https://www.linkedin.com/company/sports-business-solutions/"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                 </div>
             </div>
             <div class="col m3 s12"  style="border-right: 1px solid #888;">
@@ -28,6 +31,9 @@
                     &nbsp;
                     &nbsp;
                     <a class="flat-button" href="https://twitter.com/samehere_global"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    &nbsp;
+                    &nbsp;
+                    <a class="flat-button" href="https://www.linkedin.com/in/eric-kussin-5010a37/"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                 </div>
             </div>
             <div class="col m4 s12">

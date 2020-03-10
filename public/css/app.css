@@ -831,11 +831,11 @@ TODO: move the below to a "#SameHere" section, or something specific to email in
 
 .same-here-social .flat-button {
     transition: background-color .3s, color .3s;
-    border-radius: 50%;
+    border-radius: 49%;
     border: 3px solid #555;
-    width: 70px;
-    height: 70px;
-    font-size: 40px;
+    width: 60px;
+    height: 60px;
+    font-size: 35px;
 }
 .same-here-social .flat-button:hover {
     background-color: #555 !important;
