@@ -264,13 +264,13 @@
                         <p>Want some 1:1 career coaching? Our team is comprised of former successful industry professionals and they’re committed to helping you any way that they can.</p>
                     </div>
                 </div>
-                <div class="col s12 m6">
+                <div class="col s12 m6" style="margin-top:5px;">
                     <div class="col s12 m4 offset-m4">
-                        <img class="responsive-img" src="/images/clubhouse/resources.png" />
+                        <img class="responsive-img" src="/images/same-here/logo-black-no-title.png" />
                     </div>
                     <div class="col s12">
-                        <h4>Resources</h4>
-                        <p>There are some things out there that have helped us achieve success in sports and we wanted to share them with all of you too!</p>
+                        <h4>#SameHere Solutions</h4>
+                        <p>As sports industry professionals we all face challenges that can affect our mental health.</p>
                     </div>
                 </div>
             </div>
@@ -282,7 +282,7 @@
                 </div>
                 <div class="col s12 m6">
                     <div class="col s12 center-align" style="padding-bottom: 50px;">
-                        <a href="/resources" class="btn sbs-red" style=""> Sports industry resources</a>
+                        <a href="/same-here" class="btn sbs-red" style=""> #SameHere</a>
                     </div>
                 </div>
             </div>

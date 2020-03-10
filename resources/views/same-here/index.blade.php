@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row" style="padding:40px 0px;">
             <div class="col s12 center-align">
-                <h4><strong>As sports industry professionals we all faces challenges that can affect our mental health.</strong></h4>
+                <h4><strong>As sports industry professionals we all face challenges that can affect our mental health.</strong></h4>
             </div>
             <div class="col s12 m8 offset-m2 center-align">
                 <p>This is THE destination for those of us in sports business, at all levels, to talk about those challenges and get the support we need to persevere. Whether it's in your career or your personal life, everyone is going through something. By joining this community we will provide you with resources, peer-to-peer support, and even recommendations to ensure you're staying healthy both in and out of the front office.</p>
