@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Question;
+use App\Traits\ReCaptchaTrait;
 use App\User;
 use App\Http\Requests\StoreAnswer;
 use App\Mail\AnswerSubmitted;
@@ -16,6 +17,8 @@ use Mail;
 
 class AnswerController extends Controller
 {
+    use ReCaptchaTrait;
+
     /**
      * Get a validator for the reCAPTCHA on answer create
      *
