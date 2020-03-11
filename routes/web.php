@@ -418,9 +418,9 @@ Route::domain($domain)->group(function () {
         Route::get('/same-here/discussion/{id}/edit', 'QuestionController@edit');
         Route::post('/same-here/discussion/{id}', 'QuestionController@update');
         Route::post('/same-here/discussion/{id}/answer', 'AnswerController@store');
-        Route::get('/same-here/discussion/{id}/answer/approve', 'AnswerController@approve');
-        Route::get('/same-here/discussion/{id}/answer/disapprove', 'AnswerController@disapprove');
-        Route::get('/same-here/discussion/{id}/answer/edit', 'AnswerController@edit');
-        Route::post('/same-here/discussion/{id}/answer/edit', 'AnswerController@update');
+        Route::get('/same-here/discussion/answer/{id}/approve', 'AnswerController@approve');
+        Route::get('/same-here/discussion/answer/{id}/disapprove', 'AnswerController@disapprove');
+        Route::get('/same-here/discussion/answer/{id}/edit', 'AnswerController@edit');
+        Route::post('/same-here/discussion/answer/{id}/edit', 'AnswerController@update');
     });
 });

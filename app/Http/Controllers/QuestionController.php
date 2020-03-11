@@ -42,7 +42,7 @@ class QuestionController extends Controller
         $breadcrumb = [
             'Clubhouse' => '/',
             '#SameHere' => '/same-here',
-            'Mental Health Discussion Board' => '/discussion'
+            'Mental Health Discussion Board' => '/same-here/discussion'
         ];
         if ($search = request('search')) {
             $breadcrumb["Searching \"{$search}\""] = "/question?search={$search}";
@@ -63,8 +63,8 @@ class QuestionController extends Controller
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 '#SameHere' => '/same-here',
-                'Mental Health Discussion Board' => '/discussion',
-                'Ask a question' => '/discussion/create'
+                'Mental Health Discussion Board' => '/same-here/discussion',
+                'Ask a question' => '/same-here/discussion/create'
             ]
         ]);
     }
@@ -93,7 +93,6 @@ class QuestionController extends Controller
         return Validator::make($data, $rules, $messages);
     }
 
-
     /**
      * @param  StoreQuestion  $request
      * @return Response
@@ -102,8 +101,9 @@ class QuestionController extends Controller
     {
         $this->validator($request->all())->validate();
 
+        //TODO: we don't need to record user_id, could record IP address in the future
         $question = Question::create([
-            'user_id' => 0,
+            'user_id' => 1,
             'title' => request('title'),
             'body' => request('body')
         ]);
@@ -112,12 +112,17 @@ class QuestionController extends Controller
         $bob = User::find(1);
 
         try {
-            Mail::to($bob)->send(new InternalAlert('emails.internal.question-submitted', array(
-                'question' => $question,
-                'user' => null
-            )));
+            Mail::to('clubhouse@sportsbusiness.solutions')->send(
+                new InternalAlert(
+                    'emails.internal.question-submitted',
+                    array(
+                        'question' => $question,
+                        'user' => null
+                    )
+                )
+            );
         } catch (Exception $e) {
-            // TODO log exception
+            Log::error($e);
         }
 
         return redirect()->action('QuestionController@show', [$question]);
@@ -130,7 +135,9 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::find($id);
-        if (!$question) {
+        if (!$question ||
+            (!(Auth::user() && Auth::user()->can('approve-question')) && (!is_null($question->approved) && $question->approved == false))
+        ) {
             return abort(404);
         }
 
@@ -142,8 +149,8 @@ class QuestionController extends Controller
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 '#SameHere' => '/same-here',
-                'Mental Health Discussion Board' => '/discussion',
-                "{$question->title}" => "/discussion/{$question->id}"
+                'Mental Health Discussion Board' => '/same-here/discussion',
+                "{$question->title}" => "/same-here/discussion/{$question->id}"
             ]
         ]);
     }
@@ -198,8 +205,8 @@ class QuestionController extends Controller
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 '#SameHere' => '/same-here',
-                'Mental Health Discussion Board' => '/discussion',
-                "Edit" => "/discussion/{$question->id}/edit"
+                'Mental Health Discussion Board' => '/same-here/discussion',
+                "Edit" => "/same-here/discussion/{$question->id}/edit"
             ]
         ]);
     }
