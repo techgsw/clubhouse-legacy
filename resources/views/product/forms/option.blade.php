@@ -26,14 +26,8 @@
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <div id="option-{{ $i ?: "" }}-description-editor" class="{{ $i > 0 ? "markdown-editor" : ""}} option-description-editor" placeholder="Description">
-                    @if ($option)
-                        {!! $pd->text($option->description) !!}
-                    @endif
-                </div>
-                <div class="hidden">
-                    <textarea class="{{ $i > 0 ? "markdown-input" : ""}} option-description" id="" name="option[{{ $i ?: "" }}][description]" editor-id="option-{{ $i ?: "" }}-description-editor" value=""></textarea>
-                </div>
+                <input class="option-description" id="option-{{ $i ?: "" }}-description" type="text" name="option[{{ $i ?: "" }}][description]"  value="{{ !is_null($option) ? $option->description : "" }}">
+                <label>Description</label>
             </div>
         </div>
         <div class="row">

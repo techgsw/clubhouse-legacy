@@ -207,6 +207,9 @@ div.row.bg-image.mentorship {
 div.row.bg-image.training-consulting {
     background-image: url("/images/training-consulting/hero.jpg");
 }
+div.row.bg-image.same-here {
+    background: linear-gradient( rgba(0, 10, 10, 0.8), rgba(0, 10, 10, 0.8) ), url('/images/same-here/hero.jpg') center top;
+}
 div.row.bg-image h1,
 div.row.bg-image h2,
 div.row.bg-image h3,
@@ -416,6 +419,16 @@ footer.page-footer {
 footer.page-footer .footer-copyright {
     background-color: #3F3E3E;
     color: #F2F2F2;
+}
+footer.page-footer .same-here-instagram-feed,
+footer.page-footer .same-here-twitter-feed {
+    background-color: #8A8A8A;
+    color: #F6F6F6;
+    text-align:center;
+    padding: 40px 0px;
+}
+.twitter-samehere-feed a:hover {
+    color: #E5E5E5;
 }
 
 nav.nav-main ul.dropdown-content {
@@ -717,6 +730,20 @@ address {
     font-size: 12px;
     padding: 1px 5px;
 }
+.flat-button.large {
+    text-transform: uppercase;
+    width: 150px;
+    height: 35px;
+    line-height: 27px;
+    text-align: center;
+}
+.flat-button.large.inverse {
+    text-transform: uppercase;
+    width: 150px;
+    height: 35px;
+    line-height: 27px;
+    text-align: center;
+}
 .flat-button.blue {
     border-color: #2196F3;
     color: #2196F3;
@@ -744,7 +771,8 @@ address {
     border-color: #EB2935;
     color: #EB2935;
 }
-.flat-button.red.inverse {
+.flat-button.red.inverse,
+.flat-button.large.red:hover {
     border-color: #EB2935;
     background-color: #EB2935 !important;
     color: #FFFFFF;
@@ -784,6 +812,53 @@ address {
     border-color: #fbc02d;
     background-color: #fbc02d !important;
     color: #FFFFFF;
+}
+
+/*
+TODO: move the below to a "#SameHere" section, or something specific to email input
+ */
+
+.flat-button.same-here {
+    height: 40px;
+    line-height: 35px;
+    width: 100%;
+    border-radius: 2px;
+    border-color: #FFF;
+    color: #FFF;
+}
+.flat-button.same-here:hover {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+.input-field.same-here input[type="text"] {
+    border-bottom: 1px solid #CCC;
+}
+.input-field.same-here input[type="text"]:focus {
+    border-bottom: 1px solid #FFF !important;
+    box-shadow: 0 0 0 0 !important;
+}
+.input-field.same-here input[type="text"]:focus + label {
+    color: #FFF !important;
+}
+.input-field.same-here input[type="submit"]:focus {
+    border-color: #FFF !important;
+    box-shadow: 1px 1px 2px 2px #900 !important;
+}
+.input-field.same-here label {
+    color: #DDD;
+}
+
+.same-here-social .flat-button {
+    transition: background-color .3s, color .3s;
+    border-radius: 49%;
+    border: 3px solid #555;
+    width: 60px;
+    height: 60px;
+    font-size: 35px;
+}
+.same-here-social .flat-button:hover {
+    background-color: #555 !important;
+    color: #EEE !important;
 }
 
 button.x {

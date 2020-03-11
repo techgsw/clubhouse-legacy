@@ -13,7 +13,7 @@ class StoreAnswer extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create-answer');
+        return true;
     }
 
     /**

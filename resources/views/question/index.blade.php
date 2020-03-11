@@ -1,10 +1,10 @@
 <!-- /resources/views/question/edit.blade.php -->
-@extends('layouts.clubhouse')
-@section('title', 'Question & Answer')
+@extends('layouts.same-here')
+@section('title', 'Mental Health Discussion Board')
 @section('content')
 <div class="container">
     <div class="row">
-        <form action="/question" method="get">
+        <form action="/same-here/discussion" method="get">
             <div class="col s12 m9 input-field">
                 <input id="search" type="text" name="search" value="{{ request('search') }}">
                 <label for="search">Search</label>
@@ -16,7 +16,7 @@
     </div>
     <div class="row">
         <div class="col s12 center-align">
-            <a href="/question/create" class="btn btn-large sbs-red">Ask a question</a>
+            <a href="/same-here/discussion/create" class="btn btn-large sbs-red">Ask a question</a>
         </div>
     </div>
     <div class="row">
@@ -25,8 +25,8 @@
                 @foreach ($questions as $question)
                     <div class="row">
                         <div class="col s12">
-                            <a href="/question/{{ $question->id }}"><h5>Q: {{ $question->title }}</h5></a>
-                            <p class="light">by {{ $question->user->getName() }} on {{ $question->created_at->format('F j, Y g:ia') }}</p>
+                            <a href="/same-here/discussion/{{ $question->id }}"><h5>Q: {{ $question->title }}</h5></a>
+                            <p class="light">On {{ $question->created_at->format('F j, Y g:ia') }}</p>
                             <p>{{ count($question->answers) }} answers</p>
                         </div>
                     </div>

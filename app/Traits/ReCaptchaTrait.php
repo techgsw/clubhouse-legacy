@@ -7,6 +7,10 @@ trait ReCaptchaTrait {
     // https://developers.google.com/recaptcha/docs/verify
     public function recaptchaCheck($data)
     {
+        if (!isset($data['g-recaptcha-response'])) {
+            return 0;
+        }
+
         // reCAPTCHA params
         $secret = env('RECAPTCHA_SECRET');
         $response = $data['g-recaptcha-response'];

@@ -19,6 +19,7 @@ $.valHooks.textarea = {
         unsaved: false
     };
     var Instagram = {};
+    var Twitter = {};
     var Job = {};
     var League = {};
     var Markdown = {};
@@ -1173,27 +1174,72 @@ $.valHooks.textarea = {
         'span.tag button.x'
     );
 
-    Instagram.getFeed = function () {
+    Instagram.getFeed = function (is_same_here) {
         return $.ajax({
             type: "GET",
             url: "/social/instagram",
-            params: {},
+            data: { is_same_here: is_same_here},
         });
     }
 
     Instagram.init = function () {
         var ig = $('#instagram');
+        var is_same_here = $('.same-here-instagram-feed').length > 0;
         if (ig.length > 0) {
-            Instagram.getFeed().done(
+            Instagram.getFeed(is_same_here).done(
                 function (resp, status, xhr) {
                     if (xhr.status == 200) {
                         ig.find('.preloader-wrapper').remove();
                         ig.append(resp);
                     } else {
-                        ig.find('.preloader-wrapper').remove();
-                        ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
+                        if (is_same_here) {
+                            $('.same-here-instagram-feed').remove();
+                        } else {
+                            ig.find('.preloader-wrapper').remove();
+                            ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
+                        }
                         console.error("Failed to load Instagram feed.");
                     }
+                }
+            ).fail(
+                function () {
+                    if (is_same_here) {
+                        $('.same-here-instagram-feed').remove();
+                    } else {
+                        ig.find('.preloader-wrapper').remove();
+                        ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
+                    }
+                    console.error("Failed to load Instagram feed.");
+                }
+            );
+        }
+    }
+
+    Twitter.getFeed = function () {
+        return $.ajax({
+            type: "GET",
+            url: "/social/twitter",
+            data: { context : 'same-here'},
+        });
+    }
+
+    Twitter.init = function () {
+        var tw = $('#twitter');
+        if (tw.length > 0) {
+            Twitter.getFeed().done(
+                function (resp, status, xhr) {
+                    if (xhr.status == 200) {
+                        tw.find('.preloader-wrapper').remove();
+                        tw.append(resp);
+                    } else {
+                        $('.same-here-twitter-feed').remove();
+                        console.error("Failed to load Twitter feed.");
+                    }
+                }
+            ).fail(
+                function () {
+                    $('.same-here-twitter-feed').remove();
+                    console.error("Failed to load Twitter feed.");
                 }
             );
         }
@@ -2012,6 +2058,7 @@ $.valHooks.textarea = {
     SBS.init = function () {
         Markdown.init();
         Instagram.init();
+        Twitter.init();
         Note.init();
         League.init();
         Organization.init();

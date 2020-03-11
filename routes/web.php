@@ -6,6 +6,7 @@ use App\Post;
 
 // Social Media
 Route::get('/social/instagram', 'SocialMediaController@instagram');
+Route::get('/social/twitter', 'SocialMediaController@twitter');
 
 // SBS-domain routes
 Route::domain(env('APP_URL'))->group(function () {
@@ -358,27 +359,6 @@ Route::domain($domain)->group(function () {
         Route::get('/product/{id}', 'ProductController@show');
     });
 
-    // Q&A
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/question', 'QuestionController@index');
-        Route::get('/question/create', 'QuestionController@create');
-        Route::post('/question', 'QuestionController@store');
-        Route::get('/question/{id}', 'QuestionController@show');
-        Route::get('/question/{id}/approve', 'QuestionController@approve');
-        Route::get('/question/{id}/disapprove', 'QuestionController@disapprove');
-        Route::get('/question/{id}/edit', 'QuestionController@edit');
-        Route::post('/question/{id}', 'QuestionController@update');
-        Route::post('/question/{id}/answer', 'AnswerController@store');
-        Route::get('/answer/{id}/approve', 'AnswerController@approve');
-        Route::get('/answer/{id}/disapprove', 'AnswerController@disapprove');
-        Route::get('/answer/{id}/edit', 'AnswerController@edit');
-        Route::post('/answer/{id}', 'AnswerController@update');
-
-        Route::get('/questions', function () {
-            return redirect('/question');
-        });
-    });
-
     // User
     Route::group(['middleware' => ['web','auth']], function () {
         Route::get('/user/{id}', 'UserController@show');
@@ -399,5 +379,28 @@ Route::domain($domain)->group(function () {
     Route::group(['middleware' => ['web']], function () {
         Route::get('/webinars', 'ProductController@webinars');
         Route::get('/webinars/{id}', 'ProductController@showWebinars');
+    });
+
+    // #SameHere
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/same-here', 'SameHereController@index');
+        Route::get('/same-here/webinars', 'SameHereController@webinars');
+        Route::get('/same-here/webinars/{id}', 'SameHereController@showWebinars');
+        Route::get('/same-here/blog', 'SameHereController@blog');
+
+        // Routes for discussion board
+        Route::get('/same-here/discussion', 'QuestionController@index');
+        Route::get('/same-here/discussion/create', 'QuestionController@create');
+        Route::post('/same-here/discussion', 'QuestionController@store');
+        Route::get('/same-here/discussion/{id}', 'QuestionController@show');
+        Route::get('/same-here/discussion/{id}/approve', 'QuestionController@approve');
+        Route::get('/same-here/discussion/{id}/disapprove', 'QuestionController@disapprove');
+        Route::get('/same-here/discussion/{id}/edit', 'QuestionController@edit');
+        Route::post('/same-here/discussion/{id}', 'QuestionController@update');
+        Route::post('/same-here/discussion/{id}/answer', 'AnswerController@store');
+        Route::get('/same-here/discussion/answer/{id}/approve', 'AnswerController@approve');
+        Route::get('/same-here/discussion/answer/{id}/disapprove', 'AnswerController@disapprove');
+        Route::get('/same-here/discussion/answer/{id}/edit', 'AnswerController@edit');
+        Route::post('/same-here/discussion/answer/{id}/edit', 'AnswerController@update');
     });
 });

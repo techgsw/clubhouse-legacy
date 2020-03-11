@@ -21,8 +21,11 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::search($request)->where('post_type_code', 'blog')->paginate(15);
-        $tags = Tag::has('posts')->orderBy('name', 'dec')->get();
+        $posts = Post::search($request)->whereDoesntHave('tags', function ($query) {
+            $query->where('name', '#SameHere');
+            $query->where('post_type_code', 'blog');
+        })->where('post_type_code', 'blog')->paginate(15);
+        $tags = Tag::has('posts')->where('name', '!=', '#SameHere')->orderBy('name', 'dec')->get();
 
         $tag = null;
         if ($request->tag) {
