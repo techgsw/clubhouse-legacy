@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class StoreQuestion extends FormRequest
 {
@@ -14,7 +15,7 @@ class StoreQuestion extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create-question');
+        return true;
     }
 
     /**

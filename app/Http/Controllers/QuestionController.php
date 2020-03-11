@@ -3,26 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use App\Traits\ReCaptchaTrait;
 use App\User;
 use App\Http\Requests\StoreQuestion;
 use App\Http\Requests\UpdateQuestion;
 use App\Mail\InternalAlert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Mail;
 
+/**
+ * This class is being leveraged to display the "Mental Health Discussion Board" on the #SameHere page
+ *
+ * Class QuestionController
+ * @package App\Http\Controllers
+ */
 class QuestionController extends Controller
 {
+    use ReCaptchaTrait;
+
     /**
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $questions = Question::search($request)->paginate(10);
+        $questions = Question::search($request)
+            // TODO: There are some older questions from when this was a general Q&A board
+            //  we should confirm that we don't care about any of these before removing them
+
+            // TODO: ALSO: comment this back in
+//            ->where('created_at', '>=', new \DateTime('2020-03-11 00:00:00'))
+
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $breadcrumb = [
             'Clubhouse' => '/',
-            'Q&A' => '/question',
+            '#SameHere' => '/same-here',
+            'Mental Health Discussion Board' => '/discussion'
         ];
         if ($search = request('search')) {
             $breadcrumb["Searching \"{$search}\""] = "/question?search={$search}";
@@ -39,16 +59,40 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        $this->authorize('create-question');
-
         return view('question/create', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Q&A' => '/question',
-                'Ask a question' => '/question/create'
+                '#SameHere' => '/same-here',
+                'Mental Health Discussion Board' => '/discussion',
+                'Ask a question' => '/discussion/create'
             ]
         ]);
     }
+
+    /**
+     * Get a validator for the reCAPTCHA on question create
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        $data['recaptcha'] = $this->recaptchaCheck($data);
+
+        $rules = [
+            'g-recaptcha-response' => 'required',
+            'recaptcha' => 'required|min:1'
+        ];
+
+        $messages = [
+            'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+            'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+            'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
+        ];
+
+        return Validator::make($data, $rules, $messages);
+    }
+
 
     /**
      * @param  StoreQuestion  $request
@@ -56,8 +100,10 @@ class QuestionController extends Controller
      */
     public function store(StoreQuestion $request)
     {
+        $this->validator($request->all())->validate();
+
         $question = Question::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => 0,
             'title' => request('title'),
             'body' => request('body')
         ]);
@@ -68,7 +114,7 @@ class QuestionController extends Controller
         try {
             Mail::to($bob)->send(new InternalAlert('emails.internal.question-submitted', array(
                 'question' => $question,
-                'user' => Auth::user()
+                'user' => null
             )));
         } catch (Exception $e) {
             // TODO log exception
@@ -95,8 +141,9 @@ class QuestionController extends Controller
             'answers' => $answers,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Q&A' => '/question',
-                "{$question->title}" => "/question/{$question->id}"
+                '#SameHere' => '/same-here',
+                'Mental Health Discussion Board' => '/discussion',
+                "{$question->title}" => "/discussion/{$question->id}"
             ]
         ]);
     }
@@ -150,8 +197,9 @@ class QuestionController extends Controller
             'question' => $question,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Q&A' => '/question',
-                "Edit" => "/question/{$question->id}/edit"
+                '#SameHere' => '/same-here',
+                'Mental Health Discussion Board' => '/discussion',
+                "Edit" => "/discussion/{$question->id}/edit"
             ]
         ]);
     }

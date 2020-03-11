@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Product;
 use App\Tag;
+use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +25,12 @@ class SameHereController extends Controller
             $query->where('name', '#SameHere');
         })->orderBy('id', 'DESC')->limit(2)->get();
 
-        //TODO: discussion board specifics
+        $questions = Question::search($request)
+
+            //TODO: don't forget about the date filter
+
+            ->orderBy('created_at', 'DESC')
+            ->paginate(2);
 
         return view('same-here/index', [
             'breadcrumb' => [
@@ -32,7 +38,8 @@ class SameHereController extends Controller
                 '#SameHere' => '/same-here'
             ],
             'posts' => $posts,
-            'webinars' => $webinars
+            'webinars' => $webinars,
+            'questions' => $questions
         ]);
     }
 

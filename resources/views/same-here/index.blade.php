@@ -50,6 +50,50 @@
     <div class="container-fluid" style="background-color: #EB2935;color: #FFFFFF;">
         @include('same-here.newsletter')
     </div>
+    <div class="container" style="padding:40px 0px;">
+        <div class="row">
+            <div class="col s12 m8 offset-m2 center-align">
+                <h4>Mental Health Discussion Board</h4>
+                <p>Member or not, feel free to share your thoughts and questions anonymously here.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <form class="form-horizontal" role="form" method="POST" action="/same-here/discussion">
+                    {{ csrf_field() }}
+                    <div class="input-field col s12 m8">
+                        <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" required autofocus>
+                        <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="body" class="materialize-textarea validate {{ $errors->has('body') ? 'invalid' : '' }}" name="body" required></textarea>
+                        <label for="body" data-error="{{ $errors->first('body') }}">Something on your mind?</label>
+                    </div>
+                    <div class="col s12">
+                        @include('layouts.components.errors')
+                    </div>
+                    <div class="col s12">
+                        <div class="g-recaptcha" style="transform:scale(0.65);-webkit-transform:scale(0.65);transform-origin:0 0;-webkit-transform-origin:0 0; margin-top: 10px;" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                        <button type="submit" class="btn sbs-red">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            @foreach($questions as $question)
+                <div class="col s12 m8 offset-m2">
+                    <hr>
+                    <h6><a href="/same-here/discussion/{{ $question->id }}">{{ $question->title }}</a></h6>
+                    <h6 style="padding:5px 0px;color:#888;">{{ count($question->answers) }} answer{{count($question->answers) == 1 ? '' : 's'}} &#183 <a class="no-underline" href="/same-here/discussion/{{ $question->id }}">View All</a></h6>
+                    <p>{{ $question->body }}</p>
+                </div>
+            @endforeach
+            <div class="col s12 m8 offset-m2">
+                <br>
+                <a href="/same-here/discussion" class="flat-button large red" style="">Load More</a>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid gray-bg">
         <div class="container" style="padding:40px 0px;">
             <div class="row">

@@ -1,6 +1,6 @@
 <!-- /resources/views/question/edit.blade.php -->
-@extends('layouts.default')
-@section('title', 'New Question')
+@extends('layouts.same-here')
+@section('title', 'New Discussion')
 @section('content')
 <div class="container">
     <div class="row">

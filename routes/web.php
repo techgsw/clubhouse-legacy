@@ -359,25 +359,25 @@ Route::domain($domain)->group(function () {
     });
 
     // Q&A
-    Route::group(['middleware' => ['web']], function () {
-        Route::get('/question', 'QuestionController@index');
-        Route::get('/question/create', 'QuestionController@create');
-        Route::post('/question', 'QuestionController@store');
-        Route::get('/question/{id}', 'QuestionController@show');
-        Route::get('/question/{id}/approve', 'QuestionController@approve');
-        Route::get('/question/{id}/disapprove', 'QuestionController@disapprove');
-        Route::get('/question/{id}/edit', 'QuestionController@edit');
-        Route::post('/question/{id}', 'QuestionController@update');
-        Route::post('/question/{id}/answer', 'AnswerController@store');
-        Route::get('/answer/{id}/approve', 'AnswerController@approve');
-        Route::get('/answer/{id}/disapprove', 'AnswerController@disapprove');
-        Route::get('/answer/{id}/edit', 'AnswerController@edit');
-        Route::post('/answer/{id}', 'AnswerController@update');
-
-        Route::get('/questions', function () {
-            return redirect('/question');
-        });
-    });
+//    Route::group(['middleware' => ['web']], function () {
+//        Route::get('/question', 'QuestionController@index');
+//        Route::get('/question/create', 'QuestionController@create');
+//        Route::post('/question', 'QuestionController@store');
+//        Route::get('/question/{id}', 'QuestionController@show');
+//        Route::get('/question/{id}/approve', 'QuestionController@approve');
+//        Route::get('/question/{id}/disapprove', 'QuestionController@disapprove');
+//        Route::get('/question/{id}/edit', 'QuestionController@edit');
+//        Route::post('/question/{id}', 'QuestionController@update');
+//        Route::post('/question/{id}/answer', 'AnswerController@store');
+//        Route::get('/answer/{id}/approve', 'AnswerController@approve');
+//        Route::get('/answer/{id}/disapprove', 'AnswerController@disapprove');
+//        Route::get('/answer/{id}/edit', 'AnswerController@edit');
+//        Route::post('/answer/{id}', 'AnswerController@update');
+//
+//        Route::get('/questions', function () {
+//            return redirect('/question');
+//        });
+//    });
 
     // User
     Route::group(['middleware' => ['web','auth']], function () {
@@ -407,5 +407,20 @@ Route::domain($domain)->group(function () {
         Route::get('/same-here/webinars', 'SameHereController@webinars');
         Route::get('/same-here/webinars/{id}', 'SameHereController@showWebinars');
         Route::get('/same-here/blog', 'SameHereController@blog');
+
+        // Routes for discussion board
+        Route::get('/same-here/discussion', 'QuestionController@index');
+        Route::get('/same-here/discussion/create', 'QuestionController@create');
+        Route::post('/same-here/discussion', 'QuestionController@store');
+        Route::get('/same-here/discussion/{id}', 'QuestionController@show');
+        Route::get('/same-here/discussion/{id}/approve', 'QuestionController@approve');
+        Route::get('/same-here/discussion/{id}/disapprove', 'QuestionController@disapprove');
+        Route::get('/same-here/discussion/{id}/edit', 'QuestionController@edit');
+        Route::post('/same-here/discussion/{id}', 'QuestionController@update');
+        Route::post('/same-here/discussion/{id}/answer', 'AnswerController@store');
+        Route::get('/same-here/discussion/{id}/answer/approve', 'AnswerController@approve');
+        Route::get('/same-here/discussion/{id}/answer/disapprove', 'AnswerController@disapprove');
+        Route::get('/same-here/discussion/{id}/answer/edit', 'AnswerController@edit');
+        Route::post('/same-here/discussion/{id}/answer/edit', 'AnswerController@update');
     });
 });

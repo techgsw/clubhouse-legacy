@@ -726,6 +726,20 @@ address {
     font-size: 12px;
     padding: 1px 5px;
 }
+.flat-button.large {
+    text-transform: uppercase;
+    width: 150px;
+    height: 35px;
+    line-height: 27px;
+    text-align: center;
+}
+.flat-button.large.inverse {
+    text-transform: uppercase;
+    width: 150px;
+    height: 35px;
+    line-height: 27px;
+    text-align: center;
+}
 .flat-button.blue {
     border-color: #2196F3;
     color: #2196F3;
@@ -753,7 +767,8 @@ address {
     border-color: #EB2935;
     color: #EB2935;
 }
-.flat-button.red.inverse {
+.flat-button.red.inverse,
+.flat-button.large.red:hover {
     border-color: #EB2935;
     background-color: #EB2935 !important;
     color: #FFFFFF;
