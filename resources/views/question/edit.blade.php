@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form method="POST" action="/question/{{ $question->id }}">
+            <form method="POST" action="/same-here/discussion/{{ $question->id }}">
                 {{ csrf_field() }}
                 <div class="input-field">
                     <input id="title" type="text" name="title" value="{{ $question->title }}" autofocus>

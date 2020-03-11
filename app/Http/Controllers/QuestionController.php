@@ -32,9 +32,7 @@ class QuestionController extends Controller
         $questions = Question::search($request)
             // TODO: There are some older questions from when this was a general Q&A board
             //  we should confirm that we don't care about any of these before removing them
-
-            // TODO: ALSO: comment this back in
-//            ->where('created_at', '>=', new \DateTime('2020-03-11 00:00:00'))
+            ->where('created_at', '>=', new \DateTime('2020-03-11 00:00:00'))
 
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
