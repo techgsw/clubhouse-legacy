@@ -359,27 +359,6 @@ Route::domain($domain)->group(function () {
         Route::get('/product/{id}', 'ProductController@show');
     });
 
-    // Q&A
-//    Route::group(['middleware' => ['web']], function () {
-//        Route::get('/question', 'QuestionController@index');
-//        Route::get('/question/create', 'QuestionController@create');
-//        Route::post('/question', 'QuestionController@store');
-//        Route::get('/question/{id}', 'QuestionController@show');
-//        Route::get('/question/{id}/approve', 'QuestionController@approve');
-//        Route::get('/question/{id}/disapprove', 'QuestionController@disapprove');
-//        Route::get('/question/{id}/edit', 'QuestionController@edit');
-//        Route::post('/question/{id}', 'QuestionController@update');
-//        Route::post('/question/{id}/answer', 'AnswerController@store');
-//        Route::get('/answer/{id}/approve', 'AnswerController@approve');
-//        Route::get('/answer/{id}/disapprove', 'AnswerController@disapprove');
-//        Route::get('/answer/{id}/edit', 'AnswerController@edit');
-//        Route::post('/answer/{id}', 'AnswerController@update');
-//
-//        Route::get('/questions', function () {
-//            return redirect('/question');
-//        });
-//    });
-
     // User
     Route::group(['middleware' => ['web','auth']], function () {
         Route::get('/user/{id}', 'UserController@show');

@@ -1,5 +1,4 @@
 <!-- Begin MailChimp Signup Form -->
-<!-- TODO: USE EMBED INFO FOR #SAMEHERE MAILING LIST -->
 <div class="row" style="padding:40px 0px;">
     <div class="col s12 m6 offset-m3 center-align">
         <h5><strong>Join our community today!</strong></h5>
