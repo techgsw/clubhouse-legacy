@@ -19,6 +19,7 @@ $.valHooks.textarea = {
         unsaved: false
     };
     var Instagram = {};
+    var Twitter = {};
     var Job = {};
     var League = {};
     var Markdown = {};
@@ -1214,6 +1215,36 @@ $.valHooks.textarea = {
         }
     }
 
+    Twitter.getFeed = function () {
+        return $.ajax({
+            type: "GET",
+            url: "/social/twitter",
+            data: { context : 'same-here'},
+        });
+    }
+
+    Twitter.init = function () {
+        var tw = $('#twitter');
+        if (tw.length > 0) {
+            Twitter.getFeed().done(
+                function (resp, status, xhr) {
+                    if (xhr.status == 200) {
+                        tw.find('.preloader-wrapper').remove();
+                        tw.append(resp);
+                    } else {
+                        $('.same-here-twitter-feed').remove();
+                        console.error("Failed to load Twitter feed.");
+                    }
+                }
+            ).fail(
+                function () {
+                    $('.same-here-twitter-feed').remove();
+                    console.error("Failed to load Twitter feed.");
+                }
+            );
+        }
+    }
+
     Video.init = function () {
         if ($('#hub-video-modal iframe').length) {
             var vimeo = $('#hub-video-modal iframe');
@@ -2027,6 +2058,7 @@ $.valHooks.textarea = {
     SBS.init = function () {
         Markdown.init();
         Instagram.init();
+        Twitter.init();
         Note.init();
         League.init();
         Organization.init();

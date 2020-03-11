@@ -420,11 +420,15 @@ footer.page-footer .footer-copyright {
     background-color: #3F3E3E;
     color: #F2F2F2;
 }
-footer.page-footer .same-here-instagram-feed {
+footer.page-footer .same-here-instagram-feed,
+footer.page-footer .same-here-twitter-feed {
     background-color: #8A8A8A;
     color: #F6F6F6;
     text-align:center;
     padding: 40px 0px;
+}
+.twitter-samehere-feed a:hover {
+    color: #E5E5E5;
 }
 
 nav.nav-main ul.dropdown-content {

@@ -61,7 +61,7 @@ class AnswerController extends Controller
             'user_id' => 1,
             'question_id' => $id,
             'answer' => request('answer'),
-            'approved' => null
+            'approved' => true
         ]);
 
         try {

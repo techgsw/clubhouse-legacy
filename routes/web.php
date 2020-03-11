@@ -6,6 +6,7 @@ use App\Post;
 
 // Social Media
 Route::get('/social/instagram', 'SocialMediaController@instagram');
+Route::get('/social/twitter', 'SocialMediaController@twitter');
 
 // SBS-domain routes
 Route::domain(env('APP_URL'))->group(function () {

@@ -46,11 +46,5 @@
             </div>
         </div>
     </div>
-    @include('layouts.components.same-here-instagram')
-    <div class="footer-copyright">
-        <div class="container">
-            <p class="small">Copyright &copy; 2018 Sports Business Solutions | All Rights Reserved</p>
-        </div>
-    </div>
-    @include('layouts.components.message-template')
+    @include('layouts.components.same-here-twitter')
 </footer>

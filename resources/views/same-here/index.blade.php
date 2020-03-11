@@ -16,7 +16,7 @@
             <div class="col s12 center-align">
                 <h4><strong>As sports industry professionals we all face challenges that can affect our mental health.</strong></h4>
             </div>
-            <div class="col s12 m8 offset-m2 center-align">
+            <div class="col s12 center-align">
                 <p>This is THE destination for those of us in sports business, at all levels, to talk about those challenges and get the support we need to persevere. Whether it's in your career or your personal life, everyone is going through something. By joining this community we will provide you with resources, peer-to-peer support, and even recommendations to ensure you're staying healthy both in and out of the front office.</p>
             </div>
         </div>
@@ -52,7 +52,7 @@
     </div>
     <div class="container" style="padding:40px 0px;">
         <div class="row">
-            <div class="col s12 m8 offset-m2 center-align">
+            <div class="col s12 center-align">
                 <h4>Mental Health Discussion Board</h4>
                 <p>Member or not, feel free to share your thoughts and questions anonymously here.</p>
             </div>
@@ -62,7 +62,7 @@
                 <form class="form-horizontal" role="form" method="POST" action="/same-here/discussion">
                     {{ csrf_field() }}
                     <div class="input-field col s12 m8">
-                        <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" required autofocus>
+                        <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" required>
                         <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
                     </div>
                     <div class="input-field col s12">
@@ -97,7 +97,7 @@
     <div class="container-fluid gray-bg">
         <div class="container" style="padding:40px 0px;">
             <div class="row">
-                <div class="col s12 m8 offset-m2 center-align">
+                <div class="col s12 center-align">
                     <h4>#SameHere Solutions Blog</h4>
                     <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:samehere@sportsbusiness.solutions">message us</a>.</p>
                 </div>
@@ -117,6 +117,10 @@
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <div class="col s12 center-align">
+                        <h4>Coming soon.</h4>
+                    </div>
                 @endif
             </div>
             <div class="row" style="margin-bottom: 0;">
@@ -128,7 +132,7 @@
     </div>
     <div class="container" style="padding:40px 0px;">
         <div class="row">
-            <div class="col s12 m8 offset-m2 center-align">
+            <div class="col s12 center-align">
                 <h4>Mental Health Discussions</h4>
                 <p>The mission of #SameHere Solutions is to help those in the sports business who are struggling, to get the support and resources they need to stay strong both in and out of the office. These sessions are live and interactive and if you want to hear from others that may have the same challenges you do, you should join us. Attendance can be anonymous among other attendees.</p>
             </div>
@@ -164,4 +168,5 @@
             </div>
         </div>
     </div>
+    @include('layouts.components.clubhouse.same-here-footer')
 @endsection

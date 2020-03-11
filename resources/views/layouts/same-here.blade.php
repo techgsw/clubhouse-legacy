@@ -10,7 +10,7 @@
         @yield('content')
     </div>
 </main>
-@include('layouts.components.clubhouse.same-here-footer')
+@include('layouts.components.clubhouse.footer')
 @include('layouts.components.scripts')
 @yield('scripts')
 </body>

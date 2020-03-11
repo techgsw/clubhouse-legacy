@@ -104,7 +104,6 @@
                 <textarea class="materialize-textarea" name="answer"></textarea>
                 @include('layouts.components.errors')
                 <div class="g-recaptcha" style="transform:scale(0.65);-webkit-transform:scale(0.65);transform-origin:0 0;-webkit-transform-origin:0 0; margin-top: 10px;" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-                <p>Note: Your answer will not show up immediately as it will be pending approval from an admin.</p>
                 <button class="btn sbs-red" type="submit" name="button">Submit your answer</button>
             </form>
         </div>

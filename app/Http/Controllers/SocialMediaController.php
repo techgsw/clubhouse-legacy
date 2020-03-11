@@ -19,4 +19,9 @@ class SocialMediaController extends Controller
             return SocialMediaServiceProvider::getInstagramFeed(view('layouts.components.instagram-feed'));
         }
     }
+
+    public function twitter(Request $request)
+    {
+        return SocialMediaServiceProvider::getTweets(view('layouts.components.same-here-twitter-feed'), 'same-here');
+    }
 }

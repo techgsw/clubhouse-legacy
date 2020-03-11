@@ -103,7 +103,8 @@ class QuestionController extends Controller
         $question = Question::create([
             'user_id' => 1,
             'title' => request('title'),
-            'body' => request('body')
+            'body' => request('body'),
+            'approved' => true
         ]);
 
         // TODO Global constant
