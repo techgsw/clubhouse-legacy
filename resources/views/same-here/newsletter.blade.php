@@ -2,7 +2,7 @@
 <div id="same-here-newsletter" class="row" style="padding:40px 0px;">
     <div class="col s12 m6 offset-m3 center-align">
         <h5><strong>Join our community today!</strong></h5>
-        <p>We will send you emails and updates periodically with mental health tips, stories, best practices and events. Your opt-in is anonymous and your information won't be shared with anyone.</p>
+        <p>We will send you emails and updates periodically with mental health tips, stories, best practices and events for sports industry professionals. Your opt-in is anonymous and your information won't be shared with anyone.</p>
         <form action="https://solutions.us9.list-manage.com/subscribe/post?u=56eef2fd830c9e861e4987eec&amp;id=1bf04daa52" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div id="mc_embed_signup_scroll" class="row">
                 <div class="input-field same-here col s12 m6 offset-m1">
