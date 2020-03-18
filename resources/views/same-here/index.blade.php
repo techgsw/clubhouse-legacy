@@ -29,22 +29,26 @@
                 <p>Together we have more than 30 years of experience in sports business. We worked together at the Phoenix Suns and we both have faced mental health challenges. Our vision is to share stories, strategies, and resources in an effort to help others in sports overcome the challenges we all face at some point or another.</p>
             </div>
             <div class="col s6 m3 center-align">
-                <img src="/images/same-here/bob-same-here.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                <h5>
-                    Bob Hamer
-                    <span class="about-position">President & Founder</span>
-                    <span class="about-position sbs-red-text">Sports Business Solutions</span>
-                </h5>
+                <a href="/blog/my-battle-with-ocd" class="no-underline">
+                    <img src="/images/same-here/bob-same-here.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5>
+                        Bob Hamer
+                        <span class="about-position">President & Founder</span>
+                        <span class="about-position sbs-red-text">Sports Business Solutions</span>
+                    </h5>
+                </a>
             </div>
             <div class="col s6 m3 center-align">
-                <img src="/images/same-here/eric-kussin.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                <h5>
-                    Eric Kussin
-                    <span class="about-position">CEO & Founder</span>
-                    <span class="about-position sbs-red-text">We're All A Little "Crazy":</span>
-                    <span class="about-position">Global Mental Health Alliance&#8482;</span>
-                    <span class="about-position">The #SameHere Movement&#8482;</span>
-                </h5>
+                <a href="/blog/my-samehere-story" class="no-underline">
+                    <img src="/images/same-here/eric-kussin.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5>
+                        Eric Kussin
+                        <span class="about-position">CEO & Founder</span>
+                        <span class="about-position sbs-red-text">We're All A Little "Crazy":</span>
+                        <span class="about-position">Global Mental Health Alliance&#8482;</span>
+                        <span class="about-position">The #SameHere Movement&#8482;</span>
+                    </h5>
+                </a>
             </div>
         </div>
     </div>
@@ -101,7 +105,7 @@
             <div class="row">
                 <div class="col s12 center-align">
                     <h4>#SameHere Solutions Blog</h4>
-                    <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:samehere@sportsbusiness.solutions">message us</a>.</p>
+                    <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:clubhouse@sportsbusiness.solutions">message us</a>.</p>
                 </div>
             </div>
             <div class="row">

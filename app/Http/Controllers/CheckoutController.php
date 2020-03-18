@@ -116,7 +116,9 @@ class CheckoutController extends Controller
                 $product_type = 'career-service';
                 $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
             }
-        } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))) {
+        } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))
+            || in_array('#samehere', array_column($product_option->product->tags->toArray(), 'slug')))
+        {
             if ($product_option->price > 0) {
                 $product_type = 'webinar';
                 $breadcrumb = array('name' => 'Educational Webinars', 'link' => '/webinars');
@@ -356,7 +358,7 @@ class CheckoutController extends Controller
                                 }
                                 $checkout_type = 'career-service';
                                 break;
-                            } else if ($tag->slug == 'webinar') {
+                            } else if ($tag->slug == 'webinar' || $tag->slug == '#samehere') {
                                 try {
                                     EmailServiceProvider::sendWebinarPurchaseNotificationEmail($user, $product_option, 0, 'webinar');
                                     Mail::to($user)->send(new UserPaidWebinar($user, $product_option));

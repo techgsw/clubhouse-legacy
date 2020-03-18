@@ -13,7 +13,7 @@
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
-                <li><a href="/same-here"><span class="sbs-red-text">#SameHere</span></a></li>
+                <li><a href="/same-here"><span style="float: right;margin-top: -15px;font-size: 10px;font-weight: bold;">NEW</span><span>#SameHere</span></a></li>
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
                 <li class="social-media">
@@ -30,7 +30,7 @@
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
-                <li><a href="/same-here"><span class="sbs-red-text">#SameHere</span></a></li>
+                <li><a href="/same-here"><span style="float: right;font-size: 12px;font-weight: bold;">NEW</span><span>#SameHere</span></a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
