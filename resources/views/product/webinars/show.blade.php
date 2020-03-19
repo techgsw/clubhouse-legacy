@@ -32,7 +32,7 @@
                     </div>
                 </div>
             @else
-                @if (Gate::check('view-clubhouse') || (Auth::user() && count($product->availableOptions('clubhouse')) == 0))
+                @if (Gate::check('view-clubhouse') || (Auth::user() && !is_null($product->availableOptions('clubhouse')) && count($product->availableOptions('clubhouse')) == 0))
                     <div class="video-container">
                         <iframe width="640" height="564" src="https://player.vimeo.com/video/{{ $product->getEmbedCode() }}" frameborder="0" allowFullScreen mozallowfullscreen webkitAllowFullScreen></iframe>
                     </div>
@@ -43,7 +43,7 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this webinar?</h4>
-                                    @if (count($product->availableOptions('clubhouse')) == 0)
+                                    @if (!is_null($product->availableOptions('clubhouse')) && count($product->availableOptions('clubhouse')) == 0)
                                         <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @else
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
