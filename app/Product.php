@@ -59,10 +59,10 @@ class Product extends Model
             }
 
             // TODO make this resource-driven, rather than role-driven
-            $role = 'user';
+            $role_code = 'user';
             foreach (Auth::user()->roles as $r) {
                 if ($r->code == 'clubhouse') {
-                    $role = 'clubhouse';
+                    $role_code = 'clubhouse';
                 }
             }
         }
@@ -74,7 +74,7 @@ class Product extends Model
             foreach ($option->roles as $r) {
                 $option_role_codes[] = $r->code;
             }
-            if (count(array_intersect($option_role_codes, [$role])) == 0) {
+            if (count(array_intersect($option_role_codes, [$role_code])) == 0) {
                 $options->forget($i);
             }
         }
