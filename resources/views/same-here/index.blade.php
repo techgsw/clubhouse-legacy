@@ -15,7 +15,7 @@
 @section('content')
     <div class="container">
         <div class="row" style="padding:40px 0px;">
-            <div class="col s12 center-align">
+            <div class="col s12 m10 offset-m1 center-align">
                 <h4><strong>As sports industry professionals we all face challenges that can affect our mental health.</strong></h4>
             </div>
             <div class="col s12 center-align">
@@ -45,8 +45,7 @@
                         Eric Kussin
                         <span class="about-position">CEO & Founder</span>
                         <span class="about-position sbs-red-text">We're All A Little "Crazy":</span>
-                        <span class="about-position">Global Mental Health Alliance&#8482;</span>
-                        <span class="about-position">The #SameHere Movement&#8482;</span>
+                        <span class="about-position">The <span style="text-transform: none;">#SameHere</span> Global Mental Health Movement&#8482;</span>
                     </h5>
                 </a>
             </div>
@@ -60,7 +59,7 @@
         <div class="row">
             <div class="col s12 center-align">
                 <h4>Mental Health Discussion Board</h4>
-                <p>Member or not, feel free to share your thoughts and questions anonymously here.</p>
+                <p>Member or not, feel free to share your thoughts and questions anonymously here. Your input will be shared to our public discussion board but your identity will be protected. This forum provides you a platform to ask questions of others who may be experiencing similar challenges, and it also allows us at #SameHere Solutions to get ideas for possible new mental health content in the future. This information won't be shared anywhere other than this discussion board.</p>
             </div>
         </div>
         <div class="row">
@@ -140,7 +139,7 @@
         <div class="row">
             <div class="col s12 center-align">
                 <h4>Mental Health Discussions</h4>
-                <p>The mission of #SameHere Solutions is to help those in the sports business who are struggling, to get the support and resources they need to stay strong both in and out of the office. These sessions are live and interactive and if you want to hear from others that may have the same challenges you do, you should join us. Attendance can be anonymous among other attendees.</p>
+                <p>The mission of #SameHere Solutions is to help those in the sports business who are facing challenges of any severity, to get the support and resources they need to ultimately thrive both in and out of the office. These sessions are live and interactive and if you want to hear from others that may have the same challenges you do, you should join us. Attendance can be anonymous among other attendees.</p>
             </div>
         </div>
         <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
