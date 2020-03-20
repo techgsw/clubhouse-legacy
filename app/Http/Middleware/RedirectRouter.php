@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RedirectRouter
 {
@@ -21,9 +22,11 @@ class RedirectRouter
             if ($request->query('type') == 'employer'
                 && preg_match('/'.addcslashes(env('CLUBHOUSE_URL'), '/').'\/job/', $request->headers->get('referer'))
             ) {
-                $request->session()->put('redirect_url', '/job-options');
+                session(['url.intended' => '/job-options']);
             } else if ($request->query('type') == 'pro') {
-                $request->session()->put('redirect_url', '/pro-membership');
+                session(['url.intended' => '/pro-membership']);
+            } else if (!session()->has('url.intended')) {
+                session(['url.intended' => url()->previous()]);
             }
         }
 

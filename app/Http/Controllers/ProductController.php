@@ -103,7 +103,7 @@ class ProductController extends Controller
                 if ($image_file) {
                     $image = ImageServiceProvider::saveFileAsImage(
                         $image_file,
-                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $product->name)).'-SportsBusinessSolutions',
+                        $filename = preg_replace('/(?:\s|#)/', '-', str_replace("/", "", $product->name)).'-SportsBusinessSolutions',
                         $directory = 'product/'.$product->id
                     );
                     $product->images()->attach($image->id);
@@ -282,7 +282,7 @@ class ProductController extends Controller
                 if ($image_file) {
                     $image = ImageServiceProvider::saveFileAsImage(
                         $image_file,
-                        $filename = preg_replace('/\s/', '-', str_replace("/", "", $product->name)).'-SportsBusinessSolutions',
+                        $filename = preg_replace('/(?:\s|#)/', '-', str_replace("/", "", $product->name)).'-SportsBusinessSolutions',
                         $directory = 'product/'.$product->id
                     );
                     $product->images()->detach();
