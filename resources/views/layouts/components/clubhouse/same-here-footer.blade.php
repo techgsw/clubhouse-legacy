@@ -6,7 +6,8 @@
         <div class="row">
             <div class="col m3 offset-m1 s12">
                 <div class="row center-align same-here-social">
-                    <h5><a href="{{ env('APP_URL') }}">Sports Business Solutions</a></h5>
+                    <h5 style="line-height:32px;"><a href="{{ env('APP_URL') }}">Sports Business Solutions</a></h5>
+                    <br>
                     <br>
                     <a class="flat-button" target="_blank" rel="noopener noreferrer" href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                     &nbsp;
@@ -22,7 +23,7 @@
             </div>
             <div class="col m3 s12"  style="border-right: 1px solid #888;">
                 <div class="row center-align same-here-social">
-                    <h5><a href="https://weareallalittlecrazy.org/">We're All A Little "Crazy"</a></h5>
+                    <h5 style="line-height:28px;"><a href="https://weareallalittlecrazy.org/">#SameHere<br>Global Mental Health Movement</a></h5>
                     <br>
                     <a class="flat-button" target="_blank" rel="noopener noreferrer" href="https://instagram.com/samehere_global"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                     &nbsp;
