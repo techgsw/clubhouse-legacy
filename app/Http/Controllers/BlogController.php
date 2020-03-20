@@ -57,16 +57,29 @@ class BlogController extends Controller
             return abort(404);
         }
 
+        $breadcrumb = array(
+            'Clubhouse' => '/',
+            'Sports Industry Blog' => '/blog',
+            "$post->title" => "/post/{$post->id}"
+        );
+
+        foreach ($post->tags as $tag) {
+            if ($tag->name == '#SameHere') {
+                $breadcrumb = array(
+                    'Clubhouse' => '/',
+                    '#SameHere' => '/same-here',
+                    '#SameHere Solutions Blog' => '/same-here/blog',
+                    "$post->title" => "/post/{$post->id}"
+                );
+            }
+        }
+
         $pd = new Parsedown();
 
         return view('post/show', [
             'post' => $post,
             'body' => $pd->text($post->body),
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'Sports Industry Blog' => '/blog',
-                "$post->title" => "/post/{$post->id}"
-            ]
+            'breadcrumb' => $breadcrumb
         ]);
     }
 }
