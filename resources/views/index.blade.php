@@ -36,7 +36,7 @@
     <div class="sbs-col-6 bg-img services hide-on-med-and-up"></div>
     <div class="sbs-col-6 gray">
         <h3><span class="sbs-red-text">the</span>Clubhouse</h3>
-        <p><span class="sbs-red-text">the</span>Clubhouse is a place where current and aspiring sports industry professionals go to learn, network, browse career opportunities and share best practices in an effort to succeed in the sports industry.</p>
+        <p><span class="sbs-red-text">the</span>Clubhouse is a place where current and aspiring sports business professionals go to learn, network and share ideas in an effort to grow as both people and professionals.</p>
         <div class="input-field">
             <a href="{{ env('CLUBHOUSE_URL') }}" class="btn btn-large sbs-red">Learn more</a>
         </div>
