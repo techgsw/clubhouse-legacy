@@ -29,19 +29,19 @@
             <h3 class="center-align">Meet the team</h3>
         </div>
         <div class="about-cards col s12">
-            <div class="about-card col s4">
+            <div class="about-card col s12 m4">
                 <a href="/bob-hamer" class="no-underline">
                     <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
                 </a>
             </div>
-            <div class="about-card col s4">
+            <div class="about-card col s6 m4">
                 <a href="/mike-rudner" class="no-underline">
                     <img src="/images/about/mike.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Mike Rudner<span class="about-position">Vice President,<br/>Business Operations</span></h5>
                 </a>
             </div>
-            <div class="about-card col s4">
+            <div class="about-card col s6 m4">
                 <a href="/jason-stein" class="no-underline">
                     <img src="/images/about/jason.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Jason Stein<span class="about-position">Vice President,<br/>Recruiting &amp; Development</span></h5>
@@ -49,21 +49,27 @@
             </div>
         </div>
         <div class="about-cards col s12">
-            <div class="about-card col s4">
+            <div class="about-card col s6 m3">
                 <a href="/josh-belkoff" class="no-underline">
                     <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Business Development</span></h5>
                 </a>
             </div>
-            <div class="about-card col s4">
+            <div class="about-card col s6 m3">
                 <a href="/kevin-klammer" class="no-underline">
                     <img src="/images/about/kevin.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Kevin Klammer<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
                 </a>
             </div>
-            <div class="about-card col s4">
+            <div class="about-card col s6 m3">
                 <img src="/images/about/darren.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                 <h5 class="sbs-red-text">Darren Arnold<span class="about-position">Advisor,<br/>Canadian Business Operations</span></h5>
+            </div>
+            <div class="about-card col s6 m3">
+                <a href="/matt-clark" class="no-underline">
+                    <img src="/images/about/matt.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5 class="sbs-red-text">Matt Clark<span class="about-position">Sr. Director,<br/>Training & Personal Development</span></h5>
+                </a>
             </div>
         </div>
     </div>
