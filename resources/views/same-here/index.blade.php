@@ -8,7 +8,15 @@
         <div class="col s12">
             <h2 class="header">We're all in this together.</h2>
             <br>
-            <a href="#same-here-newsletter" class="flat-button btn-large same-here white" style="max-width: 250px;">Join our community</a>
+            <div class="col s12 m2 offset-m3">
+                <a href="#same-here-newsletter" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Join our community</a>
+            </div>
+            <div class="col s12 m2">
+                <a href="#same-here-blog" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Blog</a>
+            </div>
+            <div class="col s12 m2">
+                <a href="#same-here-webinars" class="flat-button btn-large same-here white" style="max-width: 225px;">Webinars</a>
+            </div>
         </div>
     </div>
 @endsection
@@ -99,7 +107,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid gray-bg">
+    <div id="same-here-blog" class="container-fluid gray-bg">
         <div class="container" style="padding:40px 0px;">
             <div class="row">
                 <div class="col s12 center-align">
@@ -135,7 +143,7 @@
             </div>
         </div>
     </div>
-    <div class="container" style="padding:40px 0px;">
+    <div id="same-here-webinars" class="container" style="padding:40px 0px;">
         <div class="row">
             <div class="col s12 center-align">
                 <h4>Mental Health Discussions</h4>
