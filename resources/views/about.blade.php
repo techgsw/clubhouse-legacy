@@ -62,14 +62,14 @@
                 </a>
             </div>
             <div class="about-card col s6 m3">
-                <img src="/images/about/darren.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                <h5 class="sbs-red-text">Darren Arnold<span class="about-position">Advisor,<br/>Canadian Business Operations</span></h5>
-            </div>
-            <div class="about-card col s6 m3">
                 <a href="/matt-clark" class="no-underline">
                     <img src="/images/about/matt.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Matt Clark<span class="about-position">Sr. Director,<br/>Training & Personal Development</span></h5>
                 </a>
+            </div>
+            <div class="about-card col s6 m3">
+                <img src="/images/about/darren.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                <h5 class="sbs-red-text">Darren Arnold<span class="about-position">Advisor,<br/>Canadian Business Operations</span></h5>
             </div>
         </div>
     </div>
