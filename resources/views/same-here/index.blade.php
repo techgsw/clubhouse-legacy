@@ -7,6 +7,7 @@
         </div>
         <div class="col s12">
             <h2 class="header">We're all in this together.</h2>
+            <h5 class="header">Mental Health support for the sports business industry.</h5>
             <br>
             <div class="col s12 m2 offset-m3">
                 <a href="#same-here-newsletter" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Join our community</a>
