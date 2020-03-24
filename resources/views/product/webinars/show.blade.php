@@ -48,11 +48,14 @@
                                     @else
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @endif
+                                    @if (!Auth::user())
+                                        <p style="color: #FFF">Already a member? <a href="/login">Login</a></p>
+                                    @endif
                                 </div>
                             </div> 
                         </div>
                     </div>
-                @endcan
+                @endif
             @endif
 
         </div>
