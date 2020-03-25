@@ -21,7 +21,11 @@ class SameHereController extends Controller
             $query->where('post_type_code', 'blog');
         })->orderBy('id', 'DESC')->limit(3)->get();
 
-        $webinars = Product::where('active', true)->with('options')->whereHas('tags', function ($query) {
+        $active_webinars = Product::where('active', true)->with('options')->whereHas('tags', function ($query) {
+            $query->where('name', '#SameHere');
+        })->orderBy('id', 'DESC')->limit(2)->get();
+
+        $inactive_webinars = Product::where('active', false)->with('options')->whereHas('tags', function ($query) {
             $query->where('name', '#SameHere');
         })->orderBy('id', 'DESC')->limit(2)->get();
 
@@ -38,7 +42,8 @@ class SameHereController extends Controller
                 '#SameHere' => '/same-here'
             ],
             'posts' => $posts,
-            'webinars' => $webinars,
+            'active_webinars' => $active_webinars,
+            'inactive_webinars' => $inactive_webinars,
             'questions' => $questions
         ]);
     }

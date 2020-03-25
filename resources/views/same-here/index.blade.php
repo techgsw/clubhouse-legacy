@@ -1,3 +1,4 @@
+@php $pd = new Parsedown(); @endphp
 @extends('layouts.same-here')
 @section('title', '#SameHere Solutions')
 @section('hero')
@@ -163,9 +164,9 @@
             </div>
         </div>
         <div class="row center-align">
-            @if (count($webinars) > 0)
+            @if (count($active_webinars) > 0)
                 <div class="col m1 hide-on-small-and-down"></div>
-                @foreach ($webinars as $index => $webinar)
+                @foreach ($active_webinars as $webinar)
                     <div class="col s12 m5">
                         @include('same-here.webinars.components.list-item', ['product' => $webinar])
                     </div>
@@ -176,9 +177,31 @@
                 </div>
             @endif
         </div>
+        @if (count($inactive_webinars) > 0)
+            <div class="row">
+                <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
+                    <div class="col s2 m4">
+                        <hr style="border: 1px solid;" />
+                    </div>
+                    <div class="col s8 m4">
+                        <p style="font-size: 20px; color: #9E9E9E;">Past Events</p>
+                    </div>
+                    <div class="col s2 m4">
+                        <hr style="border: 1px solid;" />
+                    </div>
+                </div>
+            @foreach ($inactive_webinars as $webinar)
+                <ul class="browser-default">
+                    <li><span style="font-size: 18px;"><strong>{{ $webinar->name }}</strong></span><span> {!! $pd->text($webinar->getCleanDescription() ) !!}</span><a href="{{ $webinar->getURL(false, 'same-here/webinars') }}" class="btn sbs-red">View Webinar</a>
+                        <div class="hide-on-med-and-up" style="height: 10px"><br></div>
+                    </li>
+                </ul>
+            @endforeach
+            </div>
+        @endif
         <div class="row" style="margin-bottom: 0;">
             <div class="col s12 center-align" style="padding-bottom: 50px;">
-                <a href="/same-here/webinars" class="btn sbs-red" style="margin-top: 20px;">See all events</a>
+                <a href="/same-here/webinars" class="btn sbs-red" style="margin-top: 20px;">See all past events</a>
             </div>
         </div>
     </div>
