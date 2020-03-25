@@ -175,9 +175,10 @@
                 @endforeach
             @else
                 </div>
-                <div class="col s12 center-align">
-                    <h4>Coming soon.</h4>
-                </div>
+                <div class="row center-align">
+                    <div class="col s12 center-align">
+                        <h4>Coming soon.</h4>
+                    </div>
             @endif
         </div>
         @if (count($inactive_webinars) > 0)
