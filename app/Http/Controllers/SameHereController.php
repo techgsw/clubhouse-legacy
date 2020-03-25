@@ -23,7 +23,7 @@ class SameHereController extends Controller
 
         $active_webinars = Product::where('active', true)->with('options')->whereHas('tags', function ($query) {
             $query->where('name', '#SameHere');
-        })->orderBy('id', 'DESC')->limit(2)->get();
+        })->orderBy('id', 'DESC')->get();
 
         $inactive_webinars = Product::where('active', false)->with('options')->whereHas('tags', function ($query) {
             $query->where('name', '#SameHere');
@@ -88,7 +88,6 @@ class SameHereController extends Controller
         });
 
         $active_tag = null;
-        $active_products = null;
         if ($request->tag) {
             $inactive_products_query = $inactive_products_query->whereHas('tags', function ($query) use ($request)  {
                 $query->where('slug', $request->tag);
@@ -97,11 +96,6 @@ class SameHereController extends Controller
             if (count($results) > 0) {
                 $active_tag = $results[0];
             }
-        } else {
-            // Only show active products when there's no tag search
-            $active_products = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
-                $query->where('name', '#SameHere');
-            })->get();
         }
 
         $inactive_products = $inactive_products_query->orderBy('id', 'desc')->paginate(5);
@@ -114,7 +108,6 @@ class SameHereController extends Controller
         })->orderBy('name', 'dec')->get()->keyBy('name');
 
         return view('same-here/webinars', [
-            'active_products' => $active_products,
             'inactive_products' => $inactive_products,
             'active_tag' => $active_tag,
             'tags' => $tags,

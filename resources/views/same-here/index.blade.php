@@ -162,16 +162,19 @@
             <div class="col s2 m4">
                 <hr style="border: 1px solid;" />
             </div>
-        </div>
-        <div class="row center-align">
             @if (count($active_webinars) > 0)
-                <div class="col m1 hide-on-small-and-down"></div>
                 @foreach ($active_webinars as $webinar)
+                    @if ($loop->index % 2 == 0)
+                        </div>
+                        <div class="row center-align">
+                            <div class="col m1 hide-on-small-and-down"></div>
+                    @endif
                     <div class="col s12 m5">
                         @include('same-here.webinars.components.list-item', ['product' => $webinar])
                     </div>
                 @endforeach
             @else
+                </div>
                 <div class="col s12 center-align">
                     <h4>Coming soon.</h4>
                 </div>
