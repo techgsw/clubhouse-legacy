@@ -72,6 +72,9 @@
                 @endif
             </div>
         </div>
+        <div class="row hide-on-med-and-down">
+            <br>
+        </div>
         <div class="row">
             <div id="clubhouse-title-text" class="col s12 center-align">
                 <h2>Where the sports industry goes to <span><strong><u id="rotating-word">learn</u></strong></span>.<h2>
