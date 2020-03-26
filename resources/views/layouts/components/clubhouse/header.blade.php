@@ -6,14 +6,14 @@
             <a href="/" class="brand-logo left-align custom-brand-logo">
                 <img src="/images/logos/full/CH_logo_color.jpg" alt="Sports Business Solutions">
             </a>
-            <ul class="right hide-on-med-and-down nav-custom-desktop">
+            <ul class="right hide-on-med-and-down nav-custom-desktop" style="margin-right: -27px;">
                 <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
-                <li><a href="/same-here"><span style="float: right;margin-top: -15px;font-size: 10px;font-weight: bold;">NEW</span><span>#SameHere</span></a></li>
+                <li><a href="/same-here"><span style="float: right;margin-top: -15px;margin-left: -8px;font-size: 10px;font-weight: bold;">NEW</span><span>#SameHere</span></a></li>
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
                 <li class="social-media">
