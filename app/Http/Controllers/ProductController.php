@@ -509,19 +509,28 @@ class ProductController extends Controller
         $role = 'user';
         if (Auth::user()) {
             foreach (Auth::user()->roles as $r) {
-                if ($r->code == 'clubhouse') {
+                if ($r->code == 'clubhouse' && $role != 'administrator') {
                     $role = 'clubhouse';
+                } else if ($r->code == 'administrator') {
+                    $role = 'administrator';
                 }
             }
         }
 
-        foreach ($product->options as $i => $option) {
-            $option_role_codes = [];
-            foreach ($option->roles as $r) {
-                $option_role_codes[] = $r->code;
-            }
-            if (count(array_intersect($option_role_codes, [$role])) == 0) {
-                $product->options->forget($i);
+        //TODO: we need to change the logic of webinar options to a hierarchy
+        // - clubhouse users and admins should be able to see all options
+        // - users should be able to see options that don't have "clubhouse" checked
+        // - non-logged-in users should be able to see options that don't have anything checked
+        //   (this last one would require a UI fix)
+        if ($role == 'user') {
+            foreach ($product->options as $i => $option) {
+                $option_role_codes = [];
+                foreach ($option->roles as $r) {
+                    $option_role_codes[] = $r->code;
+                }
+                if (count(array_intersect($option_role_codes, [$role])) == 0) {
+                    $product->options->forget($i);
+                }
             }
         }
 
