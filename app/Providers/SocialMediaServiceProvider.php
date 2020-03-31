@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
@@ -42,19 +43,20 @@ class SocialMediaServiceProvider extends ServiceProvider
         if ($context == 'clubhouse') {
             $username = 'the_sports_clubhouse';
             $bio = "For current & aspiring #sportsbiz professionals. Learn, network, find career opportunities & share best practices in an effort to grow your career.";
-            //TODO: upload image, use that
             $avatar = env('CLUBHOUSE_URL').'/images/clubhouse_ig_logo.jpg';
         } else {
             $username = 'sportsbizsol';
             $bio = "We offer sales training, consulting and recruiting services for sports teams and properties throughout the US and Canada. Est. 2014";
-            //TODO: upload image, use that
             $avatar = env('APP_URL').'/images/sbs_ig_logo.jpg';
         }
 
         // Get feed
         $url = "https://graph.instagram.com/me/media/?fields=media_url,permalink&access_token={$access_token}";
         try {
-            $response = json_decode(file_get_contents($url));
+            // We get rate limited by instagram's Basic Display API. Limiting to one minute per call
+            $response = Cache::remember('instagram-'.$context, 60, function() use ($url) {
+                return json_decode(file_get_contents($url));
+            });
         } catch (\Exception $e) {
             Log::error($e);
             return;
