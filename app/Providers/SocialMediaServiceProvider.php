@@ -37,20 +37,22 @@ class SocialMediaServiceProvider extends ServiceProvider
         }
 
         // Get user
-        $url = "https://api.instagram.com/v1/users/self?access_token={$access_token}";
-        try {
-            $response = json_decode(file_get_contents($url));
-        } catch (\Exception $e) {
-            Log::error($e);
-            return;
+        // TODO: We can't pull bio and avatar without getting approval as an instagram app to use the instagram graph API.
+        //  This information will be static until we can support that.
+        if ($context == 'clubhouse') {
+            $username = 'the_sports_clubhouse';
+            $bio = "For current & aspiring #sportsbiz professionals. Learn, network, find career opportunities & share best practices in an effort to grow your career.";
+            //TODO: upload image, use that
+            $avatar = env('CLUBHOUSE_URL').'/images/clubhouse_ig_logo.jpg';
+        } else {
+            $username = 'sportsbizsol';
+            $bio = "We offer sales training, consulting and recruiting services for sports teams and properties throughout the US and Canada. Est. 2014";
+            //TODO: upload image, use that
+            $avatar = env('APP_URL').'/images/sbs_ig_logo.jpg';
         }
 
-        $username = $response->data->username;
-        $avatar = $response->data->profile_picture;
-        $bio = $response->data->bio;
-
         // Get feed
-        $url = "https://api.instagram.com/v1/users/{$user_id}/media/recent/?access_token={$access_token}";
+        $url = "https://graph.instagram.com/me/media/?fields=media_url,permalink&access_token={$access_token}";
         try {
             $response = json_decode(file_get_contents($url));
         } catch (\Exception $e) {
@@ -70,8 +72,8 @@ class SocialMediaServiceProvider extends ServiceProvider
                 if (!$item) {
                     break;
                 }
-                $image = $item->images->thumbnail->url;
-                $link = $item->link;
+                $image = $item->media_url;
+                $link = $item->permalink;
                 $feed[] = [
                     "url" => $link,
                     "src" => $image,
