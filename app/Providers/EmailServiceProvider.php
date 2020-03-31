@@ -187,7 +187,8 @@ class EmailServiceProvider extends ServiceProvider
         //TODO: Laravel's cc functionality is not working. They're being sent as two separate emails.
         // we need to investigate this at some point so this email can be sent to the mentor and
         // admins can be cc'd.
-        Mail::to($users)
+        Mail::to($mentor->contact->email, $mentor->contact->first_name.' '.$mentor->contact->last_name)
+            ->cc($users)
             ->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
     }
 
