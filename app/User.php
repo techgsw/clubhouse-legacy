@@ -341,6 +341,10 @@ class User extends Authenticatable
         $primary_contact->secondary_phone = $users[0]->contact->phone;
         $primary_contact->save();
         foreach($users as $user) {
+            foreach(Note::contact($user->contact->id) as $note) {
+                $note->notable_id = $primary_contact->id;
+                $note->save();
+            }
             $user->linked_user_id = $this->id;
             $user->save();
         }
