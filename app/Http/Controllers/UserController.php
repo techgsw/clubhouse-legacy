@@ -79,6 +79,9 @@ class UserController extends Controller
             }
         }
 
+        $linked_users = User::where('linked_user_id', $user->id)->get();
+        Log::info(print_r($linked_users, true));
+
         return view('user/account', [
             'breadcrumb' => [
                 'Home' => '/',
@@ -87,7 +90,8 @@ class UserController extends Controller
             'user' => $user,
             'stripe_user' => $stripe_user,
             'transactions' => $transactions,
-            'paid_jobs' => $paid_jobs
+            'paid_jobs' => $paid_jobs,
+            'linked_users' => $linked_users
         ]);
     }
 

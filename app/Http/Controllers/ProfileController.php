@@ -267,6 +267,10 @@ class ProfileController extends Controller
             $profile->phone = "(".substr($profile->phone, 0, 3).")".substr($profile->phone, 3, 3)."-".substr($profile->phone, 6, 4);
         }
 
+        if ($profile->secondary_phone && strlen($profile->secondary_phone) == 10) {
+            $profile->secondary_phone = "(".substr($profile->secondary_phone, 0, 3).")".substr($profile->secondary_phone, 3, 3)."-".substr($profile->secondary_phone, 6, 4);
+        }
+
         return view('user/edit-profile', [
             'user' => $user,
             'profile' => $profile,
@@ -364,8 +368,13 @@ class ProfileController extends Controller
             return redirect()->back()->withInput();
         }
 
+        $profile->secondary_email = request('secondary_email');
+
         $profile->phone = request('phone')
             ? preg_replace("/[^\d]/", "", request('phone'))
+            : null;
+        $profile->secondary_phone = request('secondary_phone')
+            ? preg_replace("/[^\d]/", "", request('secondary_phone'))
             : null;
         $profile->resume_url = $r ?: $profile->resume_url;
 
@@ -482,6 +491,14 @@ class ProfileController extends Controller
             $contact->phone = request('phone')
                 ? preg_replace("/[^\d]/", "", request('phone'))
                 : null;
+        }
+        if (is_null($contact->secondary_phone)) {
+            $contact->secondary_phone = request('secondary_phone')
+                ? preg_replace("/[^\d]/", "", request('secondary_phone'))
+                : null;
+        }
+        if (is_null($contact->secondary_email)) {
+            $contact->secondary_email = request('secondary_email');
         }
         if (is_null($contact->title)) {
             $contact->title = request('current_title');

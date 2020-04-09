@@ -51,8 +51,16 @@ class ContactController extends Controller
         if ($contact->phone && strlen($contact->phone) == 10) {
             $contact->phone = "(".substr($contact->phone, 0, 3).")".substr($contact->phone, 3, 3)."-".substr($contact->phone, 6, 4);
         }
-        if ($contact->user && $contact->user->profile->phone && strlen($contact->user->profile->phone) == 10) {
-            $contact->user->profile->phone = "(".substr($contact->user->profile->phone, 0, 3).")".substr($contact->user->profile->phone, 3, 3)."-".substr($contact->user->profile->phone, 6, 4);
+        if ($contact->secondary_phone && strlen($contact->secondary_phone) == 10) {
+            $contact->secondary_phone = "(".substr($contact->secondary_phone, 0, 3).")".substr($contact->secondary_phone, 3, 3)."-".substr($contact->secondary_phone, 6, 4);
+        }
+        if ($contact->user) {
+            if ($contact->user->profile->phone && strlen($contact->user->profile->phone) == 10) {
+                $contact->user->profile->phone = "(" . substr($contact->user->profile->phone, 0, 3) . ")" . substr($contact->user->profile->phone, 3, 3) . "-" . substr($contact->user->profile->phone, 6, 4);
+            }
+            if ($contact->user->profile->secondary_phone && strlen($contact->user->profile->secondary_phone) == 10) {
+                $contact->user->profile->secondary_phone = "(".substr($contact->user->profile->secondary_phone, 0, 3).")".substr($contact->user->profile->secondary_phone, 3, 3)."-".substr($contact->user->profile->secondary_phone, 6, 4);
+            }
         }
 
         return view('contact/show', [
@@ -147,7 +155,9 @@ class ContactController extends Controller
                 'first_name' => request('first_name'),
                 'last_name' => request('last_name'),
                 'email' => request('email'),
+                'secondary_email' => request('secondary_email'),
                 'phone' => request('phone'),
+                'secondary_phone' => request('secondary_phone'),
                 'title' => request('title'),
                 'organization' => request('organization'),
                 'job_seeking_status' => request('job_seeking_status'),
@@ -267,10 +277,14 @@ class ContactController extends Controller
 
         $contact = DB::transaction(function () use ($request, $contact, $resume) {
             $contact->email = request('email');
+            $contact->secondary_email = request('secondary_email');
             $contact->first_name = request('first_name');
             $contact->last_name = request('last_name');
             $contact->phone = request('phone')
                 ? preg_replace("/[^\d]/", "", request('phone'))
+                : null;
+            $contact->secondary_phone = request('secondary_phone')
+                ? preg_replace("/[^\d]/", "", request('secondary_phone'))
                 : null;
 
             $contact->title = request('title');

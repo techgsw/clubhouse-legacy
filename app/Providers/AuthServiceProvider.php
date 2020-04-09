@@ -67,6 +67,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-profile', function ($auth_user, $user) {
             return $auth_user->id == $user->id || $auth_user->hasAccess('profile_edit');
         });
+        Gate::define('link-accounts', function ($user) {
+            return $user->hasAccess('account_link');
+        });
 
 
         // Clubhouse member 

@@ -204,6 +204,7 @@ class Contact extends Model
                 $contacts = $contacts->orderBy('contact.created_at', 'desc');
                 break;
             case 'last-login-date-desc':
+                $contacts = $contacts->whereNotNull('contact.user_id');
                 $contacts = $contacts->orderBy('contact_user.last_login_at', 'desc');
                 break;
             default:
@@ -229,9 +230,8 @@ class Contact extends Model
             $contacts->join('address_contact', 'contact.id', '=', 'address_contact.contact_id')
                 ->join('address AS contact_address', 'address_contact.address_id', '=', 'contact_address.id');
         }
-        if (strpos($query_string, 'contact_user') !== false) {
-            $contacts->join('user AS contact_user', 'contact.user_id', '=', 'contact_user.id');
-        }
+        $contacts->leftJoin('user AS contact_user', 'contact.user_id', '=', 'contact_user.id');
+        $contacts->whereNull('contact_user.linked_user_id');
 
         return $contacts->select('contact.*');
     }
@@ -251,6 +251,9 @@ class Contact extends Model
                     break;
                 case 'email':
                     $query = $query->where('contact.email', 'like', "%$search_value%", $conjunction);
+                    break;
+                case 'secondary_email':
+                    $query = $query->where('contact.secondary_email', 'like', "%$search_value%", $conjunction);
                     break;
                 case 'owner':
                     $query = $query->where(DB::raw('CONCAT(contact_owner.first_name, " ", contact_owner.last_name)'), 'like', "%$search_value%", $conjunction);

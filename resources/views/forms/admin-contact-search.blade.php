@@ -17,7 +17,8 @@
                         <li><b><code>id:</code></b> Search by contact's database ID</li>
                         <li><b><code>organization:</code></b> Search by contact's current organization</li>
                         <li><b><code>title:</code></b> Search by job title of contact</li>
-                        <li><b><code>email:</code></b> Search by contact's email</li>
+                        <li><b><code>email:</code></b> Search by contact's primary email</li>
+                        <li><b><code>secondary_email:</code></b> Search by contact's secondary email</li>
                         <li><b><code>owner:</code></b> Search by the name of the user that owns the contact's account, if applicable</li>
                         <li><b><code>note:</code></b> Search by the contents of the contact's notes</li>
                         <li><b><code>location:</code></b> Search by parts of the contact's address</li>
