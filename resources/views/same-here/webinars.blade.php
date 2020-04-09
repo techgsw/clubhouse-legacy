@@ -13,7 +13,7 @@
     @if (count($inactive_products) > 0)
         <div class="row">
             <div class="col s12">
-                <h4 id="past" style="font-weight: bold; text-align: center;">PAST EVENTS
+                <h4 id="past" style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS
                 @if (!is_null($active_tag))
                     MATCHING <strong>{{$active_tag->name}}</strong>
                 @endif

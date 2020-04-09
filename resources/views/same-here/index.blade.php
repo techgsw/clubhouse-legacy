@@ -153,14 +153,8 @@
             </div>
         </div>
         <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
-            <div class="col s2 m4">
-                <hr style="border: 1px solid;" />
-            </div>
-            <div class="col s8 m4">
-                <p style="font-size: 20px; color: #9E9E9E;">Upcoming Events</p>
-            </div>
-            <div class="col s2 m4">
-                <hr style="border: 1px solid;" />
+            <div class="col s12">
+                <h4 id="upcoming" style="font-weight: bold; text-align: center;">UPCOMING WEBINAR EVENTS</h4>
             </div>
             @if (count($active_webinars) > 0)
                 @foreach ($active_webinars as $webinar)
@@ -182,16 +176,11 @@
             @endif
         </div>
         @if (count($inactive_webinars) > 0)
+            <hr class="sbs-red" style="color: #EB2935;" />
             <div class="row">
                 <div class="row center-align valign-wrapper" style="margin-bottom: 0;">
-                    <div class="col s2 m4">
-                        <hr style="border: 1px solid;" />
-                    </div>
-                    <div class="col s8 m4">
-                        <p style="font-size: 20px; color: #9E9E9E;">Past Events</p>
-                    </div>
-                    <div class="col s2 m4">
-                        <hr style="border: 1px solid;" />
+                    <div class="col s12">
+                        <h4 id="past" style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS</h4>
                     </div>
                 </div>
             @foreach ($inactive_webinars as $webinar)

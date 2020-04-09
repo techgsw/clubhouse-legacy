@@ -11,9 +11,6 @@
         </div>
     </div>
     <div class="row center-align">
-        <a href="{{$product->getURL(false, 'same-here/webinars')}}">
-            <h5><strong>{{$product->name}}</strong><br>{{$product->options[0]->name}}</h5>
-        </a>
         @foreach($product->tags as $tag)
             @if ($tag->name != '#SameHere' && $tag->name != 'Webinar')
                 <a href="/same-here/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin:2px">{{ $tag->name }}</a>
