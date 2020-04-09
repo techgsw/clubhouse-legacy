@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -38,5 +39,47 @@ class UserController extends Controller
             'users' => $users
         ]);
         
+    }
+
+    public function showLinkAccountSuggestions(Request $request) {
+        $primary_user = User::find($request->user_id);
+
+        $duplicate_suggestions = User::where('first_name', $primary_user->first_name)
+            ->where('last_name', $primary_user->last_name)
+            ->where('id', '!=', $request->user_id)
+            ->where('linked_user_id', '!=', $request->user_id)
+            ->get();
+
+        $suggested_emails = array();
+        foreach ($duplicate_suggestions as $suggestion) {
+            $suggested_emails []= $suggestion->email;
+        }
+
+        return response()->json([
+            'suggested_emails' => $suggested_emails
+        ]);
+    }
+
+    public function linkAccounts(Request $request) {
+        try {
+            $primary_user = User::find($request->input('primary_user_id'));
+
+            $duplicate_users = array();
+
+            foreach ($request->input('email') as $email) {
+                $user = User::with('contact')->where('email', $email)->first();
+                if (!is_null($email) && !is_null($user)) {
+                    $duplicate_users [] = $user;
+                }
+            }
+
+            if (!empty($duplicate_users)) {
+                $primary_user->linkUsersToThisAccount($duplicate_users);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        return redirect()->back();
     }
 }

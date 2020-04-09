@@ -118,6 +118,8 @@ Route::domain($domain)->group(function () {
         Route::get('login', 'LoginController@login')->name('login');
         Route::get('logout', 'LoginController@logout')->name('logout');
         Route::get('/auth/login/header', 'LoginController@header');
+
+        Route::post('/register/is-this-you', 'RegisterController@registerIsThisYou');
     });
     Auth::routes();
 
@@ -141,6 +143,8 @@ Route::domain($domain)->group(function () {
 
         Route::get('/admin/pipeline', 'PipelineController@index');
         Route::get('/admin/pipeline/job', 'PipelineController@job');
+
+        Route::post('/admin/user/link-accounts', 'UserController@linkAccounts');
         
         Route::get('/admin/question', 'QuestionController@index');
         Route::get('/admin/admin-users', 'UserController@allAdminUsers');
@@ -169,6 +173,8 @@ Route::domain($domain)->group(function () {
 
         Route::post('/admin/contact-job/pipeline-forward/', 'ContactJobController@pipelineForward');
         Route::post('/admin/contact-job/pipeline-halt/', 'ContactJobController@pipelineHalt');
+
+        Route::get('/admin/user/show-link-account-suggestions', 'UserController@showLinkAccountSuggestions');
     });
 
     // Email

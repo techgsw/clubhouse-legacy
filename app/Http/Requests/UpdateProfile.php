@@ -39,7 +39,8 @@ class UpdateProfile extends FormRequest
                 'email',
                 'max:255',
                 Rule::unique('user')->ignore($user->id)
-            ]
+            ],
+            'secondary_email' => 'nullable|email|max:255'
         ];
     }
 
@@ -60,7 +61,8 @@ class UpdateProfile extends FormRequest
             'resume_url.max' => 'Maximum allowed file size for a resume is 2MB.',
             'email.required' => 'E-mail is required',
             'email.email' => 'E-mail address must be valid',
-            'email.unique' => 'Email is already taken'
+            'email.unique' => 'Email is already taken',
+            'secondary_email.email' => 'Secondary E-mail address must be valid'
         ];
     }
 }

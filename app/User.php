@@ -333,4 +333,16 @@ class User extends Authenticatable
     {
         \Mail::to($this)->send(new UserPasswordReset($this, $token));
     }
+
+    public function linkUsersToThisAccount($users) {
+        // use the email/phone of the first contact in the list as the secondary email and secondary phone of this account
+        $primary_contact = $this->contact;
+        $primary_contact->secondary_email = $users[0]->email;
+        $primary_contact->secondary_phone = $users[0]->contact->phone;
+        $primary_contact->save();
+        foreach($users as $user) {
+            $user->linked_user_id = $this->id;
+            $user->save();
+        }
+    }
 }

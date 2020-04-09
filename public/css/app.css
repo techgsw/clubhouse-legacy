@@ -1060,6 +1060,11 @@ hr {
 .card.checkout-card p {
     padding: 5px 0;
 }
+
+a .card.linked-account:hover {
+    background-color: #EEE;
+}
+
 @media only screen and (max-width: 992px) and (min-width: 600px) {
     .about-cards {
         flex-wrap: wrap;

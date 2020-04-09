@@ -142,12 +142,34 @@
                         </div>
                         <div class="row">
                             <div class="col s6">
+                                <label>Secondary Email</label>
+                                <input type="text" id="secondary_email" name="secondary_email" value="{{ $contact->secondary_email }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->secondary_email && $contact->user->profile->secondary_email != $contact->secondary_email)
+                                    <button class="flat-button small green accept-change-button" target-id="secondary_email" target-value="{{$contact->user->profile->secondary_email}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->secondary_email }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
                                 <label>Phone</label>
                                 <input type="text" id="phone" name="phone" value="{{ $contact->phone }}">
                             </div>
                             <div class="col s6" style="padding-top: 22px;">
                                 @if ($contact->user && $contact->user->profile->phone && $contact->user->profile->phone != $contact->phone)
-                                    <button class="flat-button small green accept-change-button" target-id="email" target-value="{{$contact->user->profile->phone}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->phone }}
+                                    <button class="flat-button small green accept-change-button" target-id="phone" target-value="{{$contact->user->profile->phone}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->phone }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Secondary Phone</label>
+                                <input type="text" id="secondary_phone" name="secondary_phone" value="{{ $contact->secondary_phone }}">
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->secondary_phone && $contact->user->profile->secondary_phone != $contact->secondary_phone)
+                                    <button class="flat-button small green accept-change-button" target-id="secondary_phone" target-value="{{$contact->user->profile->secondary_phone}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->secondary_phone }}
                                 @endif
                             </div>
                         </div>

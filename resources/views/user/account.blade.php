@@ -181,6 +181,30 @@
             @endif
         </div>
     </div>
+    <div class="row">
+        <div class="col s12">
+            <h4 style="display:inline-block;">Linked Accounts</h4>&nbsp;&nbsp;
+            @can('link-accounts')
+                <a id='link-account' class="btn btn-small sbs-red" data-user-id="{{ $user->id }}" style="margin-left: 20px; margin-top: -10px;"><li class="fa fa-plus"></li> Link Account</a>
+                @include('user.components.link-account-modal')
+            @endcan
+            @if (isset($linked_users) && count($linked_users) > 0)
+                @foreach ($linked_users as $linked_user)
+                    <a class="no-underline" href="/user/{{$linked_user->id}}">
+                        <div class="card linked-account">
+                            <div class="card-content">
+                                <h5>{{$linked_user->email}}</h5>
+                                <p>Created On: {{$linked_user->created_at->format('m/d/Y')}}</p>
+                                <p>Last Login On: {{$linked_user->last_login_at->format('m/d/Y')}}</p>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            @else
+                <p>No accounts are linked.</p>
+            @endif
+        </div>
+    </div>
 </div>
 @can ('edit-profile', $user)
 @include('components.contact-notes-modal')

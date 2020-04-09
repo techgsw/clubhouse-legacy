@@ -34,6 +34,7 @@ $.valHooks.textarea = {
     var ContactRelationship = {
         map: {}
     };
+    var LinkAccounts = {};
     var UI = {};
 
     Pipeline.Inquiry = {};
@@ -333,6 +334,67 @@ $.valHooks.textarea = {
             });
         }
     }
+
+    LinkAccounts.showLinkAccountSuggestions = function (user_id) {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/admin/user/show-link-account-suggestions',
+            'data': {
+                'user_id': user_id
+            }
+        });
+    };
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var user_id = $(this).attr('data-user-id');
+                LinkAccounts.showLinkAccountSuggestions(user_id).done(function (data) {
+                    $('.link-account-modal').modal('open');
+                    $('.link-account-modal').find('#primary_user_id').val(user_id);
+                    data.suggested_emails.forEach(function (email) {
+                        var account_row = $('.linked-account-template .linked-account').clone();
+                        account_row.find('input#email').val(email);
+                        $('.link-account-modal').find('div.add-linked-account').before(account_row);
+                    });
+                });
+            }
+        },
+        'a#link-account'
+    );
+
+    // Add a linked account
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var account_row = $('.linked-account-template .linked-account').clone();
+                $('.link-account-modal').find('div.add-linked-account').before(account_row);
+            }
+        },
+        'button.add-linked-account'
+    );
+
+    // Remove a linked account
+    $('body').on(
+        {
+            click: function (e, ui) {
+                $(this).parents('.linked-account').remove();
+            }
+        },
+        'button.remove-linked-account'
+    );
+
+    // TODO: something is preventing default on this submit button. this is a temporary fix
+    //  we should look into why this is happening
+    $('body').on(
+        {
+            click: function (e, ui) {
+                e.preventDefault();
+                $('form#link-account-form').submit();
+            }
+        },
+        'button#link-account-submit'
+    );
 
     Note.init = function () {
         $('.contact-notes-modal').modal({

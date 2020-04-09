@@ -33,6 +33,16 @@
                 </div>
             </div>
             <div class="row">
+                <div class="input-field col s12 m6 {{ $errors->has('secondary_email') ? 'invalid' : '' }}">
+                    <input id="secondary_email" name="secondary_email" type="text" value="{{ $profile->secondary_email }}">
+                    <label for="secondary_email" class="active">Secondary Email</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="secondary_phone" type="text" name="secondary_phone" value="{{ old('secondary_phone') ?: $profile->secondary_phone ?: "" }}" />
+                    <label for="secondary_phone">Secondary Phone</label>
+                </div>
+            </div>
+            <div class="row">
                 <div class="file-field input-field col s12 m4">
                     @if ($profile->resume_url)
                         <a href="{{ Storage::disk('local')->url($profile->resume_url) }}" class="btn sbs-red white-text" style="width: 100%">View Resume</a>

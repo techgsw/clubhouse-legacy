@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Auth\Passwords\PasswordBroker;
+use Illuminate\Support\Facades\Password;
 use Mail;
 use App\Mail\UserRegistered;
 use App\Address;
@@ -17,11 +19,13 @@ use App\Providers\EmailServiceProvider;
 use App\Traits\ReCaptchaTrait;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Ramsey\Uuid\Uuid;
 
 class RegisterController extends Controller
 {
@@ -75,7 +79,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $data['recaptcha'] = $this->recaptchaCheck($data);
+//        $data['recaptcha'] = $this->recaptchaCheck($data);
 
         $rules = [
             'first_name' => 'required|max:255',
@@ -83,14 +87,14 @@ class RegisterController extends Controller
             'email' => 'required|email|max:255|unique:user',
             'password' => 'required|min:6|confirmed',
             'terms' => 'required',
-            'g-recaptcha-response' => 'required',
-            'recaptcha' => 'required|min:1'
+//            'g-recaptcha-response' => 'required',
+//            'recaptcha' => 'required|min:1'
         ];
 
         $messages = [
-            'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
-            'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
-            'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
+//            'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+//            'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+//            'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
             'unique' => 'That :attribute has already been taken.',
             'terms' => 'Sorry, you must agree to our terms of service.',
             'required' => 'Sorry, :attribute is a required field.',
@@ -106,6 +110,34 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
+        $possible_duplicate_users_query = User::where('first_name', $request->input('first_name'))
+            ->where('last_name', $request->input('last_name'))
+            ->where('email', '!=', $request->input('email'));
+
+        $possible_duplicate_users = $possible_duplicate_users_query
+            ->get();
+
+        if (count($possible_duplicate_users) > 0) {
+            // If the new user's name matches other users, we need to let the new user know.
+            // All form data will be cached with a tokenized key returned to the user so they don't have to redo the captcha.
+
+            $register_token = Uuid::uuid4()->toString();
+
+            if (!is_null($register_token)) {
+                Cache::remember('register_token_' . $register_token, 1200, function () use ($request) {
+                    return $request->all();
+                });
+
+                return view('auth/is-this-you', [
+                    'possible_duplicate_users' => $possible_duplicate_users,
+                    'register_token' => $register_token
+                ]);
+            } else {
+                Log::error('Token for user '.$request->input('email').' could not be generated. Proceeding with normal registration.');
+                // continue down with normal process
+            }
+        }
+
         try {
             event(new Registered($user = $this->create($request->all())));
         } catch (\Exception $e) {
@@ -115,7 +147,37 @@ class RegisterController extends Controller
         $this->guard()->login($user);
 
         return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+            ?: redirect($this->redirectPath());
+    }
+
+    /**
+     * If the user reaches the "Is this you" page, then the "Complete registration" request hits this method.
+     * This pulls their cached registration data if available and continues with the normal registration process
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function registerIsThisYou(Request $request)
+    {
+        Log::info($request->input('register_token'));
+        Log::info($request->input('register-token'));
+        $cached_request_form = Cache::pull('register_token_'.$request->input('register_token'));
+
+        if (is_null($cached_request_form)) {
+            return redirect("/register")->withErrors(array("Sorry, your session has expired. Please register again."));
+        }
+
+        try {
+            event(new Registered($user = $this->create($cached_request_form)));
+        } catch (\Exception $e) {
+            Log::error('Error registering user after Is This You page: '.$e->getMessage());
+            return redirect("/register")->withErrors(array("Sorry, there was an issue registering your account. Please try again."));
+        }
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 
     /**
