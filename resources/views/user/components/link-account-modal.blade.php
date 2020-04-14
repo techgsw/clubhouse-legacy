@@ -5,21 +5,6 @@
         <p>If we found other accounts matching the user's name, we've included their email addresses below. Feel free to remove them if they aren't actually duplicates.</p>
         <form id="link-account-form" method="POST" action="/admin/user/link-accounts">
             {{ csrf_field() }}
-            <div class="linked-account row">
-                <div class="row">
-                    <div class="col s2 l1 center-align">
-                        <button class="btn flat-button remove-linked-account" style="margin-top:10px;height: 42px;">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="col s10 l11">
-                        <div class="input-field col s12 m6">
-                            <input id="email" name="email[]" type="text" value="" required>
-                            <label for="email">Email</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="add-linked-account row" style="margin-bottom: 30px; border-top: 1px dotted #9e9e9e; border-bottom: none;">
                 <div class="col s2 l1 center-align">
                     <button class="btn flat-button add-linked-account" style="margin-top:10px;height: 42px;">

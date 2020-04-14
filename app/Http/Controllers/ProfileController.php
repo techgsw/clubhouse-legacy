@@ -152,15 +152,24 @@ class ProfileController extends Controller
             $department_experience[] = $user->profile->department_experience_other;
         }
 
+        $breadcrumb = array(
+            'Home' => '/',
+            'Contacts' => "/admin/contact",
+            'User' => "/user/$id",
+            'Profile' => "/user/$id/profile"
+        );
+
+        if (!Gate::allows('view-admin-dashboard')) {
+            // Only admins should have contact search added to the breadcrumb
+            unset($breadcrumb['Contacts']);
+        }
+
         return view('user/profile', [
             'user' => $user,
             'profile' => $user->profile,
             'department_goals' => $department_goals,
             'department_experience' => $department_experience,
-            'breadcrumb' => [
-                'Home' => '/',
-                'Profile' => "/user/$id/profile"
-            ]
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -271,6 +280,20 @@ class ProfileController extends Controller
             $profile->secondary_phone = "(".substr($profile->secondary_phone, 0, 3).")".substr($profile->secondary_phone, 3, 3)."-".substr($profile->secondary_phone, 6, 4);
         }
 
+        $breadcrumb = array(
+            'Home' => '/',
+            'Contacts' => "/admin/contact",
+            'User' => "/user/$id",
+            'Profile' => "/user/$id/profile",
+            'Edit' => "/user/$id/edit-profile"
+        );
+
+        if (!Gate::allows('view-admin-dashboard')) {
+            // Only admins should have contact search added to the breadcrumb
+            unset($breadcrumb['Contacts']);
+        }
+
+
         return view('user/edit-profile', [
             'user' => $user,
             'profile' => $profile,
@@ -280,12 +303,7 @@ class ProfileController extends Controller
             'job_preferences_complete' => $job_preferences_complete,
             'employment_complete' => $employment_complete,
             'education_complete' => $education_complete,
-            'breadcrumb' => [
-                'Home' => '/',
-                'User' => "/user/$id",
-                'Profile' => "/user/$id/profile",
-                'Edit' => "/user/$id/edit-profile"
-            ]
+            'breadcrumb' => $breadcrumb
         ]);
     }
 

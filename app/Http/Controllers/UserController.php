@@ -10,6 +10,7 @@ use App\JobPipeline;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
@@ -82,11 +83,19 @@ class UserController extends Controller
         $linked_users = User::where('linked_user_id', $user->id)->get();
         Log::info(print_r($linked_users, true));
 
+        $breadcrumb = array(
+            'Home' => '/',
+            'Contacts' => "/admin/contact",
+            'Account' => "/user/{$user->id}/account"
+        );
+
+        if (!Gate::allows('view-admin-dashboard')) {
+            // Only admins should have contact search added to the breadcrumb
+            unset($breadcrumb['Contacts']);
+        }
+
         return view('user/account', [
-            'breadcrumb' => [
-                'Home' => '/',
-                'Account' => "/user/{$user->id}/account"
-            ],
+            'breadcrumb' => $breadcrumb,
             'user' => $user,
             'stripe_user' => $stripe_user,
             'transactions' => $transactions,
@@ -106,11 +115,19 @@ class UserController extends Controller
         }
         $this->authorize('view-user', $user);
 
+        $breadcrumb = array(
+            'Home' => '/',
+            'Contacts' => "/admin/contact",
+            'Jobs' => "/user/{$user->id}/jobs"
+        );
+
+        if (!Gate::allows('view-admin-dashboard')) {
+            // Only admins should have contact search added to the breadcrumb
+            unset($breadcrumb['Contacts']);
+        }
+
         return view('user/jobs', [
-            'breadcrumb' => [
-                'Home' => '/',
-                'Jobs' => "/user/{$user->id}/jobs"
-            ],
+            'breadcrumb' => $breadcrumb,
             'user' => $user,
             'job_pipeline' => $job_pipeline
         ]);

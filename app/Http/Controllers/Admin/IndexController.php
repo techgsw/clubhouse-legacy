@@ -31,7 +31,7 @@ class IndexController extends Controller
         $this->authorize('view-admin-dashboard');
 
         $contact_count = Contact::all()->count();
-        $user_count = User::all()->count();
+        $user_count = User::whereNull('linked_user_id')->count();
         $question_count = Question::all()->count();
         $answer_count = Answer::all()->count();
         $job_count = Job::all()->count();

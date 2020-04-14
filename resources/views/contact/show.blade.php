@@ -15,6 +15,8 @@
             @can ('edit-profile', $contact->user)
                 <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black small">Edit<span class="hide-on-small-only"> Profile</span></a>
             @endcan
+        @elseif (\Gate::allows('delete-contacts'))
+            <a id="delete-contact" class="flat-button small" href="/admin/contact/{{$contact->id}}/delete{{is_null($redirect_url) ? '' : '?redirect_url='.urlencode($redirect_url)}}" style="margin-right:10px;" data-contact-email="{{$contact->email}}" data-contact-has-mentor="{{$contact->mentor ? "true" : "false"}}"><i class="fa fa-trash"></i> Delete Contact</a>
         @endif
         @can ('edit-inquiry')
             <button class="view-contact-job-assignment-btn flat-button small" contact-id="{{ $contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>

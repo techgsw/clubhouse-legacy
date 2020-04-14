@@ -348,11 +348,19 @@ class JobController extends Controller
 
         $job_platinum_upgrade = ProductOption::find(PRODUCT_OPTION_ID['platinum_job_upgrade_premium']);
 
+        $breadcrumb = array(
+            'Home' => '/',
+            'Contacts' => "/admin/contact",
+            'Job Postings' => "/user/{$user->id}/job-postings"
+        );
+
+        if (!Gate::allows('view-admin-dashboard')) {
+            // Only admins should have contact search added to the breadcrumb
+            unset($breadcrumb['Contacts']);
+        }
+
         return view('user/job-postings', [
-            'breadcrumb' => [
-                'Home' => '/',
-                'Job Postings' => "/user/{$user->id}/job-postings"
-            ],
+            'breadcrumb' => $breadcrumb,
             'user' => $user,
             'jobs' => $jobs,
             'pipeline' => $pipeline,
