@@ -146,7 +146,8 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/pipeline/job', 'PipelineController@job');
 
         Route::post('/admin/user/link-accounts', 'UserController@linkAccounts');
-        
+        Route::get('/admin/user/unlink-account/{id}', 'UserController@unlinkAccount');
+
         Route::get('/admin/question', 'QuestionController@index');
         Route::get('/admin/admin-users', 'UserController@allAdminUsers');
         Route::get('/admin/report', 'ReportController@index');

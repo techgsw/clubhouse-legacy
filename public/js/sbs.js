@@ -352,15 +352,32 @@ $.valHooks.textarea = {
                 LinkAccounts.showLinkAccountSuggestions(user_id).done(function (data) {
                     $('.link-account-modal').modal('open');
                     $('.link-account-modal').find('#primary_user_id').val(user_id);
-                    data.suggested_emails.forEach(function (email) {
+                    if (!data.suggested_emails.length) {
+                        // place one empty account row
                         var account_row = $('.linked-account-template .linked-account').clone();
-                        account_row.find('input#email').val(email);
                         $('.link-account-modal').find('div.add-linked-account').before(account_row);
-                    });
+                    } else {
+                        data.suggested_emails.forEach(function (email) {
+                            var account_row = $('.linked-account-template .linked-account').clone();
+                            account_row.find('input#email').val(email);
+                            $('.link-account-modal').find('div.add-linked-account').before(account_row);
+                        });
+                    }
+                    Materialize.updateTextFields();
                 });
             }
         },
         'a#link-account'
+    );
+
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var email = $(this).attr('data-user-email');
+                return window.confirm('This will unlink ' + email + ' from this account. Are you sure?');
+            }
+        },
+        'a#unlink-account'
     );
 
     // Add a linked account
@@ -964,6 +981,19 @@ $.valHooks.textarea = {
             }
         },
         '.contact-job-unassignment-btn'
+    );
+
+    //Delete Contact Confirmation
+    $('body').on(
+        {
+            click: function (e, ui) {
+                var email = $(this).attr('data-contact-email');
+                var has_mentor = $(this).attr('data-contact-has-mentor') === "true";
+                return window.confirm('This will delete the contact ' + email + ' and all associated information from the system completely. '
+                + (has_mentor ? '\n\nCAUTION: This contact is tied to a mentor. The mentor will be deleted from the mentor page' : '') + '\n\nAre you sure?');
+            }
+        },
+        'a#delete-contact'
     );
 
     // Tag

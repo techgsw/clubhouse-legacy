@@ -189,17 +189,26 @@
                 @include('user.components.link-account-modal')
             @endcan
             @if (isset($linked_users) && count($linked_users) > 0)
+                <div class="row">
                 @foreach ($linked_users as $linked_user)
-                    <a class="no-underline" href="/user/{{$linked_user->id}}">
-                        <div class="card linked-account">
-                            <div class="card-content">
-                                <h5>{{$linked_user->email}}</h5>
-                                <p>Created On: {{$linked_user->created_at->format('m/d/Y')}}</p>
-                                <p>Last Login On: {{$linked_user->last_login_at->format('m/d/Y')}}</p>
+                    <div class="col s8 m10">
+                        <a class="no-underline" href="/user/{{$linked_user->id}}">
+                            <div class="card linked-account">
+                                <div class="card-content">
+                                    <h5>{{$linked_user->email}}</h5>
+                                    <p>Created On: {{$linked_user->created_at->format('m/d/Y')}}</p>
+                                    <p>Last Login On: {{$linked_user->last_login_at->format('m/d/Y')}}</p>
+                                </div>
                             </div>
+                        </a>
+                    </div>
+                    @can('link-accounts')
+                        <div class="col s4 m2">
+                            <a href="/admin/user/unlink-account/{{$linked_user->id}}" id="unlink-account" class="btn btn-small sbs-red" data-user-email="{{$linked_user->email}}" style="margin-top:50px;height:50px;line-height: 49px;"><i class="fa fa-times"></i> Unlink</a>
                         </div>
-                    </a>
+                    @endcan
                 @endforeach
+                </div>
             @else
                 <p>No accounts are linked.</p>
             @endif

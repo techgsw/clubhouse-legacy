@@ -47,8 +47,9 @@ class UserController extends Controller
         $duplicate_suggestions = User::where('first_name', $primary_user->first_name)
             ->where('last_name', $primary_user->last_name)
             ->where('id', '!=', $request->user_id)
-            ->where('linked_user_id', '!=', $request->user_id)
+            ->whereNull('linked_user_id')
             ->get();
+
 
         $suggested_emails = array();
         foreach ($duplicate_suggestions as $suggestion) {
@@ -80,6 +81,13 @@ class UserController extends Controller
             Log::error($e->getMessage());
         }
 
+        return redirect()->back();
+    }
+
+    public function unlinkAccount($id) {
+        $linked_user = User::find($id);
+        $linked_user->linked_user_id = null;
+        $linked_user->save();
         return redirect()->back();
     }
 }
