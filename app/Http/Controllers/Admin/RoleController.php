@@ -29,6 +29,7 @@ class RoleController extends Controller
         return view('user/roles', [
             'breadcrumb' => [
                 'Home' => '/',
+                'Contacts' => "/admin/contact",
                 'Account' => "/user/{$user->id}/account"
             ],
             'roles' => $roles,

@@ -33,7 +33,6 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        
         foreach(auth()->user()->roles as $role){
             if ($role->code == 'admin' || $role->code == 'superuser'){
                 $this->authorize('edit-roles', Auth::User());
@@ -63,14 +62,27 @@ class ContactController extends Controller
             }
         }
 
+        $breadcrumb = array(
+            'Home' => '/',
+            'Contacts' => '/admin/contact',
+            $contact->getName() ?: $contact->getOrganization() => "/contact/$id"
+        );
+
+        if (!Gate::allows('view-admin-dashboard')) {
+            // Only admins should have contact search added to the breadcrumb
+            unset($breadcrumb['Contacts']);
+        }
+
+        $redirect_url = null;
+        if (strpos(url()->previous(), '/admin/contact')) {
+            $redirect_url = url()->previous();
+        }
+
         return view('contact/show', [
             'contact' => $contact,
             'notes' => $notes,
-            'breadcrumb' => [
-                'Home' => '/',
-                'Contacts' => '/admin/contact',
-                $contact->getName() ?: $contact->getOrganization() => "/contact/$id",
-            ]
+            'breadcrumb' => $breadcrumb,
+            'redirect_url' => $redirect_url
         ]);
     }
 
@@ -85,11 +97,19 @@ class ContactController extends Controller
         }
         $this->authorize('view-contact', $contact);
 
+        $breadcrumb = array(
+            'Home' => '/',
+            'Contacts' => '/admin/contact',
+            'Jobs' => "/contact/{$contact->id}/jobs"
+        );
+
+        if (!Gate::allows('view-admin-dashboard')) {
+            // Only admins should have contact search added to the breadcrumb
+            unset($breadcrumb['Contacts']);
+        }
+
         return view('contact/jobs', [
-            'breadcrumb' => [
-                'Home' => '/',
-                'Jobs' => "/contact/{$contact->id}/jobs"
-            ],
+            'breadcrumb' => $breadcrumb,
             'contact' => $contact,
             'job_pipeline' => $job_pipeline
         ]);
