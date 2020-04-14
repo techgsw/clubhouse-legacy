@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\InvalidSearchException;
+use App\Exceptions\SBSException;
 use App\Http\Controllers\Controller;
 use App\Contact;
 use App\Message;
@@ -12,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ContactController extends Controller
@@ -95,6 +97,40 @@ class ContactController extends Controller
             }
             fclose($handle);
         }, 200, $headers);
+    }
+
+    public function delete(Request $request, $id) {
+        $this->authorize('delete-contacts');
+
+        $contact = Contact::find($id);
+        $email = $contact->email;
+        if ($contact->user) {
+            throw new SBSException("Contacts tied to a user account cannot be deleted");
+        }
+
+        if ($contact->mentor()) {
+            $contact->mentor()->delete();
+        }
+        $contact->address()->detach();
+        $contact->organizations()->detach();
+        $contact->relationships()->detach();
+        $contact->jobs()->delete();
+
+        $contact->delete();
+
+        Session::flash('message', new Message(
+            "Contact $email deleted",
+            "success",
+            $code = null,
+            $icon = "check_circle"
+        ));
+
+        $redirect_url = $request->query('redirect_url');
+        if (!is_null($redirect_url)) {
+            return redirect()->to($redirect_url);
+        } else {
+            return redirect()->action('Admin\ContactController@index');
+        }
     }
 
     private function searchForContacts(Request $request) {
