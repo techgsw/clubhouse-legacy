@@ -49,7 +49,7 @@
             <p class="small italic">{{ $last_note->create_user_name }} {{ $last_note->created_at->format('m/d/Y') }}</p>
         @endif
         @if ($contact->user)
-            <p class="small">Last Login: {{is_null($contact->user->last_login_at) ? '' : $contact->user->last_login_at->format('n/j/Y')}}</p>
+            <p class="small">Last Login: {{is_null($contact->last_login_at) ? (is_null($contact->user->last_login_at) ? '' : $contact->user->last_login_at->format('m/d/Y')) : (new DateTime($contact->last_login_at))->format('m/d/Y')}}</p>
         @endif
     </div>
 </div>

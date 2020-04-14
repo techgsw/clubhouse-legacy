@@ -205,7 +205,11 @@ class Contact extends Model
                 break;
             case 'last-login-date-desc':
                 $contacts = $contacts->whereNotNull('contact.user_id');
-                $contacts = $contacts->orderBy('contact_user.last_login_at', 'desc');
+                $contacts = $contacts->orderByRaw("CASE "
+                        ."WHEN linked_user.id IS NULL THEN contact_user.last_login_at "
+                        ."ELSE GREATEST(contact_user.last_login_at, linked_user.last_login_at) "
+                    ."END "
+                ."DESC");
                 break;
             default:
                 $contacts = $contacts->orderBy('contact.id', 'desc');
@@ -231,9 +235,12 @@ class Contact extends Model
                 ->join('address AS contact_address', 'address_contact.address_id', '=', 'contact_address.id');
         }
         $contacts->leftJoin('user AS contact_user', 'contact.user_id', '=', 'contact_user.id');
+        $contacts->leftJoin('user AS linked_user', 'contact_user.id', '=', 'linked_user.linked_user_id');
         $contacts->whereNull('contact_user.linked_user_id');
+        // we need to check all linked users for a last login date to display on the main contact entry.
+        // the second selected value here can be accessed with $contact->last_login_at
+        return $contacts->selectRaw('contact.*, COALESCE(GREATEST(contact_user.last_login_at, linked_user.last_login_at), contact_user.last_login_at) AS last_login_at');
 
-        return $contacts->select('contact.*');
     }
 
     private static function buildWhere($query, $searches) {
