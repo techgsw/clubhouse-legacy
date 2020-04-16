@@ -110,28 +110,53 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        $possible_duplicate_users_query = User::where('first_name', $request->input('first_name'))
+        $possible_duplicate_users = User::where('first_name', $request->input('first_name'))
             ->where('last_name', $request->input('last_name'))
-            ->where('email', '!=', $request->input('email'));
-
-        $possible_duplicate_users = $possible_duplicate_users_query
+            // if the email matches we'll warn the user down below
+            ->where('email', '!=', $request->input('email'))
             ->get();
 
-        if (count($possible_duplicate_users) > 0) {
-            // If the new user's name matches other users, we need to let the new user know.
+        $possible_duplicate_contacts = Contact::whereNull('user_id')
+            ->where('first_name', $request->input('first_name'))
+            ->where('last_name', $request->input('last_name'))
+            // if the email matches we'll automatically assign the contact to the user
+            ->where('email', '!=', $request->input('email'))
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if (count($possible_duplicate_users) > 0 || count($possible_duplicate_contacts) > 0) {
+            // If the new user's name matches other users or contacts, we need to let the new user know.
             // All form data will be cached with a tokenized key returned to the user so they don't have to redo the captcha.
 
             $register_token = Uuid::uuid4()->toString();
 
             if (!is_null($register_token)) {
+
+                $view = null;
+
+                if (count($possible_duplicate_users) > 0) {
+                    $view = view('auth/is-this-you/user-match', [
+                        'possible_duplicate_users' => $possible_duplicate_users,
+                        'register_token' => $register_token
+                    ]);
+                } else if (count($possible_duplicate_contacts) > 0) {
+                    $view = view('auth/is-this-you/contact-match', [
+                        'possible_duplicate_contact' => $possible_duplicate_contacts->first(),
+                        'register_token' => $register_token
+                    ]);
+                    $request->request->add(['possible_duplicate_contact' => $possible_duplicate_contacts->first()->id]);
+                }
+
                 Cache::remember('register_token_' . $register_token, 1200, function () use ($request) {
                     return $request->all();
                 });
 
-                return view('auth/is-this-you', [
-                    'possible_duplicate_users' => $possible_duplicate_users,
-                    'register_token' => $register_token
-                ]);
+                if (!is_null($view)) {
+                    return $view;
+                } else {
+                    Log::error('Error generating view for user '.$request->input('email').'. Proceeding with normal registration.');
+                    // continue down with normal process
+                }
             } else {
                 Log::error('Token for user '.$request->input('email').' could not be generated. Proceeding with normal registration.');
                 // continue down with normal process
@@ -157,10 +182,8 @@ class RegisterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function registerIsThisYou(Request $request)
+    public function registerIsThisYou(Request $request, $type)
     {
-        Log::info($request->input('register_token'));
-        Log::info($request->input('register-token'));
         $cached_request_form = Cache::pull('register_token_'.$request->input('register_token'));
 
         if (is_null($cached_request_form)) {
@@ -168,7 +191,14 @@ class RegisterController extends Controller
         }
 
         try {
-            event(new Registered($user = $this->create($cached_request_form)));
+            if ($type == 'user' || ($type == 'contact' && !($request->input('answer') == 'true'))) {
+                event(new Registered($user = $this->create($cached_request_form)));
+            } else if ($type == 'contact' && $request->input('answer') == 'true') {
+                event(new Registered($user = $this->create($cached_request_form, Contact::find($cached_request_form['possible_duplicate_contact']))));
+            } else {
+                Log::warn('Is This You page returned unusual params. Type: '.$type.' , Answer: '.$request->input('answer').' . Continuing with registration.');
+                event(new Registered($user = $this->create($cached_request_form)));
+            }
         } catch (\Exception $e) {
             Log::error('Error registering user after Is This You page: '.$e->getMessage());
             return redirect("/register")->withErrors(array("Sorry, there was an issue registering your account. Please try again."));
@@ -184,21 +214,24 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
+     * @param  Contact $contact if the user identifies a matching contact, link this to the user
      * @return User
      */
-    protected function create(array $data)
+    protected function create(array $data, $contact = null)
     {
-        $user = DB::transaction(function() use($data) {
+        $user = DB::transaction(function() use($data, $contact) {
             $email = $data['email'];
-            $contact = Contact::where('email', '=', $email)->get();
-            if (count($contact) > 0) {
-                $contact = $contact[0];
-            } else {
-                $contact = Contact::create([
-                    'first_name' => $data['first_name'],
-                    'last_name' => $data['last_name'],
-                    'email' => $data['email']
-                ]);
+            if (is_null($contact)) {
+                $contact = Contact::where('email', '=', $email)->get();
+                if (count($contact) > 0) {
+                    $contact = $contact[0];
+                } else {
+                    $contact = Contact::create([
+                        'first_name' => $data['first_name'],
+                        'last_name' => $data['last_name'],
+                        'email' => $data['email']
+                    ]);
+                }
             }
 
             $user = User::create([
