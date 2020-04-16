@@ -29,7 +29,7 @@
     </div>
     <div class="row">
         <div class="input-field col s12 center-align">
-            <form method="post" action="/register/is-this-you">
+            <form method="post" action="/register/is-this-you/user">
                 {{ csrf_field() }}
                 <input type="hidden" id="register-token" name="register_token" value="{{$register_token}}">
                 <button type="submit" class="btn sbs-red">Complete Registration</button>

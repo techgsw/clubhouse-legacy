@@ -119,7 +119,7 @@ Route::domain($domain)->group(function () {
         Route::get('logout', 'LoginController@logout')->name('logout');
         Route::get('/auth/login/header', 'LoginController@header');
 
-        Route::post('/register/is-this-you', 'RegisterController@registerIsThisYou');
+        Route::post('/register/is-this-you/{type}', 'RegisterController@registerIsThisYou');
     });
     Auth::routes();
 
