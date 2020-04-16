@@ -25,6 +25,7 @@
             <p>We found one or more accounts that match your name. If none of these are your account, you can complete your registration below.</p>
             <p>If any of these accounts are yours, we recommend you log in with your existing account and update your email address. You can keep your old email as a secondary email address in your profile.</p>
             <p>If you forgot your password to this account, you can <a href="/password/reset">reset your password here</a>. If you no longer have access to this email, you can let us know at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a> and we can work with you to get your old account updated.</p>
+            <h6 class="center-align">Log into your other account <a href="/login">here</a></h6>
         </div>
     </div>
     <div class="row">
@@ -32,7 +33,7 @@
             <form method="post" action="/register/is-this-you/user">
                 {{ csrf_field() }}
                 <input type="hidden" id="register-token" name="register_token" value="{{$register_token}}">
-                <button type="submit" class="btn sbs-red">Complete Registration</button>
+                <button type="submit" class="btn sbs-red">This isn't me, Complete My Registration</button>
             </form>
         </div>
     </div>
