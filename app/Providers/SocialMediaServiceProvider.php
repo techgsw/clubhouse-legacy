@@ -91,11 +91,11 @@ class SocialMediaServiceProvider extends ServiceProvider
                 'avatar' => $avatar,
                 'bio' => $bio,
                 'feed' => $feed,
-            ])
+            ]);
         } catch (\Exception $e) {
             Log::error($e);
             return;
-        };
+        }
     }
 
     public static function getTweets($view, $context) {
