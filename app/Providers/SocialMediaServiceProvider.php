@@ -63,39 +63,39 @@ class SocialMediaServiceProvider extends ServiceProvider
                 curl_close($ch);
                 return $curl_resp;
             });
+
+            // Process data
+            $feed = [];
+            $post_count = count($response->data);
+            if ($post_count > 0) {
+                if (!isset($limit) || is_null($limit)) {
+                    $limit = ($post_count > 8 ? 9 : $post_count);
+                }
+                for ($i = 0; $i < $limit; $i++) {
+                    $item = $response->data[$i];
+                    if (!$item) {
+                        break;
+                    }
+                    $image = $item->media_url;
+                    $link = $item->permalink;
+                    $feed[] = [
+                        "url" => $link,
+                        "src" => $image,
+                    ];
+                }
+            }
+
+            // Send feed to view
+            return $view->with([
+                'username' => $username,
+                'avatar' => $avatar,
+                'bio' => $bio,
+                'feed' => $feed,
+            ])
         } catch (\Exception $e) {
             Log::error($e);
             return;
-        }
-
-        // Process data
-        $feed = [];
-        $post_count = count($response->data);
-        if ($post_count > 0) {
-            if (!isset($limit) || is_null($limit)) {
-                $limit = ($post_count > 8 ? 9 : $post_count);
-            }
-            for ($i = 0; $i < $limit; $i++) {
-                $item = $response->data[$i];
-                if (!$item) {
-                    break;
-                }
-                $image = $item->media_url;
-                $link = $item->permalink;
-                $feed[] = [
-                    "url" => $link,
-                    "src" => $image,
-                ];
-            }
-        }
-
-        // Send feed to view
-        return $view->with([
-            'username' => $username,
-            'avatar' => $avatar,
-            'bio' => $bio,
-            'feed' => $feed,
-        ]);
+        };
     }
 
     public static function getTweets($view, $context) {
