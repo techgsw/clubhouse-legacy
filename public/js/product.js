@@ -109,6 +109,34 @@ if (!SBS) {
         },
         'select.product-option-select'
     );
+
+    $('body').on(
+        {
+            click: function(e, ui) {
+                $('.training-video-find-book-modal').modal('open');
+            }
+        },
+        'button.training-video-find-book-button'
+    );
+
+    $('body').on(
+        {
+            click: function(e, ui) {
+                // If the first option is blank (ex on product create), get rid of it
+                if (!$("#option-1-name").val()) {
+                    Product.Form.removeOption('1');
+                }
+                Product.Form.addOption();
+                $('.options div.product-option').find('.option-name').last().val($(this).attr('data-book-name'));
+                $('.options div.product-option').find('.option-description').last().val($(this).attr('data-chapter-name'));
+                $('.options div.product-option').find('.option-price').last().val(0);
+                Materialize.updateTextFields();
+                $('.training-video-find-book-modal').modal('close');
+            }
+        },
+        'button.add-training-video-chapter'
+    );
+
 })();
 
 // On-ready events

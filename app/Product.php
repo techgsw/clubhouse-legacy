@@ -128,4 +128,16 @@ class Product extends Model
         }
         return $url;
     }
+
+    public function getTrainingVideoAuthor()
+    {
+        $author = $this->tags->first(function ($tag) {
+            return stripos($tag->name, 'Author:') !== false;
+        });
+        if (!is_null($author)) {
+            return str_ireplace('Author:', '', $author->name);
+        } else {
+            return null;
+        }
+    }
 }

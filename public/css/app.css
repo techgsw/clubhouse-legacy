@@ -1875,6 +1875,45 @@ p.icon {
 }
 
 /**
+ * Sports Sales Vault
+ */
+
+.training-video-book-container {
+    display:flex;
+    justify-content: center;
+}
+
+.training-video-book-container a {
+    height:150px;
+    width:150px;
+    background-color: #E2E2E2;
+    padding: 80px 12px 12px 12px;
+    border: none;
+    margin:10px;
+}
+
+.training-video-book-container a:hover {
+    background-color: #7A7A7A;
+    color:#FFFFFF;
+    border: none;
+    transition: background-color .2s, color .2s;
+}
+
+a.training-video-item .card {
+    background-color: #F4F4F4;
+}
+
+a.training-video-item:hover .card {
+    background-color: #E2E2E2;
+    transition: background-color .2s;
+}
+
+button.training-video-find-book-button {
+    float: right;
+    min-width: 215px;
+}
+
+/**
  * Mailchimp
  */
 
