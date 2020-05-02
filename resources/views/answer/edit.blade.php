@@ -1,5 +1,5 @@
 <!-- /resources/views/answer/edit.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'Edit Answer')
 @section('content')
 <div class="container">
@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form method="POST" action="/answer/{{ $answer->id }}">
+            <form method="POST">
                 {{ csrf_field() }}
                 <div class="input-field">
                     <textarea id="body" class="materialize-textarea validate {{ $errors->has('answer') ? 'invalid' : '' }}" name="answer">{{ $answer->answer }}</textarea>

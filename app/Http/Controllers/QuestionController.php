@@ -24,29 +24,43 @@ class QuestionController extends Controller
 {
     use ReCaptchaTrait;
 
+    protected $context;
+
+    // TODO: prefixes instead of this url searching stuff?
+    public function __construct(Request $request)
+    {
+        if ($request->is('same-here/*')) {
+            $this->context = 'same-here';
+        } else if ($request->is('sales-vault/*')) {
+            $this->context = 'sales-vault';
+        }
+    }
+
     /**
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $questions = Question::search($request)
-            // TODO: There are some older questions from when this was a general Q&A board
-            //  we should confirm that we don't care about any of these before removing them
-            ->where('created_at', '>=', new \DateTime('2020-03-11 00:00:00'))
-
+            ->where('context', $this->context)
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
-        $breadcrumb = [
-            'Clubhouse' => '/',
-            '#SameHere' => '/same-here',
-            'Mental Health Discussion Board' => '/same-here/discussion'
-        ];
+        $breadcrumb = ['Clubhouse' => '/'];
+        if ($this->context == 'same_here') {
+            $breadcrumb['#SameHere'] = '/same-here';
+            $breadcrumb['Mental Health Discussion Board'] = '/same-here/discussion';
+        } else if ($this->context == 'sales_vault') {
+            $breadcrumb['Sports Sales Vault'] = '/sales-vault';
+            $breadcrumb['Sports Sales Discussion Board'] = '/sales-vault/discussions';
+        }
+
         if ($search = request('search')) {
             $breadcrumb["Searching \"{$search}\""] = "/question?search={$search}";
         }
 
         return view('question/index', [
+            'context' => $this->context,
             'breadcrumb' => $breadcrumb,
             'questions' => $questions
         ]);
@@ -57,13 +71,30 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('question/create', [
-            'breadcrumb' => [
+        if ($this->context == 'sales_vault' && !Auth::user()) {
+            return abort(403);
+        }
+
+        $breadcrumb = ['Clubhouse' => '/'];
+        if ($this->context == 'same-here') {
+            $breadcrumb = [
                 'Clubhouse' => '/',
                 '#SameHere' => '/same-here',
                 'Mental Health Discussion Board' => '/same-here/discussion',
                 'Ask a question' => '/same-here/discussion/create'
-            ]
+            ];
+        } else if ($this->context == 'sales-vault') {
+            $breadcrumb = [
+                'Clubhouse' => '/',
+                'Sports Sales Vault' => '/sales-vault',
+                'Sports Sales Discussion Board' => '/sales-vault/discussion',
+                'Ask a question' => '/sales-vault/discussion/create'
+            ];
+        }
+
+        return view('question/create', [
+            'context' => $this->context,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -75,18 +106,23 @@ class QuestionController extends Controller
      */
     protected function validator(array $data)
     {
-        $data['recaptcha'] = $this->recaptchaCheck($data);
+        $rules = [];
+        $messages = [];
 
-        $rules = [
-            'g-recaptcha-response' => 'required',
-            'recaptcha' => 'required|min:1'
-        ];
+        if ($this->context == 'same-here') {
+            $data['recaptcha'] = $this->recaptchaCheck($data);
 
-        $messages = [
-            'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
-            'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
-            'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
-        ];
+            $rules = [
+                'g-recaptcha-response' => 'required',
+                'recaptcha' => 'required|min:1'
+            ];
+
+            $messages = [
+                'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+                'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+                'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
+            ];
+        }
 
         return Validator::make($data, $rules, $messages);
     }
@@ -99,12 +135,22 @@ class QuestionController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        //TODO: we don't need to record user_id, could record IP address in the future
+        if ($this->context == 'same-here') {
+            //TODO: use something else in this field for anonymous questions??
+            $user_id = 1;
+        } else {
+            if (!Auth::user()) {
+                abort(403);
+            }
+            $user_id = Auth::user()->id;
+        }
+
         $question = Question::create([
-            'user_id' => 1,
+            'user_id' => $user_id,
             'title' => request('title'),
             'body' => request('body'),
-            'approved' => true
+            'approved' => true,
+            'context' => $this->context
         ]);
 
         // TODO Global constant
@@ -142,15 +188,28 @@ class QuestionController extends Controller
 
         $answers = $question->answers;
 
-        return view('question/show', [
-            'question' => $question,
-            'answers' => $answers,
-            'breadcrumb' => [
+        $breadcrumb = ['Clubhouse' => '/'];
+        if ($this->context == 'same-here') {
+            $breadcrumb = [
                 'Clubhouse' => '/',
                 '#SameHere' => '/same-here',
                 'Mental Health Discussion Board' => '/same-here/discussion',
                 "{$question->title}" => "/same-here/discussion/{$question->id}"
-            ]
+            ];
+        } else if ($this->context == 'sales-vault') {
+            $breadcrumb = [
+                'Clubhouse' => '/',
+                'Sports Sales Vault' => '/sales-vault',
+                'Sports Sales Discussion Board' => '/sales-vault/discussion',
+                "{$question->title}" => "/sales-vault/discussion/{$question->id}"
+            ];
+        }
+
+        return view('question/show', [
+            'question' => $question,
+            'answers' => $answers,
+            'context' => $this->context,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
