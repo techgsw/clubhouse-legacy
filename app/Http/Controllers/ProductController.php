@@ -700,4 +700,13 @@ class ProductController extends Controller
         ]);
     }
 
+    public function getTrainingVideoChaptersForAutocomplete()
+    {
+        return response()->json([
+            'chapters' => ProductOption::whereHas('product.tags', function($query) {
+                $query->where('name', 'Training Video');
+            })->distinct()->get(['name as book', 'description as name'])
+        ]);
+    }
+
 }

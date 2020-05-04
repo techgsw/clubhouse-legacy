@@ -31,6 +31,15 @@
             </div>
         </div>
     @endif
+        <div class="row center-align">
+            <form id="find-book-chapter" method="GET" action="/training-videos">
+                <div class="input-field col s12 m4 offset-m4">
+                    <input id="find-book-name" type="hidden" name="book">
+                    <input id="find-chapter-name" name="chapter" type="text" class="find-book-chapter-autocomplete" autocomplete="off">
+                    <label for="find-chapter-name">Find a section</label>
+                </div>
+            </form>
+        </div>
     @if(count($videos) < 1)
         <div class="row center-align">
             <h5>Training Videos coming soon.</h5>

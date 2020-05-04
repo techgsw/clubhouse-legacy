@@ -26,6 +26,7 @@ $.valHooks.textarea = {
     var Mentor = {};
     var Note = {};
     var Organization = {};
+    var TrainingVideos = {};
     var Pipeline = {};
     var Tag = {
         map: {}
@@ -1352,6 +1353,41 @@ $.valHooks.textarea = {
         }
     };
 
+    TrainingVideos.getChapters = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/training-videos/all-chapters',
+            'data': {}
+        });
+    }
+
+    TrainingVideos.init = function () {
+        var find_book_chapter_autocomplete = $('input.find-book-chapter-autocomplete');
+        if (find_book_chapter_autocomplete.length > 0) {
+            var book_name_input = $('input#find-book-name');
+            TrainingVideos.getChapters().done(function (data) {
+                TrainingVideos.map = {};
+                var chapter_data = data.chapters.reduce(function (chapter_data, chapters, key) {
+                    TrainingVideos.map[chapters.name] = chapters.book;
+                    chapter_data[chapters.name] = null;
+                    return chapter_data;
+                }, {});
+
+                // Initialize autocompletes
+                find_book_chapter_autocomplete.autocomplete({
+                    data: chapter_data,
+                    limit: 10,
+                    onAutocomplete: function (name) {
+                        book_name_input.val(TrainingVideos.map[name]);
+                        find_book_chapter_autocomplete.val(name);
+                        $('form#find-book-chapter').submit();
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
+
     Pipeline.move = function (id, type, action, comm_type, reason, token) {
         var url = '/admin/' + (type == 'user' ? 'inquiry' : 'contact-job') + '/pipeline-';
         return $.ajax({
@@ -2155,6 +2191,7 @@ $.valHooks.textarea = {
         League.init();
         Organization.init();
         Video.init();
+        TrainingVideos.init();
         Tag.init();
         ContactRelationship.init();
         if ($('.app-login-placeholder-after').length > 0) {

@@ -158,6 +158,8 @@ Route::domain($domain)->group(function () {
         //endpoint for editing the user roles
         Route::get('/admin/{id}/edit-roles', 'RoleController@index');
         Route::post('/admin/{id}/update-roles', 'RoleController@update');
+
+        Route::get('/training-video/create', 'TrainingVideoController@create');
     });
 
     // Admin & Ajax
