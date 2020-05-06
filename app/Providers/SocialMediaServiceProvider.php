@@ -104,29 +104,31 @@ class SocialMediaServiceProvider extends ServiceProvider
 
         // Get tweets
         // https://twitter.com/search?l=&q=%23sportsbiztip%20from%3ASportsBizSol&src=typd
-        $count = 3;
-        if ($context == 'sportsbiztip') {
-            $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sportsbiztip%20from%3A{$screen_name}";
+        if ($context == 'sales-vault') {
+            $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23samehere&count=15";
         } else if ($context == 'same-here') {
             $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sameheresolutions&count=5";
         } else {
             return null;
         }
-        $ch = curl_init($url);
-        $headers = [
-            "Authorization: Bearer {$access_token}",
-        ];
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $data = Cache::remember('twitter-'.$context, 5, function() use ($url, $access_token) {
+            $ch = curl_init($url);
+            $headers = [
+                "Authorization: Bearer {$access_token}",
+            ];
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        try {
-            $data = curl_exec($ch);
-            $data = json_decode($data);
-        } catch (\Exception $e) {
+            try {
+                $data = curl_exec($ch);
+                $data = json_decode($data);
+            } catch (\Exception $e) {
+                curl_close($ch);
+                return;
+            }
             curl_close($ch);
-            return;
-        }
-        curl_close($ch);
+            return $data;
+        });
 
         if (!$data->statuses || count($data->statuses) == 0) {
             $view->with([
@@ -134,16 +136,37 @@ class SocialMediaServiceProvider extends ServiceProvider
             ]);
         }
 
-        // Send feed to view
-        if ($context == 'sportsbiztip') {
-            $view->with([
-                "screen_name" => $screen_name,
-                "feed" => $data->statuses,
-            ]);
-        } else if ($context == 'same-here') {
-            return $view->with([
-                "feed" => $data->statuses,
-            ]);
+        $statuses = array();
+
+        foreach ($data->statuses as $status) {
+            $data = Cache::remember('tweet-'.$status->id, 5, function() use ($status, $access_token) {
+                $url = "https://publish.twitter.com/oembed?omit_script=true&url=https://twitter.com/Interior/status/" . $status->id;
+                $ch = curl_init($url);
+                $headers = [
+                    "Authorization: Bearer {$access_token}",
+                ];
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+                try {
+                    $data = curl_exec($ch);
+                    $data = json_decode($data);
+                } catch (\Exception $e) {
+                    curl_close($ch);
+                    return;
+                }
+                curl_close($ch);
+                return $data;
+            });
+
+            if ($data && $data->html) {
+                $statuses []= $data->html;
+            }
         }
+
+        // Send feed to view
+        return $view->with([
+            "feed" => $statuses,
+        ]);
     }
 }

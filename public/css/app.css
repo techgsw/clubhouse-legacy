@@ -430,8 +430,21 @@ footer.page-footer .same-here-twitter-feed {
     text-align:center;
     padding: 40px 0px;
 }
-.twitter-samehere-feed a:hover {
-    color: #E5E5E5;
+
+.twitter-hashtag-feed {
+    display:flex;
+    flex-wrap:wrap;
+    height:300px;
+    overflow: auto;
+    margin-left:20px;
+    margin-right:20px;
+    justify-content:center;
+}
+
+.twitter-hashtag-feed twitter-widget {
+    width:300px !important;
+    margin-left:10px;
+    margin-right:10px;
 }
 
 nav.nav-main ul.dropdown-content {

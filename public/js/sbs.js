@@ -1308,30 +1308,32 @@ $.valHooks.textarea = {
         }
     }
 
-    Twitter.getFeed = function () {
+    Twitter.getFeed = function (context) {
         return $.ajax({
             type: "GET",
             url: "/social/twitter",
-            data: { context : 'same-here'},
+            data: { context : context},
         });
     }
 
     Twitter.init = function () {
         var tw = $('#twitter');
         if (tw.length > 0) {
-            Twitter.getFeed().done(
+            let context = $('.sales-vault-twitter').length ? 'sales-vault' : 'same-here';
+            Twitter.getFeed(context).done(
                 function (resp, status, xhr) {
                     if (xhr.status == 200) {
                         tw.find('.preloader-wrapper').remove();
                         tw.append(resp);
+                        twttr.widgets.load();
                     } else {
-                        $('.same-here-twitter-feed').remove();
+                        $('.twitter-hashtag-feed').remove();
                         console.error("Failed to load Twitter feed.");
                     }
                 }
             ).fail(
                 function () {
-                    $('.same-here-twitter-feed').remove();
+                    $('.twitter-hashtag-feed').remove();
                     console.error("Failed to load Twitter feed.");
                 }
             );

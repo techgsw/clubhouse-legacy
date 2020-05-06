@@ -22,6 +22,6 @@ class SocialMediaController extends Controller
 
     public function twitter(Request $request)
     {
-        return SocialMediaServiceProvider::getTweets(view('layouts.components.same-here-twitter-feed'), 'same-here');
+        return SocialMediaServiceProvider::getTweets(view('layouts.components.twitter-hashtag-feed'), $request->get('context'));
     }
 }
