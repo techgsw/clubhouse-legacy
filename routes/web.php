@@ -416,4 +416,29 @@ Route::domain($domain)->group(function () {
         Route::get('/same-here/discussion/answer/{id}/edit', 'AnswerController@edit');
         Route::post('/same-here/discussion/answer/{id}/edit', 'AnswerController@update');
     });
+
+    // Sales Vault
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/sales-vault', 'ClubhouseController@salesVault');
+
+        Route::get('/training-videos', 'ProductController@trainingVideos');
+        Route::get('/training-videos/all-chapters', 'ProductController@getTrainingVideoChaptersForAutocomplete');
+        Route::get('/training-videos/{id}', 'ProductController@showTrainingVideo');
+
+        // Routes for discussion board
+        Route::get('/sales-vault/discussion', 'QuestionController@index');
+        Route::get('/sales-vault/discussion/create', 'QuestionController@create');
+        Route::post('/sales-vault/discussion', 'QuestionController@store');
+        Route::get('/sales-vault/discussion/{id}', 'QuestionController@show');
+        Route::get('/sales-vault/discussion/{id}/approve', 'QuestionController@approve');
+        Route::get('/sales-vault/discussion/{id}/disapprove', 'QuestionController@disapprove');
+        Route::get('/sales-vault/discussion/{id}/edit', 'QuestionController@edit');
+        Route::post('/sales-vault/discussion/{id}', 'QuestionController@update');
+        Route::post('/sales-vault/discussion/{id}/answer', 'AnswerController@store');
+        Route::get('/sales-vault/discussion/answer/{id}/approve', 'AnswerController@approve');
+        Route::get('/sales-vault/discussion/answer/{id}/disapprove', 'AnswerController@disapprove');
+        Route::get('/sales-vault/discussion/answer/{id}/edit', 'AnswerController@edit');
+        Route::post('/sales-vault/discussion/answer/{id}/edit', 'AnswerController@update');
+
+    });
 });

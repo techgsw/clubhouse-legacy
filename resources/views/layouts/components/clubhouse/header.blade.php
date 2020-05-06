@@ -11,9 +11,14 @@
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/mentor">Mentors</a></li>
-                <li><a href="/webinars">Webinars</a></li>
-                <li><a href="/career-services">Career Services</a></li>
-                <li><a href="/same-here"><span style="float: right;margin-top: -15px;margin-left: -8px;font-size: 10px;font-weight: bold;">NEW</span><span>#SameHere</span></a></li>
+                <li><a href="#" class="dropdown-button" data-activates="training-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Training</a></li>
+                <!-- Dropdown Structure -->
+                <ul id="training-dropdown" class="dropdown-content">
+                    <li><a href="/webinars">Webinars</a></li>
+                    <li><a href="/career-services">Career Services</a></li>
+                    <li><a href="/sales-vault"><span style="float: right;margin-top: -17px;margin-right: -10px;font-size: 10px;font-weight: bold;">NEW</span>Sports Sales Training</a></li>
+                </ul>
+                <li><a href="/same-here">#SameHere</a></li>
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
                 <li class="social-media">
@@ -30,7 +35,8 @@
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/career-services">Career Services</a></li>
-                <li><a href="/same-here"><span style="float: right;font-size: 12px;font-weight: bold;">NEW</span><span>#SameHere</span></a></li>
+                <li><a href="/sales-vault"><span style="float: right;font-size: 12px;font-weight: bold;">NEW</span>Sports Sales Training</a></li>
+                <li><a href="/same-here">#SameHere</a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>

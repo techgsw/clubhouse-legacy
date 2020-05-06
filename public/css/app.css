@@ -210,6 +210,9 @@ div.row.bg-image.training-consulting {
 div.row.bg-image.same-here {
     background: linear-gradient( rgba(0, 10, 10, 0.8), rgba(0, 10, 10, 0.8) ), url('/images/same-here/hero.jpg') center top;
 }
+div.row.bg-image.sales-vault {
+    background: linear-gradient( rgba(0, 10, 20, 0.7), rgba(0, 10, 20, 0.7) ), url('/images/sales-vault/hero.jpg') center;
+}
 div.row.bg-image h1,
 div.row.bg-image h2,
 div.row.bg-image h3,
@@ -1881,6 +1884,8 @@ p.icon {
 .training-video-book-container {
     display:flex;
     justify-content: center;
+    margin-top:30px;
+    margin-bottom:30px;
 }
 
 .training-video-book-container a {
@@ -1911,6 +1916,19 @@ a.training-video-item:hover .card {
 button.training-video-find-book-button {
     float: right;
     min-width: 215px;
+}
+
+.sales-vault-video-container {
+    display:flex;
+    justify-content: center;
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.sales-vault-video-container iframe {
+    height:144px;
+    width:256px;
+    margin:10px;
 }
 
 /**

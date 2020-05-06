@@ -8,6 +8,7 @@ use App\Post;
 use App\Product;
 use App\Message;
 use App\ProductOption;
+use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -127,6 +128,31 @@ class ClubhouseController extends Controller
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Resources' => '/resources'
+            ],
+        ]);
+    }
+
+    public function salesVault(Request $request)
+    {
+        $newest_training_videos = Product::whereHas('tags', function ($query) {
+            $query->where('name', 'Training Video');
+        })->orderBy('created_at', 'DESC')->limit(3)->get();
+
+        $training_video_books= ProductOption::whereHas('product.tags', function($query) {
+            $query->where('name', 'Training Video');
+        })->distinct()->get(['name']);
+
+        $questions = Question::where('context', 'sales-vault')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(2);
+
+        return view('clubhouse/sales-vault', [
+            'training_video_books' => $training_video_books,
+            'newest_training_videos' => $newest_training_videos,
+            'questions' => $questions,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Sports Sales Vault' => '/sales-vault'
             ],
         ]);
     }
