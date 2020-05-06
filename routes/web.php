@@ -421,9 +421,9 @@ Route::domain($domain)->group(function () {
     Route::group(['middleware' => ['web']], function () {
         Route::get('/sales-vault', 'ClubhouseController@salesVault');
 
-        Route::get('/training-videos', 'ProductController@trainingVideos');
-        Route::get('/training-videos/all-chapters', 'ProductController@getTrainingVideoChaptersForAutocomplete');
-        Route::get('/training-videos/{id}', 'ProductController@showTrainingVideo');
+        Route::get('/sales-vault/training-videos', 'ProductController@trainingVideos');
+        Route::get('/sales-vault/training-videos/all-chapters', 'ProductController@getTrainingVideoChaptersForAutocomplete');
+        Route::get('/sales-vault/training-videos/{id}', 'ProductController@showTrainingVideo');
 
         // Routes for discussion board
         Route::get('/sales-vault/discussion', 'QuestionController@index');

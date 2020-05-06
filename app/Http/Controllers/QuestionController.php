@@ -162,7 +162,8 @@ class QuestionController extends Controller
                     'emails.internal.question-submitted',
                     array(
                         'question' => $question,
-                        'user' => null
+                        'user' => null,
+                        'context' => $this->context
                     )
                 )
             );

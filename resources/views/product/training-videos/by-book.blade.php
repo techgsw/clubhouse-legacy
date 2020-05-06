@@ -25,7 +25,7 @@
                             @endforeach
                             @if (count($videos) > 4)
                                 <div class="col s12 center-align" style="margin-top:20px;">
-                                    <a href="/training-videos?book={{urlencode($book)}}&chapter={{urlencode($chapter)}}" class="btn btn-large sbs-red">See More Videos</a>
+                                    <a href="/sales-vault/training-videos?book={{urlencode($book)}}&chapter={{urlencode($chapter)}}" class="btn btn-large sbs-red">See More Videos</a>
                                 </div>
                             @endif
                         </div>
@@ -37,7 +37,7 @@
     <br><br>
     <div class="row training-video-book-container">
         @foreach($books as $book)
-            <a href="/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
+            <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
         @endforeach
     </div>
 @endsection

@@ -17,7 +17,7 @@
     @if(count($books) > 0)
         <div class="row training-video-book-container">
             @foreach($books as $book)
-                <a href="/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
+                <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
             @endforeach
         </div>
     @endif
@@ -26,13 +26,13 @@
             <h5>Authors</h5>
             <div class="tag-cloud center-align">
                 @foreach ($authors as $author)
-                    <a href="/training-videos?author={{ urlencode(str_ireplace('Author:', '', $author->name)) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ str_ireplace('Author:', '', $author->name) }}</a>
+                    <a href="/sales-vault/training-videos?author={{ urlencode(str_ireplace('Author:', '', $author->name)) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ str_ireplace('Author:', '', $author->name) }}</a>
                 @endforeach
             </div>
         </div>
     @endif
         <div class="row center-align">
-            <form id="find-book-chapter" method="GET" action="/training-videos">
+            <form id="find-book-chapter" method="GET" action="/sales-vault/training-videos">
                 <div class="input-field col s12 m4 offset-m4">
                     <input id="find-book-name" type="hidden" name="book">
                     <input id="find-chapter-name" name="chapter" type="text" class="find-book-chapter-autocomplete" autocomplete="off">

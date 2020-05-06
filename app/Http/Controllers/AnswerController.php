@@ -95,7 +95,8 @@ class AnswerController extends Controller
                     'emails.internal.answer',
                     array(
                         'answer' => $answer,
-                        'question' => $question
+                        'question' => $question,
+                        'context' => $question->context
                     )
                 )
             );

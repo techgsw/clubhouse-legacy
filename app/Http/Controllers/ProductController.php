@@ -587,9 +587,10 @@ class ProductController extends Controller
                     'chapter' => $request->chapter,
                     'breadcrumb' => [
                         'Clubhouse' => '/',
-                        'Training Videos' => '/training-videos',
-                        $request->book => "/training-videos?book={$request->book}",
-                        $request->chapter => "/training-videos?book={$request->book}?chapter={$request->chapter}",
+                        'Sports Sales Vault' => '/sales-vault/',
+                        'Training Videos' => '/sales-vault/training-videos',
+                        $request->book => "/sales-vault/training-videos?book={$request->book}",
+                        $request->chapter => "/sales-vault/training-videos?book={$request->book}?chapter={$request->chapter}",
                     ]
                 ]);
             } else {
@@ -617,8 +618,9 @@ class ProductController extends Controller
                     'book' => $request->book,
                     'breadcrumb' => [
                         'Clubhouse' => '/',
-                        'Training Videos' => '/training-videos',
-                        $request->book => "/training-videos?book={$request->book}",
+                        'Sports Sales Vault' => '/sales-vault/',
+                        'Training Videos' => '/sales-vault/training-videos',
+                        $request->book => "/sales-vault/training-videos?book={$request->book}",
                     ]
                 ]);
             }
@@ -666,7 +668,8 @@ class ProductController extends Controller
                 'active_author' => $active_author,
                 'breadcrumb' => [
                     'Clubhouse' => '/',
-                    'Training Videos' => '/training-videos',
+                    'Sports Sales Vault' => '/sales-vault/',
+                    'Training Videos' => '/sales-vault/training-videos'
                 ]
             ]);
         }
@@ -692,10 +695,11 @@ class ProductController extends Controller
             'video' => $video,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Training Videos' => '/training-videos',
-                $option->name => "/training-videos?book={$option->name}",
-                $option->description => "/training-videos?book={$option->name}?chapter={$option->description}",
-                $video->name => "/training-videos/{$video->id}"
+                'Sports Sales Vault' => '/sales-vault/',
+                'Training Videos' => '/sales-vault/training-videos',
+                $option->name => "/sales-vault/training-videos?book={$option->name}",
+                $option->description => "/sales-vault/training-videos?book={$option->name}?chapter={$option->description}",
+                $video->name => "/sales-vault/training-videos/{$video->id}"
             ]
         ]);
     }

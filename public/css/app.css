@@ -1897,6 +1897,7 @@ p.icon {
 .training-video-book-container {
     display:flex;
     justify-content: center;
+    flex-wrap: wrap;
     margin-top:30px;
     margin-bottom:30px;
 }
@@ -1933,6 +1934,7 @@ button.training-video-find-book-button {
 
 .sales-vault-video-container {
     display:flex;
+    flex-wrap: wrap;
     justify-content: center;
     margin-top:30px;
     margin-bottom:30px;

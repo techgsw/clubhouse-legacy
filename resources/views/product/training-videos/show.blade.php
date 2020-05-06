@@ -75,12 +75,12 @@
             @endif
             @foreach($video->tags as $tag)
                 @if ($tag->name != 'Training Video' && stripos($tag->name, 'Author:') === false)
-                    <a href="/training-videos?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin-left:4px">{{ $tag->name }}</a>
+                    <a href="/sales-vault/training-videos?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin-left:4px">{{ $tag->name }}</a>
                 @endif
             @endforeach
             {!! $pd->text($video->getCleanDescription()) !!}
             @foreach($video->options as $option)
-                <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;" href="/training-videos?book={{$option->name}}&chapter={{$option->description}}" class="btn blue">Browse all videos in {{$option->name}}: {{$option->description}}</a>
+                <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;margin-bottom:10px;" href="/sales-vault/training-videos?book={{$option->name}}&chapter={{$option->description}}" class="btn blue">Browse all videos in {{$option->name}}: {{$option->description}}</a>
             @endforeach
         </div>
     </div>

@@ -1358,7 +1358,7 @@ $.valHooks.textarea = {
     TrainingVideos.getChapters = function () {
         return $.ajax({
             'type': 'GET',
-            'url': '/training-videos/all-chapters',
+            'url': '/sales-vault/training-videos/all-chapters',
             'data': {}
         });
     }

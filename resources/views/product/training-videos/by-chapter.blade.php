@@ -26,7 +26,7 @@
         </div>
     @endif
         <div class="col s12 center-align" style="margin-top:20px;">
-            <a href="/training-videos?book={{urlencode($book)}}" class="btn btn-large sbs-red">View more from {{$book}}</a>
+            <a href="/sales-vault/training-videos?book={{urlencode($book)}}" class="btn btn-large sbs-red">View more from {{$book}}</a>
         </div>
         <br><br>
 @endsection

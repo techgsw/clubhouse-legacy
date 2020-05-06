@@ -111,7 +111,9 @@ class SocialMediaServiceProvider extends ServiceProvider
         } else {
             return null;
         }
-        $data = Cache::remember('twitter-'.$context, 5, function() use ($url, $access_token) {
+
+        // Pull a list of all tweets, cached for 2 minutes
+        $data = Cache::remember('twitter-'.$context, 2, function() use ($url, $access_token) {
             $ch = curl_init($url);
             $headers = [
                 "Authorization: Bearer {$access_token}",
@@ -138,8 +140,9 @@ class SocialMediaServiceProvider extends ServiceProvider
 
         $statuses = array();
 
+        // Pull an embedded card for each tweet, cached for 1 day
         foreach ($data->statuses as $status) {
-            $data = Cache::remember('tweet-'.$status->id, 5, function() use ($status, $access_token) {
+            $data = Cache::remember('tweet-'.$status->id, 1440, function() use ($status, $access_token) {
                 $url = "https://publish.twitter.com/oembed?omit_script=true&url=https://twitter.com/Interior/status/" . $status->id;
                 $ch = curl_init($url);
                 $headers = [

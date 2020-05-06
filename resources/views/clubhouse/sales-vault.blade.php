@@ -5,7 +5,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/sales-vault/treasure.png" />
             <h4 class="header">The Sports Sales Vault</h4>
-            <h5 style="font-size:25px;">Sales training videos produced by the team at <a href="{{env('SBS_URL')}}">Sports Business Solutions</a></h5>
+            <h5 style="font-size:25px;">Sales training videos produced by the team at <a href="{{env('APP_URL')}}">Sports Business Solutions</a></h5>
             <h5 style="max-width:1050px;font-size:19px;text-align: center;margin-left:auto;margin-right:auto;">We've trained more than 100 sports teams throughout the US and Canada, conducted more than 350 sales training sessions and trained over 1,000 salespeople in sports.</h5>
         </div>
         <div class="col s12 m4 offset-m4">
@@ -15,11 +15,14 @@
 @endsection
 @section('content')
     <div class="container" style="padding-top:40px;">
-        <div class="row gray-bg" style="padding: 40px 80px;">
-            <div style="border-right:solid 1px;align-items: center;display: flex;max-height: 110px;" class="col s4 m3">
+        <div class="row gray-bg" style="min-height: 180px; display:flex; flex-wrap:wrap; align-items: center;">
+            <div class="col s12 m3" style="align-items: center;display: flex;max-height: 110px;justify-content: center;">
                 <h1 style="text-align: left;">OUR<br>GOAL</h1>
             </div>
-            <div class="col s8 m9" style="align-items: center;display: flex;padding-left:70px;margin-top:-5px;">
+            <div class="col s12 m9 hide-on-large-only" style="align-items: center;display: flex;margin-top:-5px;">
+                <h5>Our passion is teaching and coaching sales and helping people achieve success in sports. Our hope is that our sales training content can help you acheive greater success in sports, regardless of your team, league, market or role.</h5>
+            </div>
+            <div class="col hide-on-med-and-down l9" style="border-left:solid 1px;align-items: center;display: flex;padding-left:70px;margin-top:-5px;">
                 <h5>Our passion is teaching and coaching sales and helping people achieve success in sports. Our hope is that our sales training content can help you acheive greater success in sports, regardless of your team, league, market or role.</h5>
             </div>
         </div>
@@ -35,25 +38,25 @@
             </div>
             <div class="about-cards col s12" style="padding-top:20px;">
                 <div class="about-card col s6 m3">
-                    <a href="/bob-hamer" class="no-underline">
+                    <a href="{{env('APP_URL')}}/bob-hamer" class="no-underline">
                         <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
                     </a>
                 </div>
                 <div class="about-card col s6 m3">
-                    <a href="/josh-belkoff" class="no-underline">
+                    <a href="{{env('APP_URL')}}/josh-belkoff" class="no-underline">
                         <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Business Development</span></h5>
                     </a>
                 </div>
                 <div class="about-card col s6 m3">
-                    <a href="/kevin-klammer" class="no-underline">
+                    <a href="{{env('APP_URL')}}/kevin-klammer" class="no-underline">
                         <img src="/images/about/kevin.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Kevin Klammer<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
                     </a>
                 </div>
                 <div class="about-card col s6 m3">
-                    <a href="/matt-clark" class="no-underline">
+                    <a href="{{env('APP_URL')}}/matt-clark" class="no-underline">
                         <img src="/images/about/matt.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Matt Clark<span class="about-position">Sr. Director,<br/>Training & Personal Development</span></h5>
                     </a>
@@ -79,12 +82,12 @@
             @if(count($training_video_books) > 0)
                 <div class="row training-video-book-container">
                     @foreach($training_video_books as $book)
-                        <a href="/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
+                        <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
                     @endforeach
                 </div>
             @endif
             <div class="col s12 center-align" style="padding-bottom: 50px;">
-                <a href="/training-videos" class="btn sbs-red" style="margin-top: 20px;">See all videos</a>
+                <a href="/sales-vault/training-videos" class="btn sbs-red" style="margin-top: 20px;">See all videos</a>
             </div>
         </div>
     </div>
