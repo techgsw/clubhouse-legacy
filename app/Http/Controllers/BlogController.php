@@ -21,11 +21,8 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::search($request)->whereDoesntHave('tags', function ($query) {
-            $query->where('name', '#SameHere');
-            $query->where('post_type_code', 'blog');
-        })->where('post_type_code', 'blog')->paginate(15);
-        $tags = Tag::has('posts')->where('name', '!=', '#SameHere')->orderBy('name', 'dec')->get();
+        $posts_query = Post::search($request)->where('post_type_code', 'blog');
+        $tags = Tag::has('posts')->orderBy('name', 'dec')->get();
 
         $tag = null;
         if ($request->tag) {
@@ -33,7 +30,15 @@ class BlogController extends Controller
             if (count($results) > 0) {
                 $tag = $results[0];
             }
+        } else {
+            // tag searches should display #SameHere posts, regular blog display should not
+            $posts_query = $posts_query->whereDoesntHave('tags', function ($query) {
+                $query->where('name', '#SameHere');
+                $query->where('post_type_code', 'blog');
+            });
         }
+
+        $posts = $posts_query->paginate(15);
 
         return view('blog/index', [
             'breadcrumb' => [
