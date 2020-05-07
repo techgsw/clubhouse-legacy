@@ -101,10 +101,12 @@ class AnswerController extends Controller
                 )
             );
 
-            Mail::to($question->user->email)->send(new AnswerSubmitted(
-                $answer,
-                $question
-            ));
+            if ($question->context != 'same-here') {
+                Mail::to($question->user->email)->send(new AnswerSubmitted(
+                    $answer,
+                    $question
+                ));
+            }
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -170,9 +172,9 @@ class AnswerController extends Controller
     public function update(Request $request, $id)
     {
         $now = new \DateTime('NOW');
-        $this->authorize('edit-answer', $answer);
 
         $answer = Answer::find($id);
+        $this->authorize('edit-answer', $answer);
         $answer->answer = request('answer');
         $answer->edited_at = $now;
         $answer->save();

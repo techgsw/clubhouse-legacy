@@ -1,4 +1,3 @@
-<!-- /resources/views/product/show.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', "$video->name")
 @section('description', $video->getCleanDescription())
