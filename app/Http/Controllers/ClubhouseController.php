@@ -152,7 +152,7 @@ class ClubhouseController extends Controller
             'questions' => $questions,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sports Sales Vault' => '/sales-vault'
+                'Sport Sales Vault' => '/sales-vault'
             ],
         ]);
     }

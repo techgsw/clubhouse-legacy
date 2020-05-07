@@ -587,7 +587,7 @@ class ProductController extends Controller
                     'chapter' => $request->chapter,
                     'breadcrumb' => [
                         'Clubhouse' => '/',
-                        'Sports Sales Vault' => '/sales-vault/',
+                        'Sport Sales Vault' => '/sales-vault/',
                         'Training Videos' => '/sales-vault/training-videos',
                         $request->book => "/sales-vault/training-videos?book={$request->book}",
                         $request->chapter => "/sales-vault/training-videos?book={$request->book}?chapter={$request->chapter}",
@@ -618,7 +618,7 @@ class ProductController extends Controller
                     'book' => $request->book,
                     'breadcrumb' => [
                         'Clubhouse' => '/',
-                        'Sports Sales Vault' => '/sales-vault/',
+                        'Sport Sales Vault' => '/sales-vault/',
                         'Training Videos' => '/sales-vault/training-videos',
                         $request->book => "/sales-vault/training-videos?book={$request->book}",
                     ]
@@ -668,7 +668,7 @@ class ProductController extends Controller
                 'active_author' => $active_author,
                 'breadcrumb' => [
                     'Clubhouse' => '/',
-                    'Sports Sales Vault' => '/sales-vault/',
+                    'Sport Sales Vault' => '/sales-vault/',
                     'Training Videos' => '/sales-vault/training-videos'
                 ]
             ]);
@@ -695,7 +695,7 @@ class ProductController extends Controller
             'video' => $video,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sports Sales Vault' => '/sales-vault/',
+                'Sport Sales Vault' => '/sales-vault/',
                 'Training Videos' => '/sales-vault/training-videos',
                 $option->name => "/sales-vault/training-videos?book={$option->name}",
                 $option->description => "/sales-vault/training-videos?book={$option->name}?chapter={$option->description}",

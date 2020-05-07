@@ -133,16 +133,14 @@ class SocialMediaServiceProvider extends ServiceProvider
         });
 
         if (!$data->statuses || count($data->statuses) == 0) {
-            $view->with([
-                "feed" => false,
-            ]);
+            return null;
         }
 
         $statuses = array();
 
-        // Pull an embedded card for each tweet, cached for 1 day
+        // Pull an embedded card for each tweet, cached for 1 week
         foreach ($data->statuses as $status) {
-            $data = Cache::remember('tweet-'.$status->id, 1440, function() use ($status, $access_token) {
+            $data = Cache::remember('tweet-'.$status->id, 10080, function() use ($status, $access_token) {
                 $url = "https://publish.twitter.com/oembed?omit_script=true&url=https://twitter.com/Interior/status/" . $status->id;
                 $ch = curl_init($url);
                 $headers = [

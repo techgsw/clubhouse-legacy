@@ -16,18 +16,16 @@ class AnswerSubmitted extends Mailable
 
     public $answer;
     public $question;
-    public $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Answer $answer, Question $question, User $user)
+    public function __construct(Answer $answer, Question $question)
     {
         $this->answer = $answer;
         $this->question = $question;
-        $this->user = $user;
     }
 
     /**

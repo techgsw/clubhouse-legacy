@@ -3,16 +3,11 @@
 @if($context == 'same_here')
     @section('title', 'Mental Health Discussion Board')
 @elseif($context == 'sales_vault')
-    @section('title', 'Sports Sales Discussion Board')
+    @section('title', 'Sport Sales Discussion Board')
 @endif
 @section('content')
 <div class="container">
     <div class="row">
-
-        <!--TODO: make sure this relative link (and the ones below it) actually works on dev -->
-
-
-
         <form action="discussion" method="get">
             <div class="col s12 m9 input-field">
                 <input id="search" type="text" name="search" value="{{ request('search') }}">

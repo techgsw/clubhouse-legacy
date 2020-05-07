@@ -51,8 +51,8 @@ class QuestionController extends Controller
             $breadcrumb['#SameHere'] = '/same-here';
             $breadcrumb['Mental Health Discussion Board'] = '/same-here/discussion';
         } else if ($this->context == 'sales_vault') {
-            $breadcrumb['Sports Sales Vault'] = '/sales-vault';
-            $breadcrumb['Sports Sales Discussion Board'] = '/sales-vault/discussions';
+            $breadcrumb['Sport Sales Vault'] = '/sales-vault';
+            $breadcrumb['Sport Sales Discussion Board'] = '/sales-vault/discussions';
         }
 
         if ($search = request('search')) {
@@ -86,8 +86,8 @@ class QuestionController extends Controller
         } else if ($this->context == 'sales-vault') {
             $breadcrumb = [
                 'Clubhouse' => '/',
-                'Sports Sales Vault' => '/sales-vault',
-                'Sports Sales Discussion Board' => '/sales-vault/discussion',
+                'Sport Sales Vault' => '/sales-vault',
+                'Sport Sales Discussion Board' => '/sales-vault/discussion',
                 'Ask a question' => '/sales-vault/discussion/create'
             ];
         }
@@ -200,8 +200,8 @@ class QuestionController extends Controller
         } else if ($this->context == 'sales-vault') {
             $breadcrumb = [
                 'Clubhouse' => '/',
-                'Sports Sales Vault' => '/sales-vault',
-                'Sports Sales Discussion Board' => '/sales-vault/discussion',
+                'Sport Sales Vault' => '/sales-vault',
+                'Sport Sales Discussion Board' => '/sales-vault/discussion',
                 "{$question->title}" => "/sales-vault/discussion/{$question->id}"
             ];
         }

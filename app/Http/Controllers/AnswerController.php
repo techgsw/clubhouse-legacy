@@ -100,6 +100,11 @@ class AnswerController extends Controller
                     )
                 )
             );
+
+            Mail::to($question->user->email)->send(new AnswerSubmitted(
+                $answer,
+                $question
+            ));
         } catch (Exception $e) {
             Log::error($e);
         }
