@@ -46,7 +46,7 @@
                 @endif
                 <div class="tag-list" style="margin-bottom: 12px;">
                     @foreach ($post->tags as $tag)
-                        <a href="/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
+                        <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
                     @endforeach
                 </div>
                 <h2 class="title">{{ $post->title }}</h2>

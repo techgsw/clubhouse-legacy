@@ -56,6 +56,7 @@ class BlogController extends Controller
         if (!$post) {
             return abort(404);
         }
+        $context = null;
 
         $breadcrumb = array(
             'Clubhouse' => '/',
@@ -65,6 +66,7 @@ class BlogController extends Controller
 
         foreach ($post->tags as $tag) {
             if ($tag->name == '#SameHere') {
+                $context = 'same-here';
                 $breadcrumb = array(
                     'Clubhouse' => '/',
                     '#SameHere' => '/same-here',
@@ -79,6 +81,7 @@ class BlogController extends Controller
         return view('post/show', [
             'post' => $post,
             'body' => $pd->text($post->body),
+            'context' => $context,
             'breadcrumb' => $breadcrumb
         ]);
     }
