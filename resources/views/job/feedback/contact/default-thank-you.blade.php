@@ -1,5 +1,5 @@
 @extends('layouts.clubhouse')
-@section('title', 'Careers in Sports')
+@section('title', 'Success in Sports')
 @section('content')
 @php $response = array('interested' => 'interested', 'not-interested' => 'not interested', 'do-not-contact' => 'not interested'); @endphp
 <div class="container">

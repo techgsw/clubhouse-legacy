@@ -1,5 +1,5 @@
 @extends('layouts.clubhouse')
-@section('title', 'Careers in Sports')
+@section('title', 'Success in Sports')
 @section('content')
 <div class="container">
     <div class="row">

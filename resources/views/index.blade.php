@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Careers in Sports')
+@section('title', 'Success in Sports')
 @section('hero')
     <div class="row hero bg-image home">
         <div class="col s12 m8 offset-m2">
