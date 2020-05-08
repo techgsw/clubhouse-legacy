@@ -71,6 +71,8 @@
             <h4>{{ $video->name }}</h4>
             @if(!is_null($video->getTrainingVideoAuthor()))
                 <span>by {{$video->getTrainingVideoAuthor()}}</span>
+                <br>
+                <span>in {{$video->options->first()->name}}: {{$video->options->first()->description}}</span>
             @endif
             @foreach($video->tags as $tag)
                 @if ($tag->name != 'Training Video' && stripos($tag->name, 'Author:') === false)

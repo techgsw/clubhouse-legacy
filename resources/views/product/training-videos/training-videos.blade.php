@@ -14,23 +14,26 @@
 @endsection
 @section('content')
 <div class="container">
-    @if(count($books) > 0)
-        <div class="row training-video-book-container">
-            @foreach($books as $book)
-                <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
-            @endforeach
-        </div>
-    @endif
-    @if(count($authors) > 0)
-        <div class="row center-align">
-            <h5>Authors</h5>
-            <div class="tag-cloud center-align">
-                @foreach ($authors as $author)
-                    <a href="/sales-vault/training-videos?author={{ urlencode(str_ireplace('Author:', '', $author->name)) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ str_ireplace('Author:', '', $author->name) }}</a>
+    @if(is_null($active_author))
+        @if(count($books) > 0)
+            <div class="row training-video-book-container" style="margin-top:-20px">
+                @foreach($books as $book)
+                    <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
                 @endforeach
             </div>
-        </div>
+        @endif
     @endif
+    @if(count($authors) > 0)
+    <div class="row center-align">
+        <h5>Authors</h5>
+        <div class="tag-cloud center-align">
+            @foreach ($authors as $author)
+                <a href="/sales-vault/training-videos?author={{ urlencode(str_ireplace('Author:', '', $author->name)) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ str_ireplace('Author:', '', $author->name) }}</a>
+            @endforeach
+        </div>
+    </div>
+    @endif
+    @if(is_null($active_author))
         <div class="row center-align">
             <form id="find-book-chapter" method="GET" action="/sales-vault/training-videos">
                 <div class="input-field col s12 m4 offset-m4">
@@ -40,6 +43,7 @@
                 </div>
             </form>
         </div>
+    @endif
     @if(count($videos) < 1)
         <div class="row center-align">
             <h5>Training Videos coming soon.</h5>
@@ -55,6 +59,15 @@
                 </div>
             </div>
         </div>
+    @endif
+    @if(!is_null($active_author))
+        @if(count($books) > 0)
+            <div class="row training-video-book-container" style="margin-top:-20px">
+                @foreach($books as $book)
+                    <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
+                @endforeach
+            </div>
+        @endif
     @endif
     <br><br>
 @endsection
