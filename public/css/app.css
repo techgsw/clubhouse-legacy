@@ -1903,10 +1903,10 @@ p.icon {
 }
 
 .training-video-book-container a {
-    height:150px;
-    width:150px;
+    height:170px;
+    width:170px;
     background-color: #E2E2E2;
-    padding: 80px 12px 12px 12px;
+    padding: 90px 12px 12px 12px;
     border: none;
     margin:10px;
 }
@@ -1942,14 +1942,14 @@ button.training-video-find-book-button {
 
 
 .sales-vault-video-container .sales-vault-video {
-    margin:10px;
+    margin: 10px;
     text-align: center;
-    max-width: 270px;
+    max-width: 330px;
 }
 
 .sales-vault-video-container .sales-vault-video iframe {
-    height:144px;
-    width:256px;
+    height:180px;
+    width:320px;
     margin-bottom: -10px;
 }
 
