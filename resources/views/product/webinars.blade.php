@@ -55,7 +55,7 @@
             </div>
             <div class="tag-cloud center-align">
                 @foreach ($tags as $tag)
-                    <a href="/webinars?tag={{ urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                    <a href="{{$tag->name == '#SameHere' ? '/same-here/webinars' : '/webinars?tag='.urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>
