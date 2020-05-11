@@ -2,30 +2,48 @@
 @section('title', 'Sport Sales Training')
 @section('hero')
     <div class="row hero bg-image sales-vault">
-        <div class="col s12">
+        <div class="col s12" style="margin-bottom:30px;">
             <img class="responsive-img" src="/images/sales-vault/treasure.png" />
             <h4 class="header">The Sport Sales Vault</h4>
             <h5 style="font-size:25px;">Sales training videos produced by the team at <a href="{{env('APP_URL')}}">Sports Business Solutions</a></h5>
             <h5 style="max-width:1050px;font-size:19px;text-align: center;margin-left:auto;margin-right:auto;">We've trained more than 100 sports teams throughout the US and Canada, conducted more than 350 sales training sessions and trained over 1,000 salespeople in sports.</h5>
         </div>
-        <div class="col s12 m4 offset-m4">
-            <a href="#training-videos" class="btn sbs-red" style="margin-top: 15px;">Watch our sales training videos</a>
+        <div class="col s12 m2 offset-m3">
+            <a href="#email-list" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Join our email list</a>
+        </div>
+        <div class="col s12 m2">
+            <a href="#discussion-board" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Ask us a question</a>
+        </div>
+        <div class="col s12 m2">
+            <a href="{{env('APP_URL')}}/contact" class="flat-button btn-large same-here white" style="max-width: 225px;">Set up a sales training</a>
         </div>
     </div>
 @endsection
 @section('content')
     <div class="container" style="padding-top:40px;">
-        <div class="row gray-bg" style="min-height: 180px; display:flex; flex-wrap:wrap; align-items: center;">
-            <div class="col s12 m3" style="align-items: center;display: flex;max-height: 110px;justify-content: center;">
-                <h1 style="text-align: left;">OUR<br>GOAL</h1>
+        <div class="row">
+            <h5 class="center-align"><strong style="text-transform:uppercase;">Sport sales training videos</strong></h5>
+            <div class="sales-vault-video-container">
+                @foreach($newest_training_videos as $video)
+                    <div class="sales-vault-video">
+                        <iframe src="https://player.vimeo.com/video/{{ $video->getEmbedCode() }}" frameborder="0" allowFullScreen mozallowfullscreen webkitAllowFullScreen></iframe>
+                        <p>{{$video->name}}</p>
+                    </div>
+                @endforeach
             </div>
-            <div class="col s12 m9 hide-on-large-only" style="align-items: center;display: flex;margin-top:-5px;">
-                <h5>Our passion is helping sales and service professionals in sports accomplish their goals. It doesn't matter which team, league, market, or role you're in or how long you've been there, we believe there is always room to improve. Our hope is that this platform can help you do that.</h5>
-            </div>
-            <div class="col hide-on-med-and-down l9" style="border-left:solid 1px;align-items: center;display: flex;padding-left:70px;margin-top:-5px;">
-                <h5>Our passion is helping sales and service professionals in sports accomplish their goals. It doesn't matter which team, league, market, or role you're in or how long you've been there, we believe there is always room to improve. Our hope is that this platform can help you do that.</h5>
+            <h5 class="center-align">Full Video Library</h5>
+            @if(count($training_video_books) > 0)
+                <div class="row training-video-book-container">
+                    @foreach($training_video_books as $book)
+                        <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
+                    @endforeach
+                </div>
+            @endif
+            <div class="col s12 center-align" style="padding-bottom: 50px;">
+                <a href="/sales-vault/training-videos" class="btn sbs-red" style="margin-top: 20px;">See all videos</a>
             </div>
         </div>
+        <hr style="color:#FFF;"/>
     </div>
     <div class="container" style="padding:40px 0px;">
         <div class="row center-align">
@@ -67,35 +85,10 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="background-color: #EB2935;color: #FFFFFF;">
+    <div class="container-fluid" id="email-list" style="background-color: #EB2935;color: #FFFFFF;">
         @include('clubhouse.sales-vault-newsletter')
     </div>
-    <div class="container" id="training-videos" style="padding-top:40px;">
-        <div class="row">
-            <h5 class="center-align"><strong style="text-transform:uppercase;">Sport sales training videos</strong></h5>
-            <div class="sales-vault-video-container">
-                @foreach($newest_training_videos as $video)
-                    <div class="sales-vault-video">
-                    <iframe src="https://player.vimeo.com/video/{{ $video->getEmbedCode() }}" frameborder="0" allowFullScreen mozallowfullscreen webkitAllowFullScreen></iframe>
-                    <p>{{$video->name}}</p>
-                    </div>
-                @endforeach
-            </div>
-            <h5 class="center-align">Full Video Library</h5>
-            @if(count($training_video_books) > 0)
-                <div class="row training-video-book-container">
-                    @foreach($training_video_books as $book)
-                        <a href="/sales-vault/training-videos?book={{urlencode($book->name)}}">{{$book->name}}</a>
-                    @endforeach
-                </div>
-            @endif
-            <div class="col s12 center-align" style="padding-bottom: 50px;">
-                <a href="/sales-vault/training-videos" class="btn sbs-red" style="margin-top: 20px;">See all videos</a>
-            </div>
-        </div>
-    </div>
-    <div class="container" style="margin-bottom: 60px;">
-        <hr style="color:#FFF;"/>
+    <div class="container" id="discussion-board" style="margin-bottom: 60px;">
         <div class="row center-align" style="padding-top:40px;">
             <h5><strong style="text-transform:uppercase;">Sport sales discussion board</strong></h5>
             <p>Have a challenge (or objection) you're facing in sport sales?</p>
