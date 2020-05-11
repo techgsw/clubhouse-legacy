@@ -11,11 +11,11 @@
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
-                <li><a href="/sales-vault"><span style="float: right;margin-top: -17px;margin-left: -10px;font-size: 10px;font-weight: bold;">NEW</span>Training</a></li>
-                <li><a href="/same-here">Mental Health</a></li>
+                <li><a href="/sales-vault"><span style="float: right;margin-top: -17px;margin-left: -10px;font-size: 10px;font-weight: bold;">NEW</span>Sales Training</a></li>
                 <li><a href="#" class="dropdown-button" data-activates="training-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Career Services</a></li>
                 <!-- Dropdown Structure -->
                 <ul id="training-dropdown" class="dropdown-content">
+                    <li><a href="/same-here">Mental Health</a></li>
                     <li><a href="/career-services">Career Services</a></li>
                     <li><a href="/job">Job Board</a></li>
                 </ul>
@@ -33,7 +33,7 @@
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
-                <li><a href="/sales-vault"><span style="float: right;font-size: 12px;font-weight: bold;">NEW</span>Training</a></li>
+                <li><a href="/sales-vault"><span style="float: right;font-size: 12px;font-weight: bold;">NEW</span>Sales Training</a></li>
                 <li><a href="/same-here">Mental Health</a></li>
                 <li><a href="/career-services">Career Services</a></li>
                 <li><a href="/job">Job Board</a></li>
