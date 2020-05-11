@@ -2534,6 +2534,16 @@ $(document).ready(function () {
         });
     }
 
+    // Any external links or links between SBS and theClubhouse should open in a new tab
+    $("a[href^=http]").each(function() {
+        if (!this.href.includes(window.location.origin)) {
+            $(this).attr({
+                target: "_blank",
+                rel: "noopener"
+            });
+        }
+    });
+
     // Initialize
     SBS.init();
 });

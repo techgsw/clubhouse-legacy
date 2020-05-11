@@ -38,32 +38,32 @@
             </div>
             <div class="about-cards col s12" style="padding-top:20px;">
                 <div class="about-card col s6 m3">
-                    <a href="{{env('APP_URL')}}/bob-hamer" target="_blank" rel="noopener" class="no-underline">
+                    <a href="{{env('APP_URL')}}/bob-hamer" class="no-underline">
                         <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
                     </a>
                 </div>
                 <div class="about-card col s6 m3">
-                    <a href="{{env('APP_URL')}}/josh-belkoff" target="_blank" rel="noopener" class="no-underline">
+                    <a href="{{env('APP_URL')}}/josh-belkoff" class="no-underline">
                         <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Business Development</span></h5>
                     </a>
                 </div>
                 <div class="about-card col s6 m3">
-                    <a href="{{env('APP_URL')}}/kevin-klammer" target="_blank" rel="noopener" class="no-underline">
+                    <a href="{{env('APP_URL')}}/kevin-klammer" class="no-underline">
                         <img src="/images/about/kevin.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Kevin Klammer<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
                     </a>
                 </div>
                 <div class="about-card col s6 m3">
-                    <a href="{{env('APP_URL')}}/matt-clark" target="_blank" rel="noopener" class="no-underline">
+                    <a href="{{env('APP_URL')}}/matt-clark" class="no-underline">
                         <img src="/images/about/matt.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Matt Clark<span class="about-position">Sr. Director,<br/>Training & Personal Development</span></h5>
                     </a>
                 </div>
             </div>
             <div class="col s12 m10 offset-m1" style="margin-top:20px;">
-                <h5>Interested in a training for your sales team? <a href="{{env('APP_URL')}}/contact" target="_blank" rel="noopener">Contact us.</a></h5>
+                <h5>Interested in a training for your sales team? <a href="{{env('APP_URL')}}/contact">Contact us.</a></h5>
             </div>
         </div>
     </div>
@@ -145,7 +145,7 @@
         </div>
     </div>
     <div class="container-fluid center-align sales-vault-twitter" style="background-color:#E2E2E2;padding:40px 0px;">
-        <h5><a href="https://twitter.com/hashtag/SportSalesTip" target="_blank" rel="noopener" class="sales-vault-twitter-link no-underline"><strong>#SportSalesTip</strong>&nbsp;&nbsp;<i class="fa fa-twitter" aria-hidden="true"></i></a></h5>
+        <h5><a href="https://twitter.com/hashtag/SportSalesTip" class="sales-vault-twitter-link no-underline"><strong>#SportSalesTip</strong>&nbsp;&nbsp;<i class="fa fa-twitter" aria-hidden="true"></i></a></h5>
         <br>
         <div class="row">
             <div id="twitter">
