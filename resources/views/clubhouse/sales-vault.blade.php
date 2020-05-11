@@ -27,7 +27,11 @@
                 @foreach($newest_training_videos as $video)
                     <div class="sales-vault-video">
                         <iframe src="https://player.vimeo.com/video/{{ $video->getEmbedCode() }}" frameborder="0" allowFullScreen mozallowfullscreen webkitAllowFullScreen></iframe>
-                        <p>{{$video->name}}</p>
+                        <p>{{$video->name}}
+                        @if ($video->getTrainingVideoAuthor())
+                            <br><span style="font-size:13px;">by {{$video->getTrainingVideoAuthor()}}</span>
+                        @endif
+                        </p>
                     </div>
                 @endforeach
             </div>
