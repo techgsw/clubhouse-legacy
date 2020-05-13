@@ -142,7 +142,7 @@
         </div>
     </div>
     <div class="container-fluid center-align sales-vault-twitter" style="background-color:#E2E2E2;padding:40px 0px;">
-        <h5><a href="https://twitter.com/hashtag/SportSalesTip" class="sales-vault-twitter-link no-underline"><strong>#SportSalesTip</strong>&nbsp;&nbsp;<i class="fa fa-twitter" aria-hidden="true"></i></a></h5>
+        <h5><a href="https://twitter.com/hashtag/SportSalesTips" class="sales-vault-twitter-link no-underline"><strong>#SportSalesTips</strong>&nbsp;&nbsp;<i class="fa fa-twitter" aria-hidden="true"></i></a></h5>
         <br>
         <div class="row">
             <div id="twitter">

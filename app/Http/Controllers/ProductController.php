@@ -698,7 +698,7 @@ class ProductController extends Controller
                 'Sport Sales Vault' => '/sales-vault/',
                 'Training Videos' => '/sales-vault/training-videos',
                 $option->name => "/sales-vault/training-videos?book={$option->name}",
-                $option->description => "/sales-vault/training-videos?book={$option->name}?chapter={$option->description}",
+                $option->description => "/sales-vault/training-videos?book={$option->name}&chapter={$option->description}",
                 $video->name => "/sales-vault/training-videos/{$video->id}"
             ]
         ]);

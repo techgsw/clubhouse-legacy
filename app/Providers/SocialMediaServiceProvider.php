@@ -105,7 +105,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         // Get tweets
         // https://twitter.com/search?l=&q=%23sportsbiztip%20from%3ASportsBizSol&src=typd
         if ($context == 'sales-vault') {
-            $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sportsalestip&count=15";
+            $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sportsalestips&count=15";
         } else if ($context == 'same-here') {
             $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sameheresolutions&count=5";
         } else {
