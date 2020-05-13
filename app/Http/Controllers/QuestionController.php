@@ -157,7 +157,17 @@ class QuestionController extends Controller
         $bob = User::find(1);
 
         try {
-            Mail::to('clubhouse@sportsbusiness.solutions')->send(
+            $notification_emails = array('clubhouse@sportsbusiness.solutions');
+            if ($this->context == 'sales-vault') {
+                $notification_emails = array_merge($notification_emails,
+                    User::join('email_user', 'user.id', 'email_user.user_id')
+                        ->join('email', 'email_user.email_id', 'email.id')
+                        ->where('email.code', 'sales_vault_question')
+                        ->pluck('user.email')
+                        ->toArray()
+                );
+            }
+            Mail::to($notification_emails)->send(
                 new InternalAlert(
                     'emails.internal.question-submitted',
                     array(
