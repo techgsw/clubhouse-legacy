@@ -7,7 +7,7 @@
             </a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="/about">About</a></li>
-                <li><a href="/services" class="dropdown-button" data-activates="services-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Services</a></li>
+                <li><a href="/services" class="dropdown-button" data-activates="services-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Services&nbsp;&nbsp;<i class="fa fa-caret-down"></i></a></li>
                 <!-- Dropdown Structure -->
                 <ul id="services-dropdown" class="dropdown-content">
                     <li><a href="/training-consulting">Training &amp; Consulting</a></li>

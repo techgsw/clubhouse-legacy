@@ -12,7 +12,7 @@
             @include('layouts.components.errors')
         </div>
     </div>
-    @include('product.components.instructions')
+    @include('product.components.instructions', ['training_video_book_chapter_map' => $training_video_book_chapter_map])
     <div class="row">
         <div class="col s12">
             @include('product.forms.tag', ['product' => null])

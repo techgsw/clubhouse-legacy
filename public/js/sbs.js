@@ -26,6 +26,7 @@ $.valHooks.textarea = {
     var Mentor = {};
     var Note = {};
     var Organization = {};
+    var TrainingVideos = {};
     var Pipeline = {};
     var Tag = {
         map: {}
@@ -1307,30 +1308,32 @@ $.valHooks.textarea = {
         }
     }
 
-    Twitter.getFeed = function () {
+    Twitter.getFeed = function (context) {
         return $.ajax({
             type: "GET",
             url: "/social/twitter",
-            data: { context : 'same-here'},
+            data: { context : context},
         });
     }
 
     Twitter.init = function () {
         var tw = $('#twitter');
         if (tw.length > 0) {
-            Twitter.getFeed().done(
+            let context = $('.sales-vault-twitter').length ? 'sales-vault' : 'same-here';
+            Twitter.getFeed(context).done(
                 function (resp, status, xhr) {
                     if (xhr.status == 200) {
                         tw.find('.preloader-wrapper').remove();
                         tw.append(resp);
+                        twttr.widgets.load();
                     } else {
-                        $('.same-here-twitter-feed').remove();
+                        $('.twitter-hashtag-feed').remove();
                         console.error("Failed to load Twitter feed.");
                     }
                 }
             ).fail(
                 function () {
-                    $('.same-here-twitter-feed').remove();
+                    $('.twitter-hashtag-feed').remove();
                     console.error("Failed to load Twitter feed.");
                 }
             );
@@ -1351,6 +1354,41 @@ $.valHooks.textarea = {
             });
         }
     };
+
+    TrainingVideos.getChapters = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/sales-vault/training-videos/all-chapters',
+            'data': {}
+        });
+    }
+
+    TrainingVideos.init = function () {
+        var find_book_chapter_autocomplete = $('input.find-book-chapter-autocomplete');
+        if (find_book_chapter_autocomplete.length > 0) {
+            var book_name_input = $('input#find-book-name');
+            TrainingVideos.getChapters().done(function (data) {
+                TrainingVideos.map = {};
+                var chapter_data = data.chapters.reduce(function (chapter_data, chapters, key) {
+                    TrainingVideos.map[chapters.name] = chapters.book;
+                    chapter_data[chapters.name] = null;
+                    return chapter_data;
+                }, {});
+
+                // Initialize autocompletes
+                find_book_chapter_autocomplete.autocomplete({
+                    data: chapter_data,
+                    limit: 10,
+                    onAutocomplete: function (name) {
+                        book_name_input.val(TrainingVideos.map[name]);
+                        find_book_chapter_autocomplete.val(name);
+                        $('form#find-book-chapter').submit();
+                    },
+                    minLength: 2,
+                });
+            });
+        }
+    }
 
     Pipeline.move = function (id, type, action, comm_type, reason, token) {
         var url = '/admin/' + (type == 'user' ? 'inquiry' : 'contact-job') + '/pipeline-';
@@ -2155,6 +2193,7 @@ $.valHooks.textarea = {
         League.init();
         Organization.init();
         Video.init();
+        TrainingVideos.init();
         Tag.init();
         ContactRelationship.init();
         if ($('.app-login-placeholder-after').length > 0) {
@@ -2494,6 +2533,16 @@ $(document).ready(function () {
             tolerance: 'pointer'
         });
     }
+
+    // Any external links or links between SBS and theClubhouse should open in a new tab
+    $("a[href^=http]").each(function() {
+        if (!this.href.includes(window.location.origin)) {
+            $(this).attr({
+                target: "_blank",
+                rel: "noopener"
+            });
+        }
+    });
 
     // Initialize
     SBS.init();

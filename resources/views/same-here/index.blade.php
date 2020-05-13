@@ -198,5 +198,4 @@
             </div>
         </div>
     </div>
-    @include('layouts.components.clubhouse.same-here-footer')
 @endsection

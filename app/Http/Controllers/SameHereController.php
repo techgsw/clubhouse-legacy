@@ -30,9 +30,7 @@ class SameHereController extends Controller
         })->orderBy('id', 'DESC')->limit(2)->get();
 
         $questions = Question::search($request)
-            // TODO: There are some older questions from when this was a general Q&A board
-            //  we should confirm that we don't care about any of these before removing them
-            ->where('created_at', '>=', new \DateTime('2020-03-11 00:00:00'))
+            ->where('context', 'same-here')
             ->orderBy('created_at', 'DESC')
             ->paginate(2);
 

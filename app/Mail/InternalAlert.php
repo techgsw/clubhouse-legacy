@@ -14,6 +14,7 @@ class InternalAlert extends Mailable
 
     public $answer;
     public $question;
+    public $context;
     public $job;
     public $user;
     public $view;

@@ -19,6 +19,17 @@ class AnswerController extends Controller
 {
     use ReCaptchaTrait;
 
+    protected $context;
+
+    // TODO: prefixes instead of this url searching stuff?
+    public function __construct(Request $request)
+    {
+        if ($request->is('same-here/*')) {
+            $this->context = 'same-here';
+        } else if ($request->is('sales-vault/*')) {
+            $this->context = 'sales-vault';
+        }
+    }
     /**
      * Get a validator for the reCAPTCHA on answer create
      *
@@ -27,18 +38,23 @@ class AnswerController extends Controller
      */
     protected function validator(array $data)
     {
-        $data['recaptcha'] = $this->recaptchaCheck($data);
+        $rules = [];
+        $messages = [];
 
-        $rules = [
-            'g-recaptcha-response' => 'required',
-            'recaptcha' => 'required|min:1'
-        ];
+        if ($this->context == 'same-here') {
+            $data['recaptcha'] = $this->recaptchaCheck($data);
 
-        $messages = [
-            'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
-            'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
-            'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
-        ];
+            $rules = [
+                'g-recaptcha-response' => 'required',
+                'recaptcha' => 'required|min:1'
+            ];
+
+            $messages = [
+                'g-recaptcha-response.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+                'recaptcha.required' => 'Please check the reCAPTCHA box to verify you are a human!',
+                'recaptcha.min' => 'Please check the reCAPTCHA box to verify you are a human!',
+            ];
+        }
 
         return Validator::make($data, $rules, $messages);
     }
@@ -56,9 +72,18 @@ class AnswerController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find question ' . $id]);
         }
 
-        //TODO: we don't need to record user_id, could record IP address in the future
+        if ($question->context == 'same-here') {
+            //TODO: use something else in this field for anonymous questions??
+            $user_id = 1;
+        } else {
+            if (!Auth::user()) {
+                abort(403);
+            }
+            $user_id = Auth::user()->id;
+        }
+
         $answer = Answer::create([
-            'user_id' => 1,
+            'user_id' => $user_id,
             'question_id' => $id,
             'answer' => request('answer'),
             'approved' => true
@@ -70,10 +95,18 @@ class AnswerController extends Controller
                     'emails.internal.answer',
                     array(
                         'answer' => $answer,
-                        'question' => $question
+                        'question' => $question,
+                        'context' => $question->context
                     )
                 )
             );
+
+            if ($question->context != 'same-here') {
+                Mail::to($question->user->email)->send(new AnswerSubmitted(
+                    $answer,
+                    $question
+                ));
+            }
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -141,6 +174,7 @@ class AnswerController extends Controller
         $now = new \DateTime('NOW');
 
         $answer = Answer::find($id);
+        $this->authorize('edit-answer', $answer);
         $answer->answer = request('answer');
         $answer->edited_at = $now;
         $answer->save();
