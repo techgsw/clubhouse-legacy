@@ -34,7 +34,6 @@ class Mentor extends Model
         if (!empty($term)) {
             $query->where(function ($q) use ($term) {
                 $q->where(DB::raw('CONCAT(contact.first_name, " ", contact.last_name)'), 'like', "%{$term}%");
-                $q->orWhere('mentor.description', 'like', "%{$term}%");
             });
         }
 
