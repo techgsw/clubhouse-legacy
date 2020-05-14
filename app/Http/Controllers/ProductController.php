@@ -479,7 +479,7 @@ class ProductController extends Controller
     {
         // TODO Need a way to delete products, webinars, etc. Currently hiding product id 53
         $inactive_products_query = Product::where('active', false)->with('tags')->where('id', '!=', 53)->whereHas('tags', function ($query) {
-            $query->where('name', 'Webinar');
+            $query->whereIn('name', array('Webinar', '#SameHere'));
         });
 
         $active_tag = null;
@@ -495,7 +495,7 @@ class ProductController extends Controller
         } else {
             // Only show active products when there's no tag search
             $active_products = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
-                $query->where('name', 'Webinar');
+                $query->whereIn('name', array('Webinar', '#SameHere'));
             })->get();
         }
 
@@ -505,7 +505,7 @@ class ProductController extends Controller
             $join->on('name', 'tag_name')
                 ->where('name', '!=', 'webinar')
                 // using raw query because of https://github.com/laravel/framework/issues/19695
-                ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name = 'webinar')");
+                ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name in ('webinar', '#SameHere'))");
         })->whereHas('products', function ($query) {
             $query->where('active', false);
         })->orderBy('name', 'dec')->get()->keyBy('name');

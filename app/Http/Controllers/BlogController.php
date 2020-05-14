@@ -30,12 +30,6 @@ class BlogController extends Controller
             if (count($results) > 0) {
                 $tag = $results[0];
             }
-        } else {
-            // tag searches should display #SameHere posts, regular blog display should not
-            $posts_query = $posts_query->whereDoesntHave('tags', function ($query) {
-                $query->where('name', '#SameHere');
-                $query->where('post_type_code', 'blog');
-            });
         }
 
         $posts = $posts_query->paginate(15);
