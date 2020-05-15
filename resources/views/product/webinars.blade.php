@@ -64,7 +64,7 @@
                 @if (!preg_match('/do not show/i', $product->name))
                     <div class="col s12">
                         <ul class="browser-default">
-                            <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->getCleanDescription() ) !!}</span><a href="{{ $product->getURL(false, 'webinars') }}" class="btn sbs-red">View Webinar</a>
+                            <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->getCleanDescription() ) !!}</span><a href="{{ $product->getURL(false, is_null(array_first($product->tags, function ($tag) { return $tag->name == '#SameHere'; })) ? 'webinars' : 'same-here/webinars') }}" class="btn sbs-red">View Webinar</a>
                                 <div class="hide-on-med-and-up" style="height: 10px"><br></div>
                                 @foreach($product->tags as $tag)
                                     @if ($tag->name != 'Webinar')
