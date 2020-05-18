@@ -17,7 +17,7 @@
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <p class="center-align" style="font-size: 20px"><strong>$7.00/month</strong></p>
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 20px;">
-                                <p style="font-size: 16px; min-height: 80px;">Become a Clubhouse Pro today! The first 30 days are free and then it's just $7.00 a month after that. You will be billed monthly 30 days after signing up.</p>
+                                <p style="font-size: 16px; min-height: 80px;">Become a Clubhouse Pro today! The first {{CLUBHOUSE_FREE_TRIAL_DAYS}} days are free and then it's just $7.00 a month after that. You will be billed monthly {{CLUBHOUSE_FREE_TRIAL_DAYS}} days after signing up.</p>
                             </div>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
@@ -38,7 +38,9 @@
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <p class="center-align" style="font-size: 20px"><strong>$70.00/year</strong></p>
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 20px;">
-                                <p style="font-size: 16px; min-height: 80px;"><i>Looking to save some money!?</i> You can pay for your entire membership up front and get an <strong>extra month for free</strong>. You will be billed annually 30 days after signing up.</p>
+                                <p style="font-size: 16px; min-height: 80px;"><i>Looking to save some money!?</i> You can pay for your entire membership up front and get an <strong>extra
+                                        {{CLUBHOUSE_FREE_TRIAL_DAYS == 30 ? 'month' : (CLUBHOUSE_FREE_TRIAL_DAYS == 7 ? 'week' : CLUBHOUSE_FREE_TRIAL_DAYS.' days')}}
+                                        for free</strong>. You will be billed annually {{CLUBHOUSE_FREE_TRIAL_DAYS}} days after signing up.</p>
                             </div>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">

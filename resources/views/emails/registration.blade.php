@@ -15,7 +15,7 @@
                 <li>Head over to the <a href="{{ env('CLUBHOUSE_URL') }}/job">Job Board</a> if you’re interested in looking for a new job in sports, or <a href="{{ env('CLUBHOUSE_URL') }}/user/{{ $user->id }}/job-postings">post a job</a> if you’re a hiring manager.</li>
             </ul>
         </p>
-        <p>At any time you can choose to become a <a href="{{ env('CLUBHOUSE_URL') }}/membership-options">Clubhouse Pro</a>, and your <span style="text-decoration:underline;">free 30-day trial</span> will unlock a number of more personalized opportunities! Included will be:</p>
+        <p>At any time you can choose to become a <a href="{{ env('CLUBHOUSE_URL') }}/membership-options">Clubhouse Pro</a>, and your <span style="text-decoration:underline;">free {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day trial</span> will unlock a number of more personalized opportunities! Included will be:</p>
         <p>
             <ul>
                 <li>1:1 mentorship where you can set up time to chat with sports industry professionals.</li>
