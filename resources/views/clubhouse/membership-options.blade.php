@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col s12 center-align">
-                <h5>Become a Clubhouse Pro and start your <strong class="sbs-red-text">30-day free trial</strong></h5>
+                <h5>Become a Clubhouse Pro and start your <strong class="sbs-red-text">{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</strong></h5>
             </div>
         </div>
         <div class="row">

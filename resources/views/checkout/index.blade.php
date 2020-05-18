@@ -24,7 +24,7 @@
             @elseif ($product_type == 'job-extension')
                 <p><strong>Thank you for extending your job posting with <strong><span class="sbs-red-text">the</span>Clubhouse</strong>. Just a few more steps and you're all set.</strong></p>
             @else
-                <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you'll be ready to begin your <span class="sbs-red-text">30 day Free Trial</span>.</strong></p>
+                <p><strong>Thank you for choosing to become a Clubhouse Pro. Just a few more steps and you'll be ready to begin your <span class="sbs-red-text">{{CLUBHOUSE_FREE_TRIAL_DAYS}} day Free Trial</span>.</strong></p>
             @endif
         </div>
     </div>
@@ -131,7 +131,9 @@
         <div class="row">
             <div class="col s12">
                 @if ($product_type == 'membership')
-                    <p style="color: #EB2935; margin-bottom: 20px;">*Your membership will be billed {{ $product_option->price == 7.0 ? 'monthly' : 'annually' }} beginning one month after date of checkout.</p>
+                    <p style="color: #EB2935; margin-bottom: 20px;">*Your membership will be billed {{ $product_option->price == 7.0 ? 'monthly' : 'annually' }} beginning
+                        {{CLUBHOUSE_FREE_TRIAL_DAYS == 30 ? 'one month' : (CLUBHOUSE_FREE_TRIAL_DAYS == 7 ? 'one week' : CLUBHOUSE_FREE_TRIAL_DAYS.' days') }}
+                        after date of checkout.</p>
                 @endif
             </div>
         </div>

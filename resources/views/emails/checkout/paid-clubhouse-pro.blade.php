@@ -4,7 +4,7 @@
     @endslot
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
-        <p>Thanks for becoming a <strong>Clubhouse Pro</strong>! Your subscription is now active. We hope this investment in your career will pay big dividends for you in the future. You’re now able to start enjoying your 30-day free trial period. After that ends, you will be billed monthly via the card you provided.</p>
+        <p>Thanks for becoming a <strong>Clubhouse Pro</strong>! Your subscription is now active. We hope this investment in your career will pay big dividends for you in the future. You’re now able to start enjoying your {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial period. After that ends, you will be billed monthly via the card you provided.</p>
         <p>To get the most out of your <strong>Clubhouse Pro</strong> membership, here are a few tips:</p>
         <p>
             <ul>

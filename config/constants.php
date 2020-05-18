@@ -1,5 +1,7 @@
 <?php
 
+define('CLUBHOUSE_FREE_TRIAL_DAYS', 7);
+
 define('JOB_STATUS_ID',
     array(
         'open' => 1,
