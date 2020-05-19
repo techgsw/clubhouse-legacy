@@ -22,7 +22,7 @@
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
     <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
     <link href="/css/daterangepicker.css" rel="stylesheet" type="text/css">
-    <link href="/css/app.css?v=30" type="text/css" rel="stylesheet"/>
+    <link href="/css/app.css?v=31" type="text/css" rel="stylesheet"/>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),

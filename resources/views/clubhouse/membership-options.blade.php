@@ -58,10 +58,11 @@
                                 <ul class="fa-check-override">
                                     <li>Everything listed in the Free membership</li>
                                     <li>Exclusive 1:1 mentorship with sports industry professionals</li>
-                                    <li>Access our webinar video library with more than 20 hours of content</li>
+                                    <li>Access to our webinar archive with more than 40 hours of content</li>
                                     <li>Enjoy <strong class="sbs-red-text">FREE</strong> career services to help you build your career in sports</li>
                                     <li>Receive one free 30-minute career consultation</li>
                                     <li>Get pre-access to new jobs in sports</li>
+                                    <li>Access to the "Sales vault" sales training videos</li>
                                 </ul>
                             </div>
                         </div>

@@ -19,7 +19,8 @@
         <p>
             <ul>
                 <li>1:1 mentorship where you can set up time to chat with sports industry professionals.</li>
-                <li>Access to our library of past educational webinars and video content.</li>
+                <li>Access to our webinar archive with more than 40 hours of content.</li>
+                <li>Access to the "Sales vault" sales training videos.</li>
                 <li>Free career services.</li>
             </ul>
         </p>

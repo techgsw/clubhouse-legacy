@@ -2,7 +2,7 @@
     <div class="contact-note-header" style="flex: 0 0 auto;">
         <h4 class="contact-name">{{ $contact->getName() }}</h4>
     </div>
-    <div class="contact-note-content" style="flex: 1 1 auto; overflow-y: scroll; margin-bottom: 20px; padding:0px;">
+    <div class="contact-note-content" style="flex: 1 1 auto; margin-bottom: 20px; padding:0px;">
         <div class="contact-notes-container">
             @include('contact.notes.show')
         </div>
