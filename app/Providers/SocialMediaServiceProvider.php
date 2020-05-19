@@ -105,7 +105,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         // Get tweets
         // https://twitter.com/search?l=&q=%23sportsbiztip%20from%3ASportsBizSol&src=typd
         if ($context == 'sales-vault') {
-            $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sportsalestips&count=15";
+            $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sportsalestips%20AND%20%2Dfilter%3Aretweets&count=15";
         } else if ($context == 'same-here') {
             $url = "https://api.twitter.com/1.1/search/tweets.json?q=%23sameheresolutions&count=5";
         } else {
@@ -113,10 +113,11 @@ class SocialMediaServiceProvider extends ServiceProvider
         }
 
         // Pull a list of all tweets, cached for 2 minutes
-        $data = Cache::remember('twitter-'.$context, 2, function() use ($url, $access_token) {
+        $data = Cache::remember('twitter-feed-'.$context, 15, function() use ($url, $access_token) {
             $ch = curl_init($url);
             $headers = [
                 "Authorization: Bearer {$access_token}",
+                "Cache-Control: no-cache"
             ];
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -140,13 +141,16 @@ class SocialMediaServiceProvider extends ServiceProvider
 
         // Pull an embedded card for each tweet, cached for 1 week
         foreach ($data->statuses as $status) {
-            $data = Cache::remember('tweet-'.$status->id, 10080, function() use ($status, $access_token) {
+            $data = Cache::remember('twitter-status-'.$status->id, 10080, function() use ($status, $access_token) {
                 $url = "https://publish.twitter.com/oembed?omit_script=true&url=https://twitter.com/Interior/status/" . $status->id;
                 $ch = curl_init($url);
                 $headers = [
                     "Authorization: Bearer {$access_token}",
+                    "Cache-Control: no-cache"
                 ];
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+                curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
                 try {
