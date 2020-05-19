@@ -45,7 +45,8 @@
                                     <p class="black-text">If you’re interested in getting even more access you can upgrade your membership to become a Clubhouse Pro! Benefits include:</p>
                                     <ul class="browser-default">
                                         <li>Exclusive 1:1 mentorship with industry professionals</li>
-                                        <li>Access to our virtual library of educational content</li>
+                                        <li>Access to our webinar archive with more than 40 hours of content</li>
+                                        <li>Access to the "Sales vault" sales training videos</li>
                                         <li>Free career services</li>
                                     </ul>
                                     <div class="center-align">
