@@ -13,6 +13,8 @@
     <meta property="og:image:height" content="520">
     <meta property="og:image:width" content="1000">
     <meta property="og:url" content="@yield('url', url('/'))">
+    <!-- iOS icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/CH_logo-apple-touch.png">
     <!-- CSS  -->
     <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Oswald:600" rel="stylesheet">
