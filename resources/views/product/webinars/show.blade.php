@@ -87,18 +87,20 @@
                         @endforeach
                     </select>
                 @endif
-                @if (count($product->options) > 0)
-                    @if (Auth::user())
+                @if (Auth::user())
+                    @if (count($product->options) > 0)
                         <div class="input-field" style="margin-top: 30px;">
                             <a href="{{$product->options[0]->getURL(false, 'checkout')}}" data-price="{{$product->options[0]->price}}" id="buy-now" class="btn green">RSVP NOW</a>
                         </div>
                     @else
                         <div class="input-field" style="margin-top: 30px;">
-                            <a href="/register" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
+                            <a href="/membership-options" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
                         </div>
                     @endif
                 @else
-                    <p>This webinar is currently unavailbable.</p>
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="/register" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
+                    </div>
                 @endif
             @else
                 <a href="/webinars" class="btn blue">Browse all webinars</a>
