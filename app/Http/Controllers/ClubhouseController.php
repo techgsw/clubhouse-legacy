@@ -25,10 +25,7 @@ class ClubhouseController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::search($request)->whereDoesntHave('tags', function ($query) {
-            $query->where('name', '#SameHere');
-            $query->where('post_type_code', 'blog');
-        })->where('post_type_code', 'blog')->orderby('id', 'DESC')->limit(3)->get();
+        $posts = Post::search($request)->where('post_type_code', 'blog')->orderby('id', 'DESC')->limit(3)->get();
 
         $mentors = Mentor::with('contact')
             ->where('active', true)
