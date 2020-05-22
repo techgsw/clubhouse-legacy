@@ -48,7 +48,6 @@
                                         <li>Access to our webinar archive with more than 40 hours of content</li>
                                         <li>Access to the "Sales vault" sales training videos</li>
                                         <li>Free career services</li>
-                                        <li>Access to additional premium content</li>
                                     </ul>
                                     <div class="center-align">
                                         <a href="/pro-membership" class="btn sbs-red" style="margin-top: 20px;"> Become a Clubhouse Pro</a>

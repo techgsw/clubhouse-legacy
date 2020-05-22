@@ -22,7 +22,6 @@
                 <li>Access to our webinar archive with more than 40 hours of content.</li>
                 <li>Access to the "Sales vault" sales training videos.</li>
                 <li>Free career services.</li>
-                <li>Access to additional premium content.</li>
             </ul>
         </p>
         <p>Our mission in <span style="color: #EB2935;">the</span>Clubhouse is to help more people like you succeed in sports. Hope you find the experience to be valuable!</p>

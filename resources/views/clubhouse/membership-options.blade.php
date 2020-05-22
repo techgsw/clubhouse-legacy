@@ -63,7 +63,6 @@
                                     <li>Receive one free 30-minute career consultation</li>
                                     <li>Get pre-access to new jobs in sports</li>
                                     <li>Access to the "Sales vault" sales training videos</li>
-                                    <li>Access to additional premium content</li>
                                 </ul>
                             </div>
                         </div>

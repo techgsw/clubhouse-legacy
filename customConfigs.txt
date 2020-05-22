@@ -1,6 +1,0 @@
-nginx sites enabled sportsbusinesssolutions.app needs sbs and clubhouse.sbs in the server_name
-sbs and clubhouse.sbs need entries in etc/hosts
-the .env file needs the following:
-APP_URL=http://sbs
-CLUBHOUSE_URL=http://clubhouse.sbs
-sql dump needs to be imported into the homestead db, not the sbs db
