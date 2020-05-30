@@ -14,7 +14,7 @@
         </div>
         <div>
             <a href="/career-services/{{ $product->id }}" class="no-underline" style="flex: 0 0 auto;">
-                @foreach ($product->availableOptions() as $option)
+                @foreach ($product->availableOptionsForUser() as $option)
                     <!--<div class="option" style="margin: 12px 0;">
                         <h6 style="font-weight: bold;">{{ $option->name }}</h6>
                         @if ($option->price > 0)

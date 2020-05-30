@@ -32,7 +32,7 @@
                     </div>
                 </div>
             @else
-                @if (Gate::check('view-clubhouse') || (Auth::user() && !is_null($product->availableOptions('clubhouse')) && count($product->availableOptions('clubhouse')) == 0))
+                @if (count($product->availableOptionsForUser()) > 0)
                     <div class="video-container">
                         <iframe width="640" height="564" src="https://player.vimeo.com/video/{{ $product->getEmbedCode() }}" frameborder="0" allowFullScreen mozallowfullscreen webkitAllowFullScreen></iframe>
                     </div>
@@ -43,10 +43,10 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this webinar?</h4>
-                                    @if (!is_null($product->availableOptions('clubhouse')) && count($product->availableOptions('clubhouse')) == 0)
-                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
-                                    @else
+                                    @if ($product->getHighestOptionRole() == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                    @else
+                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
                                     @if (!Auth::user())
                                         <p style="color: #FFF">Already a member? <a href="/login">Login</a></p>
@@ -76,9 +76,9 @@
             @endforeach
             {!! $pd->text($product->getCleanDescription()) !!}
             @if ($product->active)
-                @if (count($product->options) > 0)
+                @if (count($product->availableOptionsForUser()) > 0)
                     <select class="browser-default product-option-select" name="option">
-                        @foreach ($product->options as $option)
+                        @foreach ($product->availableOptionsForUser() as $option)
                             @if ($option->price > 0)
                                 <option value="{{$option->id}}" data-link="{{ $option->getURL(false, 'checkout') }}">{{$option->name}} — ${{number_format($option->price, 2)}}</option>
                             @else
@@ -86,17 +86,13 @@
                             @endif
                         @endforeach
                     </select>
-                @endif
-                @if (Auth::user())
-                    @if (count($product->options) > 0)
-                        <div class="input-field" style="margin-top: 30px;">
-                            <a href="{{$product->options[0]->getURL(false, 'checkout')}}" data-price="{{$product->options[0]->price}}" id="buy-now" class="btn green">RSVP NOW</a>
-                        </div>
-                    @else
-                        <div class="input-field" style="margin-top: 30px;">
-                            <a href="/membership-options" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
-                        </div>
-                    @endif
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="{{$product->availableOptionsForUser()[0]->getURL(false, 'checkout')}}" data-price="{{$product->availableOptionsForUser()[0]->price}}" id="buy-now" class="btn green">RSVP NOW</a>
+                    </div>
+                @elseif ($product->getHighestOptionRole() == 'clubhouse')
+                    <div class="input-field" style="margin-top: 30px;">
+                        <a href="/membership-options" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
+                    </div>
                 @else
                     <div class="input-field" style="margin-top: 30px;">
                         <a href="/register" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>

@@ -529,32 +529,6 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
         }
 
-        // TODO make this resource-driven
-        $roles = ['guest'];
-        if (Auth::user()) {
-            foreach (Auth::user()->roles as $r) {
-                $roles[] = $r->code;
-                if ($r->code == 'administrator') {
-                    $roles[] = 'clubhouse';
-                }
-            }
-        }
-
-        //TODO: we need to change the logic of webinar options to a hierarchy
-        // - clubhouse users and admins should be able to see all options
-        // - users should be able to see options that don't have "clubhouse" checked
-        // - non-logged-in users should be able to see options that don't have anything checked
-        //   (this last one would require a UI fix)
-        foreach ($product->options as $i => $option) {
-            $option_role_codes = [];
-            foreach ($option->roles as $r) {
-                $option_role_codes[] = $r->code;
-            }
-            if (count($option_role_codes) != 0 && count(array_intersect($option_role_codes, $roles)) == 0) {
-                $product->options->forget($i);
-            }
-        }
-
         return view('product/webinars/show', [
             'product' => $product,
             'breadcrumb' => [

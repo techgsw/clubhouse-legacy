@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Product extends Model
 {
@@ -51,14 +52,10 @@ class Product extends Model
         return ((count($results) > 0) ? preg_replace('/sbs-embed-code=/i', '', $results[0]) : null);
     }
 
-    public function availableOptions($role_code = null)
-    {
-        if (is_null($role_code)) {
-            if (!Auth::user() || !Auth::user()->roles) {
-                return [];
-            }
-
-            // TODO make this resource-driven, rather than role-driven
+    public function availableOptionsForUser() {
+        $role_code = 'guest';
+        // TODO make this resource-driven, rather than role-driven
+        if (Auth::user() && Auth::user()->roles) {
             $role_code = 'user';
             foreach (Auth::user()->roles as $r) {
                 if ($r->code == 'clubhouse') {
@@ -74,12 +71,44 @@ class Product extends Model
             foreach ($option->roles as $r) {
                 $option_role_codes[] = $r->code;
             }
-            if (count(array_intersect($option_role_codes, [$role_code])) == 0) {
-                $options->forget($i);
+            switch ($role_code) {
+                case 'clubhouse':
+                    // do nothing, all roles are available
+                    break;
+                case 'user':
+                    if (count(array_intersect($option_role_codes, ['clubhouse'])) > 0) {
+                        $options->forget($i);
+                    }
+                    break;
+                default:
+                    // assume guest
+                    if (count($option_role_codes) > 0) {
+                        $options->forget($i);
+                    }
+                    break;
             }
         }
 
         return $options;
+    }
+
+    public function getHighestOptionRole()
+    {
+        $highest_role = 'guest';
+        $options = clone $this->options;
+
+        foreach ($options as $option) {
+            foreach ($option->roles as $r) {
+                if ($r->code == 'clubhouse') {
+                    // this is the highest role, return immediately
+                    return 'clubhouse';
+                } else if ($r->code == 'user') {
+                    $highest_role = 'user';
+                }
+            }
+        }
+
+        return $highest_role;
     }
 
     // Scopes

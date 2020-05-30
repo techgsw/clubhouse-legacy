@@ -18,7 +18,7 @@
     <!-- Product -->
     <div class="row product-show">
         <div class="col s12 m7">
-            @if (count($video->availableOptions()) > 0 || (count($video->availableOptions('clubhouse')) == 0 && count($video->availableOptions('user')) == 0))
+            @if (count($video->availableOptionsForUser()) > 0)
                 <div class="video-container">
                     <iframe width="640" height="564" src="https://player.vimeo.com/video/{{ $video->getEmbedCode() }}" frameborder="0" allowFullScreen mozallowfullscreen webkitAllowFullScreen></iframe>
                 </div>
@@ -30,10 +30,10 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this video?</h4>
-                                    @if (count($video->availableOptions('user')) > 0)
-                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
-                                    @else
+                                    @if ($video->getHighestOptionRole() == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                    @else
+                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
                                     @if (!Auth::user())
                                         <p style="color: #FFF">Already a member? <a href="/login">Login</a></p>
@@ -44,10 +44,10 @@
                             <div class="row" style="height:275px;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4>Want to watch this video?</h4>
-                                    @if (count($video->availableOptions('user')) > 0)
-                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
-                                    @else
+                                    @if ($video->getHighestOptionRole() == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                    @else
+                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
                                     @if (!Auth::user())
                                         <p>Already a member? <a href="/login">Login</a></p>
