@@ -1303,13 +1303,30 @@ div.arrow.down {
 }
 .blog-post .title {
     margin-top: 0;
-    font-size: 2.2rem;
+    font-size: 3.0rem;
     letter-spacing: 0.25px;
     border-bottom: none;
+    font-family: "Tahoma", "Roboto", sans-serif;
+    line-height: 65px;
+    max-width: 80%;
+}
+.blog-post .author {
+    max-width: 40%;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #555;
 }
 .blog-post .title:focus {
     border-bottom: none !important;
     box-shadow: none !important;
+}
+.blog-post a.blog-cta {
+    margin:20px;
+    height:75px;
+    width:310px;
+    padding:20px;
 }
 .blog-post h2 {
     font-size: 1.6rem;
