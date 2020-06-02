@@ -12,6 +12,7 @@ use App\Mentor;
 use App\Organization;
 use App\User;
 use App\ProductOption;
+use App\Mail\ClubhouseFollowUp;
 use App\Mail\PurchaseNotification;
 use App\Mail\NewUserFollowUp;
 use App\Mail\UserPostJobFollowUp;
@@ -170,6 +171,10 @@ class EmailServiceProvider extends ServiceProvider
         foreach ($users->get() as $user) {
             Mail::to($user)->send(new NewUserFollowUp($user));
         }
+    }
+
+    public static function sendClubhouseFollowupEmail(User $user) {
+        Mail::to($user)->send(new ClubhouseFollowUp($user));
     }
 
     public static function sendMentorshipRequestEmails(User $mentee, Mentor $mentor, array $dates)

@@ -14,6 +14,15 @@ class Transaction extends Model
         'updated_at'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function productOptions()
+    {
+        return $this->belongsToMany(ProductOption::class, 'transaction_product_option');
+    }
 
     public function transaction_product_options()
     {

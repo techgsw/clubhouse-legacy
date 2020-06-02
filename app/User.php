@@ -80,6 +80,11 @@ class User extends Authenticatable
         return $this->hasMany(Job::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function hasAccess($resource_code)
     {
         $roles = $this->roles;

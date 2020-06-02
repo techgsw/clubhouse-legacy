@@ -74,6 +74,10 @@ class Kernel extends ConsoleKernel
                 ImageServiceProvider::pushToS3();
             })->hourly();
         }
+
+        $schedule->call(function () {
+            JobServiceProvider::sendDayAfterClubhouseRegistrationEmails();
+        })->dailyAt('10:00');
     }
 
     /**

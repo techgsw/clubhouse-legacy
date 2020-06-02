@@ -23,6 +23,11 @@ class ProductOption extends Model
         return $this->belongsToMany(Role::class, 'product_option_role');
     }
 
+    public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class, 'transaction_product_option');
+    }
+
     public function hasRole($role_code)
     {
         foreach ($this->roles as $role) {
