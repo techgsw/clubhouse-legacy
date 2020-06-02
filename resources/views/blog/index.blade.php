@@ -49,14 +49,19 @@
         <div class="col s12 m8 l9 blog-list">
             @if (request('search') || request('tag'))
                 <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
-                    <b>{{ $posts->total() }}</b> result{{ count($posts) > 1 || count($posts) == 0 ? "s" : "" }}
-                    @if (request('search'))
-                        searching for <b>{{ request('search') }}</b>
+                    @if (request('tag') && is_null($result_tag))
+                        Sorry, we couldn't find any tags named <b>{{request('tag')}}</b>
+                        <a href="/blog" style="float: right;">Go Back</a>
+                    @else
+                        <b>{{ $posts->total() }}</b> result{{ count($posts) > 1 || count($posts) == 0 ? "s" : "" }}
+                        @if (request('search'))
+                            searching for <b>{{ request('search') }}</b>
+                        @endif
+                        @if (request('tag'))
+                            tagged <b>{{ $result_tag->name }}</b>
+                        @endif
+                        <a href="/blog" style="float: right;">Clear</a>
                     @endif
-                    @if (request('tag'))
-                        tagged <b>{{ $result_tag->name }}</b>
-                    @endif
-                    <a href="/blog" style="float: right;">Clear</a>
                 </div>
             @endif
             @if (count($posts) > 0)
