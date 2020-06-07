@@ -1363,12 +1363,44 @@ div.arrow.down {
 .blog-post h2 {
     font-size: 1.6rem;
     font-weight: bold;
+    display:flex;
+    align-items: center;
     color: rgba(0, 0, 0, 0.87);
 }
+.blog-post h2::after {
+    background: #EB2935;
+    content: '';
+    height: 8px;
+    margin-left: 20px;
+    flex: 1;
+}
 .blog-post h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: bold;
-    color: #EB2935;
+    font-style: italic;
+    color: #555;
+}
+
+.blog-post blockquote {
+    color:#FFF;
+    background-color:#EB2935;
+    display:table;
+    margin:auto;
+    padding: 0px 20px;
+    border-left:none;
+    max-width: 60%;
+}
+
+.blog-post blockquote p {
+    font-family: "Tahoma", "Roboto", sans-serif;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.blog-post span.bio {
+    font-size: .9rem;
+    font-style: italic;
+    color: #444;
 }
 
 /**

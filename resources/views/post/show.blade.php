@@ -58,7 +58,7 @@
     </div>
     <div class="blog-content">
         <div class="blog-image" style="width: 98%; height:350px;overflow-y:hidden;">
-            <img style="margin-top:-6%;" src="{{$image->getUrl('share')}}" />
+            <img style="margin-top:-8%;" src="{{$image->getUrl('share')}}" />
         </div>
         <div class="row">
             <div class="col s12">
