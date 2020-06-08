@@ -1,6 +1,10 @@
 <!-- /resources/views/post/show.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', strip_tags($post->title))
+@section('additional-fonts')
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300" rel="stylesheet">
+@endsection
 @php
     // TODO I'm sure this could be more elegant.
     $parsedown = new Parsedown();
@@ -35,23 +39,23 @@
         <div style="height:100%;margin-bottom:-1000px;"></div>
         <div class="sidebar-content" style="position:sticky;position:-webkit-sticky;bottom:1rem;">
             <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
-            <p>Career Services</p>
+            <p><strong>Career Services</strong></p>
             <hr>
-            <p>How-to Webinars</p>
+            <p>Webinars</p>
             <hr>
-            <p>Industry Mentors</p>
+            <p>Industry Mentorship</p>
             <hr>
-            <p>Job Board</p>
+            <p>Jobs in Sports</p>
             <hr>
             <p>Sales Training</p>
             <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <br>
-            <p>Become a PRO member of <span style="color:#F66">the</span>Clubhouse</p>
+            <p><strong>Become a Clubhouse PRO Member</strong></p>
             <br>
             <p>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</p>
             <br>
             <!--TODO: pull in option 1 price -->
-            <p>$7/Month</p>
+            <p>$7/month</p>
             <br>
             <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
         </div>
@@ -79,26 +83,28 @@
                     <div style="font-size:16px;">
                         {!! $body !!}
                     </div>
-                    <div class="row">
+                    <div class="row" style="margin-top:30px;margin-bottom: 20px;">
                         <div class="col s12 center-align">
-                            <a href="{{env('APP_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Sports Business Solutions for C-Level and VP Level Execs</a>
-                            <a href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse</a>
-                            <a href="mailto:bob@sportsbusiness.solutions" class="btn sbs-red blog-cta">Contact Bob Hamer</a>
+                            <div class="tag-list">
+                                @foreach ($post->tags as $tag)
+                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12">
-                            <div style="float:right;">
+                        <div class="col s12 center-align">
+                            <div>
                                 <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                             </div>
-                            <div class="tag-list" style="margin-right: 10px;float:right;">
-                                @foreach ($post->tags as $tag)
-                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
-                                @endforeach
-                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 30px;">
+                        <div class="col s12 center-align">
+                            <a href="{{env('APP_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Sports Business Solutions for Training | Consulting | Recruiting</a>
+                            <a href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse</a>
+                            <a href="mailto:bob@sportsbusiness.solutions" class="btn sbs-red blog-cta">Contact Bob Hamer</a>
                         </div>
                     </div>
                 </div>

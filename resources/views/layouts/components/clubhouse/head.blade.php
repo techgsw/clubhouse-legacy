@@ -18,6 +18,7 @@
     <!-- CSS  -->
     <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Oswald:600" rel="stylesheet">
+    @yield('additional-fonts')
     <link href="/css/font-awesome.min.css" type="text/css" rel="stylesheet">
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
     <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>

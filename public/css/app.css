@@ -1317,8 +1317,13 @@ div.arrow.down {
 .blog-sidebar p {
     color: #FFF;
     cursor: default;
-    font-weight: 400;
-    font-size:16px;
+    font-size:18px;
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
+}
+
+.blog-sidebar strong {
+    font-weight: 700;
 }
 
 .blog-sidebar hr {
@@ -1344,9 +1349,10 @@ div.arrow.down {
     font-size: 2.7rem;
     letter-spacing: 0.25px;
     border-bottom: none;
-    font-family: "Arial", sans-serif;
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
+    font-weight: 700;
     line-height: 55px;
-    font-weight: 600;
 }
 .blog-post .author {
     max-width: 50%;
@@ -1361,18 +1367,22 @@ div.arrow.down {
     box-shadow: none !important;
 }
 .blog-post a.blog-cta {
-    margin:30px 6px;
+    margin:10px 6px;
     height:58px;
-    width:240px;
+    width:251px;
     padding:10px;
     font-size:12px;
 }
 .blog-post h2 {
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
     font-size: 1.6rem;
-    font-weight: bold;
     display:flex;
     align-items: center;
     color: rgba(0, 0, 0, 0.87);
+}
+.blog-post h2 strong {
+    font-weight: 700;
 }
 .blog-post h2::after {
     background: #EB2935;
@@ -1399,7 +1409,9 @@ div.arrow.down {
 }
 
 .blog-post blockquote p {
-    font-family: "Arial", sans-serif;
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
+    font-weight: 700;
     font-size: 1.5rem;
     text-align: center;
 }
