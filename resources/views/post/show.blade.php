@@ -87,11 +87,11 @@
                         <div class="col s12 center-align">
                             <div class="tag-list">
                                 @foreach ($post->tags as $tag)
-                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
+                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
                                 @endforeach
                             </div>
                         </div>
-                        <div class="col s12 center-align">
+                        <div class="col s12 center-align" style="margin-top:20px;">
                             <div>
                                 <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
