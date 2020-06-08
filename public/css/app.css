@@ -1328,6 +1328,11 @@ div.arrow.down {
     border:none;
 }
 
+.blog-sidebar a.clubhouse-logo:hover {
+    filter: brightness(80%);
+    transition: .2s filter linear;
+}
+
 .blog-list .blog-list-item {
     padding: 12px 0;
 }
@@ -1336,16 +1341,17 @@ div.arrow.down {
 }
 .blog-post .title {
     margin-top: 0;
-    font-size: 3.0rem;
+    font-size: 2.7rem;
     letter-spacing: 0.25px;
     border-bottom: none;
-    font-family: "Tahoma", "Roboto", sans-serif;
-    line-height: 65px;
+    font-family: "Arial", sans-serif;
+    line-height: 55px;
+    font-weight: 600;
 }
 .blog-post .author {
     max-width: 50%;
-    margin-top: 30px;
-    margin-bottom: 40px;
+    margin-top: 20px;
+    margin-bottom: 30px;
     font-size: 12px;
     text-transform: uppercase;
     color: #555;
@@ -1355,10 +1361,11 @@ div.arrow.down {
     box-shadow: none !important;
 }
 .blog-post a.blog-cta {
-    margin:20px;
-    height:75px;
-    width:310px;
-    padding:20px;
+    margin:30px 6px;
+    height:58px;
+    width:240px;
+    padding:10px;
+    font-size:12px;
 }
 .blog-post h2 {
     font-size: 1.6rem;
@@ -1392,7 +1399,7 @@ div.arrow.down {
 }
 
 .blog-post blockquote p {
-    font-family: "Tahoma", "Roboto", sans-serif;
+    font-family: "Arial", sans-serif;
     font-size: 1.5rem;
     text-align: center;
 }

@@ -34,7 +34,7 @@
         <!-- TODO: this div is a hack to make position:sticky work. if elements are added to the sidebar then margin-bottom will need to be changed. we should grab the sidebar height using jquery -->
         <div style="height:100%;margin-bottom:-1000px;"></div>
         <div class="sidebar-content" style="position:sticky;position:-webkit-sticky;bottom:1rem;">
-            <a class="no-underline" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-apple-touch.png"/></a>
+            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <p>Career Services</p>
             <hr>
             <p>How-to Webinars</p>
@@ -44,7 +44,7 @@
             <p>Job Board</p>
             <hr>
             <p>Sales Training</p>
-            <a class="no-underline" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-apple-touch.png"/></a>
+            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <br>
             <p>Become a PRO member of <span style="color:#F66">the</span>Clubhouse</p>
             <br>
@@ -56,10 +56,10 @@
             <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
         </div>
     </div>
+    <div class="blog-image" style="margin-right:150px; max-height:500px; overflow-y:hidden; display: flex; align-items: center;">
+        <img src="{{$image->getUrl('share')}}" />
+    </div>
     <div class="blog-content">
-        <div class="blog-image" style="width: 98%; height:350px;overflow-y:hidden;">
-            <img style="margin-top:-8%;" src="{{$image->getUrl('share')}}" />
-        </div>
         <div class="row">
             <div class="col s12">
                 @include('layouts.components.messages')
@@ -88,16 +88,16 @@
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <div class="tag-list" style="float:right;">
-                                @foreach ($post->tags as $tag)
-                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
-                                @endforeach
-                            </div>
-                            <div style="margin-right: 10px;float:right;">
+                            <div style="float:right;">
                                 <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="tag-list" style="margin-right: 10px;float:right;">
+                                @foreach ($post->tags as $tag)
+                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
+                                @endforeach
                             </div>
                         </div>
                     </div>

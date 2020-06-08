@@ -65,60 +65,11 @@ $.valHooks.textarea = {
             placeholder = 'Write here';
         }
 
-        var BioButton = MediumEditor.extensions.button.extend({
-            name: 'bio',
-
-            tagNames: ['span'], // nodeName which indicates the button should be 'active' when isAlreadyApplied() is called
-            contentDefault: '<b>Bio</b>', // default innerHTML of the button
-            contentFA: '<i class="fa fa-user"></i>', // innerHTML of button when 'fontawesome' is being used
-            aria: 'Bio', // used as both aria-label and title attributes
-            action: 'bio', // used as the data-action attribute of the button
-
-            init: function () {
-                MediumEditor.extensions.form.prototype.init.apply(this, arguments);
-            },
-
-            handleClick: function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-
-                var range = MediumEditor.selection.getSelectionRange(this.document);
-
-                var surrounding_element = MediumEditor.util.getClosestTag(MediumEditor.selection.getSelectedParentElement(range), 'span')
-
-                if (!surrounding_element) {
-                    var new_parent = document.createElement('span');
-                    new_parent.classList.add("bio");
-                    range.surroundContents(new_parent);
-                } else {
-                    surrounding_element.replaceWith(surrounding_element.textContent);
-                }
-            }
-        })
         new MediumEditor(editor, {
             extensions: {
-                markdown: new MeMarkdown({
-                    toTurndownOptions: {
-                        customRules: [{
-
-                            //TODO: this doesn't store bio selections correctly. we'll need to double check the markdown syntax.
-                            // we might need to stick with a manual "make text smaller and italicize it yourself" option.
-                            // https://github.com/IonicaBizau/medium-editor-markdown/blob/04a1267800b5e218bae8d7a7b1ad91c805583c6d/dist/me-markdown.standalone.js#L950
-                            // something like this may be required for Parsedown to figure it out:
-                            // https://github.com/erusev/parsedown-extra
-
-                            filter: function filter(node) {
-                                return node.nodeName === 'SPAN';
-                            },
-                            replacement: function replacement(content) {
-                                return '[[bio]]' + content + '[[/bio]]';
-                            }
-                        }]
-                    }
-                }, function (md) {
+                markdown: new MeMarkdown({function (md) {
                     input.val(md);
-                }),
-                'bio': new BioButton()
+                })
             },
             paste: {
                 forcePlainText: false,
@@ -132,7 +83,7 @@ $.valHooks.textarea = {
                 hideOnClick: true
             },
             toolbar: {
-                buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'bio'],
+                buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
             }
         });
     }
