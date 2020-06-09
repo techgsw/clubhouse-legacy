@@ -11,7 +11,7 @@
     $meta_body = strip_tags($parsedown->text($post->body));
     $post_length = strlen($body);
     $index = 200;
-    $image = $post->images->first();
+    $image = $post->getPrimaryImage();
     if (!is_null($image)) {
         $image_path = $image->getURL();
     } else {
@@ -30,6 +30,7 @@
 @section('url', Request::fullUrl())
 @if ($image_path)
     @section('image', $image->cdn ? $image->getURL('share') : url('/').$image->getURL('share'))
+    @section('image-alt', $image->pivot->alt)
 @endif
 @section('title', $post->title)
 @section('hero')
@@ -61,8 +62,9 @@
         </div>
     </div>
     <div class="blog-image" style="margin-right:150px; max-height:500px; overflow-y:hidden; display: flex; align-items: center;">
-        <img src="{{$image->getUrl('share')}}" />
+        <img src="{{$image->getUrl('share')}}" alt="{{$image->pivot->alt}}"/>
     </div>
+    <span class="blog-caption">{{$image->pivot->caption}}</span>
     <div class="blog-content">
         <div class="row">
             <div class="col s12">

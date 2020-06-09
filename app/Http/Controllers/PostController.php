@@ -149,7 +149,7 @@ class PostController extends Controller
                 $post->body = request('body');
                 $post->save();
 
-                if ($image_url = request()->file('image_url')) {
+                if ($image_url = request()->file('primary_image_url')) {
                     $image = ImageServiceProvider::saveFileAsImage(
                         $image_url,
                         $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions',
@@ -162,6 +162,12 @@ class PostController extends Controller
                     );
                     $post->images()->save($image);
                 }
+
+                $post->images()->updateExistingPivot($post->getPrimaryImage()->id, array(
+                    'caption' => request('primary_image_caption'),
+                    'alt' => request('primary_image_alt'),
+                    'is_primary' => true
+                ));
 
                 $post->tags()->sync($post_tags);
             });

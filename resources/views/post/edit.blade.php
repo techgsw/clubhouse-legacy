@@ -33,29 +33,30 @@
         </div>
     </div>
     <form method="post" action="/post/{{$post->title_url}}" enctype="multipart/form-data">
+        <h5>Main image:</h5>
         <div class="row">
             <div class="col s6">
                 @if ($post->images->count() > 0)
                     <p class="hide-on-med-and-up" style="text-align: center;">
-                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $post->images->first()->getURL('medium') }} />
+                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
                     </p>
                     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $post->images->first()->getURL('medium') }} />
+                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
                     </p>
                 @endif
             </div>
-        </div>
-        <div class="row">
             <div class="col s6">
                 <div class="file-field input-field very-small">
                     <div class="btn white black-text">
                         <span>Edit<span class="hide-on-small-only"> Image</span></span>
-                        <input type="file" name="image_url" value="{{ old('image_url') }}">
+                        <input type="file" name="primary_image_url" value="{{ old('primary_image_url') }}">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="image_url_text" value="{{ old('image_url_text') }}">
+                        <input class="file-path validate" type="text" name="primary_image_url_text" value="{{ old('image_url_text') }}">
                     </div>
                 </div>
+                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt') ?: $post->getPrimaryImage()->pivot->alt}}" maxlength="100">
+                <input type="text" placeholder="Caption" name="primary_image_caption" id="primary_image_caption" value="{{old('primary_image_caption') ?: $post->getPrimaryImage()->pivot->caption}}">
             </div>
         </div>
         <div class="row">

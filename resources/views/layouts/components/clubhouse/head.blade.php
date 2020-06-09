@@ -10,6 +10,7 @@
     <meta property="og:title" content="@yield('title', 'theClubhouse') | theClubhouse" />
     <meta property="og:description" content="@yield('description', 'Sports Business Solutions provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
     <meta property="og:image" content="@yield('image', url('/').'/images/Share-Sports-Business-Solutions-Clubhouse.jpg')">
+    <meta property="og:image:alt" content="@yield('image-alt', "theClubhouse at Sports Business Solutions")">
     <meta property="og:image:height" content="520">
     <meta property="og:image:width" content="1000">
     <meta property="og:url" content="@yield('url', url('/'))">
