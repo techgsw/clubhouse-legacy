@@ -67,7 +67,7 @@ $.valHooks.textarea = {
 
         new MediumEditor(editor, {
             extensions: {
-                markdown: new MeMarkdown({function (md) {
+                markdown: new MeMarkdown(function (md) {
                     input.val(md);
                 })
             },
