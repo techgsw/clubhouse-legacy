@@ -29,18 +29,29 @@
     </div>
     <form method="post" action="/post" enctype="multipart/form-data">
         {{ csrf_field() }}
+        <h5>Main image:</h5>
         <div class="row">
             <div class="col s6 center-align">
                 <div class="file-field input-field very-small">
                     <div class="btn white black-text">
                         <span>Add<span class="hide-on-small-only"> Image</span></span>
-                        <input type="file" name="image_url" value="{{ old('image_url') }}">
+                        <input type="file" name="primary_image_url" value="{{ old('primary_image_url') }}">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="image_url_text" value="{{ old('image_url_text') }}">
+                        <input class="file-path validate" type="text" name="primary_image_url_text" value="{{ old('primary_image_url_text') }}">
                     </div>
                 </div>
+                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt')}}" maxlength="100">
+                <input type="text" placeholder="Caption" name="primary_image_caption" id="primary_image_caption" value="{{old('primary_image_caption')}}">
             </div>
+        </div>
+        <h5>Other images (for the blog body):</h5>
+        <div class="blog-images row">
+        </div>
+        <div class="row">
+            <button id="add-blog-image" class="btn flat-button" style="padding-bottom: 35px;">
+                <i class="fa fa-plus" style="margin-top:-3px;"></i> Add image
+            </button>
         </div>
         <div class="row">
             <div class="col s12">
@@ -64,5 +75,8 @@
             </div>
         </div>
     </form>
+</div>
+<div class="blog-images-template hidden">
+    @include('post.forms.image', ['i' => null, 'image' => null])
 </div>
 @endsection

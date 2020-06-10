@@ -1,13 +1,18 @@
 <!-- /resources/views/post/show.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', strip_tags($post->title))
+@section('additional-fonts')
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300" rel="stylesheet">
+@endsection
 @php
     // TODO I'm sure this could be more elegant.
-    $parsedown = new Parsedown();
-    $meta_body = strip_tags($parsedown->text($post->body));
+    $meta_body = strip_tags($body);
+    $body = str_replace('[caption]', '<span class="blog-caption">', $body);
+    $body = str_replace('[/caption]', '</span>', $body);
     $post_length = strlen($body);
     $index = 200;
-    $image = $post->images->first();
+    $image = $post->getPrimaryImage();
     if (!is_null($image)) {
         $image_path = $image->getURL();
     } else {
@@ -26,48 +31,96 @@
 @section('url', Request::fullUrl())
 @if ($image_path)
     @section('image', $image->cdn ? $image->getURL('share') : url('/').$image->getURL('share'))
+    @section('image-alt', $image->pivot->alt)
 @endif
 @section('title', $post->title)
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-            @include('layouts.components.messages')
-            @include('layouts.components.errors')
+@section('hero')
+<div class="container" style="position:relative;margin-bottom: -35px;">
+    <div class="blog-sidebar" style="text-align:center;">
+        <!-- TODO: this div is a hack to make position:sticky work. if elements are added to the sidebar then margin-bottom will need to be changed. we should grab the sidebar height using jquery -->
+        <div style="height:100%;margin-bottom:-1000px;"></div>
+        <div class="sidebar-content" style="position:sticky;position:-webkit-sticky;bottom:1rem;">
+            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <p>Career Services</p>
+            <hr>
+            <p>Webinars</p>
+            <hr>
+            <p>Industry Mentorship</p>
+            <hr>
+            <p>Jobs in Sports</p>
+            <hr>
+            <p>Sales Training</p>
+            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <br>
+            <p><strong>Become a Clubhouse PRO Member</strong></p>
+            <br>
+            <p>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</p>
+            <br>
+            <!--TODO: pull in option 1 price -->
+            <p>$7/month</p>
+            <br>
+            <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
         </div>
     </div>
-    <div class="row">
-        <div class="col s12">
-            <div class="blog-post">
-                @can ('edit-post', $post)
-                    <div style="text-align: right;">
-                        <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
-                    </div>
-                @endif
-                <div class="tag-list" style="margin-bottom: 12px;">
-                    @foreach ($post->tags as $tag)
-                        <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
-                    @endforeach
-                </div>
-                <h2 class="title">{{ $post->title }}</h2>
-                <div style="margin-bottom: 10px;">
-                    <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
-                </div>
-                <p class="small light uppercase">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> | {{ $post->created_at->format('F d, Y') }}</p>
-                @if ($image_path && !is_null($image))
-                    <p class="hide-on-med-and-up" style="text-align: center;">
-                        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('medium') }} />
-                    </p>
-                    <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('medium') }} />
-                    </p>
-                @endif
-                {!! $body !!}
+    <div class="blog-image">
+        <img src="{{$image->getUrl('share')}}" alt="{{$image->pivot->alt}}"/>
+    </div>
+    <span class="blog-caption">{{$image->pivot->caption}}</span>
+    <div class="blog-content">
+        <div class="row">
+            <div class="col s12">
+                @include('layouts.components.messages')
+                @include('layouts.components.errors')
             </div>
         </div>
+        <div class="row">
+            <div class="col s12">
+                <div class="blog-post">
+                    @can ('edit-post', $post)
+                        <div style="float: right;">
+                            <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
+                        </div>
+                    @endif
+                    <h1 class="title">{{ $post->title }}</h1>
+                    <p class="author">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> <br> {{ $post->created_at->format('F d, Y') }}</p>
+                    <div style="font-size:16px;">
+                        {!! $body !!}
+                    </div>
+                    <div class="row" style="margin-top:30px;margin-bottom: 20px;">
+                        <div class="col s12 center-align">
+                            <div class="tag-list">
+                                @foreach ($post->tags as $tag)
+                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="col s12 center-align" style="margin-top:20px;">
+                            <div>
+                                <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 30px;">
+                        <div class="col s12 center-align">
+                            <a href="{{env('APP_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Sports Business Solutions for Training | Consulting | Recruiting</a>
+                            <a href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse</a>
+                            <a href="mailto:bob@sportsbusiness.solutions" class="btn sbs-red blog-cta">Contact Bob Hamer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="blog-sidebar sidebar-mobile">
+        <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+        <p>Career Services <strong class="sbs-red-text">|</strong> Webinars <strong class="sbs-red-text">|</strong> Industry Mentorship <br> Jobs in Sports <strong class="sbs-red-text">|</strong> Sales Training</p>
+        <p><strong>Become a Clubhouse PRO Member</strong><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
+        <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
     </div>
 </div>
 @endsection

@@ -64,6 +64,7 @@ $.valHooks.textarea = {
         if (placeholder === undefined) {
             placeholder = 'Write here';
         }
+
         new MediumEditor(editor, {
             extensions: {
                 markdown: new MeMarkdown(function (md) {
@@ -1869,6 +1870,66 @@ $.valHooks.textarea = {
         '#download-search-contacts'
     );
     // end Contact
+
+
+    // Blog editor
+    $('body').on(
+        {
+            'change input': function () {
+                var this_input = $(this);
+                if (this_input.val().length) {
+                    $('#formatted-blog-image-caption-' + this_input.attr('data-index')).html('[caption]' + this_input.val() + '[/caption]');
+                } else {
+                    $('#formatted-blog-image-caption-' + this_input.attr('data-index')).empty();
+                }
+            }
+        },
+        'input[id^=blog-image-caption]'
+    )
+
+    $('body').on(
+        {
+            change: function () {
+                // we don't want the current file path, we might be uploading to S3
+                // we can replace this on the server side once we have the right filepath
+                $('#formatted-blog-image-url-' + $(this).attr('data-index')).html("(/)");
+            }
+        },
+        'input[id^=blog-image-url-text]'
+    )
+
+    $('body').on(
+        {
+            click: function (e) {
+                e.preventDefault();
+                var new_index = $('.blog-images input[id^=blog-image-id]').length;
+                var image = $('.blog-images-template').children().clone();
+
+                // index the template
+                image.find('.image-id').attr('id', 'blog-image-id-' + new_index);
+                image.find('.image-id').attr('name', 'image[' + new_index + '][id]');
+                image.find('.file-button').attr('name', 'image[' + new_index + '][url]');
+                image.find('.file-path').attr('name', 'image[' + new_index + '][url_text]');
+                image.find('.file-path').attr('id', 'blog-image-url-text-' + new_index);
+                image.find('.file-path').attr('data-index', new_index);
+                image.find('.blog-alt-input').attr('name', 'image[' + new_index + '][alt]');
+                image.find('.blog-alt-input').attr('id', 'blog-image-alt-' + new_index);
+                image.find('.blog-alt-input').attr('data-index', new_index);
+                image.find('.blog-caption-input').attr('name', 'image[' + new_index + '][caption]');
+                image.find('.blog-caption-input').attr('id', 'blog-image-caption-' + new_index);
+                image.find('.blog-caption-input').attr('data-index', new_index);
+                image.find('span[id^=formatted-blog-image-alt]').attr('id', 'formatted-blog-image-alt-' + new_index);
+                image.find('span[id^=formatted-blog-image-alt]').html(new_index);
+                image.find('span[id^=formatted-blog-image-caption]').attr('id', 'formatted-blog-image-caption-' + new_index);
+                image.find('span[id^=formatted-blog-image-url]').attr('id', 'formatted-blog-image-url-' + new_index);
+
+                $('.blog-images').append(image);
+            }
+        },
+        '#add-blog-image'
+    );
+
+    //end Blog editor
 
     $('body').on(
         {

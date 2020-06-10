@@ -1295,31 +1295,191 @@ div.arrow.down {
 /**
  * Blog
  */
+.blog-content {
+    margin-right:150px;
+    max-width: 80%;
+}
+
+.blog-image {
+    margin-right:150px;
+    max-height:500px;
+    overflow-y:hidden;
+    display: flex;
+    align-items: center;
+}
+
+.blog-sidebar {
+    height:100%;
+    width:150px;
+    position:absolute;
+    right:0;
+    background-image: linear-gradient(to bottom, #3F3E3E, #888);
+    padding:15px;
+}
+
+.blog-sidebar a img {
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.blog-sidebar p {
+    color: #FFF;
+    cursor: default;
+    font-size:18px;
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
+}
+
+.blog-sidebar strong {
+    font-weight: 700;
+}
+
+.blog-sidebar hr {
+    color: #EB2935;
+    background-color: #EB2935;
+    height:4px;
+    border:none;
+}
+
+.blog-sidebar a.clubhouse-logo:hover {
+    filter: brightness(80%);
+    transition: .2s filter linear;
+}
+
 .blog-list .blog-list-item {
     padding: 12px 0;
 }
 .blog-post {
     outline: none;
 }
+.blog-caption {
+    font-size: .8rem;
+    color: #999;
+}
 .blog-post .title {
     margin-top: 0;
-    font-size: 2.2rem;
+    font-size: 2.7rem;
     letter-spacing: 0.25px;
     border-bottom: none;
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
+    font-weight: 700;
+    line-height: 55px;
+}
+.blog-post .author {
+    max-width: 50%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #555;
 }
 .blog-post .title:focus {
     border-bottom: none !important;
     box-shadow: none !important;
 }
+.blog-post a.blog-cta {
+    margin:10px 6px;
+    height:58px;
+    width:251px;
+    padding:10px;
+    font-size:12px;
+}
 .blog-post h2 {
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
     font-size: 1.6rem;
-    font-weight: bold;
+    display:flex;
+    align-items: center;
+    font-weight: 700;
     color: rgba(0, 0, 0, 0.87);
 }
+.blog-post h2 strong {
+    font-weight: 700;
+}
+.blog-post h2::after {
+    background: #EB2935;
+    content: '';
+    height: 8px;
+    margin-left: 20px;
+    flex: 1;
+}
 .blog-post h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: bold;
-    color: #EB2935;
+    font-style: italic;
+    color: #555;
+}
+
+.blog-post blockquote {
+    color:#FFF;
+    background-color:#EB2935;
+    display:table;
+    margin:auto;
+    padding: 0px 20px;
+    border-left:none;
+    max-width: 60%;
+}
+
+.blog-post blockquote p {
+    /* "Open Sans Condensed" needs to be imported into the page before using */
+    font-family: "Open Sans Condensed", sans-serif;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.blog-post span.bio {
+    font-size: .9rem;
+    font-style: italic;
+    color: #444;
+}
+
+.blog-post .blog-caption, .blog-post img {
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formatted-blog-image-text {
+    border: 2px solid black;
+    padding:5px;
+    border-radius: 5px;
+}
+
+.blog-sidebar.sidebar-mobile {
+    display:none;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .blog-content {
+        max-width: 100%;
+        margin-right:0px;
+    }
+    .blog-sidebar {
+        display: none;
+    }
+    .blog-sidebar.sidebar-mobile {
+        display:block;
+        text-align: center;
+        width:100%;
+        position: relative;
+        background-color: #555;
+        background-image: none;
+    }
+    .blog-sidebar.sidebar-mobile a img {
+        margin:0px;
+    }
+    .blog-image {
+        margin-right:0px;
+    }
+    .blog-post .author {
+        max-width: 75%;
+    }
+    .blog-post blockquote {
+        max-width: 100%;
+    }
 }
 
 /**

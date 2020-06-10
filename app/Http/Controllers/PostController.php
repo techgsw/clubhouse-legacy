@@ -60,22 +60,56 @@ class PostController extends Controller
                     'body' => request('body')
                 ]);
 
-                if ($image_url = request()->file('image_url')) {
-                    $image = ImageServiceProvider::saveFileAsImage(
-                        $image_url,
+                if ($primary_image_url = request()->file('primary_image_url')) {
+                    $primary_image = ImageServiceProvider::saveFileAsImage(
+                        $primary_image_url,
                         $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions',
                         $directory = 'post/'.$post->id,
                         $options = [ 'cropFromCenter' => true, 'landscape_share' => true ]
                     );
-                    $post->images()->save($image);
+                    $post->images()->save($primary_image);
+                    $post->images()->updateExistingPivot($primary_image->id, array(
+                        'caption' => request('primary_image_caption'),
+                        'alt' => request('primary_image_alt'),
+                        'is_primary' => true
+                    ));
                 }
+
+                if (!is_null(request('image'))) {
+                    foreach (request('image') as $index => $image) {
+                        $saved_image = null;
+                        if (isset($image['url']) && $image_url = $image['url']) {
+                            $saved_image = ImageServiceProvider::saveFileAsImage(
+                                $image_url,
+                                $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->id . '-' . $index . '-' . $image['alt'])) . '-SportsBusinessSolutions',
+                                $directory = 'post/' . $post->id,
+                                $options = [
+                                    'cropFromCenter' => true,
+                                    'landscape_share' => true,
+                                    'update' => ($image['id'] ? Image::find($image['id']) : null)
+                                ]
+                            );
+                            $post->images()->save($saved_image);
+                        }
+                        if ($image_id = !is_null($saved_image) ? $saved_image->id : $image['id']) {
+                            $post->images()->updateExistingPivot($image_id, array(
+                                'caption' => $image['caption'],
+                                'alt' => $image['alt'],
+                                'is_primary' => false
+                            ));
+                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL() : "$1") . ")", $post->body);
+                        }
+                    }
+                }
+
+                $post->save();
 
                 $post->tags()->sync($post_tags);
 
                 return $title_url;
             });
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e);
             if ($e->getCode() === '23000') {
                 $message = "Oops! It looks like you have already used that title!";
             } else {
@@ -147,26 +181,61 @@ class PostController extends Controller
                 $post->authored_by = request('authored_by');
                 $post->title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
                 $post->body = request('body');
-                $post->save();
 
-                if ($image_url = request()->file('image_url')) {
-                    $image = ImageServiceProvider::saveFileAsImage(
-                        $image_url,
+                if ($primary_image_url = request()->file('primary_image_url')) {
+                    $primary_image = ImageServiceProvider::saveFileAsImage(
+                        $primary_image_url,
                         $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->title_url)).'-SportsBusinessSolutions',
                         $directory = 'post/'.$post->id,
                         $options = [
                             'cropFromCenter' => true,
                             'landscape_share' => true,
-                            'update' => $post->images->first()
+                            'update' => $post->getPrimaryImage()
                         ]
                     );
-                    $post->images()->save($image);
+                    $post->images()->save($primary_image);
                 }
+                $post->images()->updateExistingPivot($post->getPrimaryImage()->id, array(
+                    'caption' => request('primary_image_caption'),
+                    'alt' => request('primary_image_alt'),
+                    'is_primary' => true
+                ));
+
+                if (!is_null(request('image'))) {
+                    foreach (request('image') as $index => $image) {
+                        $saved_image = null;
+                        if (isset($image['url']) && $image_url = $image['url']) {
+                            $saved_image = ImageServiceProvider::saveFileAsImage(
+                                $image_url,
+                                $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->id . '-' . $index . '-' . $image['alt'])) . '-SportsBusinessSolutions',
+                                $directory = 'post/' . $post->id,
+                                $options = [
+                                    'cropFromCenter' => true,
+                                    'landscape_share' => true,
+                                    'update' => ($image['id'] ? Image::find($image['id']) : null)
+                                ]
+                            );
+                            if (!$image['id']) {
+                                $post->images()->save($saved_image);
+                            }
+                        }
+                        if ($image_id = !is_null($saved_image) ? $saved_image->id : $image['id']) {
+                            $post->images()->updateExistingPivot($image_id, array(
+                                'caption' => $image['caption'],
+                                'alt' => $image['alt'],
+                                'is_primary' => false
+                            ));
+                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL() : "$1") . ")", $post->body);
+                        }
+                    }
+                }
+
+                $post->save();
 
                 $post->tags()->sync($post_tags);
             });
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e);
             if ($e->getCode() === '23000') {
                 $message = "Oops! It looks like you have already used that title!";
             } else {

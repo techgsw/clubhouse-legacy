@@ -23,7 +23,7 @@ class Post extends Model
 
     public function images()
     {
-        return $this->belongsToMany(Image::class, 'post_image', 'post_id', 'image_id')->orderBy('order');
+        return $this->belongsToMany(Image::class, 'post_image', 'post_id', 'image_id')->withPivot('caption', 'alt', 'is_primary')->orderBy('order');
     }
 
     public function tags()
@@ -60,5 +60,10 @@ class Post extends Model
     public function getURL()
     {
         return "/blog/" . $this->id . "-" . preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', ucwords($this->title)));
+    }
+
+    public function getPrimaryImage()
+    {
+        return $this->belongsToMany(Image::class, 'post_image', 'post_id', 'image_id')->withPivot('caption', 'alt', 'is_primary')->where('is_primary', 1)->orderBy('post_image.id', 'DESC')->first();
     }
 }
