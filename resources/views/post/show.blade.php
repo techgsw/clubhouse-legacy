@@ -7,8 +7,9 @@
 @endsection
 @php
     // TODO I'm sure this could be more elegant.
-    $parsedown = new Parsedown();
-    $meta_body = strip_tags($parsedown->text($post->body));
+    $meta_body = strip_tags($body);
+    $body = str_replace('[caption]', '<span class="blog-caption">', $body);
+    $body = str_replace('[/caption]', '</span>', $body);
     $post_length = strlen($body);
     $index = 200;
     $image = $post->getPrimaryImage();

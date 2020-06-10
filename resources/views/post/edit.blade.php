@@ -40,7 +40,7 @@
                     <p class="hide-on-med-and-up" style="text-align: center;">
                         <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
                     </p>
-                    <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
+                    <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;max-height:250px;">
                         <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
                     </p>
                 @endif
@@ -52,12 +52,23 @@
                         <input type="file" name="primary_image_url" value="{{ old('primary_image_url') }}">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="primary_image_url_text" value="{{ old('image_url_text') }}">
+                        <input class="file-path validate" type="text" name="primary_image_url_text" value="{{ old('primary_image_url_text') }}">
                     </div>
                 </div>
-                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt') ?: $post->getPrimaryImage()->pivot->alt}}" maxlength="100">
+                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt') ?: $post->getPrimaryImage()->pivot->alt}}" maxlength="100" required>
                 <input type="text" placeholder="Caption" name="primary_image_caption" id="primary_image_caption" value="{{old('primary_image_caption') ?: $post->getPrimaryImage()->pivot->caption}}">
             </div>
+        </div>
+        <h5>Other images (for the blog body):</h5>
+        <div class="blog-images row">
+            @foreach($post->images()->where('is_primary', false)->get() as $i => $image)
+                @include('post.forms.image', ['i' => $i, 'image' => $image])
+            @endforeach
+        </div>
+        <div class="row">
+            <button id="add-blog-image" class="btn flat-button" style="padding-bottom: 35px;">
+                <i class="fa fa-plus" style="margin-top:-3px;"></i> Add image
+            </button>
         </div>
         <div class="row">
             <div class="col s12">
@@ -84,5 +95,8 @@
             </div>
         </div>
     </form>
+</div>
+<div class="blog-images-template hidden">
+    @include('post.forms.image', ['i' => null, 'image' => null])
 </div>
 @endsection

@@ -1383,6 +1383,7 @@ div.arrow.down {
     font-size: 1.6rem;
     display:flex;
     align-items: center;
+    font-weight: 700;
     color: rgba(0, 0, 0, 0.87);
 }
 .blog-post h2 strong {
@@ -1423,6 +1424,17 @@ div.arrow.down {
     font-size: .9rem;
     font-style: italic;
     color: #444;
+}
+
+.blog-post .blog-caption, .blog-post img {
+    display: block;
+    text-align: center;
+}
+
+.formatted-blog-image-text {
+    border: 2px solid black;
+    padding:5px;
+    border-radius: 5px;
 }
 
 /**
