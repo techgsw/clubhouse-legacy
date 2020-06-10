@@ -41,7 +41,7 @@
                         <input class="file-path validate" type="text" name="primary_image_url_text" value="{{ old('primary_image_url_text') }}">
                     </div>
                 </div>
-                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt')}}" maxlength="100" required>
+                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt')}}" maxlength="100">
                 <input type="text" placeholder="Caption" name="primary_image_caption" id="primary_image_caption" value="{{old('primary_image_caption')}}">
             </div>
         </div>

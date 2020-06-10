@@ -96,7 +96,7 @@ class PostController extends Controller
                             'alt' => $image['alt'],
                             'is_primary' => false
                         ));
-                        $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![".$image['alt']."](".(!is_null($saved_image) ? $saved_image->getURL('large') : "$1").")", $post->body);
+                        $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![".$image['alt']."](".(!is_null($saved_image) ? $saved_image->getURL('share') : "$1").")", $post->body);
                     }
                 }
 
@@ -212,7 +212,9 @@ class PostController extends Controller
                                 'update' => ($image['id'] ? Image::find($image['id']) : null)
                             ]
                         );
-                        $post->images()->save($saved_image);
+                        if (!$image['id']) {
+                            $post->images()->save($saved_image);
+                        }
                     }
                     if ($image_id = !is_null($saved_image) ? $saved_image->id : $image['id']) {
                         $post->images()->updateExistingPivot($image_id, array(
@@ -220,7 +222,7 @@ class PostController extends Controller
                             'alt' => $image['alt'],
                             'is_primary' => false
                         ));
-                        $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![".$image['alt']."](".(!is_null($saved_image) ? $saved_image->getURL('large') : "$1").")", $post->body);
+                        $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![".$image['alt']."](".(!is_null($saved_image) ? $saved_image->getURL('share') : "$1").")", $post->body);
                     }
                 }
 

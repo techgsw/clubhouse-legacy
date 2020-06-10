@@ -41,7 +41,7 @@
                         <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
                     </p>
                     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;max-height:250px;">
-                        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
+                        <img style="width: auto; max-height: 250px; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
                     </p>
                 @endif
             </div>
@@ -55,7 +55,7 @@
                         <input class="file-path validate" type="text" name="primary_image_url_text" value="{{ old('primary_image_url_text') }}">
                     </div>
                 </div>
-                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt') ?: $post->getPrimaryImage()->pivot->alt}}" maxlength="100" required>
+                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt') ?: $post->getPrimaryImage()->pivot->alt}}" maxlength="100">
                 <input type="text" placeholder="Caption" name="primary_image_caption" id="primary_image_caption" value="{{old('primary_image_caption') ?: $post->getPrimaryImage()->pivot->caption}}">
             </div>
         </div>

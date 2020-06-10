@@ -6,7 +6,7 @@
         <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('large') }} />
     </p>
     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-        <img style="width: auto; max-height: 300px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('large') }} />
+        <img style="width: auto; max-height: 250px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('large') }} />
     </p>
 </div>
 @endif
