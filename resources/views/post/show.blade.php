@@ -41,7 +41,7 @@
         <div style="height:100%;margin-bottom:-1000px;"></div>
         <div class="sidebar-content" style="position:sticky;position:-webkit-sticky;bottom:1rem;">
             <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
-            <p><strong>Career Services</strong></p>
+            <p>Career Services</p>
             <hr>
             <p>Webinars</p>
             <hr>
@@ -118,7 +118,7 @@
 <div class="container-fluid">
     <div class="blog-sidebar sidebar-mobile">
         <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
-        <p><strong>Career Services</strong> <strong class="sbs-red-text">|</strong> Webinars <strong class="sbs-red-text">|</strong> Industry Mentorship <br> Jobs in Sports <strong class="sbs-red-text">|</strong> Sales Training</p>
+        <p>Career Services <strong class="sbs-red-text">|</strong> Webinars <strong class="sbs-red-text">|</strong> Industry Mentorship <br> Jobs in Sports <strong class="sbs-red-text">|</strong> Sales Training</p>
         <p><strong>Become a Clubhouse PRO Member</strong><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
         <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
     </div>
