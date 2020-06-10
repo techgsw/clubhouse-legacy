@@ -62,7 +62,7 @@
             <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
         </div>
     </div>
-    <div class="blog-image" style="margin-right:150px; max-height:500px; overflow-y:hidden; display: flex; align-items: center;">
+    <div class="blog-image">
         <img src="{{$image->getUrl('share')}}" alt="{{$image->pivot->alt}}"/>
     </div>
     <span class="blog-caption">{{$image->pivot->caption}}</span>
@@ -113,6 +113,14 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="blog-sidebar sidebar-mobile">
+        <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+        <p><strong>Career Services</strong> <strong class="sbs-red-text">|</strong> Webinars <strong class="sbs-red-text">|</strong> Industry Mentorship <br> Jobs in Sports <strong class="sbs-red-text">|</strong> Sales Training</p>
+        <p><strong>Become a Clubhouse PRO Member</strong><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
+        <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
     </div>
 </div>
 @endsection

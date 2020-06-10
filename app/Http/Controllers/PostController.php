@@ -75,28 +75,30 @@ class PostController extends Controller
                     ));
                 }
 
-                foreach(request('image') as $index => $image) {
-                    $saved_image = null;
-                    if (isset($image['url']) && $image_url = $image['url']) {
-                        $saved_image = ImageServiceProvider::saveFileAsImage(
-                            $image_url,
-                            $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->id.'-'.$index.'-'.$image['alt'])) . '-SportsBusinessSolutions',
-                            $directory = 'post/' . $post->id,
-                            $options = [
-                                'cropFromCenter' => true,
-                                'landscape_share' => true,
-                                'update' => ($image['id'] ? Image::find($image['id']) : null)
-                            ]
-                        );
-                        $post->images()->save($saved_image);
-                    }
-                    if ($image_id = !is_null($saved_image) ? $saved_image->id : $image['id']) {
-                        $post->images()->updateExistingPivot($image_id, array(
-                            'caption' => $image['caption'],
-                            'alt' => $image['alt'],
-                            'is_primary' => false
-                        ));
-                        $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![".$image['alt']."](".(!is_null($saved_image) ? $saved_image->getURL('share') : "$1").")", $post->body);
+                if (!is_null(request('image'))) {
+                    foreach (request('image') as $index => $image) {
+                        $saved_image = null;
+                        if (isset($image['url']) && $image_url = $image['url']) {
+                            $saved_image = ImageServiceProvider::saveFileAsImage(
+                                $image_url,
+                                $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->id . '-' . $index . '-' . $image['alt'])) . '-SportsBusinessSolutions',
+                                $directory = 'post/' . $post->id,
+                                $options = [
+                                    'cropFromCenter' => true,
+                                    'landscape_share' => true,
+                                    'update' => ($image['id'] ? Image::find($image['id']) : null)
+                                ]
+                            );
+                            $post->images()->save($saved_image);
+                        }
+                        if ($image_id = !is_null($saved_image) ? $saved_image->id : $image['id']) {
+                            $post->images()->updateExistingPivot($image_id, array(
+                                'caption' => $image['caption'],
+                                'alt' => $image['alt'],
+                                'is_primary' => false
+                            ));
+                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL('share') : "$1") . ")", $post->body);
+                        }
                     }
                 }
 
@@ -199,30 +201,32 @@ class PostController extends Controller
                     'is_primary' => true
                 ));
 
-                foreach(request('image') as $index => $image) {
-                    $saved_image = null;
-                    if (isset($image['url']) && $image_url = $image['url']) {
-                        $saved_image = ImageServiceProvider::saveFileAsImage(
-                            $image_url,
-                            $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->id.'-'.$index.'-'.$image['alt'])) . '-SportsBusinessSolutions',
-                            $directory = 'post/' . $post->id,
-                            $options = [
-                                'cropFromCenter' => true,
-                                'landscape_share' => true,
-                                'update' => ($image['id'] ? Image::find($image['id']) : null)
-                            ]
-                        );
-                        if (!$image['id']) {
-                            $post->images()->save($saved_image);
+                if (!is_null(request('image'))) {
+                    foreach (request('image') as $index => $image) {
+                        $saved_image = null;
+                        if (isset($image['url']) && $image_url = $image['url']) {
+                            $saved_image = ImageServiceProvider::saveFileAsImage(
+                                $image_url,
+                                $filename = preg_replace('/\s/', '-', str_replace("/", "", $post->id . '-' . $index . '-' . $image['alt'])) . '-SportsBusinessSolutions',
+                                $directory = 'post/' . $post->id,
+                                $options = [
+                                    'cropFromCenter' => true,
+                                    'landscape_share' => true,
+                                    'update' => ($image['id'] ? Image::find($image['id']) : null)
+                                ]
+                            );
+                            if (!$image['id']) {
+                                $post->images()->save($saved_image);
+                            }
                         }
-                    }
-                    if ($image_id = !is_null($saved_image) ? $saved_image->id : $image['id']) {
-                        $post->images()->updateExistingPivot($image_id, array(
-                            'caption' => $image['caption'],
-                            'alt' => $image['alt'],
-                            'is_primary' => false
-                        ));
-                        $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![".$image['alt']."](".(!is_null($saved_image) ? $saved_image->getURL('share') : "$1").")", $post->body);
+                        if ($image_id = !is_null($saved_image) ? $saved_image->id : $image['id']) {
+                            $post->images()->updateExistingPivot($image_id, array(
+                                'caption' => $image['caption'],
+                                'alt' => $image['alt'],
+                                'is_primary' => false
+                            ));
+                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL('share') : "$1") . ")", $post->body);
+                        }
                     }
                 }
 

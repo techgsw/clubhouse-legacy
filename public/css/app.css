@@ -1300,6 +1300,14 @@ div.arrow.down {
     max-width: 80%;
 }
 
+.blog-image {
+    margin-right:150px;
+    max-height:500px;
+    overflow-y:hidden;
+    display: flex;
+    align-items: center;
+}
+
 .blog-sidebar {
     height:100%;
     width:150px;
@@ -1435,6 +1443,39 @@ div.arrow.down {
     border: 2px solid black;
     padding:5px;
     border-radius: 5px;
+}
+
+.blog-sidebar.sidebar-mobile {
+    display:none;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .blog-content {
+        max-width: 100%;
+        margin-right:0px;
+    }
+    .blog-sidebar {
+        display: none;
+    }
+    .blog-sidebar.sidebar-mobile {
+        display:block;
+        text-align: center;
+        width:100%;
+        position: relative;
+        background-color: #555;
+        background-image: none;
+    }
+    .blog-sidebar.sidebar-mobile a img {
+        margin:0px;
+    }
+    .blog-image {
+        margin-right:0px;
+    }
+    .blog-post .author {
+        max-width: 75%;
+    }
+
 }
 
 /**

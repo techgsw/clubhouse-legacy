@@ -3,10 +3,10 @@
 @if(!is_null($image))
 <div class="col s6">
     <p class="hide-on-med-and-up" style="text-align: center;">
-        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('large') }} />
+        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('share') }} />
     </p>
     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-        <img style="width: auto; max-height: 250px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('large') }} />
+        <img style="width: auto; max-height: 250px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('share') }} />
     </p>
 </div>
 @endif
