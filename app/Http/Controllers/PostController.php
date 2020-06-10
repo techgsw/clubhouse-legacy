@@ -97,7 +97,7 @@ class PostController extends Controller
                                 'alt' => $image['alt'],
                                 'is_primary' => false
                             ));
-                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL('share') : "$1") . ")", $post->body);
+                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL() : "$1") . ")", $post->body);
                         }
                     }
                 }
@@ -225,7 +225,7 @@ class PostController extends Controller
                                 'alt' => $image['alt'],
                                 'is_primary' => false
                             ));
-                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL('share') : "$1") . ")", $post->body);
+                            $post->body = preg_replace("/!\[$index\]\(([^)]*)\)/", "![" . $image['alt'] . "](" . (!is_null($saved_image) ? $saved_image->getURL() : "$1") . ")", $post->body);
                         }
                     }
                 }

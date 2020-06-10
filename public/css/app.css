@@ -1437,6 +1437,8 @@ div.arrow.down {
 .blog-post .blog-caption, .blog-post img {
     display: block;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .formatted-blog-image-text {
@@ -1475,7 +1477,9 @@ div.arrow.down {
     .blog-post .author {
         max-width: 75%;
     }
-
+    .blog-post blockquote {
+        max-width: 100%;
+    }
 }
 
 /**

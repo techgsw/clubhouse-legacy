@@ -3,10 +3,10 @@
 @if(!is_null($image))
 <div class="col s6">
     <p class="hide-on-med-and-up" style="text-align: center;">
-        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('share') }} />
+        <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL() }} />
     </p>
     <p class="hide-on-small-only" style="float: left; margin-right: 20px; margin-top: 5px;">
-        <img style="width: auto; max-height: 250px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL('share') }} />
+        <img style="width: auto; max-height: 250px; box-shadow: 2px 2px #F2F2F2;" src={{ $image->getURL() }} />
     </p>
 </div>
 @endif
@@ -24,6 +24,6 @@
     <input type="text" class="blog-caption-input" placeholder="Caption" data-index="{{is_null($i) ? "" : $i}}" name="image[{{is_null($i) ? "" : $i}}][caption]" id="blog-image-caption-{{is_null($i) ? "" : $i}}" value="{{old('image['.(is_null($i) ? "" : $i).'][caption]') ?: (is_null($image) ? '' : $image->pivot->caption)}}">
     <strong>Copy and paste the following into the blog to add the image:</strong>
     <div class="formatted-blog-image-text" >
-        ![<span id="formatted-blog-image-alt-{{is_null($i) ? "" : $i}}">{{(is_null($i) ? '' : $i)}}</span>]<span id="formatted-blog-image-url-{{is_null($i) ? "" : $i}}">({{ is_null($image) ? '/' : $image->getURL('large') }})</span><span id="formatted-blog-image-caption-{{is_null($i) ? "" : $i}}">{{old('image['.(is_null($i) ? "" : $i).'][caption]') ? '[caption]'.old('image['.(is_null($i) ? "" : $i).'][caption]').'[/caption]' : (is_null($image) || is_null($image->pivot->caption)) ? "" : "[caption]".$image->pivot->caption."[/caption]"}}</span>
+        ![<span id="formatted-blog-image-alt-{{is_null($i) ? "" : $i}}">{{(is_null($i) ? '' : $i)}}</span>]<span id="formatted-blog-image-url-{{is_null($i) ? "" : $i}}">({{ is_null($image) ? '/' : $image->getURL() }})</span><span id="formatted-blog-image-caption-{{is_null($i) ? "" : $i}}">{{old('image['.(is_null($i) ? "" : $i).'][caption]') ? '[caption]'.old('image['.(is_null($i) ? "" : $i).'][caption]').'[/caption]' : (is_null($image) || is_null($image->pivot->caption)) ? "" : "[caption]".$image->pivot->caption."[/caption]"}}</span>
     </div>
 </div>
