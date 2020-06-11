@@ -37,12 +37,12 @@
                     <button type="submit" name="submit" class="btn sbs-red btn-xs">Go</button>
                 </div>
             </form>
-            <!-- Tags -->
+            <!-- No tag cloud on mobile. Leaving this here in case we want to do something else with this
             <div class="tag-cloud">
                 @foreach ($tags as $tag)
                     <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
-            </div>
+            </div>-->
         </div>
     </div>
     <div class="row">
