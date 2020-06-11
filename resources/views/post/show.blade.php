@@ -40,7 +40,7 @@
         <!-- TODO: this div is a hack to make position:sticky work. if elements are added to the sidebar then margin-bottom will need to be changed. we should grab the sidebar height using jquery -->
         <div style="height:100%;margin-bottom:-1000px;"></div>
         <div class="sidebar-content" style="position:sticky;position:-webkit-sticky;bottom:1rem;">
-            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <p>Career Services</p>
             <hr>
             <p>Webinars</p>
@@ -50,7 +50,7 @@
             <p>Jobs in Sports</p>
             <hr>
             <p>Sales Training</p>
-            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <br>
             <p><strong>Become a Clubhouse PRO Member</strong></p>
             <br>
@@ -59,7 +59,7 @@
             <!--TODO: pull in option 1 price -->
             <p>$7/month</p>
             <br>
-            <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
+            <a href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
         </div>
     </div>
     <div class="blog-image">
@@ -117,10 +117,10 @@
 </div>
 <div class="container-fluid">
     <div class="blog-sidebar sidebar-mobile">
-        <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+        <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
         <p>Career Services <strong class="sbs-red-text">|</strong> Webinars <strong class="sbs-red-text">|</strong> Industry Mentorship <br> Jobs in Sports <strong class="sbs-red-text">|</strong> Sales Training</p>
         <p><strong>Become a Clubhouse PRO Member</strong><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
-        <a href="{{env('CLUBHOUSE_URL')}}/membership" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
+        <a href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
     </div>
 </div>
 @endsection
