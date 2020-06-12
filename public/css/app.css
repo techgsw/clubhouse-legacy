@@ -1389,8 +1389,8 @@ div.arrow.down {
     /* "Open Sans Condensed" needs to be imported into the page before using */
     font-family: "Open Sans Condensed", sans-serif;
     font-size: 1.6rem;
-    display:flex;
-    align-items: center;
+    display: inline-block;
+    position: relative;
     font-weight: 700;
     color: rgba(0, 0, 0, 0.87);
 }
@@ -1400,9 +1400,10 @@ div.arrow.down {
 .blog-post h2::after {
     background: #EB2935;
     content: '';
-    height: 8px;
-    margin-left: 20px;
-    flex: 1;
+    height: 3px;
+    display: block;
+    margin-top: 8px;
+    margin-bottom: -8px;
 }
 .blog-post h3 {
     font-size: 1.1rem;
@@ -1412,8 +1413,6 @@ div.arrow.down {
 }
 
 .blog-post blockquote {
-    color:#FFF;
-    background-color:#EB2935;
     display:table;
     margin:auto;
     padding: 0px 20px;
@@ -1425,6 +1424,8 @@ div.arrow.down {
     /* "Open Sans Condensed" needs to be imported into the page before using */
     font-family: "Open Sans Condensed", sans-serif;
     font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 700;
     text-align: center;
 }
 
@@ -1482,18 +1483,6 @@ div.arrow.down {
     }
     .blog-post {
         overflow-x:hidden;
-    }
-    .blog-post h2 {
-        display: inline-block;
-        position: relative;
-        max-width: 84%;
-    }
-    .blog-post h2::after {
-        margin-left: 28px;
-        position: absolute;
-        right: -1000px;
-        left: 94%;
-        top: 44%;
     }
 }
 
