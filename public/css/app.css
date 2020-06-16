@@ -1330,6 +1330,11 @@ div.arrow.down {
     font-family: "Open Sans Condensed", sans-serif;
 }
 
+.blog-sidebar p a:hover {
+    color: #EB2935;
+    transition: .2s color linear;
+}
+
 .blog-sidebar strong {
     font-weight: 700;
 }

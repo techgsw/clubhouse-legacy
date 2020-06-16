@@ -40,26 +40,26 @@
         <!-- TODO: this div is a hack to make position:sticky work. if elements are added to the sidebar then margin-bottom will need to be changed. we should grab the sidebar height using jquery -->
         <div style="height:100%;margin-bottom:-1000px;"></div>
         <div class="sidebar-content" style="position:sticky;position:-webkit-sticky;bottom:1rem;">
-            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
-            <p>Career Services</p>
+            <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/career-services">Career Services</a></p>
             <hr>
-            <p>Webinars</p>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/webinars">Webinars</a></p>
             <hr>
-            <p>Industry Mentorship</p>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/mentor">Industry Mentorship</a></p>
             <hr>
-            <p>Jobs in Sports</p>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/job">Jobs in Sports</a></p>
             <hr>
-            <p>Sales Training</p>
-            <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/sales-vault">Sales Training</a></p>
+            <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <br>
-            <p><strong>Become a Clubhouse PRO Member</strong></p>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><strong>Become a Clubhouse PRO Member</strong></a></p>
             <br>
             <p>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</p>
             <br>
             <!--TODO: pull in option 1 price -->
             <p>$7/month</p>
             <br>
-            <a href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
+            <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
         </div>
     </div>
     <div class="blog-image">
@@ -106,7 +106,7 @@
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col s12 center-align">
                             <a href="{{env('APP_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Sports Business Solutions for Training | Consulting | Recruiting</a>
-                            <a href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse</a>
+                            <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse</a>
                             <a href="mailto:bob@sportsbusiness.solutions" class="btn sbs-red blog-cta">Contact Bob Hamer</a>
                         </div>
                     </div>
@@ -117,10 +117,18 @@
 </div>
 <div class="container-fluid">
     <div class="blog-sidebar sidebar-mobile">
-        <a class="no-underline clubhouse-logo" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
-        <p>Career Services <strong class="sbs-red-text">|</strong> Webinars <strong class="sbs-red-text">|</strong> Industry Mentorship <br> Jobs in Sports <strong class="sbs-red-text">|</strong> Sales Training</p>
-        <p><strong>Become a Clubhouse PRO Member</strong><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
-        <a href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
+        <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+        <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/career-services">Career Services</a>
+           <strong class="sbs-red-text">|</strong> 
+           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/webinars">Webinars</a> 
+           <strong class="sbs-red-text">|</strong> 
+           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/mentor">Industry Mentorship</a>
+           <br> 
+           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/job">Jobs in Sports</a>
+           <strong class="sbs-red-text">|</strong> 
+           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/sales-vault">Sales Training</a></p>
+        <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><strong>Become a Clubhouse PRO Member</strong></a><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
+        <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
     </div>
 </div>
 @endsection
