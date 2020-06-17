@@ -2605,6 +2605,18 @@ $(document).ready(function () {
         }
     });
 
+    // Fix for Chrome 73 breaking Materialize calendars and dropdowns
+    $('.datepicker').on('mousedown', function(e){
+        e.preventDefault();
+    });
+    $('.select-dropdown').on('mousedown', function(e){
+        e.preventDefault();
+    });
+    $('.select-wrapper select').on('change select', function(e){
+        $(this).material_select();
+    });
+
+
     // Initialize
     SBS.init();
 });
