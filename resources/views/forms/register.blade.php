@@ -149,9 +149,9 @@
             </div>
             <div class="row">
                 <input id="terms" name="terms" type="checkbox" required>
-                <label for="terms" class="sbs-red-checkbox">I agree to the <a target="_blank" href="/documents/Sports-Business-Solutions-Terms-of-Service.pdf">terms of service</a>.</label>
+                <label for="terms" class="sbs-red-checkbox">I agree to the <a target="_blank" rel="noopener" href="/documents/Sports-Business-Solutions-Terms-of-Service.pdf">terms of service</a>.</label>
             </div>
-        </div>    
+        </div>
         <div class="col s12 m6">
             <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
         </div>

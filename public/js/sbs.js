@@ -2006,20 +2006,17 @@ $.valHooks.textarea = {
                     e.preventDefault();
                 } else if (!$('input[type="checkbox"].years-worked').is(':checked')) {
                     $('.years-worked-warning').removeClass('hidden');
-                    $('.register-modal').scrollTop($('.years-worked-warning').position().top);
+                    $('.register-modal').scrollTop(1750);
                     e.preventDefault();
                 } else if (!$('input[type="checkbox"].planned-services').is(':checked')) {
                     $('.planned-services-warning').removeClass('hidden');
-                    $('.register-modal').scrollTop($('.planned-services-warning').position().top);
+                    $('.register-modal').scrollTop(1750);
                     e.preventDefault();
                 }
             }
         },
         'form.registration-form button[type="submit"]'
     );
-
-
-    //TODO: validation for these checkboxes
 
     //end Registration Modal
 
