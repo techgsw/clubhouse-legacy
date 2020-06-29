@@ -46,7 +46,7 @@
                                     @if ($product->getHighestOptionRole() == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
-                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
+                                        <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
                                     @if (!Auth::user())
                                         <p style="color: #FFF">Already a member? <a href="/login">Login</a></p>
@@ -95,7 +95,7 @@
                     </div>
                 @else
                     <div class="input-field" style="margin-top: 30px;">
-                        <a href="/register" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
+                        <a href="#register-modal" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
                     </div>
                 @endif
             @else

@@ -26,7 +26,7 @@
                 @can ('create-inquiry')
                     <a style="position: absolute; bottom: 15px; left: 50%; margin-left: -45px; width: 90px;" href="{{ $job->getURL() }}" class="btn btn-small  white black-text">Apply</a>
                 @else
-                    <a style="position: absolute; bottom: 15px; left: 50%; margin-left: -45px; width: 90px;" href="/register" class="btn btn-small white black-text">Apply</a>
+                    <a style="position: absolute; bottom: 15px; left: 50%; margin-left: -45px; width: 90px;" href="#register-modal" class="btn btn-small white black-text">Apply</a>
                 @endcan
             </div>
         </div>

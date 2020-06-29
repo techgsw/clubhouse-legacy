@@ -18,10 +18,8 @@ class RedirectRouter
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($request->isMethod('get') && (
-                preg_match('/register/', $request->getRequestURI())
-                || preg_match('/pro-membership/', $request->getRequestURI())
-            )
+        if (preg_match('/register/', $request->getRequestURI())
+            || ($request->isMethod('get') && preg_match('/pro-membership/', $request->getRequestURI()))
         ) {
             if ($request->query('type') == 'employer'
                 && preg_match('/'.addcslashes(env('CLUBHOUSE_URL'), '/').'\/job/', $request->headers->get('referer'))

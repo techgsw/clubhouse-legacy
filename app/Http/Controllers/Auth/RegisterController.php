@@ -121,7 +121,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
+//        $this->validator($request->all())->validate();
 
         $possible_duplicate_users = User::where('first_name', $request->input('first_name'))
             ->where('last_name', $request->input('last_name'))
@@ -185,7 +185,7 @@ class RegisterController extends Controller
         $this->guard()->login($user);
 
         return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+            ?: redirect($this->redirectPath().'#register-modal');
     }
 
     /**
@@ -218,6 +218,8 @@ class RegisterController extends Controller
         }
 
         $this->guard()->login($user);
+
+        $request->request->add($cached_request_form);
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());

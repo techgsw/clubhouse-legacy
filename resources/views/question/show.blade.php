@@ -112,7 +112,7 @@
             @else
                 <div class="row center-align">
                     <h4>Want to answer this question?</h4>
-                    <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
+                    <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                     <p>Already a member? <a href="/login">Login</a></p>
                 </div>
             @endif

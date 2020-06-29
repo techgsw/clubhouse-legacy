@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <p>Not yet a member? <a href="/register">Click here to register!</a></p>
+                <p>Not yet a member? <a href="#register-modal">Click here to register!</a></p>
             </div>
         </div>
         <div class="row">

@@ -23,7 +23,7 @@
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($product)
                                 @if (Auth::guest())
-                                    <a href="/" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro at $7.00/month</a>
+                                    <a href="#register-modal" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro at $7.00/month</a>
                                 @else
                                     <a href="{{ $product->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro Monthly</a>
                                 @endif
@@ -46,7 +46,7 @@
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($product)
                                 @if (Auth::guest())
-                                    <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro Annually</a>
+                                    <a href="#register-modal" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro Annually</a>
                                 @else
                                     <a href="{{ $product->options()->get()[1]->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Go Pro Annually</a>
                                 @endif

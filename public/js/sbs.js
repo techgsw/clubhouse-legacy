@@ -1931,14 +1931,17 @@ $.valHooks.textarea = {
 
     //end Blog editor
 
+
     // Registration Modal
 
+    // highlight the correct membership option card on check
     $('input[type="checkbox"].membership-selection').each(function() {
         if ($(this).is(':checked')) {
             $(this).closest('div.card').css("background-color", "#F6F6F6");
         }
     });
 
+    // swap the correct checkboxes when membership options are checked/unchecked
     $('body').on(
         {
             change: function(e) {
@@ -1966,6 +1969,7 @@ $.valHooks.textarea = {
         'input[type="checkbox"].membership-selection'
     );
 
+    // make "years worked" radio buttons with checkboxes, remove warning on checked
     $('body').on(
         {
             change: function(e) {
@@ -1979,6 +1983,7 @@ $.valHooks.textarea = {
         'input[type="checkbox"].years-worked'
     );
 
+    // remove "planned services" warning on checked`
     $('body').on(
         {
             change: function(e) {
@@ -1990,6 +1995,7 @@ $.valHooks.textarea = {
         'input[type="checkbox"].planned-services'
     );
 
+    // validate input for checkboxes
     $('body').on(
         {
             click: function(e) {

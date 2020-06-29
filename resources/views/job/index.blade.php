@@ -39,7 +39,7 @@
                             @can ('create-inquiry')
                                 <p><a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply</a></p>
                             @else
-                                <p><a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply</a></p>
+                                <p><a style="margin-top: 12px;" href="#register-modal" class="btn btn-small white black-text">Apply</a></p>
                             @endcan
                         </div>
                     </div>

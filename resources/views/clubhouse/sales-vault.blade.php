@@ -120,7 +120,7 @@
                 @else
                     <div class="center-align">
                         <h5>Want to post a question?</h5>
-                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
+                        <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                         <p>Already a member? <a href="/login">Login</a></p>
                     </div>
                 @endif
