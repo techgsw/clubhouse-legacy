@@ -352,6 +352,8 @@ Route::domain($domain)->group(function () {
         Route::get('/job-options', 'ClubhouseController@jobOptions');
         Route::get('/job-options/{option_type}', 'ClubhouseController@jobOptions');
         Route::get('/membership-options', 'ClubhouseController@membershipOptions');
+    });
+    Route::group(['middleware' => ['web', 'redirect_router']], function() {
         Route::get('/pro-membership', 'ClubhouseController@proMembership');
     });
 

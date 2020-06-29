@@ -61,6 +61,11 @@
     color: #EB2935;
 }
 
+[type="checkbox"]:checked + .sbs-red-checkbox::before {
+    border-right:2px solid #EB2935;
+    border-bottom:2px solid #EB2935;
+}
+
 span.badge.new.sbs-red {
     background-color: #EB2935;
 }
@@ -1183,6 +1188,10 @@ select[required] {
 
 .border-left{
     border-left: solid 1px #000;
+}
+
+form.registration-form .card-content {
+    margin:0px 30px;
 }
 
 /**
@@ -2352,6 +2361,12 @@ a.sales-vault-twitter-link:hover {
     }
     div.bg-image.dark-circle img {
         max-height: 100px;
+    }
+    .card-flex-container .card.large, .card-flex-container .card-placeholder.large {
+        min-width: unset;
+    }
+    form.registration-form .card-content {
+        margin:-20px -10px;
     }
 }
 @media only screen and (min-width: 993px) {

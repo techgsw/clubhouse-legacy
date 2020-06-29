@@ -14,6 +14,9 @@ class Profile extends Model
         'updated_at',
         'edited_at'
     ];
+    protected $casts = [
+        'planned_services' => 'array'
+    ];
 
     public function user()
     {

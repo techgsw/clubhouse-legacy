@@ -40,7 +40,7 @@
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="/">Register</a></li>
+                    <li><a class="modal-trigger" href="#register-modal">Register</a></li>
                 @else
                     @if (Auth::user()->hasAccess('admin_index'))
                         <li><a href="/admin">Admin</a></li>

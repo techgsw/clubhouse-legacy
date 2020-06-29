@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\ProductOption;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Support\Facades\Password;
 use Mail;
@@ -55,7 +56,17 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        $redirect_url = Session::get('url.intended', url('/'));
+        if ($request->input('membership-selection-pro-annually')) {
+            $redirect_url = ProductOption::whereHas('product', function ($query) {
+                $query->where('name', 'Clubhouse Pro Membership');
+            })->where('name', 'Clubhouse Pro Membership Annual')->first()->getURL(false, 'checkout');
+        } else if ($request->input('membership-selection-pro-monthly') || $request->input('membership-selection-pro')) {
+            $redirect_url = ProductOption::whereHas('product', function ($query) {
+                $query->where('name', 'Clubhouse Pro Membership');
+            })->where('name', 'Clubhouse Pro Membership')->first()->getURL(false, 'checkout');
+        } else {
+            $redirect_url = Session::get('url.intended', url('/'));
+        }
 
         if ($redirect_url == '/job-options') {
             $message = "Thank you for joining theClubhouse community! Now, let’s help you post your open job. First, select the option below that works best for you.";
@@ -69,6 +80,8 @@ class RegisterController extends Controller
             $code = null,
             $icon = "check_circle"
         ));
+
+        return redirect($redirect_url);
     }
 
     /**
@@ -225,11 +238,14 @@ class RegisterController extends Controller
                 $contact = Contact::where('email', '=', $email)->get();
                 if (count($contact) > 0) {
                     $contact = $contact[0];
+                    $contact->title = $data['title'];
+                    $contact->save();
                 } else {
                     $contact = Contact::create([
                         'first_name' => $data['first_name'],
                         'last_name' => $data['last_name'],
-                        'email' => $data['email']
+                        'email' => $data['email'],
+                        'title' => $data['title']
                     ]);
                 }
             }
@@ -241,8 +257,21 @@ class RegisterController extends Controller
                 'password' => bcrypt($data['password']),
             ]);
 
+            $years_worked = null;
+            $planned_services = array();
+            foreach($data as $key=>$datum) {
+                if (strpos($key, 'services-') !== false) {
+                    $planned_services []= substr($key, 9);
+                } else if (strpos($key, 'years-worked-') !== false) {
+                    $years_worked = substr($key, 13);
+                }
+            }
+
             $profile = Profile::create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'current_title' => $data['title'],
+                'works_in_sports_years_range' => $years_worked,
+                'planned_services' => empty($planned_services) ? null : $planned_services
             ]);
 
             $roles = Role::where('code', 'job_user')->get();
@@ -278,7 +307,9 @@ class RegisterController extends Controller
         // TODO Use a Queue so as not to block
         // https://laravel.com/docs/5.5/queues
         try {
-            $response = EmailServiceProvider::addToMailchimp($user);
+            if (isset($data['newsletter'])) {
+                $response = EmailServiceProvider::addToMailchimp($user);
+            }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         } catch (\Throwable $e) {

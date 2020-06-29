@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\SBSException;
+use Illuminate\Support\Facades\Session;
 use Mail;
 use App\Mail\CancelNotification;
 use App\Mail\UserPaid;
@@ -398,6 +399,7 @@ class CheckoutController extends Controller
                     } catch (\Exception $e) {
                         Log::error($e->getMessage());
                     }
+
                 } else {
                     return false;
                 }
@@ -414,7 +416,12 @@ class CheckoutController extends Controller
             return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
         }
 
-        return redirect()->action('CheckoutController@thanks', $response);
+        if (isset($response['type']) && $response['type'] == 'membership' && Session::get('url.intended')) {
+            // if a user purchased a clubhouse membership, bring them back to the page they were at before registering/purchasing
+            return redirect(Session::get('url.intended'));
+        } else {
+            return redirect()->action('CheckoutController@thanks', $response);
+        }
     }
 
     public function addCard(Request $request)

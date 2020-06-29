@@ -1931,6 +1931,98 @@ $.valHooks.textarea = {
 
     //end Blog editor
 
+    // Registration Modal
+
+    $('input[type="checkbox"].membership-selection').each(function() {
+        if ($(this).is(':checked')) {
+            $(this).closest('div.card').css("background-color", "#F6F6F6");
+        }
+    });
+
+    $('body').on(
+        {
+            change: function(e) {
+                if ($(this).is(':checked')) {
+                    $('div.card').css("background-color", "#FFFFFF");
+                    $(this).closest('div.card').css("background-color", "#F6F6F6");
+                    $('input[type="checkbox"].membership-selection').prop('checked', false);
+                    if ($(this).attr('id') === 'membership-selection-pro-monthly' || $(this).attr('id') === 'membership-selection-pro-annually') {
+                        $('.pro-payment-type-warning').addClass('hidden');
+                        $('input[type="checkbox"][id="membership-selection-pro"]').prop('checked', true);
+                    }
+                    $(this).prop('checked', true);
+                    $('.membership-type-warning').addClass('hidden');
+                } else {
+                    if ($(this).attr('id') === 'membership-selection-free') {
+                        $(this).closest('div.card').css("background-color", "#FFFFFF");
+                    } else if ($(this).attr('id') === 'membership-selection-pro') {
+                        $(this).closest('div.card').css("background-color", "#FFFFFF");
+                        $('input[type="checkbox"][id="membership-selection-pro-monthly"]').prop('checked', false);
+                        $('input[type="checkbox"][id="membership-selection-pro-annually"]').prop('checked', false);
+                    }
+                }
+            }
+        },
+        'input[type="checkbox"].membership-selection'
+    );
+
+    $('body').on(
+        {
+            change: function(e) {
+                if ($(this).is(':checked')) {
+                    $('input[type="checkbox"].years-worked').prop('checked', false);
+                    $(this).prop('checked', true);
+                    $('.years-worked-warning').addClass('hidden');
+                }
+            }
+        },
+        'input[type="checkbox"].years-worked'
+    );
+
+    $('body').on(
+        {
+            change: function(e) {
+                if ($(this).is(':checked')) {
+                    $('.planned-services-warning').addClass('hidden');
+                }
+            }
+        },
+        'input[type="checkbox"].planned-services'
+    );
+
+    $('body').on(
+        {
+            click: function(e) {
+                if (!$('input[type="checkbox"].membership-selection').is(':checked')) {
+                    $('.membership-type-warning').removeClass('hidden');
+                    $('.register-modal').scrollTop($('.membership-type-warning').position().top);
+                    e.preventDefault();
+                } else if ($('input[type="checkbox"][id="membership-selection-pro"]').is(':checked') &&
+                    !$('input[type="checkbox"][id="membership-selection-pro-monthly"]').is(':checked') &&
+                    !$('input[type="checkbox"][id="membership-selection-pro-annually"]').is(':checked')
+                ) {
+                    $('.pro-payment-type-warning').removeClass('hidden');
+                    $('.register-modal').scrollTop($('.pro-payment-type-warning').position().top);
+                    e.preventDefault();
+                } else if (!$('input[type="checkbox"].years-worked').is(':checked')) {
+                    $('.years-worked-warning').removeClass('hidden');
+                    $('.register-modal').scrollTop($('.years-worked-warning').position().top);
+                    e.preventDefault();
+                } else if (!$('input[type="checkbox"].planned-services').is(':checked')) {
+                    $('.planned-services-warning').removeClass('hidden');
+                    $('.register-modal').scrollTop($('.planned-services-warning').position().top);
+                    e.preventDefault();
+                }
+            }
+        },
+        'form.registration-form button[type="submit"]'
+    );
+
+
+    //TODO: validation for these checkboxes
+
+    //end Registration Modal
+
     $('body').on(
         {
             change: function (e, ui) {
