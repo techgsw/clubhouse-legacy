@@ -94,8 +94,13 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <strong>Which services do you plan to use?</strong>
             <span class="planned-services-warning sbs-red-text hidden">Please select at least one option</span>
+        </div>
+        <div class="col s12 m6">
+            <strong>Which services do you plan to use?</strong>
+        </div>
+        <div class="col hide-on-small-and-down m6">
+            <strong>Career Services:</strong>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-webinar" name="services-webinar" class="planned-services">
@@ -109,6 +114,9 @@
             <br>
             <input type="checkbox" id="services-sales-training" name="services-sales-training" class="planned-services">
             <label for="services-sales-training" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Sales Training</span></label>
+        </div>
+        <div class="col s12 hide-on-med-and-up">
+            <strong>Career Services:</strong>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-interview-coaching" name="services-interview-coaching" class="planned-services">

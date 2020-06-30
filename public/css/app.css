@@ -1303,11 +1303,37 @@ div.arrow.down {
 
 /**
  * Specific styles
+ * - Clubhouse Homepage
  * - Blog
  * - Question
  * - Answer
  * - Job board
  */
+
+/**
+ * Clubhouse Homepage
+ */
+.clubhouse-option {
+    min-width:152px;
+    flex:1;
+    height:390px;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+    padding-top:10px;
+}
+
+.clubhouse-option .red-hover.btn {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    line-height:1rem;
+    max-height:60px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
 
 /**
  * Blog
@@ -1665,7 +1691,8 @@ form#edit-job img {
     color: #FFFFFF;
     transition: all 0.2s linear;
 }
-.red-hover .btn {
+.red-hover .btn,
+.red-hover.btn {
     background: transparent;
     border: 2px solid #EB2935;
     color: #EB2935;
@@ -1676,34 +1703,13 @@ form#edit-job img {
     color: #FFFFFF;
     transition: all 0.2s linear;
 }
+.red-hover.btn:hover {
+    background-color: #EB2935;
+    color: #FFFFFF;
+    transition: all 0.2s linear;
+}
 .red-hover:hover .sbs-red-text {
     color: #FFFFFF;
-}
-
-.red-hover.clubhouse-option {
-    min-width:152px;
-    flex:1;
-    height:390px;
-    display:flex;
-    flex-direction:column;
-    justify-content: space-between;
-    align-items: center;
-    margin: 5px;
-    padding-top:10px;
-}
-
-.red-hover.clubhouse-option .btn {
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    line-height:1rem;
-    height:50px;
-    margin-bottom: 10px;
-}
-
-.red-hover:hover img {
-    filter: invert(1);
-    transition: filter 0.2s linear;
 }
 
 /**

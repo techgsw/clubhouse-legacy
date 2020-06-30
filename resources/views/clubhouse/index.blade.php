@@ -7,7 +7,15 @@
             <h1 class="header">Welcome to The Clubhouse</h1>
             <div class="col s12 m6 offset-m3">
                 <h5><span class="sbs-red-text">the</span>Clubhouse is where current and aspiring sports business professionals go to learn, network and share ideas in an effort to grow as both people and professionals.</h5>
-                <a href="#register-modal" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;">Sign up for a {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</a>
+                @can('view-clubhouse')
+                    <h5><strong>We're glad you're a member of <span class="sbs-red-text">the</span>Clubhouse!</strong></h5>
+                @else
+                    @if (Auth::user())
+                        <a href="/pro-membership" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;">Become PRO with a {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</a>
+                    @else
+                        <a href="#register-modal" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;">Sign up for a {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</a>
+                    @endif
+                @endcan
             </div>
         </div>
     </div>
@@ -15,41 +23,41 @@
 @section('content')
     <div class="container">
         <div class="row" style="display: flex; flex-direction: row; flex-wrap:wrap;">
-            <div class="col center-align red-hover clubhouse-option">
+            <div class="col center-align clubhouse-option">
                 <img class="" style="height: 100px;" src="/images/clubhouse/event.png" />
                 <p><strong>Live and On-Demand Webinars</strong></p>
                 <p>Learn from the pros with our playlist of 50+ (and growing) webinars - live and on-demand.</p>
-                <a href="/webinars" class="btn clubhouse-option">Check out our library</a>
+                <a href="/webinars" class="red-hover btn clubhouse-option">Check out our library</a>
             </div>
-            <div class="col center-align red-hover clubhouse-option">
+            <div class="col center-align clubhouse-option">
                 <img class="" style="height: 100px;" src="/images/clubhouse/mentorship.png" />
                 <p><strong>Mentoring from the Sports Pros</strong></p>
                 <p>Get 1:1 mentoring for over 100+ (and growing) sports professionals in the field.</p>
-                <a href="/mentor" class="btn clubhouse-option">See who's available</a>
+                <a href="/mentor" class="red-hover btn clubhouse-option">See who's available</a>
             </div>
-            <div class="col center-align red-hover clubhouse-option">
+            <div class="col center-align clubhouse-option">
                 <img class="" style="height: 100px;" src="/images/clubhouse/career-services.png" />
                 <p><strong>Career Services for You</strong></p>
                 <p>Schedule a review of your LinkedIn&#8482; profile, get interview coaching, and a bunch more.</p>
-                <a href="/career-services" class="btn clubhouse-option">Get started now</a>
+                <a href="/career-services" class="red-hover btn clubhouse-option">Get started now</a>
             </div>
-            <div class="col center-align red-hover clubhouse-option">
+            <div class="col center-align clubhouse-option">
                 <img class="" style="filter:invert(1);height: 100px;" src="/images/sales-vault/treasure.png" />
                 <p><strong>Get in the Sales Training Vault</strong></p>
-                <p>The SBS team shared tips based on our professional experiences.</p>
-                <a href="/sales-vault" class="btn clubhouse-option">We're ready to talk</a>
+                <p>The SBS team shares tips based on our professional experiences.</p>
+                <a href="/sales-vault" class="red-hover btn clubhouse-option">We're ready to talk</a>
             </div>
-            <div class="col center-align red-hover clubhouse-option">
+            <div class="col center-align clubhouse-option">
                 <img class="" style="height: 100px;" src="/images/clubhouse/job-board.png" />
                 <p><strong>Check out the Job Board</strong></p>
                 <p>These listings for sports sales and services jobs come direct from our contacts.</p>
-                <a href="/job" class="btn clubhouse-option">Check out the listings</a>
+                <a href="/job" class="red-hover btn clubhouse-option">Check out the listings</a>
             </div>
-            <div class="col center-align red-hover clubhouse-option">
+            <div class="col center-align clubhouse-option">
                 <img class="" style="height: 100px;" src="/images/same-here/logo-black-no-title.png" />
                 <p><strong>#SameHere Solutions</strong></p>
                 <p>Face the challenges that can affect our mental well-being with our consultants.</p>
-                <a href="/same-here" class="btn clubhouse-option">Find out more</a>
+                <a href="/same-here" class="red-hover btn clubhouse-option">Find out more</a>
             </div>
         </div>
     </div>
@@ -74,9 +82,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="position:absolute;bottom:-70px;left:10px;display:flex;justify-content: center;width:100%;">
-                        <a href="#register-modal" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;"><strong>FREE</strong></a>
-                    </div>
+                    @if (!Auth::user())
+                        <div class="row" style="position:absolute;bottom:-70px;left:10px;display:flex;justify-content: center;width:100%;">
+                            <a href="#register-modal" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;"><strong>FREE</strong></a>
+                        </div>
+                    @endif
                 </div>
                 <div class="card large" style="margin-bottom: 90px;">
                     <div class="card-image" style="background-color: #EB2935;color:#FFF;">
@@ -104,9 +114,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="position:absolute;bottom:-70px;left:10px;display:flex;justify-content: center;width:100%;">
-                        <a href="#register-modal" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;"><strong>FREE {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day trial</strong></a>
-                    </div>
+                    @cannot('view-clubhouse')
+                        <div class="row" style="position:absolute;bottom:-70px;left:10px;display:flex;justify-content: center;width:100%;">
+                            <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;"><strong>FREE {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day trial</strong></a>
+                        </div>
+                    @endcannot
                 </div>
             </div>
         </div>
