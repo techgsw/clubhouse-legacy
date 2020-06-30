@@ -150,11 +150,14 @@ div.row.bg-image.clubhouse {
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    text-align: left;
+    text-align: center;
 }
 
-div.row.bg-image.clubhouse h4 {
-    font-size: 2rem;
+div.row.bg-image.clubhouse h1 {
+    font-size: 3rem;
+    margin: 15px;
+    font-weight: 400;
+    text-transform: uppercase;
 }
 
 div.row.bg-image.clubhouse h5 {
@@ -1300,6 +1303,7 @@ div.arrow.down {
 
 /**
  * Specific styles
+ * - Blog
  * - Question
  * - Answer
  * - Job board
@@ -1674,6 +1678,32 @@ form#edit-job img {
 }
 .red-hover:hover .sbs-red-text {
     color: #FFFFFF;
+}
+
+.red-hover.clubhouse-option {
+    min-width:152px;
+    flex:1;
+    height:390px;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+    padding-top:10px;
+}
+
+.red-hover.clubhouse-option .btn {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    line-height:1rem;
+    height:50px;
+    margin-bottom: 10px;
+}
+
+.red-hover:hover img {
+    filter: invert(1);
+    transition: filter 0.2s linear;
 }
 
 /**
