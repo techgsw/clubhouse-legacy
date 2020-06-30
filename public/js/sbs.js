@@ -2001,22 +2001,22 @@ $.valHooks.textarea = {
             click: function(e) {
                 if (!$('input[type="checkbox"].membership-selection').is(':checked')) {
                     $('.membership-type-warning').removeClass('hidden');
-                    $('.register-modal').scrollTop($('.membership-type-warning').position().top);
+                    $('.membership-type-warning')[0].scrollIntoView();
                     e.preventDefault();
                 } else if ($('input[type="checkbox"][id="membership-selection-pro"]').is(':checked') &&
                     !$('input[type="checkbox"][id="membership-selection-pro-monthly"]').is(':checked') &&
                     !$('input[type="checkbox"][id="membership-selection-pro-annually"]').is(':checked')
                 ) {
                     $('.pro-payment-type-warning').removeClass('hidden');
-                    $('.register-modal').scrollTop($('.pro-payment-type-warning').position().top);
+                    $('.pro-payment-type-warning')[0].scrollIntoView();
                     e.preventDefault();
                 } else if (!$('input[type="checkbox"].years-worked').is(':checked')) {
                     $('.years-worked-warning').removeClass('hidden');
-                    $('.register-modal').scrollTop(1750);
+                    $('.years-worked-warning')[0].scrollIntoView();
                     e.preventDefault();
                 } else if (!$('input[type="checkbox"].planned-services').is(':checked')) {
                     $('.planned-services-warning').removeClass('hidden');
-                    $('.register-modal').scrollTop(1750);
+                    $('.planned-services-warning')[0].scrollIntoView();
                     e.preventDefault();
                 }
             }

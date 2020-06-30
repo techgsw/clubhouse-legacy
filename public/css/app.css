@@ -1194,6 +1194,10 @@ form.registration-form .card-content {
     margin:0px 30px;
 }
 
+form.registration-form .card-flex-container .card.large {
+    min-width: 425px;
+}
+
 /**
  * Dropzone
  */

@@ -47,15 +47,14 @@
                                 <li>Access to additional on-demand premium content</li>
                             </ul>
                         </div>
+                        <span class="pro-payment-type-warning sbs-red-text hidden">Please select a payment type</span>
                         <div class="input-field">
-                            <strong style="font-size:20px;">Choose:</strong><br>
+                            <strong style="font-size:20px;">Choose one:</strong><br>
                             <input type="checkbox" id="membership-selection-pro-monthly" name="membership-selection-pro-monthly" class="membership-selection"/>
                             <label for="membership-selection-pro-monthly" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span class="sbs-red-text">$7/MONTH</span></label>
-                            <strong>OR</strong>
                             <input type="checkbox" id="membership-selection-pro-annually" name="membership-selection-pro-annually" class="membership-selection"/>
                             <label for="membership-selection-pro-annually" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span class="sbs-red-text">$77/YEAR - 1 MONTH FREE</span></label>
                         </div>
-                        <span class="pro-payment-type-warning sbs-red-text hidden">Please select a payment type</span>
                     </div>
                 </div>
             </div>
@@ -144,8 +143,8 @@
     <div class="row">
         <div class="col s12 m6" style="margin-bottom: 20px;">
             <div class="row">
-                <input id="newsletter" name="newsletter" type="checkbox">
-                <label for="newsletter" class="sbs-red-checkbox">Sign up for <span class="sbs-red-text">the</span>Clubhouse newsletter</label>
+                <input id="newsletter" name="newsletter" type="checkbox" checked>
+                <label for="newsletter" class="sbs-red-checkbox">Receive <span class="sbs-red-text">the</span>Clubhouse newsletter</label>
             </div>
             <div class="row">
                 <input id="terms" name="terms" type="checkbox" required>
