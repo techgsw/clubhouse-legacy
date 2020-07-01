@@ -2404,7 +2404,7 @@ a.sales-vault-twitter-link:hover {
         min-width: unset;
     }
     form.registration-form .card-content {
-        margin:-20px -10px;
+        margin:-10px 90px 0px 0px;
     }
 }
 @media only screen and (min-width: 993px) {
