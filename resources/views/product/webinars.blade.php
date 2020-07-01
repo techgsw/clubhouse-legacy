@@ -62,17 +62,17 @@
         <div class="row">
             @foreach ($inactive_products as $product)
                 @if (!preg_match('/do not show/i', $product->name))
-                    <div class="col s12">
-                        <ul class="browser-default">
-                            <li><span style="font-size: 18px;"><strong>{{ $product->name }}</strong></span><span> {!! $pd->text($product->getCleanDescription() ) !!}</span><a href="{{ $product->getURL(false, is_null(array_first($product->tags, function ($tag) { return $tag->name == '#SameHere'; })) ? 'webinars' : 'same-here/webinars') }}" class="btn sbs-red">View Webinar</a>
-                                <div class="hide-on-med-and-up" style="height: 10px"><br></div>
-                                @foreach($product->tags as $tag)
-                                    @if ($tag->name != 'Webinar')
-                                        <a href="/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin:4px; float: right">{{ $tag->name }}</a>
-                                    @endif
-                                @endforeach
-                            </li>
-                        </ul>
+                    <div style="display:flex;align-items: center; justify-content: space-between;flex-wrap: wrap;">
+                        <a href="{{ $product->getURL(false, is_null(array_first($product->tags, function ($tag) { return $tag->name == '#SameHere'; })) ? 'webinars' : 'same-here/webinars') }}" class="no-underline"><i style="font-size:70px;color:#EB2935; margin-right:20px;" class="fa fa-caret-right"></i></a>
+                        <span style="font-size: 18px;margin-right:auto;"><strong>{{ $product->name }}</strong></span>
+                        <div class="hide-on-small-and-down">
+                        @foreach($product->tags as $tag)
+                            @if ($tag->name != 'Webinar')
+                                <a href="/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="margin:4px;">{{ $tag->name }}</a>
+                            @endif
+                        @endforeach
+                        </div>
+                        <span class="sbs-red-text" style="margin-left:3%;"><strong>PRO Member</strong></span>
                     </div>
                 @endif
             @endforeach

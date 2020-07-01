@@ -71,8 +71,18 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s12 {{ $errors->has('title') ? 'invalid' : '' }}">
-            <input id="title" type="text" name="title" value="{{ old('title') }}" required>
+        <div class="input-field col s12">
+            <select id="title" name="title" required>
+                <option value="" disabled selected>Choose your current title</option>
+                <option value="C-Level or Owner">C-Level or Owner</option>
+                <option value="VP">VP</option>
+                <option value="Director">Director</option>
+                <option value="Manager">Manager</option>
+                <option value="Account Executive">Account Executive</option>
+                <option value="Entry Level">Entry Level</option>
+                <option value="Student">Student</option>
+                <option value="Other">Other</option>
+            </select>
             <label for="title">Title</label>
         </div>
     </div>
@@ -97,10 +107,10 @@
             <span class="planned-services-warning sbs-red-text hidden">Please select at least one option</span>
         </div>
         <div class="col s12 m6">
-            <strong>Which services do you plan to use?</strong>
+            <strong>Which features do you plan to use?</strong>
         </div>
         <div class="col hide-on-small-and-down m6">
-            <strong>Career Services:</strong>
+            <strong>Which career services do you plan to use?</strong>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-webinar" name="services-webinar" class="planned-services">
@@ -114,9 +124,12 @@
             <br>
             <input type="checkbox" id="services-sales-training" name="services-sales-training" class="planned-services">
             <label for="services-sales-training" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Sales Training</span></label>
+            <br>
+            <input type="checkbox" id="services-mental-health" name="services-mental-health" class="planned-services">
+            <label for="services-mental-health" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Mental Health</span></label>
         </div>
         <div class="col s12 hide-on-med-and-up">
-            <strong>Career Services:</strong>
+            <strong>Which career services do you plan to use?</strong>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-interview-coaching" name="services-interview-coaching" class="planned-services">
@@ -160,6 +173,8 @@
             </div>
         </div>
         <div class="col s12 m6">
+            <span class="recaptcha-warning sbs-red-text hidden">Please check the box below</span>
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
         </div>
     </div>

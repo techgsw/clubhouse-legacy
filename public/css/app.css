@@ -144,13 +144,10 @@ div.row.bg-image img {
 }
 
 div.row.bg-image.clubhouse {
-    background-image: url("/images/clubhouse/clubhouse-hero.jpg");
-    background-image: url("/images/clubhouse/Clubhouse-Home.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: linear-gradient( rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6) ), url("/images/clubhouse/CH_Header_Arena.jpg") right 50% bottom 70%;
     position: relative;
     text-align: center;
+    background-size: 120%;
 }
 
 div.row.bg-image.clubhouse h1 {
@@ -1315,6 +1312,7 @@ div.arrow.down {
  */
 .clubhouse-option {
     min-width:152px;
+    max-width: 300px;
     flex:1;
     height:390px;
     display:flex;
@@ -2437,6 +2435,12 @@ a.sales-vault-twitter-link:hover {
     }
 }
 
+@media only screen and (max-width: 1060px) {
+    div.row.bg-image.clubhouse {
+        background-size: 300%;
+    }
+}
+
 /**
  * Fix for Materialize dropdowns not working on mobile. Reverts back to browser-default
  */
@@ -2458,4 +2462,12 @@ a.sales-vault-twitter-link:hover {
     #job-search-form .select-wrapper span.caret {
         display: none;
     }
+}
+
+/**
+ * Fix for certain checkboxes in materialize not showing validation errors on chrome
+ */
+[type=checkbox]:not(:checked) {
+    left: inherit;
+    margin-top: 8px;
 }

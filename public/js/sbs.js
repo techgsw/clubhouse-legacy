@@ -2018,6 +2018,10 @@ $.valHooks.textarea = {
                     $('.planned-services-warning').removeClass('hidden');
                     $('.planned-services-warning')[0].scrollIntoView();
                     e.preventDefault();
+                } else if (grecaptcha && !grecaptcha.getResponse()) {
+                    // the grecaptcha field can be found in google's recaptcha api js file imported in the registration modal
+                    $('.recaptcha-warning').removeClass('hidden')
+                    e.preventDefault();
                 }
             }
         },
