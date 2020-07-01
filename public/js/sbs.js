@@ -1952,6 +1952,9 @@ $.valHooks.textarea = {
                     if ($(this).attr('id') === 'membership-selection-pro-monthly' || $(this).attr('id') === 'membership-selection-pro-annually') {
                         $('.pro-payment-type-warning').addClass('hidden');
                         $('input[type="checkbox"][id="membership-selection-pro"]').prop('checked', true);
+                    } else {
+                        //don't scroll into view for payment options, just the top two checkboxes
+                        $(this)[0].scrollIntoView({behavior: "smooth"});
                     }
                     $(this).prop('checked', true);
                     $('.membership-type-warning').addClass('hidden');
@@ -2001,22 +2004,22 @@ $.valHooks.textarea = {
             click: function(e) {
                 if (!$('input[type="checkbox"].membership-selection').is(':checked')) {
                     $('.membership-type-warning').removeClass('hidden');
-                    $('.membership-type-warning')[0].scrollIntoView();
+                    $('.membership-type-warning')[0].scrollIntoView({behavior: "smooth"});
                     e.preventDefault();
                 } else if ($('input[type="checkbox"][id="membership-selection-pro"]').is(':checked') &&
                     !$('input[type="checkbox"][id="membership-selection-pro-monthly"]').is(':checked') &&
                     !$('input[type="checkbox"][id="membership-selection-pro-annually"]').is(':checked')
                 ) {
                     $('.pro-payment-type-warning').removeClass('hidden');
-                    $('.pro-payment-type-warning')[0].scrollIntoView();
+                    $('.pro-payment-type-warning')[0].scrollIntoView({behavior: "smooth"});
                     e.preventDefault();
                 } else if (!$('input[type="checkbox"].years-worked').is(':checked')) {
                     $('.years-worked-warning').removeClass('hidden');
-                    $('.years-worked-warning')[0].scrollIntoView();
+                    $('.years-worked-warning')[0].scrollIntoView({behavior: "smooth", block:"center"});
                     e.preventDefault();
                 } else if (!$('input[type="checkbox"].planned-services').is(':checked')) {
                     $('.planned-services-warning').removeClass('hidden');
-                    $('.planned-services-warning')[0].scrollIntoView();
+                    $('.planned-services-warning')[0].scrollIntoView({behavior: "smooth", block:"center"});
                     e.preventDefault();
                 } else if (grecaptcha && !grecaptcha.getResponse()) {
                     // the grecaptcha field can be found in google's recaptcha api js file imported in the registration modal

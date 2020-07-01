@@ -24,37 +24,37 @@
     <div class="container">
         <div class="row" style="display: flex; flex-direction: row; flex-wrap:wrap;justify-content: center;">
             <div class="col center-align clubhouse-option">
-                <img class="" style="height: 100px;" src="/images/clubhouse/CH_Webinar.jpg" />
+                <img class="" style="height: 120px;" src="/images/clubhouse/CH_Webinar.jpg" />
                 <p style="margin-bottom:auto;margin-top:20px;"><strong>Live and On-Demand Webinars</strong></p>
                 <p style="min-height:100px;">Learn from the pros with our playlist of 50+ (and growing) webinars - live and on-demand.</p>
                 <a href="/webinars" class="red-hover btn clubhouse-option">Check out our library</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <img class="" style="height: 100px;" src="/images/clubhouse/CH_Mentor.jpg" />
+                <img class="" style="height: 120px;" src="/images/clubhouse/CH_Mentor.jpg" />
                 <p style="margin-bottom:auto;margin-top:20px;"><strong>Mentoring from the Sports Pros</strong></p>
                 <p style="min-height:100px;">Get 1:1 mentoring for over 100+ (and growing) sports professionals in the field.</p>
                 <a href="/mentor" class="red-hover btn clubhouse-option">See who's available</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <img class="" style="height: 100px;" src="/images/clubhouse/CH_Career.jpg" />
+                <img class="" style="height: 120px;" src="/images/clubhouse/CH_Career.jpg" />
                 <p style="margin-bottom:auto;margin-top:20px;"><strong>Career Services for You</strong></p>
                 <p style="min-height:100px;">Schedule a review of your LinkedIn&#8482; profile, get interview coaching, and a bunch more.</p>
                 <a href="/career-services" class="red-hover btn clubhouse-option">Get started now</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <img class="" style="height: 100px;" src="/images/clubhouse/CH_SalesVault.jpg" />
+                <img class="" style="height: 120px;" src="/images/clubhouse/CH_SalesVault.jpg" />
                 <p style="margin-bottom:auto;margin-top:20px;"><strong>Get in the Sales Training Vault</strong></p>
                 <p style="min-height:100px;">The SBS team shares tips based on our professional experiences.</p>
                 <a href="/sales-vault" class="red-hover btn clubhouse-option">We're ready to talk</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <img class="" style="height: 100px;" src="/images/clubhouse/CH_Job.jpg" />
+                <img class="" style="height: 120px;" src="/images/clubhouse/CH_Job.jpg" />
                 <p style="margin-bottom:auto;margin-top:20px;"><strong>Check out the Job Board</strong></p>
                 <p style="min-height:100px;">These listings for sports sales and services jobs come direct from our contacts.</p>
                 <a href="/job" class="red-hover btn clubhouse-option">Check out the listings</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <img class="" style="height: 100px;" src="/images/clubhouse/CH_SameHere.jpg" />
+                <img class="" style="height: 120px;" src="/images/clubhouse/CH_SameHere.jpg" />
                 <p style="margin-bottom:auto;margin-top:20px;"><strong>#SameHere Solutions</strong></p>
                 <p style="min-height:100px;">Face the challenges that can affect our mental well-being, led by Eric Kussin.</p>
                 <a href="/same-here" class="red-hover btn clubhouse-option">Find out more</a>

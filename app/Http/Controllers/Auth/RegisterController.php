@@ -121,7 +121,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-//        $this->validator($request->all())->validate();
+        $this->validator($request->all())->validate();
 
         $possible_duplicate_users = User::where('first_name', $request->input('first_name'))
             ->where('last_name', $request->input('last_name'))
