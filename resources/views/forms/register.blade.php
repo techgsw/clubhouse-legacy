@@ -87,7 +87,7 @@
         </div>
         <div class="input-field col s12 m6">
             <input id="organization" type="text" name="organization">
-            <label for="organization">Organization</label>
+            <label for="organization">Organization (if employed)</label>
         </div>
     </div>
     <div class="row" style="margin-bottom: 30px;">

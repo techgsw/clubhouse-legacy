@@ -62,17 +62,31 @@
         <div class="row">
             @foreach ($inactive_products as $product)
                 @if (!preg_match('/do not show/i', $product->name))
-                    <div style="display:flex;align-items: center; justify-content: space-between;flex-wrap: wrap;">
+                    <div style="display:flex;align-items: center; justify-content: space-between;">
                         <a href="{{ $product->getURL(false, is_null(array_first($product->tags, function ($tag) { return $tag->name == '#SameHere'; })) ? 'webinars' : 'same-here/webinars') }}" class="no-underline"><i style="font-size:70px;color:#EB2935; margin-right:20px;" class="fa fa-caret-right"></i></a>
-                        <span style="font-size: 18px;margin-right:auto;"><strong>{{ $product->name }}</strong></span>
-                        <div class="hide-on-small-and-down">
+                        <span style="font-size: 18px;margin-right:auto;max-width:650px;"><strong>{{ $product->name }}</strong></span>
+                        <div class="hide-on-small-and-down" style="height:2em;line-height: 100%; overflow: hidden;text-align: right;">
                         @foreach($product->tags as $tag)
                             @if ($tag->name != 'Webinar')
-                                <a href="/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="margin:4px;">{{ $tag->name }}</a>
+                                <a href="/webinars?tag={{ urlencode($tag->slug) }}" class="small flat-button black" style="margin:4px;white-space: nowrap;">{{ $tag->name }}</a>
                             @endif
                         @endforeach
                         </div>
-                        <span class="sbs-red-text" style="margin-left:3%;"><strong>PRO Member</strong></span>
+                        <span class="sbs-red-text" style="margin-left:15px;width:4rem;white-space: nowrap;">
+                            @if ($product->highest_option_role == 'clubhouse')
+                                @cannot('view-clubhouse')
+                                    <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="no-underline">
+                                @endcannot
+                                    <strong>PRO Member</strong>
+                                @cannot('view-clubhouse')
+                                    </a>
+                                @endcannot
+                            @elseif ($product->highest_option_role == 'user' && !Auth::user())
+                                <a href="#register-modal" class="no-underline"><strong>Sign up</strong></a>
+                            @else
+                                <strong>FREE</strong>
+                            @endif
+                        </span>
                     </div>
                 @endif
             @endforeach

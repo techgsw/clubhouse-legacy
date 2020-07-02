@@ -30,7 +30,7 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this video?</h4>
-                                    @if ($video->getHighestOptionRole() == 'clubhouse')
+                                    @if ($video->highest_option_role == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
                                         <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
@@ -44,7 +44,7 @@
                             <div class="row" style="height:275px;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4>Want to watch this video?</h4>
-                                    @if ($video->getHighestOptionRole() == 'clubhouse')
+                                    @if ($video->highest_option_role == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
                                         <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>

@@ -89,26 +89,34 @@ class ProductController extends Controller
                 $product->description = request('description');
                 $product->active = request('active') ? true : false;
                 $product->type = request('type') ? 'service' : 'good';
-                $product->save();
 
-                foreach (request('option') as $i => $params) {
-                    $option = new ProductOption;
-                    $option->name = $params['name'];
-                    $option->price = $params['price'];
-                    $option->quantity = $params['quantity'];
-                    $option->description = $params['description'];
-                    $option->product_id = $product->id;
-                    $option->save();
+                if (count(request('option')) > 0) {
+                    $product->highest_option_role = 'guest';
+                    foreach (request('option') as $i => $params) {
+                        $option = new ProductOption;
+                        $option->name = $params['name'];
+                        $option->price = $params['price'];
+                        $option->quantity = $params['quantity'];
+                        $option->description = $params['description'];
+                        $option->product_id = $product->id;
+                        $option->save();
 
-                    $roles = [];
-                    if (array_key_exists('clubhouse', $params)) {
-                        $roles[] = 'clubhouse';
+                        $roles = [];
+                        if (array_key_exists('clubhouse', $params)) {
+                            $product->highest_option_role = 'clubhouse';
+                            $roles[] = 'clubhouse';
+                        }
+                        if (array_key_exists('user', $params)) {
+                            if ($product->highest_option_role != 'clubhouse') {
+                                $product->highest_option_role = 'user';
+                            }
+                            $roles[] = 'user';
+                        }
+                        $option->roles()->sync($roles);
                     }
-                    if (array_key_exists('user', $params)) {
-                        $roles[] = 'user';
-                    }
-                    $option->roles()->sync($roles);
                 }
+
+                $product->save();
 
                 $image_file = request()->file('image_url');
                 if ($image_file) {
@@ -261,7 +269,6 @@ class ProductController extends Controller
                 $product->name = request('name');
                 $product->description = request('description');
                 $product->active = request('active') ? true : false;
-                $product->save();
 
                 $options = [];
                 $updated_options = [];
@@ -270,6 +277,7 @@ class ProductController extends Controller
                 }
 
                 if (count(request('option')) > 0) {
+                    $product->highest_option_role = 'guest';
                     foreach (request('option') as $i => $params) {
                         if ($params['id']) {
                             $option = $options[$params['id']] ?: new ProductOption;
@@ -287,9 +295,13 @@ class ProductController extends Controller
 
                         $roles = [];
                         if (array_key_exists('clubhouse', $params)) {
+                            $product->highest_option_role = 'clubhouse';
                             $roles[] = 'clubhouse';
                         }
                         if (array_key_exists('user', $params)) {
+                            if ($product->highest_option_role != 'clubhouse') {
+                                $product->highest_option_role = 'user';
+                            }
                             $roles[] = 'user';
                         }
                         $option->roles()->sync($roles);
@@ -299,6 +311,8 @@ class ProductController extends Controller
                         unset($options[$params['id']]);
                     }
                 }
+
+                $product->save();
 
                 $image_file = request()->file('image_url');
                 if ($image_file) {
@@ -478,9 +492,11 @@ class ProductController extends Controller
     public function webinars(Request $request)
     {
         // TODO Need a way to delete products, webinars, etc. Currently hiding product id 53
-        $inactive_products_query = Product::where('active', false)->with('tags')->where('id', '!=', 53)->whereHas('tags', function ($query) {
-            $query->whereIn('name', array('Webinar', '#SameHere'));
-        });
+        $inactive_products_query = Product::with('tags')
+            ->where('active', false)->where('id', '!=', 53)
+            ->whereHas('tags', function ($query) {
+                $query->whereIn('name', array('Webinar', '#SameHere'));
+            });
 
         $active_tag = null;
         $active_products = null;
@@ -499,7 +515,10 @@ class ProductController extends Controller
             })->get();
         }
 
-        $inactive_products = $inactive_products_query->orderBy('id', 'desc')->paginate(5);
+        $inactive_products = $inactive_products_query
+            ->orderByRaw("FIELD(highest_option_role, 'guest', 'user', 'clubhouse')")
+            ->orderBy('id', 'desc')
+            ->paginate(30);
 
         $tags = Tag::join('product_tag', function($join) {
             $join->on('name', 'tag_name')

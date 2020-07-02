@@ -43,7 +43,7 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this webinar?</h4>
-                                    @if ($product->getHighestOptionRole() == 'clubhouse')
+                                    @if ($product->highest_option_role == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
                                         <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
@@ -89,7 +89,7 @@
                     <div class="input-field" style="margin-top: 30px;">
                         <a href="{{$product->availableOptionsForUser()[0]->getURL(false, 'checkout')}}" data-price="{{$product->availableOptionsForUser()[0]->price}}" id="buy-now" class="btn green">RSVP NOW</a>
                     </div>
-                @elseif ($product->getHighestOptionRole() == 'clubhouse')
+                @elseif ($product->highest_option_role == 'clubhouse')
                     <div class="input-field" style="margin-top: 30px;">
                         <a href="/membership-options" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
                     </div>
