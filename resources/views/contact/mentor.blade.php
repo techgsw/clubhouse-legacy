@@ -38,8 +38,8 @@
         <input type="hidden" id="mentor-tags-json" name="mentor_tags_json" value="{{ old('mentor_tags_json') ?: $mentor_tags_json }}">
         <div class="row">
             <div class="col s12 input-field">
-                <textarea id="description" class="materialize-textarea" name="description">{{ old('description') ?: $contact->mentor->description }}</textarea>
-                <label for="description">Description</label>
+                <textarea id="description" class="materialize-textarea" name="description" maxlength="500">{{ old('description') ?: $contact->mentor->description }}</textarea>
+                <label for="description">Description (Max 500 characters)</label>
             </div>
         </div>
         <div class="row">
