@@ -15,11 +15,11 @@
                         <label for="membership-selection-free" class="sbs-red-checkbox"><h7 style="font-size: 24px; color:#000;"><strong>Join <span class="sbs-red-text">the</span>Clubhouse Community!<br><span class="sbs-red-text">FREE</span></strong></h7></label>
                         <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
                             <ul class="fa-check-override">
-                                <li>LIVE Sports Sales & Service webinars</li>
-                                <li>Sports Industry Job Board</li>
-                                <li>Sports Industry Blog</li>
-                                <li><span class="sbs-red-text">the</span>Clubhouse Newsletter</li>
-                                <li>#SameHere Solutions for mental well-being</li>
+                                <li>Attend sports industry webinars</li>
+                                <li>Access the job board and see our openings</li>
+                                <li>Get best practices by reading our blog</li>
+                                <li>Maintain your mental health with #SameHere Solutions</li>
+                                <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse newsletter</li>
                             </ul>
                         </div>
                     </div>
@@ -32,19 +32,19 @@
                         <label for="membership-selection-pro" class="sbs-red-checkbox"><h7 style="font-size: 24px;color:#000;"><strong>Become a Clubhouse PRO Member!<br><span class="sbs-red-text">{{CLUBHOUSE_FREE_TRIAL_DAYS}}-DAY FREE TRIAL</span></strong></h7></label>
                         <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
                             <ul class="fa-check-override">
-                                <li>Everything listed in the Free membership</li>
-                                <li>Exclusive 1:1 career mentorship from over 100+ sports industry professionals</li>
-                                <li>On-demand Sports Industry webinar library with 50+ hours of talking with team executives and industry professionals</li>
-                                <li>Sales Training Vault of how-to videos</li>
-                                <li>30-minute career consultation with Sports Business Solutions President Bob Hamer</li>
-                                <li>Career Services including:</li>
-                                    <ul class="fa-check-override">
-                                        <li>1:1 interview and resume coaching</li>
-                                        <li>LinkedIn&#8482; profile review</li>
-                                        <li>Phone consultation with hiring managers</li>
-                                        <li>Career Q&A and action plan</li>
-                                    </ul>
-                                <li>Access to additional on-demand premium content</li>
+                                <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse community benefits <i>plus:</i></li>
+                                <li>Sports Career Services including:</li>
+                                <ul class="fa-check-override">
+                                    <li>1:1 interview prep and resume coaching</li>
+                                    <li>LinkedIn&#8482; profile and personal branding review</li>
+                                    <li>Phone consultation to help you navigate tough industry challenges</li>
+                                    <li>Career Q&A and action plan</li>
+                                </ul>
+                                <li>Get 1:1 career mentorship with sports industry pros</li>
+                                <li>Access our video library on demand, complete with more than 50 hours of content</li>
+                                <li>Enter the Sales Vault – Sales training videos for the sport salesperson</li>
+                                <li>Attend live premium webinars and events</li>
+                                <li>Receive a free 30-minute career consultation with Bob Hamer, President & Founder of Sports Business Solutions and Creator of <span class="sbs-red-text">the</span>Clubhouse</li>
                             </ul>
                         </div>
                         <span class="pro-payment-type-warning sbs-red-text hidden">Please select a payment type</span>
@@ -63,16 +63,16 @@
     <div class="row">
         <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
             <input id="first-name" type="text" name="first_name" value="{{ old('first_name') }}" required>
-            <label for="first-name">First name</label>
+            <label for="first-name">First name <span class="sbs-red-text">*</span></label>
         </div>
         <div class="input-field col s12 m6 {{ $errors->has('last_name') ? 'invalid' : '' }}">
             <input id="last-name" type="text" name="last_name" value="{{ old('last_name') }}" required>
-            <label for="last-name">Last name</label>
+            <label for="last-name">Last name <span class="sbs-red-text">*</span></label>
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s12">
-            <select id="title" name="title" required>
+        <div class="input-field col s12 m6">
+            <select id="title" name="title">
                 <option value="" disabled selected>Choose your current title</option>
                 <option value="C-Level or Owner">C-Level or Owner</option>
                 <option value="VP">VP</option>
@@ -85,11 +85,15 @@
             </select>
             <label for="title">Title</label>
         </div>
+        <div class="input-field col s12 m6">
+            <input id="organization" type="text" name="organization">
+            <label for="organization">Organization</label>
+        </div>
     </div>
     <div class="row" style="margin-bottom: 30px;">
         <span class="years-worked-warning sbs-red-text hidden">Please select an option</span>
         <div class="input-field col s12">
-            <strong>How many years have you worked in sports?</strong>
+            <strong>How many years have you worked in sports? </strong><span class="sbs-red-text">*</span>
             <input type="checkbox" id="years-worked-0" name="years-worked-0" class="years-worked" />
             <label for="years-worked-0" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>0 years (not started yet)</span></label>
             <input type="checkbox" id="years-worked-1-2" name="years-worked-1-2" class="years-worked" />
@@ -107,17 +111,17 @@
             <span class="planned-services-warning sbs-red-text hidden">Please select at least one option</span>
         </div>
         <div class="col s12 m6">
-            <strong>Which features do you plan to use?</strong>
+            <strong>Which features do you plan to use? <span class="sbs-red-text">*</span></strong>
         </div>
         <div class="col hide-on-small-and-down m6">
-            <strong>Which career services do you plan to use?</strong>
+            <strong>OR Which career services do you plan to use?</strong>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-webinar" name="services-webinar" class="planned-services">
             <label for="services-webinar" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Webinars</span></label>
             <br>
             <input type="checkbox" id="services-mentoring" name="services-mentoring" class="planned-services">
-            <label for="services-mentoring" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Mentoring</spanw></label>
+            <label for="services-mentorship" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Industry Mentorship</span></label>
             <br>
             <input type="checkbox" id="services-job-board" name="services-job-board" class="planned-services">
             <label for="services-job-board" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Job Board</span></label>
@@ -129,7 +133,7 @@
             <label for="services-mental-health" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Mental Health</span></label>
         </div>
         <div class="col s12 hide-on-med-and-up">
-            <strong>Which career services do you plan to use?</strong>
+            <strong>OR Which career services do you plan to use?</strong>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-interview-coaching" name="services-interview-coaching" class="planned-services">
@@ -148,17 +152,17 @@
     <div class="row">
         <div class="input-field col s12 {{ $errors->has('email') ? 'invalid' : '' }}">
             <input id="email" type="email" name="email" value="{{ old('email') }}" required>
-            <label for="email">Email Address</label>
+            <label for="email">Email Address <span class="sbs-red-text">*</span></label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12 m6 {{ $errors->has('password') ? 'invalid' : '' }}">
             <input id="password" type="password" name="password" required>
-            <label for="password">Password</label>
+            <label for="password">Password <span class="sbs-red-text">*</span></label>
         </div>
         <div class="input-field col s12 m6">
             <input id="password-confirm" type="password" name="password_confirmation" required>
-            <label for="password-confirm">Confirm Password</label>
+            <label for="password-confirm">Confirm Password <span class="sbs-red-text">*</span></label>
         </div>
     </div>
     <div class="row">
@@ -169,7 +173,7 @@
             </div>
             <div class="row">
                 <input id="terms" name="terms" type="checkbox" required>
-                <label for="terms" class="sbs-red-checkbox">I agree to the <a target="_blank" rel="noopener" href="/documents/Sports-Business-Solutions-Terms-of-Service.pdf">terms of service</a>.</label>
+                <label for="terms" class="sbs-red-checkbox">I agree to the <a target="_blank" rel="noopener" href="/documents/Sports-Business-Solutions-Terms-of-Service.pdf">terms of service</a>. <span class="sbs-red-text">*</span></label>
             </div>
         </div>
         <div class="col s12 m6">
@@ -182,5 +186,6 @@
         <div class="input-field col s12 center-align">
             <button type="submit" class="btn sbs-red">Complete Registration</button>
         </div>
+        <span style="position:absolute;left:35px;margin-top:20px;"><span class="sbs-red-text">*</span> : Required</span>
     </div>
 </form>

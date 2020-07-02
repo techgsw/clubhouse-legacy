@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\ContactOrganization;
+use App\Organization;
 use App\ProductOption;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Support\Facades\Password;
@@ -241,13 +243,25 @@ class RegisterController extends Controller
                 if (count($contact) > 0) {
                     $contact = $contact[0];
                     $contact->title = $data['title'];
+                    $contact->organization = $data['organization'];
                     $contact->save();
                 } else {
                     $contact = Contact::create([
                         'first_name' => $data['first_name'],
                         'last_name' => $data['last_name'],
                         'email' => $data['email'],
-                        'title' => $data['title']
+                        'title' => $data['title'],
+                        'organization' => $data['organization']
+                    ]);
+                }
+            }
+
+            if ($data['organization']) {
+                $organization = Organization::where('name', $data['organization'])->first();
+                if (!is_null($organization)) {
+                    ContactOrganization::create([
+                        'contact_id' => $contact->id,
+                        'organization_id' => $organization->id
                     ]);
                 }
             }
