@@ -72,18 +72,8 @@
     </div>
     <div class="row">
         <div class="input-field col s12 m6">
-            <select id="title" name="title">
-                <option value="" disabled selected>Choose your current title</option>
-                <option value="C-Level or Owner">C-Level or Owner</option>
-                <option value="VP">VP</option>
-                <option value="Director">Director</option>
-                <option value="Manager">Manager</option>
-                <option value="Account Executive">Account Executive</option>
-                <option value="Entry Level">Entry Level</option>
-                <option value="Student">Student</option>
-                <option value="Other">Other</option>
-            </select>
-            <label for="title">Title</label>
+            <input id="title" type="text" name="title">
+            <label for="title">Title (if employed)</label>
         </div>
         <div class="input-field col s12 m6">
             <input id="organization" type="text" name="organization">

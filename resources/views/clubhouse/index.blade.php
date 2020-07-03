@@ -46,13 +46,13 @@
             <div class="col center-align clubhouse-option">
                 <a href="/job" class="no-underline"><img src="/images/clubhouse/CH_Job.jpg" /></a>
                 <p class="option-title"><strong>Check out the Job Board</strong></p>
-                <p class="option-description">Learn how you can maintain your mental health in and out of the front office.</p>
-                <a href="/job" class="red-hover btn clubhouse-option">Check out the listings</a>
+                <p class="option-description">Your next career opportunity in sports is just a click away.</p>
+                <a href="/job" class="red-hover btn clubhouse-option">See job listings</a>
             </div>
             <div class="col center-align clubhouse-option">
                 <a href="/same-here" class="no-underline"><img src="/images/clubhouse/CH_SameHere.jpg" /></a>
                 <p class="option-title"><strong>#SameHere Solutions</strong></p>
-                <p class="option-description">Face the challenges that can affect our mental well-being, led by Eric Kussin.</p>
+                <p class="option-description">Learn how you can maintain your mental health in and out of the front office.</p>
                 <a href="/same-here" class="red-hover btn clubhouse-option">Find out more</a>
             </div>
         </div>
