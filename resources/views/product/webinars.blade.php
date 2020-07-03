@@ -17,11 +17,6 @@
     @if(is_null($active_tag))
         <div class="row">
             <div class="col s12">
-                <p>These virtual events are a chance for you to interact with some of the most respected sports industry professionals in the business.</p>
-                <p>The guest speakers and members of <span class="sbs-red-text">the</span>Clubhouse team will have a conversation about topics in sports business, and you can follow along from the comfort of your phone or home computer! You can message in questions and we’ll ask them on air in real time.</p>
-                <p>The live events are FREE. If you'd like to access the past shows in our archive, simply upgrade your membership to become a <strong><a class="no-underline" href="/pro-membership">Clubhouse Pro</a></strong> and start watching today!</p>
-                <p>This is an affordable way to learn from some of the best in the business. See you in <span class="sbs-red-text">the</span>Clubhouse.</p>
-                <br />
                 <h4 id="upcoming" style="font-weight: bold; text-align: center;">UPCOMING WEBINAR EVENTS</h4>
             </div>
         </div>
@@ -47,9 +42,9 @@
                 @endif
                 </h4>
             </div>
-            <div class="tag-cloud center-align">
+            <div class="tag-cloud center-align" style="margin-bottom: 30px;">
                 @foreach ($tags as $tag)
-                    <a href="{{'/webinars?tag='.urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
+                    <a href="{{'/webinars?tag='.urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
                 @endforeach
             </div>
         </div>

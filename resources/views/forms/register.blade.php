@@ -110,7 +110,7 @@
             <input type="checkbox" id="services-webinar" name="services-webinar" class="planned-services">
             <label for="services-webinar" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Webinars</span></label>
             <br>
-            <input type="checkbox" id="services-mentoring" name="services-mentoring" class="planned-services">
+            <input type="checkbox" id="services-mentorship" name="services-mentorship" class="planned-services">
             <label for="services-mentorship" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Industry Mentorship</span></label>
             <br>
             <input type="checkbox" id="services-job-board" name="services-job-board" class="planned-services">

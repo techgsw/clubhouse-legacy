@@ -19,7 +19,7 @@
                     </a>
                 @endcannot
             @elseif ($product->highest_option_role == 'user' && !Auth::user())
-                <a href="#register-modal" class="no-underline"><strong>Sign up</strong></a>
+                <a href="#register-modal" class="no-underline"><strong>FREE Sign up</strong></a>
             @else
                 <strong>FREE</strong>
             @endif

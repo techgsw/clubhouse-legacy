@@ -1955,6 +1955,7 @@ $.valHooks.textarea = {
                     } else {
                         //don't scroll into view for payment options, just the top two checkboxes
                         $(this)[0].scrollIntoView({behavior: "smooth"});
+                        setTimeout(() => { $(this).closest('.register-modal')[0].scrollBy({top:150, behavior:'smooth'}); }, 100);
                     }
                     $(this).prop('checked', true);
                     $('.membership-type-warning').addClass('hidden');
