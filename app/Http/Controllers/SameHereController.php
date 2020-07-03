@@ -27,7 +27,7 @@ class SameHereController extends Controller
 
         $inactive_webinars = Product::where('active', false)->with('options')->whereHas('tags', function ($query) {
             $query->where('name', '#SameHere');
-        })->orderBy('id', 'DESC')->limit(2)->get();
+        })->orderBy('id', 'DESC')->limit(5)->get();
 
         $questions = Question::search($request)
             ->where('context', 'same-here')

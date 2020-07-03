@@ -12,6 +12,7 @@
         </div>
     </div>
 @endsection
+@php $pd = new Parsedown(); @endphp
 @section('content')
 <div class="container">
     @foreach ($categories as $category => $products)
@@ -23,13 +24,17 @@
                     </a>
                     <div class="card-flex-container">
                         @foreach ($products as $product)
-                            @include('product.career-services.components.list-item', ['product' => $product])
+                            @include('product.career-services.components.item-cards', ['product' => $product])
                         @endforeach
-                        <div class="card-placeholder"></div>
-                        <div class="card-placeholder"></div>
-                        <div class="card-placeholder"></div>
                     </div>
                 </div>
+            </div>
+            <div class="row career-service-slider">
+                @foreach ($products as $product)
+                    <div class="career-service-slide" id="service-{{$product->id}}">
+                        @include('product.career-services.components.list-item', ['product' => $product])
+                    </div>
+                @endforeach
             </div>
         @endif
     @endforeach

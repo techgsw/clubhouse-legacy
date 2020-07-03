@@ -529,15 +529,24 @@ class ProductController extends Controller
             $query->where('active', false);
         })->orderBy('name', 'dec')->get()->keyBy('name');
 
+        $breadcrumb = [
+            'Clubhouse' => '/',
+            'Educational Webinars' => '/webinars'
+        ];
+        if ($request->tag == '#samehere') {
+            $breadcrumb = [
+                'Clubhouse' => '/',
+                '#SameHere' => '/same-here',
+                'Educational Webinars' => '/webinars'
+            ];
+        }
+
         return view('product/webinars', [
             'active_products' => $active_products,
             'inactive_products' => $inactive_products,
             'active_tag' => $active_tag,
             'tags' => $tags,
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'Educational Webinars' => '/webinars'
-            ]
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -548,13 +557,26 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
         }
 
-        return view('product/webinars/show', [
-            'product' => $product,
-            'breadcrumb' => [
+        $breadcrumb = [
+            'Clubhouse' => '/',
+            'Educational Webinars' => '/webinars',
+            "{$product->name}" => "/webinars/{$product->id}"
+        ];
+
+        if (!is_null(
+            array_first($product->tags, function ($tag) { return $tag->name == '#SameHere'; })
+        )) {
+            $breadcrumb = [
                 'Clubhouse' => '/',
+                '#SameHere' => '/same-here',
                 'Educational Webinars' => '/webinars',
                 "{$product->name}" => "/webinars/{$product->id}"
-            ]
+            ];
+        }
+
+        return view('product/webinars/show', [
+            'product' => $product,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 

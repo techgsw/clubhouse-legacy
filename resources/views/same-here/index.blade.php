@@ -164,7 +164,7 @@
                             <div class="col m1 hide-on-small-and-down"></div>
                     @endif
                     <div class="col s12 m5">
-                        @include('same-here.webinars.components.list-item', ['product' => $webinar])
+                        @include('product.webinars.components.list-item', ['product' => $webinar])
                     </div>
                 @endforeach
             @else
@@ -184,17 +184,13 @@
                     </div>
                 </div>
             @foreach ($inactive_webinars as $webinar)
-                <ul class="browser-default">
-                    <li><span style="font-size: 18px;"><strong>{{ $webinar->name }}</strong></span><span> {!! $pd->text($webinar->getCleanDescription() ) !!}</span><a href="{{ $webinar->getURL(false, 'same-here/webinars') }}" class="btn sbs-red">View Webinar</a>
-                        <div class="hide-on-med-and-up" style="height: 10px"><br></div>
-                    </li>
-                </ul>
+                @include('product.webinars.components.inactive-list-item', ['product' => $webinar])
             @endforeach
             </div>
         @endif
         <div class="row" style="margin-bottom: 0;">
             <div class="col s12 center-align" style="padding-bottom: 50px;">
-                <a href="/same-here/webinars" class="btn sbs-red" style="margin-top: 20px;">See all past events</a>
+                <a href="/webinars?tag=%23samehere" class="btn sbs-red" style="margin-top: 20px;">See all past events</a>
             </div>
         </div>
     </div>

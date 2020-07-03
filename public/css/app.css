@@ -1288,6 +1288,7 @@ div.arrow.down {
  * Specific styles
  * - Clubhouse Homepage
  * - Blog
+ * - Webinars
  * - Question
  * - Answer
  * - Job board
@@ -1531,6 +1532,19 @@ div.arrow.down {
     .blog-post {
         overflow-x:hidden;
     }
+}
+
+/**
+ * Webinars
+ */
+
+a.webinar-list-title {
+    border-bottom: none;
+}
+a.webinar-list-title:hover {
+    border-bottom: none;
+    color: #EB2935;
+    transition: color .2s linear;
 }
 
 /**
@@ -1987,6 +2001,41 @@ a#hub-video:hover {
     padding-top: 35px;
     padding-left: 10px;
     font-weight: 100;
+}
+
+a.career-service-item-card:hover {
+    background-color: #F6F6F6;
+}
+
+.career-service-slider {
+    scroll-snap-type: x mandatory;
+    width:100%;
+    display:flex;
+    overflow-x:hidden;
+    scroll-behavior: smooth;
+    margin-bottom: 30px;
+}
+
+.career-service-slide {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width:100%;
+    margin-top:-300px;
+    padding-top:300px;
+    display:block;
+}
+
+@media only screen and (max-width: 1400px) {
+    .career-service-slide {
+        margin-top:-100px;
+        padding-top:100px;
+    }
+}
+@media only screen and (max-width: 601px) {
+    .career-service-slide {
+        margin-top:0;
+        padding-top:0;
+    }
 }
 
 /**
