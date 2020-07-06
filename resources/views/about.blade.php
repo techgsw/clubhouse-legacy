@@ -49,25 +49,19 @@
             </div>
         </div>
         <div class="about-cards col s12">
-            <div class="about-card col s6 m3">
+            <div class="about-card col s6 m4">
                 <a href="/josh-belkoff" class="no-underline">
                     <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Business Development</span></h5>
                 </a>
             </div>
-            <div class="about-card col s6 m3">
+            <div class="about-card col s6 m4">
                 <a href="/kevin-klammer" class="no-underline">
                     <img src="/images/about/kevin.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Kevin Klammer<span class="about-position">Sr. Director,<br/>Training &amp; Development</span></h5>
                 </a>
             </div>
-            <div class="about-card col s6 m3">
-                <a href="/matt-clark" class="no-underline">
-                    <img src="/images/about/matt.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                    <h5 class="sbs-red-text">Matt Clark<span class="about-position">Sr. Director,<br/>Training & Personal Development</span></h5>
-                </a>
-            </div>
-            <div class="about-card col s6 m3">
+            <div class="about-card col s6 m4" style="margin-left:unset;">
                 <img src="/images/about/darren.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                 <h5 class="sbs-red-text">Darren Arnold<span class="about-position">Advisor,<br/>Canadian Business Operations</span></h5>
             </div>
