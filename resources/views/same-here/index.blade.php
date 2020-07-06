@@ -50,7 +50,7 @@
             </div>
             <div class="col s6 m3 center-align">
                 <a href="/blog/eric-kussin--my-samehere-story" class="no-underline">
-                    <img src="/images/same-here/eric-kussin.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <img src="/images/same-here/eric-same-here-cropped.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
                         Eric Kussin
                         <span class="about-position">CEO & Founder</span>

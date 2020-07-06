@@ -1954,8 +1954,7 @@ $.valHooks.textarea = {
                         $('input[type="checkbox"][id="membership-selection-pro"]').prop('checked', true);
                     } else {
                         //don't scroll into view for payment options, just the top two checkboxes
-                        $(this)[0].scrollIntoView({behavior: "smooth"});
-                        setTimeout(() => { $(this).closest('.register-modal')[0].scrollBy({top:150, behavior:'smooth'}); }, 100);
+                        $('.input-field #first-name')[0].scrollIntoView({behavior: "smooth", block:'center', inline:'center'});
                     }
                     $(this).prop('checked', true);
                     $('.membership-type-warning').addClass('hidden');
@@ -2718,7 +2717,6 @@ $(document).ready(function () {
     $('.select-wrapper select').on('change select', function(e){
         $(this).material_select();
     });
-
 
     // Initialize
     SBS.init();

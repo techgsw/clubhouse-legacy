@@ -20,9 +20,9 @@
                 @foreach ($product->options as $option)
                     @if ($option->price > 0)
                         @can ('view-clubhouse')
-                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format(round($option->price / 2), 2)}} (FREE with Clubhouse Pro)</option>
+                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - FREE with Clubhouse Pro</option>
                         @else
-                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}}</option>
+                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}} (FREE with Clubhouse Pro)</option>
                         @endcan
                     @else
                         <option value="{{$option->id}}">{{$option->name}}</option>
