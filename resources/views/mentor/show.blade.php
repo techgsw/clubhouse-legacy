@@ -39,7 +39,14 @@
             @endif
         </div>
         <div class="col s12 m4">
-            <h4>{{ $mentor->contact->getName() }}</h4>
+            <h4>{{ $mentor->contact->getName() }}
+                @if ($mentor->getLinkedInLink())
+                    &nbsp;
+                    <a class="no-underline" href="{{$mentor->getLinkedInLink()}}">
+                        <i class="fa fa-linkedin-square"></i>
+                    </a>
+                @endif
+            </h4>
         </div>
         <div class="col s12 m5 right-align">
             @foreach($mentor->tags as $tag)

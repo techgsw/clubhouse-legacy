@@ -4,13 +4,19 @@
             <div class="center-align">
                 <a href="{{ $mentor->getUrl() }}" class="no-underline">
                     @if ($mentor->contact->headshotImage)
-                        <img src={{ $mentor->contact->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
+                        <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
                     @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
-                        <img src={{ $mentor->contact->user->profile->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
+                        <img src="{{ $mentor->contact->user->profile->headshotImage->getURL('medium') }}" style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
                     @else
                         <i class="fa fa-user fa-2x"></i>
                     @endif
                 </a>
+                @if ($mentor->getLinkedInLink())
+                   <a class="no-underline" href="{{$mentor->getLinkedInLink()}}">
+                       <i class="hide-on-small-and-down fa fa-linkedin-square" style="position:absolute;top:21%;font-size:1.5em;"></i>
+                       <i class="hide-on-med-and-up fa fa-linkedin-square" style="position:absolute;top:21%;font-size:2.5em;"></i>
+                   </a>
+                @endif
             </div>
         </div>
         <div class="center-align">

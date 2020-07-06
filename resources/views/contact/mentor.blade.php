@@ -58,6 +58,12 @@
             </div>
         </div>
         <div class="row">
+            <div class="col s12 input-field">
+                <input type="text" id="linkedin_link" name="linkedin_link" value="{{old('linkedin_link') ?: $contact->mentor->getLinkedInLink() }}">
+                <label for="linkedin_link">LinkedIn Link</label>
+            </div>
+        </div>
+        <div class="row">
             <div class="input-field col s12 m6">
                 <label for="timezone" class="active">Preferred meeting times</label>
             </div>
