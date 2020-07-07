@@ -11,7 +11,7 @@
             @if (Auth::user())
                 <a href="/pro-membership" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;">Become PRO with a {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</a>
             @else
-                <a href="#register-modal" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;">Sign up for a {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</a>
+                <a href="#register-modal" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;">Join the community</a>
             @endif
         @endcan
     </div>
@@ -76,7 +76,7 @@
                             <div style="margin-left: 30px; margin-right: 30px;">
                                 <ul class="fa-check-override">
                                     <li>Attend sports industry webinars</li>
-                                    <li>Access the job board and see our openings</li>
+                                    <li>Access the sports job board</li>
                                     <li>Get best practices by reading our blog</li>
                                     <li>Maintain your mental health with #SameHere Solutions</li>
                                     <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse newsletter</li>
@@ -114,7 +114,7 @@
                                             <li>Career Q&A and action plan</li>
                                         </ul>
                                     <li>Get 1:1 career mentorship with sports industry pros</li>
-                                    <li>Access our video library on demand, complete with more than 50 hours of content</li>
+                                    <li>Access our on-demand Webinar library, with more than 50 hours of content</li>
                                     <li>Enter the Sales Vault – Sales training videos for the sport salesperson</li>
                                     <li>Attend live premium webinars and events</li>
                                     <li>Receive a free 30-minute career consultation with Bob Hamer, President & Founder of Sports Business Solutions and Creator of <span class="sbs-red-text">the</span>Clubhouse</li>

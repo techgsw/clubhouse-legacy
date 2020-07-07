@@ -73,7 +73,7 @@
     <div class="row">
         <div class="input-field col s12 m6">
             <input id="title" type="text" name="title">
-            <label for="title">Title (if employed)</label>
+            <label for="title">Job Title (if employed)</label>
         </div>
         <div class="input-field col s12 m6">
             <input id="organization" type="text" name="organization">
@@ -100,11 +100,13 @@
         <div class="col s12">
             <span class="planned-services-warning sbs-red-text hidden">Please select at least one option</span>
         </div>
-        <div class="col s12 m6">
-            <strong>Which features do you plan to use? <span class="sbs-red-text">*</span></strong>
-        </div>
-        <div class="col hide-on-small-and-down m6">
-            <strong>OR Which career services do you plan to use?</strong>
+        <div class="col s12">
+            <div class="center-align hide-on-small-and-down">
+                <strong>Which features and career services do you plan to use? <span class="sbs-red-text">*</span></strong>
+            </div>
+            <div class="hide-on-med-and-up">
+                <strong>Which features and career services do you plan to use? <span class="sbs-red-text">*</span></strong>
+            </div>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-webinar" name="services-webinar" class="planned-services">
@@ -121,9 +123,6 @@
             <br>
             <input type="checkbox" id="services-mental-health" name="services-mental-health" class="planned-services">
             <label for="services-mental-health" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Mental Health</span></label>
-        </div>
-        <div class="col s12 hide-on-med-and-up">
-            <strong>OR Which career services do you plan to use?</strong>
         </div>
         <div class="input-field col m6 s12">
             <input type="checkbox" id="services-interview-coaching" name="services-interview-coaching" class="planned-services">

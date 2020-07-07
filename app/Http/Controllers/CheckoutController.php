@@ -202,7 +202,7 @@ class CheckoutController extends Controller
             }
         } else {
             $product_type = 'membership';
-            $breadcrumb = array('name' => 'Membership', 'link' => '/membership-options');
+            $breadcrumb = array('name' => 'PRO Membership', 'link' => '/pro-membership');
         }
 
         return view('checkout/index', [
@@ -566,7 +566,7 @@ class CheckoutController extends Controller
                 break;
             case 'membership':
                 $view = 'membership-thanks';
-                $breadcrumb['Membership'] = '/membership-options';
+                $breadcrumb['PRO Membership'] = '/pro-membership';
                 break;
             default:
                 $view = 'thanks';

@@ -91,7 +91,7 @@
                     </div>
                 @elseif ($product->highest_option_role == 'clubhouse')
                     <div class="input-field" style="margin-top: 30px;">
-                        <a href="/membership-options" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
+                        <a href="/pro-membership" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
                     </div>
                 @else
                     <div class="input-field" style="margin-top: 30px;">

@@ -7,7 +7,6 @@
                 <img src="/images/logos/full/CH_logo_color.jpg" alt="Sports Business Solutions">
             </a>
             <ul class="right hide-on-med-and-down nav-custom-desktop" style="margin-right: -27px;">
-                <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
@@ -29,7 +28,6 @@
                 </li>
                 <li><a href="{{ env('APP_URL') }}" style="text-transform: none; font-size: 18px;">Sports Business Solutions</a></li>
                 <li class="divider"></li>
-                <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
