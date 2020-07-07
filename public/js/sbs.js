@@ -2707,6 +2707,14 @@ $(document).ready(function () {
         }
     });
 
+    // All links inside the blog post body should open in a new tab
+    $(".blog-post-body a").each(function() {
+        $(this).attr({
+            target: "_blank",
+            rel: "noopener"
+        });
+    });
+
     // Fix for Chrome 73 breaking Materialize calendars and dropdowns
     $('.datepicker').on('mousedown', function(e){
         e.preventDefault();

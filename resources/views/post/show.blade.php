@@ -82,8 +82,8 @@
                         </div>
                     @endif
                     <h1 class="title">{{ $post->title }}</h1>
-                    <p class="author">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> <br> {{ $post->created_at->format('F d, Y') }}</p>
-                    <div style="font-size:16px;">
+                    <p class="author">by {{$post->authored_by ?: $post->user->first_name.' '.$post->user->last_name}} <br> {{ $post->created_at->format('F d, Y') }}</p>
+                    <div class="blog-post-body" style="font-size:16px;">
                         {!! $body !!}
                     </div>
                     <div class="row" style="margin-top:30px;margin-bottom: 20px;">

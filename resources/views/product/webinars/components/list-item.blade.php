@@ -2,7 +2,7 @@
 @if ($product->primaryImage())
     <div class="card hoverable" style="max-width: 450px;">
         <div class="card-image">
-            <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline">
+            <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline">
                 <img class="" src={{ $product->primaryImage()->getURL('large') }} />
             </a>
             @can ('edit-product')

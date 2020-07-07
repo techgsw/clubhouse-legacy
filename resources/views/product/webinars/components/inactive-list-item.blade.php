@@ -1,7 +1,7 @@
 @if (!preg_match('/do not show/i', $product->name))
     <div style="display:flex;align-items: center; justify-content:space-between;margin: 5px 0px;">
-        <a href="{{ $product->getURL(false, 'webinars') }}" class="no-underline"><i style="font-size:70px;color:#EB2935; margin-right:20px;" class="fa fa-caret-right"></i></a>
-        <a href="{{ $product->getURL(false, 'webinars') }}" class="webinar-list-title" style="font-size: 18px;margin-right:auto;max-width:650px;"><strong>{{ $product->name }}</strong></a>
+        <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline"><i style="font-size:70px;color:#EB2935; margin-right:20px;" class="fa fa-caret-right"></i></a>
+        <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="webinar-list-title" style="font-size: 18px;margin-right:auto;max-width:650px;"><strong>{{ $product->name }}</strong></a>
         <div class="hide-on-small-and-down" style="min-width:150px;height:2em;line-height: 100%; overflow: hidden; text-align: right;">
             @foreach($product->tags as $tag)
                 @if ($tag->name != 'Webinar')

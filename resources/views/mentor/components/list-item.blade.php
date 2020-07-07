@@ -2,7 +2,7 @@
     <div class="card-content center-align text-center" style="position: relative;">
         <div>
             <div class="center-align">
-                <a href="{{ $mentor->getUrl() }}" class="no-underline">
+                <a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline">
                     @if ($mentor->contact->headshotImage)
                         <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
                     @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
@@ -20,12 +20,12 @@
             </div>
         </div>
         <div class="center-align">
-            <h4 style="min-height: 60px;"><a href="{{ $mentor->getUrl() }}" class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
-            <a href="{{ $mentor->getUrl() }}" class="no-underline"><p style="min-height: 70px; font-size: 13px;" class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p></a>
+            <h4 style="min-height: 60px;"><a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
+            <a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline"><p style="min-height: 70px; font-size: 13px;" class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p></a>
             @if ($mentor->contact->organizations()->first())
                 @if (!is_null($mentor->contact->organizations()->first()->image))
                     <div style="height: 100px;">
-                        <a href="{{ $mentor->getUrl() }}" class="no-underline">
+                        <a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline">
                             <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" class="responsive-img" style="max-height: 100px;" />
                         </a>
                     </div>
