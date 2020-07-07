@@ -32,9 +32,6 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/kevin-klammer', function () {
         return view('kevin-klammer');
     });
-    Route::get('/matt-clark', function () {
-        return view('matt-clark');
-    });
     Route::get('/blog', function () {
         return redirect('https://blog.sportsbusiness.solutions/');
     });
