@@ -16,7 +16,7 @@
                         <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
                             <ul class="fa-check-override">
                                 <li>Attend sports industry webinars</li>
-                                <li>Access the job board and see our openings</li>
+                                <li>Access the sports job board</li>
                                 <li>Get best practices by reading our blog</li>
                                 <li>Maintain your mental health with #SameHere Solutions</li>
                                 <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse newsletter</li>
@@ -41,7 +41,7 @@
                                     <li>Career Q&A and action plan</li>
                                 </ul>
                                 <li>Get 1:1 career mentorship with sports industry pros</li>
-                                <li>Access our video library on demand, complete with more than 50 hours of content</li>
+                                <li>Access our on-demand Webinar library, with more than 50 hours of content</li>
                                 <li>Enter the Sales Vault – Sales training videos for the sport salesperson</li>
                                 <li>Attend live premium webinars and events</li>
                                 <li>Receive a free 30-minute career consultation with Bob Hamer, President & Founder of Sports Business Solutions and Creator of <span class="sbs-red-text">the</span>Clubhouse</li>
@@ -101,14 +101,9 @@
             <span class="planned-services-warning sbs-red-text hidden">Please select at least one option</span>
         </div>
         <div class="col s12">
-            <div class="center-align hide-on-small-and-down">
-                <strong>Which features and career services do you plan to use? <span class="sbs-red-text">*</span></strong>
-            </div>
-            <div class="hide-on-med-and-up">
-                <strong>Which features and career services do you plan to use? <span class="sbs-red-text">*</span></strong>
-            </div>
+            <strong>Which features and career services do you plan to use? <span class="sbs-red-text">*</span></strong>
         </div>
-        <div class="input-field col m6 s12">
+        <div class="input-field col m6 s12" style="max-width: 250px;">
             <input type="checkbox" id="services-webinar" name="services-webinar" class="planned-services">
             <label for="services-webinar" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Webinars</span></label>
             <br>

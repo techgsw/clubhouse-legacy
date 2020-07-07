@@ -46,7 +46,7 @@
                 @endforeach
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="max-width: 800px;margin-right:auto;margin-left:auto;">
             @foreach ($inactive_products as $product)
                 @include('product.webinars.components.inactive-list-item', ['$product' => $product])
             @endforeach
