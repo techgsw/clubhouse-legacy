@@ -4,9 +4,9 @@
     <div class="row hero bg-image clubhouse">
         <img src="/images/CH_logo-compass.png"/>
         <h1 class="header">Welcome to The Clubhouse</h1>
-        <h5 style="max-width:800px;margin-right:auto;margin-left:auto;">Where current and aspiring sports business professionals go to learn, network and share ideas in an effort to grow as both people and professionals.</h5>
+        <h5 style="max-width:800px;margin-right:auto;margin-left:auto;">Your destination for networking, best practices, and career growth in sports business.</h5>
         @can('view-clubhouse')
-            <h5><strong>We're glad you're a member of <span class="sbs-red-text">the</span>Clubhouse!</strong></h5>
+            <h5><strong>Thank you for being a Clubhouse PRO member!</h5>
         @else
             @if (Auth::user())
                 <a href="/pro-membership" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;">Become PRO with a {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</a>
@@ -63,12 +63,14 @@
                 <div class="card large" style="height:100%;margin-bottom: 90px;">
                     @if (!Auth::user())
                         <a href="#register-modal" class="no-underline">
-                    @endif
                             <div class="card-image" style="background-color: #EB2935;color:#FFF;">
                                 <h5 class="center-align" style="font-weight: 600;">Join theClubhouse Community</h5>
                             </div>
-                    @if (!Auth::user())
                         </a>
+                    @else
+                        <div class="card-image" style="background-color: #EB2935;color:#FFF;">
+                            <h5 class="center-align" style="font-weight: 600;">Your FREE Clubhouse Community Benefits</h5>
+                        </div>
                     @endif
                     <div class="card-content" style="background-color: #F6F6F6; max-height: 100%;">
                         <div class="col s12">
@@ -93,16 +95,25 @@
                 <div class="card large" style="height:100%;margin-bottom: 90px;">
                     @cannot ('view-clubhouse')
                         <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="no-underline">
-                    @endif
                             <div class="card-image" style="background-color: #EB2935;color:#FFF;">
                                 <h5 class="center-align" style="font-weight: 600;">Become a Clubhouse PRO Member</h5>
                             </div>
-                    @cannot ('view-clubhouse')
                         </a>
-                    @endif
+                    @else
+                        <div class="card-image" style="background-color: #EB2935;color:#FFF;">
+                            <h5 class="center-align" style="font-weight: 600;">Your Clubhouse PRO Member Benefits</h5>
+                        </div>
+                    @endcannot
                     <div class="card-content" style="background-color: #F6F6F6; max-height: 100%;">
                         <div class="col s12">
-                            <h5 class="center-align" style="margin-bottom: 35px;"><strong>Take your skills to the next level!<br>Connect with industry pros and gain insight you can't get anywhere else.</strong></h5>
+                            <h5 class="center-align" style="margin-bottom: 35px;"><strong>Take your skills to the next level!<br>Connect with industry pros, choose webinars, and get sales
+                                    @cannot('view-clubhouse')
+                                        training <span class="sbs-red-text" style="white-space: nowrap;">FREE for {{CLUBHOUSE_FREE_TRIAL_DAYS}} days</span>.
+                                    @else
+                                        training.
+                                    @endcannot
+                                </strong>
+                            </h5>
                             <div style="margin-left: 30px; margin-right: 30px;">
                                 <ul class="fa-check-override">
                                     <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse community benefits <i>plus:</i></li>

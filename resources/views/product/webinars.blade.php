@@ -6,7 +6,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/event-white.png" />
             <h4 class="header">Educational Webinars</h4>
-            <p>Join these live events for FREE and listen in as sports industry pros discuss the topics of the day.</p>
+            <p>Live and on demand discussions with sports industry leaders.</p>
         </div>
     </div>
 @endsection

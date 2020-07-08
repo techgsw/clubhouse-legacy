@@ -12,9 +12,17 @@
                     </a>
                 @endcannot
             @elseif ($product->highest_option_role == 'user' && !Auth::user())
-                <a href="#register-modal" class="no-underline"><strong>FREE Sign up</strong></a>
+                @cannot('view-clubhouse')
+                    <a href="#register-modal" class="no-underline"><strong>FREE Sign up</strong></a>
+                @else
+                    <strong>PRO Member</strong>
+                @endcannot
             @else
-                <strong>WATCH NOW</strong>
+                @cannot('view-clubhouse')
+                    <strong>WATCH NOW</strong>
+                @else
+                    <strong>PRO Member</strong>
+                @endcannot
             @endif
         </span>
     </div>

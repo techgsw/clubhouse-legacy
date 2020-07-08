@@ -1120,7 +1120,7 @@ $.valHooks.textarea = {
         $(template).find('.message-text').html(response.message);
         switch (response.type) {
             case 'success':
-                $(template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                $(template).find('.alert').addClass('grey lighten-3');
                 $(template).find('.material-icons').html('check_circle');
                 break;
             case 'warning':

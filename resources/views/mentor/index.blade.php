@@ -6,7 +6,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/mentorship-white.png" />
             <h4 class="header">Sports Industry Mentors</h4>
-            <p>These individuals work in sports and are available for phone calls with our <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}">Clubhouse Pro members</a>.</p>
+            <p>Become a <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}">Clubhouse PRO member</a> and schedule your Mentorship call now.</p>
         </div>
     </div>
 @endsection
