@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Mail\ClubhouseFailedPaymentNotice;
 use App\Mail\JobExpirationReminder;
 use App\Mail\JobNoActionReminder;
+use App\Product;
 use Mail;
 use App\Email;
 use App\Inquiry;
@@ -229,6 +231,31 @@ class EmailServiceProvider extends ServiceProvider
 
         foreach ($users as $user) {
             Mail::to($user)->send(new JobNoActionReminder($user, $user->postings));
+        }
+    }
+
+    public static function sendFailedClubhousePaymentNotice($date_since)
+    {
+        $failed_transactions = StripeServiceProvider::getFailedTransactionsSince($date_since);
+        $clubhouse_product_stripe_id = Product::where('name', 'Clubhouse Pro Membership')->first()->stripe_product_id;
+        foreach($failed_transactions->data as $transaction) {
+            $clubhouse_product_found = false;
+            foreach($transaction->data->object->lines->data as $purchase_item) {
+                Log::info($purchase_item->plan->product);
+                if ($purchase_item->plan->product == $clubhouse_product_stripe_id) {
+                    $clubhouse_product_found = true;
+                }
+            }
+            if ($clubhouse_product_found) {
+                $user_to_notify = User::whereHas('roles', function ($query) {
+                    $query->where('role_code', 'clubhouse');
+                })->where('stripe_customer_id', $transaction->data->object->customer)->get();
+                if (count($user_to_notify) > 0 && $transaction->data->object->attempt_count < 5) {
+                    $next_attempt_date = new \DateTime();
+                    $next_attempt_date->setTimestamp($transaction->data->object->next_payment_attempt);
+                    Mail::to($user_to_notify->first())->send(new ClubhouseFailedPaymentNotice($user_to_notify->first(), $transaction->data->object->attempt_count, $next_attempt_date));
+                }
+            }
         }
     }
 

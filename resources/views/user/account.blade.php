@@ -77,18 +77,22 @@
                         @php
                             $card_icon = ((array_key_exists($value->brand, $cc)) ? $cc[$value->brand] : 'credit-card');
                         @endphp
-                        <tr>
+                        <tr {{(!empty($value->status) && $value->status != 'chargeable') ? 'style="color:#EB2935"' : '' }}>
                             <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value->last4 }}</td>
                             <td>{{ str_pad($value->exp_month, 2, '0', STR_PAD_LEFT) }} / {{ $value->exp_year }}</td>
                             @if ($stripe_user->default_source == $value->id)
+                                <a class="btn btn-small red text-right disabled" title="Add a new card and make it primary to remove this card" data-card-id="{{ $value->id }}">X</a>
                                 <td class="right-align"><a class="flat-button blue" href="javascript: void(0);">Primary</a></td>
                             @else
                                 <td class="right-align">
                                     <a class="btn btn-small red text-right remove-card-button" data-card-id="{{ $value->id }}">X</a>
-                                    <a class="btn btn-small blue text-right make-primary-button" data-card-id="{{ $value->id }}"><li class="fa fa-credit-card"></li></a>
+                                    <a class="btn btn-small blue text-right make-primary-button" data-card-id="{{ $value->id }}">Make Primary</a>
                                 </td>
                             @endif
                         </tr>
+                        @if (!empty($value->status) && $value->status != 'chargeable')
+                            <tr><td class="sbs-red-text">The above payment method could not be charged. Please try adding a new card or contact theClubhouse support.</td></tr>
+                        @endif
                     @endforeach
                 </table>
             @else
@@ -98,7 +102,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="cc-form scale-transition scale-out hidden">
+            <div class="cc-form user-account-page scale-transition scale-out hidden">
                 @include('forms.add-card')
             </div>
         </div>
