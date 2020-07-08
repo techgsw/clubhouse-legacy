@@ -81,8 +81,10 @@
                             <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value->last4 }}</td>
                             <td>{{ str_pad($value->exp_month, 2, '0', STR_PAD_LEFT) }} / {{ $value->exp_year }}</td>
                             @if ($stripe_user->default_source == $value->id)
-                                <a class="btn btn-small red text-right disabled" title="Add a new card and make it primary to remove this card" data-card-id="{{ $value->id }}">X</a>
-                                <td class="right-align"><a class="flat-button blue" href="javascript: void(0);">Primary</a></td>
+                                <td class="right-align">
+                                    <a class="btn btn-small grey tooltipped" data-delay="0" data-position="top" data-tooltip="Add a new card and make it primary to remove this card" style="cursor: default;" href="javascript: void(0);">X</a>
+                                    <a class="flat-button blue" href="javascript: void(0);">Primary</a>
+                                </td>
                             @else
                                 <td class="right-align">
                                     <a class="btn btn-small red text-right remove-card-button" data-card-id="{{ $value->id }}">X</a>
