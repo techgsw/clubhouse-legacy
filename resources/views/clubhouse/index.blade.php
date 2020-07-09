@@ -34,7 +34,7 @@
             <div class="col center-align clubhouse-option">
                 <a href="/career-services" class="no-underline"><img src="/images/clubhouse/CH_Career.jpg" /></a>
                 <p class="option-title"><strong>Career Services for You</strong></p>
-                <p class="option-description">Schedule a review of your LinkedIn&#8482; profile, get interview coaching, and a bunch more.</p>
+                <p class="option-description">Schedule a review of your LinkedIn&#8482; profile, get interview coaching and more.</p>
                 <a href="/career-services" class="red-hover btn clubhouse-option">Get started now</a>
             </div>
             <div class="col center-align clubhouse-option">
@@ -106,7 +106,7 @@
                     @endcannot
                     <div class="card-content" style="background-color: #F6F6F6; max-height: 100%;">
                         <div class="col s12">
-                            <h5 class="center-align" style="margin-bottom: 35px;"><strong>Take your skills to the next level!<br>Connect with industry pros, choose webinars, and get sales
+                            <h5 class="center-align" style="margin-bottom: 35px;"><strong>Take your skills to the next level!<br>Connect with industry pros, watch webinars, and get sales
                                     @cannot('view-clubhouse')
                                         training <span class="sbs-red-text" style="white-space: nowrap;">FREE for {{CLUBHOUSE_FREE_TRIAL_DAYS}} days</span>.
                                     @else

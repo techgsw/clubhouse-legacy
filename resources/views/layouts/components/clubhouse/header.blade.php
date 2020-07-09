@@ -21,7 +21,7 @@
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
                 <li class="social-media">
-                    <a href="https://facebook.com/sportsbusinesssolutions" style="max-width: 20px"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://www.facebook.com/TheClubhouse-458907761265631" style="max-width: 20px"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                     <a href="https://twitter.com/theC1ubhouse"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
                     <a href="https://instagram.com/the_sports_clubhouse"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
                     <a href="https://www.linkedin.com/company/the-clubhouse-sbs"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>

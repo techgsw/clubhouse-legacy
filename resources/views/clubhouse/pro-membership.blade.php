@@ -36,11 +36,9 @@
                         <div class="col s12" style="padding: 10px 0 50px 0;">
                             <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Pro - <span class="sbs-red-text">Annually</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
-                            <p class="center-align" style="font-size: 20px"><strong>$70.00/year</strong></p>
+                            <p class="center-align" style="font-size: 20px"><strong>$77.00/year</strong></p>
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 20px;">
-                                <p style="font-size: 16px; min-height: 80px;"><i>Looking to save some money!?</i> You can pay for your entire membership up front and get an <strong>extra
-                                        {{CLUBHOUSE_FREE_TRIAL_DAYS == 30 ? 'month' : (CLUBHOUSE_FREE_TRIAL_DAYS == 7 ? 'week' : CLUBHOUSE_FREE_TRIAL_DAYS.' days')}}
-                                        for free</strong>. You will be billed annually {{CLUBHOUSE_FREE_TRIAL_DAYS}} days after signing up.</p>
+                                <p style="font-size: 16px; min-height: 80px;"><i>Looking to save some money!?</i> You can pay for your entire membership up front and get an <strong>extra month for free</strong>. You will be billed annually {{CLUBHOUSE_FREE_TRIAL_DAYS}} days after signing up.</p>
                             </div>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">

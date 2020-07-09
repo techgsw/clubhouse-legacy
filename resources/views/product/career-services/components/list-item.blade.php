@@ -22,7 +22,7 @@
                         @can ('view-clubhouse')
                             <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - FREE with Clubhouse Pro</option>
                         @else
-                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}} (FREE with Clubhouse Pro)</option>
+                            <option value="{{$option->id}}">{{$option->name}}: {{ $option->description }} - ${{number_format($option->price, 2)}}</option>
                         @endcan
                     @else
                         <option value="{{$option->id}}">{{$option->name}}</option>
@@ -35,7 +35,7 @@
                 </div>
             @else
                 <br>
-                <a class="btn sbs-red" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" style="line-height: 1.2em;height:4em;font-weight: 600;display:flex;align-items: center;justify-content: center;text-transform: unset;font-size:1.2em;">Get this service FREE as a Clubhouse PRO member. <br>Start your {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial now</a>
+                <a class="flat-button btn-large black" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" style="line-height: 1.2em;height:4em;font-weight: 600;display:flex;align-items: center;justify-content: center;text-transform: unset;font-size:1.2em;">Get this service FREE as a Clubhouse PRO member. <br>Start your {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial now</a>
                 <div class="input-field" style="margin-top: 30px;">
                     <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
                 </div>

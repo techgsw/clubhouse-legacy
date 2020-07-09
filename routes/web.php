@@ -421,7 +421,7 @@ Route::domain($domain)->group(function () {
         Route::get('/sales-vault', 'ClubhouseController@salesVault');
 
         Route::get('/sales-vault/training-videos', 'ProductController@trainingVideos');
-        Route::get('/sales-vault/training-videos/all-chapters', 'ProductController@getTrainingVideoChaptersForAutocomplete');
+        Route::get('/sales-vault/training-videos/all-tags', 'ProductController@getTrainingVideoTagsForAutocomplete');
         Route::get('/sales-vault/training-videos/{id}', 'ProductController@showTrainingVideo');
 
         // Routes for discussion board

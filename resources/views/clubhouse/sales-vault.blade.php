@@ -12,6 +12,7 @@
             <a href="#email-list" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Join our email list</a>
             <a href="#discussion-board" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Ask us a question</a>
             <a href="{{env('APP_URL')}}/contact" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Set up a sales training</a>
+            <a href="/sales-vault/training-videos" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Sales Training Videos</a>
         </div>
     </div>
 @endsection

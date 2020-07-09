@@ -418,6 +418,12 @@ class CheckoutController extends Controller
 
         if (isset($response['type']) && $response['type'] == 'membership' && Session::get('url.intended')) {
             // if a user purchased a clubhouse membership, bring them back to the page they were at before registering/purchasing
+            Session::flash('message', new Message(
+                "Thank you for becoming a Clubhouse PRO member!",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
             return redirect(Session::get('url.intended'));
         } else {
             return redirect()->action('CheckoutController@thanks', $response);

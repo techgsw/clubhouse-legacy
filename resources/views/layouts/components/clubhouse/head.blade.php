@@ -16,6 +16,9 @@
     <meta property="og:url" content="@yield('url', url('/'))">
     <!-- iOS icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/images/CH_logo-apple-touch.png">
+    <!-- Clubhouse Favicon -->
+    <link rel="icon" href="/clubhouse_favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/clubhouse_favicon.ico" type="image/x-icon">
     <!-- CSS  -->
     <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Oswald:600" rel="stylesheet">
