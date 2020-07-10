@@ -351,6 +351,7 @@ Route::domain($domain)->group(function () {
     });
     Route::group(['middleware' => ['web', 'redirect_router']], function() {
         Route::get('/pro-membership', 'ClubhouseController@proMembership');
+        Route::get('/membership-options', 'ClubhouseController@proMembership');
     });
 
     // Resources 
