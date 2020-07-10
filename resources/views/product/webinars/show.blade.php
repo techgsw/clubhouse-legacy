@@ -87,7 +87,7 @@
                         @endforeach
                     </select>
                     <div class="input-field" style="margin-top: 30px;">
-                        <a href="{{$product->availableOptionsForUser()[0]->getURL(false, 'checkout')}}" data-price="{{$product->availableOptionsForUser()[0]->price}}" id="buy-now" class="btn green">RSVP NOW</a>
+                        <a href="{{$product->availableOptionsForUser()[0]->getURL(false, 'checkout')}}" data-price="{{$product->availableOptionsForUser()[0]->price}}" id="buy-now" class="btn sbs-red">RSVP NOW</a>
                     </div>
                 @elseif ($product->highest_option_role == 'clubhouse')
                     <div class="input-field" style="margin-top: 30px;">
@@ -95,7 +95,7 @@
                     </div>
                 @else
                     <div class="input-field" style="margin-top: 30px;">
-                        <a href="#register-modal" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
+                        <a href="#register-modal" id="buy-now" class="btn btn-large sbs-red" style="line-height: unset; display:flex;align-items: center;justify-content: center; max-width: 400px;">REGISTER AS A FREE MEMBER TO RSVP</a>
                     </div>
                 @endif
             @else

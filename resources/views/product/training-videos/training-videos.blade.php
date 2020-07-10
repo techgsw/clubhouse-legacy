@@ -5,7 +5,7 @@
         <div class="col s12" style="margin-top:20px;margin-bottom: -20px;">
             <h3>Sales Training Videos</h3>
             @if(!is_null($active_tag))
-                <h5>Matching tag {{$active_tag->name}}</h5>
+                <h5>{{$active_tag->name}}</h5>
             @elseif(!is_null($active_author))
                 <h5>Matching author {{str_ireplace('Author:', '', $active_author->name)}}</h5>
             @elseif(!is_null($active_book))

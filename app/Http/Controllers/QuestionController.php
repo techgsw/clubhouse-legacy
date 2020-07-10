@@ -47,10 +47,10 @@ class QuestionController extends Controller
             ->paginate(10);
 
         $breadcrumb = ['Clubhouse' => '/'];
-        if ($this->context == 'same_here') {
+        if ($this->context == 'same-here') {
             $breadcrumb['#SameHere'] = '/same-here';
             $breadcrumb['Mental Health Discussion Board'] = '/same-here/discussion';
-        } else if ($this->context == 'sales_vault') {
+        } else if ($this->context == 'sales-vault') {
             $breadcrumb['Sport Sales Vault'] = '/sales-vault';
             $breadcrumb['Sport Sales Discussion Board'] = '/sales-vault/discussions';
         }
