@@ -1,13 +1,13 @@
 <footer class="page-footer">
     <div class="container">
-        <div class="row">
-            <div class="col m4 s12">
-                @include('layouts.components.newsletter')
+        <div class="row" style="margin-bottom:0px;">
+            <div class="col m5 s12">
+                <a href="#register-modal" class="no-underline"><img style="max-height:285px;max-width:100%;" src="/images/CH_Footer_Ad-Career_Services.jpg"></a>
             </div>
             <div class="col m4 s12">
                 @include('layouts.components.instagram')
             </div>
-            <div class="col m4 s12">
+            <div class="col m3 s12">
                 @include('layouts.components.clubhouse.twitter')
             </div>
         </div>

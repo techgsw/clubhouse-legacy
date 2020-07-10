@@ -69,7 +69,7 @@ class SocialMediaServiceProvider extends ServiceProvider
             $post_count = count($response->data);
             if ($post_count > 0) {
                 if (!isset($limit) || is_null($limit)) {
-                    $limit = ($post_count > 8 ? 9 : $post_count);
+                    $limit = ($post_count > 2 ? 3 : $post_count);
                 }
                 for ($i = 0; $i < $limit; $i++) {
                     $item = $response->data[$i];
