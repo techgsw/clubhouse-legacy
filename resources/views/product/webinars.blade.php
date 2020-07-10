@@ -50,9 +50,11 @@
                 @endforeach
             </div>
             <div class="col s12 center-align" style="margin-top:20px;">
-                <strong>Join with a free membership for <span class="sbs-red-text">FREE Sign up</span></strong>
+                <strong><span class="sbs-red-text">FREE Sign up</span>: Watch with a free membership</strong>
                 <br>
-                <strong>Become a Clubhouse PRO for <span class="sbs-red-text">PRO Member</span></strong>
+                <strong><span class="sbs-red-text">PRO Member</span>: Watch with a Clubhouse PRO membership</strong>
+                <br>
+                <strong><span class="sbs-red-text">WATCH NOW</span>: No signup required</strong>
             </div>
         </div>
         <div class="row" style="max-width: 800px;margin-right:auto;margin-left:auto;">

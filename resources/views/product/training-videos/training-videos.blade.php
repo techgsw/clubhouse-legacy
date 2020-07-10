@@ -7,7 +7,7 @@
             @if(!is_null($active_tag))
                 <h5>{{$active_tag->name}}</h5>
             @elseif(!is_null($active_author))
-                <h5>Matching author {{str_ireplace('Author:', '', $active_author->name)}}</h5>
+                <h5>Matching SBS Coach {{str_ireplace('Author:', '', $active_author->name)}}</h5>
             @elseif(!is_null($active_book))
                 <h5><strong>{{$active_book}}</strong></h5>
             @endif
@@ -33,7 +33,7 @@
         <div class="row center-align">
             <div class="col s12 m6" style="margin-top:15px;">
                 <select name="authors" onchange="javascript:window.location.replace('/sales-vault/training-videos?author=' + this.value);">
-                    <option selected="true" disabled>Select an author</option>
+                    <option selected="true" disabled>Search by SBS Coach</option>
                     @foreach ($authors as $author)
                         <option value="{{ urlencode(str_ireplace('Author:', '', $author->name)) }}">{{ str_ireplace('Author:', '', $author->name) }}</option>
                     @endforeach
