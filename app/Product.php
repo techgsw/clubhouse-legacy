@@ -92,25 +92,6 @@ class Product extends Model
         return $options;
     }
 
-    public function getHighestOptionRole()
-    {
-        $highest_role = 'guest';
-        $options = clone $this->options;
-
-        foreach ($options as $option) {
-            foreach ($option->roles as $r) {
-                if ($r->code == 'clubhouse') {
-                    // this is the highest role, return immediately
-                    return 'clubhouse';
-                } else if ($r->code == 'user') {
-                    $highest_role = 'user';
-                }
-            }
-        }
-
-        return $highest_role;
-    }
-
     // Scopes
     public function scopeFilter($query, $params)
     {

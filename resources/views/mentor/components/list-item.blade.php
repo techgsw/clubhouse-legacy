@@ -2,24 +2,30 @@
     <div class="card-content center-align text-center" style="position: relative;">
         <div>
             <div class="center-align">
-                <a href="{{ $mentor->getUrl() }}" class="no-underline">
+                <a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline">
                     @if ($mentor->contact->headshotImage)
-                        <img src={{ $mentor->contact->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
+                        <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
                     @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
-                        <img src={{ $mentor->contact->user->profile->headshotImage->getURL('medium') }} style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
+                        <img src="{{ $mentor->contact->user->profile->headshotImage->getURL('medium') }}" style="width: 80%; max-width: 100px; border-radius: 50%; margin-top: 16px; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="headshot" />
                     @else
                         <i class="fa fa-user fa-2x"></i>
                     @endif
                 </a>
+                @if ($mentor->getLinkedInLink())
+                   <a class="no-underline" href="{{$mentor->getLinkedInLink()}}">
+                       <i class="hide-on-small-and-down fa fa-linkedin-square" style="position:absolute;top:21%;font-size:1.5em;"></i>
+                       <i class="hide-on-med-and-up fa fa-linkedin-square" style="position:absolute;top:21%;font-size:2.5em;"></i>
+                   </a>
+                @endif
             </div>
         </div>
         <div class="center-align">
-            <h4 style="min-height: 60px;"><a href="{{ $mentor->getUrl() }}" class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
-            <a href="{{ $mentor->getUrl() }}" class="no-underline"><p style="min-height: 70px; font-size: 13px;" class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p></a>
+            <h4 style="min-height: 60px;"><a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline">{{ $mentor->contact->getName() }}</a></h4>
+            <a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline"><p style="min-height: 70px; font-size: 13px;" class="title"><strong>{{ $mentor->contact->getTitle() }}</strong></p></a>
             @if ($mentor->contact->organizations()->first())
                 @if (!is_null($mentor->contact->organizations()->first()->image))
                     <div style="height: 100px;">
-                        <a href="{{ $mentor->getUrl() }}" class="no-underline">
+                        <a href="{{ $mentor->getUrl() }}" target="_blank" rel="noopener" class="no-underline">
                             <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" class="responsive-img" style="max-height: 100px;" />
                         </a>
                     </div>
@@ -50,7 +56,11 @@
                         <a class="small flat-button red mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
                     @else
                         <p style="font-size: 14px;">Want to schedule a call?</p>
-                        <a class="small flat-button red" href="/pro-membership">Become a Clubhouse Pro</a>
+                        @if (Auth::guest())
+                            <a class="small flat-button red" href="#register-modal">Become a Clubhouse Pro</a>
+                        @else
+                            <a class="small flat-button red" href="/pro-membership">Become a Clubhouse Pro</a>
+                        @endif
                     @endcan
                     @can ('edit-mentor')
                         <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>

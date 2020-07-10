@@ -24,7 +24,7 @@
     </div>
     <!-- Job -->
     <div class="row mentor-show">
-        <div class="col s8 offset-s2 m3 center-align">
+        <div class="col s8 offset-s2 m3 center-align" style="margin-bottom: 40px;">
             @if ($mentor->contact->headshotImage)
                 <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" style="width: 80%; border-radius: 50%; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="responsive-img headshot" />
             @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
@@ -38,16 +38,23 @@
                 @endif
             @endif
         </div>
-        <div class="col s12 m4">
-            <h4>{{ $mentor->contact->getName() }}</h4>
+        <div class="col s12 m9">
+            <h4>{{ $mentor->contact->getName() }}
+                @if ($mentor->getLinkedInLink())
+                    &nbsp;
+                    <a class="no-underline" href="{{$mentor->getLinkedInLink()}}">
+                        <i class="fa fa-linkedin-square"></i>
+                    </a>
+                @endif
+            </h4>
+            <h5>{{ $mentor->contact->getTitle() }}</h5>
         </div>
-        <div class="col s12 m5 right-align">
+        <div class="col s12 m9">
             @foreach($mentor->tags as $tag)
                 <a href="/mentor?tag={{ urlencode($tag->name) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
             @endforeach
         </div>
         <div class="col s12 m9 mentor-description">
-            <h5>{{ $mentor->contact->getTitle() }}</h5>
             <p>{!! nl2br(e($mentor->description)) !!}</p>
             @php
                 $timezones = array(
@@ -70,14 +77,16 @@
                 <p><a target="_blank" href="{{ Storage::disk('local')->url($mentor->document) }}">View mentor description</a></p>
             @endif
         </div>
-    </div>
-    <div class="row">
-        <div class="col s12 m9 offset-m3 mentor-inquire">
+        <div class="col s12 m9 mentor-inquire">
             @can ('view-clubhouse')
                 <a class="small flat-button red mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
             @else
                 <h5>Want to schedule a call?</h5>
-                <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                @if (Auth::guest())
+                    <a href="#register-modal" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                @else
+                    <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                @endif
             @endcan
             @can ('edit-mentor')
                 <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>

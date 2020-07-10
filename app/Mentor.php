@@ -14,6 +14,11 @@ class Mentor extends Model
         'updated_at'
     ];
 
+    public function socialMediaLinks()
+    {
+        return $this->hasMany(MentorSocialMediaLink::class);
+    }
+
     public function contact()
     {
         return $this->belongsTo(Contact::class);
@@ -62,5 +67,15 @@ class Mentor extends Model
             $url = url($url);
         }
         return $url;
+    }
+
+    public function getLinkedInLink()
+    {
+        foreach ($this->socialMediaLinks as $link) {
+            if ($link->social_media_type == 'linkedin') {
+                return $link->link;
+            }
+        }
+        return null;
     }
 }

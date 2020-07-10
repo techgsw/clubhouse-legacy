@@ -26,7 +26,7 @@
                 @endif
             @endcan
         </div>
-        <a href="/job/{{$job->id}}">
+        <a href="/job/{{$job->id}}" target="_blank" rel="noopener">
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
         </a>

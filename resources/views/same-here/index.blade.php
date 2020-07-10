@@ -50,7 +50,7 @@
             </div>
             <div class="col s6 m3 center-align">
                 <a href="/blog/eric-kussin--my-samehere-story" class="no-underline">
-                    <img src="/images/same-here/eric-kussin.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <img src="/images/same-here/eric-same-here-cropped.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
                         Eric Kussin
                         <span class="about-position">CEO & Founder</span>
@@ -164,7 +164,7 @@
                             <div class="col m1 hide-on-small-and-down"></div>
                     @endif
                     <div class="col s12 m5">
-                        @include('same-here.webinars.components.list-item', ['product' => $webinar])
+                        @include('product.webinars.components.list-item', ['product' => $webinar])
                     </div>
                 @endforeach
             @else
@@ -183,18 +183,16 @@
                         <h4 id="past" style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS</h4>
                     </div>
                 </div>
-            @foreach ($inactive_webinars as $webinar)
-                <ul class="browser-default">
-                    <li><span style="font-size: 18px;"><strong>{{ $webinar->name }}</strong></span><span> {!! $pd->text($webinar->getCleanDescription() ) !!}</span><a href="{{ $webinar->getURL(false, 'same-here/webinars') }}" class="btn sbs-red">View Webinar</a>
-                        <div class="hide-on-med-and-up" style="height: 10px"><br></div>
-                    </li>
-                </ul>
-            @endforeach
+                <div class="row" style="max-width: 800px;margin-right:auto;margin-left:auto;">
+                    @foreach ($inactive_webinars as $webinar)
+                        @include('product.webinars.components.inactive-list-item', ['product' => $webinar])
+                    @endforeach
+                </div>
             </div>
         @endif
         <div class="row" style="margin-bottom: 0;">
             <div class="col s12 center-align" style="padding-bottom: 50px;">
-                <a href="/same-here/webinars" class="btn sbs-red" style="margin-top: 20px;">See all past events</a>
+                <a href="/webinars?tag=%23samehere" class="btn sbs-red" style="margin-top: 20px;">See all past events</a>
             </div>
         </div>
     </div>

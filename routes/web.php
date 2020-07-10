@@ -32,9 +32,6 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/kevin-klammer', function () {
         return view('kevin-klammer');
     });
-    Route::get('/matt-clark', function () {
-        return view('matt-clark');
-    });
     Route::get('/blog', function () {
         return redirect('https://blog.sportsbusiness.solutions/');
     });
@@ -351,7 +348,8 @@ Route::domain($domain)->group(function () {
     Route::group(['middleware' => ['web']], function () {
         Route::get('/job-options', 'ClubhouseController@jobOptions');
         Route::get('/job-options/{option_type}', 'ClubhouseController@jobOptions');
-        Route::get('/membership-options', 'ClubhouseController@membershipOptions');
+    });
+    Route::group(['middleware' => ['web', 'redirect_router']], function() {
         Route::get('/pro-membership', 'ClubhouseController@proMembership');
     });
 
@@ -420,7 +418,7 @@ Route::domain($domain)->group(function () {
         Route::get('/sales-vault', 'ClubhouseController@salesVault');
 
         Route::get('/sales-vault/training-videos', 'ProductController@trainingVideos');
-        Route::get('/sales-vault/training-videos/all-chapters', 'ProductController@getTrainingVideoChaptersForAutocomplete');
+        Route::get('/sales-vault/training-videos/all-tags', 'ProductController@getTrainingVideoTagsForAutocomplete');
         Route::get('/sales-vault/training-videos/{id}', 'ProductController@showTrainingVideo');
 
         // Routes for discussion board

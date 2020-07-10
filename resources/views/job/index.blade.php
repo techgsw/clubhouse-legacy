@@ -19,7 +19,7 @@
             @php $i = 0; @endphp
             @php $featured_jobs_count = count($featured_jobs); @endphp
             @foreach ($featured_jobs as $job)
-                <a href="{{ $job->getURL() }}" class="no-underline">
+                <a href="{{ $job->getURL() }}" target="_blank" rel="noopener" class="no-underline">
                 <div class="card medium">
                     <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
                         <div class="col s12 center" style="">
@@ -37,9 +37,9 @@
                                 <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
                             @endif
                             @can ('create-inquiry')
-                                <p><a style="margin-top: 12px;" href="{{ $job->getURL() }}" class="btn btn-small white black-text">Apply</a></p>
+                                <p><a style="margin-top: 12px;" href="{{ $job->getURL() }}" target="_blank" rel="noopener" class="btn btn-small white black-text">Apply</a></p>
                             @else
-                                <p><a style="margin-top: 12px;" href="/register" class="btn btn-small white black-text">Apply</a></p>
+                                <p><a style="margin-top: 12px;" href="#register-modal" class="btn btn-small white black-text">Apply</a></p>
                             @endcan
                         </div>
                     </div>

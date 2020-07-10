@@ -40,7 +40,7 @@
         <!-- TODO: this div is a hack to make position:sticky work. if elements are added to the sidebar then margin-bottom will need to be changed. we should grab the sidebar height using jquery -->
         <div style="height:100%;margin-bottom:-1000px;"></div>
         <div class="sidebar-content" style="position:sticky;position:-webkit-sticky;bottom:1rem;">
-            <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/career-services">Career Services</a></p>
             <hr>
             <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/webinars">Webinars</a></p>
@@ -50,16 +50,16 @@
             <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/job">Jobs in Sports</a></p>
             <hr>
             <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/sales-vault">Sales Training</a></p>
-            <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+            <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <br>
-            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><strong>Become a Clubhouse PRO Member</strong></a></p>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><strong>Become a Clubhouse PRO Member</strong></a></p>
             <br>
             <p>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial</p>
             <br>
             <!--TODO: pull in option 1 price -->
             <p>$7/month</p>
             <br>
-            <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
+            <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}{{Auth::user() ? '/pro-membership' : '#register-modal'}}" style="height:80px;padding:20px;line-height: 20px;" class="btn sbs-red">Subscribe Now</a>
         </div>
     </div>
     <div class="blog-image">
@@ -82,8 +82,8 @@
                         </div>
                     @endif
                     <h1 class="title">{{ $post->title }}</h1>
-                    <p class="author">by <?=(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)?> <br> {{ $post->created_at->format('F d, Y') }}</p>
-                    <div style="font-size:16px;">
+                    <p class="author">by {{$post->authored_by ?: $post->user->first_name.' '.$post->user->last_name}} <br> {{ $post->created_at->format('F d, Y') }}</p>
+                    <div class="blog-post-body" style="font-size:16px;">
                         {!! $body !!}
                     </div>
                     <div class="row" style="margin-top:30px;margin-bottom: 20px;">
@@ -117,7 +117,7 @@
 </div>
 <div class="container-fluid">
     <div class="blog-sidebar sidebar-mobile">
-        <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
+        <a class="no-underline clubhouse-logo" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
         <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/career-services">Career Services</a>
            <strong class="sbs-red-text">|</strong> 
            <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/webinars">Webinars</a> 
@@ -127,8 +127,8 @@
            <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/job">Jobs in Sports</a>
            <strong class="sbs-red-text">|</strong> 
            <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/sales-vault">Sales Training</a></p>
-        <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options"><strong>Become a Clubhouse PRO Member</strong></a><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
-        <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/membership-options" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
+        <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><strong>Become a Clubhouse PRO Member</strong></a><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
+        <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}{{Auth::user() ? '/pro-membership' : '#register-modal'}}" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
     </div>
 </div>
 @endsection

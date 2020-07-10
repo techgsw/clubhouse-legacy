@@ -25,7 +25,7 @@
                     <div class="col s12 center-align" style="padding-bottom: 10px;">
                         @if ($job_premium)
                             @if (Auth::guest())
-                                <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
+                                <a href="#register-modal" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                             @else
                                 <a href="{{ $job_premium->options()->find(PRODUCT_OPTION_ID['premium_job_upgrade'])->getURL(false, 'checkout') }}/{{ $job->id }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Upgrade Now</a>
                             @endif
@@ -47,7 +47,7 @@
                     <div class="col s12 center-align" style="padding-bottom: 10px;">
                         @if ($job_platinum)
                             @if (Auth::guest())
-                                <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
+                                <a href="#register-modal" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                             @else
                                 <a href="{{ $job_platinum->options()->find(PRODUCT_OPTION_ID['platinum_job_upgrade'])->getURL(false, 'checkout') }}/{{ $job->id }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Upgrade Now</a>
                             @endif

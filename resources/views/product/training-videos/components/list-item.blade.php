@@ -1,6 +1,6 @@
 @php $pd = new Parsedown(); @endphp
 <div class="col s12">
-    <a href="{{ $video->getURL(false, 'sales-vault/training-videos') }}" class="training-video-item">
+    <a href="{{ $video->getURL(false, 'sales-vault/training-videos') }}" target="_blank" rel="noopener" class="training-video-item">
         <div class="card horizontal">
             <div class="card-stacked">
                 <div class="card-content">

@@ -30,10 +30,10 @@
                             <div style="background-color: rgba(0, 0, 0, .7); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this video?</h4>
-                                    @if ($video->getHighestOptionRole() == 'clubhouse')
+                                    @if ($video->highest_option_role == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
-                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
+                                        <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
                                     @if (!Auth::user())
                                         <p style="color: #FFF">Already a member? <a href="/login">Login</a></p>
@@ -44,10 +44,10 @@
                             <div class="row" style="height:275px;">
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4>Want to watch this video?</h4>
-                                    @if ($video->getHighestOptionRole() == 'clubhouse')
+                                    @if ($video->highest_option_role == 'clubhouse')
                                         <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
-                                        <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
+                                        <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
                                     @if (!Auth::user())
                                         <p>Already a member? <a href="/login">Login</a></p>
@@ -81,7 +81,7 @@
             @endforeach
             {!! $pd->text($video->getCleanDescription()) !!}
             @foreach($video->options as $option)
-                <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;margin-bottom:10px;" href="/sales-vault/training-videos?book={{$option->name}}&chapter={{$option->description}}" class="btn blue">Browse all videos in {{$option->name}}: {{$option->description}}</a>
+                <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;margin-bottom:10px;" href="/sales-vault/training-videos?book={{$option->name}}&chapter={{$option->description}}" class="btn sbs-red">Browse all videos in {{$option->name}}: {{$option->description}}</a>
             @endforeach
         </div>
     </div>

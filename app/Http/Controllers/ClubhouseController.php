@@ -85,6 +85,9 @@ class ClubhouseController extends Controller
         ]);
     }
 
+    /**
+     * Currently not in use, this has been replaced by the clubhouse homepage
+     */
     public function membershipOptions(Request $request)
     {
         $product = Product::with('tags')->whereHas('tags', function ($query) {

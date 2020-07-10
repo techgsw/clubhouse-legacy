@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contact;
 use App\League;
 use App\Mentor;
+use App\MentorSocialMediaLink;
 use App\Message;
 use App\Tag;
 use App\User;
@@ -23,6 +24,7 @@ class MentorController extends Controller
         }
 
         $mentors = Mentor::with('contact')
+            ->with('socialMediaLinks')
             ->where('active', true)
             ->search($request)
             ->select('contact.*', 'mentor.*')
@@ -40,6 +42,7 @@ class MentorController extends Controller
             'mentors' => $mentors,
             'tags' => $tags,
             'leagues' => $leagues,
+
             'tag' => $request->tag,
             'league' => $request->league
         ]);
@@ -47,7 +50,7 @@ class MentorController extends Controller
 
     public function show(Request $request, $id)
     {
-        $mentor = Mentor::with('contact')->find($id);
+        $mentor = Mentor::with('contact')->with('socialMediaLinks')->find($id);
 
         if (!$mentor) {
             return abort(404);
@@ -96,6 +99,44 @@ class MentorController extends Controller
         $mentor = Mentor::find($id);
         if (!$mentor) {
             return abort(404);
+        }
+
+        if (request('linkedin_link')) {
+            $linkedin_link = request('linkedin_link');
+            Log::info($linkedin_link);
+            Log::info(substr($linkedin_link, 0 , 18));
+            if (
+                substr($linkedin_link, 0 , 18) !== "https://www.linked"
+                && substr($linkedin_link, 0, 14) !== "https://linked"
+            ) {
+                $request->flash();
+                $request->session()->flash('message', new Message(
+                    "Your LinkedIn link is not correctly formatted. Please make sure it starts with https://www.linkedin.com or https://linkedin.com",
+                    "danger"
+                ));
+                return redirect()->back();
+            }
+            $mentor_linkedin_link = null;
+            foreach($mentor->socialMediaLinks as $link) {
+                if ($link->social_media_type == 'linkedin') {
+                    $mentor_linkedin_link = $link;
+                    $mentor_linkedin_link->link = $linkedin_link;
+                    $mentor_linkedin_link->save();
+                }
+            }
+            if (is_null($mentor_linkedin_link)) {
+                MentorSocialMediaLink::create([
+                    'mentor_id' => $id,
+                    'social_media_type' => 'linkedin',
+                    'link' => $linkedin_link
+                ]);
+            }
+        } else {
+            foreach($mentor->socialMediaLinks as $link) {
+                if ($link->social_media_type == 'linkedin') {
+                    $link->delete();
+                }
+            }
         }
 
         $tag_json = request('mentor_tags_json');

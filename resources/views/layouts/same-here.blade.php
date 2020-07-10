@@ -9,6 +9,9 @@
     <div class="section no-pad-bot" id="index-banner">
         @yield('content')
     </div>
+    @if (Auth::guest())
+        @include('components.register-modal')
+    @endif
 </main>
 @include('layouts.components.clubhouse.footer')
 @include('layouts.components.scripts')

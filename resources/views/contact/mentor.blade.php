@@ -38,8 +38,8 @@
         <input type="hidden" id="mentor-tags-json" name="mentor_tags_json" value="{{ old('mentor_tags_json') ?: $mentor_tags_json }}">
         <div class="row">
             <div class="col s12 input-field">
-                <textarea id="description" class="materialize-textarea" name="description">{{ old('description') ?: $contact->mentor->description }}</textarea>
-                <label for="description">Description</label>
+                <textarea id="description" class="materialize-textarea" name="description" maxlength="500">{{ old('description') ?: $contact->mentor->description }}</textarea>
+                <label for="description">Description (Max 500 characters)</label>
             </div>
         </div>
         <div class="row">
@@ -55,6 +55,12 @@
                 	<option value="cdt" {{ old('timezone') == 'cdt' ? 'selected' : $contact->mentor->timezone == 'cdt' ? 'selected' : '' }}>Central Time (US & Canada) (GMT-06:00)</option>
                 	<option value="est" {{ old('timezone') == 'est' ? 'selected' : $contact->mentor->timezone == 'est' ? 'selected' : '' }}>Eastern Time (US & Canada) (GMT-05:00)</option>
                 </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 input-field">
+                <input type="text" id="linkedin_link" name="linkedin_link" value="{{old('linkedin_link') ?: $contact->mentor->getLinkedInLink() }}">
+                <label for="linkedin_link">LinkedIn Link</label>
             </div>
         </div>
         <div class="row">

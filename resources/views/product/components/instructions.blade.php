@@ -28,10 +28,10 @@
         <div class="card horizontal">
             <div class="card-stacked">
                 <div class="card-content">
-                    <span class="card-title grey-text">Training Videos<button class="flat-button large training-video-find-book-button">Find a book and chpater</button></span>
+                    <span class="card-title grey-text">Training Videos<button class="flat-button large training-video-find-book-button">Find a book</button></span>
                     <p><strong>TAG</strong> <span class="flat-button grey small">Training Video</span></p>
-                    <p>Use <strong>TAG</strong> <span class="flat-button grey small">Author:[Author Name]</span> to include an author. Ex <span class="flat-button grey small">Author:John Doe</span></p>
-                    <p>Use <strong>Option Name</strong> to include the video in a book, and <strong>Option Description</strong> to include the video in a chapter. Price of 0 and quantity of 1 must be included. Click "Find a book and chapter" above to automatically set the options.</p>
+                    <p>Use <strong>TAG</strong> <span class="flat-button grey small">Author:[Author Name]</span> to include an author. Ex <span class="flat-button grey small">Author:John Doe</span>. Other tags may be added for the tag search</p>
+                    <p>Use <strong>Option Name</strong> to include the video in a book. Price of 0 and quantity of 1 must be included. Click "Find a book" above to automatically set the options.</p>
                     <p>Include the video code with sbs-embed-code=[video code] at the end of the <strong>Product Description</strong>, ex sbs-embed-code=123456789</p>
                 </div>
             </div>

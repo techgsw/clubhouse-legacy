@@ -59,7 +59,7 @@
                         <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">SIGN UP</a>
                     </div>
                 @else
-                    <p>Want to get <strong>FREE</strong> Career Services? <a href="/membership-options">Click here to become a <strong>Clubhouse Pro</strong></a></p>
+                    <p>Want to get <strong>FREE</strong> Career Services? <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}">Click here to become a <strong>Clubhouse Pro</strong></a></p>
                     <div class="input-field" style="margin-top: 30px;">
                         <a href="{{ $product->options[0]->getURL(false, 'checkout') }}" id="buy-now" class="btn sbs-red">CHECKOUT</a>
                     </div>
@@ -70,7 +70,7 @@
                 @else
                     <p>There are only <strong>Clubhouse Pro</strong> options available at this time.</p>
                     <div class="input-field" style="margin-top: 30px;">
-                        <a href="/pricing" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                        <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                     </div>
                 @endcan
             @endif

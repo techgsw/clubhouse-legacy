@@ -32,7 +32,7 @@
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if (Auth::guest())
-                                <a href="/register?type=employer" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
+                                <a href="#register-modal" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
                             @else
                                 <a href="job/create" class="btn sbs-red" style="margin-top: 20px;"> Get started</a>
                             @endif
@@ -54,7 +54,7 @@
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($job_premium)
                                 @if (Auth::guest())
-                                    <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
+                                    <a href="#register-modal" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
                                     <a href="{{ $job_premium->options()->find(PRODUCT_OPTION_ID['premium_job'])->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                 @endif
@@ -76,7 +76,7 @@
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
                             @if ($job_platinum)
                                 @if (Auth::guest())
-                                    <a href="/register" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
+                                    <a href="#register-modal" class="buy-now btn sbs-red" style="margin-top: 18px;">Register</a>
                                 @else
                                     <a href="{{ $job_platinum->options()->find(PRODUCT_OPTION_ID['platinum_job'])->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Buy Now</a>
                                 @endif
@@ -106,7 +106,7 @@
                             <td style="width: 300px; padding-right: 20px;"></td>
                             <td class="center">
                                 @if (Auth::guest())
-                                    <a href="/register?type=employer" class="btn sbs-red" style=""> Get started</a>
+                                    <a href="#register-modal" class="btn sbs-red" style=""> Get started</a>
                                 @else
                                     <a href="job/create" class="btn sbs-red" style=""> Get started</a>
                                 @endif
@@ -114,7 +114,7 @@
                             <td class="center">
                                 @if ($job_premium)
                                     @if (Auth::guest())
-                                        <a href="/register" class="buy-now btn sbs-red" style="">Register</a>
+                                        <a href="#register-modal" class="buy-now btn sbs-red" style="">Register</a>
                                     @else
                                         <a href="{{ $job_premium->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="">Buy Now</a>
                                     @endif
@@ -123,7 +123,7 @@
                             <td class="center">
                                 @if ($job_platinum)
                                     @if (Auth::guest())
-                                        <a href="/register" class="buy-now btn sbs-red" style="">Register</a>
+                                        <a href="#register-modal" class="buy-now btn sbs-red" style="">Register</a>
                                     @else
                                         <a href="{{ $job_platinum->options()->first()->getURL(false, 'checkout') }}" class="buy-now btn sbs-red" style="">Buy Now</a>
                                     @endif

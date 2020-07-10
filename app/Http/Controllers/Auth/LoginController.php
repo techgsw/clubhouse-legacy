@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Message;
 use App\User;
 use App\RoleUser;
 use App\Providers\StripeServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -72,5 +74,23 @@ class LoginController extends Controller
     public function header()
     {
         return view('layouts.components.auth-header');
+    }
+
+    /**
+     * Overrides the internal login error functionality to only display a message.
+     * This way the Register modal doesn't display the same error
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    protected function sendFailedLoginResponse(Request $request) {
+        $request->flash();
+        Session::flash('message', new Message(
+            "Sorry, your email or password is incorrect.",
+            "danger",
+            $code = null
+        ));
+
+        return redirect()->back();
     }
 }
