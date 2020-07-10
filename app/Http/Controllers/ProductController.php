@@ -89,26 +89,34 @@ class ProductController extends Controller
                 $product->description = request('description');
                 $product->active = request('active') ? true : false;
                 $product->type = request('type') ? 'service' : 'good';
-                $product->save();
 
-                foreach (request('option') as $i => $params) {
-                    $option = new ProductOption;
-                    $option->name = $params['name'];
-                    $option->price = $params['price'];
-                    $option->quantity = $params['quantity'];
-                    $option->description = $params['description'];
-                    $option->product_id = $product->id;
-                    $option->save();
+                if (count(request('option')) > 0) {
+                    $product->highest_option_role = 'guest';
+                    foreach (request('option') as $i => $params) {
+                        $option = new ProductOption;
+                        $option->name = $params['name'];
+                        $option->price = $params['price'];
+                        $option->quantity = $params['quantity'];
+                        $option->description = $params['description'];
+                        $option->product_id = $product->id;
+                        $option->save();
 
-                    $roles = [];
-                    if (array_key_exists('clubhouse', $params)) {
-                        $roles[] = 'clubhouse';
+                        $roles = [];
+                        if (array_key_exists('clubhouse', $params)) {
+                            $product->highest_option_role = 'clubhouse';
+                            $roles[] = 'clubhouse';
+                        }
+                        if (array_key_exists('user', $params)) {
+                            if ($product->highest_option_role != 'clubhouse') {
+                                $product->highest_option_role = 'user';
+                            }
+                            $roles[] = 'user';
+                        }
+                        $option->roles()->sync($roles);
                     }
-                    if (array_key_exists('user', $params)) {
-                        $roles[] = 'user';
-                    }
-                    $option->roles()->sync($roles);
                 }
+
+                $product->save();
 
                 $image_file = request()->file('image_url');
                 if ($image_file) {
@@ -261,7 +269,6 @@ class ProductController extends Controller
                 $product->name = request('name');
                 $product->description = request('description');
                 $product->active = request('active') ? true : false;
-                $product->save();
 
                 $options = [];
                 $updated_options = [];
@@ -270,6 +277,7 @@ class ProductController extends Controller
                 }
 
                 if (count(request('option')) > 0) {
+                    $product->highest_option_role = 'guest';
                     foreach (request('option') as $i => $params) {
                         if ($params['id']) {
                             $option = $options[$params['id']] ?: new ProductOption;
@@ -287,9 +295,13 @@ class ProductController extends Controller
 
                         $roles = [];
                         if (array_key_exists('clubhouse', $params)) {
+                            $product->highest_option_role = 'clubhouse';
                             $roles[] = 'clubhouse';
                         }
                         if (array_key_exists('user', $params)) {
+                            if ($product->highest_option_role != 'clubhouse') {
+                                $product->highest_option_role = 'user';
+                            }
                             $roles[] = 'user';
                         }
                         $option->roles()->sync($roles);
@@ -299,6 +311,8 @@ class ProductController extends Controller
                         unset($options[$params['id']]);
                     }
                 }
+
+                $product->save();
 
                 $image_file = request()->file('image_url');
                 if ($image_file) {
@@ -478,9 +492,11 @@ class ProductController extends Controller
     public function webinars(Request $request)
     {
         // TODO Need a way to delete products, webinars, etc. Currently hiding product id 53
-        $inactive_products_query = Product::where('active', false)->with('tags')->where('id', '!=', 53)->whereHas('tags', function ($query) {
-            $query->whereIn('name', array('Webinar', '#SameHere'));
-        });
+        $inactive_products_query = Product::with('tags')
+            ->where('active', false)->where('id', '!=', 53)
+            ->whereHas('tags', function ($query) {
+                $query->whereIn('name', array('Webinar', '#SameHere'));
+            });
 
         $active_tag = null;
         $active_products = null;
@@ -499,7 +515,10 @@ class ProductController extends Controller
             })->get();
         }
 
-        $inactive_products = $inactive_products_query->orderBy('id', 'desc')->paginate(5);
+        $inactive_products = $inactive_products_query
+            ->orderByRaw("FIELD(highest_option_role, 'guest', 'user', 'clubhouse')")
+            ->orderBy('id', 'desc')
+            ->paginate(30);
 
         $tags = Tag::join('product_tag', function($join) {
             $join->on('name', 'tag_name')
@@ -510,15 +529,24 @@ class ProductController extends Controller
             $query->where('active', false);
         })->orderBy('name', 'dec')->get()->keyBy('name');
 
+        $breadcrumb = [
+            'Clubhouse' => '/',
+            'Educational Webinars' => '/webinars'
+        ];
+        if ($request->tag == '#samehere') {
+            $breadcrumb = [
+                'Clubhouse' => '/',
+                '#SameHere' => '/same-here',
+                'Educational Webinars' => '/webinars'
+            ];
+        }
+
         return view('product/webinars', [
             'active_products' => $active_products,
             'inactive_products' => $inactive_products,
             'active_tag' => $active_tag,
             'tags' => $tags,
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'Educational Webinars' => '/webinars'
-            ]
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -529,13 +557,26 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Could not find product ' . $id]);
         }
 
-        return view('product/webinars/show', [
-            'product' => $product,
-            'breadcrumb' => [
+        $breadcrumb = [
+            'Clubhouse' => '/',
+            'Educational Webinars' => '/webinars',
+            "{$product->name}" => "/webinars/{$product->id}"
+        ];
+
+        if (!is_null(
+            array_first($product->tags, function ($tag) { return $tag->name == '#SameHere'; })
+        )) {
+            $breadcrumb = [
                 'Clubhouse' => '/',
+                '#SameHere' => '/same-here',
                 'Educational Webinars' => '/webinars',
                 "{$product->name}" => "/webinars/{$product->id}"
-            ]
+            ];
+        }
+
+        return view('product/webinars/show', [
+            'product' => $product,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -543,109 +584,73 @@ class ProductController extends Controller
     {
         $active_tag = null;
         $active_author = null;
+        $active_book = null;
+        $tags_for_book = null;
+
+        $training_videos_query = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
+            $query->where('name', 'Training Video');
+        });
 
         if ($request->book) {
-            if ($request->chapter) {
-                // Get a list of training videos for the current chapter
-
-                $training_videos = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
-                    $query->where('name', 'Training Video');
-                })->with('options')->whereHas('options', function($query) use ($request) {
-                    $query->where('name', $request->book)->where('description', $request->chapter);
-                })->orderBy('created_at', 'DESC')->paginate(10);
-
-                return view('/product/training-videos/by-chapter', [
-                    'training_videos' => $training_videos,
-                    'book' => $request->book,
-                    'chapter' => $request->chapter,
-                    'breadcrumb' => [
-                        'Clubhouse' => '/',
-                        'Sport Sales Vault' => '/sales-vault/',
-                        'Training Videos' => '/sales-vault/training-videos',
-                        $request->book => "/sales-vault/training-videos?book={$request->book}",
-                        $request->chapter => "/sales-vault/training-videos?book={$request->book}?chapter={$request->chapter}",
-                    ]
-                ]);
-            } else {
-                // Get a list of chapters for the book and the latest 5 training videos of each
-
-                $training_videos_by_chapter = ProductOption::where('name', $request->book)->whereHas('product', function ($query) {
-                    $query->where('active', true);
-                })->distinct()->get(['description'])->keyBy('description');
-
-                foreach ($training_videos_by_chapter as $chapter => $videos) {
-                    $training_videos_by_chapter[$chapter] = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
-                        $query->where('name', 'Training Video');
-                    })->with('options')->whereHas('options', function($query) use ($request, $chapter) {
-                        $query->where('name', $request->book)->where('description', $chapter);
-                    })->orderBy('created_at', 'DESC')->limit(5)->get();
-                }
-
-                $books = ProductOption::whereHas('product.tags', function($query) {
-                    $query->where('name', 'Training Video');
-                })->distinct()->get(['name']);
-
-                return view('/product/training-videos/by-book', [
-                    'training_videos_by_chapter' => $training_videos_by_chapter,
-                    'books' => $books,
-                    'book' => $request->book,
-                    'breadcrumb' => [
-                        'Clubhouse' => '/',
-                        'Sport Sales Vault' => '/sales-vault/',
-                        'Training Videos' => '/sales-vault/training-videos',
-                        $request->book => "/sales-vault/training-videos?book={$request->book}",
-                    ]
-                ]);
-            }
-        } else {
-            $products_query = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
-                $query->where('name', 'Training Video');
+            $active_book = $request->book;
+            $training_videos_query = $training_videos_query->with('options')->whereHas('options', function($query) use ($active_book) {
+                $query->where('name', $active_book);
             });
 
-            if ($request->tag) {
-                $products_query = $products_query->whereHas('tags', function ($query) use ($request)  {
-                    $query->where('slug', $request->tag);
+            $tags_for_book = Tag::whereHas('products', function($query) use ($active_book) {
+                $query->whereHas('tags', function($query) {
+                    $query->where('name', 'Training Video');
+                })->whereHas('options', function ($query) use ($active_book) {
+                    $query->where('name', $active_book);
                 });
-                $results = Tag::where('slug', $request->tag)->get();
-                if (count($results) > 0) {
-                    $active_tag = $results[0];
-                }
-            } else if ($request->author) {
-                $products_query = $products_query->whereHas('tags', function ($query) use ($request)  {
-                    $query->whereRaw("UPPER(name) LIKE '%AUTHOR:".strtoupper($request->author)."%'");
-                });
-                $results = Tag::whereRaw("UPPER(name) LIKE '%AUTHOR:".strtoupper($request->author)."%'")->get();
-                if (count($results) > 0) {
-                    $active_author = $results[0];
-                }
-            }
-
-            $books = ProductOption::whereHas('product.tags', function($query) {
-                $query->where('name', 'Training Video');
-            })->distinct()->get(['name']);
-
-            $authors = Tag::join('product_tag', function($join) {
-                $join->on('name', 'tag_name')
-                    ->whereRaw("UPPER(tag_name) LIKE '%AUTHOR:%'")
-                    // using raw query because of https://github.com/laravel/framework/issues/19695
-                    ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name = 'Training Video')");
-            })->distinct()->get(['name']);
-
-            $videos = $products_query->orderBy('created_at', 'DESC')->paginate(10);
-
-            return view('/product/training-videos/training-videos', [
-                'videos' => $videos,
-                'books' => $books,
-                'authors' => $authors,
-                'active_tag' => $active_tag,
-                'active_author' => $active_author,
-                'breadcrumb' => [
-                    'Clubhouse' => '/',
-                    'Sport Sales Vault' => '/sales-vault/',
-                    'Training Videos' => '/sales-vault/training-videos'
-                ]
-            ]);
+            })->whereRaw("UPPER(name) NOT LIKE '%AUTHOR:%'")->get();
         }
+
+        if ($request->tag) {
+            $training_videos_query = $training_videos_query->whereHas('tags', function ($query) use ($request)  {
+                $query->where('slug', $request->tag);
+            });
+            $results = Tag::where('slug', $request->tag)->get();
+            if (count($results) > 0) {
+                $active_tag = $results[0];
+            }
+        } else if ($request->author) {
+            $training_videos_query = $training_videos_query->whereHas('tags', function ($query) use ($request)  {
+                $query->whereRaw("UPPER(name) LIKE '%AUTHOR:".strtoupper($request->author)."%'");
+            });
+            $results = Tag::whereRaw("UPPER(name) LIKE '%AUTHOR:".strtoupper($request->author)."%'")->get();
+            if (count($results) > 0) {
+                $active_author = $results[0];
+            }
+        }
+
+        $books = ProductOption::whereHas('product.tags', function($query) {
+            $query->where('name', 'Training Video');
+        })->distinct()->get(['name']);
+
+        $authors = Tag::join('product_tag', function($join) {
+            $join->on('name', 'tag_name')
+                ->whereRaw("UPPER(tag_name) LIKE '%AUTHOR:%'")
+                // using raw query because of https://github.com/laravel/framework/issues/19695
+                ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name = 'Training Video')");
+        })->distinct()->get(['name']);
+
+        $videos = $training_videos_query->orderBy('created_at', 'DESC')->paginate(10);
+
+        return view('/product/training-videos/training-videos', [
+            'videos' => $videos,
+            'books' => $books,
+            'authors' => $authors,
+            'active_tag' => $active_tag,
+            'active_author' => $active_author,
+            'active_book' => $active_book,
+            'tags_for_book' => $tags_for_book,
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Sport Sales Vault' => '/sales-vault/',
+                'Training Videos' => '/sales-vault/training-videos'
+            ]
+        ]);
     }
 
     public function showTrainingVideo($id)
@@ -653,10 +658,12 @@ class ProductController extends Controller
         //TODO: if we ever add prices to this we'll need to know which section this is coming from,
         // because technically both options can have different prices
 
-        $video = Product::with('options.roles')->where('id', $id)
-            ->whereHas('tags', function ($query) {
-                $query->where('name', 'Training Video');
-            })->first();
+        $video = Product::with('options.roles')->where('id', $id)->first();
+        //TODO: the following isn't working on dev due to what appears to be indexing issues.
+        // removing until we figure out what's wrong or until the problem fixes itself
+//            ->whereHas('tags', function ($query) {
+//                $query->where('name', 'Training Video');
+//            })->first();
 
         if (!$video) {
             return redirect()->back()->withErrors(['msg' => 'Could not find training video ' . $id]);
@@ -677,13 +684,16 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getTrainingVideoChaptersForAutocomplete()
+    public function getTrainingVideoTagsForAutocomplete()
     {
-        return response()->json([
-            'chapters' => ProductOption::whereHas('product.tags', function($query) {
-                $query->where('name', 'Training Video');
-            })->distinct()->get(['name as book', 'description as name'])
-        ]);
+        return response()->json(
+            Tag::whereHas('products', function($query) {
+                $query->whereHas('tags', function($query) {
+                    $query->where('name', 'Training Video');
+                });
+            })->where('name', 'not like', 'author:%')
+            ->where('name', '!=', 'Training Video')->get()
+        );
     }
 
 }

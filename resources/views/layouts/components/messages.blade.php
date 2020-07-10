@@ -9,7 +9,7 @@
                 @php
                     switch ($message->getType()) {
                         case "success":
-                            $msg_class = "alert card-panel green lighten-4 green-text text-darken-4";
+                            $msg_class = "alert card-panel grey lighten-3";
                             break;
                         case "warning":
                             $msg_class = "alert card-panel yellow lighten-4 yellow-text text-darken-4";

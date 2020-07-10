@@ -40,6 +40,10 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
+        'redirect_router' => [
+            \App\Http\Middleware\RedirectRouter::class,
+        ],
+
         'api' => [
             'throttle:60,1',
             'bindings',

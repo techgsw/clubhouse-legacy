@@ -72,7 +72,7 @@
                             </div>
                         @else
                             <div class="input-field" style="margin-top: 30px;">
-                                <a href="/register" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
+                                <a href="#register-modal" id="buy-now" class="btn sbs-red">REGISTER TO RSVP</a>
                             </div>
                         @endif
                     @else

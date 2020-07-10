@@ -7,7 +7,6 @@
                 <img src="/images/logos/full/CH_logo_color.jpg" alt="Sports Business Solutions">
             </a>
             <ul class="right hide-on-med-and-down nav-custom-desktop" style="margin-right: -27px;">
-                <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
@@ -22,14 +21,13 @@
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
                 <li class="social-media">
-                    <a href="https://facebook.com/sportsbusinesssolutions" style="max-width: 20px"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
-                    <a href="https://twitter.com/SportsBizBob"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                    <a href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
-                    <a href="https://www.linkedin.com/in/bob-hamer-b1ab703"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://www.facebook.com/TheClubhouse-458907761265631" style="max-width: 20px"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://twitter.com/theC1ubhouse"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://instagram.com/the_sports_clubhouse"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://www.linkedin.com/company/the-clubhouse-sbs"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 </li>
                 <li><a href="{{ env('APP_URL') }}" style="text-transform: none; font-size: 18px;">Sports Business Solutions</a></li>
                 <li class="divider"></li>
-                <li><a href="/membership-options">Membership</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
@@ -40,7 +38,7 @@
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="/">Register</a></li>
+                    <li><a class="modal-trigger" href="#register-modal">Register</a></li>
                 @else
                     @if (Auth::user()->hasAccess('admin_index'))
                         <li><a href="/admin">Admin</a></li>

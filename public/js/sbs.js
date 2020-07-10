@@ -26,7 +26,6 @@ $.valHooks.textarea = {
     var Mentor = {};
     var Note = {};
     var Organization = {};
-    var TrainingVideos = {};
     var Pipeline = {};
     var Tag = {
         map: {}
@@ -1027,6 +1026,14 @@ $.valHooks.textarea = {
         });
     }
 
+    Tag.getTrainingVideoOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/sales-vault/training-videos/all-tags',
+            'data': {}
+        });
+    }
+
     Tag.addToEntity = function (name, json_input, view) {
         // Append to JSON input
         var tags = JSON.parse(json_input.val());
@@ -1074,6 +1081,10 @@ $.valHooks.textarea = {
                     Tag.getPostOptions().done( function(data) {
                         Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
                     });
+                } else if (tag_autocomplete.hasClass('training-videos')) {
+                    Tag.getTrainingVideoOptions().done( function(data) {
+                        Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
+                    });
                 } else {
                     Tag.getOptions().done( function(data) {
                         Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
@@ -1093,8 +1104,13 @@ $.valHooks.textarea = {
             data: tags,
             limit: 10,
             onAutocomplete: function (val) {
-                Tag.addToEntity(val, json_input, view_element);
-                autocomplete.val("");
+                if (view_element.is('#find-training-video-by-tag')) {
+                    $('input#find-tag-name').val(Tag.map[val]);
+                    view_element.submit();
+                } else {
+                    Tag.addToEntity(val, json_input, view_element);
+                    autocomplete.val("");
+                }
             },
             minLength: 2,
         });
@@ -1120,7 +1136,7 @@ $.valHooks.textarea = {
         $(template).find('.message-text').html(response.message);
         switch (response.type) {
             case 'success':
-                $(template).find('.alert').addClass('green lighten-4 green-text text-darken-4');
+                $(template).find('.alert').addClass('grey lighten-3');
                 $(template).find('.material-icons').html('check_circle');
                 break;
             case 'warning':
@@ -1355,41 +1371,6 @@ $.valHooks.textarea = {
             });
         }
     };
-
-    TrainingVideos.getChapters = function () {
-        return $.ajax({
-            'type': 'GET',
-            'url': '/sales-vault/training-videos/all-chapters',
-            'data': {}
-        });
-    }
-
-    TrainingVideos.init = function () {
-        var find_book_chapter_autocomplete = $('input.find-book-chapter-autocomplete');
-        if (find_book_chapter_autocomplete.length > 0) {
-            var book_name_input = $('input#find-book-name');
-            TrainingVideos.getChapters().done(function (data) {
-                TrainingVideos.map = {};
-                var chapter_data = data.chapters.reduce(function (chapter_data, chapters, key) {
-                    TrainingVideos.map[chapters.name] = chapters.book;
-                    chapter_data[chapters.name] = null;
-                    return chapter_data;
-                }, {});
-
-                // Initialize autocompletes
-                find_book_chapter_autocomplete.autocomplete({
-                    data: chapter_data,
-                    limit: 10,
-                    onAutocomplete: function (name) {
-                        book_name_input.val(TrainingVideos.map[name]);
-                        find_book_chapter_autocomplete.val(name);
-                        $('form#find-book-chapter').submit();
-                    },
-                    minLength: 2,
-                });
-            });
-        }
-    }
 
     Pipeline.move = function (id, type, action, comm_type, reason, token) {
         var url = '/admin/' + (type == 'user' ? 'inquiry' : 'contact-job') + '/pipeline-';
@@ -1931,6 +1912,108 @@ $.valHooks.textarea = {
 
     //end Blog editor
 
+
+    // Registration Modal
+
+    // highlight the correct membership option card on check
+    $('input[type="checkbox"].membership-selection').each(function() {
+        if ($(this).is(':checked')) {
+            $(this).closest('div.card').css("background-color", "#F6F6F6");
+        }
+    });
+
+    // swap the correct checkboxes when membership options are checked/unchecked
+    $('body').on(
+        {
+            change: function(e) {
+                if ($(this).is(':checked')) {
+                    $('div.card').css("background-color", "#FFFFFF");
+                    $(this).closest('div.card').css("background-color", "#F6F6F6");
+                    $('input[type="checkbox"].membership-selection').prop('checked', false);
+                    if ($(this).attr('id') === 'membership-selection-pro-monthly' || $(this).attr('id') === 'membership-selection-pro-annually') {
+                        $('.pro-payment-type-warning').addClass('hidden');
+                        $('input[type="checkbox"][id="membership-selection-pro"]').prop('checked', true);
+                    } else {
+                        //don't scroll into view for payment options, just the top two checkboxes
+                        $('.input-field #first-name')[0].scrollIntoView({behavior: "smooth", block:'center', inline:'center'});
+                    }
+                    $(this).prop('checked', true);
+                    $('.membership-type-warning').addClass('hidden');
+                } else {
+                    if ($(this).attr('id') === 'membership-selection-free') {
+                        $(this).closest('div.card').css("background-color", "#FFFFFF");
+                    } else if ($(this).attr('id') === 'membership-selection-pro') {
+                        $(this).closest('div.card').css("background-color", "#FFFFFF");
+                        $('input[type="checkbox"][id="membership-selection-pro-monthly"]').prop('checked', false);
+                        $('input[type="checkbox"][id="membership-selection-pro-annually"]').prop('checked', false);
+                    }
+                }
+            }
+        },
+        'input[type="checkbox"].membership-selection'
+    );
+
+    // make "years worked" radio buttons with checkboxes, remove warning on checked
+    $('body').on(
+        {
+            change: function(e) {
+                if ($(this).is(':checked')) {
+                    $('input[type="checkbox"].years-worked').prop('checked', false);
+                    $(this).prop('checked', true);
+                    $('.years-worked-warning').addClass('hidden');
+                }
+            }
+        },
+        'input[type="checkbox"].years-worked'
+    );
+
+    // remove "planned services" warning on checked`
+    $('body').on(
+        {
+            change: function(e) {
+                if ($(this).is(':checked')) {
+                    $('.planned-services-warning').addClass('hidden');
+                }
+            }
+        },
+        'input[type="checkbox"].planned-services'
+    );
+
+    // validate input for checkboxes
+    $('body').on(
+        {
+            click: function(e) {
+                if (!$('input[type="checkbox"].membership-selection').is(':checked')) {
+                    $('.membership-type-warning').removeClass('hidden');
+                    $('.membership-type-warning')[0].scrollIntoView({behavior: "smooth"});
+                    e.preventDefault();
+                } else if ($('input[type="checkbox"][id="membership-selection-pro"]').is(':checked') &&
+                    !$('input[type="checkbox"][id="membership-selection-pro-monthly"]').is(':checked') &&
+                    !$('input[type="checkbox"][id="membership-selection-pro-annually"]').is(':checked')
+                ) {
+                    $('.pro-payment-type-warning').removeClass('hidden');
+                    $('.pro-payment-type-warning')[0].scrollIntoView({behavior: "smooth"});
+                    e.preventDefault();
+                } else if (!$('input[type="checkbox"].years-worked').is(':checked')) {
+                    $('.years-worked-warning').removeClass('hidden');
+                    $('.years-worked-warning')[0].scrollIntoView({behavior: "smooth", block:"center"});
+                    e.preventDefault();
+                } else if (!$('input[type="checkbox"].planned-services').is(':checked')) {
+                    $('.planned-services-warning').removeClass('hidden');
+                    $('.planned-services-warning')[0].scrollIntoView({behavior: "smooth", block:"center"});
+                    e.preventDefault();
+                } else if (grecaptcha && !grecaptcha.getResponse()) {
+                    // the grecaptcha field can be found in google's recaptcha api js file imported in the registration modal
+                    $('.recaptcha-warning').removeClass('hidden')
+                    e.preventDefault();
+                }
+            }
+        },
+        'form.registration-form button[type="submit"]'
+    );
+
+    //end Registration Modal
+
     $('body').on(
         {
             change: function (e, ui) {
@@ -2254,7 +2337,6 @@ $.valHooks.textarea = {
         League.init();
         Organization.init();
         Video.init();
-        TrainingVideos.init();
         Tag.init();
         ContactRelationship.init();
         if ($('.app-login-placeholder-after').length > 0) {
@@ -2605,6 +2687,14 @@ $(document).ready(function () {
         }
     });
 
+    // All links inside the blog post body should open in a new tab
+    $(".blog-post-body a").each(function() {
+        $(this).attr({
+            target: "_blank",
+            rel: "noopener"
+        });
+    });
+
     // Fix for Chrome 73 breaking Materialize calendars and dropdowns
     $('.datepicker').on('mousedown', function(e){
         e.preventDefault();
@@ -2615,7 +2705,6 @@ $(document).ready(function () {
     $('.select-wrapper select').on('change select', function(e){
         $(this).material_select();
     });
-
 
     // Initialize
     SBS.init();

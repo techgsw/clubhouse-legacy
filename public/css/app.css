@@ -61,6 +61,11 @@
     color: #EB2935;
 }
 
+[type="checkbox"]:checked + .sbs-red-checkbox::before {
+    border-right:2px solid #EB2935;
+    border-bottom:2px solid #EB2935;
+}
+
 span.badge.new.sbs-red {
     background-color: #EB2935;
 }
@@ -103,7 +108,8 @@ div.row.hero h2.header {
     font-size: 2.6rem;
     line-height: 1.22;
 }
-div.row.hero h4.header {
+div.row.hero h4.header,
+div.row.hero h1.header {
     font-size: 2.4rem;
     margin-bottom: 20px;
     font-weight: 300;
@@ -139,27 +145,12 @@ div.row.bg-image img {
 }
 
 div.row.bg-image.clubhouse {
-    background-image: url("/images/clubhouse/clubhouse-hero.jpg");
     background-image: url("/images/clubhouse/Clubhouse-Home.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    text-align: left;
-}
-
-div.row.bg-image.clubhouse h4 {
-    font-size: 2rem;
-}
-
-div.row.bg-image.clubhouse h5 {
-    font-weight: 400;
-}
-
-div.row.bg-image.clubhouse p {
-    font-size: 16px;
-    line-height: inherit;
-    font-weight: 400;
+    text-align: center;
 }
 
 div.row.bg-image.clubhouse input {
@@ -1185,6 +1176,14 @@ select[required] {
     border-left: solid 1px #000;
 }
 
+form.registration-form .card-content {
+    margin:0px 30px;
+}
+
+form.registration-form .card-flex-container .card.large {
+    min-width: 425px;
+}
+
 /**
  * Dropzone
  */
@@ -1287,10 +1286,60 @@ div.arrow.down {
 
 /**
  * Specific styles
+ * - Clubhouse Homepage
+ * - Blog
+ * - Webinars
  * - Question
  * - Answer
  * - Job board
  */
+
+/**
+ * Clubhouse Homepage
+ */
+.clubhouse-option {
+    min-width:152px;
+    max-width: 300px;
+    flex:1;
+    height:390px;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+    padding-top:10px;
+}
+
+.clubhouse-option img {
+    height: 128px;
+    width: 167px;
+    max-width: unset;
+}
+
+.clubhouse-option .option-title {
+    margin-bottom: auto;
+}
+
+.clubhouse-option .option-description {
+    min-height: 100px;
+}
+
+.clubhouse-option .red-hover.btn {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    line-height:1rem;
+    max-height:55px;
+    padding-bottom: 10px;
+    margin-top:auto;
+    margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 1373px) {
+    .clubhouse-option {
+        flex-basis: 30%;
+    }
+}
 
 /**
  * Blog
@@ -1492,6 +1541,19 @@ div.arrow.down {
 }
 
 /**
+ * Webinars
+ */
+
+a.webinar-list-title {
+    border-bottom: none;
+}
+a.webinar-list-title:hover {
+    border-bottom: none;
+    color: #EB2935;
+    transition: color .2s linear;
+}
+
+/**
  * Contact
  */
 
@@ -1648,7 +1710,8 @@ form#edit-job img {
     color: #FFFFFF;
     transition: all 0.2s linear;
 }
-.red-hover .btn {
+.red-hover .btn,
+.red-hover.btn {
     background: transparent;
     border: 2px solid #EB2935;
     color: #EB2935;
@@ -1656,6 +1719,11 @@ form#edit-job img {
 .red-hover:hover .btn,
 .red-hover .btn:hover {
     border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    transition: all 0.2s linear;
+}
+.red-hover.btn:hover {
+    background-color: #EB2935;
     color: #FFFFFF;
     transition: all 0.2s linear;
 }
@@ -1939,6 +2007,52 @@ a#hub-video:hover {
     padding-top: 35px;
     padding-left: 10px;
     font-weight: 100;
+}
+
+a.career-service-item-card:hover {
+    background-color: #F6F6F6;
+}
+
+a.career-service-item-card:active {
+    top: 1px;
+}
+
+.card-flex-container .card.career-service-item-card {
+    min-width:100px;
+}
+
+.career-service-slider {
+    scroll-snap-type: x mandatory;
+    display:flex;
+    overflow-x:hidden;
+    scroll-behavior: smooth;
+    scroll-padding-bottom: 900px;
+    margin-bottom: 30px;
+}
+
+.career-service-slide {
+    margin-top:-300px;
+    padding-top:300px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width:100%;
+}
+
+@media only screen and (max-width: 601px) {
+    .career-service-slider {
+        scroll-padding-bottom: unset;
+    }
+
+    .career-service-slide {
+        margin-top: unset;
+        padding-top: unset;
+    }
+}
+
+@media only screen and (max-width: 870px) {
+    .card-flex-container .card.career-service-item-card {
+        flex-basis: 25%;
+    }
 }
 
 /**
@@ -2353,6 +2467,12 @@ a.sales-vault-twitter-link:hover {
     div.bg-image.dark-circle img {
         max-height: 100px;
     }
+    .card-flex-container .card.large, .card-flex-container .card-placeholder.large {
+        min-width: unset;
+    }
+    form.registration-form .card-content {
+        margin:-10px 90px 0px 0px;
+    }
 }
 @media only screen and (min-width: 993px) {
     .row .col.l5ths {
@@ -2403,4 +2523,12 @@ a.sales-vault-twitter-link:hover {
     #job-search-form .select-wrapper span.caret {
         display: none;
     }
+}
+
+/**
+ * Fix for certain checkboxes in materialize not showing validation errors on chrome
+ */
+[type=checkbox]:not(:checked) {
+    left: inherit;
+    margin-top: 8px;
 }

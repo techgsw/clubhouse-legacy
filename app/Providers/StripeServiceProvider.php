@@ -322,4 +322,24 @@ class StripeServiceProvider extends ServiceProvider
 
         return $stripe_order;
     }
+
+    /**
+     * Pull a list of failed card transactions since a certain date
+     *
+     * @param $start_date unix timestamp beginning of date range
+     * @return object with an array of failed transactions.
+     * Notable fields:
+     * $result->data = array of failed transactions
+     * $result->data[$i]->data->object->attempt_count = number of times the transaction has been attempted
+     * $result->data[$i]->data->object->customer = stripe ID of customer
+     * $result->data[$i]->data->object->customer_email = email of customer
+     * $result->data[$i]->data->object->lines->data[$i]->plan->product = product ID attempted to purchase (note: may be multiple)
+     */
+    public static function getFailedTransactionsSince($start_date) {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+        return Stripe\Event::all([
+            "created[gt]" => $start_date->getTimestamp(),
+            "type" => 'invoice.payment_failed'
+        ]);
+    }
 }

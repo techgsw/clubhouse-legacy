@@ -182,6 +182,12 @@
                         setTimeout(function() {
                             $('.cc-form.scale-transition').addClass('hidden');
                         }, 200);
+                        setTimeout(function() {
+                            // if we're adding a card from the user account page, reload to show card changes
+                            if ($('.cc-form.user-account-page').length) {
+                                location.reload(true);
+                            }
+                        }, 500);
                     }
                 });
             }

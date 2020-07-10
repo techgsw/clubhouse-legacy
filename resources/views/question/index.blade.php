@@ -24,7 +24,7 @@
                 <a href="discussion/create" class="btn btn-large sbs-red">Ask a question</a>
             @else
                 <h4>Want to ask a question?</h4>
-                <a href="/register" id="buy-now" class="btn sbs-red">Register for a free account</a>
+                <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                 <p>Already a member? <a href="/login">Login</a></p>
             @endif
         </div>

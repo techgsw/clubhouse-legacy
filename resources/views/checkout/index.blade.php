@@ -140,11 +140,11 @@
         <div class="row">
             <div class="col s12 center-align" style="margin-bottom: 50px;">
                 @if ($product_type == 'webinar')
-                    <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">RSVP Now</button>
+                    <button id="checkout-submit-button" type="submit" class="btn btn-medium sbs-red">RSVP Now</button>
                 @elseif ($product_type == 'membership')
-                    <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Begin Now</button>
+                    <button id="checkout-submit-button" type="submit" class="btn btn-medium sbs-red">Begin your trial</button>
                 @else
-                    <button id="checkout-submit-button" type="submit" class="btn btn-medium green darken-1">Pay Now</button>
+                    <button id="checkout-submit-button" type="submit" class="btn btn-medium sbs-red">Pay Now</button>
                 @endif
             </div>
         </div>

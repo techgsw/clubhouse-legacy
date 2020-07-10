@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         Commands\ReconcileContacts::class,
         Commands\GenerateInstagramToken::class,
         Commands\UploadOrganizations::class,
-        Commands\LinkAccountsMatchingContactInfo::class
+        Commands\LinkAccountsMatchingContactInfo::class,
     ];
 
     /**
@@ -78,6 +78,12 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             JobServiceProvider::sendDayAfterClubhouseRegistrationEmails();
         })->dailyAt('10:00');
+
+        $schedule->call(function () {
+            $start = new \DateTime('yesterday');
+            $start->setTime(8,0,0);
+            EmailServiceProvider::sendFailedClubhousePaymentNotice($start);
+        })->dailyAt('8:00');
     }
 
     /**
