@@ -183,9 +183,11 @@
                         <h4 id="past" style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS</h4>
                     </div>
                 </div>
-            @foreach ($inactive_webinars as $webinar)
-                @include('product.webinars.components.inactive-list-item', ['product' => $webinar])
-            @endforeach
+                <div class="row" style="max-width: 800px;margin-right:auto;margin-left:auto;">
+                    @foreach ($inactive_webinars as $webinar)
+                        @include('product.webinars.components.inactive-list-item', ['product' => $webinar])
+                    @endforeach
+                </div>
             </div>
         @endif
         <div class="row" style="margin-bottom: 0;">

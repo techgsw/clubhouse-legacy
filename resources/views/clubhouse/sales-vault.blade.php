@@ -2,7 +2,7 @@
 @section('title', 'Sport Sales Training')
 @section('hero')
     <div class="row hero bg-image sales-vault">
-        <div class="col s12" style="margin-bottom:30px;">
+        <div class="col s12" style="margin-bottom:10px;">
             <img class="responsive-img" src="/images/sales-vault/treasure.png" />
             <h4 class="header">The Sport Sales Vault</h4>
             <h5 style="font-size:25px;">Sales training videos produced by the team at <a href="{{env('APP_URL')}}">Sports Business Solutions</a></h5>
@@ -12,7 +12,9 @@
             <a href="#email-list" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Join our email list</a>
             <a href="#discussion-board" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Ask us a question</a>
             <a href="{{env('APP_URL')}}/contact" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Set up a sales training</a>
-            <a href="/sales-vault/training-videos" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Sales Training Videos</a>
+        </div>
+        <div class="col s12 center-align" style="margin-top:20px;">
+            <a href="/sales-vault/training-videos" class="btn sbs-red">See all videos</a>
         </div>
     </div>
 @endsection

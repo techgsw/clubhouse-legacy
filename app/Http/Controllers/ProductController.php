@@ -584,15 +584,26 @@ class ProductController extends Controller
     {
         $active_tag = null;
         $active_author = null;
+        $active_book = null;
+        $tags_for_book = null;
 
         $training_videos_query = Product::where('active', true)->with('tags')->whereHas('tags', function ($query) {
             $query->where('name', 'Training Video');
         });
 
         if ($request->book) {
-            $training_videos_query = $training_videos_query->with('options')->whereHas('options', function($query) use ($request) {
-                $query->where('name', $request->book);
+            $active_book = $request->book;
+            $training_videos_query = $training_videos_query->with('options')->whereHas('options', function($query) use ($active_book) {
+                $query->where('name', $active_book);
             });
+
+            $tags_for_book = Tag::whereHas('products', function($query) use ($active_book) {
+                $query->whereHas('tags', function($query) {
+                    $query->where('name', 'Training Video');
+                })->whereHas('options', function ($query) use ($active_book) {
+                    $query->where('name', $active_book);
+                });
+            })->whereRaw("UPPER(name) NOT LIKE '%AUTHOR:%'")->get();
         }
 
         if ($request->tag) {
@@ -632,7 +643,8 @@ class ProductController extends Controller
             'authors' => $authors,
             'active_tag' => $active_tag,
             'active_author' => $active_author,
-            'active_book' => $request->book,
+            'active_book' => $active_book,
+            'tags_for_book' => $tags_for_book,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Sport Sales Vault' => '/sales-vault/',
@@ -646,10 +658,12 @@ class ProductController extends Controller
         //TODO: if we ever add prices to this we'll need to know which section this is coming from,
         // because technically both options can have different prices
 
-        $video = Product::with('options.roles')->where('id', $id)
-            ->whereHas('tags', function ($query) {
-                $query->where('name', 'Training Video');
-            })->first();
+        $video = Product::with('options.roles')->where('id', $id)->first();
+        //TODO: the following isn't working on dev due to what appears to be indexing issues.
+        // removing until we figure out what's wrong or until the problem fixes itself
+//            ->whereHas('tags', function ($query) {
+//                $query->where('name', 'Training Video');
+//            })->first();
 
         if (!$video) {
             return redirect()->back()->withErrors(['msg' => 'Could not find training video ' . $id]);

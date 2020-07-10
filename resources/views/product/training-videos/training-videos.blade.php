@@ -3,7 +3,7 @@
 @section('hero')
     <div class="row center-align">
         <div class="col s12" style="margin-top:20px;margin-bottom: -20px;">
-            <h3>Training Videos</h3>
+            <h3>Sales Training Videos</h3>
             @if(!is_null($active_tag))
                 <h5>Matching tag {{$active_tag->name}}</h5>
             @elseif(!is_null($active_author))
@@ -16,7 +16,7 @@
 @endsection
 @section('content')
 <div class="container">
-    @if(is_null($active_author) && is_null($active_tag) &&is_null($active_book))
+    @if(is_null($active_author) && is_null($active_tag) && is_null($active_book))
         @if(count($books) > 0)
             <div class="row training-video-book-container" style="margin-top:-20px">
                 @foreach($books as $book)
@@ -29,25 +29,33 @@
         <a class="btn btn-large sbs-red" href="/sales-vault/training-videos">See all videos</a>
     </div>
     @endif
-    <div class="row center-align">
-        <div class="col s12 m6" style="margin-top:15px;">
-            <select name="authors" onchange="javascript:window.location.replace('/sales-vault/training-videos?author=' + this.value);">
-                <option selected="true" disabled>Select an author</option>
-                @foreach ($authors as $author)
-                    <option value="{{ urlencode(str_ireplace('Author:', '', $author->name)) }}">{{ str_ireplace('Author:', '', $author->name) }}</option>
-                @endforeach
-            </select>
+    @if(is_null($active_book))
+        <div class="row center-align">
+            <div class="col s12 m6" style="margin-top:15px;">
+                <select name="authors" onchange="javascript:window.location.replace('/sales-vault/training-videos?author=' + this.value);">
+                    <option selected="true" disabled>Select an author</option>
+                    @foreach ($authors as $author)
+                        <option value="{{ urlencode(str_ireplace('Author:', '', $author->name)) }}">{{ str_ireplace('Author:', '', $author->name) }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col s12 m6">
+                <form id="find-training-video-by-tag" method="GET" action="/sales-vault/training-videos">
+                    <div class="input-field">
+                        <input id="find-tag-name" name="tag" type="text" class="tag-autocomplete training-videos" target-view-id="find-training-video-by-tag" autocomplete="off">
+                        <label for="find-tag">Search by tag</label>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="col s12 m6">
-            <form id="find-training-video-by-tag" method="GET" action="/sales-vault/training-videos">
-                <div class="input-field">
-                    <input id="find-tag-name" name="tag" type="text" class="tag-autocomplete training-videos" target-view-id="find-training-video-by-tag" autocomplete="off">
-                    <label for="find-tag">Search by tag</label>
-                </div>
-            </form>
+    @else
+        <div class="tag-cloud center-align" style="margin-bottom: 40px;">
+            @foreach($tags_for_book as $tag)
+                <a href="/sales-vault/training-videos?tag={{urlencode($tag->slug)}}" class="flat-button black" style="display: inline-block; margin: 4px;">{{$tag->name}}</a>
+            @endforeach
         </div>
-    </div>
-        @if(count($videos) < 1)
+    @endif
+    @if(count($videos) < 1)
         <div class="row center-align">
             <h5>Training Videos coming soon.</h5>
         </div>

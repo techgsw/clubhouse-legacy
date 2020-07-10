@@ -4,7 +4,7 @@
         <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="webinar-list-title" style="font-size: 18px;margin-right:auto;max-width:650px;"><strong>{{ $product->name }}</strong></a>
         <span class="sbs-red-text" style="margin-left:15px;white-space: nowrap;">
             @can('view-clubhouse')
-                <strong>WATCH NOW</strong>
+                <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline"><strong>WATCH NOW</strong></a>
             @else
                 @if ($product->highest_option_role == 'clubhouse')
                     <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="no-underline">
@@ -13,7 +13,7 @@
                 @elseif ($product->highest_option_role == 'user' && !Auth::user())
                     <a href="#register-modal" class="no-underline"><strong>FREE Sign up</strong></a>
                 @else
-                    <strong>WATCH NOW</strong>
+                    <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline"><strong>WATCH NOW</strong></a>
                 @endif
             @endcan
         </span>
