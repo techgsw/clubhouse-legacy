@@ -18,7 +18,7 @@ class RedirectRouter
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (preg_match('/register/', $request->getRequestURI())
+        if ((preg_match('/register/', $request->getRequestURI()) && !preg_match('/is-this-you/', $request->getRequestURI()))
             || ($request->isMethod('get') && preg_match('/pro-membership/', $request->getRequestURI()))
         ) {
             if ($request->query('type') == 'employer'

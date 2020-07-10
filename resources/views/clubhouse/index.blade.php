@@ -18,6 +18,10 @@
 @endsection
 @section('content')
     <div class="container">
+        <div class="col s12">
+            @include('layouts.components.messages')
+            @include('layouts.components.errors')
+        </div>
         <div class="row" style="display: flex; flex-direction: row; flex-wrap:wrap;justify-content: center;">
             <div class="col center-align clubhouse-option">
                 <a href="/webinars" class="no-underline"><img src="/images/clubhouse/CH_Webinar.jpg" /></a>

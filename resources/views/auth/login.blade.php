@@ -3,18 +3,10 @@
 @section('content')
 <div class="container">
     <h5 class="header red-text">Log In</h5>
-    @if ($errors->has('email'))
-        <div class="row">
-            <div class="col s12">
-                <div class="alert card-panel red lighten-4 red-text text-darken-4">
-                    Sorry, your email or password is incorrect.
-                </div>
-            </div>
-        </div>
-    @endif
     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
         <div class="row">
             <div class="col s12">
+                @include('layouts.components.messages')
                 @include('layouts.components.errors')
             </div>
         </div>

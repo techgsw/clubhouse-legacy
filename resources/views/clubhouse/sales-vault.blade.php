@@ -20,6 +20,10 @@
 @endsection
 @section('content')
     <div class="container" style="padding-top:40px;">
+        <div class="col s12">
+            @include('layouts.components.messages')
+            @include('layouts.components.errors')
+        </div>
         <div class="row">
             <h5 class="center-align"><strong style="text-transform:uppercase;">Sport sales training videos</strong></h5>
             <div class="sales-vault-video-container">

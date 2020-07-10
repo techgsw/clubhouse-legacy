@@ -12,6 +12,10 @@
 @php $pd = new Parsedown(); @endphp
 @section('content')
 <div class="container">
+    <div class="col s12">
+        @include('layouts.components.messages')
+        @include('layouts.components.errors')
+    </div>
     @foreach ($categories as $category => $products)
         @if (!empty($products))
             <div class="row" style="margin-top:20px;">

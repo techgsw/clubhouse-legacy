@@ -12,6 +12,10 @@
 @endsection
 @section('content')
 <div class="container">
+    <div class="col s12">
+        @include('layouts.components.messages')
+        @include('layouts.components.errors')
+    </div>
     @if(is_null($active_tag))
         <div class="row" style="margin-bottom: unset;">
             <div class="col s12">
