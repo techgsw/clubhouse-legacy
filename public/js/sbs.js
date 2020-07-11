@@ -2706,6 +2706,12 @@ $(document).ready(function () {
         $(this).material_select();
     });
 
+    if (/iPad|iPhone|iPod/.test(navigator.platform || "")) {
+        $('a[href="#register-modal"]').each(function () {
+            $(this).attr('href', '/register');
+        });
+    }
+
     // Initialize
     SBS.init();
 });

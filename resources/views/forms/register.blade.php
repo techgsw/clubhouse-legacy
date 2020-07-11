@@ -167,9 +167,14 @@
         </div>
     </div>
     <div class="row">
+        <div class="hide-on-med-and-up">
+            <span class="sbs-red-text">*</span> : Required
+        </div>
         <div class="input-field col s12 center-align">
             <button type="submit" class="btn sbs-red">Complete Registration</button>
         </div>
-        <span style="position:absolute;left:35px;margin-top:20px;"><span class="sbs-red-text">*</span> : Required</span>
+        <div class="hide-on-small-and-down">
+            <span style="position:absolute;left:35px;margin-top:20px;"><span class="sbs-red-text">*</span> : Required</span>
+        </div>
     </div>
 </form>
