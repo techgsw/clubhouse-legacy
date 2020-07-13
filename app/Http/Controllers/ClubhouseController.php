@@ -85,36 +85,23 @@ class ClubhouseController extends Controller
         ]);
     }
 
-    /**
-     * Currently not in use, this has been replaced by the clubhouse homepage
-     */
-    public function membershipOptions(Request $request)
-    {
-        $product = Product::with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Membership');
-        })->first();
-
-        return view('clubhouse/membership-options', [
-            'product' => $product,
-            'breadcrumb' => [
-                'Clubhouse' => '/',
-                'Membership Options' => '/membership-options'
-            ],
-        ]);
-    }
-
     public function proMembership(Request $request)
     {
         if (Auth::guest()) {
             return redirect('/register?type=pro');
         }
 
-        $product = Product::with('tags')->whereHas('tags', function ($query) {
-            $query->where('name', 'Membership');
-        })->first();
+        $monthly_membership_option = ProductOption::whereHas('product', function ($query) {
+            $query->where('name', 'Clubhouse Pro Membership');
+        })->where('name', 'Clubhouse Pro Membership')->first();
+
+        $annual_membership_option = ProductOption::whereHas('product', function ($query) {
+            $query->where('name', 'Clubhouse Pro Membership');
+        })->where('name', 'Clubhouse Pro Membership Annual')->first();
 
         return view('clubhouse/pro-membership', [
-            'product' => $product,
+            'monthly_membership_option' => $monthly_membership_option,
+            'annual_membership_option' => $annual_membership_option,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Pro Membership' => '/pro-membership'
