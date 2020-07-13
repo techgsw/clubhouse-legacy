@@ -24,37 +24,37 @@
         </div>
         <div class="row" style="display: flex; flex-direction: row; flex-wrap:wrap;justify-content: center;">
             <div class="col center-align clubhouse-option">
-                <a href="/webinars" class="no-underline"><img src="/images/clubhouse/CH_Webinar.jpg" /></a>
+                <a href="/webinars" class="no-underline"><img src="/images/clubhouse/CH_Webinar1.jpg" /></a>
                 <p class="option-title"><strong>Live and On-Demand Webinars</strong></p>
                 <p class="option-description">Learn from the pros. Attend live events and watch 50+ past shows on demand.</p>
                 <a href="/webinars" class="red-hover btn clubhouse-option">See all events</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <a href="/mentor" class="no-underline"><img src="/images/clubhouse/CH_Mentor.jpg" /></a>
+                <a href="/mentor" class="no-underline"><img src="/images/clubhouse/CH_Mentor1.jpg" /></a>
                 <p class="option-title"><strong>Mentorship from the Sports Pros</strong></p>
                 <p class="option-description">Gain mentorship from more than 100 sports industry professionals.</p>
                 <a href="/mentor" class="red-hover btn clubhouse-option">Find a mentor</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <a href="/career-services" class="no-underline"><img src="/images/clubhouse/CH_Career.jpg" /></a>
+                <a href="/career-services" class="no-underline"><img src="/images/clubhouse/CH_Career1.jpg" /></a>
                 <p class="option-title"><strong>Career Services for You</strong></p>
                 <p class="option-description">Schedule a review of your LinkedIn&#8482; profile, get interview coaching and more.</p>
                 <a href="/career-services" class="red-hover btn clubhouse-option">Get started now</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <a href="/sales-vault" class="no-underline"><img src="/images/clubhouse/CH_SalesVault.jpg" /></a>
+                <a href="/sales-vault" class="no-underline"><img src="/images/clubhouse/CH_SalesVault1.jpg" /></a>
                 <p class="option-title"><strong>Get in the Sales Training Vault</strong></p>
                 <p class="option-description">The SBS team shares sales training tips to help you succeed.</p>
                 <a href="/sales-vault" class="red-hover btn clubhouse-option">Get training now</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <a href="/job" class="no-underline"><img src="/images/clubhouse/CH_Job.jpg" /></a>
+                <a href="/job" class="no-underline"><img src="/images/clubhouse/CH_Job1.jpg" /></a>
                 <p class="option-title"><strong>Check out the Job Board</strong></p>
                 <p class="option-description">Your next career opportunity in sports is just a click away.</p>
                 <a href="/job" class="red-hover btn clubhouse-option">See job listings</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <a href="/same-here" class="no-underline"><img src="/images/clubhouse/CH_SameHere.jpg" /></a>
+                <a href="/same-here" class="no-underline"><img src="/images/clubhouse/CH_SameHere1.jpg" /></a>
                 <p class="option-title"><strong>#SameHere Solutions</strong></p>
                 <p class="option-description">Learn how you can maintain your mental health in and out of the front office.</p>
                 <a href="/same-here" class="red-hover btn clubhouse-option">Find out more</a>
