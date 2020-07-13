@@ -31,13 +31,19 @@
     @endif
     @if(is_null($active_book))
         <div class="row center-align">
-            <div class="col s12 m6" style="margin-top:15px;">
+            <div class="col m6 hide-on-small-and-down" style="margin-top:15px;">
                 <select name="authors" onchange="javascript:window.location.replace('/sales-vault/training-videos?author=' + this.value);">
                     <option selected="true" disabled>Search by SBS Coach</option>
                     @foreach ($authors as $author)
                         <option value="{{ urlencode(str_ireplace('Author:', '', $author->name)) }}">{{ str_ireplace('Author:', '', $author->name) }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="col s12 hide-on-med-and-up" style="margin-top:15px;">
+                <div class="center-align"><h5>Authors:</h5></div>
+                @foreach ($authors as $author)
+                    <a class="flat-button btn-small black" style="display: inline-block; margin: 4px;" href="/sales-vault/training-videos?author={{ urlencode(str_ireplace('Author:', '', $author->name)) }}">{{ str_ireplace('Author:', '', $author->name) }}</a>
+                @endforeach
             </div>
             <div class="col s12 m6">
                 <form id="find-training-video-by-tag" method="GET" action="/sales-vault/training-videos">

@@ -44,7 +44,7 @@
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this webinar?</h4>
                                     @if ($product->highest_option_role == 'clubhouse')
-                                        <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                        <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
                                         <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
@@ -91,7 +91,7 @@
                     </div>
                 @elseif ($product->highest_option_role == 'clubhouse')
                     <div class="input-field" style="margin-top: 30px;">
-                        <a href="/pro-membership" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
+                        <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" id="buy-now" class="btn sbs-red">UPGRADE TO PRO MEMBERSHIP</a>
                     </div>
                 @else
                     <div class="input-field" style="margin-top: 30px;">
@@ -99,7 +99,7 @@
                     </div>
                 @endif
             @else
-                <a href="/webinars" class="btn blue">Browse all webinars</a>
+                <a href="/webinars" class="btn sbs-red">Browse all webinars</a>
             @endif
         </div>
     </div>

@@ -516,7 +516,7 @@ class ProductController extends Controller
         }
 
         $inactive_products = $inactive_products_query
-            ->orderByRaw("FIELD(highest_option_role, 'guest', 'user', 'clubhouse')")
+//            ->orderByRaw("FIELD(highest_option_role, 'guest', 'user', 'clubhouse')")
             ->orderBy('id', 'desc')
             ->paginate(30);
 

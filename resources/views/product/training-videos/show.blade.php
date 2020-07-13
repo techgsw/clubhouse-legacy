@@ -72,7 +72,7 @@
             @if(!is_null($video->getTrainingVideoAuthor()))
                 <span>by {{$video->getTrainingVideoAuthor()}}</span>
                 <br>
-                <span>in {{$video->options->first()->name}}: {{$video->options->first()->description}}</span>
+                <span>in {{$video->options->first()->name}}</span>
             @endif
             @foreach($video->tags as $tag)
                 @if ($tag->name != 'Training Video' && stripos($tag->name, 'Author:') === false)
@@ -81,7 +81,7 @@
             @endforeach
             {!! $pd->text($video->getCleanDescription()) !!}
             @foreach($video->options as $option)
-                <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;margin-bottom:10px;" href="/sales-vault/training-videos?book={{$option->name}}&chapter={{$option->description}}" class="btn sbs-red">Browse all videos in {{$option->name}}: {{$option->description}}</a>
+                <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;margin-bottom:10px;" href="/sales-vault/training-videos?book={{$option->name}}" class="btn sbs-red">Browse all videos in {{$option->name}}</a>
             @endforeach
         </div>
     </div>
