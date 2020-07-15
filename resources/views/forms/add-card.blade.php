@@ -19,8 +19,4 @@
             <button id="cancel-cc-button" type="button" class="btn btn-medium blue-grey darken-1">Cancel</button>
         </div>
     </div>
-    <div class="row">
-        <div class="input-field col s12 center-align">
-        </div>
-    </div>
 </form>

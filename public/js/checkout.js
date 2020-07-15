@@ -24,15 +24,16 @@
         $.ajax({
             type: 'POST',
             url: '/checkout/add-card',
-            data: form.serialize() 
+            data: form.serialize()
         }).fail(function (response) {
+            $('#add-card-error').removeClass('hidden');
         }).done(function (response) {
             var select = $('#payment-method'), option;
 
             if (response.type == "success") {
                 if (response.payment_methods.length > 0) {
                     $('#payment-method option').remove();
-                    response.payment_methods.forEach(function(method) {
+                    response.payment_methods.forEach(function (method) {
                         option = document.createElement('option');
                         option.setAttribute('value', method.id);
                         $(option).text('XXX-XXX-XXX-' + method.last4);
@@ -41,6 +42,12 @@
                     });
                 }
                 card.clear();
+                //if we're adding a card from the user account page, reload to show card changes
+                if ($('.cc-form.user-account-page').length) {
+                    location.reload(true);
+                }
+            } else {
+                $('#add-card-error').removeClass('hidden');
             }
         }).always(function () {
             $('#card-waiting').addClass('hidden');
@@ -162,9 +169,11 @@
         {
             submit: function(e) {
                 e.preventDefault();
+                $('#add-card-error').addClass('hidden');
                 stripe.createToken(card).then(function(result) {
                     if (result.error) {
                         //TODO call log service
+                        $('#add-card-error').removeClass('hidden');
                         console.log(result);
                     } else {
                         try {
@@ -173,7 +182,9 @@
                             $('#add-cc-button').attr('disabled');
                             tokenHandler(result.token);
                         } catch (e) {
+                            $('#add-card-error').removeClass('hidden');
                             console.log(e);
+                            return;
                         }
                         $('#add-cc-button').removeClass('hidden');
                         $('#add-cc-button').html('Add Card');
@@ -182,12 +193,6 @@
                         setTimeout(function() {
                             $('.cc-form.scale-transition').addClass('hidden');
                         }, 200);
-                        setTimeout(function() {
-                            // if we're adding a card from the user account page, reload to show card changes
-                            if ($('.cc-form.user-account-page').length) {
-                                location.reload(true);
-                            }
-                        }, 500);
                     }
                 });
             }

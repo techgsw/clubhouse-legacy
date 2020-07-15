@@ -435,7 +435,15 @@ class CheckoutController extends Controller
         $user = Auth::user();
 
         try {
-            $stripe_customer = StripeServiceProvider::getCustomer($user);
+            $stripe_customer = null;
+            if (!$user->stripe_customer_id) {
+                    $stripe_customer = StripeServiceProvider::createCustomer($user);
+                    $user->stripe_customer_id = $stripe_customer->id;
+                    $user->update();
+            } else {
+                $stripe_customer = StripeServiceProvider::getCustomer($user);
+            }
+
             $stripe_customer->sources->create(array('source' => $request['stripe_token']));
             $stripe_customer = StripeServiceProvider::getCustomer($user);
 

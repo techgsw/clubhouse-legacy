@@ -107,6 +107,19 @@
             <div class="cc-form user-account-page scale-transition scale-out hidden">
                 @include('forms.add-card')
             </div>
+            <div class="row hidden" id="card-waiting">
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        <img src="/images/progress.gif" class="responsive-img circle" />
+                    </div>
+                    <div class="col s10">
+                        <h4>Adding card, please wait.</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row hidden" id="add-card-error" >
+                <span class="sbs-red-text">Sorry, there was an error adding your card. Please try again or contact <a href="mailto:clubhouse@sportsbussiness.solutions">clubhouse@sportsbusiness.solutions</a> for help.</span>
+            </div>
         </div>
     </div>
     <div class="row">
