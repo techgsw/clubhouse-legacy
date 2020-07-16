@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\ContactOrganization;
 use App\Job;
 use App\Mentor;
+use App\Organization;
 use App\Post;
 use App\Product;
 use App\Message;
@@ -88,8 +90,10 @@ class ClubhouseController extends Controller
     public function proMembership(Request $request)
     {
         if (Auth::guest()) {
-            return redirect('/register?type=pro');
+            return redirect('/register');
         }
+
+        $user = Auth::user();
 
         $monthly_membership_option = ProductOption::whereHas('product', function ($query) {
             $query->where('name', 'Clubhouse Pro Membership');
@@ -102,11 +106,65 @@ class ClubhouseController extends Controller
         return view('clubhouse/pro-membership', [
             'monthly_membership_option' => $monthly_membership_option,
             'annual_membership_option' => $annual_membership_option,
+            'user' => $user,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Pro Membership' => '/pro-membership'
             ],
         ]);
+    }
+
+    public function applyForProMembership(Request $request)
+    {
+        $user = Auth::user();
+
+        try {
+            if ($request->title || $request->organization) {
+                if ($request->title) {
+                    $user->contact->title = $request->title;
+                }
+                if ($request->organization) {
+                    $user->contact->organization = $request->organization;
+                    $user->contact->save();
+                    $organization = Organization::where('name', $request->organization)->first();
+                    if (!is_null($organization)) {
+                        ContactOrganization::create([
+                            'contact_id' => $user->contact->id,
+                            'organization_id' => $organization->id
+                        ]);
+                    }
+                }
+                $user->contact->save();
+            }
+            $years_worked = null;
+            $planned_services = array();
+            foreach ($request->all() as $key => $parameter) {
+                if (strpos($key, 'services-') !== false) {
+                    $planned_services [] = substr($key, 9);
+                } else if (strpos($key, 'years-worked-') !== false) {
+                    $years_worked = substr($key, 13);
+                }
+            }
+
+            if (!is_null($years_worked) || !empty($planned_services)) {
+                if (!is_null($years_worked)) {
+                    $user->profile->works_in_sports_years_range = $years_worked;
+                }
+                if (!empty($planned_services)) {
+                    $user->profile->planned_services = $planned_services;
+                }
+                $user->profile->save();
+            }
+        } catch (Exception $e) {
+            // don't hinder the user if we have issues collecting data
+            Log::error($e);
+        }
+
+        if ($request->buy_monthly) {
+            return redirect()->to($request->buy_monthly);
+        } else if ($request->buy_annually) {
+            return redirect()->to($request->buy_annually);
+        }
     }
 
     public function resources(Request $request)

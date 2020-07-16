@@ -31,7 +31,7 @@
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4 style="color: #FFF">Want to watch this video?</h4>
                                     @if ($video->highest_option_role == 'clubhouse')
-                                        <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                        <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
                                         <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif
@@ -45,7 +45,7 @@
                                 <div class="col s12 center-align" style="margin-top: 10%">
                                     <h4>Want to watch this video?</h4>
                                     @if ($video->highest_option_role == 'clubhouse')
-                                        <a href="/pro-membership" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
+                                        <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" id="buy-now" class="btn sbs-red">Become a Clubhouse Pro</a>
                                     @else
                                         <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
                                     @endif

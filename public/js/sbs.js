@@ -1983,22 +1983,22 @@ $.valHooks.textarea = {
     $('body').on(
         {
             click: function(e) {
-                if (!$('input[type="checkbox"].membership-selection').is(':checked')) {
+                if ($('input[type="checkbox"].membership-selection').length && !$('input[type="checkbox"].membership-selection').is(':checked')) {
                     $('.membership-type-warning').removeClass('hidden');
                     $('.membership-type-warning')[0].scrollIntoView({behavior: "smooth"});
                     e.preventDefault();
-                } else if ($('input[type="checkbox"][id="membership-selection-pro"]').is(':checked') &&
+                } else if ($('input[type="checkbox"][id="membership-selection-pro"]').length && $('input[type="checkbox"][id="membership-selection-pro"]').is(':checked') &&
                     !$('input[type="checkbox"][id="membership-selection-pro-monthly"]').is(':checked') &&
                     !$('input[type="checkbox"][id="membership-selection-pro-annually"]').is(':checked')
                 ) {
                     $('.pro-payment-type-warning').removeClass('hidden');
                     $('.pro-payment-type-warning')[0].scrollIntoView({behavior: "smooth"});
                     e.preventDefault();
-                } else if (!$('input[type="checkbox"].years-worked').is(':checked')) {
+                } else if ($('input[type="checkbox"].years-worked').length && !$('input[type="checkbox"].years-worked').is(':checked')) {
                     $('.years-worked-warning').removeClass('hidden');
                     $('.years-worked-warning')[0].scrollIntoView({behavior: "smooth", block:"center"});
                     e.preventDefault();
-                } else if (!$('input[type="checkbox"].planned-services').is(':checked')) {
+                } else if ($('input[type="checkbox"].planned-services').length && !$('input[type="checkbox"].planned-services').is(':checked')) {
                     $('.planned-services-warning').removeClass('hidden');
                     $('.planned-services-warning')[0].scrollIntoView({behavior: "smooth", block:"center"});
                     e.preventDefault();
