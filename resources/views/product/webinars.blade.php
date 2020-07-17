@@ -7,6 +7,7 @@
             <img class="responsive-img" src="/images/clubhouse/event-white.png" />
             <h4 class="header">Educational Webinars</h4>
             <p>Live and on demand discussions with sports industry leaders.</p>
+            <a href="{{is_null($active_tag) ? '#past' : '/webinars#past'}}" class="btn btn-large sbs-red">Webinar Library</a>
         </div>
     </div>
 @endsection
