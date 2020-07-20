@@ -41,7 +41,7 @@ class SocialMediaServiceProvider extends ServiceProvider
         // TODO: We can't pull bio and avatar without getting approval as an instagram app to use the instagram graph API.
         //  This information will be static until we can support that.
         if ($context == 'clubhouse') {
-            $username = 'the_sports_clubhouse';
+            $username = 'theC1ubhouse';
             $bio = "For current & aspiring #sportsbiz professionals. Learn, network, find career opportunities & share best practices in an effort to grow your career.";
             $avatar = env('CLUBHOUSE_URL').'/images/clubhouse_ig_logo.jpg';
         } else {
