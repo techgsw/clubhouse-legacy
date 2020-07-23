@@ -134,9 +134,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s12 {{ $errors->has('email') ? 'invalid' : '' }}">
+        <div class="input-field col s12 m6 {{ $errors->has('email') ? 'invalid' : '' }}">
             <input id="email" type="email" name="email" value="{{ old('email') }}" required>
             <label for="email">Email Address <span class="sbs-red-text">*</span></label>
+        </div>
+        <div class="input-field col s12 m6 {{ $errors->has('phone') ? 'invalid' : '' }}">
+            <input id="phone" type="text" name="phone" value="{{ old('phone') }}" required>
+            <label for="phone">Phone <span class="sbs-red-text">*</span></label>
         </div>
     </div>
     <div class="row">

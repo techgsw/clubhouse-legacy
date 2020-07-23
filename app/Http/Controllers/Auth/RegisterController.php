@@ -243,6 +243,7 @@ class RegisterController extends Controller
                 if (count($contact) > 0) {
                     $contact = $contact[0];
                     $contact->title = $data['title'];
+                    $contact->phone = $data['phone'];
                     $contact->organization = $data['organization'];
                     $contact->save();
                 } else {
@@ -250,6 +251,7 @@ class RegisterController extends Controller
                         'first_name' => $data['first_name'],
                         'last_name' => $data['last_name'],
                         'email' => $data['email'],
+                        'phone' => $data['phone'],
                         'title' => $data['title'],
                         'organization' => $data['organization']
                     ]);
@@ -286,6 +288,7 @@ class RegisterController extends Controller
             $profile = Profile::create([
                 'user_id' => $user->id,
                 'current_title' => $data['title'],
+                'phone' => $data['phone'],
                 'works_in_sports_years_range' => $years_worked,
                 'planned_services' => empty($planned_services) ? null : $planned_services
             ]);
