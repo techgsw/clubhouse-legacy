@@ -90,6 +90,8 @@ class ProductController extends Controller
                 $product->active = request('active') ? true : false;
                 $product->type = request('type') ? 'service' : 'good';
 
+                $product->save();
+
                 if (count(request('option')) > 0) {
                     $product->highest_option_role = 'guest';
                     foreach (request('option') as $i => $params) {
