@@ -25,7 +25,7 @@ class RedirectRouter
                 && preg_match('/'.addcslashes(env('CLUBHOUSE_URL'), '/').'\/job/', $request->headers->get('referer'))
             ) {
                 session(['url.intended' => '/job-options']);
-            } else {
+            } else if (preg_match('/('.addcslashes(env('CLUBHOUSE_URL'), '/').'|'.addcslashes(env('APP_URL'), '/').')/', url()->previous())) {
                 session(['url.intended' => url()->previous()]);
             }
         }

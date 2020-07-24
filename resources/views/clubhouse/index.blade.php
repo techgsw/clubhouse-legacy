@@ -63,7 +63,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="card-flex-container" style="margin-top:50px;">
+            <div class="card-flex-container" id="clubhouse-benefits" style="margin-top:50px;">
                 <div class="card large" style="height:100%;margin-bottom: 90px;">
                     @if (!Auth::user())
                         <a href="#register-modal" class="no-underline">
