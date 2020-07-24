@@ -1055,8 +1055,11 @@ $.valHooks.textarea = {
             tags.splice(i, 1);
         }
         json_input.val(JSON.stringify(tags));
-        // Remove from view
-        var button = $('button[tag-name="'+name+'"]');
+        try {
+            var button = $('button[tag-name="' + name + '"]');
+        } catch (e) {
+            var button = $("button[tag-name='" + name + "']");
+        }
         if (button) {
             button.parent().remove();
         }
