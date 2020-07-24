@@ -26,7 +26,7 @@
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <input class="option-description" id="option-{{ $i ?: "" }}-description" type="text" name="option[{{ $i ?: "" }}][description]"  value="{{ !is_null($option) ? $option->description : "" }}">
+                <input class="option-description" id="option-{{ $i ?: "" }}-description" type="text" name="option[{{ $i ?: "" }}][description]"  value="{{ !is_null($option) ? $option->description : "" }}" required>
                 <label>Description</label>
             </div>
         </div>
