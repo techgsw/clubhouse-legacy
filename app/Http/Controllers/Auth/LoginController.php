@@ -49,7 +49,7 @@ class LoginController extends Controller
         if (!\Gate::allows('view-admin-dashboard')) {
             $stripe_user = StripeServiceProvider::getCustomer($user);
             if (!is_null($stripe_user)) {
-                if ($stripe_user->delinquent || $stripe_user->subscriptions->total_count < 1) {
+                if ($stripe_user->delinquent) {
                     // Remove clubhouse role from user
                     $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
                     if ($role) {
