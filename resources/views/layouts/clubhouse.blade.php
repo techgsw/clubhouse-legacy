@@ -3,6 +3,7 @@
 <html lang="{{ config('app.locale') }}">
     @include('layouts.components.clubhouse.head')
     <body>
+        @include('layouts.components.gtm-body')
         @include('layouts.components.clubhouse.header')
         <main>
             @yield('hero')
