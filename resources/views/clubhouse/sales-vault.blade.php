@@ -51,7 +51,7 @@
             </div>
             <h5><strong style="text-transform:uppercase;">The Sports Business Solutions certified trainers</strong></h5>
             <div class="col s12 m10 offset-m1">
-                <p>Our trainers have a combined 45+ years of sport sales experience. They've all sold and lead sales teams themselves and have a passion to coach and teach. Their experience covers all aspects of sport sales including but not limited to: B2C, B2B, Group Sales, Retention, Corporate Partnerships and the "Sales 101 basics".</p>
+                <p>Our trainers have a combined 30+ years of sport sales experience. They've all sold and lead sales teams themselves and have a passion to coach and teach. Their experience covers all aspects of sport sales including but not limited to: B2C, B2B, Group Sales, Retention, Corporate Partnerships and the "Sales 101 basics".</p>
             </div>
             <div class="about-cards col s12" style="padding-top:20px;">
                 <div class="about-card col s6 m4">
