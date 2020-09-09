@@ -502,7 +502,7 @@
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_event_ops" id="department_experience_event_ops" value="1" {{ is_null(old('department_experience_event_ops')) ? ($profile->department_experience_event_ops ? "checked" : "") : (old('department_experience_event_ops') ? "checked" : "") }} />
-                                <label for="department_experience_event_op">Event Operations</label>
+                                <label for="department_experience_event_ops">Event Operations</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_social_media" id="department_experience_social_media" value="1" {{ is_null(old('department_experience_social_media')) ? ($profile->department_experience_social_media ? "checked" : "") : (old('department_experience_social_media') ? "checked" : "") }} />
