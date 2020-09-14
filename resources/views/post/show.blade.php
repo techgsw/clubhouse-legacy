@@ -90,7 +90,7 @@
                         <div class="col s12 center-align">
                             <div class="tag-list">
                                 @foreach ($post->tags as $tag)
-                                    <a href="{{$context == 'same-here' ? '/same-here' : ''}}/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
+                                    <a href="/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray" style="display: inline-block; margin: 2px;">{{ ucfirst($tag->name) }}</a>
                                 @endforeach
                             </div>
                         </div>
