@@ -9,6 +9,7 @@ class Transaction extends Model
 {
     protected $table = 'transaction';
     protected $guarded = [];
+    protected $fillable = ['subscription_active_flag'];
     protected $dates = [
         'created_at',
         'updated_at'

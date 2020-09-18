@@ -380,6 +380,7 @@ class CheckoutController extends Controller
                     $transaction = new Transaction();
                     $transaction->user_id = $user->id;
                     $transaction->amount = $product_option->price;
+                    $transaction->subscription_active_flag=true;
                     $transaction->save();
 
                     $transaction_product_option = new TransactionProductOption();

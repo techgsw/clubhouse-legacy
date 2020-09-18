@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Exceptions\SBSException;
 use App\Product;
 use App\ProductOption;
+use App\Transaction;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
@@ -273,6 +274,12 @@ class StripeServiceProvider extends ServiceProvider
             throw new SBSException('Subscription customer ID '.$subscription->customer.' for '.$subscription_id
                 .' does not match user stripe ID '.$user->stripe_customer_id.' , or there are null values.');
         }
+        try {
+            Transaction::where('stripe_subscription_id', $subscription_id)->update(['subscription_active_flag' => 0]);
+        } catch (\Throwable $t) {
+            // not critical, the cron job in the morning should correctly update this
+            Log::warn($t);
+        }
 
     }
 
@@ -335,11 +342,85 @@ class StripeServiceProvider extends ServiceProvider
      * $result->data[$i]->data->object->customer_email = email of customer
      * $result->data[$i]->data->object->lines->data[$i]->plan->product = product ID attempted to purchase (note: may be multiple)
      */
-    public static function getFailedTransactionsSince($start_date) {
+    public static function getFailedTransactionsSince($start_date) 
+    {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
         return Stripe\Event::all([
             "created[gt]" => $start_date->getTimestamp(),
             "type" => 'invoice.payment_failed'
         ]);
+    }
+
+    /**
+     * Pulls all subscriptions from stripe and updates their subscription_active_flag in the transaction table
+     */ 
+    public static function syncAllTransactionSubscriptions() 
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+        $subscriptions = array();
+        $last_subscription_id = null;
+        do {
+            $new_subscriptions = Stripe\Subscription::all([
+                "status" => 'active',
+                "limit" => 100,
+                "ending_before" => $last_subscription_id
+            ]);
+            
+            sleep(1); // for TESTING the loop, just in case it's infinite, avoid rate limiting
+            Log::info($new_subscriptions->has_more);
+
+            
+            $subscriptions = array_merge($new_subscriptions->data, $subscriptions);
+            $last_subscription_id = end($subscriptions)->id;
+        } while($new_subscriptions->has_more);
+
+        foreach ($subscriptions as $subscription) {
+            if (!is_null($transaction = Transaction::where('stripe_subscription_id', $subscription->id)->first())) {
+                $transaction->subscription_active_flag = in_array($subscription->status, ['cancelled', 'unpaid', 'incomplete-expired']) ? 0 : 1;
+                $transaction->save();
+            }
+        }
+
+        // update all transactions we couldn't find in stripe (cancelled subscriptions)
+        Transaction::whereNotNull('stripe_subscription_id')
+            ->whereNull('subscription_active_flag')
+            ->update(['subscription_active_flag' => 0]);
+    }
+
+    public static function updateSubscriptionStatusesSince($start_date)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+        $deleted_subscriptions = Stripe\Event::all([
+            "created[gt]" => $start_date->getTimestamp(),
+            "type" => 'customer.subscription.deleted'
+        ]);
+
+        $updated_subscriptions = Stripe\Event::all([
+            "created[gt]" => $start_date->getTimestamp(),
+            "type" => 'customer.subscription.updated'
+        ]);
+
+        $cancelled_subscription_ids = array();
+        $activated_subscription_ids = array();
+
+        foreach ($deleted_subscriptions->data as $deleted_subscription_event) {
+            $cancelled_subscription_ids[] = $deleted_subscription_event->data->object->id;
+        }
+
+        foreach ($updated_subscriptions->data as $updated_subscription_event) {
+            $updated_subscription_object = $updated_subscription_event->data->object;
+            if (in_array($updated_subscription_object->status, ['cancelled', 'unpaid', 'incomplete-expired'])) {
+                $cancelled_subscription_ids[] = $updated_subscription_object->id;
+            } else if ($updated_subscription_object->status == 'active') {
+                $activated_subscription_ids[] = $updated_subscription_object->id;
+            }
+        }
+        
+        Transaction::whereIn('stripe_subscription_id', $cancelled_subscription_ids)
+            ->update(['subscription_active_flag' => 0]);
+
+        Transaction::whereIn('stripe_subscription_id', $activated_subscription_ids)
+            ->update(['subscription_active_flag' => 1]);
+
     }
 }

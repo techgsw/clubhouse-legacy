@@ -150,6 +150,8 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/report', 'ReportController@index');
         Route::get('/admin/report/notes', 'ReportController@notes');
         Route::get('/admin/report/transactions', 'ReportController@transactions');
+        Route::get('/admin/report/clubhouse', 'ReportController@clubhouseMembers');
+        Route::get('/admin/report/clubhouse/download', 'ReportController@downloadClubhouseMembers');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
         //endpoint for editing the user roles

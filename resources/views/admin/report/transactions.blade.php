@@ -10,9 +10,6 @@
                 <input class="hidden" type="text" name="date_range_end" id="date-range-end" value="{{ $end_date->format('Y-m-d') }}"/>
             </div>
         </div>
-        <div class="col s12 m8">
-            <h4><span class="sbs-red-text">{{ count($clubhouse_users) }}</span> Active Clubhouse Members</h4>
-        </div>
     </div>
 </form>
 @include('layouts.components.messages')

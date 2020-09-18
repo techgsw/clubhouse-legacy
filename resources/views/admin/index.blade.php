@@ -158,10 +158,13 @@
             <div class="card-content">
                 <span class="card-title"><a href="/admin/report" class="no-underline">Reports</a></span>
                 <p style="text-transform: uppercase;">
-                    <a href="/admin/report/transactions" class="no-underline">Transactions Report</a>
+                    <a href="/admin/report/transactions" class="no-underline">Transactions</a>
                 </p>
                 <p style="text-transform: uppercase;">
-                    <a href="/admin/report/notes" class="no-underline">Notes Report</a>
+                    <a href="/admin/report/notes" class="no-underline">Notes</a>
+                </p>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/report/clubhouse" class="no-underline">Clubhouse</a>
                 </p>
             </div>
             <div class="card-action">

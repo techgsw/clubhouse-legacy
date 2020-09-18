@@ -10,7 +10,9 @@ use App\RoleUser;
 use App\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
 {
@@ -29,6 +31,11 @@ class ReportController extends Controller
         $month_transaction_count = Transaction::where('created_at', '>', $one_month_ago)->count();
         $sixty_day_transaction_count = Transaction::where('created_at', '>', $sixty_days_ago)->count();
 
+        $clubhouse_users_count = User::join('role_user', 'user.id', 'role_user.user_id')->where('role_code', 'clubhouse')
+            ->whereNotIn('user_id', function ($admin_users_query) {
+                $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
+            })->count();
+
         return view('admin/report', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
@@ -41,7 +48,8 @@ class ReportController extends Controller
             'sixty_day_note_count' => $sixty_day_note_count,
             'total_transactions' => $total_transactions,
             'month_transaction_count' => $month_transaction_count,
-            'sixty_day_transaction_count' => $sixty_day_transaction_count
+            'sixty_day_transaction_count' => $sixty_day_transaction_count,
+            'clubhouse_users_count' => $clubhouse_users_count,
         ]);
     }
 
@@ -202,4 +210,86 @@ class ReportController extends Controller
             'users' => $users->get()
         ]);
     }
+
+    public function clubhouseMembers(Request $request)
+    {
+        $this->authorize('view-admin-reports');
+
+        return view('admin/report/clubhouse', [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Admin' => '/admin',
+                'Reports' => '/admin/report',
+                'Clubhouse Members' => '/admin/report/clubhouse'
+            ],
+            'clubhouse_users' => $this->getClubhouseMembers(),
+        ]);
+    }
+
+    public function downloadClubhouseMembers(Request $request)
+    {
+        $this->authorize('view-admin-reports');
+
+        $clubhouse_members = $this->getClubhouseMembers();
+
+        $column_titles = [
+            'first_name',
+            'last_name',
+            'email',
+            'manually_added',
+            'date'
+        ];
+        $filename = "clubhouse_members-".(new \DateTime('NOW'))->format("Y-m-d").".csv";
+
+        $headers = array(
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"'
+        );
+
+        return new StreamedResponse(function() use($clubhouse_members, $column_titles){
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, $column_titles);
+            foreach ($clubhouse_members as $user) {
+                $row = array();
+                foreach($column_titles as $attribute) {
+                    $row[] = $user->$attribute;
+                }
+                fputcsv($handle, $row);
+            }
+            fclose($handle);
+        }, 200, $headers);
+    }
+
+    private function getClubhouseMembers()
+    {
+        $stripe_clubhouse_users_query = DB::table('user as u')
+            ->selectRaw('DATE_FORMAT(t.created_at,\'%Y-%m-%d\') as date, u.id as user_id, u.created_at as user_create_date, u.first_name, u.last_name, u.email, 0 as manually_added')
+            ->join('transaction as t', 'u.id', 't.user_id')
+            ->join('transaction_product_option as tpo', 't.id', 'tpo.transaction_id')
+            ->join('product_option as po','tpo.product_option_id', 'po.id')
+            ->join('product as p','po.product_id', 'p.id')
+            ->where('p.name', 'Clubhouse Pro Membership')
+            ->whereNotIn('user_id', function ($admin_users_query) {
+                $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
+            })
+            ->where('t.subscription_active_flag', true);
+
+        $stripe_clubhouse_users = $stripe_clubhouse_users_query->get();
+
+        $manually_added_users_query = DB::table('user as u')
+            ->selectRaw('DATE_FORMAT(ru.created_at,\'%Y-%m-%d\') as date, u.id as user_id, u.created_at as user_create_date, u.first_name, u.last_name, u.email, 1 as manually_added')
+            ->join('role_user as ru', 'u.id', 'ru.user_id')
+            ->where('ru.role_code', 'clubhouse')
+            ->whereNotIn('user_id', $stripe_clubhouse_users->map(function ($user) { return $user->user_id; }))
+            ->whereNotIn('user_id', function ($admin_users_query) {
+                $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
+            });
+
+        $manually_added_users = $manually_added_users_query->get();
+
+        return $stripe_clubhouse_users->merge($manually_added_users)->sortByDesc(function ($user) {
+            return $user->date ?: $user->user_create_date;
+        });
+    }
+
 }

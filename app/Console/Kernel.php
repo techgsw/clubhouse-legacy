@@ -84,6 +84,12 @@ class Kernel extends ConsoleKernel
             $start->setTime(8,0,0);
             EmailServiceProvider::sendFailedClubhousePaymentNotice($start);
         })->dailyAt('8:00');
+
+        $schedule->call(function () {
+            $start = new \DateTime('yesterday');
+            $start->setTime(3,0,0);
+            StripeServiceProvider::updateSubscriptionStatusesSince($start);
+        })->dailyAt('3:00');
     }
 
     /**
