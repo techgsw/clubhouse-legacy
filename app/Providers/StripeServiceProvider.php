@@ -360,26 +360,23 @@ class StripeServiceProvider extends ServiceProvider
         $subscriptions = array();
         $last_subscription_id = null;
         do {
-            $new_subscriptions = Stripe\Subscription::all([
+            $subscriptions = Stripe\Subscription::all([
                 "status" => 'active',
                 "limit" => 100,
-                "ending_before" => $last_subscription_id
+                "starting_after" => $last_subscription_id
             ]);
             
-            sleep(1); // for TESTING the loop, just in case it's infinite, avoid rate limiting
-            Log::info($new_subscriptions->has_more);
+            usleep(100000);
 
-            
-            $subscriptions = array_merge($new_subscriptions->data, $subscriptions);
+            foreach ($subscriptions as $subscription) {
+                if (!is_null($transaction = Transaction::where('stripe_subscription_id', $subscription->id)->first())) {
+                    $transaction->subscription_active_flag = in_array($subscription->status, ['cancelled', 'unpaid', 'incomplete-expired']) ? 0 : 1;
+                    $transaction->save();
+                }
+            }
+            Log::info("100 subscriptions updated");
             $last_subscription_id = end($subscriptions)->id;
         } while($new_subscriptions->has_more);
-
-        foreach ($subscriptions as $subscription) {
-            if (!is_null($transaction = Transaction::where('stripe_subscription_id', $subscription->id)->first())) {
-                $transaction->subscription_active_flag = in_array($subscription->status, ['cancelled', 'unpaid', 'incomplete-expired']) ? 0 : 1;
-                $transaction->save();
-            }
-        }
 
         // update all transactions we couldn't find in stripe (cancelled subscriptions)
         Transaction::whereNotNull('stripe_subscription_id')
