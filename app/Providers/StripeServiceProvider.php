@@ -368,9 +368,9 @@ class StripeServiceProvider extends ServiceProvider
             
             usleep(100000);
 
-            foreach ($subscriptions as $subscription) {
-                if (!is_null($transaction = Transaction::where('stripe_subscription_id', $subscription->data->id)->first())) {
-                    $transaction->subscription_active_flag = in_array($subscription->data->status, ['cancelled', 'unpaid', 'incomplete-expired']) ? 0 : 1;
+            foreach ($subscriptions->data as $subscription) {
+                if (!is_null($transaction = Transaction::where('stripe_subscription_id', $subscription->id)->first())) {
+                    $transaction->subscription_active_flag = in_array($subscription->status, ['cancelled', 'unpaid', 'incomplete-expired']) ? 0 : 1;
                     $transaction->save();
                 }
             }
