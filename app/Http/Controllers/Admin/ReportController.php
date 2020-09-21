@@ -269,6 +269,7 @@ class ReportController extends Controller
             ->join('product_option as po','tpo.product_option_id', 'po.id')
             ->join('product as p','po.product_id', 'p.id')
             ->where('p.name', 'Clubhouse Pro Membership')
+            ->whereNull('u.linked_user_id')
             ->whereNotIn('user_id', function ($admin_users_query) {
                 $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
             })
@@ -280,6 +281,7 @@ class ReportController extends Controller
             ->selectRaw('DATE_FORMAT(ru.created_at,\'%Y-%m-%d\') as date, u.id as user_id, u.created_at as user_create_date, u.first_name, u.last_name, u.email, 1 as manually_added')
             ->join('role_user as ru', 'u.id', 'ru.user_id')
             ->where('ru.role_code', 'clubhouse')
+            ->whereNull('u.linked_user_id')
             ->whereNotIn('user_id', $stripe_clubhouse_users->map(function ($user) { return $user->user_id; }))
             ->whereNotIn('user_id', function ($admin_users_query) {
                 $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');

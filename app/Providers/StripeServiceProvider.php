@@ -386,6 +386,7 @@ class StripeServiceProvider extends ServiceProvider
 
     public static function updateSubscriptionStatusesSince($start_date)
     {
+        Log::info('Starting stripe subscription sync (for clubhouse users) :');
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
         $deleted_subscriptions = Stripe\Event::all([
             "created[gt]" => $start_date->getTimestamp(),
@@ -406,18 +407,28 @@ class StripeServiceProvider extends ServiceProvider
 
         foreach ($updated_subscriptions->data as $updated_subscription_event) {
             $updated_subscription_object = $updated_subscription_event->data->object;
-            if (in_array($updated_subscription_object->status, ['cancelled', 'unpaid', 'incomplete-expired'])) {
+            if (in_array($updated_subscription_object->status, ['unpaid', 'incomplete-expired'])) {
+                if (!is_null($delinquent_user = User::where('stripe_customer_id', $updated_subscription_object->customer)->first())) {
+                    $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $delinquent_user->id)))->first();
+                    if ($role) {
+                        $role->delete();
+                    }
+                    Log::info('Clubhouse role for user '.$delinquent_user->id.' deleted');
+                }
+                $cancelled_subscription_ids[] = $updated_subscription_object->id;
+            } else if ($updated_subscription_object->status == 'cancelled') {
                 $cancelled_subscription_ids[] = $updated_subscription_object->id;
             } else if ($updated_subscription_object->status == 'active') {
                 $activated_subscription_ids[] = $updated_subscription_object->id;
             }
         }
-        
+
+        Log::info('Cancelled subs: '.print_r($cancelled_subscription_ids, true));
         Transaction::whereIn('stripe_subscription_id', $cancelled_subscription_ids)
             ->update(['subscription_active_flag' => 0]);
 
+        Log::info('Activated subs: '.print_r($cancelled_subscription_ids, true));
         Transaction::whereIn('stripe_subscription_id', $activated_subscription_ids)
             ->update(['subscription_active_flag' => 1]);
-
     }
 }
