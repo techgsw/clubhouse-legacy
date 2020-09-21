@@ -388,47 +388,33 @@ class StripeServiceProvider extends ServiceProvider
     {
         Log::info('Starting stripe subscription sync (for clubhouse users) :');
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
-        $deleted_subscriptions = Stripe\Event::all([
+        $subscription_events = Stripe\Event::all([
             "created[gt]" => $start_date->getTimestamp(),
-            "type" => 'customer.subscription.deleted'
+            "types" => [
+                'customer.subscription.deleted',
+                'customer.subscription.updated'
+            ]
         ]);
 
-        $updated_subscriptions = Stripe\Event::all([
-            "created[gt]" => $start_date->getTimestamp(),
-            "type" => 'customer.subscription.updated'
-        ]);
-
-        $cancelled_subscription_ids = array();
-        $activated_subscription_ids = array();
-
-        foreach ($deleted_subscriptions->data as $deleted_subscription_event) {
-            $cancelled_subscription_ids[] = $deleted_subscription_event->data->object->id;
-        }
-
-        foreach ($updated_subscriptions->data as $updated_subscription_event) {
-            $updated_subscription_object = $updated_subscription_event->data->object;
-            if (in_array($updated_subscription_object->status, ['unpaid', 'incomplete-expired'])) {
-                if (!is_null($delinquent_user = User::where('stripe_customer_id', $updated_subscription_object->customer)->first())) {
+        // Stripe returns events in descending date order. We want to update transactions in the order the events happened.
+        foreach (array_reverse($subscription_events->data) as $subscription_event) {
+            if ($subscription_event->type == 'customer.subscription.deleted' || in_array($subscription_event->data->object->status, ['unpaid', 'incomplete-expired', 'cancelled'])) {
+                Transaction::where('stripe_subscription_id', $subscription_event->data->object->id)
+                    ->update(['subscription_active_flag' => 0]);
+                Log::info('Subscription '.$subscription_event->data->object->id.' deactivated');
+                if (in_array($subscription_event->data->object->status, ['unpaid', 'incomplete-expired'])) {
+                    $delinquent_user = User::where('stripe_customer_id', $subscription_event->data->object->customer)->first();
                     $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $delinquent_user->id)))->first();
                     if ($role) {
                         $role->delete();
                     }
                     Log::info('Clubhouse role for user '.$delinquent_user->id.' deleted');
                 }
-                $cancelled_subscription_ids[] = $updated_subscription_object->id;
-            } else if ($updated_subscription_object->status == 'cancelled') {
-                $cancelled_subscription_ids[] = $updated_subscription_object->id;
-            } else if ($updated_subscription_object->status == 'active') {
-                $activated_subscription_ids[] = $updated_subscription_object->id;
+            } else if ($subscription_event->type == 'customer.subscription.updated' && $subscription_event->data->object->status == 'active') {
+                Log::info('Subscription '.$subscription_event->data->object->id.' activated');
+                Transaction::where('stripe_subscription_id', $subscription_event->data->object->id)
+                    ->update(['subscription_active_flag' => 1]);
             }
         }
-
-        Log::info('Cancelled subs: '.print_r($cancelled_subscription_ids, true));
-        Transaction::whereIn('stripe_subscription_id', $cancelled_subscription_ids)
-            ->update(['subscription_active_flag' => 0]);
-
-        Log::info('Activated subs: '.print_r($cancelled_subscription_ids, true));
-        Transaction::whereIn('stripe_subscription_id', $activated_subscription_ids)
-            ->update(['subscription_active_flag' => 1]);
     }
 }
