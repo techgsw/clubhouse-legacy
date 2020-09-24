@@ -316,6 +316,7 @@ Route::domain($domain)->group(function () {
     });
     Route::group(['middleware' => ['web','auth']], function () {
         Route::post('/mentor/{id}/request', 'MentorController@request');
+        Route::get('/mentor/{id}/request', 'MentorController@request');
         Route::post('/mentor/{id}', 'MentorController@update');
         Route::get('/contact/{id}/mentor', 'MentorController@edit');
     });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contact;
 use App\League;
 use App\Mentor;
+use App\MentorRequest;
 use App\MentorSocialMediaLink;
 use App\Message;
 use App\Tag;
@@ -22,6 +23,10 @@ class MentorController extends Controller
         if (!$request->session()->get('mentor_seed')) {
             $request->session()->put('mentor_seed', rand());
         }
+
+        $is_blocked = !Auth::user() || MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
+            ->where('user_id', Auth::user()->id)
+            ->count() > 1;
 
         $mentors = Mentor::with('contact')
             ->with('socialMediaLinks')
@@ -44,7 +49,8 @@ class MentorController extends Controller
             'leagues' => $leagues,
 
             'tag' => $request->tag,
-            'league' => $request->league
+            'league' => $request->league,
+            'is_blocked' => $is_blocked
         ]);
     }
 
@@ -56,13 +62,18 @@ class MentorController extends Controller
             return abort(404);
         }
 
+        $is_blocked = !Auth::user() || MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
+            ->where('user_id', Auth::user()->id)
+            ->count() > 1;
+
         return view('mentor/show', [
             'mentor' => $mentor,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Sports Industry Mentors' => '/mentor',
                 $mentor->contact->getName() => '/mentor/{{$id}}/show'
-            ]
+            ],
+            'is_blocked' => $is_blocked
         ]);
     }
 
@@ -151,6 +162,7 @@ class MentorController extends Controller
         $mentor->time_preference_2 = request('time_preference_2') ?: "";
         $mentor->day_preference_3 = request('day_preference_3') ?: "";
         $mentor->time_preference_3 = request('time_preference_3') ?: "";
+        $mentor->calendly_link = request('calendly_link') ?: "";
         $mentor->save();
 
         return redirect()->action('MentorController@edit', [$mentor->contact_id]);
@@ -168,47 +180,69 @@ class MentorController extends Controller
             ]);
         }
 
-        if (!$mentor->active) {
-            return response()->json([
-                'error' => 'Sorry, that mentor is not available right now',
-                'success' => null
-            ]);
-        }
-
-        $now = new \DateTime('NOW');
-        try {
-            $date1 = new \DateTime($request->date_1);
-            $date1->setTime(substr($request->time_1, 0, 2), substr($request->time_1, 2, 2));
-
-            $date2 = new \DateTime($request->date_2);
-            $date2->setTime(substr($request->time_2, 0, 2), substr($request->time_2, 2, 2));
-
-            $date3 = new \DateTime($request->date_3);
-            $date3->setTime(substr($request->time_3, 0, 2), substr($request->time_3, 2, 2));
-
-            if ($date1 < $now || $date2 < $now || $date3 < $now) {
-                throw new \Exception("At least one date is invalid");
+        // GET request means calend.ly request. We don't need to check extra info
+        if ($request->isMethod('post')) {
+            if (!$mentor->active) {
+                return response()->json([
+                    'error' => 'Sorry, that mentor is not available right now',
+                    'success' => null
+                ]);
             }
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Please confirm dates are valid and try again',
-                'success' => null
-            ]);
+
+            $now = new \DateTime('NOW');
+            try {
+                $date1 = new \DateTime($request->date_1);
+                $date1->setTime(substr($request->time_1, 0, 2), substr($request->time_1, 2, 2));
+
+                $date2 = new \DateTime($request->date_2);
+                $date2->setTime(substr($request->time_2, 0, 2), substr($request->time_2, 2, 2));
+
+                $date3 = new \DateTime($request->date_3);
+                $date3->setTime(substr($request->time_3, 0, 2), substr($request->time_3, 2, 2));
+
+                if ($date1 < $now || $date2 < $now || $date3 < $now) {
+                    throw new \Exception("At least one date is invalid");
+                }
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Please confirm dates are valid and try again',
+                    'success' => null
+                ]);
+            }
+
+            try {
+                EmailServiceProvider::sendMentorshipRequestEmails(
+                    Auth::user(),
+                    $mentor,
+                    $dates = [$date1, $date2, $date3]
+                );
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                return response()->json([
+                    'error' => 'Sorry, there was an issue sending your mentor request. Please try again or contact clubhouse@sportsbusiness.solutions for support.',
+                    'success' => null
+                ]);
+            }
         }
 
         try {
-            EmailServiceProvider::sendMentorshipRequestEmails(
-                Auth::user(),
-                $mentor,
-                $dates = [$date1, $date2, $date3]
-            );
-        } catch (Exception $e) {
+            MentorRequest::create([
+                'user_id' => Auth::user()->id,
+                'mentor_id' => $id
+            ]);
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
 
+        $is_blocked = MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
+            ->where('user_id', Auth::user()->id)
+            ->count() > 1;
+
         return response()->json([
             'error' => null,
-            'success' => "Meeting requested. Check your email for details."
+            'success' => "Meeting requested. Check your email for details.",
+            'is_blocked' => $is_blocked
         ]);
     }
+
 }
