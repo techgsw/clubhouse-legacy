@@ -26,7 +26,7 @@
     </div>
     <!-- Job -->
     <div class="row mentor-show">
-        <div class="col s8 offset-s2 m3 center-align" style="margin-bottom: 40px;">
+        <div class="col s8 offset-s2 m3 center-align" style="margin-bottom: 30px;">
             @if ($mentor->contact->headshotImage)
                 <img src="{{ $mentor->contact->headshotImage->getURL('medium') }}" style="width: 80%; border-radius: 50%; border: 3px solid #FFF; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);" class="responsive-img headshot" />
             @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
@@ -39,6 +39,7 @@
                     </div>
                 @endif
             @endif
+            <div class="hide-on-small-only" style="height:150px;"></div>
         </div>
         <div class="col s12 m9">
             <h4>{{ $mentor->contact->getName() }}
