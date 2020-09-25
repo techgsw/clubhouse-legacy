@@ -58,14 +58,18 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s12 input-field">
+            <div class="col s6 input-field">
                 <input type="text" id="linkedin_link" name="linkedin_link" value="{{old('linkedin_link') ?: $contact->mentor->getLinkedInLink() }}">
                 <label for="linkedin_link">LinkedIn Link</label>
+            </div>
+            <div class="col s6 input-field">
+                <input type="text" id="calendly_link" name="calendly_link" value="{{old('calendly_link') ?: $contact->mentor->calendly_link }}">
+                <label for="calendly_link">Calend.ly Link</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12 m6">
-                <label for="timezone" class="active">Preferred meeting times</label>
+                <label for="timezone" class="active">Preferred meeting times (Not needed if you have a Calend.ly link)</label>
             </div>
         </div>
         <div class="row">

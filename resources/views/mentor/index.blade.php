@@ -11,7 +11,9 @@
     </div>
 @endsection
 @section('scripts')
-    @include('mentor.components.scripts')
+    @if(!$is_blocked)
+        @include('mentor.components.scripts')
+    @endif
 @endsection
 @section('content')
 <div class="container">
@@ -35,7 +37,7 @@
         <div class="col s12">
             <div class="card-flex-container">
                 @foreach ($mentors as $mentor)
-                    @include('mentor.components.list-item', ['mentor' => $mentor])
+                    @include('mentor.components.list-item', ['mentor' => $mentor, 'is_blocked' => $is_blocked])
                 @endforeach
                 <div class="card-placeholder"></div>
                 <div class="card-placeholder"></div>
@@ -56,6 +58,6 @@
             </div>
         </div>
     @endif
-    @include('mentor.components.request-modal')
+    @include('mentor.components.request-modal', ['is_blocked' => $is_blocked])
 </div>
 @endsection
