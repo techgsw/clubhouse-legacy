@@ -223,6 +223,16 @@ class MentorController extends Controller
                     'success' => null
                 ]);
             }
+        } else {
+            try {
+                EmailServiceProvider::sendMentorshipRequestEmails(
+                    Auth::user(),
+                    $mentor,
+                    array()
+                );
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
         }
 
         try {

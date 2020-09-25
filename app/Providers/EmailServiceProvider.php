@@ -181,9 +181,6 @@ class EmailServiceProvider extends ServiceProvider
 
     public static function sendMentorshipRequestEmails(User $mentee, Mentor $mentor, array $dates)
     {
-        // Confirm request with user
-        Mail::to($mentee)->send(new MentorshipRequest($mentor, $mentee, $dates));
-
         // Alert admins about request
         $users = User::join('email_user', 'user.id', 'email_user.user_id')
             ->join('email', 'email_user.email_id', 'email.id')
@@ -191,12 +188,19 @@ class EmailServiceProvider extends ServiceProvider
             ->select('user.*')
             ->get();
 
-        //TODO: Laravel's cc functionality is not working. They're being sent as two separate emails.
-        // we need to investigate this at some point so this email can be sent to the mentor and
-        // admins can be cc'd.
-        Mail::to($mentor->contact->email, $mentor->contact->first_name.' '.$mentor->contact->last_name)
-            ->cc($users)
-            ->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
+        if (empty($dates)) {
+            Mail::to($users)->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, array()));
+        } else {
+            // Confirm request with user
+            Mail::to($mentee)->send(new MentorshipRequest($mentor, $mentee, $dates));
+
+            //TODO: Laravel's cc functionality is not working. They're being sent as two separate emails.
+            // we need to investigate this at some point so this email can be sent to the mentor and
+            // admins can be cc'd.
+            Mail::to($mentor->contact->email, $mentor->contact->first_name.' '.$mentor->contact->last_name)
+                ->cc($users)
+                ->send(new \App\Mail\Admin\MentorshipRequest($mentor, $mentee, $dates));
+        }
     }
 
     public static function sendJobExpirationNotificationEmail(Job $job) {

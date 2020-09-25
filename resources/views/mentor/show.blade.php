@@ -8,7 +8,9 @@
 @section('image', $mentor->contact->user->profile->headshotImage->getURL('share'))
 @endif
 @section('scripts')
-    @include('mentor.components.scripts')
+    @if(!$is_blocked)
+        @include('mentor.components.scripts')
+    @endif
 @endsection
 @section('content')
 <div class="container card-content" style="padding-bottom: 40px;">
@@ -47,39 +49,49 @@
                     </a>
                 @endif
             </h4>
-            <h5>{{ $mentor->contact->getTitle() }}</h5>
+            <h5>{{ $mentor->contact->title }}</h5>
+            <h5>{{ $mentor->contact->organization }}</h5>
         </div>
-        <div class="col s12 m9">
+        <div class="col s12 m9" style="margin-top:10px">
+            Specialties: 
             @foreach($mentor->tags as $tag)
                 <a href="/mentor?tag={{ urlencode($tag->name) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
             @endforeach
         </div>
-        <div class="col s12 m9 mentor-description">
+        <div class="col s12 m7 mentor-description">
             <p>{!! nl2br(e($mentor->description)) !!}</p>
-            @php
-                $timezones = array(
-                    'hst' => 'Hawaii (GMT-10:00)',
-                    'akdt' => 'Alaska (GMT-09:00)',
-                    'pst' => 'Pacific Time (US & Canada) (GMT-08:00)',
-                    'azt' => 'Arizona (GMT-07:00)',
-                    'mst' => 'Mountain Time (US & Canada) (GMT-07:00)',
-                    'cdt' => 'Central Time (US & Canada) (GMT-06:00)',
-                    'est' => 'Eastern Time (US & Canada) (GMT-05:00)'
-                );
-            @endphp
-            <p>Preferred meeting times ({{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}):</p>
-            <ul style="font-weight: 300">
-                <li>{{ ucwords($mentor->day_preference_1) }} - {{ ucwords($mentor->time_preference_1) }}</li>
-                <li>{{ ucwords($mentor->day_preference_2) }} - {{ ucwords($mentor->time_preference_2) }}</li>
-                <li>{{ ucwords($mentor->day_preference_3) }} - {{ ucwords($mentor->time_preference_3) }}</li>
-            </ul>
-            @if ($mentor->document)
-                <p><a target="_blank" href="{{ Storage::disk('local')->url($mentor->document) }}">View mentor description</a></p>
+            @if($mentor->calendly_link)
+                <p style="display:flex;align-items:center;">This mentorship call with {{$mentor->contact->first_name}} will be scheduled automatically using&nbsp;<img height="30px" src="/images/clubhouse/calendly_logo.png" alt="Calend.ly" /></p>
+            @else
+                @php
+                    $timezones = array(
+                        'hst' => 'Hawaii (GMT-10:00)',
+                        'akdt' => 'Alaska (GMT-09:00)',
+                        'pst' => 'Pacific Time (US & Canada) (GMT-08:00)',
+                        'azt' => 'Arizona (GMT-07:00)',
+                        'mst' => 'Mountain Time (US & Canada) (GMT-07:00)',
+                        'cdt' => 'Central Time (US & Canada) (GMT-06:00)',
+                        'est' => 'Eastern Time (US & Canada) (GMT-05:00)'
+                    );
+                @endphp
+                <p>Preferred meeting times ({{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}):</p>
+                <ul style="font-weight: 300">
+                    <li>{{ ucwords($mentor->day_preference_1) }} - {{ ucwords($mentor->time_preference_1) }}</li>
+                    <li>{{ ucwords($mentor->day_preference_2) }} - {{ ucwords($mentor->time_preference_2) }}</li>
+                    <li>{{ ucwords($mentor->day_preference_3) }} - {{ ucwords($mentor->time_preference_3) }}</li>
+                </ul>
+                @if ($mentor->document)
+                    <p><a target="_blank" href="{{ Storage::disk('local')->url($mentor->document) }}">View mentor description</a></p>
+                @endif
             @endif
         </div>
         <div class="col s12 m9 mentor-inquire">
             @can ('view-clubhouse')
-                <a class="small flat-button red mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
+                @if ($mentor->calendly_link)
+                    <a class="small flat-button red mentor-request-trigger calendly" href="#mentor-calendly-modal" mentor-id="{{$mentor->id}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" calendly-link="{{$is_blocked ? '' : base64_encode($mentor->calendly_link)}}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule call now</a>
+                @else
+                    <a class="small flat-button red mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
+                @endif
             @else
                 <h5>Want to schedule a call?</h5>
                 @if (Auth::guest())
@@ -90,6 +102,9 @@
             @endcan
             @can ('edit-mentor')
                 <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
+            @endcan
+            @can ('view-clubhouse')
+                <br><br><i><b>Note:</b> Clubhouse Pro members can book up to two mentorship calls per week.</i>
             @endcan
         </div>
     </div>

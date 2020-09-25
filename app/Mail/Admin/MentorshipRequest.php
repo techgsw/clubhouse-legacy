@@ -26,6 +26,10 @@ class MentorshipRequest extends Mailable
 
     public function build()
     {
-        return $this->from('clubhouse@sportsbusiness.solutions')->markdown('emails.internal.mentor-request');
+        if (empty($dates)) {
+            return $this->from('clubhouse@sportsbusiness.solutions')->markdown('emails.internal.mentor-request-calendly');
+        } else {
+            return $this->from('clubhouse@sportsbusiness.solutions')->markdown('emails.internal.mentor-request');
+        }
     }
 }
