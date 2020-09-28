@@ -62,7 +62,7 @@
         <div class="col s12 m7 mentor-description">
             <p>{!! nl2br(e($mentor->description)) !!}</p>
             @if($mentor->calendly_link)
-                <p style="display:flex;align-items:center;">This mentorship call with {{$mentor->contact->first_name}} will be scheduled automatically using&nbsp;<img height="30px" src="/images/clubhouse/calendly_logo.png" alt="Calend.ly" /></p>
+                <p style="display:flex;align-items:center;">This mentorship call with {{$mentor->contact->first_name}} will be scheduled using&nbsp;<img height="30px" src="/images/clubhouse/calendly_logo.png" alt="Calend.ly" /></p>
             @else
                 @php
                     $timezones = array(
