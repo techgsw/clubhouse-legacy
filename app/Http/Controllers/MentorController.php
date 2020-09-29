@@ -251,7 +251,7 @@ class MentorController extends Controller
      * Block users from making requests if they are not logged in
      * OR if they're a non-admin user who has already made 2 requests in the past week
      */
-    private function isUserBlockedFromRequests(User $user) {
+    private function isUserBlockedFromRequests($user) {
         return !$user ||
             ( $user->cannot('view-admin-dashboard') &&
                 MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
