@@ -9,6 +9,7 @@ class Role extends Model
     protected $table = 'role';
     protected $primaryKey = 'code';
     public $incrementing = false;
+    public $timestamps = false;
     protected $guarded = [
         'code',
         'description'
