@@ -271,7 +271,7 @@ class ReportController extends Controller
             ->where('p.name', 'Clubhouse Pro Membership')
             ->whereNull('u.linked_user_id')
             ->whereNotIn('user_id', function ($admin_users_query) {
-                $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
+                $admin_users_query->select('user_id')->from('role_user')->whereIn('role_code', ['administrator', 'clubhouse_collaborator']);
             })
             ->where('t.subscription_active_flag', true);
 
@@ -284,7 +284,7 @@ class ReportController extends Controller
             ->whereNull('u.linked_user_id')
             ->whereNotIn('user_id', $stripe_clubhouse_users->map(function ($user) { return $user->user_id; }))
             ->whereNotIn('user_id', function ($admin_users_query) {
-                $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
+                $admin_users_query->select('user_id')->from('role_user')->whereIn('role_code', ['administrator', 'clubhouse_collaborator']);
             });
 
         $manually_added_users = $manually_added_users_query->get();
