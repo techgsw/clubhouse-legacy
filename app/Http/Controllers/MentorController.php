@@ -24,10 +24,6 @@ class MentorController extends Controller
             $request->session()->put('mentor_seed', rand());
         }
 
-        $is_blocked = !Auth::user() || MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
-            ->where('user_id', Auth::user()->id)
-            ->count() > 1;
-
         $mentors = Mentor::with('contact')
             ->with('socialMediaLinks')
             ->where('active', true)
@@ -50,7 +46,7 @@ class MentorController extends Controller
 
             'tag' => $request->tag,
             'league' => $request->league,
-            'is_blocked' => $is_blocked
+            'is_blocked' => $this->isUserBlockedFromRequests(Auth::user())
         ]);
     }
 
@@ -244,15 +240,24 @@ class MentorController extends Controller
             Log::error($e->getMessage());
         }
 
-        $is_blocked = MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
-            ->where('user_id', Auth::user()->id)
-            ->count() > 1;
-
         return response()->json([
             'error' => null,
             'success' => "Meeting requested. Check your email for details.",
-            'is_blocked' => $is_blocked
+            'is_blocked' => $this->isUserBlockedFromRequests(Auth::user())
         ]);
+    }
+
+    /**
+     * Block users from making requests if they are not logged in
+     * OR if they're a non-admin user who has already made 2 requests in the past week
+     */
+    private function isUserBlockedFromRequests(User $user) {
+        return !$user ||
+            ( $user->cannot('view-admin-dashboard') &&
+                MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
+                ->where('user_id', $user->id)
+                ->count() > 1
+            );
     }
 
 }
