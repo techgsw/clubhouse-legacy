@@ -58,10 +58,6 @@ class MentorController extends Controller
             return abort(404);
         }
 
-        $is_blocked = !Auth::user() || MentorRequest::where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
-            ->where('user_id', Auth::user()->id)
-            ->count() > 1;
-
         return view('mentor/show', [
             'mentor' => $mentor,
             'breadcrumb' => [
@@ -69,7 +65,7 @@ class MentorController extends Controller
                 'Sports Industry Mentors' => '/mentor',
                 $mentor->contact->getName() => '/mentor/{{$id}}/show'
             ],
-            'is_blocked' => $is_blocked
+            'is_blocked' => $this->isUserBlockedFromRequests(Auth::user())
         ]);
     }
 
