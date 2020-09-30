@@ -214,6 +214,7 @@ class ReportController extends Controller
     public function clubhouseMembers(Request $request)
     {
         $this->authorize('view-admin-reports');
+        $is_clubhouse_collaborators = $request->query->get('is_clubhouse_collaborators');
 
         return view('admin/report/clubhouse', [
             'breadcrumb' => [
@@ -222,7 +223,8 @@ class ReportController extends Controller
                 'Reports' => '/admin/report',
                 'Clubhouse Members' => '/admin/report/clubhouse'
             ],
-            'clubhouse_users' => $this->getClubhouseMembers(),
+            'clubhouse_users' => $is_clubhouse_collaborators ? $this->getClubhouseCollaboratorMembers() : $this->getClubhouseMembers(),
+            'is_clubhouse_collaborators' => $is_clubhouse_collaborators,
         ]);
     }
 
@@ -230,16 +232,29 @@ class ReportController extends Controller
     {
         $this->authorize('view-admin-reports');
 
-        $clubhouse_members = $this->getClubhouseMembers();
+        $clubhouse_members = null;
+        $column_titles = null;
+        if ($request->query->get('is_clubhouse_collaborators')) {
+            $clubhouse_members = $this->getClubhouseCollaboratorMembers();
+            $column_titles = [
+                'first_name',
+                'last_name',
+                'email',
+                'date'
+            ];
+            $filename = "clubhouse_collaborators-".(new \DateTime('NOW'))->format("Y-m-d").".csv";
+        } else {
+            $clubhouse_members = $this->getClubhouseMembers();
+            $column_titles = [
+                'first_name',
+                'last_name',
+                'email',
+                'manually_added',
+                'date'
+            ];
+            $filename = "clubhouse_members-".(new \DateTime('NOW'))->format("Y-m-d").".csv";
+        }
 
-        $column_titles = [
-            'first_name',
-            'last_name',
-            'email',
-            'manually_added',
-            'date'
-        ];
-        $filename = "clubhouse_members-".(new \DateTime('NOW'))->format("Y-m-d").".csv";
 
         $headers = array(
             'Content-Type' => 'application/octet-stream',
@@ -292,6 +307,18 @@ class ReportController extends Controller
         return $stripe_clubhouse_users->merge($manually_added_users)->sortByDesc(function ($user) {
             return $user->date ?: $user->user_create_date;
         });
+    }
+
+    private function getClubhouseCollaboratorMembers()
+    {
+        return DB::table('user as u')
+            ->selectRaw('DATE_FORMAT(ru.created_at,\'%Y-%m-%d\') as date, u.id as user_id, u.created_at as user_create_date, u.first_name, u.last_name, u.email')
+            ->join('role_user as ru', 'u.id', 'ru.user_id')
+            ->where('ru.role_code', 'clubhouse_collaborator')
+            ->whereNull('u.linked_user_id')
+            ->whereNotIn('user_id', function ($admin_users_query) {
+                $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
+            })->get();
     }
 
 }
