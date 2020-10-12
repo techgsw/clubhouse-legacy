@@ -5,6 +5,7 @@
                 <div class="card-content">
                     <span class="card-title grey-text">Career Services</span>
                     <p><strong>TAGS</strong> <span class="flat-button grey small">Career Service</span> <strong>AND</strong> <span class="flat-button grey small">Career Coaching</span>, <span class="flat-button grey small">Sales Training</span>, <span class="flat-button grey small">Leadership Development</span> <strong>OR</strong> <span class="flat-button grey small">Other</span></p>
+                    <p>Use <strong>Option Description</strong> to include a Calend.ly link for users. After the career service duration (ex. 30 Minutes) enter calendly-link=[link] with the link of the career service's calendar in Calend.ly.</p>
                 </div>
             </div>
         </div>

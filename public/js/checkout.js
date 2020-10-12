@@ -11,7 +11,9 @@
         }
     };
     card = elements.create('card', {style: style});
-    card.mount('#cc-number-wrapper');
+    if ($('#cc-number-wrapper').length) {
+        card.mount('#cc-number-wrapper');
+    }
 
     tokenHandler = function(token) {
         var form = $('#add-card'), input = document.createElement('input');
@@ -199,6 +201,18 @@
         },
         'form#add-card'
     );
+
+    window.addEventListener('message', function(e) {
+        if (e.data.event && e.data.event === 'calendly.event_scheduled') {
+            var transaction_id = $('div#career-service-calendly-embed').attr('transaction-id');
+            var url = "/career-services/"+transaction_id+"/schedule";
+            return $.ajax({
+                type: 'GET',
+                url: url
+            })
+        }
+    });
+
 })();
 $(document).ready(function () {
     var payment_method = $('#payment-method'),
@@ -209,5 +223,21 @@ $(document).ready(function () {
                 $('#add-cc-button').click();
             }
         }
+    }
+
+    var career_service_calendly_embed = $('div#career-service-calendly-embed');
+    if (career_service_calendly_embed.length) {
+        Calendly.initInlineWidget({
+            url: career_service_calendly_embed.attr('calendly-link'),
+            parentElement: career_service_calendly_embed.get(0),
+            prefill: {
+                name: career_service_calendly_embed.attr('user-name'),
+                email: career_service_calendly_embed.attr('user-email'),
+                customAnswers: {
+                    a1: career_service_calendly_embed.attr('user-is-clubhouse'),
+                    a2: career_service_calendly_embed.attr('product-name')
+                }
+            }
+        });
     }
 });

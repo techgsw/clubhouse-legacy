@@ -230,6 +230,7 @@ Route::domain($domain)->group(function () {
     Route::group(['middleware' => ['web']], function () {
         Route::get('/career-services', 'ProductController@careerServices');
         Route::get('/career-services/{id}', 'ProductController@showCareerServices');
+        Route::get('/career-services/{id}/schedule', 'ProductController@scheduleCareerService');
     });
 
     // Checkout

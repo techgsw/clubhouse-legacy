@@ -24,7 +24,7 @@
 @if (Request::is('checkout/*') || Request::is('*/account'))
     <script>SBS.stripe_token = '{{ env('STRIPE_PUBLIC_TOKEN') }}';</script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="/js/checkout.js?v=4"></script>
+    <script src="/js/checkout.js?v=5"></script>
 @endif
 @if (Request::is('admin/report*'))
     <script src="/js/Chart.min.js"></script>
