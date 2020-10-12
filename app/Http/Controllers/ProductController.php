@@ -445,12 +445,21 @@ class ProductController extends Controller
             }
         }
 
+        $is_blocked = false;
+        if (Auth::user() && Auth::user()->can('view-clubhouse') && Auth::user()->cannot('view-admin-dashboard')) {
+            $is_blocked = Transaction::whereHas('productOptions.product.tags', function ($query) {
+                $query->where('name', 'Career Service');
+            })->where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P14D')))
+              ->where('user_id', Auth::user()->id)->count() > 0;
+        }
+
         return view('product/career-services', [
             'categories' => $categories,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Career Services' => '/career-services'
-            ]
+            ],
+            'is_blocked' => $is_blocked
         ]);
     }
 
@@ -489,6 +498,29 @@ class ProductController extends Controller
                 "{$product->name}" => "/career-services/{$product->id}"
             ]
         ]);
+    }
+
+    /**
+     * Actual scheduling is handled by Calend.ly embed. 
+     * This records a career service purchase as being scheduled on our side.
+     */ 
+    public function scheduleCareerService($id)
+    {
+        $career_service_transaction = Transaction::find($id);
+
+        if (!$career_service_transaction) {
+            Log::error('Career service transaction '.$id.' not found.');
+            return;
+        }
+
+        if ($career_service_transaction->user_id != Auth::user()->id) {
+            Log::error('Transaction '.$id.' does not match user '.Auth::user()->id);
+            return;
+        }
+
+        $career_service_transaction->scheduled_flag=1;
+        $career_service_transaction->save();
+        return;
     }
 
     public function webinars(Request $request)

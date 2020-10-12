@@ -16,6 +16,7 @@
         @include('layouts.components.messages')
         @include('layouts.components.errors')
     </div>
+    <p class="center-align sbs-red-text">Note: Clubhouse Pro members can book one free career service every two weeks.</p>
     @foreach ($categories as $category => $products)
         @if (!empty($products))
             <div class="row" style="margin-top:20px;">
@@ -30,7 +31,7 @@
             <div class="row career-service-slider">
                 @foreach ($products as $product)
                     <div class="career-service-slide" id="service-{{$product->id}}">
-                        @include('product.career-services.components.list-item', ['product' => $product])
+                        @include('product.career-services.components.list-item', ['product' => $product, 'is_blocked' => $is_blocked])
                     </div>
                 @endforeach
             </div>

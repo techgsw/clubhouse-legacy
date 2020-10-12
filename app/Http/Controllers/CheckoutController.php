@@ -77,7 +77,14 @@ class CheckoutController extends Controller
         }
 
         if (in_array('career-service', array_column($product_option->product->tags->toArray(), 'slug'))) {
-            if ($user->can('view-clubhouse')) {
+            $is_blocked = false;
+            if (Auth::user() && Auth::user()->can('view-clubhouse') && Auth::user()->cannot('view-admin-dashboard')) {
+                $is_blocked = Transaction::whereHas('productOptions.product.tags', function ($query) {
+                    $query->where('name', 'Career Service');
+                })->where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P14D')))
+                  ->where('user_id', Auth::user()->id)->count() > 0;
+            }
+            if ($user->can('view-clubhouse') && !$is_blocked) {
                 try {
 
                     $response = DB::transaction(function () use ($product_option, $user) {
@@ -100,12 +107,16 @@ class CheckoutController extends Controller
 
                         try {
                             EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, 0, 'career-service');
-                            Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                            Mail::to($user)->send(new UserPaidCareerService($user, $product_option, $transaction->id));
                         } catch (Exception $e) {
                             Log::error($e);
                         }
 
-                        return array('type' => 'career-service', 'product_option_id' => $product_option->id);
+                        return array(
+                            'type' => 'career-service', 
+                            'product_option_id' => $product_option->id, 
+                            'transaction_id' => $transaction->id
+                        );
                     });
 
                     return redirect()->action('CheckoutController@thanks', $response);
@@ -353,9 +364,9 @@ class CheckoutController extends Controller
                                 try {
                                     EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, $order->amount, 'career-service');
                                     Mail::to($user)->send(new UserPaid($user, $product_option, $order->amount));
-                                    Mail::to($user)->send(new UserPaidCareerService($user, $product_option));
+                                    Mail::to($user)->send(new UserPaidCareerService($user, $product_option, $transaction->id));
                                 } catch (\Exception $e) {
-                                    Log::error($e->getMessage());
+                                    Log::error($e);
                                 }
                                 $checkout_type = 'career-service';
                                 break;
@@ -405,7 +416,11 @@ class CheckoutController extends Controller
                     return false;
                 }
 
-                return array('type' => $checkout_type, 'product_option_id' => $product_option->id);
+                return array(
+                    'type' => $checkout_type, 
+                    'product_option_id' => $product_option->id,
+                    'transaction_id' => $transaction->id
+                );
             });
             
             if ($response == false) {
@@ -541,6 +556,8 @@ class CheckoutController extends Controller
 
         $product_option = ProductOption::with('product')->find($request['product_option_id']);
 
+        $transaction = null;
+
         $breadcrumb = array(
             'Clubhouse' => '/',
             'Checkout' => '',
@@ -550,6 +567,7 @@ class CheckoutController extends Controller
             case 'career-service':
                 $view = 'career-service-thanks';
                 $breadcrumb['Career Service'] = '/career-services';
+                $transaction = Transaction::find($request['transaction_id']);
                 break;
             case 'webinar':
                 $view = 'webinar-thanks';
@@ -593,7 +611,8 @@ class CheckoutController extends Controller
 
         return view('checkout/'.$view, [
             'breadcrumb' => $breadcrumb, 
-            'product_option' => $product_option
+            'product_option' => $product_option,
+            'transaction' => $transaction
         ]);
     }
 }

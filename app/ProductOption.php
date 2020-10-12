@@ -47,4 +47,11 @@ class ProductOption extends Model
         }
         return $url;
     }
+
+    public function getCalendlyLink()
+    {
+        preg_match('/calendly-link=.+?(?=(\s|$))/i', $this->description, $results);
+
+        return ((count($results) > 0) ? preg_replace('/calendly-link=/i', '', $results[0]) : null);
+    }
 }

@@ -90,11 +90,7 @@
                     <div class="row hide-on-med-and-up center-align">
                         <div class="col s12">
                             @if ($product_option->price > 0)
-                                @can ('view-clubhouse')
-                                    <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
-                                @else
-                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ($product_option->price == 7.0 ? ' / Month' : '/ Year') : '') }}</span></h4>
-                                @endcan
+                                <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ($product_option->price == 7.0 ? ' / Month' : '/ Year') : '') }}</span></h4>
                             @else
                                 <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
                             @endif
@@ -118,11 +114,7 @@
                         </div>
                         <div class="col s2">
                             @if ($product_option->price > 0)
-                                @can ('view-clubhouse')
-                                    <h4><strong>{{ money_format('%.2n', round($product_option->price / 2)) }}</strong></h4>
-                                @else
-                                    <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ($product_option->price == 7.0 ? ' / Month' : '/ Year') : '') }}</span></h4>
-                                @endcan
+                                <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong><span>{{ ($product_type == 'membership' ? ($product_option->price == 7.0 ? ' / Month' : '/ Year') : '') }}</span></h4>
                             @else
                                 <h4><strong>{{ money_format('%.2n', $product_option->price) }}</strong></h4>
                             @endif

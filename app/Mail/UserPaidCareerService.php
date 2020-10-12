@@ -15,16 +15,18 @@ class UserPaidCareerService extends Mailable
 
     public $user;
     public $product_option;
+    public $transaction_id;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, ProductOption $product_option)
+    public function __construct(User $user, ProductOption $product_option, $transaction_id)
     {
         $this->user = $user;
         $this->product_option = $product_option;
+        $this->transaction_id = $transaction_id;
     }
 
     /**
