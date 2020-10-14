@@ -52,8 +52,12 @@ class Mentor extends Model
 
         $league_abbreviation = $request->league;
         if (!empty($league_abbreviation)) {
-            $query->whereHas('contact.organizations.leagues', function($league_query) use ($league_abbreviation) {
-                $league_query->where('league.abbreviation', $league_abbreviation);
+            $query->where(function($league_query) use ($league_abbreviation) {
+                $league_query->whereHas('contact.organizations.leagues', function($organization_with_league_query) use ($league_abbreviation) {
+                    $organization_with_league_query->where('league.abbreviation', $league_abbreviation);
+                })->orWhereHas('contact.organizations.league', function($league_organization_query) use ($league_abbreviation) {
+                    $league_organization_query->where('abbreviation', $league_abbreviation);
+                });
             });
         }
 
