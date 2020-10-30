@@ -91,6 +91,12 @@ class Kernel extends ConsoleKernel
             $start->setTime(3,0,0);
             StripeServiceProvider::updateSubscriptionStatusesSince($start);
         })->dailyAt('3:00');
+
+        $schedule->call(function () {
+            $since = new \DateTime('first day of previous month');
+            $since->setTime(9,0,0);
+            EmailServiceProvider::sendMentorshipFollowupEmails($since);
+        })->monthlyOn(1, '9:00');
     }
 
     /**

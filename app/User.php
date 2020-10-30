@@ -85,6 +85,11 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
+    public function mentorRequests()
+    {
+        return $this->hasMany(MentorRequest::class);
+    }
+
     public function hasAccess($resource_code)
     {
         $roles = $this->roles;
