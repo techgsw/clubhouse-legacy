@@ -29,6 +29,11 @@ class Mentor extends Model
         return $this->belongsToMany(Tag::class, 'mentor_tag');
     }
 
+    public function mentorRequests()
+    {
+        return $this->hasMany(MentorRequest::class);
+    }
+
     // Scopes
     public function scopeSearch($query, $request)
     {

@@ -16,9 +16,12 @@ use App\User;
 use App\ProductOption;
 use App\Mail\ClubhouseFollowUp;
 use App\Mail\PurchaseNotification;
+use App\Mail\MenteeFollowUp;
+use App\Mail\MentorFollowUp;
 use App\Mail\NewUserFollowUp;
 use App\Mail\UserPostJobFollowUp;
 use App\Mail\Admin\InquirySummary;
+use App\Mail\Admin\MonthlyMentorReport;
 use App\Mail\Admin\RegistrationNotification;
 use App\Mail\Admin\RegistrationSummary;
 use App\Mail\Admin\UserJobPostNotification;
@@ -261,6 +264,43 @@ class EmailServiceProvider extends ServiceProvider
                 }
             }
         }
+    }
+
+    public static function sendMentorshipFollowupEmails($date_since)
+    {
+        $days_since = (new \DateTime('now'))->diff($date_since)->format("%a");
+
+        $mentors = Mentor::with([
+            'contact', 
+            'mentorRequests' => function($query) use ($date_since) {
+                $query->where('created_at', '>', $date_since);
+            },
+            'mentorRequests.mentee'
+        ])->whereHas('mentorRequests', function($query) use ($date_since) {
+            $query->where('created_at', '>', $date_since);
+        })->get();
+
+        foreach ($mentors as $mentor) {
+            Mail::to($mentor->contact->email)->send(new MentorFollowup($mentor, $days_since));
+        }
+
+        $mentees = User::with([
+            'mentorRequests' => function($query) use ($date_since) {
+                $query->where('created_at', '>', $date_since);
+            },
+            'mentorRequests.mentor.contact'
+        ])->whereHas('mentorRequests', function($query) use ($date_since) {
+            $query->where('created_at', '>', $date_since);
+        })->get();
+
+        $total_requests = 0;
+
+        foreach ($mentees as $mentee) {
+            $total_requests += count($mentee->mentorRequests);
+            Mail::to($mentee)->send(new MenteeFollowUp($mentee, $days_since));
+        }
+
+        Mail::to('bob@sportsbusiness.solutions')->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
     }
 
     public static function addToMailchimp(User $user)
