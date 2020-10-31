@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
         Commands\GenerateInstagramToken::class,
         Commands\UploadOrganizations::class,
         Commands\LinkAccountsMatchingContactInfo::class,
+        Commands\CheckInvalidMentorCalendlyLinks::class,
     ];
 
     /**
@@ -97,6 +98,8 @@ class Kernel extends ConsoleKernel
             $since->setTime(9,0,0);
             EmailServiceProvider::sendMentorshipFollowupEmails($since);
         })->monthlyOn(1, '9:00');
+
+        $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('1:00');
     }
 
     /**

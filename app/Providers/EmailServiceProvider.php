@@ -21,6 +21,7 @@ use App\Mail\MentorFollowUp;
 use App\Mail\NewUserFollowUp;
 use App\Mail\UserPostJobFollowUp;
 use App\Mail\Admin\InquirySummary;
+use App\Mail\Admin\InvalidMentorCalendlyLinkNotification;
 use App\Mail\Admin\MonthlyMentorReport;
 use App\Mail\Admin\RegistrationNotification;
 use App\Mail\Admin\RegistrationSummary;
@@ -301,6 +302,11 @@ class EmailServiceProvider extends ServiceProvider
         }
 
         Mail::to('bob@sportsbusiness.solutions')->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
+    }
+
+    public static function sendInvalidMentorCalendlyLinkNotification($mentors)
+    {
+        Mail::to('bob@sportsbusiness.solutions')->send(new InvalidMentorCalendlyLinkNotification($mentors));
     }
 
     public static function addToMailchimp(User $user)
