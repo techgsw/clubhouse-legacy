@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 
 class Mentor extends Model
@@ -86,5 +87,32 @@ class Mentor extends Model
             }
         }
         return null;
+    }
+
+    public function isCalendlyLinkValid()
+    {
+        $ch = curl_init($this->calendly_link);
+        $headers = [
+            "Cache-Control: no-cache"
+        ];
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        try {
+            $data = curl_exec($ch);
+        } catch (\Exception $e) {
+            Log::error('Error running curl for mentor calendly link: '.$this->calendly_link);
+            Log::error($e);
+            curl_close($ch);
+            return false;
+        }
+        curl_close($ch);
+
+        if ($data) {
+            return strpos($data, 'is not valid') === false;
+        } else {
+            Log::error('No data when running curl for mentor calendly link: '.$this->calendly_link);
+            return false;
+        }
     }
 }

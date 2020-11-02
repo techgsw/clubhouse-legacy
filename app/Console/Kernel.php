@@ -6,6 +6,7 @@ use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
 use App\Providers\JobServiceProvider;
 use App\Providers\StripeServiceProvider;
+use Commands\CheckInvalidMentorCalendlyLinks;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +32,7 @@ class Kernel extends ConsoleKernel
         Commands\GenerateInstagramToken::class,
         Commands\UploadOrganizations::class,
         Commands\LinkAccountsMatchingContactInfo::class,
+        Commands\CheckInvalidMentorCalendlyLinks::class,
     ];
 
     /**
@@ -97,6 +99,8 @@ class Kernel extends ConsoleKernel
             $since->setTime(9,0,0);
             EmailServiceProvider::sendMentorshipFollowupEmails($since);
         })->monthlyOn(1, '9:00');
+
+        $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('8:00');
     }
 
     /**
