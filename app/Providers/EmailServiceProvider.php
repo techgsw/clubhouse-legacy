@@ -301,6 +301,14 @@ class EmailServiceProvider extends ServiceProvider
             Mail::to($mentee)->send(new MenteeFollowUp($mentee, $days_since));
         }
 
+        $mentors = $mentors->sortByDesc(function ($mentor, $key) {
+            return count($mentor->mentorRequests);
+        });
+
+        $mentees = $mentees->sortByDesc(function ($mentee, $key) {
+            return count($mentee->mentorRequests);
+        });
+
         Mail::to('bob@sportsbusiness.solutions')->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
     }
 
