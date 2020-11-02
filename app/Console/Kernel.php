@@ -100,7 +100,7 @@ class Kernel extends ConsoleKernel
             EmailServiceProvider::sendMentorshipFollowupEmails($since);
         })->monthlyOn(1, '9:00');
 
-        $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('1:00');
+        $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('8:00');
     }
 
     /**
