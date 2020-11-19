@@ -63,7 +63,7 @@
     $('body').on(
         {
             click: function() {
-                if (window.confirm('Are you sure you want to cancel?')) {
+                if (window.confirm('Are you sure you want to cancel at the end of the billing cycle?')) {
                     $(this).attr('disabled', true);
                     var csrf = $(this).parents('div').find('input[name="_token"]').val();
                     $.ajax({
@@ -85,6 +85,31 @@
             }
         },
         '#cancel-subscription-button'
+    );
+
+    $('body').on(
+        {
+            click: function() {
+                $(this).attr('disabled', true);
+                var csrf = $(this).parents('div').find('input[name="_token"]').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/checkout/reactivate-subscription',
+                    data: { 
+                        subscription_id: $(this).data('subscription-id'),
+                        _token: csrf
+                    }
+                }).done(function (response) {
+                    if (response.type == 'success') {
+                        location.reload()
+                    } else {
+                        window.alert("Sorry, there was an error reactivating your subscription. Please make sure your card settings are up to date or contact clubhouse@sportsbusiness.solutions for help.")
+                    }
+                    $(this).attr('disabled', false);
+                });
+            }
+        },
+        '#reactivate-subscription-button'
     );
 
     $('body').on(

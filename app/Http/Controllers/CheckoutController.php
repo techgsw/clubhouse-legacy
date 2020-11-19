@@ -524,12 +524,6 @@ class CheckoutController extends Controller
             } catch (Exception $e) {
                 Log::error($e);
             }
-
-            // Remove clubhouse role from user
-            $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $user->id)))->first();
-            if ($role) {
-                $role->delete();
-            }
         } Catch (\Stripe\Error\Base $e) {
             Log::error($e);
             return response()->json([
@@ -542,6 +536,32 @@ class CheckoutController extends Controller
             ]);
         } Catch (Exception $e) {
             // not a stripe error, cancel was successful. user doesn't need to know about these errors.
+            Log::error($e);
+        }
+
+        return response()->json([
+            'type' => 'success',
+        ]);
+    }
+
+    public function reactivateSubscription(Request $request)
+    {
+        $user = Auth::user();
+
+        try {
+            StripeServiceProvider::reactivateUserSubscription($user, $request['subscription_id']);
+        } Catch (\Stripe\Error\Base $e) {
+            Log::error($e);
+            return response()->json([
+                'type' => 'failure',
+            ]);
+        } Catch (SBSException $e) {
+            Log::error($e);
+            return response()->json([
+                'type' => 'failure',
+            ]);
+        } Catch (Exception $e) {
+            // not a stripe error, reactivate was successful. user doesn't need to know about these errors.
             Log::error($e);
         }
 

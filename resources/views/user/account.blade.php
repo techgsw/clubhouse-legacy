@@ -43,8 +43,8 @@
                         <tr>
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
                             <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / {{ $value->items->data[0]->plan->amount < 7000 ? 'Month' : 'Year' }}</td>
-                            <td>{{ $next_bill }}</td>
-                            <td><a class="flat-button black" id="cancel-subscription-button" data-subscription-id="{{ $value->id }}">Cancel</a></td>
+                            <td>{{ $value->cancel_at_period_end ? 'N/A, cancels on ' : '' }}{{ $next_bill }}</td>
+                            <td><button class="flat-button black" id="{{ $value->cancel_at_period_end ? 'reactivate-subscription-button' : 'cancel-subscription-button' }}" data-subscription-id="{{ $value->id }}">{{ $value->cancel_at_period_end ? 'Reactivate' : 'Cancel' }}</button></td>
                         </tr>
                     @endforeach
                 </table>

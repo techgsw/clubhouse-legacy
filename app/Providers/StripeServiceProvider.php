@@ -260,6 +260,9 @@ class StripeServiceProvider extends ServiceProvider
         return $stripe_subscription;
     }
 
+    /**
+     * Mark a user's clubhouse subscription to cancel at the end of the billing period
+     */
     public static function cancelUserSubscription(User $user, string $subscription_id)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
@@ -269,18 +272,32 @@ class StripeServiceProvider extends ServiceProvider
         if (!is_null($subscription) && !is_null($subscription->customer) && !is_null($user->stripe_customer_id)
             && $subscription->customer == $user->stripe_customer_id
         ) {
-            $subscription->cancel();
+            $subscription->cancel_at_period_end = true;
+            $subscription->save();
         } else {
             throw new SBSException('Subscription customer ID '.$subscription->customer.' for '.$subscription_id
                 .' does not match user stripe ID '.$user->stripe_customer_id.' , or there are null values.');
         }
-        try {
-            Transaction::where('stripe_subscription_id', $subscription_id)->update(['subscription_active_flag' => 0]);
-        } catch (\Throwable $t) {
-            // not critical, the cron job in the morning should correctly update this
-            Log::warn($t);
-        }
+    }
 
+    /**
+     * Reactivate a clubhouse subscription that has been marked to cancel at the end of the billing cycle
+     */
+    public static function reactivateUserSubscription(User $user, string $subscription_id)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+
+        $subscription = Stripe\Subscription::retrieve($subscription_id);
+
+        if (!is_null($subscription) && !is_null($subscription->customer) && !is_null($user->stripe_customer_id)
+            && $subscription->customer == $user->stripe_customer_id
+        ) {
+            $subscription->cancel_at_period_end = false;
+            $subscription->save();
+        } else {
+            throw new SBSException('Subscription customer ID '.$subscription->customer.' for '.$subscription_id
+                .' does not match user stripe ID '.$user->stripe_customer_id.' , or there are null values.');
+        }
     }
 
     public static function purchaseSku(User $user, string $source_token, string $sku_id)
@@ -398,18 +415,15 @@ class StripeServiceProvider extends ServiceProvider
 
         // Stripe returns events in descending date order. We want to update transactions in the order the events happened.
         foreach (array_reverse($subscription_events->data) as $subscription_event) {
-            if ($subscription_event->type == 'customer.subscription.deleted' || in_array($subscription_event->data->object->status, ['unpaid', 'incomplete-expired', 'cancelled'])) {
+            if ($subscription_event->type == 'customer.subscription.deleted' || in_array($subscription_event->data->object->status, ['unpaid', 'incomplete_expired', 'cancelled'])) {
                 Transaction::where('stripe_subscription_id', $subscription_event->data->object->id)
                     ->update(['subscription_active_flag' => 0]);
-                Log::info('Subscription '.$subscription_event->data->object->id.' deactivated');
-                if (in_array($subscription_event->data->object->status, ['unpaid', 'incomplete-expired'])) {
-                    $delinquent_user = User::where('stripe_customer_id', $subscription_event->data->object->customer)->first();
-                    $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $delinquent_user->id)))->first();
-                    if ($role) {
-                        $role->delete();
-                    }
-                    Log::info('Clubhouse role for user '.$delinquent_user->id.' deleted');
+                $cancelled_user = User::where('stripe_customer_id', $subscription_event->data->object->customer)->first();
+                $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $cancelled_user->id)))->first();
+                if ($role) {
+                    $role->delete();
                 }
+                Log::info('Subscription '.$subscription_event->data->object->id.' deactivated. Clubhouse role for user '.$cancelled_user->id.' deleted');
             } else if ($subscription_event->type == 'customer.subscription.updated' && $subscription_event->data->object->status == 'active') {
                 Log::info('Subscription '.$subscription_event->data->object->id.' activated');
                 Transaction::where('stripe_subscription_id', $subscription_event->data->object->id)
