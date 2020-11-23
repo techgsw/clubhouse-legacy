@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Exceptions\SBSException;
 use App\Product;
 use App\ProductOption;
+use App\RoleUser;
 use App\Transaction;
 use App\User;
 use Illuminate\Support\ServiceProvider;

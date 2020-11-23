@@ -12,10 +12,16 @@
         <div style="padding-bottom: 20px;" class="input-field col s12 m6">
             <div id="cc-number-wrapper"></div>
         </div>
-        <div style="padding-bottom: 20px;" class="input-field col s6 m3 l2 center-align">
+        @if (isset($make_primary_option) && $make_primary_option)
+            <div style="padding-bottom: 20px; margin-top:0px" class="input-field col s12 m2">
+                <input type="checkbox" name="make_primary" id="make_primary" value="1" checked/>
+                <label for="make_primary">Make this my primary card</label>
+            </div>
+        @endif
+        <div style="padding-bottom: 20px;" class="input-field col s6 m2 l2 center-align">
             <button type="submit" class="btn btn-medium sbs-red new-cc-button">Save</button>
         </div>
-        <div style="padding-bottom: 20px;" class="input-field col s6 m3 l2 center-align">
+        <div style="padding-bottom: 20px;" class="input-field col s6 m2 l2 center-align">
             <button id="cancel-cc-button" type="button" class="btn btn-medium blue-grey darken-1">Cancel</button>
         </div>
     </div>

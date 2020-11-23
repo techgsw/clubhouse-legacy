@@ -51,12 +51,12 @@ class LoginController extends Controller
             if (!is_null($stripe_user)) {
                 if ($stripe_user->delinquent) {
                     //TODO: need to test and confirm that updating the card settings removes delinquent status
-                    //Session::flash('message', new Message(
-                    //    "Your last Clubhouse Pro invoice payment failed. Please update your card settings on your account page.",
-                    //    "danger",
-                    //    $code = null
-                    //));
-                }
+                    Session::flash('message', new Message(
+                        'Your last Clubhouse Pro invoice payment failed. Please update your card settings on your account page.',
+                        "danger",
+                        $code = null
+                    ));
+                } 
             }
         }
 

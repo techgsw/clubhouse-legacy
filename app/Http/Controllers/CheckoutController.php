@@ -460,7 +460,17 @@ class CheckoutController extends Controller
                 $stripe_customer = StripeServiceProvider::getCustomer($user);
             }
 
-            $stripe_customer->sources->create(array('source' => $request['stripe_token']));
+            if ($request['make_primary']) {
+                // stripe allows failed invoices to be repaid if the "soruce" attribute is set in an update
+                // note that this will delete the existing default payment instead of just making it not the default
+                $stripe_customer->source = $request['stripe_token'];
+                $stripe_customer->save();
+                // if the user has failed invoice payments, we want to give stripe a couple of seconds to retry
+                // before we redirect back to the account page
+                sleep(7);
+            } else {
+                $stripe_customer->sources->create(array('source' => $request['stripe_token']));
+            }
             $stripe_customer = StripeServiceProvider::getCustomer($user);
 
             return response()->json([
@@ -505,8 +515,13 @@ class CheckoutController extends Controller
             $stripe_customer->save();
         } Catch (Exception $e) {
             Log::error($e);
+            $request->session()->flash('message', new Message(
+                "There was an error making your card the primary card. Please contact clubhouse@sportsbusiness.solutions for assistance",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
         }
-
         return response()->json([
             'type' => 'success'
         ]);

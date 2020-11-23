@@ -40,10 +40,14 @@
                     </thead>
                     @foreach ($stripe_user->subscriptions->data as $key => $value)
                         @php $next_bill = date('m/d/Y', $value->current_period_end); @endphp
-                        <tr>
+                        <tr style="{{$value->status == 'past_due' ? 'color:#EB2935' : ''}}">
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
                             <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / {{ $value->items->data[0]->plan->amount < 7000 ? 'Month' : 'Year' }}</td>
-                            <td>{{ $value->cancel_at_period_end ? 'N/A, cancels on ' : '' }}{{ $next_bill }}</td>
+                            @if ($value->status == 'past_due')
+                                <td><span class="tooltipped" data-tooltip="There was an issue charging your card for this subscription. Please try adding another card and making it primary or contact clubhouse@sportsbusiness.solutions for assistance">{{ $next_bill }}<br><b>PAST DUE</b><i class="icon-right fa fa-info-circle" aria-hidden="true"</i></span></td>
+                            @else 
+                                <td>{{ $value->cancel_at_period_end ? 'N/A, cancels on ' : '' }}{{ $next_bill }}</td>
+                            @endif
                             <td><button class="flat-button black" id="{{ $value->cancel_at_period_end ? 'reactivate-subscription-button' : 'cancel-subscription-button' }}" data-subscription-id="{{ $value->id }}">{{ $value->cancel_at_period_end ? 'Reactivate' : 'Cancel' }}</button></td>
                         </tr>
                     @endforeach
@@ -77,7 +81,7 @@
                         @php
                             $card_icon = ((array_key_exists($value->brand, $cc)) ? $cc[$value->brand] : 'credit-card');
                         @endphp
-                        <tr {{(!empty($value->status) && $value->status != 'chargeable') ? 'style="color:#EB2935"' : '' }}>
+                        <tr style="{{(!empty($value->status) && $value->status != 'chargeable') ? 'color:#EB2935' : '' }}">
                             <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value->last4 }}</td>
                             <td>{{ str_pad($value->exp_month, 2, '0', STR_PAD_LEFT) }} / {{ $value->exp_year }}</td>
                             @if ($stripe_user->default_source == $value->id)
@@ -105,7 +109,7 @@
     <div class="row">
         <div class="col s12">
             <div class="cc-form user-account-page scale-transition scale-out hidden">
-                @include('forms.add-card')
+                @include('forms.add-card', ['make_primary_option' => true])
             </div>
             <div class="row hidden" id="card-waiting">
                 <div class="row valign-wrapper">
