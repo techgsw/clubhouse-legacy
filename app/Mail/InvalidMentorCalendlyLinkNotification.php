@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\Admin;
+namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -10,16 +10,16 @@ class InvalidMentorCalendlyLinkNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $mentors;
+    public $mentor;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($mentors)
+    public function __construct($mentor)
     {
-        $this->mentors = $mentors;
+        $this->mentor = $mentor;
     }
 
     /**
@@ -29,10 +29,11 @@ class InvalidMentorCalendlyLinkNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
-            ->subject('Invalid Calend.ly links found for mentors - theClubhouse')
-            ->markdown('emails.internal.invalid-mentor-calendly-link');
+        return $this->from('clubhouse@sportsbusiness.solutions')
+            ->subject('Your Mentor Calend.ly link appears to be invalid')
+            ->markdown('emails.mentor.invalid-calendly-link');
     }
 }
+
 
 

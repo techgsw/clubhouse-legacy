@@ -66,7 +66,7 @@
                             <a class="small flat-button red" href="/pro-membership">Become a Clubhouse Pro</a>
                         @endif
                     @endcan
-                    @can ('edit-mentor')
+                    @if (Auth::user()->can('edit-mentor') || Auth::user()->contact->id == $mentor->contact->id)
                         <a href="/contact/{{ $mentor->contact->id }}/mentor" style="margin: 2px;" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
                     @endcan
                 </div>

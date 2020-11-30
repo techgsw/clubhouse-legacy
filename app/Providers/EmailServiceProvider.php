@@ -15,13 +15,14 @@ use App\Organization;
 use App\User;
 use App\ProductOption;
 use App\Mail\ClubhouseFollowUp;
+use App\Mail\InvalidMentorCalendlyLinkNotification;
 use App\Mail\PurchaseNotification;
 use App\Mail\MenteeFollowUp;
 use App\Mail\MentorFollowUp;
 use App\Mail\NewUserFollowUp;
 use App\Mail\UserPostJobFollowUp;
 use App\Mail\Admin\InquirySummary;
-use App\Mail\Admin\InvalidMentorCalendlyLinkNotification;
+use App\Mail\Admin\InvalidMentorCalendlyLinkSummary;
 use App\Mail\Admin\MonthlyMentorReport;
 use App\Mail\Admin\RegistrationNotification;
 use App\Mail\Admin\RegistrationSummary;
@@ -314,7 +315,11 @@ class EmailServiceProvider extends ServiceProvider
 
     public static function sendInvalidMentorCalendlyLinkNotification($mentors)
     {
-        Mail::to('bob@sportsbusiness.solutions')->send(new InvalidMentorCalendlyLinkNotification($mentors));
+        foreach ($mentors as $mentor) {
+            Mail::to($mentor->contact->email)->send(new InvalidMentorCalendlyLinkNotification($mentor));
+        }
+
+        Mail::to('bob@sportsbusiness.solutions')->send(new InvalidMentorCalendlyLinkSummary($mentors));
     }
 
     public static function addToMailchimp(User $user)
