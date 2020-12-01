@@ -71,7 +71,11 @@ class MentorController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $this->authorize('edit-mentor');
+        $current_user_contact = Contact::with('mentor')->find(Auth::user()->contact->id);
+
+        if (!$current_user_contact->mentor || $current_user_contact->id != $id) {
+            $this->authorize('edit-mentor');
+        }
 
         $contact = Contact::with('mentor')->find($id);
         if (!$contact || !$contact->mentor) {
@@ -97,7 +101,25 @@ class MentorController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->authorize('edit-mentor');
+        $current_user_contact = Contact::with('mentor')->find(Auth::user()->contact->id);
+
+        $edited_by_mentor = false;
+        if (!$current_user_contact->mentor || $current_user_contact->mentor->id != $id) {
+            $this->authorize('edit-mentor');
+        } else {
+            $edited_by_mentor = true;
+        }
+
+        $tag_json = request('mentor_tags_json');
+        $tag_names = json_decode($tag_json);
+        if (count($tag_names) > 4) {
+            $request->flash();
+            $request->session()->flash('message', new Message(
+                "Mentors cannot have more than four tags attached to them",
+                "danger"
+            ));
+            return redirect()->back();
+        }
 
         $mentor = Mentor::find($id);
         if (!$mentor) {
@@ -142,18 +164,18 @@ class MentorController extends Controller
             }
         }
 
-        $tag_json = request('mentor_tags_json');
-        $tag_names = json_decode($tag_json);
         $mentor->tags()->sync($tag_names);
         $mentor->description = request('description') ?: "";
-        $mentor->active = request('active') === '1';
-        $mentor->timezone = request('timezone') ?: "";
-        $mentor->day_preference_1 = request('day_preference_1') ?: "";
-        $mentor->time_preference_1 = request('time_preference_1') ?: "";
-        $mentor->day_preference_2 = request('day_preference_2') ?: "";
-        $mentor->time_preference_2 = request('time_preference_2') ?: "";
-        $mentor->day_preference_3 = request('day_preference_3') ?: "";
-        $mentor->time_preference_3 = request('time_preference_3') ?: "";
+        if (!$edited_by_mentor) {
+            $mentor->active = request('active') === '1';
+            $mentor->timezone = request('timezone') ?: "";
+            $mentor->day_preference_1 = request('day_preference_1') ?: "";
+            $mentor->time_preference_1 = request('time_preference_1') ?: "";
+            $mentor->day_preference_2 = request('day_preference_2') ?: "";
+            $mentor->time_preference_2 = request('time_preference_2') ?: "";
+            $mentor->day_preference_3 = request('day_preference_3') ?: "";
+            $mentor->time_preference_3 = request('time_preference_3') ?: "";
+        }
         $mentor->calendly_link = request('calendly_link') ?: "";
         $mentor->save();
 

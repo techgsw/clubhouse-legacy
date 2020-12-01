@@ -1026,6 +1026,14 @@ $.valHooks.textarea = {
         });
     }
 
+    Tag.getMentorOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/tag/mentors',
+            'data': {}
+        });
+    }
+
     Tag.getTrainingVideoOptions = function () {
         return $.ajax({
             'type': 'GET',
@@ -1086,6 +1094,10 @@ $.valHooks.textarea = {
                     });
                 } else if (tag_autocomplete.hasClass('training-videos')) {
                     Tag.getTrainingVideoOptions().done( function(data) {
+                        Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
+                    });
+                } else if (tag_autocomplete.hasClass('mentors')) {
+                    Tag.getMentorOptions().done( function(data) {
                         Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
                     });
                 } else {
