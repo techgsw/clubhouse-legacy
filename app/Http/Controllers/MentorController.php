@@ -71,9 +71,11 @@ class MentorController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $current_user_contact = Contact::with('mentor')->find(Auth::user()->contact->id);
+        if (Auth::user()) {
+            $current_user_contact = Contact::with('mentor')->find(Auth::user()->contact->id);
+        }
 
-        if (!$current_user_contact->mentor || $current_user_contact->id != $id) {
+        if (!isset($current_user_contact) || !$current_user_contact->mentor || $current_user_contact->id != $id) {
             $this->authorize('edit-mentor');
         }
 
@@ -101,10 +103,12 @@ class MentorController extends Controller
 
     public function update(Request $request, $id)
     {
-        $current_user_contact = Contact::with('mentor')->find(Auth::user()->contact->id);
+        if (Auth::user()) {
+            $current_user_contact = Contact::with('mentor')->find(Auth::user()->contact->id);
+        }
 
         $edited_by_mentor = false;
-        if (!$current_user_contact->mentor || $current_user_contact->mentor->id != $id) {
+        if (!isset($current_user_contact) || !$current_user_contact->mentor || $current_user_contact->mentor->id != $id) {
             $this->authorize('edit-mentor');
         } else {
             $edited_by_mentor = true;

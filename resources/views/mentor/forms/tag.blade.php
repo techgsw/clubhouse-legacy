@@ -6,7 +6,7 @@ Place this in the mentor form:
     {{ csrf_field() }}
     <div class="row">
         <div class="col">
-            <label for="tag-autocomplete-input">Tags{{ Auth::user()->can('edit-mentor') ? '' : ' (Select an exiting tag by typing in the name)' }}</label>
+            <label for="tag-autocomplete-input">Tags{{ Auth::user() && Auth::user()->can('edit-mentor') ? '' : ' (Select an exiting tag by typing in the name)' }}</label>
             <input type="text" id="tag-autocomplete-input" class="tag-autocomplete mentors" target-input-id="mentor-tags-json" target-view-id="mentor-tags">
         </div>
         <div id="mentor-tags" class="col mentor-tags" style="padding-top: 20px;">
