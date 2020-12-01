@@ -21,6 +21,7 @@ use App\Mail\MenteeFollowUp;
 use App\Mail\MentorFollowUp;
 use App\Mail\NewUserFollowUp;
 use App\Mail\UserPostJobFollowUp;
+use App\Mail\Admin\FailedInstagramRefreshNotification;
 use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\InvalidMentorCalendlyLinkSummary;
 use App\Mail\Admin\MonthlyMentorReport;
@@ -320,6 +321,11 @@ class EmailServiceProvider extends ServiceProvider
         }
 
         Mail::to('bob@sportsbusiness.solutions')->send(new InvalidMentorCalendlyLinkSummary($mentors));
+    }
+
+    public static function sendFailedInstagramRefreshNotification($exception, $env_name)
+    {
+        Mail::to('developer@whale.enterprises')->send(new FailedInstagramRefreshNotification($exception, $env_name));
     }
 
     public static function addToMailchimp(User $user)
