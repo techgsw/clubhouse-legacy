@@ -49,7 +49,6 @@ class SocialMediaServiceProvider extends ServiceProvider
             $bio = "We offer sales training, consulting and recruiting services for sports teams and properties throughout the US and Canada. Est. 2014";
             $avatar = env('APP_URL').'/images/sbs_ig_logo.jpg';
         }
-
         // Get feed
         $url = "https://graph.instagram.com/me/media/?fields=media_url,permalink&access_token={$access_token}";
         try {
@@ -60,7 +59,11 @@ class SocialMediaServiceProvider extends ServiceProvider
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
                 $curl_resp = json_decode(curl_exec($ch));
+                if ($curl_resp->error) {
+                    throw new \Exception(json_encode($curl_resp->error));
+                }
                 curl_close($ch);
+
                 return $curl_resp;
             });
 
@@ -95,6 +98,45 @@ class SocialMediaServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
             Log::error($e);
             return;
+        }
+    }
+
+    public static function refreshInstagramToken($access_token, $env_name) {
+        try {
+            $query_params = http_build_query(array(
+                'grant_type' => 'ig_refresh_token',
+                'access_token' => $access_token
+            ));
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://graph.instagram.com/refresh_access_token?$query_params");
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $curl_resp = curl_exec($ch);
+            $json_resp = json_decode($curl_resp);
+            if ($json_resp->error) {
+                throw new \Exception(json_encode($json_resp->error, JSON_PRETTY_PRINT));
+            }
+            curl_close($ch);
+
+            $new_access_token = $json_resp->access_token;
+
+            $env_file = base_path('.env');
+            if (file_exists($env_file)) {
+                $env_file_contents = file_get_contents($env_file);
+                $modified_env_file_contents = str_replace(
+                    $env_name.'='.$access_token,
+                    $env_name.'='.$new_access_token,
+                    $env_file_contents
+                );
+                file_put_contents($env_file, $modified_env_file_contents);
+            } else {
+                throw new \Exception('File '.$env_file.' could not be found');
+            }
+        } catch (\Throwable $t) {
+            Log::error($t);
+            EmailServiceProvider::sendFailedInstagramRefreshNotification($t, $env_name);
         }
     }
 

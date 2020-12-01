@@ -7,6 +7,7 @@ use App\Providers\ImageServiceProvider;
 use App\Providers\JobServiceProvider;
 use App\Providers\StripeServiceProvider;
 use App\Console\Commands\CheckInvalidMentorCalendlyLinks;
+use App\Console\Commands\RefreshInstagramTokens;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
         Commands\UploadOrganizations::class,
         Commands\LinkAccountsMatchingContactInfo::class,
         Commands\CheckInvalidMentorCalendlyLinks::class,
+        Commands\RefreshInstagramTokens::class,
     ];
 
     /**
@@ -101,6 +103,8 @@ class Kernel extends ConsoleKernel
         })->monthlyOn(1, '9:00');
 
         $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('8:00');
+
+        $schedule->command(RefreshInstagramTokens::class)->cron('0 4 1,15 * *');
     }
 
     /**
