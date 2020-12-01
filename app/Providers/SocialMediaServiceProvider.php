@@ -53,13 +53,13 @@ class SocialMediaServiceProvider extends ServiceProvider
         $url = "https://graph.instagram.com/me/media/?fields=media_url,permalink&access_token={$access_token}";
         try {
             // We get rate limited by instagram's Basic Display API. Limiting to one minute per call
-            $response = Cache::remember('insta-'.$context, 5, function() use ($url) {
+            $response = Cache::remember('instagram-'.$context, 5, function() use ($url) {
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
                 $curl_resp = json_decode(curl_exec($ch));
-                if ($curl_resp->error) {
+                if (isset($curl_resp->error) && $curl_resp->error) {
                     throw new \Exception(json_encode($curl_resp->error));
                 }
                 curl_close($ch);
@@ -115,7 +115,7 @@ class SocialMediaServiceProvider extends ServiceProvider
 
             $curl_resp = curl_exec($ch);
             $json_resp = json_decode($curl_resp);
-            if ($json_resp->error) {
+            if (isset($json_resp->error) && $json_resp->error) {
                 throw new \Exception(json_encode($json_resp->error, JSON_PRETTY_PRINT));
             }
             curl_close($ch);
