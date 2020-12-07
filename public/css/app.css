@@ -1061,6 +1061,7 @@ hr {
 }
 .about-cards .about-card {
     flex: 1 0 auto;
+    min-width: 190px;
 }
 
 .card.checkout-card p {

@@ -132,7 +132,7 @@
                                     <li>Access our on-demand Webinar library, with more than 50 hours of content</li>
                                     <li>Enter the Sales Vault – Sales training videos for the sport salesperson</li>
                                     <li>Attend live premium webinars and events</li>
-                                    <li>Receive a free 30-minute career consultation with Bob Hamer, President & Founder of Sports Business Solutions and Creator of <span class="sbs-red-text">the</span>Clubhouse</li>
+                                    <li>Receive a free 30-minute career consultation with Bob Hamer, President & Founder of SBS Consulting and Creator of <span class="sbs-red-text">the</span>Clubhouse</li>
                                 </ul>
                             </div>
                         </div>

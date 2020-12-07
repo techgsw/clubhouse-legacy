@@ -2,13 +2,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title') | Sports Business Solutions</title>
+    <title>@yield('title') | SBS Consulting</title>
     <!-- Twitter Card data -->
     <meta name="twitter:card" value="summary">
-    <meta name="description" content="@yield('description', 'Sports Business Solutions provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
+    <meta name="description" content="@yield('description', 'SBS Consulting provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
     <!-- OPEN GRAPH -->
-    <meta property="og:title" content="@yield('title', 'Sports Business Solutions') | Sports Business Solutions" />
-    <meta property="og:description" content="@yield('description', 'Sports Business Solutions provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
+    <meta property="og:title" content="@yield('title', 'SBS Consulting') | SBS Consulting" />
+    <meta property="og:description" content="@yield('description', 'SBS Consulting provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
     <meta property="og:image" content="@yield('image', url('/').'/images/Share-Sports-Business-Solutions.png')">
     <meta property="og:image:height" content="520">
     <meta property="og:image:width" content="1000">

@@ -35,7 +35,7 @@
         <div class="row gray-bg" style="padding: 30px 30px;">
             <div class="col s12 m6">
                 <h5><strong>What's our why?</strong></h5>
-                <p>This is a collaboration between me (Bob Hamer the President & Founder of Sports Business Solutions) and my great friend and mentor (Eric Kussin, the Founder of the Non Profit We're All a Little "Crazy" and creator of the #SameHere Global Mental Health Movement).</p>
+                <p>This is a collaboration between me (Bob Hamer the President & Founder of SBS Consulting) and my great friend and mentor (Eric Kussin, the Founder of the Non Profit We're All a Little "Crazy" and creator of the #SameHere Global Mental Health Movement).</p>
                 <p>Together we have more than 30 years of experience in sports business. We worked together at the Phoenix Suns and we both have faced mental health challenges. Our vision is to share stories, strategies, and resources in an effort to help others in sports overcome the challenges we all face at some point or another.</p>
             </div>
             <div class="col s6 m3 center-align">
@@ -44,7 +44,7 @@
                     <h5>
                         Bob Hamer
                         <span class="about-position">President & Founder</span>
-                        <span class="about-position sbs-red-text">Sports Business Solutions</span>
+                        <span class="about-position sbs-red-text">SBS Consulting</span>
                     </h5>
                 </a>
             </div>

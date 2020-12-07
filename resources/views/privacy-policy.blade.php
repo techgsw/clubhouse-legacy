@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col s12">
             <h3>Privacy policy</h3>
-            <p><b>Introduction.</b> Sports Business Solutions, LLC, an Arizona limited liability company (”Company” or “We”) respect your privacy and are committed to protecting it through our compliance with this policy.</p>
+            <p><b>Introduction.</b> SBS Consulting, LLC, an Arizona limited liability company (”Company” or “We”) respect your privacy and are committed to protecting it through our compliance with this policy.</p>
             <p>This policy describes the types of information we may collect from you or that you may provide when you visit the website https://sportsbusiness.solutions (our “Website”) and our practices for collecting, using, maintaining, protecting, and disclosing that information.</p>
             <p>This policy applies to information we collect:</p>
             <ul class="browser-default">

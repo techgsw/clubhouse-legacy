@@ -14,7 +14,7 @@
                     @if (is_null($contact_job->job_interest_negative_response))
                         @include('job.forms.negative-feedback')
                     @endif
-                    <p>If you have changed your mind, have any questions about Sports Business Solutions, <span style="color: #EB2935;">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
+                    <p>If you have changed your mind, have any questions about SBS Consulting, <span style="color: #EB2935;">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
                     <br />
                 </div>
             </div>
