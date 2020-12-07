@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <p>The key to success in this industry is the network. At Sports Business Solutions, we feel as if that's one of our strengths. With more than 20 years of combined sports industry experience we have established relationships built with individuals and hiring managers employed with the teams below.</p>
+            <p>The key to success in this industry is the network. At SBS Consulting, we feel as if that's one of our strengths. With more than 20 years of combined sports industry experience we have established relationships built with individuals and hiring managers employed with the teams below.</p>
             <p>As a potential recruiting solution, we feel confident we have the right experience and contacts to find your next sports industry leader. If you're interested in learning about our recruiting solutions click here</p>
             <p>If you're a job seeker interested in getting an introduction to a hiring manager with these teams, click here, fill out a career profile and tell us more about yourself and where you'd like to work in sports.</p>
         </div>

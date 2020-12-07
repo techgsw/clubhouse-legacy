@@ -32,7 +32,7 @@ class UserMigration extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-                    ->subject('Sports Business Solutions Update')
+                    ->subject('SBS Consulting Update')
                     ->markdown('emails.migration.user');
     }
 }

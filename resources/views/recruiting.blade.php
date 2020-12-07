@@ -259,7 +259,7 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Jason has been a great asset in assisting the recruitment for several of our sales positions here with the Cubs. With a thorough process and a strong network, Jason and the Sports Business Solutions team are a joy to work with.</p>
+                                <p>Jason has been a great asset in assisting the recruitment for several of our sales positions here with the Cubs. With a thorough process and a strong network, Jason and the SBS Consulting team are a joy to work with.</p>
                                 <p class="heavy">
                                     Chris Weddige<br/>
                                     Assistant Director, Ticket Sales<br/>
@@ -276,7 +276,7 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>Sports Business Solutions provided us tremendous service while helping to fill the vacant Business Development position on our team. We were not only looking at candidates background and sales experience, but it was important for us to find the right cultural fit for our organization. Jason truly grasp the character of our team and was diligent in providing candidates that fit the bill.</p>
+                                <p>SBS Consulting provided us tremendous service while helping to fill the vacant Business Development position on our team. We were not only looking at candidates background and sales experience, but it was important for us to find the right cultural fit for our organization. Jason truly grasp the character of our team and was diligent in providing candidates that fit the bill.</p>
                                 <p class="heavy">
                                     Lauren Halsey<br/>
                                     Director, Business Development<br/>
@@ -293,7 +293,7 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>For months Legends worked closely with Bob Hamer and the team at Sports Business Solutions to assist in identifying and recruiting sales professionals across all levels our organization.  They have been an unbelievably valuable resource as we have continued to grow our business.</p>
+                                <p>For months Legends worked closely with Bob Hamer and the team at SBS Consulting to assist in identifying and recruiting sales professionals across all levels our organization.  They have been an unbelievably valuable resource as we have continued to grow our business.</p>
                                 <p class="heavy">
                                     Mike Behan<br/>
                                     Vice President of Sales<br/>

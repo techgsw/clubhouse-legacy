@@ -9,7 +9,7 @@
     </div>
     <form action="/contact" method="post">
         {{ csrf_field() }}
-        <h3 class="header">Contact Sports Business Solutions</h3>
+        <h3 class="header">Contact SBS Consulting</h3>
         <div class="row">
             <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
                 <input id="first-name" type="text" name="first_name" value="{{ old('first_name') }}" required>

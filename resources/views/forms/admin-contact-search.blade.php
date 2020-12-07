@@ -25,7 +25,7 @@
                         <li><b><code>job_seeking_type:</code></b> Search by the "goal", or type of job the contact is seeking. Possible options are <code>internship</code>, <code>entry_level</code>, <code>mid_level</code>, <code>entry_level_management</code>, <code>mid_level_management</code> or <code>executive></code></li>
                         <li><b><code>job_seeking_status:</code></b> Search by the contact's current job & job seeking status. Possible options are <code>unemployed</code>, <code>employed_active</code> (actively seeking), <code>employed_passive</code> (passively seeking), <code>employed_future</code> (maybe later) or <code>employed_not</code> (not seeking)</li>
                     </ul>
-                    <p>The first word or "quoted phrase" after the label will be used by that label. For example, <code>organization:"Sports Business Solutions"</code> will search for an organization of "Sports Business Solutions", but <code>organization:Sports Business Solutions</code> will search for an organization of "Sports", a name with "Business" and a name with "Solutions" in it.</p>
+                    <p>The first word or "quoted phrase" after the label will be used by that label. For example, <code>organization:"SBS Consulting"</code> will search for an organization of "SBS Consulting", but <code>organization:SBS Consulting</code> will search for an organization of "Sports", a name with "Business" and a name with "Solutions" in it.</p>
                     <p>You can also use <code>AND</code> and <code>OR</code> to chain searches together. By default, any labels, words, or phrases next to each other will default to <code>AND</code>.</p>
                 </div>
                 <div class="modal-footer">

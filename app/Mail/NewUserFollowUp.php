@@ -32,7 +32,7 @@ class NewUserFollowUp extends Mailable
     public function build()
     {
         return $this->from('josh@sportsbusiness.solutions')
-            ->subject("Sports Business Solutions: Following up")
+            ->subject("SBS Consulting: Following up")
             ->markdown('emails.new-user-follow-up');
     }
 }

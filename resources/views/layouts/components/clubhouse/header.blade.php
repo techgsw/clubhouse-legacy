@@ -4,7 +4,7 @@
         <div class="nav-wrapper container">
             <!--<a href="/" style="color: #3F3E3E; left: 0; margin-top: 25px;" class="brand-logo">CLUBHOUSE</a>-->
             <a href="/" class="brand-logo left-align custom-brand-logo">
-                <img src="/images/logos/full/CH_logo_color.jpg" alt="Sports Business Solutions">
+                <img src="/images/logos/full/CH_logo_color.jpg" alt="SBS Consulting">
             </a>
             <ul class="right hide-on-med-and-down nav-custom-desktop" style="margin-right: -27px;">
                 <li><a href="/blog">Blog</a></li>
@@ -26,7 +26,7 @@
                     <a href="https://instagram.com/theC1ubhouse"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
                     <a href="https://www.linkedin.com/company/the-clubhouse-sbs"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 </li>
-                <li><a href="{{ env('APP_URL') }}" style="text-transform: none; font-size: 18px;">Sports Business Solutions</a></li>
+                <li><a href="{{ env('APP_URL') }}" style="text-transform: none; font-size: 18px;">SBS Consulting</a></li>
                 <li class="divider"></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/mentor">Mentors</a></li>

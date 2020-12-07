@@ -12,8 +12,8 @@
                 <div style="margin-top: 10px;">
                     <a class="no-underline" href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                     <a class="no-underline" href="https://twitter.com/intent/tweet?text=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode($job->getURL($absolute=true))?>&title=<?=urlencode($job->title)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
-                    <a class="no-underline" href="mailto:?Subject=<?=$job->title?> | Sports Business Solutions&body=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode($job->getURL($absolute=true))?>&title=<?=urlencode($job->title)?>&source=SBS Consulting')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                    <a class="no-underline" href="mailto:?Subject=<?=$job->title?> | SBS Consulting&body=<?=urlencode($job->getURL($absolute=true))?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                 </div>
                 @if ($job->isNew())
                     <span class="label blue white-text" style="letter-spacing: 0.6px; font-size: 10px;"><b>NEW</b></span>

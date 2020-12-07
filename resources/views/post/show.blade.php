@@ -96,16 +96,16 @@
                         </div>
                         <div class="col s12 center-align" style="margin-top:20px;">
                             <div>
-                                <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, $index)?>&source=Sports Business Solutions')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, $index)?>&source=SBS Consulting')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                                 <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                                <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | Sports Business Solutions&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | SBS Consulting&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col s12 center-align">
-                            <a href="{{env('APP_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Sports Business Solutions for Training | Consulting | Recruiting</a>
+                            <a href="{{env('APP_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">SBS Consulting for Training | Consulting | Recruiting</a>
                             <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse</a>
                             <a href="mailto:bob@sportsbusiness.solutions" class="btn sbs-red blog-cta">Contact Bob Hamer</a>
                         </div>

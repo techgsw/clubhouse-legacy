@@ -3,9 +3,8 @@
 @section('hero')
     <div class="row hero bg-image home">
         <div class="col s12 m8 offset-m2">
-            <h4 class="header">At SBS, we help people succeed in sports business.</h4>
-            <p>We provide sales training, consulting, and recruiting services to sports teams and properties across North America.</p>
-            <a href="/services" class="btn btn-large sbs-red">Learn More</a>
+            <h4 class="header">We help sales leaders and teams hit their goals and achieve even greater results.</h4>
+            <a href="/training-consulting" class="btn btn-large sbs-red">Learn More</a>
             <a href="/#clients-list" class="btn btn-large sbs-red">Our Clients</a>
         </div>
     </div>
@@ -21,27 +20,6 @@
         </div>
     </div>
     <div class="sbs-col-6 bg-img training hide-on-small-only"></div>
-</div>
-<div class="sbs-row">
-    <div class="sbs-col-6 bg-img recruiting"></div>
-    <div class="sbs-col-6 gray">
-        <h3>Recruiting</h3>
-        <p>Our experience as former hiring managers in sports gives us unique insight and the right qualifications to find and place best-in-class job candidates. Not only do we have firsthand knowledge of the skills and attributes needed to succeed in sports business jobs, we have established relationships with the future stars of our industry. Let us help you find your next sports industry leader.</p>
-        <div class="input-field">
-            <a href="/recruiting-3" class="btn btn-large sbs-red">Learn more</a>
-        </div>
-    </div>
-</div>
-<div class="sbs-row">
-    <div class="sbs-col-6 bg-img services hide-on-med-and-up"></div>
-    <div class="sbs-col-6 gray">
-        <h3><span class="sbs-red-text">the</span>Clubhouse</h3>
-        <p><span class="sbs-red-text">the</span>Clubhouse is a place where current and aspiring sports business professionals go to learn, network and share ideas in an effort to grow as both people and professionals.</p>
-        <div class="input-field">
-            <a href="{{ env('CLUBHOUSE_URL') }}" class="btn btn-large sbs-red">Learn more</a>
-        </div>
-    </div>
-    <div class="sbs-col-6 bg-img services hide-on-small-only"></div>
 </div>
 <div class="container">
     <div id="clients-list" class="row" style="padding: 30px 0 0 0;">

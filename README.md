@@ -1,6 +1,6 @@
-# Sports Business Solutions
+# SBS Consulting
 
-[Sports Business Solutions](http://www.sportsbusiness.solutions/) helps people succeed in sports business by providing training, consulting, and recruiting services for sports teams and career cervices for those interested in working in sports.
+[SBS Consulting](http://www.sportsbusiness.solutions/) helps people succeed in sports business by providing training, consulting, and recruiting services for sports teams and career cervices for those interested in working in sports.
 
 See the [Wiki](https://source.whale.enterprises/sbs/sportsbusinesssolutions/wikis/home) for project scope.
 

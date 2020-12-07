@@ -4,7 +4,7 @@
     @endslot
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
-        <p>My name is Bob Hamer and I’m the President and Founder of Sports Business Solutions and creator of <span style="color: #EB2935;">the</span>Clubhouse. We’re excited to have you as part of our community!</p>
+        <p>My name is Bob Hamer and I’m the President and Founder of SBS Consulting and creator of <span style="color: #EB2935;">the</span>Clubhouse. We’re excited to have you as part of our community!</p>
         <p>Our goal for <span style="color: #EB2935;">the</span>Clubhouse is to create a destination for current and aspiring sports business professionals where they can find the resources they need to be successful.</p>
         <p>Now that you’re a member, here are some ways you can get the most out of your Clubhouse experience:</p>
         <p>

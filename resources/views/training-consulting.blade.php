@@ -302,7 +302,7 @@
                         </div>
                         <div class="col s12 m8 left-align">
                             <div class="testimonial-content">
-                                <p>I have sat through many training sessions over the years and truly found the two days we spent with Bob and the Sports Business Solutions team to be some of the best. He provided some very tangible takeaways and I found those and the real-life examples he shared to be both valuable and impactful.</p>
+                                <p>I have sat through many training sessions over the years and truly found the two days we spent with Bob and the SBS Consulting team to be some of the best. He provided some very tangible takeaways and I found those and the real-life examples he shared to be both valuable and impactful.</p>
                                 <p class="heavy">
                                     Jason Breiter<br/>
                                     Manager, Group Sales & Hospitality<br/>

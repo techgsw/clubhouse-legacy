@@ -12,7 +12,7 @@
     <nav class="nav-main" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo">
-                <img src="/images/logo.png" alt="Sports Business Solutions">
+                <img src="/images/sbs_consulting_logo.png" alt="SBS Consulting">
             </a>
         </div>
     </nav>

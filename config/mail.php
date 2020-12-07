@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'bob@sportsbusiness.solutions'),
-        'name' => env('MAIL_FROM_NAME', 'Sports Business Solutions'),
+        'name' => env('MAIL_FROM_NAME', 'SBS Consulting'),
     ],
 
     /*

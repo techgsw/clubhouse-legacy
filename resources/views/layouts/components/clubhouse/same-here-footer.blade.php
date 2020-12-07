@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col m3 offset-m1 s12">
                 <div class="row center-align same-here-social">
-                    <h5 style="line-height:32px;"><a href="{{ env('APP_URL') }}">Sports Business Solutions</a></h5>
+                    <h5 style="line-height:32px;"><a href="{{ env('APP_URL') }}">SBS Consulting</a></h5>
                     <br>
                     <br>
                     <a class="flat-button" target="_blank" rel="noopener noreferrer" href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram" aria-hidden="true"></i></a>
