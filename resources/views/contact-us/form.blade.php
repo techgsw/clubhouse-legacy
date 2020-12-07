@@ -39,8 +39,6 @@
                 <select name="about">
                     <option value="" {{ old('state') == "" ? "selected" : "" }}></option>
                     <option value="sales-training-consulting" {{ old('state') == "sales-training-consulting" ? "selected" : $interest == "sales-training-consulting" ? "selected" : "" }}>Sales Training & Consulting</option>
-                    <option value="recruiting" {{ old('state') == "recruiting" ? "selected" : $interest == "recruiting" ? "selected" : "" }}>Recruiting</option>
-                    <option value="clubhouse" {{ old('state') == "clubhouse" ? "selected" : $interest == "clubhouse" ? "selected" : "" }}>theClubhouse</option>
                     <option value="other" {{ old('state') == "other" ? "selected" : $interest == "other" ? "selected" : "" }}>Other</option>
                 </select>
                 <label>I'm interested in:</label>
