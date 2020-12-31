@@ -7,6 +7,24 @@
 </head>
 <body>
     <style>
+        .email-sbs-red-button {
+            background-color: #EB2935;
+            border-radius: 2px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            height: 36px;
+            letter-spacing: .5px;
+            line-height: 36px;
+            outline: 0;
+            padding: 0 2rem;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            vertical-align: middle;
+            -webkit-tap-highlight-color: transparent;
+        }
         @media only screen and (max-width: 600px) {
             .inner-body {
                 width: 100% !important;

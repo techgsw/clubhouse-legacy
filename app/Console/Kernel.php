@@ -24,7 +24,6 @@ class Kernel extends ConsoleKernel
         Commands\MapContactsToOrganizations::class,
         Commands\PushToS3::class,
         Commands\SendMigrationEmails::class,
-        Commands\SendNewUserFollowUpEmails::class,
         Commands\SendInquirySummaryEmail::class,
         Commands\SendRegistrationSummaryEmail::class,
         Commands\UploadContacts::class,
@@ -81,10 +80,6 @@ class Kernel extends ConsoleKernel
         }
 
         $schedule->call(function () {
-            JobServiceProvider::sendDayAfterClubhouseRegistrationEmails();
-        })->dailyAt('10:00');
-
-        $schedule->call(function () {
             $start = new \DateTime('yesterday');
             $start->setTime(8,0,0);
             EmailServiceProvider::sendFailedClubhousePaymentNotice($start);
@@ -105,6 +100,14 @@ class Kernel extends ConsoleKernel
         $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('8:00');
 
         $schedule->command(RefreshInstagramTokens::class)->cron('0 4 1,15 * *');
+
+        $schedule->call(function() {
+            EmailServiceProvider::sendFollowUpEmails();
+        })->dailyAt('10:00');
+
+        $schedule->call(function() {
+            EmailServiceProvider::sendNewUserEmails();
+        })->everyThirtyMinutes();
     }
 
     /**

@@ -338,7 +338,7 @@ class RegisterController extends Controller
         // TODO Use a Queue so as not to block
         // https://laravel.com/docs/5.5/queues
         try {
-            Mail::to($user)->send(new UserRegistered($user));
+            // Emails to the user are handled via a cron job (checking for clubhouse membership after 30 minutes). This notifies admins
             EmailServiceProvider::sendRegistrationNotificationEmail($user);
         } catch (\Exception $e) {
             Log::error($e->getMessage());

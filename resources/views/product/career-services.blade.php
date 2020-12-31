@@ -16,7 +16,7 @@
         @include('layouts.components.messages')
         @include('layouts.components.errors')
     </div>
-    <p class="center-align sbs-red-text">Note: Clubhouse Pro members can book one free career service every two weeks.</p>
+    <p class="center-align sbs-red-text">Note: Clubhouse Pro members can book one free career service every month.</p>
     @foreach ($categories as $category => $products)
         @if (!empty($products))
             <div class="row" style="margin-top:20px;">
