@@ -128,19 +128,4 @@ class JobServiceProvider extends ServiceProvider
         }
     }
 
-    public static function sendDayAfterClubhouseRegistrationEmails() {
-        // pull all users who paid for a clubhouse membership yesterday and are still clubhouse members
-        $new_clubhouse_users = User::whereHas('transactions', function ($query) {
-            $query->whereHas('productOptions.product', function ($query) {
-                $query->where('name', 'Clubhouse Pro Membership');
-            })->whereRaw('DATE(created_at) = DATE(NOW() - INTERVAL 1 DAY)');
-        })->whereHas('roles', function ($query) {
-            $query->where('code', 'clubhouse');
-        })->get();
-
-        foreach ($new_clubhouse_users as $user) {
-            EmailServiceProvider::sendClubhouseFollowupEmail($user);
-        }
-    }
-
 }

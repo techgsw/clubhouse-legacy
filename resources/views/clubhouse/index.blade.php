@@ -26,13 +26,13 @@
             <div class="col center-align clubhouse-option">
                 <a href="/webinars" class="no-underline"><img src="/images/clubhouse/CH_Webinar1.jpg" /></a>
                 <p class="option-title"><strong>Live and On-Demand Webinars</strong></p>
-                <p class="option-description">Learn from the pros. Attend live events and watch 50+ past shows on demand.</p>
+                <p class="option-description">Learn from the pros. Attend live events and watch 65+ past shows on demand.</p>
                 <a href="/webinars" class="red-hover btn clubhouse-option">See all events</a>
             </div>
             <div class="col center-align clubhouse-option">
                 <a href="/mentor" class="no-underline"><img src="/images/clubhouse/CH_Mentor1.jpg" /></a>
                 <p class="option-title"><strong>Mentorship from the Sports Pros</strong></p>
-                <p class="option-description">Gain mentorship from more than 100 sports industry professionals.</p>
+                <p class="option-description">Gain mentorship from more than 140 sports industry professionals.</p>
                 <a href="/mentor" class="red-hover btn clubhouse-option">Find a mentor</a>
             </div>
             <div class="col center-align clubhouse-option">
@@ -121,7 +121,7 @@
                             <div style="margin-left: 30px; margin-right: 30px;">
                                 <ul class="fa-check-override">
                                     <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse community benefits <i>plus:</i></li>
-                                    <li>Sports Career Services including:</li>
+                                    <li>Free Sports Career Services including:</li>
                                         <ul class="fa-check-override">
                                             <li>1:1 interview prep and resume coaching</li>
                                             <li>LinkedIn&#8482; profile and personal branding review</li>
@@ -129,10 +129,9 @@
                                             <li>Career Q&A and action plan</li>
                                         </ul>
                                     <li>Get 1:1 career mentorship with sports industry pros</li>
-                                    <li>Access our on-demand Webinar library, with more than 50 hours of content</li>
+                                    <li>Access our on-demand Webinar library, with more than 70 hours of content</li>
                                     <li>Enter the Sales Vault – Sales training videos for the sport salesperson</li>
                                     <li>Attend live premium webinars and events</li>
-                                    <li>Receive a free 30-minute career consultation with Bob Hamer, President & Founder of SBS Consulting and Creator of <span class="sbs-red-text">the</span>Clubhouse</li>
                                 </ul>
                             </div>
                         </div>

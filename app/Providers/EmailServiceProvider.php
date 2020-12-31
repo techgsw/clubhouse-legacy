@@ -19,8 +19,9 @@ use App\Mail\InvalidMentorCalendlyLinkNotification;
 use App\Mail\PurchaseNotification;
 use App\Mail\MenteeFollowUp;
 use App\Mail\MentorFollowUp;
-use App\Mail\NewUserFollowUp;
+use App\Mail\FreeUserFollowUp;
 use App\Mail\UserPostJobFollowUp;
+use App\Mail\UserRegistered;
 use App\Mail\Admin\FailedInstagramRefreshNotification;
 use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\InvalidMentorCalendlyLinkSummary;
@@ -172,19 +173,6 @@ class EmailServiceProvider extends ServiceProvider
         Mail::to($users)->send(new InquirySummary($start, $end, $inquiries, $jobs));
     }
 
-    public static function sendNewUserFollowUpEmails(\DateTime $date)
-    {
-        $users = User::registeredOn($date);
-
-        foreach ($users->get() as $user) {
-            Mail::to($user)->send(new NewUserFollowUp($user));
-        }
-    }
-
-    public static function sendClubhouseFollowupEmail(User $user) {
-        Mail::to($user)->send(new ClubhouseFollowUp($user));
-    }
-
     public static function sendMentorshipRequestEmails(User $mentee, Mentor $mentor, array $dates)
     {
         // Alert admins about request
@@ -326,6 +314,109 @@ class EmailServiceProvider extends ServiceProvider
     public static function sendFailedInstagramRefreshNotification($exception, $env_name)
     {
         Mail::to('developer@whale.enterprises')->send(new FailedInstagramRefreshNotification($exception, $env_name));
+    }
+
+    /**
+     * Handle all drip campaign and reengagement emails. Should be run daily
+     */ 
+    public static function sendFollowUpEmails()
+    {
+        // Send all drip campaing follow up emails for free and pro users
+        $clubhouse_subscription_users = User::select('user.*')
+            ->whereDoesntHave('roles', function ($query) {
+                $query->where('role_code', 'administrator');
+            })->whereHas('profile', function ($query) {
+                $query->where('email_preference_marketing', true);
+            })->join('transaction as t', 'user.id', 't.user_id')
+            ->join('transaction_product_option as tpo', 't.id', 'tpo.transaction_id')
+            ->join('product_option as po','tpo.product_option_id', 'po.id')
+            ->join('product as p','po.product_id', 'p.id')
+            ->where('p.name', 'Clubhouse Pro Membership')
+            ->whereNull('linked_user_id')
+            ->where('t.subscription_active_flag', true)
+            ->where('t.created_at', '>', (new \DateTime('midnight'))->sub(new \DateInterval('P30D')))
+            ->selectSub(function ($query) {
+                $query->selectRaw('DATE(t.created_at)');
+            }, 'clubhouse_subscription_activated_date')->get();
+  
+        $manually_added_clubhouse_users = User::select('user.*')
+            ->whereDoesntHave('roles', function ($query) {
+                $query->where('role_code', 'administrator');
+            })->whereHas('profile', function ($query) {
+                $query->where('email_preference_marketing', true);
+            })->join('role_user as ru', 'user.id', 'ru.user_id')
+            ->whereNotIn('id', function($query) {
+                $query->select('user_id')->from('transaction as t')
+                  ->join('transaction_product_option as tpo', 't.id', 'tpo.transaction_id')
+                  ->join('product_option as po','tpo.product_option_id', 'po.id')
+                  ->join('product as p','po.product_id', 'p.id')
+                  ->where('t.subscription_active_flag', true)
+                  ->where('p.name', 'Clubhouse Pro Membership');
+            })
+            ->whereNull('linked_user_id')
+            ->where('ru.role_code', 'clubhouse')
+ 			->where('ru.created_at', '>', (new \DateTime('midnight'))->sub(new \DateInterval('P30D')))
+            ->selectSub(function ($query) {
+                $query->selectRaw('DATE(ru.created_at)');
+            }, 'clubhouse_subscription_activated_date')->get();
+
+        foreach ($clubhouse_subscription_users->merge($manually_added_clubhouse_users) as $user) {
+            if ($user->clubhouse_subscription_activated_date == (new \DateTime('30 days ago midnight'))->format('Y-m-d')) {
+                 Mail::to($user)->send(new ClubhouseFollowup($user, 'first_30'));
+            } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('21 days ago midnight'))->format('Y-m-d')) {
+                 Mail::to($user)->send(new ClubhouseFollowup($user, 'career_services'));
+            } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('14 days ago midnight'))->format('Y-m-d')) {
+                 Mail::to($user)->send(new ClubhouseFollowup($user, 'webinars'));
+            } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('10 days ago midnight'))->format('Y-m-d')) {
+                 Mail::to($user)->send(new ClubhouseFollowup($user, 'networking'));
+            } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('7 days ago midnight'))->format('Y-m-d')) {
+                 Mail::to($user)->send(new ClubhouseFollowup($user, 'connected'));
+            }
+        }
+
+        $free_users = User::whereDoesntHave('roles', function ($query) {
+                $query->whereIn('role_code', array('administrator', 'clubhouse'));
+            })->whereHas('profile', function ($query) {
+                $query->where('email_preference_marketing', true);
+            })->whereNull('linked_user_id')
+            ->where('user.created_at', '>', (new \DateTime('midnight'))->sub(new \DateInterval('P30D')))->get();
+
+        foreach ($free_users as $user) {
+             $create_date = $user->created_at->setTime(0,0,0);
+             if ($create_date == new \DateTime('30 days ago midnight')) {
+                 Mail::to($user)->send(new FreeUserFollowup($user, 'first_30'));
+             } else if ($create_date == new \DateTime('7 days ago midnight')) {
+                 Mail::to($user)->send(new FreeUserFollowup($user, 'content'));
+             } else if ($create_date == new \DateTime('3 days ago midnight')) {
+                 Mail::to($user)->send(new FreeUserFollowup($user, 'benefits'));
+             }
+        }
+        
+        $reengagement_users = User::whereDoesntHave('roles', function ($query) {
+                $query->whereIn('role_code', array('administrator', 'clubhouse', 'clubhouse_collaborator'));
+            })->whereHas('profile', function ($query) {
+                $query->where('email_preference_marketing', true);
+            })->whereRaw('DATE(last_login_at) = DATE(DATE_SUB(NOW(), INTERVAL 60 DAY))')->get();
+
+        foreach ($reengagement_users as $user) {
+            Mail::to($user)->send(new FreeUserFollowup($user, 'reengagement'));
+        }
+    }
+
+    /**
+     * New users that have not signed up for a PRO account ~30 minutes after registering will receive the new free user email
+     */
+    public static function sendNewUserEmails()
+    {
+        $users = User::with('roles')
+            ->whereDoesntHave('roles', function ($query) {
+                $query->whereIn('role_code', array('administrator', 'clubhouse', 'clubhouse_collaborator'));
+            })->where('created_at', '>', new \DateTime('1 hour ago'))
+              ->where('created_at', '<=', new \DateTime('30 minutes ago'))->get();
+
+        foreach ($users as $user) {
+            Mail::to($user)->send(new UserRegistered($user));
+        }
     }
 
     public static function addToMailchimp(User $user)

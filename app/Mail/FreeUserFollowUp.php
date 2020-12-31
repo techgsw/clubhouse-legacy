@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ClubhouseFollowUp extends Mailable
+class FreeUserFollowUp extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,26 +34,22 @@ class ClubhouseFollowUp extends Mailable
     public function build()
     {
         switch ($this->follow_up_type) {
-            case "connected":
+            case "benefits":
                 return $this->from('clubhouse@sportsbusiness.solutions', 'Bob Hamer')
-                    ->subject("Have we connected yet?")
-                    ->markdown('emails.follow-up.clubhouse.connected');
-            case "networking":
+                    ->subject("Your Clubhouse Benefits")
+                    ->markdown('emails.follow-up.free.benefits');
+            case "content":
                 return $this->from('clubhouse@sportsbusiness.solutions', 'Bob Hamer')
-                    ->subject("Talk with sports industry mentors")
-                    ->markdown('emails.follow-up.clubhouse.networking');
-            case "webinars":
-                return $this->from('clubhouse@sportsbusiness.solutions', 'Bob Hamer')
-                    ->subject("Sports Industry Best Practices")
-                    ->markdown('emails.follow-up.clubhouse.webinars');
-            case "career_services":
-                return $this->from('clubhouse@sportsbusiness.solutions', 'Bob Hamer')
-                    ->subject("Want 1 on 1 career advice?")
-                    ->markdown('emails.follow-up.clubhouse.career-services');
+                    ->subject("Maximizing the Clubhouse experience")
+                    ->markdown('emails.follow-up.free.content');
             case "first_30":
                 return $this->from('bob@sportsbusiness.solutions', 'Bob Hamer')
-                    ->subject("Your first 30 days as a PRO")
-                    ->markdown('emails.follow-up.clubhouse.first-30');
+                    ->subject("Your one-month update ")
+                    ->markdown('emails.follow-up.free.first-30');
+            case "reengagement":
+                return $this->from('clubhouse@sportsbusiness.solutions', 'Bob Hamer')
+                    ->subject("We miss you!")
+                    ->markdown('emails.follow-up.free.reengagement');
             default:
                 // TODO logger error?
                 break;
