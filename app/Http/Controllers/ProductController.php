@@ -449,7 +449,7 @@ class ProductController extends Controller
         if (Auth::user() && Auth::user()->can('view-clubhouse') && Auth::user()->cannot('view-admin-dashboard')) {
             $is_blocked = Transaction::whereHas('productOptions.product.tags', function ($query) {
                 $query->where('name', 'Career Service');
-            })->where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P30')))
+            })->where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P30D')))
               ->where('user_id', Auth::user()->id)->count() > 0;
         }
 
