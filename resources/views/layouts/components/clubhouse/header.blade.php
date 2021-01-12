@@ -6,17 +6,17 @@
             <a href="/" class="brand-logo left-align custom-brand-logo">
                 <img src="/images/logos/full/CH_logo_color.jpg" alt="SBS Consulting">
             </a>
-            <ul class="right hide-on-med-and-down nav-custom-desktop" style="margin-right: -27px;">
+            <ul class="right hide-on-med-and-down nav-custom-desktop" style="margin-right: -50px;">
                 <li><a href="/blog">Blog</a></li>
-                <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
+                <li><a href="/mentor">Mentors</a></li>
+                <li><a href="/job">Jobs<span style="float: right;margin-top: -17px;margin-left: -5px;margin-right: -10px;font-size: 10px;font-weight: bold;">NEW</span></a></li>
                 <li><a href="/sales-vault">Sales Training</a></li>
                 <li><a href="#" class="dropdown-button" data-activates="training-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Career Services&nbsp;&nbsp;<i class="fa fa-caret-down"></i></a></li>
                 <!-- Dropdown Structure -->
                 <ul id="training-dropdown" class="dropdown-content">
                     <li><a href="/same-here">Mental Health</a></li>
                     <li><a href="/career-services">Career Services</a></li>
-                    <li><a href="/job">Job Board</a></li>
                 </ul>
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
@@ -29,12 +29,12 @@
                 <li><a href="{{ env('APP_URL') }}" style="text-transform: none; font-size: 18px;">SBS Consulting</a></li>
                 <li class="divider"></li>
                 <li><a href="/blog">Blog</a></li>
-                <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/webinars">Webinars</a></li>
+                <li><a href="/mentor">Mentors</a></li>
+                <li><a href="/job">Jobs<span style="float: right;font-size: 12px;font-weight: bold;">NEW</span></a></li>
                 <li><a href="/sales-vault">Sales Training</a></li>
                 <li><a href="/same-here">Mental Health</a></li>
                 <li><a href="/career-services">Career Services</a></li>
-                <li><a href="/job">Job Board</a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
