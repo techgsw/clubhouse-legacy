@@ -14,7 +14,7 @@
             color: #fff;
             cursor: pointer;
             display: inline-block;
-            height: 36px;
+            height: auto;
             letter-spacing: .5px;
             line-height: 36px;
             outline: 0;
