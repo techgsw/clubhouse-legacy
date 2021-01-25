@@ -67,7 +67,15 @@ class UserController extends Controller
             ->whereIn('transaction.stripe_order_id', $stripe_order_ids)
             ->get();
 
-        
+        $clubhouse_activity = Transaction::with('productOptions.product.tags')
+            ->where('user_id', $id)
+            ->whereNull('stripe_order_id')
+            ->whereNull('stripe_subscription_id')
+            ->where('amount', 0)
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
         $paid_jobs = array();
         if (count($results)) {
             foreach ($results as $result) {
@@ -81,7 +89,6 @@ class UserController extends Controller
         }
 
         $linked_users = User::where('linked_user_id', $user->id)->get();
-        Log::info(print_r($linked_users, true));
 
         $breadcrumb = array(
             'Home' => '/',
@@ -99,6 +106,7 @@ class UserController extends Controller
             'user' => $user,
             'stripe_user' => $stripe_user,
             'transactions' => $transactions,
+            'clubhouse_activity' => $clubhouse_activity,
             'paid_jobs' => $paid_jobs,
             'linked_users' => $linked_users
         ]);
