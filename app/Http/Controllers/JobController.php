@@ -275,6 +275,7 @@ class JobController extends Controller
             'country' => $organization->addresses()->first()->country,
             'featured' => $featured,
             'document' => $document ?: null,
+            'external_job_link' => request('external_job_link'),
         ]);
 
 
@@ -621,6 +622,8 @@ class JobController extends Controller
                     $doc = request()->file('document');
                     $job->document = $doc->store('document', 'public');
                 }
+
+                $job->external_job_link = request('external_job_link');
 
                 $job->edited_at = new \DateTime('NOW');
                 $job->save();
