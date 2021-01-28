@@ -105,8 +105,8 @@
                 @if ($job->external_job_link)
                     <a href="{{$job->external_job_link}}" class="btn sbs-red">Apply now</a>
                 @else
-                    <button id="job-apply-button" class="btn sbs-red">Apply now</button>
-                    <div id="job-apply-info" class="hidden">
+                    <button id="job-apply-button" class="btn sbs-red {{$redirect_from_signup ? 'hidden' : ''}}">Apply now</button>
+                    <div id="job-apply-info" class="{{$redirect_from_signup ? '' : 'hidden'}}">
                         @can ('create-inquiry', $job)
                             @if ($profile_complete)
                                 @include('forms.job-inquiry')

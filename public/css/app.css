@@ -1645,12 +1645,8 @@ a.webinar-list-title:hover {
         padding: 5px 5px;
     }
 }
-.row.job-show .job-description {
-    padding-bottom: 30px;
-}
 .row .col.job-inquire {
-    border-top: 1px solid rgba(0,0,0,0.1);
-    padding-top: 20px;
+    text-align: center;
 }
 
 .row .col.job-inquiry {

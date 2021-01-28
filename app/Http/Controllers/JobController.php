@@ -437,6 +437,7 @@ class JobController extends Controller
             'profile_complete' => $profile_complete,
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
+            'redirect_from_signup' => request('redirect_from_signup'),
             'breadcrumb' => $breadcrumb
         ]);
     }
