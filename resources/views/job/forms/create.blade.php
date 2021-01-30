@@ -82,7 +82,7 @@
                     <input type="file" class="small" name="document" value="{{ old('document') }}">
                 </div>
                 <div class="file-path-wrapper">
-                    <input class="file-path" type="text" name="document_text" value="{{ old('document_text') }}">
+                    <input class="file-path" type="text" name="document_text" value="">
                 </div>
             </div>
             <div class="input-field">
