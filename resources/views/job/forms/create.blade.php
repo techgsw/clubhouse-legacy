@@ -85,6 +85,10 @@
                     <input class="file-path" type="text" name="document_text" value="">
                 </div>
             </div>
+            <div class="input-field">
+                <input id="external_job_link" type="text" class="{{ $errors->has('external_job_link') ? 'invalid' : '' }}" name="external_job_link" value="{{ old('external_job_link') }}">
+                <label for="external_job_link" data-error="{{ $errors->first('external_job_link') }}">External Job Link <strong>(If you want people to apply on another site and <i>not</i> through theClubhouse)</strong></label>
+            </div>
         </div>
         <div class="col s12 m4">
             <div class="input-field">

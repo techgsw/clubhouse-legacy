@@ -570,6 +570,16 @@ $.valHooks.textarea = {
 
     $('body').on(
         {
+            click:function (e) {
+                $('div#job-apply-info').removeClass('hidden');
+                $(this).addClass('hidden');
+            }
+        },
+        'button#job-apply-button'
+    );
+
+    $('body').on(
+        {
             click: function (e, ui) {
                 $(this).attr('disabled', 'disabled');
                 $(this).html('Sending, please wait...');

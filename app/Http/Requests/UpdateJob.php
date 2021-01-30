@@ -34,6 +34,7 @@ class UpdateJob extends FormRequest
             'state' => 'required',
             'document' => 'mimes:pdf|max:2000',
             //'image_url' => 'image|mimes:jpg,jpeg,png|max:2000',
+            'external_job_link' => 'nullable|url',
         ];
     }
 
@@ -54,6 +55,7 @@ class UpdateJob extends FormRequest
             'image_url.required' => 'Image is a required field',
             'image_url.image' => 'File must be a valid image',
             'image_url.mimes' => 'Image must have file extension .jpg or .png',
+            'external_job_link.url' => 'External job link must be a valid URL or blank. (Make sure it starts with http:// or https://)',
         ];
     }
 }

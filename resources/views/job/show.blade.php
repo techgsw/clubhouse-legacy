@@ -92,6 +92,9 @@
                 @else
                     <div class="chip green white-text">Open</div>
                 @endif
+                @if ($job->external_job_link)
+                    <div class="chip">Links to <a href="{{$job->external_job_link}}">{{$job->external_job_link}}</a></div>
+                @endif
             @endcan
         </div>
     </div>
@@ -99,17 +102,22 @@
     <div class="row">
         <div class="col s12 m9 offset-m3 job-inquire">
             @cannot ('edit-job', $job)
-                @can ('create-inquiry', $job)
-                    @if ($profile_complete)
-                        @include('forms.job-inquiry')
-                    @else
-                        <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red">Complete your profile to apply</a>
-                    @endif
+                @if ($job->external_job_link)
+                    <a href="{{$job->external_job_link}}" class="btn sbs-red">Apply now</a>
                 @else
-                    <div class="input-field">
-                        <a href="#register-modal" class="btn sbs-red">Join to apply</a>
+                    <button id="job-apply-button" class="btn sbs-red {{$redirect_from_signup ? 'hidden' : ''}}">Apply now</button>
+                    <div id="job-apply-info" class="{{$redirect_from_signup ? '' : 'hidden'}}">
+                        @can ('create-inquiry', $job)
+                            @if ($profile_complete)
+                                @include('forms.job-inquiry')
+                            @else
+                                <a href="/user/{{ Auth::user()->id }}/edit-profile" class="btn sbs-red">Complete your profile to apply</a>
+                            @endif
+                        @else
+                            <a href="#register-modal" class="btn sbs-red">Join to apply</a>
+                        @endcan
                     </div>
-                @endcan
+                @endif
             @endcannot
         </div>
     </div>

@@ -31,6 +31,7 @@ class StoreJob extends FormRequest
             //'city' => 'required',
             //'state' => 'required',
             'document' => 'mimes:pdf|max:2000',
+            'external_job_link' => 'nullable|url',
         ];
     }
 
@@ -50,6 +51,7 @@ class StoreJob extends FormRequest
             'document.mimes' => 'Document must be a PDF',
             'image_url.required' => 'Image is a required field',
             'image_url.image' => 'Image must be a valid image',
+            'external_job_link.url' => 'External job link must be a valid URL or blank. (Make sure it starts with http:// or https://)',
         ];
     }
 }

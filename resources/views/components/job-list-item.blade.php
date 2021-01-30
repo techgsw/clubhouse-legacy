@@ -23,11 +23,11 @@
                 @endif
             </div>
             <div class="col s12 center" style="height: 40px;">
-                @can ('create-inquiry')
+                @if ((Auth::user() && Auth::user()->can('create-inquiry')) || !is_null($job->external_job_link))
                     <a style="position: absolute; bottom: 15px; left: 50%; margin-left: -45px; width: 90px;" href="{{ $job->getURL() }}" target="_blank" rel="noopener" class="btn btn-small  white black-text">Apply</a>
                 @else
                     <a style="position: absolute; bottom: 15px; left: 50%; margin-left: -45px; width: 90px;" href="#register-modal" class="btn btn-small white black-text">Apply</a>
-                @endcan
+                @endif
             </div>
         </div>
     </div>

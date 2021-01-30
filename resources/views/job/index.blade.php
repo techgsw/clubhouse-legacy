@@ -36,11 +36,11 @@
                             @if ($job->featured)
                                 <span class="label sbs-red" style="letter-spacing: 0.6px; display: inline; font-size: 10px;"><b><i class="fa fa-star icon-left" aria-hidden="true"></i>FEATURED</b></span>
                             @endif
-                            @can ('create-inquiry')
+                            @if ((Auth::user() && Auth::user()->can('create-inquiry')) || !is_null($job->external_job_link))
                                 <p><a style="margin-top: 12px;" href="{{ $job->getURL() }}" target="_blank" rel="noopener" class="btn btn-small white black-text">Apply</a></p>
                             @else
                                 <p><a style="margin-top: 12px;" href="#register-modal" class="btn btn-small white black-text">Apply</a></p>
-                            @endcan
+                            @endif
                         </div>
                     </div>
                 </div>

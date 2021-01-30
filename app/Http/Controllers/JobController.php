@@ -275,6 +275,7 @@ class JobController extends Controller
             'country' => $organization->addresses()->first()->country,
             'featured' => $featured,
             'document' => $document ?: null,
+            'external_job_link' => request('external_job_link'),
         ]);
 
 
@@ -436,6 +437,7 @@ class JobController extends Controller
             'profile_complete' => $profile_complete,
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
+            'redirect_from_signup' => request('redirect_from_signup'),
             'breadcrumb' => $breadcrumb
         ]);
     }
@@ -621,6 +623,8 @@ class JobController extends Controller
                     $doc = request()->file('document');
                     $job->document = $doc->store('document', 'public');
                 }
+
+                $job->external_job_link = request('external_job_link');
 
                 $job->edited_at = new \DateTime('NOW');
                 $job->save();
