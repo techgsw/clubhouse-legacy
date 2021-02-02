@@ -63,9 +63,13 @@
         </div>
     </div>
     <div class="blog-image">
-        <img src="{{$image->getUrl('share')}}" alt="{{$image->pivot->alt}}"/>
+        @if (!is_null($image))
+            <img src="{{$image->getUrl('share')}}" alt="{{$image->pivot->alt}}"/>
+        @endif
     </div>
-    <span class="blog-caption">{{$image->pivot->caption}}</span>
+    @if (!is_null($image))
+        <span class="blog-caption">{{$image->pivot->caption}}</span>
+    @endif
     <div class="blog-content">
         <div class="row">
             <div class="col s12">
