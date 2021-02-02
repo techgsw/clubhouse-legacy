@@ -55,8 +55,8 @@
                         <input class="file-path validate" type="text" name="primary_image_url_text" value="{{ old('primary_image_url_text') }}">
                     </div>
                 </div>
-                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt') ?: $post->getPrimaryImage()->pivot->alt}}" maxlength="100">
-                <input type="text" placeholder="Caption" name="primary_image_caption" id="primary_image_caption" value="{{old('primary_image_caption') ?: $post->getPrimaryImage()->pivot->caption}}">
+                <input type="text" placeholder="Alt" name="primary_image_alt" id="primary_image_alt" value="{{old('primary_image_alt') ?: (!is_null($post->getPrimaryImage()) ? $post->getPrimaryImage()->pivot->alt : '')}}" maxlength="100">
+                <input type="text" placeholder="Caption" name="primary_image_caption" id="primary_image_caption" value="{{old('primary_image_caption') ?: (!is_null($post->getPrimaryImage()) ? $post->getPrimaryImage()->pivot->caption : '')}}">
             </div>
         </div>
         <h5>Other images (for the blog body):</h5>
