@@ -36,7 +36,7 @@
         <h5>Main image:</h5>
         <div class="row">
             <div class="col s6">
-                @if ($post->images->count() > 0)
+                @if ($post->images->count() > 0 && !is_null($post->getPrimaryImage()))
                     <p class="hide-on-med-and-up" style="text-align: center;">
                         <img style="width: 85%; max-height: auto; box-shadow: 2px 2px #F2F2F2;" src={{ $post->getPrimaryImage()->getURL('share') }} />
                     </p>

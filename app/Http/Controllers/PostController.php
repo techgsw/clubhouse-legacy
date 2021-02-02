@@ -49,6 +49,18 @@ class PostController extends Controller
 
         $post_tags = json_decode(request('post_tags_json'));
 
+        // TODO there is an unusual issue when uploading an extra image without a primary image. the primary image can't be reset when editing.
+        //      to prevent this from happening, we'll throw an error if they try to create a post like this.
+        if (is_null(request()->file('primary_image_url')) && !is_null(request('image'))) {
+            $request->session()->flash('message', new Message(
+                'Please upload a main image to create a new blog post.',
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
         try {
             $title_url = DB::transaction(function () use ($post_tags) {
                 $title_url = preg_replace('/\s/', '-', preg_replace('/[^\w\s]/', '', mb_strtolower(request('title'))));
@@ -195,11 +207,13 @@ class PostController extends Controller
                     );
                     $post->images()->save($primary_image);
                 }
-                $post->images()->updateExistingPivot($post->getPrimaryImage()->id, array(
-                    'caption' => request('primary_image_caption'),
-                    'alt' => request('primary_image_alt'),
-                    'is_primary' => true
-                ));
+                if (!is_null($post->images()) && !is_null($post->getPrimaryImage())) {
+                    $post->images()->updateExistingPivot($post->getPrimaryImage()->id, array(
+                        'caption' => request('primary_image_caption'),
+                        'alt' => request('primary_image_alt'),
+                        'is_primary' => true
+                    ));
+                }
 
                 if (!is_null(request('image'))) {
                     foreach (request('image') as $index => $image) {
