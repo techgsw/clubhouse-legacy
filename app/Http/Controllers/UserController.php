@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateUser;
 use App\Providers\StripeServiceProvider;
 use App\User;
 use App\Job;
+use App\MentorRequest;
 use App\JobPipeline;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -67,15 +68,6 @@ class UserController extends Controller
             ->whereIn('transaction.stripe_order_id', $stripe_order_ids)
             ->get();
 
-        $clubhouse_activity = Transaction::with('productOptions.product.tags')
-            ->where('user_id', $id)
-            ->whereNull('stripe_order_id')
-            ->whereNull('stripe_subscription_id')
-            ->where('amount', 0)
-            ->orderBy('created_at', 'desc')
-            ->limit(10)
-            ->get();
-
         $paid_jobs = array();
         if (count($results)) {
             foreach ($results as $result) {
@@ -87,6 +79,53 @@ class UserController extends Controller
                 );
             }
         }
+
+        $free_clubhouse_transactions = Transaction::with('productOptions.product.tags')
+            ->where('user_id', $id)
+            ->whereNull('stripe_order_id')
+            ->whereNull('stripe_subscription_id')
+            ->where('amount', 0)
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        $mentor_requests_query = MentorRequest::with('mentor.contact')
+            ->where('user_id', $id);
+
+        $mentor_requests_count = $mentor_requests_query->count();
+        $mentor_requests = $mentor_requests_query
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        $clubhouse_activity = array();
+        foreach ($free_clubhouse_transactions as $transaction) {
+            $activity = array(
+                'date' => $transaction->created_at,
+                'name' => $transaction->productOptions->first()->product->name
+            );
+            foreach ($transaction->productOptions->first()->product->tags as $tag) {
+                if ($tag->name == 'Career Service') {
+                    $activity['type'] = 'Free Career Service';
+                } else if (in_array($tag->name, array('Webinar', '#SameHere'))) {
+                    $activity['type'] = 'Webinar RSVP';
+                }
+            }
+            $clubhouse_activity[] = $activity;
+        }
+
+        foreach ($mentor_requests as $mentor_request) {
+            $clubhouse_activity[] = array(
+                'type' => 'Mentor Request',
+                'date' => $mentor_request->created_at,
+                'name' => 'Scheduled with '.$mentor_request->mentor->contact->getName()
+            );
+        }
+
+        usort($clubhouse_activity, function($a, $b) {
+            return strtotime($b['date']) - strtotime($a['date']);
+        });
+        $clubhouse_activity = array_slice($clubhouse_activity, 0, 10, true);
 
         $linked_users = User::where('linked_user_id', $user->id)->get();
 
@@ -107,6 +146,7 @@ class UserController extends Controller
             'stripe_user' => $stripe_user,
             'transactions' => $transactions,
             'clubhouse_activity' => $clubhouse_activity,
+            'mentor_requests_count' => $mentor_requests_count,
             'paid_jobs' => $paid_jobs,
             'linked_users' => $linked_users
         ]);

@@ -128,6 +128,66 @@
     </div>
     <div class="row">
         <div class="col s12">
+            <h4>Subscription History</h4>
+            @if (isset($transactions['subscriptions']) && count($transactions['subscriptions']) > 0)
+                <table>
+                    <thead>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Card</th>
+                    </thead>
+                    @foreach ($transactions['subscriptions'] as $key => $value)
+                        @if (array_key_exists('invoice', $value))
+                            @php $bill_date = date('m/d/Y', $value['invoice']->date); @endphp
+                            @foreach ($value['invoice']->lines->data as $invoice_item_key => $item)
+                            <tr>
+                                <td>{{ $bill_date }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
+                                @if (array_key_exists('charge_object', $value))
+                                    @php
+                                        $card_icon = ((array_key_exists($value['charge_object']->source->brand, $cc)) ? $cc[$value['charge_object']->source->brand] : 'credit-card');
+                                     @endphp
+                                    <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['charge_object']->source->last4 }}</td>
+                                @else
+                                    <td>N/A</td>
+                                @endif
+                            </tr>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </table>
+            @else
+                <p>No subscription payments.</p>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <h4>Clubhouse Activity&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block;font-size:1rem;font-weight:600">Total Mentor Requests: {{$mentor_requests_count}}</span></h4>
+            @if (count($clubhouse_activity) > 0)
+                <table>
+                    <thead>
+                        <th>Date</th>
+                        <th>Product Type</th>
+                        <th>Product</th>
+                    </thead>
+                    @foreach ($clubhouse_activity as $activity)
+                        <tr>
+                            <td>{{ $activity['date']->format('Y/m/d') }}</td>
+                            <td>{{ $activity['type'] }}</td>
+                            <td>{{ $activity['name'] }}</td>
+                        </tr>
+                    @endforeach
+                </table>
+            @else
+                <p>No activity.</p>
+            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
             <h4>Order History</h4>
             @if (isset($transactions['orders']) && count($transactions['orders']) > 0)
                 <table>
@@ -164,76 +224,6 @@
                 </table>
             @else
                 <p>No orders.</p>
-            @endif
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12">
-            <h4>Clubhouse Activity</h4>
-            @if (count($clubhouse_activity) > 0)
-                <table>
-                    <thead>
-                        <th>Date</th>
-                        <th>Product Type</th>
-                        <th>Product</th>
-                    </thead>
-                    @foreach ($clubhouse_activity as $activity)
-                        @php
-                            $activity_type = '';
-                            foreach ($activity->productOptions->first()->product->tags as $tag) {
-                                if ($tag->name == 'Career Service') {
-                                    $activity_type = 'Free Career Service';
-                                } else if (in_array($tag->name, array('Webinar', '#SameHere'))) {
-                                    $activity_type = 'Webinar RSVP';
-                                }
-                            }
-                        @endphp
-                        <tr>
-                            <td>{{ $activity->created_at->format('Y/m/d') }}</td>
-                            <td>{{ $activity_type }}</td>
-                            <td>{{ $activity->productOptions->first()->product->name }}</td>
-                        </tr>
-                    @endforeach
-                </table>
-            @else
-                <p>No activity.</p>
-            @endif
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12">
-            <h4>Subscription History</h4>
-            @if (isset($transactions['subscriptions']) && count($transactions['subscriptions']) > 0)
-                <table>
-                    <thead>
-                        <th>Date</th>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Card</th>
-                    </thead>
-                    @foreach ($transactions['subscriptions'] as $key => $value)
-                        @if (array_key_exists('invoice', $value))
-                            @php $bill_date = date('m/d/Y', $value['invoice']->date); @endphp
-                            @foreach ($value['invoice']->lines->data as $invoice_item_key => $item)
-                            <tr>
-                                <td>{{ $bill_date }}</td>
-                                <td>{{ $item->description }}</td>
-                                <td>{{ money_format('%.2n', ($item->amount / 100)) }}</td>
-                                @if (array_key_exists('charge_object', $value))
-                                    @php
-                                        $card_icon = ((array_key_exists($value['charge_object']->source->brand, $cc)) ? $cc[$value['charge_object']->source->brand] : 'credit-card');
-                                     @endphp
-                                    <td><li class="fa fa-cc-{{ $card_icon }}" style="font-size: 32px;"></li> ....{{ $value['charge_object']->source->last4 }}</td>
-                                @else
-                                    <td>N/A</td>
-                                @endif
-                            </tr>
-                            @endforeach
-                        @endif
-                    @endforeach
-                </table>
-            @else
-                <p>No subscription payments.</p>
             @endif
         </div>
     </div>
