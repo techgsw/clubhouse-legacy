@@ -124,6 +124,7 @@ Route::domain($domain)->group(function () {
         Route::get('/admin/contact/{id}/delete', 'ContactController@delete');
         Route::get('/admin/contact/download', 'ContactController@download');
         Route::get('/admin/job', 'JobController@index');
+        Route::get('/admin/job/disciplines', 'JobController@editDisciplines');
 
         //refactoring jobs to be in admin domain since we will be restricting job admins
         Route::get('/job/register', 'JobController@register');
@@ -201,10 +202,14 @@ Route::domain($domain)->group(function () {
         Route::get('/post/{id}/edit', 'PostController@edit');
         Route::post('/post/{id}', 'PostController@update');
 
+        //TODO move this out of blog
         Route::post('/tag', 'TagController@store');
         Route::get('/tag/all', 'TagController@all');
         Route::get('/tag/posts', 'TagController@posts');
         Route::get('/tag/mentors', 'TagController@mentors');
+        Route::get('/tag/jobs', 'TagController@jobs');
+        Route::get('/tag/delete-from-type', 'TagController@deleteFromType');
+        Route::post('/tag/add-to-type', 'TagController@addToType');
     });
 
     // Blog

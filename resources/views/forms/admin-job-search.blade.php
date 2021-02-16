@@ -1,19 +1,12 @@
 <form action="/admin/job" method="get">
     <div class="row">
         <div class="col s3 input-field">
-            <label class="active">Job Type</label>
-            <select name="job_type" class="browser-default">
-                <option value="all" {{ (!request('job_type') || request('job_type') == 'all') ? "selected" : "" }}>All</option>
-                <option value="ticket-sales" {{ request('job_type') == 'ticket-sales' ? "selected" : "ticket-sales" }}>Ticket Sales</option>
-                <option value="sponsorship-sales" {{ request('job_type') == 'sponsorship-sales' ? "selected" : "sponsorship-sales" }}>Sponsorship Sales</option>
-                <option value="marketing" {{ request('job_type') == 'marketing' ? "selected" : "marketing" }}>Marketing</option>
-                <option value="internships" {{ request('job_type') == 'internships' ? "selected" : "internships" }}>Internships</option>
-                <option value="business-operations" {{ request('job_type') == 'business-operations' ? "selected" : "business-operations" }}>Business operations</option>
-                <option value="data-analytics" {{ request('job_type') == 'data-analytics' ? "selected" : "data-analytics" }}>Data/Analytics</option>
-                <option value="player-operations" {{ request('job_type') == 'player-operations' ? "selected" : "player-operations" }}>Player operations</option>
-                <option value="communications" {{ request('job_type') == 'communications' ? "selected" : "communications" }}>Communications</option>
-                <option value="it-technology" {{ request('job_type') == 'it-technology' ? "selected" : "it-technology" }}>IT and Technology</option>
-                <option value="administrative" {{ request('job_type') == 'administrative' ? "selected" : "administrative" }}>Administrative</option>
+            <label class="active">Job Discipline</label>
+            <select name="job_discipline" class="browser-default">
+                <option value="all" {{ (!request('job_discipline') || request('job_discipline') == 'all') ? "selected" : "" }}>All</option>
+                @foreach($disciplines as $discipline)
+                    <option value="{{$discipline->tag->slug}}" {{ request('job_discipline') == $discipline->tag->slug ? "selected" : "" }}>{{$discipline->tag->name}}</option>
+                @endforeach
             </select>
         </div>
         <div class="col s3 input-field">

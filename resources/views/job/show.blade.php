@@ -61,6 +61,9 @@
             </div>
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
+            @foreach ($job->tags as $tag)
+                <span class="flat-button gray small tag">{{ $tag->name }}</span>
+            @endforeach
             <p class="small tags">
                 @if ($job->isNew())
                     <span class="label blue white-text" style="letter-spacing: 0.6px; font-size: 10px;"><b>NEW</b></span>

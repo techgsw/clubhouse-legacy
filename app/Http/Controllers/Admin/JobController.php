@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Job;
 use App\Pipeline;
 use App\JobPipeline;
+use App\Tag;
+use App\TagType;
 use App\User;
 use App\League;
 use App\Message;
@@ -53,8 +55,10 @@ class JobController extends Controller
         $count = $jobs->count();
         $jobs = $jobs->paginate(15);
 
+        $disciplines = TagType::where('type', 'job')->get();
+
         $searching =
-            request('job_type') && request('job_type') != 'all' ||
+            request('job_discipline') && request('job_discipline') != 'all' ||
             request('league') && request('league') != 'all' ||
             request('state') && request('state') != 'all' ||
             request('status') && request('status') != 'all' ||
@@ -66,6 +70,7 @@ class JobController extends Controller
             'count' => $count,
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
+            'disciplines' => $disciplines,
             'searching' => $searching
         ]);
     }
@@ -364,6 +369,16 @@ class JobController extends Controller
         $job->save();
 
         return back();
+    }
+
+    public function editDisciplines() {
+        $tags = Tag::whereHas('tagType', function($query) {
+            $query->where('type', 'job');
+        })->get();
+
+        return view('admin/job/disciplines', [
+            'tags' => $tags,
+        ]);
     }
 
 }
