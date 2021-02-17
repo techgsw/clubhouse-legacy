@@ -11,7 +11,7 @@
     </div>
 @endcan
 <div id="job-search-form">
-    @include('forms.admin-job-search')
+    @include('forms.admin-job-search', ['disciplines' => $disciplines])
 </div>
 <div class="row">
     <div class="col s12">

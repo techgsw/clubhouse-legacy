@@ -3,6 +3,7 @@
         <div class="col s12 m8">
             <div class="row">
                 {{ csrf_field() }}
+                <input type="hidden" id="job-tags-json" name="job_tags_json" value="{{$job_tags_json}}">
                 <div class="input-field col s12 m9">
                     <input id="title" type="text" class="" name="title" value="{{ old('title') ?: $job->title }}" required autofocus>
                     <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
@@ -21,21 +22,8 @@
                         <textarea class="markdown-input" name="description" value="{{ $job->description }}"></textarea>
                     </div>
                 </div>
-                <div class="input-field col s12">
-                    <label for="job-type" class="active">Job Track</label>
-                    <select name="job_type" class="browser-default">
-                        <option value="" {{ old("job_type") == "" ? "selected" : is_null($job->job_type) ? "selected" : "" }}>None</option>
-                        <option value="ticket-sales" {{ old("job_type") == "ticket-sales" ? "selected" : $job->job_type == "ticket-sales" ? "selected" : "" }}>Ticket Sales</option>
-                        <option value="sponsorship-sales" {{ old("job_type") == "sponsorship-sales" ? "selected" : $job->job_type == "sponsorship-sales" ? "selected" : "" }}>Sponsorship Sales</option>
-                        <option value="marketing" {{ old("job_type") == "marketing" ? "selected" : $job->job_type == "marketing" ? "selected" : "" }}>Marketing</option>
-                        <option value="internships" {{ old("job_type") == "internships" ? "selected" : $job->job_type == "internships" ? "selected" : "" }}>Internships</option>
-                        <option value="business-operations" {{ old("job_type") == "business-operations" ? "selected" : $job->job_type == "business-operations" ? "selected" : "" }}>Business operations</option>
-                        <option value="data-analytics" {{ old("job_type") == "data-analytics" ? "selected" : $job->job_type == "data-analytics" ? "selected" : "" }}>Data/Analytics</option>
-                        <option value="player-operations" {{ old("job_type") == "player-operations" ? "selected" : $job->job_type == "player-operations" ? "selected" : "" }}>Player operations</option>
-                        <option value="communications" {{ old("job_type") == "communications" ? "selected" : $job->job_type == "communications" ? "selected" : "" }}>Communications</option>
-                        <option value="it-technology" {{ old("job_type") == "it-technology" ? "selected" : $job->job_type == "it-technology" ? "selected" : "" }}>IT and Technology</option>
-                        <option value="administrative" {{ old("job_type") == "administrative" ? "selected" : $job->job_type == "administrative" ? "selected" : "" }}>Administrative</option>
-                    </select>
+                <div class="input-field col s12" style="min-height:125px">
+                    @include('job.forms.tag', ['job' => $job])
                 </div>
                 @can ('edit-job-recruiting-type', $job)
                 <div class="input-field col s12">

@@ -227,6 +227,12 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-tag', function ($user) {
             return $user->hasAccess('tag_create');
         });
+        Gate::define('create-tag-type', function ($user) {
+            return $user->hasAccess('tag_type_create');
+        });
+        Gate::define('delete-tag-type', function ($user) {
+            return $user->hasAccess('tag_type_delete');
+        });
 
         // Archive sessions (session post type)
         Gate::define('create-post-session', function ($user) {

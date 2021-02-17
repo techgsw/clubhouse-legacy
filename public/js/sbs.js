@@ -1044,6 +1044,14 @@ $.valHooks.textarea = {
         });
     }
 
+    Tag.getJobOptions = function () {
+        return $.ajax({
+            'type': 'GET',
+            'url': '/tag/jobs',
+            'data': {}
+        });
+    }
+
     Tag.getTrainingVideoOptions = function () {
         return $.ajax({
             'type': 'GET',
@@ -1060,7 +1068,7 @@ $.valHooks.textarea = {
         // Append to view
         var tag =
             `<span class="flat-button gray small tag">
-                <button type="button" name="button" class="x" tag-name=${name}>&times;</button>${name}
+                <button type="button" name="button" class="x remove-tag" tag-name="${name}" target-input-id="${json_input.attr('id')}">&times;</button>${name}
             </span>`;
         $(view).append(tag);
     }
@@ -1081,6 +1089,35 @@ $.valHooks.textarea = {
         if (button) {
             button.parent().remove();
         }
+    }
+
+    Tag.deleteFromType = function (name, type) {
+        $.ajax({
+            'type': 'GET',
+            'url': '/tag/delete-from-type',
+            'data' : {
+                type: type,
+                tag_name: name
+            }
+        })
+        .done(function(response) {
+            if (response.responseJSON && response.responseJSON.type != 'success') {
+                UI.addMessage(response.responseJSON);
+            } else {
+                var button = $('button[tag-name="' + name + '"]');
+                if (button) {
+                    button.parent().remove();
+                }
+            }
+        })
+        .fail(function() {
+            UI.addMessage({
+                'message': 'Oops! Something went wrong. Please contact support.',
+                'type': 'danger'
+            });
+        })
+        .always(function() {
+        });
     }
 
     Tag.init = function () {
@@ -1108,6 +1145,10 @@ $.valHooks.textarea = {
                     });
                 } else if (tag_autocomplete.hasClass('mentors')) {
                     Tag.getMentorOptions().done( function(data) {
+                        Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
+                    });
+                } else if (tag_autocomplete.hasClass('jobs')) {
+                    Tag.getJobOptions().done( function(data) {
                         Tag.populateAutocompleteOptions(data, autocomplete, json_input, view_element)
                     });
                 } else {
@@ -1238,6 +1279,10 @@ $.valHooks.textarea = {
                     return;
                 }
 
+                if ($(this).hasClass('no-submit')) {
+                    e.preventDefault();
+                }
+
                 var json_input = $("#"+$(this).attr('target-input-id'));
                 if (json_input.length === 0) {
                     console.warn("Missing JSON input element for tags");
@@ -1288,9 +1333,15 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var name = $(this).attr('tag-name');
-                var json_input = $("#"+$(this).attr('target-input-id'));
-                var view_element = $(this).parent().parent();
-                Tag.removeFromEntity(name, json_input, view_element);
+                if ($(this).hasClass('job-discipline-edit')) {
+                    if (window.confirm('This will remove the tag from any associated jobs and prevent admins from creating jobs with this tag. Are you sure?')) {
+                        Tag.deleteFromType(name, 'job');
+                    }
+                } else {
+                    var json_input = $("#"+$(this).attr('target-input-id'));
+                    var view_element = $(this).parent().parent();
+                    Tag.removeFromEntity(name, json_input, view_element);
+                }
             }
         },
         'span.tag button.remove-tag'

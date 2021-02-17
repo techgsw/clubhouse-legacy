@@ -60,7 +60,7 @@
     </div>
     <div class="container">
         <div id="job-search-form" class="row {{ $searching ? '' : 'hide-on-small-only'}}">
-            @include('forms.job-search')
+            @include('forms.job-search', ['disciplines' => $disciplines])
         </div>
     </div>
 </div>

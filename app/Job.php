@@ -46,6 +46,11 @@ class Job extends Model
         return $this->belongsTo(Organization::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'job_tag');
+    }
+
     public function isNew()
     {
         $new = (new \DateTime('NOW'))->sub(new \DateInterval('P14D'));
@@ -221,9 +226,11 @@ class Job extends Model
             $jobs = Job::where('job_status_id', JOB_STATUS_ID['open']);
         }
 
-        $type = request('job_type');
+        $type = request('job_discipline');
         if ($type && $type != 'all') {
-            $jobs->where('job_type', $type);
+            $jobs->whereHas('tags', function($query) use ($type) {
+                $query->where('slug', $type);
+            });
         }
 
         $league = request('league');

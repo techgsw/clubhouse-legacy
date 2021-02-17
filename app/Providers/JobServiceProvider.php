@@ -20,7 +20,7 @@ use App\Exceptions\SBSException;
 
 class JobServiceProvider extends ServiceProvider
 {
-    public static function store(Job $job, UploadedFile $document = null, UploadedFile $alt_image = null)
+    public static function store(Job $job, UploadedFile $document = null, UploadedFile $alt_image = null, $job_tags = null)
     {
         $organization = Organization::find($job->organization_id);
         $image = $organization->image;
@@ -88,6 +88,10 @@ class JobServiceProvider extends ServiceProvider
 
                 $transaction->job_id = $job->id;
                 $transaction->save();
+            }
+
+            if ($job_tags) {
+                $job->tags()->sync($job_tags);
             }
 
             return $job;

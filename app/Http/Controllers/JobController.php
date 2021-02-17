@@ -16,6 +16,7 @@ use App\League;
 use App\Message;
 use App\Organization;
 use App\OrganizationType;
+use App\TagType;
 use App\Transaction;
 use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
@@ -67,8 +68,10 @@ class JobController extends Controller
             }
         }
 
+        $disciplines = TagType::where('type', 'job')->get();
+
         $searching =
-            request('job_type') && request('job_type') != 'all' ||
+            request('job_discipline') && request('job_discipline') != 'all' ||
             request('league') && request('league') != 'all' ||
             request('state') && request('state') != 'all' ||
             request('organization');
@@ -84,6 +87,7 @@ class JobController extends Controller
             'featured_jobs' => $random_featured_jobs,
             'searching' => $searching,
             'pipeline' => $pipeline,
+            'disciplines' => $disciplines,
             'leagues' => League::all()
         ]);
     }
@@ -287,7 +291,7 @@ class JobController extends Controller
                     $user->contact->save();
                 }
 
-                $job = JobServiceProvider::store($job, $document, $alt_image);
+                $job = JobServiceProvider::store($job, $document, $alt_image, json_decode(request('job_tags_json')));
 
                 if (!$user->roles->contains('administrator')) {
                     try {
@@ -514,12 +518,19 @@ class JobController extends Controller
             $job->organization_name == $job->organization->name &&
             $job->image_id == $job->organization->image_id;
 
+        $tags = [];
+        foreach ($job->tags as $tag) {
+            $tags[] = $tag->name;
+        }
+        $job_tags_json = json_encode($tags);
+
         $pd = new Parsedown;
         return view('job/edit', [
             'job' => $job,
             'leagues' => League::all(),
             'reuse_organization_fields' => $reuse_organization_fields,
             'description' => $pd->text($job->description),
+            'job_tags_json' => $job_tags_json,
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Job Postings' => Auth::user()->can('view-admin-jobs') ? '/admin/job' : '/user/'.Auth::user()->id.'/job-postings/',
@@ -628,6 +639,11 @@ class JobController extends Controller
 
                 $job->edited_at = new \DateTime('NOW');
                 $job->save();
+
+                $job_tags = json_decode(request('job_tags_json'));
+                if ($job_tags) {
+                    $job->tags()->sync($job_tags);
+                }
 
                 return $job;
             });

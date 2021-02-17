@@ -1,6 +1,7 @@
 @php $pd = new Parsedown(); @endphp
 <form id="create-job-form" method="post" action="" enctype="multipart/form-data" class="organization-field-autocomplete">
     {{ csrf_field() }}
+    <input type="hidden" id="job-tags-json" name="job_tags_json" value="[]">
     <div class="row">
         <div class="col s12 m6">
             @if(count($organizations) != 1)
@@ -91,24 +92,9 @@
             </div>
         </div>
         <div class="col s12 m4">
-            <div class="input-field">
-                <label for="job-type" class="active" data-error="{{ $errors->first('job_type') }}">Job Type</label>
-                <select id="job-type" name="job_type" class="validate" required style="display: block; height: 0; width: 0; border: none; position: absolute; bottom: 0px; background-color: rgba(255, 255, 255, 0); padding: 0; box-shadow: none;">
-                    <option value="" {{ old('job_type') == "" ? "selected" : "" }}>Please select...</option>
-                    <option value="administrative" {{ old('job_type') == 'administrative' ? "selected" : "" }}>Administrative</option>
-                    <option value="business-operations" {{ old('job_type') == 'business-operations' ? "selected" : "" }}>Business operations</option>
-                    <option value="communications" {{ old('job_type') == 'communications' ? "selected" : "" }}>Communications</option>
-                    <option value="data-analytics" {{ old('job_type') == 'data-analytics' ? "selected" : "" }}>Data/Analytics</option>
-                    <option value="internships" {{ old('job_type') == 'internships' ? "selected" : "" }}>Internships</option>
-                    <option value="it-technology" {{ old('job_type') == 'it-technology' ? "selected" : "" }}>IT and Technology</option>
-                    <option value="marketing" {{ old('job_type') == 'marketing' ? "selected" : "" }}>Marketing</option>
-                    <option value="player-operations" {{ old('job_type') == 'player-operations' ? "selected" : "" }}>Player operations</option>
-                    <option value="sponsorship-sales" {{ old('job_type') == 'sponsorship-sales' ? "selected" : "" }}>Sponsorship Sales</option>
-                    <option value="ticket-sales" {{ old('job_type') == 'ticket-sales' ? "selected" : "" }}>Ticket Sales</option>
-                </select>
-            </div>
+            @include('job.forms.tag', ['job' => null])
             @cannot ('view-admin-jobs')
-            <div class="input-field dark">
+            <div class="input-field dark" style="margin-top:50px;">
                 <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="free" id="free" {{ ($available_premium_job_count || $available_platinum_job_count ? '' : 'checked=checked') }} />
                     <label for="free">Free</label>
