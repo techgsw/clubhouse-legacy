@@ -102,6 +102,7 @@ class UserController extends Controller
         foreach ($free_clubhouse_transactions as $transaction) {
             $activity = array(
                 'date' => $transaction->created_at,
+                'type' => '',
                 'name' => $transaction->productOptions->first()->product->name
             );
             foreach ($transaction->productOptions->first()->product->tags as $tag) {
@@ -109,9 +110,7 @@ class UserController extends Controller
                     $activity['type'] = 'Free Career Service';
                 } else if (in_array($tag->name, array('Webinar', '#SameHere'))) {
                     $activity['type'] = 'Webinar RSVP';
-                } else {
-                    $activity['type'] = '';
-                }
+                } 
             }
             $clubhouse_activity[] = $activity;
         }
