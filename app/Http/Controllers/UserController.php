@@ -109,6 +109,8 @@ class UserController extends Controller
                     $activity['type'] = 'Free Career Service';
                 } else if (in_array($tag->name, array('Webinar', '#SameHere'))) {
                     $activity['type'] = 'Webinar RSVP';
+                } else {
+                    $activity['type'] = '';
                 }
             }
             $clubhouse_activity[] = $activity;
