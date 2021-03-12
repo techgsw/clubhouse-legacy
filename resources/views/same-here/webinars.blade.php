@@ -1,5 +1,5 @@
 @php $pd = new Parsedown(); @endphp
-@extends('layouts.same-here')
+@extends('layouts.clubhouse')
 @section('title', 'Mental Health Discussions | #SameHere ')
 @section('content')
 <div class="container">

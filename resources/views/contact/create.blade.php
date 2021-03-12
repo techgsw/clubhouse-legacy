@@ -1,5 +1,5 @@
 <!-- /resources/views/contact/create.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'New Contact')
 @section('content')
 <div class="container">

@@ -8,11 +8,6 @@
             <h5 style="font-size:25px;">Sales training videos produced by the team at <a href="{{env('APP_URL')}}">SBS Consulting</a></h5>
             <h5 style="max-width:1050px;font-size:19px;text-align: center;margin-left:auto;margin-right:auto;">We've trained more than 100 sports teams throughout the US and Canada, conducted more than 350 sales training sessions and trained over 1,000 salespeople in sports.</h5>
         </div>
-        <div class="col s12">
-            <a href="#email-list" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Join our email list</a>
-            <a href="#discussion-board" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Ask us a question</a>
-            <a href="{{env('APP_URL')}}/contact" class="flat-button btn-large same-here white" style="max-width: 225px;margin: 10px 5px;">Set up a sales training</a>
-        </div>
         <div class="col s12 center-align" style="margin-top:20px;">
             <a href="/sales-vault/training-videos" class="btn sbs-red">See all videos</a>
         </div>
@@ -69,58 +64,6 @@
             </div>
             <div class="col s12 m10 offset-m1" style="margin-top:20px;">
                 <h5>Interested in a training for your sales team? <a href="{{env('APP_URL')}}/contact">Contact us.</a></h5>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid" id="email-list" style="background-color: #EB2935;color: #FFFFFF;">
-        @include('clubhouse.sales-vault-newsletter')
-    </div>
-    <div class="container" id="discussion-board" style="margin-bottom: 60px;">
-        <div class="row center-align" style="padding-top:40px;">
-            <h5><strong style="text-transform:uppercase;">Sport sales discussion board</strong></h5>
-            <p>Have a challenge (or objection) you're facing in sport sales?</p>
-        </div>
-        <div class="row">
-            <div class="col s12 m8 offset-m2">
-                @if (Auth::user())
-                    <form class="form-horizontal" role="form" method="POST" action="/sales-vault/discussion">
-                        {{ csrf_field() }}
-                        <div class="input-field col s12 m8">
-                            <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" required>
-                            <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <textarea id="body" class="materialize-textarea validate {{ $errors->has('body') ? 'invalid' : '' }}" name="body" required></textarea>
-                            <label for="body" data-error="{{ $errors->first('body') }}">Type a question and the SBS team will answer it for you.</label>
-                        </div>
-                        <div class="col s12">
-                            @include('layouts.components.errors')
-                        </div>
-                        <div class="col s12">
-                            <button type="submit" class="btn sbs-red">Submit</button>
-                        </div>
-                    </form>
-                @else
-                    <div class="center-align">
-                        <h5>Want to post a question?</h5>
-                        <a href="#register-modal" id="buy-now" class="btn sbs-red">Register for a free account</a>
-                        <p>Already a member? <a href="/login">Login</a></p>
-                    </div>
-                @endif
-            </div>
-        </div>
-        <div class="row">
-            @foreach($questions as $question)
-                <div class="col s12 m8 offset-m2">
-                    <hr>
-                    <h6><a href="/sales-vault/discussion/{{ $question->id }}" class="sbs-red-text">{{ $question->title }}</a></h6>
-                    <h6 style="padding:5px 0px;color:#888;">{{ count($question->answers) }} answer{{count($question->answers) == 1 ? '' : 's'}} &#183 <a class="no-underline" href="/sales-vault/discussion/{{ $question->id }}">View All</a></h6>
-                    <p>{{ $question->body }}</p>
-                </div>
-            @endforeach
-            <div class="col s12 m8 offset-m2">
-                <br>
-                <a href="/sales-vault/discussion" class="flat-button large red" style="">Load More</a>
             </div>
         </div>
     </div>

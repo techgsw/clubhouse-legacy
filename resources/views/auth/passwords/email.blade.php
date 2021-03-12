@@ -1,5 +1,5 @@
 <!-- TODO What's this for? -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title')
     Reset Password
 @endsection

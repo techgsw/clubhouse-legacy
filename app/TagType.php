@@ -14,5 +14,10 @@ class TagType extends Model
     {
         return $this->belongsTo(Tag::class);
     }
+
+    public function profileEmailPreferences()
+    {
+        return $this->belongsToMany(Profile::class, 'profile_email_preference_tag_type');
+    }
 }
 

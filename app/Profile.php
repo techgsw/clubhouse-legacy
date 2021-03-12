@@ -38,6 +38,11 @@ class Profile extends Model
         return $this->morphMany('App\Note', 'notable');
     }
 
+    public function emailPreferenceTagTypes()
+    {
+        return $this->belongsToMany(TagType::class, 'profile_email_preference_tag_type');
+    }
+
     public function getJobSeekingStatus()
     {
         switch ($this->job_seeking_status) {
@@ -74,5 +79,89 @@ class Profile extends Model
         default:
             return '';
         }
+    }
+
+    public function isPersonalComplete()
+    {
+        return
+            $this->date_of_birth &&
+            $this->ethnicity &&
+            $this->gender;
+    }
+
+    public function isAddressComplete()
+    {
+        return
+            $this->address[0] &&
+            $this->address[0]->line1 &&
+            $this->address[0]->city &&
+            $this->address[0]->state &&
+            $this->address[0]->postal_code &&
+            $this->address[0]->country;
+    }
+
+    public function isJobPreferencesComplete()
+    {
+        return
+            $this->job_seeking_status &&
+            $this->job_seeking_type &&
+            $this->job_seeking_region && 
+            count($this->emailPreferenceTagTypes) > 0 && (
+                // At least one job factor
+                $this->job_factors_money ||
+                $this->job_factors_title ||
+                $this->job_factors_location ||
+                $this->job_factors_organization ||
+                $this->job_factors_other
+            );
+    }
+
+    public function isEmploymentComplete()
+    {
+        return
+            !is_null($this->works_in_sports) &&
+            $this->current_organization &&
+            $this->current_title &&
+            $this->current_region &&
+            $this->current_organization_years &&
+            $this->current_title_years && (
+                // At least one department experience
+                $this->department_experience_ticket_sales ||
+                $this->department_experience_sponsorship_sales ||
+                $this->department_experience_service ||
+                $this->department_experience_premium_sales ||
+                $this->department_experience_marketing ||
+                $this->department_experience_sponsorship_activation ||
+                $this->department_experience_hr ||
+                $this->department_experience_analytics ||
+                $this->department_experience_cr ||
+                $this->department_experience_pr ||
+                $this->department_experience_database ||
+                $this->department_experience_finance ||
+                $this->department_experience_arena_ops ||
+                $this->department_experience_player_ops ||
+                $this->department_experience_event_ops ||
+                $this->department_experience_social_media ||
+                $this->department_experience_entertainment ||
+                $this->department_experience_legal ||
+                $this->department_experience_other
+            );
+    }
+
+    public function isEducationComplete()
+    {
+        return
+            $this->education_level &&
+            !is_null($this->has_school_plans);
+    }
+
+    public function isComplete()
+    {
+        return 
+            $this->isPersonalComplete() &&
+            $this->isAddressComplete() &&
+            $this->isJobPreferencesComplete() &&
+            $this->isEmploymentComplete();
+
     }
 }
