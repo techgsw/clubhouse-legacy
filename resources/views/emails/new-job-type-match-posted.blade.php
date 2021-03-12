@@ -16,7 +16,7 @@
             </tr>
         </table>
         <br>
-        <a href="{{env('CLUBHOUSE_URL')}}/job/{{$job->id}}">Click here to apply</a>
+        <a href="{{env('CLUBHOUSE_URL').$job->getURL()}}">Click here to apply</a>
         <br><br>
         <p>We sent you this message based on your sports job interests and preferences. If you'd like to update them, or opt out of these emails, <a href="{{env('CLUBHOUSE_URL')}}/user/{{$user->id}}/edit-profile">edit your profile here</a>.</p>
         <p>Thanks, <br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>

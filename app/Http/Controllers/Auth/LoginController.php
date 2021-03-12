@@ -58,7 +58,7 @@ class LoginController extends Controller
                     ));
                 } 
             }
-            if (!$user->profile->isComplete()) {
+            if ($user && $user->profile && !$user->profile->isComplete()) {
                 Session::flash('message', new Message(
                     'Your profile is still not complete! Click here to fill it out.',
                     "warning",
