@@ -1,5 +1,5 @@
 <!-- /resources/views/product/show.blade.php -->
-@extends('layouts.same-here')
+@extends('layouts.clubhouse')
 @section('title', "$product->name")
 @section('description', $product->getCleanDescription())
 @section('url', Request::fullUrl())

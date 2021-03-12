@@ -9,6 +9,7 @@ use App\Message;
 use App\Note;
 use App\Organization;
 use App\Profile;
+use App\TagType;
 use App\User;
 use App\Providers\ImageServiceProvider;
 use Illuminate\Http\Request;
@@ -194,84 +195,6 @@ class ProfileController extends Controller
             return abort(404);
         }
 
-        $personal_complete =
-            $profile->date_of_birth &&
-            $profile->ethnicity &&
-            $profile->gender;
-
-        $address_complete =
-            $address->line1 &&
-            $address->city &&
-            $address->state &&
-            $address->postal_code &&
-            $address->country;
-
-        $job_preferences_complete =
-            $profile->job_seeking_status &&
-            $profile->job_seeking_type &&
-            $profile->job_seeking_region && (
-                // At least one department goal
-                $profile->department_goals_ticket_sales ||
-                $profile->department_goals_sponsorship_sales ||
-                $profile->department_goals_service ||
-                $profile->department_goals_premium_sales ||
-                $profile->department_goals_marketing ||
-                $profile->department_goals_sponsorship_activation ||
-                $profile->department_goals_hr ||
-                $profile->department_goals_analytics ||
-                $profile->department_goals_cr ||
-                $profile->department_goals_pr ||
-                $profile->department_goals_database ||
-                $profile->department_goals_finance ||
-                $profile->department_goals_arena_ops ||
-                $profile->department_goals_player_ops ||
-                $profile->department_goals_event_ops ||
-                $profile->department_goals_social_media ||
-                $profile->department_goals_entertainment ||
-                $profile->department_goals_legal ||
-                $profile->department_goals_other
-            ) && (
-                // At least one job factor
-                $profile->job_factors_money ||
-                $profile->job_factors_title ||
-                $profile->job_factors_location ||
-                $profile->job_factors_organization ||
-                $profile->job_factors_other
-            );
-
-        $employment_complete =
-            !is_null($profile->works_in_sports) &&
-            $profile->current_organization &&
-            $profile->current_title &&
-            $profile->current_region &&
-            $profile->current_organization_years &&
-            $profile->current_title_years && (
-                // At least one department experience
-                $profile->department_experience_ticket_sales ||
-                $profile->department_experience_sponsorship_sales ||
-                $profile->department_experience_service ||
-                $profile->department_experience_premium_sales ||
-                $profile->department_experience_marketing ||
-                $profile->department_experience_sponsorship_activation ||
-                $profile->department_experience_hr ||
-                $profile->department_experience_analytics ||
-                $profile->department_experience_cr ||
-                $profile->department_experience_pr ||
-                $profile->department_experience_database ||
-                $profile->department_experience_finance ||
-                $profile->department_experience_arena_ops ||
-                $profile->department_experience_player_ops ||
-                $profile->department_experience_event_ops ||
-                $profile->department_experience_social_media ||
-                $profile->department_experience_entertainment ||
-                $profile->department_experience_legal ||
-                $profile->department_experience_other
-            );
-
-        $education_complete =
-            $profile->education_level &&
-            !is_null($profile->has_school_plans);
-
         if ($profile->phone && strlen($profile->phone) == 10) {
             $profile->phone = "(".substr($profile->phone, 0, 3).")".substr($profile->phone, 3, 3)."-".substr($profile->phone, 6, 4);
         }
@@ -279,6 +202,8 @@ class ProfileController extends Controller
         if ($profile->secondary_phone && strlen($profile->secondary_phone) == 10) {
             $profile->secondary_phone = "(".substr($profile->secondary_phone, 0, 3).")".substr($profile->secondary_phone, 3, 3)."-".substr($profile->secondary_phone, 6, 4);
         }
+
+        $job_tags = TagType::where('type', 'job')->get();
 
         $breadcrumb = array(
             'Home' => '/',
@@ -298,11 +223,7 @@ class ProfileController extends Controller
             'user' => $user,
             'profile' => $profile,
             'address' => $address,
-            'personal_complete' => $personal_complete,
-            'address_complete' => $address_complete,
-            'job_preferences_complete' => $job_preferences_complete,
-            'employment_complete' => $employment_complete,
-            'education_complete' => $education_complete,
+            'job_tags' => $job_tags,
             'breadcrumb' => $breadcrumb
         ]);
     }
@@ -416,25 +337,6 @@ class ProfileController extends Controller
         $profile->job_seeking_status = request('job_seeking_status');
         $profile->job_seeking_type = request('job_seeking_type');
         $profile->job_seeking_region = request('job_seeking_region');
-        $profile->department_goals_ticket_sales = request('department_goals_ticket_sales') ? true : false;
-        $profile->department_goals_sponsorship_sales = request('department_goals_sponsorship_sales') ? true : false;
-        $profile->department_goals_service = request('department_goals_service') ? true : false;
-        $profile->department_goals_premium_sales = request('department_goals_premium_sales') ? true : false;
-        $profile->department_goals_marketing = request('department_goals_marketing') ? true : false;
-        $profile->department_goals_sponsorship_activation = request('department_goals_sponsorship_activation') ? true : false;
-        $profile->department_goals_hr = request('department_goals_hr') ? true : false;
-        $profile->department_goals_analytics = request('department_goals_analytics') ? true : false;
-        $profile->department_goals_cr = request('department_goals_cr') ? true : false;
-        $profile->department_goals_pr = request('department_goals_pr') ? true : false;
-        $profile->department_goals_database = request('department_goals_database') ? true : false;
-        $profile->department_goals_finance = request('department_goals_finance') ? true : false;
-        $profile->department_goals_arena_ops = request('department_goals_arena_ops') ? true : false;
-        $profile->department_goals_player_ops = request('department_goals_player_ops') ? true : false;
-        $profile->department_goals_event_ops = request('department_goals_event_ops') ? true : false;
-        $profile->department_goals_social_media = request('department_goals_social_media') ? true : false;
-        $profile->department_goals_entertainment = request('department_goals_entertainment') ? true : false;
-        $profile->department_goals_legal = request('department_goals_legal') ? true : false;
-        $profile->department_goals_other = request('department_goals_other');
         $profile->job_factors_money = request('job_factors_money') ? true : false;
         $profile->job_seeking_income = request('job_seeking_income');
         $profile->job_factors_title = request('job_factors_title') ? true : false;
@@ -481,12 +383,21 @@ class ProfileController extends Controller
         $profile->has_school_plans = request('has_school_plans');
 
         // Email preferences
-        $profile->email_preference_entry_job = request('email_preference_entry_job') ? true : false;
-        $profile->email_preference_new_job = request('email_preference_new_job') ? true : false;
-        $profile->email_preference_ticket_sales = request('email_preference_ticket_sales') ? true : false;
-        $profile->email_preference_leadership = request('email_preference_leadership') ? true : false;
-        $profile->email_preference_best_practices = request('email_preference_best_practices') ? true : false;
-        $profile->email_preference_career_advice = request('email_preference_career_advice') ? true : false;
+        $profile->email_preference_new_job = request('email_preference_new_job_opt_out') ? false : true;
+        $email_preference_tag_type_ids = array();
+        foreach($request->all() as $key=>$datum) {
+            if (strpos($key, 'email_preference_job_') !== false && $datum) {
+                try {
+                    $tag_type_id = intval(explode('email_preference_job_', $key)[1]);
+                    if (TagType::find($tag_type_id) !== null) {
+                        $email_preference_tag_type_ids[] = $tag_type_id;
+                    }
+                } catch (\Throwable $t) {
+                    Log::error($t);
+                }
+            }
+        }
+        $profile->emailPreferenceTagTypes()->sync($email_preference_tag_type_ids);
 
         // Timestamp(s)
         $profile->updated_at = new \DateTime('NOW');

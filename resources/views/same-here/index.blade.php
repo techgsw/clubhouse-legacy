@@ -1,5 +1,5 @@
 @php $pd = new Parsedown(); @endphp
-@extends('layouts.same-here')
+@extends('layouts.clubhouse')
 @section('title', '#SameHere Solutions')
 @section('hero')
     <div class="row hero bg-image same-here">
@@ -10,10 +10,7 @@
             <h2 class="header">We're all in this together.</h2>
             <h5 class="header">Mental Health support for the sports business industry.</h5>
             <br>
-            <div class="col s12 m2 offset-m3">
-                <a href="#same-here-newsletter" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Join our community</a>
-            </div>
-            <div class="col s12 m2">
+            <div class="col s12 m2 offset-m4">
                 <a href="#same-here-blog" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Blog</a>
             </div>
             <div class="col s12 m2">
@@ -23,7 +20,7 @@
     </div>
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container" style="margin-bottom:75px;">
         <div class="row" style="padding:40px 0px;">
             <div class="col s12 m10 offset-m1 center-align">
                 <h4><strong>As sports industry professionals we all face challenges that can affect our mental health.</strong></h4>
@@ -58,54 +55,6 @@
                         <span class="about-position">The <span style="text-transform: none;">#SameHere</span> Global Mental Health Movement&#8482;</span>
                     </h5>
                 </a>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="container-fluid" style="background-color: #EB2935;color: #FFFFFF;">
-        @include('same-here.newsletter')
-    </div>
-    <div class="container" style="padding:40px 0px;">
-        <div class="row">
-            <div class="col s12 center-align">
-                <h4>Mental Health Discussion Board</h4>
-                <p>Member or not, feel free to share your thoughts and questions anonymously here. Your input will be shared to our public discussion board but your identity will be protected. This forum provides you a platform to ask questions of others who may be experiencing similar challenges, and it also allows us at #SameHere Solutions to get ideas for possible new mental health content in the future. This information won't be shared anywhere other than this discussion board.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12 m8 offset-m2">
-                <form class="form-horizontal" role="form" method="POST" action="/same-here/discussion">
-                    {{ csrf_field() }}
-                    <div class="input-field col s12 m8">
-                        <input id="title" type="text" class="validate {{ $errors->has('title') ? 'invalid' : '' }}" name="title" required>
-                        <label for="title" data-error="{{ $errors->first('title') }}">Title</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <textarea id="body" class="materialize-textarea validate {{ $errors->has('body') ? 'invalid' : '' }}" name="body" required></textarea>
-                        <label for="body" data-error="{{ $errors->first('body') }}">Something on your mind?</label>
-                    </div>
-                    <div class="col s12">
-                        @include('layouts.components.errors')
-                    </div>
-                    <div class="col s12">
-                        <div class="g-recaptcha" style="transform:scale(0.65);-webkit-transform:scale(0.65);transform-origin:0 0;-webkit-transform-origin:0 0; margin-top: 10px;" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-                        <button type="submit" class="btn sbs-red">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="row">
-            @foreach($questions as $question)
-                <div class="col s12 m8 offset-m2">
-                    <hr>
-                    <h6><a href="/same-here/discussion/{{ $question->id }}" class="sbs-red-text">{{ $question->title }}</a></h6>
-                    <h6 style="padding:5px 0px;color:#888;">{{ count($question->answers) }} answer{{count($question->answers) == 1 ? '' : 's'}} &#183 <a class="no-underline" href="/same-here/discussion/{{ $question->id }}">View All</a></h6>
-                    <p>{{ $question->body }}</p>
-                </div>
-            @endforeach
-            <div class="col s12 m8 offset-m2">
-                <br>
-                <a href="/same-here/discussion" class="flat-button large red" style="">Load More</a>
             </div>
         </div>
     </div>

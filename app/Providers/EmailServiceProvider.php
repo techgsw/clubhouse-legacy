@@ -32,6 +32,7 @@ use App\Mail\Admin\UserJobPostNotification;
 use App\Mail\Admin\UserOrganizationCreateNotification;
 use App\Mail\MentorshipRequest;
 use App\Mail\JobExpirationNotification;
+use App\Mail\NewJobTypeMatchPosted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
@@ -416,6 +417,22 @@ class EmailServiceProvider extends ServiceProvider
 
         foreach ($users as $user) {
             Mail::to($user)->send(new UserRegistered($user));
+        }
+    }
+
+    /**
+     * Send an email to all users whose email preferences match the recently posted job's disciplines
+     */
+    public static function sendNewJobTypeMatchPostedEmails(Job $job)
+    {
+        $users = User::whereHas('profile.emailPreferenceTagTypes', function ($query) use ($job) {
+            $query->where('type', 'job')->whereIn('tag_name', $job->tags->pluck('name'));
+        })->whereHas('profile', function($query) {
+            $query->where('email_preference_new_job', true);
+        })->get();
+
+        foreach ($users as $user) {
+            Mail::to($user)->send(new NewJobTypeMatchPosted($user, $job));
         }
     }
 

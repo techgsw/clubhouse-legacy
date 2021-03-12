@@ -226,29 +226,6 @@ class JobController extends Controller
                 $featured = false;
             }
 
-            //TODO: this is being temporarily commented out because it was only being used for admins
-            // and it doesn't apply to them
-            // the problem is that there are some job users who don't have a job listed in their profile
-//            $organizations = $user->contact->organizations;
-//
-//            if (count($organizations) >= 1) {
-//                $valid_organization = false;
-//                foreach ($organizations as $user_organization) {
-//                    if ($organization->id == $user_organization->id) {
-//                        $valid_organization = true;
-//                    }
-//                }
-//
-//                if (!$valid_organization) {
-//                    $request->session()->flash('message', new Message(
-//                        "Invalid organization selection.",
-//                        "danger",
-//                        $code = null,
-//                        $icon = "error"
-//                    ));
-//                    return back()->withInput();
-//                }
-//            }
         } else {
             $recruiting_type_code = $request->recruiting_type_code;
             $job_type_id = 1;
@@ -282,7 +259,6 @@ class JobController extends Controller
             'external_job_link' => request('external_job_link'),
         ]);
 
-
         try {
             $job = DB::transaction(function () use ($job, $document, $alt_image, $user, $organization) {
                 if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
@@ -299,6 +275,12 @@ class JobController extends Controller
                     } catch (\Throwable $e) {
                         Log::error($e->getMessage());
                     }
+                }
+
+                try {
+                    EmailServiceProvider::sendNewJobTypeMatchPostedEmails($job);
+                } catch (\Throwable $e) {
+                    Log::error($e->getMessage());
                 }
 
                 return $job;

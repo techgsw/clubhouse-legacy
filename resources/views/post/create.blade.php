@@ -1,5 +1,5 @@
 <!-- /resources/views/post/create.blade.php -->
-@extends('layouts.default')
+@extends('layouts.clubhouse')
 @section('title', 'New Post')
 @section('content')
 <div class="container">

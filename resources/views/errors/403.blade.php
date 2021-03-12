@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends(Request::root() == env('CLUBHOUSE_URL') ? 'layouts.clubhouse' : 'layouts.default')
 @section('title', 'Not Authorized')
 @section('content')
 <div class="container">

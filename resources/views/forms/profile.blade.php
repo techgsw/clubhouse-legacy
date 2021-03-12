@@ -77,7 +77,7 @@
         <li class="form-section"> <!-- Personal Information -->
             <div class="collapsible-header">
                 <i class="material-icons">person</i>Personal Information
-                @if ($personal_complete)
+                @if ($profile->isPersonalComplete())
                     <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
                     <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
@@ -135,7 +135,7 @@
         <li class="form-section"> <!-- Address -->
             <div class="collapsible-header">
                 <i class="material-icons">home</i>Address
-                @if ($address_complete)
+                @if ($profile->isAddressComplete())
                     <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
                     <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
@@ -174,7 +174,7 @@
         <li class="form-section"> <!-- Job-seeking Preferences -->
             <div class="collapsible-header">
                 <i class="material-icons">settings</i>Job-seeking Preferences
-                @if ($job_preferences_complete)
+                @if ($profile->isJobPreferencesComplete())
                     <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
                     <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
@@ -224,84 +224,14 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <p>What departments are you most interested in?</p>
+                        <p>What departments are you most interested in? <i>We use these to send you notification about new job postings. To opt out, check your Email Preferences below</i></p>
                     </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_ticket_sales" id="department_goals_ticket_sales" value="1" {{ is_null(old('department_goals_ticket_sales')) ? ($profile->department_goals_ticket_sales ? "checked" : "") : (old('department_goals_ticket_sales') ? "checked" : "") }} />
-                        <label for="department_goals_ticket_sales">Ticket Sales</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_sponsorship_sales" id="department_goals_sponsorship_sales" value="1" {{ is_null(old('department_goals_sponsorship_sales')) ? ($profile->department_goals_sponsorship_sales ? "checked" : "") : (old('department_goals_sponsorship_sales') ? "checked" : "") }} />
-                        <label for="department_goals_sponsorship_sales">Sponsorship Sales</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_service" id="department_goals_service" value="1" {{ is_null(old('department_goals_service')) ? ($profile->department_goals_service ? "checked" : "") : (old('department_goals_service') ? "checked" : "") }} />
-                        <label for="department_goals_service">Service</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_premium_sales" id="department_goals_premium_sales" value="1" {{ is_null(old('department_goals_premium_sales')) ? ($profile->department_goals_premium_sales ? "checked" : "") : (old('department_goals_premium_sales') ? "checked" : "") }} />
-                        <label for="department_goals_premium_sales">Premium Sales</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_marketing" id="department_goals_marketing" value="1" {{ is_null(old('department_goals_marketing')) ? ($profile->department_goals_marketing ? "checked" : "") : (old('department_goals_marketing') ? "checked" : "") }} />
-                        <label for="department_goals_marketing">Marketing</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_sponsorship_activation" id="department_goals_sponsorship_activation" value="1" {{ is_null(old('department_goals_sponsorship_activation')) ? ($profile->department_goals_sponsorship_activation ? "checked" : "") : (old('department_goals_sponsorship_activation') ? "checked" : "") }} />
-                        <label for="department_goals_sponsorship_activation">Sponsorship Activation</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_hr" id="department_goals_hr" value="1" {{ is_null(old('department_goals_hr')) ? ($profile->department_goals_hr ? "checked" : "") : (old('department_goals_hr') ? "checked" : "") }} />
-                        <label for="department_goals_hr">Human Resources</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_analytics" id="department_goals_analytics" value="1" {{ is_null(old('department_goals_analytics')) ? ($profile->department_goals_analytics ? "checked" : "") : (old('department_goals_analytics') ? "checked" : "") }} />
-                        <label for="department_goals_analytics">Analytics</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_cr" id="department_goals_cr" value="1" {{ is_null(old('department_goals_cr')) ? ($profile->department_goals_cr ? "checked" : "") : (old('department_goals_cr') ? "checked" : "") }} />
-                        <label for="department_goals_cr">Community Relations</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_pr" id="department_goals_pr" value="1" {{ is_null(old('department_goals_pr')) ? ($profile->department_goals_pr ? "checked" : "") : (old('department_goals_pr') ? "checked" : "") }} />
-                        <label for="department_goals_pr">Public Relations</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_database" id="department_goals_database" value="1" {{ is_null(old('department_goals_database')) ? ($profile->department_goals_database ? "checked" : "") : (old('department_goals_database') ? "checked" : "") }} />
-                        <label for="department_goals_database">Database</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_finance" id="department_goals_finance" value="1" {{ is_null(old('department_goals_finance')) ? ($profile->department_goals_finance ? "checked" : "") : (old('department_goals_finance') ? "checked" : "") }} />
-                        <label for="department_goals_finance">Finance</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_arena_ops" id="department_goals_arena_ops" value="1" {{ is_null(old('department_goals_arena_ops')) ? ($profile->department_goals_arena_ops ? "checked" : "") : (old('department_goals_arena_ops') ? "checked" : "") }} />
-                        <label for="department_goals_arena_ops">Arena Operations</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_player_ops" id="department_goals_player_ops" value="1" {{ is_null(old('department_goals_player_ops')) ? ($profile->department_goals_player_ops ? "checked" : "") : (old('department_goals_player_ops') ? "checked" : "") }} />
-                        <label for="department_goals_player_ops">Player Operations</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_event_ops" id="department_goals_event_ops" value="1" {{ is_null(old('department_goals_event_ops')) ? ($profile->department_goals_event_ops ? "checked" : "") : (old('department_goals_event_ops') ? "checked" : "") }} />
-                        <label for="department_goals_event_op">Event Operations</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_social_media" id="department_goals_social_media" value="1" {{ is_null(old('department_goals_social_media')) ? ($profile->department_goals_social_media ? "checked" : "") : (old('department_goals_social_media') ? "checked" : "") }} />
-                        <label for="department_goals_social_media">Digital/Social Media</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_entertainment" id="department_goals_entertainment" value="1" {{ is_null(old('department_goals_entertainment')) ? ($profile->department_goals_entertainment ? "checked" : "") : (old('department_goals_entertainment') ? "checked" : "") }} />
-                        <label for="department_goals_entertainment">Game Entertainment</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <input type="checkbox" name="department_goals_legal" id="department_goals_legal" value="1" {{ is_null(old('department_goals_legal')) ? ($profile->department_goals_legal ? "checked" : "") : (old('department_goals_legal') ? "checked" : "") }} />
-                        <label for="department_goals_legal">Legal</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input type="text" name="department_goals_other" id="department_goals_other" value="{{ old('department_goals_other') ?: $profile->department_goals_other ?: '' }}" />
-                        <label for="department_goals_other">Other</label>
-                    </div>
+                    @foreach($job_tags as $tag)
+                        <div class="input-field col s12 m6 l4">
+                            <input id="email_preference_job_{{$tag->id}}" type="checkbox" name="email_preference_job_{{$tag->id}}" value="1" {{ $profile->emailPreferenceTagTypes->contains('id', $tag->id) ? "checked" : "" }} />
+                            <label for="email_preference_job_{{$tag->id}}">{{$tag->tag_name}}</label>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="row">
                     <div class="col s12">
@@ -372,7 +302,7 @@
         <li class="form-section"> <!-- Employment History -->
             <div class="collapsible-header">
                 <i class="material-icons">work</i>Employment History
-                @if ($employment_complete)
+                @if ($profile->isEmploymentComplete())
                     <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
                     <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
@@ -528,7 +458,7 @@
         <li class="form-section"> <!-- Education History -->
             <div class="collapsible-header">
                 <i class="material-icons">school</i>Educational History
-                @if ($education_complete)
+                @if ($profile->isEducationComplete())
                     <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
                     <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
@@ -589,40 +519,16 @@
             </div>
         </li>
         <!-- Email preferences -->
-        <!--
         <li class="form-section">
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
                 <div class="row">
-                    <p>Select which email updates you'd like to receive:</p>
-                    <div class="input-field col s12">
-                        <input id="email_preference_entry_job" type="checkbox" name="email_preference_entry_job" value="1" {{ is_null(old('email_preference_entry_job')) ? ($profile->email_preference_entry_job ? "checked" : "") : (old("email_preference_entry_job") ? "checked" : "") }} />
-                        <label for="email_preference_entry_job">Getting an entry level job in sports</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="email_preference_new_job" type="checkbox" name="email_preference_new_job" value="1" {{ is_null(old('email_preference_new_job')) ? ($profile->email_preference_new_job ? "checked" : "") : (old("email_preference_new_job") ? "checked" : "") }} />
-                        <label for="email_preference_new_job">New job openings in sports</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="email_preference_ticket_sales" type="checkbox" name="email_preference_ticket_sales" value="1" {{ is_null(old('email_preference_ticket_sales')) ? ($profile->email_preference_ticket_sales ? "checked" : "") : (old("email_preference_ticket_sales") ? "checked" : "") }} />
-                        <label for="email_preference_ticket_sales">Ticket sales tips and tricks</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="email_preference_leadership" type="checkbox" name="email_preference_leadership" value="1" {{ is_null(old('email_preference_leadership')) ? ($profile->email_preference_leadership ? "checked" : "") : (old("email_preference_leadership") ? "checked" : "") }} />
-                        <label for="email_preference_leadership">Sales Leadership/management/strategy</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="email_preference_best_practices" type="checkbox" name="email_preference_best_practices" value="1" {{ is_null(old('email_preference_best_practices')) ? ($profile->email_preference_best_practices ? "checked" : "") : (old("email_preference_best_practices") ? "checked" : "") }} />
-                        <label for="email_preference_best_practices">Industry best practices and sports business articles</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="email_preference_career_advice" type="checkbox" name="email_preference_career_advice" value="1" {{ is_null(old('email_preference_career_advice')) ? ($profile->email_preference_career_advice ? "checked" : "") : (old("email_preference_career_advice") ? "checked" : "") }} />
-                        <label for="email_preference_career_advice">Advice on how to grow your career in sports business</label>
-                    </div>
+                    <p>We will send you notifications on new job postings based on departments you're intersted in from your Job-seeking Preferences</p>
+                    <input id="email_preference_new_job_opt_out" type="checkbox" name="email_preference_new_job_opt_out" value="1" {{ is_null(old('email_preference_new_job_opt_out')) ? ($profile->email_preference_new_job ? "" : "checked") : (old('email_preference_new_job_opt_out') ? "checked" : "") }} />
+                    <label for="email_preference_new_job_opt_out"><strong>Opt out</strong> of all new job posting emails</label>
                 </div>
             </div>
         </li>
-        -->
     </ul>
     <div class="row">
         <div class="input-field col s12">
