@@ -15,6 +15,9 @@
                 <li><a class="sbs-red white-text modal-trigger" href="#register-modal">Register</a></li>
             @else
                 <li><a href="/user/{{ Auth::user()->id }}">{{ Auth::user()->getName() }}</a></li>
+                @if (Auth::user()->profile && !Auth::user()->profile->isComplete())
+                    <li><a class="tooltipped" data-tooltip="Your profile is still not complete! Click here to fill it out." href="/user/{{ Auth::user()->id }}/edit-profile"><i class="sbs-red-text material-icons">error_outline</i></a></li>
+                @endif
                 <li>
                     <a href="{{ route('logout') }}">Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
