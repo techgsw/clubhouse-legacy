@@ -5,7 +5,7 @@
         <table>
             <tr>
                 @if (!is_null($job->image))
-                    <td style="width:25%;padding-right:20px;">
+                    <td style="padding-right:20px;" width="102">
                         <img src={{ $job->image->getURL('medium') }} class="no-border">
                     </td>
                 @endif
