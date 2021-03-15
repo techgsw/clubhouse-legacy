@@ -277,14 +277,15 @@ class JobController extends Controller
                     }
                 }
 
-                try {
-                    EmailServiceProvider::sendNewJobTypeMatchPostedEmails($job);
-                } catch (\Throwable $e) {
-                    Log::error($e->getMessage());
-                }
-
                 return $job;
             });
+
+            try {
+                EmailServiceProvider::sendNewJobTypeMatchPostedEmails($job);
+            } catch (\Throwable $e) {
+                Log::error($e->getMessage());
+            }
+
         } catch (SBSException $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(

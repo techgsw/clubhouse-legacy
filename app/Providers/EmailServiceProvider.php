@@ -432,7 +432,8 @@ class EmailServiceProvider extends ServiceProvider
         })->get();
 
         foreach ($users as $user) {
-            Mail::to($user)->send(new NewJobTypeMatchPosted($user, $job));
+            // these emails are taking a while to send (possibly because of the images). queuing them up asynchronously
+            Mail::to($user)->queue(new NewJobTypeMatchPosted($user, $job));
         }
     }
 
