@@ -431,6 +431,8 @@ class EmailServiceProvider extends ServiceProvider
             $query->where('email_preference_new_job', true);
         })->get();
 
+        Log::info('Sending notifications for job '.$job->id.' to '.$users->count().' users.');
+
         foreach ($users as $user) {
             // these emails are taking a while to send (possibly because of the images). queuing them up asynchronously
             Mail::to($user)->later(new \DateTime('+5 minutes'), new NewJobTypeMatchPosted($user, $job));
