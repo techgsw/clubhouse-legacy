@@ -423,19 +423,23 @@ class EmailServiceProvider extends ServiceProvider
     /**
      * Send an email to all users whose email preferences match the recently posted job's disciplines
      */
-    public static function sendNewJobTypeMatchPostedEmails(Job $job)
+    public static function sendNewJobTypeMatchPostedEmails($date_since)
     {
-        $users = User::whereHas('profile.emailPreferenceTagTypes', function ($query) use ($job) {
-            $query->where('type', 'job')->whereIn('tag_name', $job->tags->pluck('name'));
-        })->whereHas('profile', function($query) {
-            $query->where('email_preference_new_job', true);
-        })->get();
+        $jobs = Job::with('tags')->where('created_at', '>', $date_since)->get();
 
-        Log::info('Sending notifications for job '.$job->id.' to '.$users->count().' users.');
+        foreach ($jobs as $job) {
+            $users = User::whereHas('profile.emailPreferenceTagTypes', function ($query) use ($job) {
+                $query->where('type', 'job')->whereIn('tag_name', $job->tags->pluck('name'));
+            })->whereHas('profile', function($query) {
+                $query->where('email_preference_new_job', true);
+            })->get();
 
-        foreach ($users as $user) {
-            // these emails are taking a while to send (possibly because of the images). queuing them up asynchronously
-            Mail::to($user)->later(new \DateTime('+5 minutes'), new NewJobTypeMatchPosted($user, $job));
+            Log::info('Sending notifications for job '.$job->id.' to '.$users->count().' users.');
+
+            foreach ($users as $user) {
+                // these emails are taking a while to send (possibly because of the images). queuing them up asynchronously
+                Mail::to($user)->send(new NewJobTypeMatchPosted($user, $job));
+            }
         }
     }
 

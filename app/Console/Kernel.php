@@ -108,6 +108,11 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() {
             EmailServiceProvider::sendNewUserEmails();
         })->everyThirtyMinutes();
+
+        $schedule->call(function() {
+            $date_since = new \DateTime('-10 minutes');
+            EmailServiceProvider::sendNewJobTypeMatchPostedEmails($date_since);
+        })->everyTenMinutes();
     }
 
     /**
