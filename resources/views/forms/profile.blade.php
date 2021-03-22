@@ -523,7 +523,7 @@
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
                 <div class="row">
-                    <p>We will send you notifications on new job postings based on departments you're intersted in from your Job-seeking Preferences</p>
+                    <p>Clicking this button unsubscribes you from receiving any job notifications via email.<br>If you'd like to change your job preferences to get fewer emails, update your Job-seeking Preferences above.</p>
                     <input id="email_preference_new_job_opt_out" type="checkbox" name="email_preference_new_job_opt_out" value="1" {{ is_null(old('email_preference_new_job_opt_out')) ? ($profile->email_preference_new_job ? "" : "checked") : (old('email_preference_new_job_opt_out') ? "checked" : "") }} />
                     <label for="email_preference_new_job_opt_out"><strong>Opt out</strong> of all new job posting emails</label>
                 </div>
