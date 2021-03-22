@@ -61,6 +61,10 @@ class OrganizationServiceProvider extends ServiceProvider
     {
         $user = Auth::user();
 
+        if (!$user) {
+            return null;
+        }
+
         if ($user->can('view-admin-jobs', $user)) {
             $organizations = DB::table('organization')
                                     ->select('*')

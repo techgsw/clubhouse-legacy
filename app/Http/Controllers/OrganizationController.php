@@ -383,10 +383,11 @@ class OrganizationController extends Controller
 
     public function all()
     {
-        // $this->authorize('view-organization');
-        return response()->json([
-            'organizations' => OrganizationServiceProvider::all() ?: Organization::all(),
-        ]);
+        if (Auth::user()) {
+            return response()->json([
+                'organizations' => OrganizationServiceProvider::all() ?: Organization::all(),
+            ]);
+        }
     }
 
     public function preview(Request $request, $id)
