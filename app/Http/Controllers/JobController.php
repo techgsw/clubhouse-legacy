@@ -402,7 +402,7 @@ class JobController extends Controller
         );
 
         if ($user) {
-            $profile_complete = $user->hasCompleteProfile();
+            $profile_complete = $user->profile->isComplete();
             if ($user->id != $job->user_id && $user->cannot('view-admin-jobs')) {
                 unset($breadcrumb['My Postings']);
             }
