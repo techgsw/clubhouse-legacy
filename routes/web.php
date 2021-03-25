@@ -380,18 +380,19 @@ Route::domain($domain)->group(function () {
 
     // User
     Route::group(['middleware' => ['web','auth']], function () {
-        Route::get('/user/{id}', 'UserController@show');
-        Route::get('/user/{id}/account', 'UserController@account');
-        Route::get('/user/{id}/jobs', 'UserController@jobs');
-        Route::get('/user/{id}/questions', 'UserController@questions');
-        Route::get('/user/{id}/job-postings', 'JobController@showPostings');
+        Route::get('/user/{id?}', 'UserController@show');
+        Route::get('/user/{id?}/account', 'UserController@account');
+        Route::get('/user/{id?}/jobs', 'UserController@jobs');
+        Route::get('/user/{id?}/questions', 'UserController@questions');
+        Route::get('/user/{id?}/job-postings', 'JobController@showPostings');
 
 
-        Route::get('/user/{id}/profile', 'ProfileController@show');
-        Route::get('/user/{id}/edit-profile', 'ProfileController@edit');
+        Route::get('/user/{id?}/profile', 'ProfileController@show');
+        Route::get('/user/{id?}/edit-profile', 'ProfileController@edit');
         Route::post('/user/{id}/profile', 'ProfileController@update');
         Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
         Route::post('/user/{id}/create-note', 'ProfileController@createNote');
+
     });
 
     // Webinars

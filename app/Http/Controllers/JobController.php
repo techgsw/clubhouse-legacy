@@ -318,7 +318,11 @@ class JobController extends Controller
 
     public function showPostings(Request $request)
     {
-        $user = User::where('id', '=', $request->id)->first();
+        if ($request->id == 'self' && Auth::user()) {
+            $user = Auth::user();
+        } else {
+            $user = User::where('id', '=', $request->id)->first();
+        }
 
         $pipeline = Pipeline::orderBy('id', 'asc')->get();
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();

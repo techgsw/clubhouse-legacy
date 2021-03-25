@@ -27,9 +27,13 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id = 'self')
     {
-        $user = User::with(['profile', 'contact'])->find($id);
+        if ($id == 'self' && Auth::user()) {
+            $user = Auth::user();
+        } else {
+            $user = User::with(['profile', 'contact'])->find($id);
+        }
         if (!$user) {
             return abort(404);
         }
@@ -178,9 +182,13 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id = 'self')
     {
-        $user = User::find($id);
+        if ($id == 'self' && Auth::user()) {
+            $user = Auth::user();
+        } else {
+            $user = User::find($id);
+        }
         $this->authorize('edit-profile', $user);
 
         if (!$user) {

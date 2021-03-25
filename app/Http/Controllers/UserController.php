@@ -22,9 +22,13 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $id = 'self')
     {
-        $user = User::find($id);
+        if ($id == 'self' && Auth::user()){
+            $user = Auth::user();
+        } else {
+            $user = User::find($id);
+        }
         if (!$user) {
             return abort(404);
         }
@@ -33,9 +37,13 @@ class UserController extends Controller
         return redirect("/user/{$id}/profile");
     }
 
-    public function account(Request $request, $id)
+    public function account(Request $request, $id = 'self')
     {
-        $user = User::find($id);
+        if ($id == 'self' && Auth::user()){
+            $user = Auth::user();
+        } else {
+            $user = User::find($id);
+        }
         if (!$user) {
             return abort(404);
         }
@@ -153,9 +161,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function jobs(Request $request, $id)
+    public function jobs(Request $request, $id = 'self')
     {
-        $user = User::find($id);
+        if ($id == 'self' && Auth::user()){
+            $user = Auth::user();
+        } else {
+            $user = User::find($id);
+        }
 
         $job_pipeline = JobPipeline::all();
 
@@ -182,9 +194,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function questions(Request $request, $id)
+    public function questions(Request $request, $id = 'self')
     {
-        $user = User::find($id);
+        if ($id == 'self' && Auth::user()){
+            $user = Auth::user();
+        } else {
+            $user = User::find($id);
+        }
         if (!$user) {
             return abort(404);
         }
