@@ -1358,6 +1358,9 @@ div.arrow.down {
     display: flex;
     align-items: center;
 }
+.blog-image-hover:hover {
+    filter: brightness(1.2);
+}
 
 .blog-sidebar {
     height:100%;
@@ -1404,6 +1407,9 @@ div.arrow.down {
 
 .blog-list .blog-list-item {
     padding: 12px 0;
+}
+.blog-list-hover:hover {
+    color: #666;
 }
 .blog-post {
     outline: none;
