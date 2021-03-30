@@ -1353,7 +1353,7 @@ div.arrow.down {
 
 .blog-image {
     margin-right:150px;
-    max-height:500px;
+    max-height:630px;
     overflow-y:hidden;
     display: flex;
     align-items: center;
