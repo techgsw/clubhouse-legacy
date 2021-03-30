@@ -35,7 +35,7 @@
 @endif
 @section('title', $post->title)
 @section('hero')
-<div class="container" style="position:relative;margin-bottom: -35px;">
+<div class="container" style="position:relative;margin-bottom: -35px;max-width:1270px;">
     <div class="blog-sidebar" style="text-align:center;">
         <!-- TODO: this div is a hack to make position:sticky work. if elements are added to the sidebar then margin-bottom will need to be changed. we should grab the sidebar height using jquery -->
         <div style="height:100%;margin-bottom:-1000px;"></div>
