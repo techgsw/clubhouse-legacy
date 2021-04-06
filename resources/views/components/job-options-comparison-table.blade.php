@@ -1,10 +1,10 @@
 <table class="highlight">
     <thead>
         <tr>
-            <th></th>
-            <th class="center grey-text text-darkin-1">Free</th>
-            <th class="center sbs-red-text">Premium</th>
-            <th class="center">Platinum</th>
+            <th style="min-width:10%;"></th>
+            <th class="center grey-text text-darkin-1" style="min-width:10%;">Free</th>
+            <th class="center sbs-red-text" style="min-width:10%;">Premium</th>
+            <th class="center" style="min-width:10%;">Platinum</th>
         </tr>
     </thead>
     <tbody>
@@ -67,12 +67,6 @@
             <td class="center"></td>
             <td class="center"></td>
             <td class="center"><i class="fa fa-check"></i></td>
-        </tr>
-        <tr>
-            <td style="width: 300px; padding-right: 20px;">Pricing</td>
-            <td class="center"><strong>$0.00</strong></td>
-            <td class="center"><strong>$500.00</strong></td>
-            <td class="center"><strong>$1,500.00</strong></td>
         </tr>
     </tbody>
 </table>
