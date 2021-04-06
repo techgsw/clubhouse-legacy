@@ -45,7 +45,7 @@
             <td class="center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
-            <td style="width: 300px; padding-right: 20px;">The SBS Consulting team will send you 15 additional job candidate matches based on your search criteria</td>
+            <td style="width: 300px; padding-right: 20px;">The SBS Consulting team will send you additional job candidate matches based on your search criteria</td>
             <td class="center"></td>
             <td class="center"><i class="fa fa-check"></i></td>
             <td class="center"><i class="fa fa-check"></i></td>
