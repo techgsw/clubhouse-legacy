@@ -426,6 +426,7 @@ class EmailServiceProvider extends ServiceProvider
     public static function sendNewJobTypeMatchPostedEmails($date_since)
     {
         $jobs = Job::with('tags')->where('created_at', '>', $date_since)->get();
+        $job_users = array();
 
         foreach ($jobs as $job) {
             $users = User::whereHas('profile.emailPreferenceTagTypes', function ($query) use ($job) {
@@ -434,12 +435,19 @@ class EmailServiceProvider extends ServiceProvider
                 $query->where('email_preference_new_job', true);
             })->get();
 
-            Log::info('Sending notifications for job '.$job->id.' to '.$users->count().' users.');
-
             foreach ($users as $user) {
-                // these emails are taking a while to send (possibly because of the images). queuing them up asynchronously
-                Mail::to($user)->send(new NewJobTypeMatchPosted($user, $job));
+                if (!isset($job_users[$user->id])) {
+                    $job_users[$user->id] = array( 
+                        'user' => $user,
+                        'jobs'=> array()
+                    );
+                }
+                $job_users[$user->id]['jobs'][] = $job;
             }
+        }
+        Log::info('Sending notifications for new jobs to '.count($job_users).' users.');
+        foreach ($job_users as $job_user) {
+            Mail::to($job_user['user'])->send(new NewJobTypeMatchPosted($job_user['user'], ...$job_user['jobs']));
         }
     }
 

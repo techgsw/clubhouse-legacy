@@ -13,17 +13,17 @@ class NewJobTypeMatchPosted extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
-    public $job;
+    public $jobs;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, Job $job)
+    public function __construct(User $user, Job ...$jobs)
     {
         $this->user = $user;
-        $this->job = $job;
+        $this->jobs = $jobs;
     }
 
     /**
@@ -34,7 +34,7 @@ class NewJobTypeMatchPosted extends Mailable
     public function build()
     {
         return $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse')
-            ->subject("A new job in sports")
+            ->subject("New jobs in sports")
             ->markdown('emails.new-job-type-match-posted');
     }
 }

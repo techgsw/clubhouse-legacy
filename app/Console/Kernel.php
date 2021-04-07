@@ -81,9 +81,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             $start = new \DateTime('yesterday');
-            $start->setTime(8,0,0);
+            $start->setTime(8,30,0);
             EmailServiceProvider::sendFailedClubhousePaymentNotice($start);
-        })->dailyAt('8:00');
+        })->dailyAt('8:30');
 
         $schedule->call(function () {
             $start = new \DateTime('yesterday');
@@ -110,9 +110,9 @@ class Kernel extends ConsoleKernel
         })->everyThirtyMinutes();
 
         $schedule->call(function() {
-            $date_since = new \DateTime('-10 minutes');
+            $date_since = new \DateTime('-7 days');
             EmailServiceProvider::sendNewJobTypeMatchPostedEmails($date_since);
-        })->everyTenMinutes();
+        })->weeklyOn(3, '8:00');
     }
 
     /**
