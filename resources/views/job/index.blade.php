@@ -14,6 +14,20 @@
 @section('content')
 @if (!$searching)
 <div class="container">
+    <div class="col s12">
+        @include('layouts.components.messages')
+        @include('layouts.components.errors')
+    </div>
+    @if (!Auth::user())
+        <div class="row" style="display: flex;justify-content: center;">
+            <a href="#register-modal" class="no-underline">
+                <div class="alert card-panel blue lighten-4 blue-text text-darken-4" style="border-radius: .5em;padding: 15px 25px;">
+                    <i class="material-icons" style="float: left; padding-right: 12px;">expand_less</i>
+                    <span style="font-weight: 600;">Interested in a future job in sports? Create your free profile now!</span>
+                </div>
+            </a>
+        </div>
+    @endif
     <div class="row" style="padding-bottom: 15px;">
         <div class="card-flex-container">
             @php $i = 0; @endphp
