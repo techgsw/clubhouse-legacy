@@ -26,15 +26,26 @@ if (!SBS) {
             click: function (e, ui) {
                 if ($(this).hasClass('calendly')) {
                     $('div#mentor-calendly-embed').empty();
-                    Calendly.initInlineWidget({
-                        url: atob($(this).attr('calendly-link')),
-                        parentElement: $('div#mentor-calendly-embed').get(0),
-                        prefill: {
-                            name: $(this).attr('user-name'),
-                            email: $(this).attr('user-email')
-                        }
-                    });
-                    $('div#mentor-calendly-modal').attr('mentor-id', $(this).attr('mentor-id'));
+                    $('div#mentor-calendly-modal').find('.error-message').addClass('hidden');
+                    calendly_link = $(this).attr('calendly-link');
+                    if (calendly_link == 'mentor-blocked') {
+                        $('div#mentor-calendly-modal')
+                            .find('.error-message')
+                            .html("Sorry! This mentor is so popular they've already hit their limit of available calls this week. Please try back again next week, or choose another mentor.")
+                            .removeClass('hidden');
+                        $('div#mentor-calendly-modal').find('.modal-content').removeClass('with-calendly-embed');
+                    } else {
+                        $('div#mentor-calendly-modal').find('.modal-content').addClass('with-calendly-embed');
+                        Calendly.initInlineWidget({
+                            url: atob(calendly_link),
+                            parentElement: $('div#mentor-calendly-embed').get(0),
+                            prefill: {
+                                name: $(this).attr('user-name'),
+                                email: $(this).attr('user-email')
+                            }
+                        });
+                        $('div#mentor-calendly-modal').attr('mentor-id', $(this).attr('mentor-id'));
+                    }
                 } else {
                     var form = $('form#mentor-request');
                     var modal = $('div#mentor-request-modal');

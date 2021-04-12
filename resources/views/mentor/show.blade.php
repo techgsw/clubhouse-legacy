@@ -89,7 +89,16 @@
         <div class="col s12 m9 mentor-inquire">
             @can ('view-clubhouse')
                 @if ($mentor->calendly_link)
-                    <a class="small flat-button red mentor-request-trigger calendly" href="#mentor-calendly-modal" mentor-id="{{$mentor->id}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" calendly-link="{{$is_blocked ? '' : base64_encode($mentor->calendly_link)}}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule call now</a>
+                    @php
+                        if ($is_blocked) {
+                            $calendly_link = '';
+                        } else if ($mentor->isMentorBlockedFromRequests()) {
+                            $calendly_link = 'mentor-blocked';
+                        } else {
+                            $calendly_link = base64_encode($mentor->calendly_link);
+                        }
+                    @endphp
+                    <a class="small flat-button red mentor-request-trigger calendly" href="#mentor-calendly-modal" mentor-id="{{$mentor->id}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" calendly-link="{{$calendly_link}}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule call now</a>
                 @else
                     <a class="small flat-button red mentor-request-trigger" href="#mentor-request-modal" mentor-id="{{ $mentor->id }}" mentor-name="{{ $mentor->contact->getName() }}" mentor-day-preference-1="{{ ucwords($mentor->day_preference_1) }}" mentor-day-preference-2="{{ ucwords($mentor->day_preference_2) }}" mentor-day-preference-3="{{ ucwords($mentor->day_preference_3) }}" mentor-time-preference-1="{{ ucwords($mentor->time_preference_1) }}" mentor-time-preference-2="{{ ucwords($mentor->time_preference_3) }}" mentor-time-preference-3="{{ ucwords($mentor->time_preference_3) }}" mentor-timezone="{{ (($mentor->timezone) ? $timezones[$mentor->timezone] : 'Not specified') }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
                 @endif

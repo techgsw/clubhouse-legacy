@@ -27,7 +27,13 @@
             </div>
         </div>
     @else
-        <div class="modal-content" style="padding:0px;height:80vh;">
+        <div class="modal-content with-calendly-embed">
+            <div id="messages" class="row">
+                <div class="col s12">
+                    <div class="error-message alert card-panel red lighten-4 red-text text-darken-4 hidden">
+                    </div>
+                </div>
+            </div>
             <div id="mentor-calendly-embed" style="position: relative;min-width:320px;height:100%;">
             </div>
         </div>

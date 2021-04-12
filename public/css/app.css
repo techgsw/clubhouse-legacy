@@ -1186,6 +1186,11 @@ form.registration-form .card-flex-container .card.large {
     min-width: 425px;
 }
 
+div.modal-content.with-calendly-embed {
+    padding:0px;
+    height: 80vh;
+}
+
 /**
  * Dropzone
  */

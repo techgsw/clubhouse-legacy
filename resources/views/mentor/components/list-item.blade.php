@@ -43,7 +43,16 @@
                 <div style="margin-top: -10px">
                     @can ('view-clubhouse')
                         @if ($mentor->calendly_link)
-                            <a class="small flat-button red mentor-request-trigger calendly" href="#mentor-calendly-modal" mentor-id="{{$mentor->id}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" calendly-link="{{$is_blocked ? '' : base64_encode($mentor->calendly_link)}}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
+                            @php
+                                if ($is_blocked) {
+                                    $calendly_link = '';
+                                } else if ($mentor->isMentorBlockedFromRequests()) {
+                                    $calendly_link = 'mentor-blocked';
+                                } else {
+                                    $calendly_link = base64_encode($mentor->calendly_link);
+                                }
+                            @endphp
+                            <a class="small flat-button red mentor-request-trigger calendly" href="#mentor-calendly-modal" mentor-id="{{$mentor->id}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" calendly-link="{{ $calendly_link }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
                         @else
                             @php
                                 $timezones = array(
