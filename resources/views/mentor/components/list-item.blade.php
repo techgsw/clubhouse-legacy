@@ -46,7 +46,7 @@
                             @php
                                 if ($is_blocked) {
                                     $calendly_link = '';
-                                } else if ($mentor->isMentorBlockedFromRequests()) {
+                                } else if ($mentor->isMentorBlockedFromRequests() && !Auth::user()->can('view-admin-dashboard')) {
                                     $calendly_link = 'mentor-blocked';
                                 } else {
                                     $calendly_link = base64_encode($mentor->calendly_link);
