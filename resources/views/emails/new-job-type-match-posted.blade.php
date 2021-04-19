@@ -7,11 +7,11 @@
             @foreach ($jobs as $job)
                 <tr>
                     @if (!is_null($job->image))
-                        <td style="padding-right:20px;">
+                        <td style="padding-right:20px;padding-bottom:35px;">
                             <img src={{ $job->image->getURL('medium') }} class="no-border" width="102">
                         </td>
                     @endif
-                    <td>
+                    <td style="padding-bottom:35px;">
                         <h1 style="margin-bottom:0px;">{{$job->title}}</h1>
                         <strong>{{$job->organization_name}}</strong> in {{$job->city}}, {{$job->state}}, {{$job->country}}
                         @if ($job->tags)
@@ -22,9 +22,6 @@
                             </div>
                         @endif
                         <a href="{{env('CLUBHOUSE_URL').$job->getURL()}}">Click here to apply</a>
-                        <br>
-                        <br>
-                        <br>
                     </td>
                 </tr>
             @endforeach
