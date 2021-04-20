@@ -57,6 +57,7 @@ class SocialMediaServiceProvider extends ServiceProvider
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
                 $curl_resp = json_decode(curl_exec($ch));
                 if (isset($curl_resp->error) && $curl_resp->error) {
