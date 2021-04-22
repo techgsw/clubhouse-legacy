@@ -28,13 +28,15 @@
         <div class="col s12">
             <h3 class="center-align">Meet the team</h3>
         </div>
-        <div class="about-cards col s12 m8 offset-m2">
+        <div class="about-cards col s12 m4">
             <div class="about-card">
                 <a href="/bob-hamer" class="no-underline">
                     <img src="/images/about/bob.png" style="max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
                 </a>
             </div>
+        </div>
+        <div class="about-cards col s12 m4">
             <div class="about-card">
                 <a href="/mike-rudner" class="no-underline">
                     <img src="/images/about/mike.png" style="max-width: 180px; border-radius: 50%;">
@@ -42,17 +44,11 @@
                 </a>
             </div>
         </div>
-        <div class="about-cards col s12 m8 offset-m2">
+        <div class="about-cards col s12 m4">
             <div class="about-card">
                 <a href="/jason-stein" class="no-underline">
                     <img src="/images/about/jason.jpg" style="max-width: 180px; border-radius: 50%;">
                     <h5 class="sbs-red-text">Jason Stein<span class="about-position">Vice President,<br/>Recruiting &amp; Development</span></h5>
-                </a>
-            </div>
-            <div class="about-card">
-                <a href="/josh-belkoff" class="no-underline">
-                    <img src="/images/about/josh.jpg" style="max-width: 180px; border-radius: 50%;">
-                    <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Business Development</span></h5>
                 </a>
             </div>
         </div>

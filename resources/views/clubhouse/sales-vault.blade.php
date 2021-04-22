@@ -49,16 +49,10 @@
                 <p>Our trainers have a combined 30+ years of sport sales experience. They've all sold and lead sales teams themselves and have a passion to coach and teach. Their experience covers all aspects of sport sales including but not limited to: B2C, B2B, Group Sales, Retention, Corporate Partnerships and the "Sales 101 basics".</p>
             </div>
             <div class="about-cards col s12 l8 offset-l2" style="padding-top:20px;">
-                <div class="about-card col s6 m6">
+                <div class="about-card col s12">
                     <a href="{{env('APP_URL')}}/bob-hamer" class="no-underline">
                         <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                         <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
-                    </a>
-                </div>
-                <div class="about-card col s6 m6">
-                    <a href="{{env('APP_URL')}}/josh-belkoff" class="no-underline">
-                        <img src="/images/about/josh.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                        <h5 class="sbs-red-text">Josh Belkoff<span class="about-position">Sr. Director,<br/>Business Development</span></h5>
                     </a>
                 </div>
             </div>

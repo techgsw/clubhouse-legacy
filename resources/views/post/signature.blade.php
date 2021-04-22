@@ -2,8 +2,6 @@
     @include('post.signatures.bob-hamer')
 @elseif ($post->user->id === 7 && is_null($post->authored_by))
     @include('post.signatures.mike-rudner')
-@elseif ($post->user->id === 2321 && is_null($post->authored_by))
-    @include('post.signatures.adam-vogel')
 @else
     <div class="container">
         <div class="row">

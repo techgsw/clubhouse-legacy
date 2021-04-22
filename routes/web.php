@@ -23,9 +23,6 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/jason-stein', function () {
         return view('jason-stein');
     });
-    Route::get('/josh-belkoff', function () {
-        return view('josh-belkoff');
-    });
     Route::get('/mike-rudner', function () {
         return view('mike-rudner');
     });

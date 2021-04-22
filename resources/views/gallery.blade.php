@@ -69,14 +69,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s4">
+        <div class="col s6">
             <img class="materialboxed" data-caption="Citi Field" src="/images/legacy/uploads/2015/10/IMG_4223-e1458930864178-768x1024.jpg"/>
         </div>
-        <div class="col s4">
+        <div class="col s6">
             <img class="materialboxed" data-caption="Group sales training with the Mets" src="/images/legacy/uploads/2015/10/IMG_4226-1024x768.jpg"/>
-        </div>
-        <div class="col s4">
-            <img class="materialboxed" data-caption="Two of the best in the biz! Wade Graf and Adam Vogel with the Mets" src="/images/legacy/uploads/2015/10/IMG_4230-1024x768.jpg"/>
         </div>
     </div>
     <div class="row">
