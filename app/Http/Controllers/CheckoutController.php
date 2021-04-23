@@ -84,50 +84,51 @@ class CheckoutController extends Controller
                 })->where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P14D')))
                   ->where('user_id', Auth::user()->id)->count() > 0;
             }
-            if ($user->can('view-clubhouse') && !$is_blocked) {
-                try {
+            // TODO adding back in when we add free group career services
+            //if ($user->can('view-clubhouse') && !$is_blocked) {
+            //    try {
 
-                    $response = DB::transaction(function () use ($product_option, $user) {
-                        try {
-                            $product_option->quantity = $product_option->quantity - 1;
-                            $product_option->save();
-                        } catch (\Exception $e) {
-                            Log::error($e->getMessage());
-                        }
+            //        $response = DB::transaction(function () use ($product_option, $user) {
+            //            try {
+            //                $product_option->quantity = $product_option->quantity - 1;
+            //                $product_option->save();
+            //            } catch (\Exception $e) {
+            //                Log::error($e->getMessage());
+            //            }
 
-                        $transaction = new Transaction();
-                        $transaction->user_id = $user->id;
-                        $transaction->amount = 0;
-                        $transaction->save();
+            //            $transaction = new Transaction();
+            //            $transaction->user_id = $user->id;
+            //            $transaction->amount = 0;
+            //            $transaction->save();
 
-                        $transaction_product_option = new TransactionProductOption();
-                        $transaction_product_option->transaction_id = $transaction->id;
-                        $transaction_product_option->product_option_id = $product_option->id;
-                        $transaction_product_option->save();
+            //            $transaction_product_option = new TransactionProductOption();
+            //            $transaction_product_option->transaction_id = $transaction->id;
+            //            $transaction_product_option->product_option_id = $product_option->id;
+            //            $transaction_product_option->save();
 
-                        try {
-                            EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, 0, 'career-service');
-                            Mail::to($user)->send(new UserPaidCareerService($user, $product_option, $transaction->id));
-                        } catch (Exception $e) {
-                            Log::error($e);
-                        }
+            //            try {
+            //                EmailServiceProvider::sendCareerServicePurchaseNotificationEmail($user, $product_option, 0, 'career-service');
+            //                Mail::to($user)->send(new UserPaidCareerService($user, $product_option, $transaction->id));
+            //            } catch (Exception $e) {
+            //                Log::error($e);
+            //            }
 
-                        return array(
-                            'type' => 'career-service', 
-                            'product_option_id' => $product_option->id, 
-                            'transaction_id' => $transaction->id
-                        );
-                    });
+            //            return array(
+            //                'type' => 'career-service', 
+            //                'product_option_id' => $product_option->id, 
+            //                'transaction_id' => $transaction->id
+            //            );
+            //        });
 
-                    return redirect()->action('CheckoutController@thanks', $response);
-                } catch (Exception $e) {
-                    Log::error($e);
-                    return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
-                }
-            } else {
+            //        return redirect()->action('CheckoutController@thanks', $response);
+            //    } catch (Exception $e) {
+            //        Log::error($e);
+            //        return redirect()->back()->withErrors(['msg' => 'We were unable to complete your transaction at this time.']);
+            //    }
+            //} else {
                 $product_type = 'career-service';
                 $breadcrumb = array('name' => 'Career Services', 'link' => '/career-services');
-            }
+            //}
         } else if (in_array('webinar', array_column($product_option->product->tags->toArray(), 'slug'))
             || in_array('#samehere', array_column($product_option->product->tags->toArray(), 'slug')))
         {
