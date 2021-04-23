@@ -363,13 +363,15 @@ class EmailServiceProvider extends ServiceProvider
 
         foreach ($clubhouse_subscription_users->merge($manually_added_clubhouse_users) as $user) {
             if ($user->clubhouse_subscription_activated_date == (new \DateTime('30 days ago midnight'))->format('Y-m-d')) {
-                 Mail::to($user)->send(new ClubhouseFollowup($user, 'first_30'));
+                Mail::to($user)->send(new ClubhouseFollowup($user, 'first_30'));
+            } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('21 days ago midnight'))->format('Y-m-d')) {
+                Mail::to($user)->send(new ClubhouseFollowup($user, 'career_services'));
             } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('14 days ago midnight'))->format('Y-m-d')) {
-                 Mail::to($user)->send(new ClubhouseFollowup($user, 'webinars'));
+                Mail::to($user)->send(new ClubhouseFollowup($user, 'webinars'));
             } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('10 days ago midnight'))->format('Y-m-d')) {
-                 Mail::to($user)->send(new ClubhouseFollowup($user, 'networking'));
+                Mail::to($user)->send(new ClubhouseFollowup($user, 'networking'));
             } else if ($user->clubhouse_subscription_activated_date == (new \DateTime('7 days ago midnight'))->format('Y-m-d')) {
-                 Mail::to($user)->send(new ClubhouseFollowup($user, 'connected'));
+                Mail::to($user)->send(new ClubhouseFollowup($user, 'connected'));
             }
         }
 

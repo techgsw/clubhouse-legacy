@@ -16,20 +16,13 @@
         <h4>{{ $product->name }}</h4>
         {!! $pd->text($product->description) !!}
         @if (count($product->options) > 0)
-            @cannot('view-clubhouse')
-                <a class="btn btn-large sbs-red" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" style="line-height: 1.2em;height:4em;font-weight: 600;display:flex;align-items: center;justify-content: center;text-transform: unset;margin-bottom: 20px;">Get this service FREE as a Clubhouse PRO member. <br>Start your {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial now</a>
-            @endcannot
             @if ($is_blocked)
                 <p class="sbs-red-text"><b>You have already booked one free career service in the last month, however you can still purchase more career services at the standard rate if you would like:</b></p>
             @endif
             <select class="browser-default product-option-select" name="option">
                 @foreach ($product->options as $option)
                     @if ($option->price > 0)
-                        @if (Auth::user() && Auth::user()->can('view-clubhouse') && !$is_blocked)
-                            <option value="{{$option->id}}">{{$option->name}}: {{ preg_replace('/calendly-link=[^\s]*/', '', $option->description) }} - FREE with Clubhouse Pro</option>
-                        @else
-                            <option value="{{$option->id}}">{{$option->name}}: {{ preg_replace('/calendly-link=[^\s]*/', '', $option->description) }} - ${{number_format($option->price, 2)}}</option>
-                        @endcan
+                        <option value="{{$option->id}}">{{$option->name}}: {{ preg_replace('/calendly-link=[^\s]*/', '', $option->description) }} - ${{number_format($option->price, 2)}}</option>
                     @else
                         <option value="{{$option->id}}">{{$option->name}}</option>
                     @endif

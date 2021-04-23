@@ -121,7 +121,7 @@
                             <div style="margin-left: 30px; margin-right: 30px;">
                                 <ul class="fa-check-override">
                                     <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse community benefits <i>plus:</i></li>
-                                    <li>Free Sports Career Services including:</li>
+                                    <li>Sports Career Services including:</li>
                                         <ul class="fa-check-override">
                                             <li>1:1 interview prep and resume coaching</li>
                                             <li>LinkedIn&#8482; profile and personal branding review</li>

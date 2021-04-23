@@ -17,6 +17,10 @@
                     @endcan
                     @if($transaction->scheduled_flag)
                         <p>You have already scheduled this appointment. A second email should have been sent to you with info about the appointment. If you have not received this email or have not yet scheduled an appointment please contact <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a> for assistance.</p>
+                    @elseif($product_option->getCalendlyLink())
+                        <p>This session will be facilitated by Bob Hamer, President and Founder of SBS and <span class="sbs-red-text">the</span>Clubhouse.</p>
+                        <p>Please use the form below to schedule a meeting time:</p>
+                        <div id="career-service-calendly-embed" style="height:900px" calendly-link="{{$product_option->getCalendlyLink()}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" transaction-id="{{$transaction->id}}" product-name="{{$product_option->product->name}}" user-is-clubhouse="{{Auth::user()->can('view-clubhouse') ? 1 : 2}}"></div>
                     @else
                         <p>A representative from <strong><span class="sbs-red-text">the</span>Clubhouse</strong> will be in touch soon with more information about the service and to schedule a meeting time with you.</p>
                         <p>If for some reason you don’t hear from us within the next two business days, please email us directly at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions.</a></p>
