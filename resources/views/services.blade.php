@@ -28,7 +28,7 @@
         </div>
         <div class="center-align gray-bg red-hover" style="display: flex; flex-direction: column; justify-content: space-between; flex: 1 1 33%; padding: 20px 30px;">
             <div>
-                <h4><span class="sbs-red-text">the</span>Clubhouse</h4>
+                <h4><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup></h4>
                 <p>We’ve built an educational content platform filled with industry best practices and career guidance for current and aspiring sports business professionals. Join our community for free and take your game to the next level.</p>
             </div>
             <a href="{{ env('CLUBHOUSE_URL') }}" class="btn" style="margin-top: 30px;">Learn more</a>
@@ -51,7 +51,7 @@
         </div>
         <div class="col s12 center-align gray-bg red-hover">
             <div>
-                <h4><span class="sbs-red-text">the</span>Clubhouse</h4>
+                <h4><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup></h4>
                 <p>We’ve built an educational content platform filled with industry best practices and career guidance for current and aspiring sports business professionals. Join our community for free and take your game to the next level.</p>
             </div>
             <a href="{{ env('CLUBHOUSE_URL') }}" class="btn" style="margin-bottom: 20px;">Learn more</a>

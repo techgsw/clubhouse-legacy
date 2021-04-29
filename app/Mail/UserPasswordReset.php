@@ -34,7 +34,7 @@ class UserPasswordReset extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Reset Password - theClubhouse')
+            ->subject('Reset Password - theClubhouse®')
             ->markdown('emails.reset-password');
     }
 }

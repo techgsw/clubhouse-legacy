@@ -33,7 +33,7 @@ class JobNoActionReminder extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-                    ->subject('Reminder: Job Applications Requiring Action - theClubhouse')
+                    ->subject('Reminder: Job Applications Requiring Action - theClubhouse®')
                     ->markdown('emails.inquiry.no-action-reminder');
     }
 }

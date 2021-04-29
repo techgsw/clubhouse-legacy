@@ -1,6 +1,6 @@
 @component('emails.layout')
     @slot ('title')
-        Payment Receipt - theClubhouse
+        Payment Receipt - theClubhouse®
     @endslot
     @php $date = new DateTime('NOW'); @endphp
     @slot('body')
@@ -28,6 +28,6 @@
                 after date of checkout.</p>
         @endif
         <p>If you have any questions, please contact us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
-        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
+        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot
 @endcomponent

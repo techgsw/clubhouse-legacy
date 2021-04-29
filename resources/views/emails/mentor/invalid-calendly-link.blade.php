@@ -7,7 +7,7 @@
         @else
             <p>It looks like you do not currently have a Calend.ly link set up in your profile. Please <a href="{{env('CLUBHOUSE_URL')}}/contact/{{$mentor->contact->id}}/mentor">edit your mentor profile</a> and add a link to your Calend.ly page. If you need help setting this up or you feel you received this message in error, please contact us for assistance.</p>
         @endif
-        <p>-<span style="color:#EB2935">the</span>Clubhouse Team</p>
+        <p>-<span style="color:#EB2935">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot
 @endcomponent
 

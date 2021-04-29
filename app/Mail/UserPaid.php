@@ -39,7 +39,7 @@ class UserPaid extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Payment Receipt - theClubhouse')
+            ->subject('Payment Receipt - theClubhouse®')
             ->markdown('emails.checkout.paid');
     }
 }

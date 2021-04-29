@@ -34,7 +34,7 @@ class JobExpirationNotification extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject($this->job->title.' at '.$this->job->organization_name.' Posting Expiration Notice - theClubhouse')
+            ->subject($this->job->title.' at '.$this->job->organization_name.' Posting Expiration Notice - theClubhouse®')
             ->markdown('emails.status.job-expiration');
     }
 }

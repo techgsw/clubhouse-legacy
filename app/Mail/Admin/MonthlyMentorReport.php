@@ -36,7 +36,7 @@ class MonthlyMentorReport extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Mentorship Report - theClubhouse')
+            ->subject('Mentorship Report - theClubhouse®')
             ->markdown('emails.internal.mentor-report');
     }
 }

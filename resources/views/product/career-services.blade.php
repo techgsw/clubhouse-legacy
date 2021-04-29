@@ -5,7 +5,7 @@
         <div class="col s12">
             <img class="responsive-img" src="/images/clubhouse/career-services-white.png" />
             <h4 class="header">Career Services</h4>
-            <p><a href="{{ env('APP_URL') }}/about"><span class="sbs-red-text">the</span>Clubhouse team</a> gives you 1-on-1 coaching that helps elevate your career.</p>
+            <p><a href="{{ env('APP_URL') }}/about"><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> team</a> gives you 1-on-1 coaching that helps elevate your career.</p>
         </div>
     </div>
 @endsection

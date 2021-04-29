@@ -3,7 +3,7 @@
 @section('hero')
     <div class="row hero bg-image clubhouse">
         <img src="/images/CH_logo-compass.png"/>
-        <h1 class="header">Welcome to The Clubhouse</h1>
+        <h1 class="header">Welcome to <span style="text-transform:none">theClubhouse<sup>&#174;</sup></h1>
         <h5 style="max-width:800px;margin-right:auto;margin-left:auto;">Your destination for networking, best practices, and career growth in sports business.</h5>
         @can('view-clubhouse')
             <h5><strong>Thank you for being a Clubhouse PRO member!</h5>
@@ -68,7 +68,7 @@
                     @if (!Auth::user())
                         <a href="#register-modal" class="no-underline">
                             <div class="card-image" style="background-color: #EB2935;color:#FFF;">
-                                <h5 class="center-align" style="font-weight: 600;">Join theClubhouse Community</h5>
+                                <h5 class="center-align" style="font-weight: 600;">Join theClubhouse<sup>&#174;</sup> Community</h5>
                             </div>
                         </a>
                     @else
@@ -78,14 +78,14 @@
                     @endif
                     <div class="card-content" style="background-color: #F6F6F6; max-height: 100%;">
                         <div class="col s12">
-                            <h5 class="center-align" style="margin-bottom: 35px;"><strong>Get into the game!<br>Join <span class="sbs-red-text">the</span>Clubhouse community.</strong></h5>
+                            <h5 class="center-align" style="margin-bottom: 35px;"><strong>Get into the game!<br>Join <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> community.</strong></h5>
                             <div style="margin-left: 30px; margin-right: 30px;">
                                 <ul class="fa-check-override">
                                     <li>Attend sports industry webinars</li>
                                     <li>Access the sports job board</li>
                                     <li>Get best practices by reading our blog</li>
                                     <li>Maintain your mental health with #SameHere Solutions</li>
-                                    <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse newsletter</li>
+                                    <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</li>
                                 </ul>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                             </h5>
                             <div style="margin-left: 30px; margin-right: 30px;">
                                 <ul class="fa-check-override">
-                                    <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse community benefits <i>plus:</i></li>
+                                    <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> community benefits <i>plus:</i></li>
                                     <li>Sports Career Services including:</li>
                                         <ul class="fa-check-override">
                                             <li>1:1 interview prep and resume coaching</li>

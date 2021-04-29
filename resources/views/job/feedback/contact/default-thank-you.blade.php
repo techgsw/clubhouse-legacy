@@ -11,7 +11,7 @@
                     <br />
                     <p>Thank you for you feedback regarding the <strong>{{ $contact_job->job->title }}</strong> position with the <strong>{{ $contact_job->job->organization->name }}</strong>.</p>
                     <br />
-                    <p>If you have changed your mind, have any questions about SBS Consulting, <span style="color: #EB2935;">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
+                    <p>If you have changed your mind, have any questions about SBS Consulting, <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
                     <br />
                 </div>
             </div>

@@ -35,7 +35,7 @@ class UserPaidWebinar extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Webinar RSVP - theClubhouse')
+            ->subject('Webinar RSVP - theClubhouse®')
             ->markdown('emails.checkout.paid-webinar');
     }
 }

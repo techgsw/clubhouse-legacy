@@ -4,7 +4,7 @@
         <div class="nav-wrapper container">
             <!--<a href="/" style="color: #3F3E3E; left: 0; margin-top: 25px;" class="brand-logo">CLUBHOUSE</a>-->
             <a href="/" class="brand-logo left-align custom-brand-logo">
-                <img src="/images/logos/full/CH_logo_color.jpg" alt="SBS Consulting">
+                <img src="/images/logos/full/CH_logo_color.jpg?v=1" alt="SBS Consulting">
             </a>
             <ul class="right hide-on-med-and-down nav-custom-desktop" style="margin-right: -50px;">
                 <li><a href="/blog">Blog</a></li>

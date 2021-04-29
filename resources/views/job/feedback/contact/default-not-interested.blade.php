@@ -21,9 +21,9 @@
                     @if (is_null($contact_job->job_interest_negative_response))
                         @include('job.forms.negative-feedback')
                     @endif
-                    <p>If you haven’t done so already (and if you’d like to), you can create a free career profile in <a href="/"><span style="color: #EB2935;">the</span>Clubhouse</a> where you can upload your latest resume and update your career preferences so we can keep you in mind for other opportunities in the future.</p>
+                    <p>If you haven’t done so already (and if you’d like to), you can create a free career profile in <a href="/"><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup></a> where you can upload your latest resume and update your career preferences so we can keep you in mind for other opportunities in the future.</p>
                     <br />
-                    <p>If you have any questions about SBS Consulting, <span style="color: #EB2935;">the</span>Clubhouse, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
+                    <p>If you have any questions about SBS Consulting, <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>, or the status of this job you can always email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></p>
                     <br />
                     <div class="center-align" style="margin-top: 20px;">
                         <a class="btn sbs-red" href="/register">Create your profile</a>
