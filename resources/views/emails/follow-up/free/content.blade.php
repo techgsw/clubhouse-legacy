@@ -4,7 +4,7 @@
     @endslot
     @slot('body')
         <p>{{ ucwords($user->first_name) }},</p>
-        <p>Each week there’s new content in <span style="color: #EB2935;">the</span>Clubhouse. The goal? To share insight and best practices to help you succeed.</p>
+        <p>Each week there’s new content in <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>. The goal? To share insight and best practices to help you succeed.</p>
         <p>What are some examples?</p>
         <ul>
             <li><a href="{{ env('CLUBHOUSE_URL') }}/blog?tag=%23mysportsbizstart">#MySportsBizStart</a> – You’ll find this in the <a href="{{ env('CLUBHOUSE_URL') }}/blog">blog</a>. Industry leaders share how they got their start</li>

@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col s12 center-align">
-            <p>We found a contact in our records that matches your name. If this is you, we can link this profile to your account to keep all your information in one place. If not, feel free to proceed with creating your new profile. Welcome to <span class="sbs-red-text">the</span>Clubhouse!</p>
+            <p>We found a contact in our records that matches your name. If this is you, we can link this profile to your account to keep all your information in one place. If not, feel free to proceed with creating your new profile. Welcome to <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup>!</p>
             <p>Please choose an answer below to complete your registration.</p>
         </div>
     </div>

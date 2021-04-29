@@ -18,7 +18,7 @@
                 </ul>
             </li>
         </ul>
-        <p>-<span style="color:#EB2935">the</span>Clubhouse Team</p>
+        <p>-<span style="color:#EB2935">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot
 @endcomponent
 

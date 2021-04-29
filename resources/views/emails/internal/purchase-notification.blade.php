@@ -1,10 +1,10 @@
 @component('emails.layout')
     @slot ('title')
-        Career Service Purchase Notification - theClubhouse
+        Career Service Purchase Notification - theClubhouse®
     @endslot
     @php $date = new DateTime('NOW'); @endphp
     @slot('body')
-        <p>Hey <span style="color: #EB2935;">the</span>Clubhouse Team,</p>
+        <p>Hey <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team,</p>
         @if ($type == 'career-service')
             <p>{{ ucwords($user->first_name) }} {{ ucwords($user->last_name) }} ({{ $user->email }}) just purchased a career service.</p>
         @elseif ($type == 'webinar')
@@ -40,6 +40,6 @@
             </tr>
         </table>
         <br />
-        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse App</p>
+        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> App</p>
     @endslot
 @endcomponent

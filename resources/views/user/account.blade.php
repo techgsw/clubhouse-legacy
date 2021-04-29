@@ -97,7 +97,7 @@
                             @endif
                         </tr>
                         @if (!empty($value->status) && $value->status != 'chargeable')
-                            <tr><td class="sbs-red-text">The above payment method could not be charged. Please try adding a new card or contact <a href="mailto:clubhouse@sportsbusiness.solutions">theClubhouse support</a>.</td></tr>
+                            <tr><td class="sbs-red-text">The above payment method could not be charged. Please try adding a new card or contact <a href="mailto:clubhouse@sportsbusiness.solutions">theClubhouse<sup>&#174;</sup> support</a>.</td></tr>
                         @endif
                     @endforeach
                 </table>

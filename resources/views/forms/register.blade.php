@@ -12,14 +12,14 @@
                 <div class="card-content">
                     <div class="col s12" style="padding: 10px 0 50px 0;">
                         <input type="checkbox" id="membership-selection-free" name="membership-selection-free" class="membership-selection"/>
-                        <label for="membership-selection-free" class="sbs-red-checkbox"><h7 style="font-size: 24px; color:#000;"><strong>Join <span class="sbs-red-text">the</span>Clubhouse Community!<br><span class="sbs-red-text">FREE</span></strong></h7></label>
+                        <label for="membership-selection-free" class="sbs-red-checkbox"><h7 style="font-size: 24px; color:#000;"><strong>Join <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> Community!<br><span class="sbs-red-text">FREE</span></strong></h7></label>
                         <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
                             <ul class="fa-check-override">
                                 <li>Attend sports industry webinars</li>
                                 <li>Access the sports job board</li>
                                 <li>Get best practices by reading our blog</li>
                                 <li>Maintain your mental health with #SameHere Solutions</li>
-                                <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse newsletter</li>
+                                <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</li>
                             </ul>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                         <label for="membership-selection-pro" class="sbs-red-checkbox"><h7 style="font-size: 24px;color:#000;"><strong>Become a Clubhouse PRO Member!<br><span class="sbs-red-text">{{CLUBHOUSE_FREE_TRIAL_DAYS}}-DAY FREE TRIAL</span></strong></h7></label>
                         <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
                             <ul class="fa-check-override">
-                                <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse community benefits <i>plus:</i></li>
+                                <li>Everything listed in <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> community benefits <i>plus:</i></li>
                                 <li>Sports Career Services including:</li>
                                 <ul class="fa-check-override">
                                     <li>1:1 interview prep and resume coaching</li>
@@ -156,7 +156,7 @@
         <div class="col s12 m6" style="margin-bottom: 20px;">
             <div class="row">
                 <input id="newsletter" name="newsletter" type="checkbox" checked>
-                <label for="newsletter" class="sbs-red-checkbox">Receive <span class="sbs-red-text">the</span>Clubhouse newsletter</label>
+                <label for="newsletter" class="sbs-red-checkbox">Receive <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</label>
             </div>
             <div class="row">
                 <input id="terms" name="terms" type="checkbox" required>

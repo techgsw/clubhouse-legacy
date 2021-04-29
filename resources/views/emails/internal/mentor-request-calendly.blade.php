@@ -5,6 +5,6 @@
             <li><b>Mentee:</b> <a href="{{ env('CLUBHOUSE_URL') }}/user/{{ $user->id }}/profile">{{ $user->getName() }}</a></li>
             <li><b>Mentor:</b> <a href="{{ env('CLUBHOUSE_URL') }}/contact/{{ $mentor->contact->id }}/mentor">{{ $mentor->contact->getName() }}</a></li>
         </ul>
-        <p>-<span style="color:#EB2935">the</span>Clubhouse Team</p>
+        <p>-<span style="color:#EB2935">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot
 @endcomponent

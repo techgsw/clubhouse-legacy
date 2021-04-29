@@ -43,7 +43,7 @@ class ContactUsController extends Controller
                     $request->interested_in = "Recruiting";
                     break;
                 case "clubhouse":
-                    $request->interested_in = "theClubhouse";
+                    $request->interested_in = "theClubhouse®";
                     break;
                 case "other":
                     $request->interested_in = null;

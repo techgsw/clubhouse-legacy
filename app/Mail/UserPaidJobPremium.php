@@ -35,7 +35,7 @@ class UserPaidJobPremium extends Mailable
     public function build()
     {
         return $this->from('app@sportsbusiness.solutions')
-            ->subject('Job Posting - theClubhouse')
+            ->subject('Job Posting - theClubhouse®')
             ->markdown('emails.checkout.paid-job-premium');
     }
 }

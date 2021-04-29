@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row" style="margin-top: 5%;">
         <div class="col s12 center-align">
-            <img class="responsive-img" alt="theClubhouse" src="{{ env('APP_URL') }}/images/CH_logo_color.jpg" />
+            <img class="responsive-img" alt="theClubhouse®" src="{{ env('APP_URL') }}/images/CH_logo_color.jpg?v=1" />
         </div>
     </div>
     <div class="row" style="margin-bottom: 0;">

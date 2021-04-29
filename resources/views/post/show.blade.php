@@ -110,7 +110,7 @@
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col s12 center-align">
                             <a href="{{env('APP_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">SBS Consulting for Training | Consulting | Recruiting</a>
-                            <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse</a>
+                            <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse<sup>&#174;</sup></a>
                             <a href="mailto:bob@sportsbusiness.solutions" class="btn sbs-red blog-cta">Contact Bob Hamer</a>
                         </div>
                     </div>

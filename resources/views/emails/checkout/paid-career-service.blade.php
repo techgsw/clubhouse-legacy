@@ -1,6 +1,6 @@
 @component('emails.layout')
     @slot ('title')
-        Career Service {{ \Gate::allows('view-clubhouse') ? 'Signup' : 'Purchase'}} - theClubhouse
+        Career Service {{ \Gate::allows('view-clubhouse') ? 'Signup' : 'Purchase'}} - theClubhouse®
     @endslot
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
@@ -18,6 +18,6 @@
             <p>As you start to get to know your personal coach, it’s great to share additional thoughts on what you’d like to focus on and/or achieve during your 1:1 session(s). The more we know, the better we can help you!</p>
         @endif
         <p>We’re looking forward to helping you achieve your goals in sports business. Talk soon!</p>
-        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
+        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot
 @endcomponent

@@ -1,6 +1,6 @@
 @component('emails.layout')
     @slot ('title')
-        Job Listing Purchase - theClubhouse
+        Job Listing Purchase - theClubhouse®
     @endslot
     @slot('body')
         <p>Hi {{ ucwords($user->first_name) }},</p>
@@ -12,6 +12,6 @@
         </ul>
         <p>More text.</p>
         <p>We’re looking forward to helping you find the right sports business professional. Talk soon!</p>
-        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse Team</p>
+        <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot
 @endcomponent

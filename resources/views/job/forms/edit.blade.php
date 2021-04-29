@@ -45,7 +45,7 @@
                 </div>
                 <div class="input-field col s12">
                     <input id="external_job_link" type="text" class="{{ $errors->has('external_job_link') ? 'invalid' : '' }}" name="external_job_link" value="{{ old('external_job_link') ?: $job->external_job_link }}">
-                    <label for="external_job_link" data-error="{{ $errors->first('external_job_link') }}">External Job Link <strong>(If you want people to apply on another site and <i>not</i> through theClubhouse)</strong></label>
+                    <label for="external_job_link" data-error="{{ $errors->first('external_job_link') }}">External Job Link <strong>(If you want people to apply on another site and <i>not</i> through theClubhouse<sup>&#174;</sup>)</strong></label>
                 </div>
                 @can ('edit-job-logo', $job)
                 <div class="input-field col s12">

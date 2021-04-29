@@ -27,7 +27,7 @@
                 <div class="card large">
                     <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
                         <div class="col s12" style="padding: 10px 0 50px 0;">
-                            <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Community - <span class="sbs-red-text">Free</span></strong></h5>
+                            <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> Community - <span class="sbs-red-text">Free</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
                                 <p style="font-size: 16px; min-height: 80px;">Get into the game and join our sports business community.</p>
@@ -51,7 +51,7 @@
                 <div class="card large">
                     <div class="card-content" style="display: flex; flex-flow: column; justify-content: space-between;">
                         <div class="col s12" style="padding: 10px 0 50px 0;">
-                            <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Pro - <span class="sbs-red-text">Paid</span></strong></h5>
+                            <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> Pro - <span class="sbs-red-text">Paid</span></strong></h5>
                             <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                             <div style="margin-left: 30px; margin-right: 30px; padding-top: 40px;">
                                 <p style="font-size: 16px; min-height: 80px;">Take your skills to the next level! Connect with industry pros and gain insight you can't get anywhere else.</p>

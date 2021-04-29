@@ -71,9 +71,9 @@ class RegisterController extends Controller
         }
 
         if ($redirect_url == '/job-options') {
-            $message = "Thank you for joining theClubhouse community! Now, let’s help you post your open job. First, select the option below that works best for you.";
+            $message = "Thank you for joining theClubhouse&#174; community! Now, let’s help you post your open job. First, select the option below that works best for you.";
         } else {
-            $message = "Thank you for becoming a member of theClubhouse!";
+            $message = "Thank you for becoming a member of theClubhouse&#174;!";
         }
 
         Session::flash('message', new Message(

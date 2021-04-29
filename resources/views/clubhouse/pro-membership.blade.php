@@ -20,14 +20,14 @@
                                 <h4 class="center-align" style="margin-bottom: 35px;"><strong>You're taking your skills to the next level!<br>Connect with industry pros, watch webinars, and get sales training  <span class="sbs-red-text" style="white-space: nowrap;">FREE for {{CLUBHOUSE_FREE_TRIAL_DAYS}} days</span>.</strong></h4>
                             </div>
                             <div class="col s12 m6">
-                                <h5 class="center-align" style="margin-bottom: 35px;"><strong>Everything you are getting in <span class="sbs-red-text">the</span>Clubhouse community:</strong></h5>
+                                <h5 class="center-align" style="margin-bottom: 35px;"><strong>Everything you are getting in <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> community:</strong></h5>
                                 <div style="margin-left: 30px; margin-right: 30px;">
                                     <ul class="fa-check-override">
                                         <li>Attend sports industry webinars</li>
                                         <li>Access the sports job board</li>
                                         <li>Get best practices by reading our blog</li>
                                         <li>Maintain your mental health with #SameHere Solutions</li>
-                                        <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse newsletter</li>
+                                        <li>Stay up to date with <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</li>
                                     </ul>
                                 </div>
                             </div>
@@ -130,7 +130,7 @@
                     <div class="card large">
                         <div class="card-content" style="display: flex; flex-flow: column; justify-content: space-between;">
                             <div class="col s12" style="padding: 10px 0 50px 0;">
-                                <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Pro - <span class="sbs-red-text">Monthly</span></strong></h5>
+                                <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> Pro - <span class="sbs-red-text">Monthly</span></strong></h5>
                                 <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                                 <p class="center-align" style="font-size: 20px"><strong>{{money_format('%.2n', $monthly_membership_option->price)}}/month</strong></p>
                                 <div style="margin-left: 30px; margin-right: 30px; padding-top: 20px;">
@@ -145,7 +145,7 @@
                     <div class="card large">
                         <div class="card-content" style="display: flex; flex-flow: column; justify-content: space-between;">
                             <div class="col s12" style="padding: 10px 0 50px 0;">
-                                <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse Pro - <span class="sbs-red-text">Annually</span></strong></h5>
+                                <h5 class="center-align" style="font-size: 24px"><strong><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> Pro - <span class="sbs-red-text">Annually</span></strong></h5>
                                 <hr class="center-align" style="width: 90%; margin-left: 5%;" />
                                 <p class="center-align" style="font-size: 20px"><strong>{{ money_format('%.2n', $annual_membership_option->price) }}/year</strong></p>
                                 <div style="margin-left: 30px; margin-right: 30px; padding-top: 20px;">
