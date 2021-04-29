@@ -114,6 +114,9 @@ div.row.hero h1.header {
     margin-bottom: 20px;
     font-weight: 300;
 }
+div.row.hero h4.header {
+    text-transform: uppercase;
+}
 div.gray {
     background-color: #F2F2F2;
 }
