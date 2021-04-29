@@ -3,7 +3,7 @@
 @section('hero')
     <div class="row hero bg-image clubhouse">
         <img src="/images/CH_logo-compass.png"/>
-        <h1 class="header">Welcome to <span style="text-transform:none">theClubhouse<sup>&#174;</sup></h1>
+        <h1 class="header">Welcome to theClubhouse<sup>&#174;</sup></h1>
         <h5 style="max-width:800px;margin-right:auto;margin-left:auto;">Your destination for networking, best practices, and career growth in sports business.</h5>
         @can('view-clubhouse')
             <h5><strong>Thank you for being a Clubhouse PRO member!</h5>
