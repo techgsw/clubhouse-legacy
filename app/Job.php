@@ -26,6 +26,11 @@ class Job extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function jobCreateUser()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function image()
     {
         return $this->belongsTo(Image::class);

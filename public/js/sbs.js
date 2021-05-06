@@ -614,6 +614,22 @@ $.valHooks.textarea = {
         '.convert-to-admin-job-button'
     );
 
+    $('body').on(
+        {
+            submit: function (e, ui) {
+                let owner_email_field = $(this).find('input#owner_email');
+                console.log(owner_email_field.attr('data-current-owner'));
+                console.log(owner_email_field.val());
+                if (owner_email_field.attr('data-current-owner') != 'admin' && owner_email_field.val() != owner_email_field.attr('data-current-owner')) {
+                    if (!confirm('This will change the job owner to ' + owner_email_field.val() + ' and you will no longer have access to this job. Are you sure?')) {
+                        e.preventDefault();
+                    }
+                }
+            }
+        },
+        'form#edit-job'
+    );
+
     League.create = function (name) {
         return $.ajax({
             'type': 'POST',

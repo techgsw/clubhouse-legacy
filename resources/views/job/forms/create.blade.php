@@ -21,7 +21,6 @@
                             @foreach ($organizations as $org)
                                 @if ($org->name == $organization->name)
                                     <option selected value="{{$org->id}}" data-organization-state="" data-organization-country="">{{ $org->name }}</option>
-
                                 @else
                                     <option value="{{$org->id}}" data-organization-state="" data-organization-country="">{{ $org->name }}</option>
                                 @endif
@@ -33,7 +32,7 @@
                     @else
                         <input id="organization" autocomplete="off" type="text" name="organization" class="organization-autocomplete" target-input-id="organization-id" value="{{ old('organization') ?: ($organization ? $organization->name : '') }}" style="margin-bottom: 5px;" required>
                         <label for="organization" data-error="{{ $errors->first('organization') }}"><i class="fa fa-search"></i> Search</label>
-                        <p style="margin-top: 0px; font-size: 12px;"><a id="organization-modal-open" class="no-underline" href="javascript: void(0);">Can't find your ogranization? Click here.</a></p>
+                        <p style="margin-top: 0px; font-size: 12px;"><a id="organization-modal-open" class="no-underline" href="javascript: void(0);">Can't find your organization? Click here.</a></p>
                     @endif
                 @endcan
             </div>
@@ -67,6 +66,12 @@
                     <textarea class="markdown-input" name="description" value=""></textarea>
                 </div>
             </div>
+            @can('view-admin-jobs')
+                <div class="input-field">
+                    <input id="owner_email" type="text" class="" name="owner_email" value="{{ old('owner_email') }}">
+                    <label for="owner_email" data-error="{{ $errors->first('owner_email') }}">Job Owner <b>(Use the email that they use to log in. Leave blank to make yourself the owner)</b></label>
+                </div>
+            @endcan
             @can('edit-job-recruiting-type')
             <div class="input-field">
                 <label for="recruiting-type-code" class="active">Recruiting Type</label>
@@ -92,6 +97,17 @@
             </div>
         </div>
         <div class="col s12 m4">
+            @can ('view-admin-jobs')
+                <div class="input-field">
+                    <label for="job_type" class="active">Job Type</label>
+                    <select name="job_type">
+                        <option value="sbs_default" {{ old('job_type') == "sbs_default" ? "selected" : ""}}>Admin</option>
+                        <option value="user_free" {{ old('job_type') == "user_free" ? "selected" : ""}}>Free</option>
+                        <option value="user_premium" {{ old('job_type') == "user_premium" ? "selected" : ""}}>Premium</option>
+                        <option value="user_platinum" {{ old('job_type') == "user_platinum" ? "selected" : ""}}>Platinum</option>
+                    </select>
+                </div>
+            @endcan
             @include('job.forms.tag', ['job' => null])
             @cannot ('view-admin-jobs')
             <div class="input-field dark" style="margin-top:50px;">
@@ -101,17 +117,17 @@
                 </p>
                 <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="premium" id="premium" {{ ($available_premium_job_count ? 'checked' : 'disabled=disabled') }} />
-                    <label for="premium">Premium ({{ $available_premium_job_count }})</label>
-                    @if (!$available_premium_job_count)
+                    <label for="premium">Premium {{-- ({{ $available_premium_job_count }}) --}}</label>
+                    {{-- @if (!$available_premium_job_count)
                         <a href="{{ $job_premium->options()->find(PRODUCT_OPTION_ID['premium_job'])->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
-                    @endif
+                    @endif --}}
                 </p>
                 <p style="margin-top: 10px;">
                     <input class="sbs-red" name="job-tier" type="radio" value="platinum" id="platinum" {{ ($available_platinum_job_count ? 'checked' : 'disabled=disabled') }} />
-                    <label for="platinum">Platinum ({{ $available_platinum_job_count }})</label>
-                    @if (!$available_platinum_job_count)
+                    <label for="platinum">Platinum {{--({{ $available_platinum_job_count }}) --}}</label>
+                    {{-- @if (!$available_platinum_job_count)
                         <a href="{{ $job_platinum->options()->find(PRODUCT_OPTION_ID['platinum_job'])->getURL(false, 'checkout') }}" class="small flat-button green">Buy Now</a>
-                    @endif
+                    @endif --}}
                 </p>
                 <p style="margin-top: 12px;"><a href="#job-comparison-modal">Compare Options</a></p>
             </div>

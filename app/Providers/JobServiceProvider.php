@@ -20,7 +20,7 @@ use App\Exceptions\SBSException;
 
 class JobServiceProvider extends ServiceProvider
 {
-    public static function store(Job $job, UploadedFile $document = null, UploadedFile $alt_image = null, $job_tags = null)
+    public static function store(Job $job, UploadedFile $document = null, UploadedFile $alt_image = null, $job_tags = null, $is_admin = false)
     {
         $organization = Organization::find($job->organization_id);
         $image = $organization->image;
@@ -72,22 +72,24 @@ class JobServiceProvider extends ServiceProvider
                 $job->featured = 1;
                 $job->save();
 
-                // TODO should be using job option id here, not name. Constant? 
-                if ($job->job_type_id == 4) {
-                    $job_name = 'Platinum Job';
-                } elseif ($job->job_type_id == 3) {
-                    $job_name = 'Premium Job';
+                if (!$is_admin) {
+                    // TODO should be using job option id here, not name. Constant? 
+                    if ($job->job_type_id == 4) {
+                        $job_name = 'Platinum Job';
+                    } elseif ($job->job_type_id == 3) {
+                        $job_name = 'Premium Job';
+                    }
+
+                    $transaction = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
+                        ->join('product_option as po', 'po.id', 'tpo.product_option_id')
+                        ->where('po.name','=',$job_name)
+                        ->where('transaction.user_id','=', Auth::user()->id)
+                        ->whereNull('transaction.job_id')
+                        ->select('transaction.id', 'transaction.job_id')->first();
+
+                    $transaction->job_id = $job->id;
+                    $transaction->save();
                 }
-
-                $transaction = Transaction::join('transaction_product_option as tpo', 'tpo.transaction_id', 'transaction.id')
-                    ->join('product_option as po', 'po.id', 'tpo.product_option_id')
-                    ->where('po.name','=',$job_name)
-                    ->where('transaction.user_id','=', Auth::user()->id)
-                    ->whereNull('transaction.job_id')
-                    ->select('transaction.id', 'transaction.job_id')->first();
-
-                $transaction->job_id = $job->id;
-                $transaction->save();
             }
 
             if ($job_tags) {
@@ -96,7 +98,7 @@ class JobServiceProvider extends ServiceProvider
 
             return $job;
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e);
             throw new SBSException("Sorry, failed to save the job. Please try again." . $e->getMessage());
         }
     }

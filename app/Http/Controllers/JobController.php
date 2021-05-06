@@ -18,6 +18,7 @@ use App\Organization;
 use App\OrganizationType;
 use App\TagType;
 use App\Transaction;
+use App\Mail\NewJobOwnerNotification;
 use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
 use App\Providers\OrganizationServiceProvider;
@@ -139,7 +140,7 @@ class JobController extends Controller
 
         $user = Auth::User();
 
-        if (count($user->contact->organizations) == 1) {
+        if (count($user->contact->organizations) > 0) {
 
             $organization = $user->contact->organizations;
 
@@ -210,6 +211,20 @@ class JobController extends Controller
 
         $organization = Organization::find($request->organization_id);
 
+        $job_owner = $user;
+        if ($request->owner_email && $user->roles->contains('administrator')) {
+            $job_owner = User::where('email', $request->owner_email)->first();
+            if (!$job_owner) {
+                $request->session()->flash('message', new Message(
+                    "User " . $request->owner_email . " cannot be found. Make sure this is the email they use to log in.",
+                    "danger",
+                    $code = null,
+                    $icon = "error"
+                ));
+                return back()->withInput();
+            }
+        }
+
         if (!$user->roles->contains('administrator')) {
             $recruiting_type_code = 'passive';
             $available_premium_jobs = JobServiceProvider::getAvailablePaidJobs($user, PRODUCT_OPTION_ID['premium_job']);
@@ -225,10 +240,9 @@ class JobController extends Controller
                 $job_type_id = 2;
                 $featured = false;
             }
-
         } else {
             $recruiting_type_code = $request->recruiting_type_code;
-            $job_type_id = 1;
+            $job_type_id = request('job_type') ? JOB_TYPE_ID[request('job_type')] : 1;
             $featured = request('featured') ? true : false;
         }
 
@@ -242,8 +256,19 @@ class JobController extends Controller
             return back()->withInput();
         }
 
+        if (empty(json_decode(request('job_tags_json')))) {
+            $request->session()->flash('message', new Message(
+                "Please include at least one Job Discipline",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
         $job = new Job([
-            'user_id' => $user->id,
+            'user_id' => $job_owner->id,
+            'job_create_user_id' => $user->id,
             'title' => request('title'),
             'description' => request('description'),
             'organization_id' => $organization->id,
@@ -267,7 +292,7 @@ class JobController extends Controller
                     $user->contact->save();
                 }
 
-                $job = JobServiceProvider::store($job, $document, $alt_image, json_decode(request('job_tags_json')));
+                $job = JobServiceProvider::store($job, $document, $alt_image, json_decode(request('job_tags_json')), $user->roles->contains('administrator'));
 
                 if (!$user->roles->contains('administrator')) {
                     try {
@@ -281,7 +306,7 @@ class JobController extends Controller
             });
 
         } catch (SBSException $e) {
-            Log::error($e->getMessage());
+            Log::error($e);
             $request->session()->flash('message', new Message(
                 $e->getMessage(),
                 "danger",
@@ -290,7 +315,7 @@ class JobController extends Controller
             ));
             return back()->withInput();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e);
             $request->session()->flash('message', new Message(
                 "Sorry, failed to save the job. Please try again.",
                 "danger",
@@ -299,7 +324,7 @@ class JobController extends Controller
             ));
             return back()->withInput();
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            Log::error($e);
             $request->session()->flash('message', new Message(
                 "Sorry, failed to save the job. Please try again.",
                 "danger",
@@ -348,6 +373,8 @@ class JobController extends Controller
             unset($breadcrumb['Contacts']);
         }
 
+        $job_extension = ProductOption::find(PRODUCT_OPTION_ID['job_extension']);
+
         return view('user/job-postings', [
             'breadcrumb' => $breadcrumb,
             'user' => $user,
@@ -355,6 +382,7 @@ class JobController extends Controller
             'pipeline' => $pipeline,
             'job_pipeline' => $job_pipeline,
             'job_platinum_upgrade' => $job_platinum_upgrade,
+            'job_extension_url' => $job_extension->getURL(false, 'checkout'),
         ]);
     }
 
@@ -530,9 +558,29 @@ class JobController extends Controller
     public function update(UpdateJob $request, $id)
     {
         $job = Job::find($id);
+        $this->authorize('edit-job', $job);
 
         if ($job->job_status_id == JOB_STATUS_ID['expired']) {
             return redirect()->back()->withErrors(['msg' => 'This job has expired and cannot be edited.']);
+        }
+
+        $job_owner = User::where('email', $request->owner_email)->first();
+        if (!$job_owner) {
+            $request->session()->flash('message', new Message(
+                "User " . $request->owner_email . " cannot be found. Make sure this is the email they use to log in.",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
+        if ($job_owner->id != $job->user_id) {
+            try {
+                Mail::to($job_owner)->send(new NewJobOwnerNotification($job, $job_owner));
+            } catch (\Throwable $t) {
+                Log::error($t);
+            }
         }
         
         $organization = Organization::find($request->organization_id);
@@ -557,8 +605,9 @@ class JobController extends Controller
         }
 
         try {
-            $job = DB::transaction(function () use ($job, $organization, $request) {
+            $job = DB::transaction(function () use ($job, $job_owner, $organization, $request) {
                 $job->organization_id = $organization->id;
+                $job->user_id = $job_owner->id;
 
                 if (request('reuse_organization_fields')) {
                     // Already confirmed the org has an image
@@ -611,6 +660,10 @@ class JobController extends Controller
                 $job->state = request('state');
                 $job->country = request('country');
 
+                if ($request->user()->can('view-admin-jobs') && request('job_type') && isset(JOB_TYPE_ID[request('job_type')])) {
+                    $job->job_type_id = JOB_TYPE_ID[request('job_type')]; 
+                }
+
                 if (request('document')) {
                     $doc = request()->file('document');
                     $job->document = $doc->store('document', 'public');
@@ -631,12 +684,23 @@ class JobController extends Controller
         } catch (Exception $e) {
             Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
-                "Sorry, the failed to save job. Please try again.",
+                "Sorry, failed to save job. Please try again.",
                 "danger",
                 $code = null,
                 $icon = "error"
             ));
             return redirect()->back();
+        }
+
+        if (!Auth::user()->can('edit-job', $job)) {
+            // A non-admin user has switched ownership to someone else
+            $request->session()->flash('message', new Message(
+                "Job updated. User ".$job->user->email." is now the job owner.",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
+            return redirect($job->getUrL());
         }
 
         $request->session()->flash('message', new Message(

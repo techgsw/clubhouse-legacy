@@ -22,6 +22,10 @@
                         <textarea class="markdown-input" name="description" value="{{ $job->description }}"></textarea>
                     </div>
                 </div>
+                <div class="input-field col s12">
+                    <input id="owner_email" type="text" class="" name="owner_email" data-current-owner="{{Auth::user()->can('view-admin-dashboard') ? 'admin' : $job->user->email}}" value="{{ old('owner_email') ?: $job->user->email }}" required>
+                    <label for="owner_email" data-error="{{ $errors->first('owner_email') }}">Job Owner <b>(Use the email that they use to log in)</b></label>
+                </div>
                 <div class="input-field col s12" style="min-height:125px">
                     @include('job.forms.tag', ['job' => $job])
                 </div>
@@ -191,6 +195,17 @@
                         <option value="UK" {{ old('country') == "UK" ? 'selected' : $job->country == "UK" ? 'selected' : '' }}>U.K.</option>
                     </select>
                 </div>
+                @can ('view-admin-jobs')
+                    <div class="input-field col s12">
+                        <label class="active">Job Type</label>
+                        <select name="job_type" class="browser-default">
+                            <option value="sbs_default" {{ old('job_type') == "US" ? 'selected' : $job->job_type_id == JOB_TYPE_ID['sbs_default'] ? 'selected' : '' }}>Admin</option>
+                            <option value="user_free" {{ old('job_type') == "CA" ? 'selected' : $job->job_type_id == JOB_TYPE_ID['user_free'] ? 'selected' : '' }}>Free</option>
+                            <option value="user_premium" {{ old('job_type') == "UK" ? 'selected' : $job->job_type_id == JOB_TYPE_ID['user_premium'] ? 'selected' : '' }}>Premium</option>
+                            <option value="user_platinum" {{ old('job_type') == "UK" ? 'selected' : $job->job_type_id == JOB_TYPE_ID['user_platinum'] ? 'selected' : '' }}>Platinum</option>
+                        </select>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>
