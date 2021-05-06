@@ -34,7 +34,7 @@
         <div class="col s12">
             @if (count($jobs))
                 @foreach ($jobs as $job)
-                    @include('components.user-job-list-item', ['job' => $job])
+                    @include('components.user-job-list-item', ['job' => $job, 'job_extension_url' => $job_extension_url])
                 @endforeach
             @else
                 <p>When you <a href="/job/create">create</a> jobs for the <a href="/job">Job Board</a>, those jobs will appear here.</p>

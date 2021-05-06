@@ -26,9 +26,11 @@
             @endif
             @can ('edit-job', $job)
                 @if ($job->job_type_id == 3)
+                    <br>
                     <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
                 @endif
                 @if ($job->job_type_id == 4)
+                    <br>
                     <span class="small flat-button black inverse heavy">Platinum Job</span>
                 @endif
             @endcan
@@ -61,6 +63,11 @@
             </div>
             <h5>{{ $job->title }}</h5>
             <p><span class="heavy">{{ $job->organization_name }}</span> in {{ $job->city }}, {{ $job->state }}, {{ $job->country }}</p>
+            @can('view-admin-jobs')
+                @if ($job->jobCreateUser)
+                    <p><i>Created by <a href="/user/{{$job->jobCreateUser->id}}">{{$job->jobCreateUser->first_name}} {{$job->jobCreateUser->last_name}}</a></i></p>
+                @endif
+            @endcan
             @foreach ($job->tags as $tag)
                 <a href="/job?job_discipline={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block; margin: 2px;">{{ $tag->name }}</a>
             @endforeach
