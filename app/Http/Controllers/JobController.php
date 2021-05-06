@@ -256,6 +256,16 @@ class JobController extends Controller
             return back()->withInput();
         }
 
+        if (empty(json_decode(request('job_tags_json')))) {
+            $request->session()->flash('message', new Message(
+                "Please include at least one Job Discipline",
+                "danger",
+                $code = null,
+                $icon = "error"
+            ));
+            return back()->withInput();
+        }
+
         $job = new Job([
             'user_id' => $job_owner->id,
             'job_create_user_id' => $user->id,
