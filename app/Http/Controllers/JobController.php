@@ -256,8 +256,6 @@ class JobController extends Controller
             return back()->withInput();
         }
 
-        Log::info($job_owner->id);
-
         $job = new Job([
             'user_id' => $job_owner->id,
             'job_create_user_id' => $user->id,
