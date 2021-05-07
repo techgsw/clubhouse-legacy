@@ -1,5 +1,3 @@
-<p>We’d love your feedback though! Why aren’t you interested in learning more about this job?<p>
-<br />
 <form method="POST">
     {{ csrf_field() }}
     <div class="row">

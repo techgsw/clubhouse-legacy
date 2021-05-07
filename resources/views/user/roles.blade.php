@@ -21,8 +21,11 @@
         @can ('edit-profile', $user)
             <a href="/user/{{ $user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
         @endcan
-        @can ('edit-profile', $user)
+        @can ('edit-inquiry')
             <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
+            @if ($user->contact->do_not_contact)
+                <button type="button" class="flat-button red" disabled>Do not contact</button>
+            @endif
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">

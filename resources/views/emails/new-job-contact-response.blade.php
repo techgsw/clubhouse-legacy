@@ -1,7 +1,7 @@
 @component('emails.layout')
     @slot('body')
         <p>{{$user->first_name}},</p>
-        <p>You have been assigned as the new owner of a job posting. You can now review candidates and edit details about the following job:</p>
+        <p>{{$contact_job->contact->first_name}} {{$contact_job->contact->last_name}} has responded to your request on the following posting:</p>
         <br>
         <table>
             <tr>
@@ -16,7 +16,7 @@
                 </td>
             </tr>
         </table>
-        <a href="{{env('CLUBHOUSE_URL').$job->getURL()}}">Click here to view the posting</a>
+        <a href="{{env('CLUBHOUSE_URL').$job->getURL()}}">Click here to see what they said!</a>
         <br>
         <p>-<span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot

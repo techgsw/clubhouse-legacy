@@ -44,6 +44,9 @@
                 @component('components.admin-resume-button', ['url' => null, 'type' => null])@endcomponent
             @endif
             @component('components.admin-profile-button', ['user' => $contact->user])@endcomponent
+            @if ($contact->do_not_contact)
+                <button type="button" class="flat-button small red" disabled>Do not contact</button>
+            @endif
         </div>
         @if ($last_note)
             <p class="small italic">{{ $last_note->create_user_name }} {{ $last_note->created_at->format('m/d/Y') }}</p>

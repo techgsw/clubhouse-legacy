@@ -2,18 +2,19 @@
 
 namespace App\Mail;
 
-use App\Job;
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\ContactJob;
+use App\Job;
 
-class NewJobOwnerNotification extends Mailable
+class NewContactJobResponseNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $job;
+    public $contact_job;
     public $user;
 
     /**
@@ -21,10 +22,11 @@ class NewJobOwnerNotification extends Mailable
      *
      * @return void
      */
-    public function __construct(Job $job, User $user)
+    public function __construct(Job $job, ContactJob $contact_job)
     {
         $this->job = $job;
-        $this->user = $user;
+        $this->contact_job = $contact_job;
+        $this->user = \Auth::user();
     }
 
     /**
@@ -35,8 +37,8 @@ class NewJobOwnerNotification extends Mailable
     public function build()
     {
         return $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse®')
-                    ->subject('You have been assigned as a job owner - theClubhouse®')
-                    ->markdown('emails.new-job-owner');
+                    ->subject("A candidate has responded to your job posting - theClubhouse®")
+                    ->markdown('emails.new-job-contact-response');
     }
 }
 

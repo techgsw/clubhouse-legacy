@@ -1,7 +1,7 @@
 @component('emails.layout')
     @slot('body')
         <p>{{$contact_job->contact->first_name}},</p>
-        <p>Thanks for being a part of <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> community!</p>
+        <p>Thanks for being a part of <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> community.</p>
         <p>More and more hiring managers are using <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> to find the next sports business superstar to join their team, and today, we have some exciting news for you!</p>
         <p>Based on your work experience and qualifications the <strong>{{ $contact_job->job->organization_name }}</strong> want to consider you for an open job on their team.</p>
         <p>Are you interested in having a conversation to learn more?</p>

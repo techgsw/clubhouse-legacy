@@ -8,11 +8,11 @@
                 <div class="card-content">
                     <p>{{ $contact_job->contact->first_name }},</p>
                     <br />
-                    <p>Thank you for getting back to us regarding the <strong>{{ $contact_job->job->title }}</strong> position with the <strong>{{ $contact_job->job->organization->name }}</strong>.</p>
+                    <p>Thank you for getting back to us regarding the conversation with the <strong>{{ $contact_job->job->organization->name }}</strong>.</p>
                     <br />
-                    <p>We’re sorry to hear that you aren’t interested in this position. You won’t be contacted regarding this opportunity.</p>
+                    <p>If you are not interested, that's ok! Please let us know why so we can pass it along. Why aren’t you interested in taking a career call with them?</p>
                     <br />
-                    <p>We’d love your feedback though! Why aren’t you interested in learning more about this job? <DROP DOWN> (1. I have my dream job, 2. I was just promoted, 3. I can’t leave my team/city right now, 4. I don’t like that league/team/city 5. Personal reasons, 6. Other)<p>
+                    @include('job.forms.negative-feedback')
                     <br />
                     <p>If you haven’t done so already (and if you’d like to), you can create a free career profile in <a href="/"><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup></a> where you can upload your latest resume and update your career preferences so we can keep you in mind for other opportunities in the future.</p>
                     <br />

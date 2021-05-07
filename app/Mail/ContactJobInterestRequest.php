@@ -33,7 +33,7 @@ class ContactJobInterestRequest extends Mailable
      */
     public function build()
     {
-        $mail = $this->from('clubhouse@sportsbusiness.solutions');
+        $mail = $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse®');
         $mail->subject("A conversation with the {$this->contact_job->job->organization_name}");
 
         return $mail->markdown('emails.contact.contact-job-interest-request');

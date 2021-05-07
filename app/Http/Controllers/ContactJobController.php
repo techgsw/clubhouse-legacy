@@ -13,9 +13,11 @@ use App\JobInterestResponse;
 use App\Http\Requests\StoreJob;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
+use App\Mail\NewContactJobResponseNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Mail;
 
 class ContactJobController extends Controller
@@ -185,7 +187,7 @@ class ContactJobController extends Controller
             ['job_interest_token','=',$token]
         ])->first();
 
-        if (!is_null($contact_job->job_interest_response_code)) {
+        if (!is_null($contact_job->job_interest_response_code) && !$request->input('override')) {
             return view('job/feedback/' . $request_type . '/default-expired-code', [
                 'contact_job' => $contact_job
             ]);
@@ -201,6 +203,12 @@ class ContactJobController extends Controller
         $contact_job->job_interest_response_date = new \DateTime('now');
         $contact_job->save();
 
+        try {
+            Mail::to($contact_job->job->user)->send(new NewContactJobResponseNotification($contact_job->job, $contact_job));
+        } catch (\Throwable $t) {
+            Log::error($t);
+        }
+
         if ($job_interest_response->code == 'interested') {
             return view('job/feedback/' . $request_type . '/default-interested', [
                 'contact_job' => $contact_job
@@ -212,10 +220,8 @@ class ContactJobController extends Controller
         } elseif ($job_interest_response->code == 'do-not-contact' && $request_type == 'contact') {
             $contact = $contact_job->contact;
 
-            if (is_null($contact->user_id)) {
-                $contact->do_not_contact = true;
-                $contact->save();
-            }
+            $contact->do_not_contact = true;
+            $contact->save();
 
             return view('job/feedback/contact/default-do-not-contact', [
                 'contact_job' => $contact_job
@@ -246,6 +252,7 @@ class ContactJobController extends Controller
             return redirect('/');
         }
 
+        $contact_job->job_interest_response_code = 'not-interested';
         $contact_job->job_interest_negative_response = $negative_interest_reason;
         $contact_job->save();
 

@@ -4,9 +4,11 @@
         <a href="/job/{{$job->id}}" class="no-underline"><img src="{{ $job->image->getURL('medium') }}" class="no-border"></a>
         @endif
         @if ($job->job_type_id == 3)
+            <br>
             <span class="small flat-button blue-grey inverse heavy">Premium Job</span>
         @endif
         @if ($job->job_type_id == 4)
+            <br>
             <span class="small flat-button black inverse heavy">Platinum Job</span>
         @endif
     </div>

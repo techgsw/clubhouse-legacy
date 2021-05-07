@@ -20,6 +20,9 @@
         @endif
         @can ('edit-inquiry')
             <button class="view-contact-job-assignment-btn flat-button small" contact-id="{{ $contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
+            @if ($contact->do_not_contact)
+                <button type="button" class="flat-button small red" disabled>Do not contact</button>
+            @endif
         @endcan
     @endcomponent
     <ul class="nav-tabs" style="margin-bottom: 12px;">

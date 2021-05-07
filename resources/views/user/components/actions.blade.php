@@ -18,6 +18,9 @@
 @endcan
 @can ('view-admin-jobs', $user)
     <button class="view-contact-job-assignment-btn flat-button" contact-id="{{ $user->contact->id }}"><i class="fa fa-id-card"></i> Assign to job</button>
+    @if ($user->contact->do_not_contact)
+        <button type="button" class="flat-button red" disabled>Do not contact</button>
+    @endif
 @elsecan ('create-job', $user)
     <a href="/job/create" class="flat-button"><i class="fa fa-id-card"></i> Create Job Posting</a>
 @endcan
