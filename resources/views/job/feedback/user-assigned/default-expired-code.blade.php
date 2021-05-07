@@ -9,7 +9,7 @@
                 <div class="card-content">
                     <p>{{ $contact_job->contact->first_name }},</p>
                     <br />
-                    <p>It looks like you've already indicated that you are <strong>{{ $response[$contact_job->job_interest_response_code] }}</strong> in taking a potential career call with the <strong>{{ $contact_job->job->organization->name }}</strong>.</p>
+                    <p>It looks like you've already indicated that you are <strong>{{ $response[$contact_job->job_interest_response_code] }}</strong> in taking a potential career call with <strong>{{ $contact_job->job->organization->name }}</strong>.</p>
                     <br />
                     <p>If you are not interested, that's ok! Please let us know why so we can pass it along. Why aren’t you interested in taking a career call with them?</p>
                     <br />

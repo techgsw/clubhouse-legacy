@@ -8,7 +8,7 @@
                 <div class="card-content">
                     <p>{{ $contact_job->contact->first_name }},</p>
                     <br />
-                    <p>Thank you for getting back to us regarding the conversation with the <strong>{{ $contact_job->job->organization->name }}</strong>. This career call is purely exploratory at this point, and as mentioned, they'd simply like to get to know you better.</p>
+                    <p>Thank you for getting back to us regarding the conversation with <strong>{{ $contact_job->job->organization->name }}</strong>. This career call is purely exploratory at this point, and as mentioned, they'd simply like to get to know you better.</p>
                     <br />
                     <p>Someone from the team will be in touch with you soon to coordinate the call.</p>
                     <br />
