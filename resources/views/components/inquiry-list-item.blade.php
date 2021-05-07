@@ -29,11 +29,9 @@
                 @elseif (in_array($inquiry->job_interest_response_code, array('not-interested', 'do-not-contact')))
                     <span> <button type="button" class="flat-button small red"><i class="fa fa-user"></i>&nbsp; Not Interested</button></span>
                 @endif
-                @can ('review-inquiry-admin')
-                    @if (get_class($inquiry) == 'App\ContactJob' && !is_null($inquiry->job_interest_negative_response))
-                        <span> <button type="button" class="flat-button small red">{{ ucwords(str_replace('-', ' ', $inquiry->job_interest_negative_response)) }}</button></span>
-                    @endif
-                @endcan
+                @if (get_class($inquiry) == 'App\ContactJob' && !is_null($inquiry->job_interest_negative_response))
+                    <span> <button type="button" class="flat-button small red">{{ ucwords(str_replace('-', ' ', $inquiry->job_interest_negative_response)) }}</button></span>
+                @endif
                 @if ($inquiry->user)
                     <p style="line-height: 1.25; margin: 3px 0;">{{ $inquiry->user->contact->getTitle() }}</p>
                 @else
