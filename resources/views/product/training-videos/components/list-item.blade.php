@@ -4,6 +4,9 @@
         <div class="card horizontal">
             <div class="card-stacked">
                 <div class="card-content">
+                    @if ($video->created_at > new DateTime('-1 week'))
+                        <button class="btn sbs-red new-training-video-tag" style="margin-top:-34px;margin-left:-32px;">NEW</button>
+                    @endif
                     <div class="row">
                         <div class="col s12 m8">
                             <span style="font-size: 20px;margin-right:10px;"><strong>{{ $video->name }}</strong></span> {{is_null($video->getTrainingVideoAuthor()) ? '' : 'by '.$video->getTrainingVideoAuthor()}}

@@ -24,6 +24,9 @@
             <div class="sales-vault-video-container">
                 @foreach($newest_training_videos as $video)
                     <div class="sales-vault-video">
+                        @if ($video->created_at > new DateTime('-1 week'))
+                            <button class="btn sbs-red new-training-video-tag">NEW</button>
+                        @endif
                         <iframe src="https://player.vimeo.com/video/{{ $video->getEmbedCode() }}" frameborder="0" allowFullScreen mozallowfullscreen webkitAllowFullScreen></iframe>
                         <p>{{$video->name}}
                         @if ($video->getTrainingVideoAuthor())

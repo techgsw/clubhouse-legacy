@@ -2208,6 +2208,18 @@ p.icon {
     transition: background-color .2s, color .2s;
 }
 
+button.new-training-video-tag {
+    position: absolute;
+    float: right;
+    margin-top: -21px;
+    margin-left: -10px;
+    padding: 12px;
+    height: 27px;
+    line-height: 5px;
+    pointer-events: none;
+    cursor: default;
+}
+
 a.training-video-item .card {
     background-color: #F4F4F4;
 }
