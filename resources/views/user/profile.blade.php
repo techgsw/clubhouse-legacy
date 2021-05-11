@@ -30,6 +30,7 @@
         <div class="col s12">
             <p>Account Created: {{$user->created_at->format('n/j/Y')}}</p>
             <p>Last Login: {{is_null($user->last_login_at) ? '' : $user->last_login_at->format('n/j/Y')}}</p>
+            <p>Last Profile Update: {{ $user->profile->updated_at->format('n/j/Y') }}</p>
         </div>
         <div class="col s12">
             @if ($user->profile->address[0] && ($user->profile->address[0]->city || $user->profile->address[0]->state))
