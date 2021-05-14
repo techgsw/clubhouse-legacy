@@ -211,6 +211,10 @@ class Contact extends Model
                     ."END "
                 ."DESC");
                 break;
+            case 'last-profile-update-date-desc':
+                $contacts = $contacts->whereNotNull('contact.user_id');
+                $contacts = $contacts->orderBy('contact_user_profile.updated_at','DESC');
+                break;
             default:
                 $contacts = $contacts->orderBy('contact.id', 'desc');
                 break;
@@ -236,6 +240,13 @@ class Contact extends Model
         }
         $contacts->leftJoin('user AS contact_user', 'contact.user_id', '=', 'contact_user.id');
         $contacts->leftJoin('user AS linked_user', 'contact_user.id', '=', 'linked_user.linked_user_id');
+        if ($sort_type == 'last-profile-update-date-desc' ||
+            strpos($query_string, 'gender') !== false ||
+            strpos($query_string, 'job_seeking_region') !== false ||
+            strpos($query_string, 'tag_type') !== false ||
+            strpos($query_string, 'ethnicity') !== false) {
+            $contacts->leftJoin('profile AS contact_user_profile', 'contact_user.id', 'contact_user_profile.user_id');
+        }
         $contacts->whereNull('contact_user.linked_user_id');
         // we need to check all linked users for a last login date to display on the main contact entry.
         // the second selected value here can be accessed with $contact->last_login_at
@@ -282,22 +293,12 @@ class Contact extends Model
                 case 'job_seeking_type':
                     switch ($search_value) {
                         case 'internship':
-                            $query = $query->where('contact.job_seeking_type', '=', 'internship', $conjunction);
-                            break;
                         case 'entry_level':
-                            $query = $query->where('contact.job_seeking_type', '=', 'entry_level', $conjunction);
-                            break;
                         case 'mid_level':
-                            $query = $query->where('contact.job_seeking_type', '=', 'mid_level', $conjunction);
-                            break;
                         case 'entry_level_management':
-                            $query = $query->where('contact.job_seeking_type', '=', 'entry_level_management', $conjunction);
-                            break;
                         case 'mid_level_management':
-                            $query = $query->where('contact.job_seeking_type', '=', 'mid_level_management', $conjunction);
-                            break;
                         case 'executive':
-                            $query = $query->where('contact.job_seeking_type', '=', 'executive', $conjunction);
+                            $query = $query->where('contact.job_seeking_type', '=', $search_value, $conjunction);
                             break;
                         case 'all':
                         default:
@@ -307,24 +308,51 @@ class Contact extends Model
                 case 'job_seeking_status':
                     switch ($search_value) {
                         case 'unemployed':
-                            $query = $query->where('contact.job_seeking_status', '=', 'unemployed', $conjunction);
-                            break;
                         case 'employed_active':
-                            $query = $query->where('contact.job_seeking_status', '=', 'employed_active', $conjunction);
-                            break;
                         case 'employed_passive':
-                            $query = $query->where('contact.job_seeking_status', '=', 'employed_passive', $conjunction);
-                            break;
                         case 'employed_future':
-                            $query = $query->where('contact.job_seeking_status', '=', 'employed_future', $conjunction);
-                            break;
                         case 'employed_not':
-                            $query = $query->where('contact.job_seeking_status', '=', 'employed_not', $conjunction);
+                            $query = $query->where('contact.job_seeking_status', '=', $search_value, $conjunction);
                             break;
                         case 'all':
                         default:
                             break;
                     }
+                    break;
+                case 'job_seeking_region':
+                    switch ($search_value) {
+                        case 'southwest':
+                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'sw', $conjunction);
+                            break;
+                        case 'northwest':
+                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'nw', $conjunction);
+                            break;
+                        case 'northeast':
+                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'ne', $conjunction);
+                            break;
+                        case 'southeast':
+                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'se', $conjunction);
+                            break;
+                        case 'midwest':
+                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'mw', $conjunction);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'job_discipline_preference':
+                    $query = $query->whereIn('contact_user_profile.id', function($query) use ($search_value) {
+                        $query->select('profile_email_preference_tag_type.profile_id')
+                              ->from('profile_email_preference_tag_type')
+                              ->leftJoin('tag_type', 'profile_email_preference_tag_type.tag_type_id', 'tag_type.id')
+                              ->where('tag_type.tag_name', $search_value);
+                    }, $conjunction);
+                    break;
+                case 'gender':
+                    $query = $query->where('contact_user_profile.gender', '=', $search_value, $conjunction);
+                    break;
+                case 'ethnicity':
+                    $query = $query->where('contact_user_profile.ethnicity', '=', $search_value, $conjunction);
                     break;
                 case Search::GROUP_LABEL:
                     if ($conjunction === "and") {

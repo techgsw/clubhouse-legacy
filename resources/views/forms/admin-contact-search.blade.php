@@ -14,6 +14,24 @@
                     <p>The following labels may be used to search by specific fields. If no label is specified, search will default to <code>name:</code>.</p>
                     <ul class="left-align">
                         <li><b><code>name:</code></b> Search by contact's name</li>
+                        <li><b><code>gender:</code></b> Search by contact's gender
+                            <ul style="margin-left:50px;">
+                                <li><code>male</code></li>
+                                <li><code>female</code></li>
+                                <li><code>non-binary</code></li>
+                                <li><code>na</code> (prefer not to answer)</li>
+                            </ul>
+                        </li>
+                        <li><b><code>ethnicity:</code></b> Search by contact's ethnicity
+                            <ul style="margin-left:50px;">
+                                <li><code>white</code></li>
+                                <li><code>black</code></li>
+                                <li><code>asian</code></li>
+                                <li><code>hispanic</code></li>
+                                <li><code>native</code></li>
+                                <li><code>na</code> (prefer not to answer)</li>
+                            </ul>
+                        </li>
                         <li><b><code>id:</code></b> Search by contact's database ID</li>
                         <li><b><code>organization:</code></b> Search by contact's current organization</li>
                         <li><b><code>title:</code></b> Search by job title of contact</li>
@@ -22,10 +40,37 @@
                         <li><b><code>owner:</code></b> Search by the name of the user that owns the contact's account, if applicable</li>
                         <li><b><code>note:</code></b> Search by the contents of the contact's notes</li>
                         <li><b><code>location:</code></b> Search by parts of the contact's address</li>
-                        <li><b><code>job_seeking_type:</code></b> Search by the "goal", or type of job the contact is seeking. Possible options are <code>internship</code>, <code>entry_level</code>, <code>mid_level</code>, <code>entry_level_management</code>, <code>mid_level_management</code> or <code>executive></code></li>
-                        <li><b><code>job_seeking_status:</code></b> Search by the contact's current job & job seeking status. Possible options are <code>unemployed</code>, <code>employed_active</code> (actively seeking), <code>employed_passive</code> (passively seeking), <code>employed_future</code> (maybe later) or <code>employed_not</code> (not seeking)</li>
+                        <li><b><code>job_seeking_type:</code></b> Search by the "goal", or type of job the contact is seeking.
+                            <ul style="margin-left:50px;">
+                                <li><code>internship</code></li>
+                                <li><code>entry_level</code></li>
+                                <li><code>mid_level</code></li>
+                                <li><code>entry_level_management</code></li>
+                                <li><code>mid_level_management</code></li>
+                                <li><code>executive</code></li>
+                            </ul>
+                        </li>
+                        <li><b><code>job_seeking_status:</code></b> Search by the contact's current job & job seeking status.
+                            <ul style="margin-left:50px;">
+                                <li><code>unemployed</code></li>
+                                <li><code>employed_active</code> (actively seeking)</li>
+                                <li><code>employed_passive</code> (passively seeking)</li>
+                                <li><code>employed_future</code> (maybe later)</li>
+                                <li><code>employed_not</code> (not seeking)</li>
+                            </ul>
+                        </li>
+                        <li><b><code>job_seeking_region:</code></b> Search by the contact's preferred job region
+                            <ul style="margin-left:50px;">
+                                <li><code>southwest</code></li>
+                                <li><code>southeast</code></li>
+                                <li><code>northwest</code></li>
+                                <li><code>northeast</code></li>
+                                <li><code>midwest</code></li>
+                            </ul>
+                        </li>
+                        <li><b><code>job_discipline_preference:</code></b> Search by the contact's preference for job disicplines. <a target="_blank" rel="noopener" href="/admin/job/disciplines">Click here to see a list of all current job disciplines.</a></li>
                     </ul>
-                    <p>The first word or "quoted phrase" after the label will be used by that label. For example, <code>organization:"SBS Consulting"</code> will search for an organization of "SBS Consulting", but <code>organization:SBS Consulting</code> will search for an organization of "Sports", a name with "Business" and a name with "Solutions" in it.</p>
+                    <p>Remember to use quotes if a single search term is more than one word. For example, <code>organization:"SBS Consulting"</code> will search for an organization of "SBS Consulting", but <code>organization:SBS Consulting</code> will search for an organization of "SBS" and a contact name of "Consulting".</p>
                     <p>You can also use <code>AND</code> and <code>OR</code> to chain searches together. By default, any labels, words, or phrases next to each other will default to <code>AND</code>.</p>
                 </div>
                 <div class="modal-footer">
@@ -64,6 +109,7 @@
                 <option value="name-desc" {{ request('sort') == "name-desc" ? "selected" : "" }}>Name (Z to A)</option>
                 <option value="creation-date-desc" {{ request('sort') == "creation-date-desc" ? "selected" : "" }}>Contact Created (last to first)</option>
                 <option value="last-login-date-desc" {{ request('sort') == "last-login-date-desc" ? "selected" : "" }}>Last Login (last to first)</option>
+                <option value="last-profile-update-date-desc" {{ request('sort') == "last-profile-update-date-desc" ? "selected" : "" }}>Last Profile Update Date (last to first)</option>
             </select>
         </div>
         <div class="col s6 m3 center-align input-field">
