@@ -78,6 +78,11 @@ class Contact extends Model
         return count(Note::contact($this->id));
     }
 
+    public function emailPreferenceTagTypes()
+    {
+        return $this->belongsToMany(TagType::class, 'contact_email_preference_tag_type');
+    }
+
     public function getJobSeekingStatus()
     {
         switch ($this->job_seeking_status) {
@@ -322,37 +327,66 @@ class Contact extends Model
                 case 'job_seeking_region':
                     switch ($search_value) {
                         case 'southwest':
-                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'sw', $conjunction);
+                            $query = $query->where(function ($query) use ($conjunction) {
+                                $query->where('contact_user_profile.job_seeking_region', '=', 'sw', $conjunction)
+                                      ->orWhere('contact.job_seeking_region', '=', 'sw');
+                            });
                             break;
                         case 'northwest':
-                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'nw', $conjunction);
+                            $query = $query->where(function ($query) use ($conjunction) {
+                                $query->where('contact_user_profile.job_seeking_region', '=', 'nw', $conjunction)
+                                      ->orWhere('contact.job_seeking_region', '=', 'nw');
+                            });
                             break;
                         case 'northeast':
-                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'ne', $conjunction);
+                            $query = $query->where(function ($query) use ($conjunction) {
+                                $query->where('contact_user_profile.job_seeking_region', '=', 'ne', $conjunction)
+                                      ->orWhere('contact.job_seeking_region', '=', 'ne');
+                            });
                             break;
                         case 'southeast':
-                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'se', $conjunction);
+                            $query = $query->where(function ($query) use ($conjunction) {
+                                $query->where('contact_user_profile.job_seeking_region', '=', 'se', $conjunction)
+                                      ->orWhere('contact.job_seeking_region', '=', 'se');
+                            });
                             break;
                         case 'midwest':
-                            $query = $query->where('contact_user_profile.job_seeking_region', '=', 'mw', $conjunction);
+                            $query = $query->where(function ($query) use ($conjunction) {
+                                $query->where('contact_user_profile.job_seeking_region', '=', 'mw', $conjunction)
+                                      ->orWhere('contact.job_seeking_region', '=', 'mw');
+                            });
                             break;
                         default:
                             break;
                     }
                     break;
                 case 'job_discipline_preference':
-                    $query = $query->whereIn('contact_user_profile.id', function($query) use ($search_value) {
-                        $query->select('profile_email_preference_tag_type.profile_id')
-                              ->from('profile_email_preference_tag_type')
-                              ->leftJoin('tag_type', 'profile_email_preference_tag_type.tag_type_id', 'tag_type.id')
-                              ->where('tag_type.tag_name', $search_value);
-                    }, $conjunction);
+                    $query = $query->where(function($query) use($search_value, $conjunction) {
+                        $query->whereIn('contact_user_profile.id', function($query) use ($search_value) {
+                                  $query->select('profile_email_preference_tag_type.profile_id')
+                                        ->from('profile_email_preference_tag_type')
+                                        ->leftJoin('tag_type', 'profile_email_preference_tag_type.tag_type_id', 'tag_type.id')
+                                        ->where('tag_type.tag_name', $search_value);
+                                  }, $conjunction)
+                              ->whereIn('contact.id', function($query) use ($search_value) {
+                                  $query->select('contact_email_preference_tag_type.contact_id')
+                                        ->from('contact_email_preference_tag_type')
+                                        ->leftJoin('tag_type', 'contact_email_preference_tag_type.tag_type_id', 'tag_type.id')
+                                        ->where('tag_type.tag_name', $search_value);
+                                  }, 'or');
+                    });
                     break;
                 case 'gender':
-                    $query = $query->where('contact_user_profile.gender', '=', $search_value, $conjunction);
+                    $query = $query->where(function($query) use ($search_value, $conjunction) {
+                        $query->where('contact_user_profile.gender', '=', $search_value, $conjunction)
+                              ->orWhere('contact.gender', '=', $search_value);
+                    });
                     break;
                 case 'ethnicity':
-                    $query = $query->where('contact_user_profile.ethnicity', '=', $search_value, $conjunction);
+                    $query = $query->where(function($query) use ($search_value, $conjunction) {
+                        $query->where('contact_user_profile.ethnicity', '=', $search_value, $conjunction)
+                              ->orWhere('contact.ethnicity', '=', $search_value);
+                    });
                     break;
                 case Search::GROUP_LABEL:
                     if ($conjunction === "and") {

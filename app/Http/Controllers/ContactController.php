@@ -11,6 +11,7 @@ use App\Message;
 use App\Note;
 use App\Organization;
 use App\JobPipeline;
+use App\TagType;
 use App\Http\Requests\CreateNote;
 use App\Http\Requests\CloseFollowUp;
 use App\Http\Requests\RescheduleFollowUp;
@@ -78,11 +79,14 @@ class ContactController extends Controller
             $redirect_url = url()->previous();
         }
 
+        $job_tags = TagType::where('type', 'job')->get();
+
         return view('contact/show', [
             'contact' => $contact,
             'notes' => $notes,
             'breadcrumb' => $breadcrumb,
-            'redirect_url' => $redirect_url
+            'redirect_url' => $redirect_url,
+            'job_tags' => $job_tags
         ]);
     }
 
@@ -306,6 +310,8 @@ class ContactController extends Controller
             $contact->secondary_phone = request('secondary_phone')
                 ? preg_replace("/[^\d]/", "", request('secondary_phone'))
                 : null;
+            $contact->gender = request('gender');
+            $contact->ethnicity = request('ethnicity');
 
             $contact->title = request('title');
             // ContactOrganization relationship
@@ -324,6 +330,7 @@ class ContactController extends Controller
             $contact->organization = request('organization');
             $contact->job_seeking_type = request('job_seeking_type');
             $contact->job_seeking_status = request('job_seeking_status');
+            $contact->job_seeking_region = request('job_seeking_region');
             if (!is_null($resume)) {
                 $contact->resume_url = $resume;
             }
@@ -359,6 +366,22 @@ class ContactController extends Controller
                 $contact->mentor->active = false;
                 $contact->mentor->save();
             }
+
+            // Job discipline preferences
+            $email_preference_tag_type_ids = array();
+            foreach($request->all() as $key=>$datum) {
+                if (strpos($key, 'email_preference_job_') !== false && $datum) {
+                    try {
+                        $tag_type_id = intval(explode('email_preference_job_', $key)[1]);
+                        if (TagType::find($tag_type_id) !== null) {
+                            $email_preference_tag_type_ids[] = $tag_type_id;
+                        }
+                    } catch (\Throwable $t) {
+                        Log::error($t);
+                    }
+                }
+            }
+            $contact->emailPreferenceTagTypes()->sync($email_preference_tag_type_ids);
 
             return $contact;
         });

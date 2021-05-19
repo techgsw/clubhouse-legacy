@@ -1676,6 +1676,12 @@ $.valHooks.textarea = {
                 if (!id) {
                     console.error("No target ID given.");
                     return;
+                } else if (id == 'email_preference_job') {
+                    $('input[id^=email_preference_job_]').prop('checked', false);
+                    $('input[name="profile_email_preference_job"]').each(function() {
+                        job_preference_id = $(this).attr('target-value');
+                        $('input#email_preference_job_' + job_preference_id).prop('checked', true);
+                    });
                 }
                 Form.acceptValue(id, value);
             }

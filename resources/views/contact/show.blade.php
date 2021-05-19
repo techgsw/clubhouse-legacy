@@ -179,6 +179,42 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col s6">
+                                <label>Gender</label>
+                                <select id="gender" class="browser-default" name="gender">
+                                    <option value="" {{ is_null(old('gender')) ? ($contact->gender == "" ? "selected" : "") : (old("gender") == "" ? "selected" : "") }} disabled>Please select</option>
+                                    <option value="male" {{ is_null(old('gender')) ? ($contact->gender == "male" ? "selected" : "") : (old("gender") == "male" ? "selected" : "") }}>Male</option>
+                                    <option value="female" {{ is_null(old('gender')) ? ($contact->gender == "female" ? "selected" : "") : (old("gender") == "female" ? "selected" : "") }}>Female</option>
+                                    <option value="non-binary" {{ is_null(old('gender')) ? ($contact->gender == "non-binary" ? "selected" : "") : (old("gender") == "non-binary" ? "selected" : "") }}>Non-binary</option>
+                                    <option value="na" {{ is_null(old('gender')) ? ($contact->gender == "na" ? "selected" : "") : (old("gender") == "na" ? "selected" : "") }}>Prefer not to answer</option>
+                                </select>
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->gender && $contact->user->profile->gender != $contact->gender)
+                                    <button class="flat-button small green accept-change-button" target-id="gender" target-value="{{$contact->user->profile->gender}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->getGender() }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>Ethnicity</label>
+                                <select id="ethnicity" class="browser-default" name="ethnicity">
+                                    <option value="" {{ is_null(old('ethnicity')) ? ($contact->ethnicity == "" ? "selected" : "") : (old("ethnicity") == "" ? "selected" : "") }} disabled>Please select</option>
+                                    <option value="asian" {{ is_null(old('ethnicity')) ? ($contact->ethnicity == "asian" ? "selected" : "") : (old("ethnicity") == "asian" ? "selected" : "") }}>Asian</option>
+                                    <option value="black" {{ is_null(old('ethnicity')) ? ($contact->ethnicity == "black" ? "selected" : "") : (old("ethnicity") == "black" ? "selected" : "") }}>Black</option>
+                                    <option value="hispanic" {{ is_null(old('ethnicity')) ? ($contact->ethnicity == "hispanic" ? "selected" : "") : (old("ethnicity") == "hispanic" ? "selected" : "") }}>Hispanic</option>
+                                    <option value="native" {{ is_null(old('ethnicity')) ? ($contact->ethnicity == "native" ? "selected" : "") : (old("ethnicity") == "native" ? "selected" : "") }}>Native</option>
+                                    <option value="white" {{ is_null(old('ethnicity')) ? ($contact->ethnicity == "white" ? "selected" : "") : (old("ethnicity") == "white" ? "selected" : "") }}>White</option>
+                                    <option value="na" {{ is_null(old('ethnicity')) ? ($contact->ethnicity == "na" ? "selected" : "") : (old("ethnicity") == "na" ? "selected" : "") }}>Prefer not to answer</option>
+                                </select>
+                            </div>
+                            <div class="col s6" style="padding-top: 22px;">
+                                @if ($contact->user && $contact->user->profile->ethnicity && $contact->user->profile->ethnicity != $contact->ethnicity)
+                                    <button class="flat-button small green accept-change-button" target-id="ethnicity" target-value="{{$contact->user->profile->ethnicity}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->getEthnicity() }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col s6 center-align">
                                 <div class="file-field input-field very-small">
                                     <div class="btn white black-text">
@@ -284,14 +320,61 @@
                                         <option value="internship" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
                                         <option value="entry_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level" ? "selected" : "") : (old("job_seeking_type") == "entry_level" ? "selected" : "") }}>Entry-level</option>
                                         <option value="mid_level" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level" ? "selected" : "") : (old("job_seeking_type") == "mid_level" ? "selected" : "") }}>Mid-level</option>
-                                        <option value="entry_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level_management" ? "selected" : "") : (old("job_seeking_type") == "entry_level-managment" ? "selected" : "") }}>Entry-level management</option>
-                                        <option value="mid_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level_management" ? "selected" : "") : (old("job_seeking_type") == "mid_level-managment" ? "selected" : "") }}>Mid-level management</option>
+                                        <option value="entry_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "entry_level_management" ? "selected" : "") : (old("job_seeking_type") == "entry_level_managment" ? "selected" : "") }}>Entry-level management</option>
+                                        <option value="mid_level_management" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "mid_level_management" ? "selected" : "") : (old("job_seeking_type") == "mid_level_managment" ? "selected" : "") }}>Mid-level management</option>
                                         <option value="executive" {{ is_null(old('job_seeking_type')) ? ($contact->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
                                     </select>
                                 </div>
                                 <div class="col s6" style="padding-top: 22px;">
                                     @if ($contact->user && $contact->user->profile->job_seeking_type && $contact->user->profile->job_seeking_type != $contact->job_seeking_type)
                                         <button class="flat-button small green accept-change-button" target-id="job_seeking_type" target-value="{{$contact->user->profile->job_seeking_type}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->getJobSeekingType() }}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s6">
+                                    <label>Job-seeking region</label>
+                                    <select id="job_seeking_region" class="browser-default" name="job_seeking_region">
+                                        <option value="" {{ is_null(old('job_seeking_region')) ? ($contact->job_seeking_region == "" ? "selected" : "") : (old("job_seeking_region") == "" ? "selected" : "") }} disabled>Please select</option>
+                                        <option value="mw" {{ is_null(old('job_seeking_region')) ? ($contact->job_seeking_region == "mw" ? "selected" : "") : (old("job_seeking_region") == "mw" ? "selected" : "") }}>Midwest</option>
+                                        <option value="ne" {{ is_null(old('job_seeking_region')) ? ($contact->job_seeking_region == "ne" ? "selected" : "") : (old("job_seeking_region") == "ne" ? "selected" : "") }}>Northeast</option>
+                                        <option value="nw" {{ is_null(old('job_seeking_region')) ? ($contact->job_seeking_region == "nw" ? "selected" : "") : (old("job_seeking_region") == "nw" ? "selected" : "") }}>Northwest</option>
+                                        <option value="se" {{ is_null(old('job_seeking_region')) ? ($contact->job_seeking_region == "se" ? "selected" : "") : (old("job_seeking_region") == "se" ? "selected" : "") }}>Southeast</option>
+                                        <option value="sw" {{ is_null(old('job_seeking_region')) ? ($contact->job_seeking_region == "sw" ? "selected" : "") : (old("job_seeking_region") == "sw" ? "selected" : "") }}>Southwest</option>
+                                    </select>
+                                </div>
+                                <div class="col s6" style="padding-top: 22px;">
+                                    @if ($contact->user && $contact->user->profile->job_seeking_region && $contact->user->profile->job_seeking_region != $contact->job_seeking_region)
+                                        <button class="flat-button small green accept-change-button" target-id="job_seeking_region" target-value="{{$contact->user->profile->job_seeking_region}}" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>{{ $contact->user->profile->getJobSeekingRegion() }}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s6">
+                                    <label>Job discipline preferences</label>
+                                    <br>
+                                    @foreach($job_tags as $tag)
+                                        <div class="input-field col s12 m6 l4">
+                                            <input id="email_preference_job_{{$tag->id}}" type="checkbox" name="email_preference_job_{{$tag->id}}" value="1" {{ $contact->emailPreferenceTagTypes->contains('id', $tag->id) ? "checked" : "" }} />
+                                            <label for="email_preference_job_{{$tag->id}}">{{$tag->tag_name}}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="col s6">
+                                    @if (!$contact->user->profile->emailPreferenceTagTypesMatchContact())
+                                        <label>From profile:</label>
+                                        <br>
+                                        <div class="row" style="margin-bottom:30px;">
+                                        @foreach($job_tags as $tag)
+                                            @if ($contact->user->profile->emailPreferenceTagTypes->contains('id', $tag->id))
+                                                <div class="input-field col s12 m6 l4">
+                                                    <input id="profile_email_preference_job_{{$tag->id}}" type="checkbox" name="profile_email_preference_job" target-value="{{$tag->id}}" value="1" checked disabled/>
+                                                    <label for="profile_email_preference_job_{{$tag->id}}">{{$tag->tag_name}}</label>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                        </div>
+                                        <button class="flat-button small green accept-change-button" target-id="email_preference_job" style="margin-right: 10px;" type="button" name="button"><i class="fa fa-caret-left icon-left"></i>Accept</button>
                                     @endif
                                 </div>
                             </div>

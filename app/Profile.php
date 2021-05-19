@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Profile extends Model
 {
@@ -76,6 +77,60 @@ class Profile extends Model
             return "Mid-level management";
         case "executive":
             return "Executive team";
+        default:
+            return '';
+        }
+    }
+
+    public function getJobSeekingRegion()
+    {
+        switch ($this->job_seeking_region) {
+        case "mw":
+            return "Midwest";
+        case "ne":
+            return "Northeast";
+        case "nw":
+            return "Northwest";
+        case "se":
+            return "Southeast";
+        case "sw":
+            return "Southwest";
+        default:
+            return '';
+        }
+    }
+
+    public function getGender()
+    {
+        switch ($this->gender) {
+        case "male":
+            return "Male";
+        case "female":
+            return "Female";
+        case "non-binary":
+            return "Non-binary";
+        case "na":
+            return "Prefer not to answer";
+        default:
+            return '';
+        }
+    }
+
+    public function getEthnicity()
+    {
+        switch ($this->ethnicity) {
+        case "asian":
+            return "Asian";
+        case "black":
+            return "Black";
+        case "hispanic":
+            return "Hispanic";
+        case "native":
+            return "Native";
+        case "white":
+            return "White";
+        case "na":
+            return "Prefer not to answer";
         default:
             return '';
         }
@@ -162,6 +217,20 @@ class Profile extends Model
             $this->isAddressComplete() &&
             $this->isJobPreferencesComplete() &&
             $this->isEmploymentComplete();
+    }
 
+    public function emailPreferenceTagTypesMatchContact()
+    {
+        foreach ($this->emailPreferenceTagTypes as $tag_type) {
+            if (!$this->user->contact->emailPreferenceTagTypes->contains('id', $tag_type->id)) {
+                return false;
+            }
+        }
+        foreach ($this->user->contact->emailPreferenceTagTypes as $tag_type) {
+            if (!$this->emailPreferenceTagTypes->contains('id', $tag_type->id)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
