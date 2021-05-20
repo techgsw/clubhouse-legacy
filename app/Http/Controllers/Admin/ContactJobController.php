@@ -65,10 +65,10 @@ class ContactJobController extends Controller
                                 } else if ($request->input('comm_type') == 'cold'){
                                     Mail::to($contact_job->contact)->send(new ContactColdComm($contact_job));                                
                                 }
-                            } else if ($contact_job->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                            } else {
                                 if ($request->input('comm_type') == 'default') {
                                     $now = new \DateTime('NOW');
-                                    $contact_job->job_interest_response_date = $now;
+                                    $contact_job->job_interest_request_date = $now;
                                     $contact_job->save();
                                     if (!is_null($contact_job->contact->user)) {
                                         Mail::to($contact_job->contact)->send(new ContactJobUserInterestRequest($contact_job));                                

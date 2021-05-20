@@ -366,7 +366,7 @@
                                         <br>
                                         <div class="row" style="margin-bottom:30px;">
                                         @foreach($job_tags as $tag)
-                                            @if ($contact->user->profile->emailPreferenceTagTypes->contains('id', $tag->id))
+                                            @if ($contact->user && $contact->user->profile->emailPreferenceTagTypes->contains('id', $tag->id))
                                                 <div class="input-field col s12 m6 l4">
                                                     <input id="profile_email_preference_job_{{$tag->id}}" type="checkbox" name="profile_email_preference_job" target-value="{{$tag->id}}" value="1" checked disabled/>
                                                     <label for="profile_email_preference_job_{{$tag->id}}">{{$tag->tag_name}}</label>

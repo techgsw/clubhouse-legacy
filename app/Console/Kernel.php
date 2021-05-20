@@ -113,6 +113,10 @@ class Kernel extends ConsoleKernel
             $date_since = new \DateTime('-7 days');
             EmailServiceProvider::sendNewJobTypeMatchPostedEmails($date_since);
         })->weeklyOn(3, '8:00');
+
+        $schedule->call(function() {
+            EmailServiceProvider::sendContactJobFollowupEmails();
+        })->dailyAt('9:30');
     }
 
     /**

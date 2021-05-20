@@ -7,6 +7,7 @@ use App\Mail\JobExpirationReminder;
 use App\Mail\JobNoActionReminder;
 use App\Product;
 use Mail;
+use App\ContactJob;
 use App\Email;
 use App\Inquiry;
 use App\Job;
@@ -15,6 +16,7 @@ use App\Organization;
 use App\User;
 use App\ProductOption;
 use App\Mail\ClubhouseFollowUp;
+use App\Mail\ContactJobFollowup;
 use App\Mail\InvalidMentorCalendlyLinkNotification;
 use App\Mail\PurchaseNotification;
 use App\Mail\MenteeFollowUp;
@@ -448,6 +450,30 @@ class EmailServiceProvider extends ServiceProvider
         Log::info('Sending notifications for new jobs to '.count($job_users).' users.');
         foreach ($job_users as $job_user) {
             Mail::to($job_user['user'])->send(new NewJobTypeMatchPosted($job_user['user'], ...$job_user['jobs']));
+        }
+    }
+
+    /**
+     * Send a followup email to job contacts who haven't responded to a ContactInterestRequest
+     */
+    public static function sendContactJobFollowupEmails()
+    {
+        $normal_followup_contacts = 
+            ContactJob::where(DB::raw('DATE(job_interest_request_date)'), (new \DateTime('-2 days'))->format('Y-m-d'))
+                ->whereNull('job_interest_response_code')
+                ->get();
+
+        foreach ($normal_followup_contacts as $contact_job) {
+            Mail::to($contact_job->contact)->send(new ContactJobFollowup($contact_job, false));
+        }
+
+        $final_followup_contacts = 
+            ContactJob::where(DB::raw('DATE(job_interest_request_date)'), (new \DateTime('-5 days'))->format('Y-m-d'))
+                ->whereNull('job_interest_response_code')
+                ->get();
+
+        foreach ($final_followup_contacts as $contact_job) {
+            Mail::to($contact_job->contact)->send(new ContactJobFollowup($contact_job, true));
         }
     }
 
