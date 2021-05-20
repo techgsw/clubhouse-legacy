@@ -28,6 +28,8 @@
                     <span> <button type="button" class="flat-button small green"><i class="fa fa-user"></i>&nbsp; Interested</button></span>
                 @elseif (in_array($inquiry->job_interest_response_code, array('not-interested', 'do-not-contact')))
                     <span> <button type="button" class="flat-button small red"><i class="fa fa-user"></i>&nbsp; Not Interested</button></span>
+                @elseif (!$inquiry->job_interest_response_code && $inquiry->job_interest_request_date && $inquiry->job_interest_request_date < new DateTime('-7 days 23:59'))
+                    <span> <button type="button" class="flat-button small red"><i class="fa fa-user"></i>&nbsp; No Response</button></span>
                 @endif
                 @if (get_class($inquiry) == 'App\ContactJob' && !is_null($inquiry->job_interest_negative_response))
                     <span> <button type="button" class="flat-button small red">{{ ucwords(str_replace('-', ' ', $inquiry->job_interest_negative_response)) }}</button></span>

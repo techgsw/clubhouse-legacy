@@ -11,7 +11,9 @@ class ContactJob extends Model
     protected $guarded = [];
     protected $dates = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'job_interest_request_date',
+        'job_interest_response_date',
     ];
 
     public function contact()
