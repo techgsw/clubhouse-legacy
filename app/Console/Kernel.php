@@ -116,7 +116,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function() {
             EmailServiceProvider::sendContactJobFollowupEmails();
-        })->dailyAt('9:30');
+        })->dailyAt('8:00');
     }
 
     /**
