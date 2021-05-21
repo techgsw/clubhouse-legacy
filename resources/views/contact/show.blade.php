@@ -361,7 +361,7 @@
                                     @endforeach
                                 </div>
                                 <div class="col s6">
-                                    @if (!$contact->user->profile->emailPreferenceTagTypesMatchContact())
+                                    @if ($contact->user && !$contact->user->profile->emailPreferenceTagTypesMatchContact())
                                         <label>From profile:</label>
                                         <br>
                                         <div class="row" style="margin-bottom:30px;">

@@ -2184,6 +2184,10 @@ p.icon {
  * Sport Sales Vault
  */
 
+.sbs-logo-link:hover {
+    filter: brightness(1.5);
+}
+
 .training-video-book-container {
     display:flex;
     justify-content: center;
