@@ -625,6 +625,12 @@ class ProductController extends Controller
             $query->where('name', 'Training Video');
         });
 
+        $tags = Tag::whereHas('products', function($query) use ($active_book) {
+                $query->whereHas('tags', function($query) {
+                    $query->where('name', 'Training Video');
+                });
+            })->whereRaw("UPPER(name) NOT LIKE '%AUTHOR:%'")->get();
+
         if ($request->book) {
             $active_book = $request->book;
             $training_videos_query = $training_videos_query->with('options')->whereHas('options', function($query) use ($active_book) {
@@ -674,6 +680,7 @@ class ProductController extends Controller
         return view('/product/training-videos/training-videos', [
             'videos' => $videos,
             'books' => $books,
+            'tags' => $tags,
             'authors' => $authors,
             'active_tag' => $active_tag,
             'active_author' => $active_author,
@@ -711,8 +718,6 @@ class ProductController extends Controller
                 'Clubhouse' => '/',
                 'Sport Sales Vault' => '/sales-vault/',
                 'Training Videos' => '/sales-vault/training-videos',
-                $option->name => "/sales-vault/training-videos?book={$option->name}",
-                $option->description => "/sales-vault/training-videos?book={$option->name}&chapter={$option->description}",
                 $video->name => "/sales-vault/training-videos/{$video->id}"
             ]
         ]);

@@ -5,7 +5,7 @@
         <div class="col s12" style="margin-bottom:10px;">
             <img class="responsive-img" src="/images/sales-vault/treasure.png" />
             <h4 class="header">The Sport Sales Vault</h4>
-            <h5 style="font-size:25px;">Sales training videos produced by the team at <a href="{{env('APP_URL')}}">SBS Consulting</a></h5>
+            <h5 style="font-size:25px;">Sales training videos produced by <a href="{{env('APP_URL')}}">SBS Consulting</a></h5>
             <h5 style="max-width:1050px;font-size:19px;text-align: center;margin-left:auto;margin-right:auto;">We've trained more than 100 sports teams throughout the US and Canada, conducted more than 350 sales training sessions and trained over 1,000 salespeople in sports.</h5>
         </div>
         <div class="col s12 center-align" style="margin-top:20px;">
@@ -47,15 +47,14 @@
             <div class="col s12">
                 <!--TODO: sbs logo image -->
             </div>
-            <h5><strong style="text-transform:uppercase;">The SBS Consulting certified trainers</strong></h5>
+            <h5><strong style="text-transform:uppercase;">Sales Training with SBS Consulting</strong></h5>
             <div class="col s12 m10 offset-m1">
-                <p>Our trainers have a combined 30+ years of sport sales experience. They've all sold and lead sales teams themselves and have a passion to coach and teach. Their experience covers all aspects of sport sales including but not limited to: B2C, B2B, Group Sales, Retention, Corporate Partnerships and the "Sales 101 basics".</p>
+                <p>We have years of sales experience as both individual contributors and sales leaders and have trained hundreds of sales teams both in sports and out. Our experience covers all aspects of the sales process and we specialize in both B2B and B2C sales processes. Learn more below.</p>
             </div>
             <div class="about-cards col s12 l8 offset-l2" style="padding-top:20px;">
                 <div class="about-card col s12">
-                    <a href="{{env('APP_URL')}}/bob-hamer" class="no-underline">
-                        <img src="/images/about/bob.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
-                        <h5 class="sbs-red-text">Bob Hamer<span class="about-position">Founder &amp; President</span></h5>
+                    <a href="{{env('APP_URL')}}/training-consulting" class="no-underline sbs-logo-link">
+                        <img src="/images/sbs_consulting_logo.png" style="width: 80%; max-width: 180px;" alt="SBS Consulting">
                     </a>
                 </div>
             </div>

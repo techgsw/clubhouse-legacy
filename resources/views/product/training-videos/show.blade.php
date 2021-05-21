@@ -80,9 +80,8 @@
                 @endif
             @endforeach
             {!! $pd->text($video->getCleanDescription()) !!}
-            @foreach($video->options as $option)
-                <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;margin-bottom:10px;" href="/sales-vault/training-videos?book={{$option->name}}" class="btn sbs-red">Browse all videos in {{$option->name}}</a>
-            @endforeach
+            <br>
+            <a style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px;margin-bottom:10px;" href="/sales-vault/training-videos" class="btn sbs-red">Browse all videos</a>
         </div>
     </div>
 </div>
