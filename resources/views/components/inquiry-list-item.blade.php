@@ -6,7 +6,9 @@
                     @component('components.resume-button',
                         ['url' => ((!is_null($inquiry->resume))
                             ? $inquiry->resume
-                            : (!is_null($inquiry->contact->user()->first()) ? $inquiry->contact->user()->first()->profile->resume_url : null)
+                            : (!is_null($inquiry->contact->user()->first()) && !is_null($inquiry->contact->user()->first()->profile->resume_url) 
+                                ? $inquiry->contact->user()->first()->profile->resume_url 
+                                : (!is_null($inquiry->contact->resume_url) ? $inquiry->contact->resume_url : null))
                         )]
                     )@endcomponent
                     @can ('view-inquiry-notes')
