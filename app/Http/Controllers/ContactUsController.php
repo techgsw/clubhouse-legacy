@@ -15,7 +15,7 @@ class ContactUsController extends Controller
 
     public function index(Request $request)
     {
-        return view('contact-us.form', array('interest' => $request->interest));
+        return view('contact-us', array('interest' => $request->interest));
     }
 
     public function send(Request $request)
@@ -33,23 +33,6 @@ class ContactUsController extends Controller
         }
 
         $to = 'bob@sportsbusiness.solutions';
-        $request->interested_in = null;
-        if (request('about')) {
-            switch (request('about')) {
-                case "sales-training-consulting":
-                    $request->interested_in = "Sales Training & Consulting";
-                    break;
-                case "recruiting":
-                    $request->interested_in = "Recruiting";
-                    break;
-                case "clubhouse":
-                    $request->interested_in = "theClubhouse®";
-                    break;
-                case "other":
-                    $request->interested_in = null;
-                    break;
-            }
-        }
         Mail::to($to)->send(new Contact($request));
 
         return redirect()->action('ContactUsController@thanks');

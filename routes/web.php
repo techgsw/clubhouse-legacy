@@ -17,6 +17,9 @@ Route::domain(env('APP_URL'))->group(function () {
     Route::get('/about', function () {
         return view('about');
     });
+    Route::get('/clients', function () {
+        return view('clients');
+    });
     Route::get('/bob-hamer', function () {
         return view('bob-hamer');
     });

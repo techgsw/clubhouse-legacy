@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
     @include('layouts.components.head')
-    <body>
+    <body class="sbs">
         @include('layouts.components.header')
         <main>
             @yield('hero')

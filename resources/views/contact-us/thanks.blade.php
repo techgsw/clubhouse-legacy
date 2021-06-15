@@ -5,7 +5,7 @@
     <h3 class="header">Thank you!</h3>
     <div class="row">
         <div class="col s12">
-            <p>Your inquiry has been received. Someone from the SBS team will be in touch with you within two business days. If this is urgent you can message us right away at <a href="mailto:support@sportsbusiness.solutions">support@sportsbusiness.solutions</a></p>
+            <p>Your inquiry has been received. Someone from the SBS team will be in touch with you within two business days. If this is urgent you can message us right away at <a href="mailto:support@sbsconsulting.us">support@sbsconsulting.us</a></p>
         </div>
     </div>
     <div class="row">

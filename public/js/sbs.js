@@ -2464,19 +2464,19 @@ $.valHooks.textarea = {
         // Change carousel heights
         // small
         if ($(window).width() <= 600) {
-            $('.carousel.testimonial').css('height', '800px');
+            $('.carousel.testimonial').css('height', '1230px');
         }
         // medium
         if ($(window).width() > 600) {
-            $('.carousel.testimonial').css('height', '500px');
+            $('.carousel.testimonial').css('height', '850px');
         }
         // large
         if ($(window).width() > 992) {
-            $('.carousel.testimonial').css('height', '500px');
+            $('.carousel.testimonial').css('height', '720px');
         }
         // x-large
         if ($(window).width() > 1200) {
-            $('.carousel.testimonial').css('height', '400px');
+            $('.carousel.testimonial').css('height', '680px');
         }
     });
     $(window).resize();
@@ -2504,7 +2504,7 @@ $(document).ready(function () {
     Carousel.startAutoplay = function (c) {
        Carousel.autoplay_id = setInterval(function() {
           c.carousel('next');
-        }, 5000);
+        }, 10000);
     }
     Carousel.stopAutoplay = function () {
       if (Carousel.autoplay_id) {
@@ -2520,9 +2520,9 @@ $(document).ready(function () {
                 duration: 300,
                 onCycleTo : function(item, dragged) {
                     Carousel.stopAutoplay();
-                    Carousel.startAutoplay(carousel);
                 }
             });
+            Carousel.startAutoplay(carousel);
         } catch (e) {
         }
     }
