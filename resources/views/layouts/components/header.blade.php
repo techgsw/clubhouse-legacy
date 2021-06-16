@@ -26,8 +26,5 @@
         </div>
     </nav>
     @yield('subnav')
-    <div class="row hero" style="background-color:#eee;padding:10px 20px;line-height:1.8rem;">
-        <h5 style="font-weight:500;">Get sales and leadership best practices. <a class="sbs-newsletter-cta" href="#footer-newsletter">Subscribe to our newsletter</a></h5>
-    </div>
     @include('layouts.components.breadcrumb')
 </header>
