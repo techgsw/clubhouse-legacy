@@ -80,7 +80,7 @@
         </div>
         <div class="carousel-item center-align" href="#">
             <div class="row">
-                <img class="logo" src="/images/clients/pluralsight.png" alt="Pluralsight" style="height:150px;margin-bottom: 25px;;">
+                <img class="logo" src="/images/clients/pluralsight.png" alt="Pluralsight" style="height:150px;margin-bottom: -95px;">
             </div>
             <div class="testimonial-bg">
             <div class="row testimonial-content">
@@ -93,7 +93,7 @@
         </div>
         <div class="carousel-item center-align" href="#">
             <div class="row">
-                <img class="logo" src="/images/clients/brex.png" alt="Brex" style="height:130px; margin-bottom:45px">
+                <img class="logo" src="/images/clients/brex.png" alt="Brex" style="height:130px; margin-bottom: -75px;">
             </div>
             <div class="testimonial-bg">
             <div class="row testimonial-content">
@@ -121,7 +121,7 @@
         </div>
         <div class="carousel-item center-align" href="#">
             <div class="row">
-                <img class="logo" src="/images/clients/arizona_diamondbacks.gif" alt="Arizona Diamondbacks">
+                <img class="logo" src="/images/clients/arizona_diamondbacks.png" alt="Arizona Diamondbacks">
             </div>
             <div class="testimonial-bg">
             <div class="row testimonial-content">

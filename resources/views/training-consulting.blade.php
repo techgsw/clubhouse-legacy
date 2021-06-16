@@ -72,7 +72,7 @@
             <div style="width: 20%; float: left; padding-top: 10px; font-size: 120px; line-height: 100px; font-weight: 300; color: #aaaaaa;">3</div>
             <div style="width: 80%; float: left;">
                 <h5 class="sbs-red-text">We share and evolve.</h5>
-                <p>We get feedback after every engagement and work hard to keep improving. We have an appetite to learn and grow just like you do. Working with us guarantees you’re getting an more modern and innovative approach to achieving success.</p>
+                <p>We get feedback after every engagement and work hard to keep improving. We have an appetite to learn and grow just like you do. Working with us guarantees you’re getting a more modern and innovative approach to achieving success.</p>
             </div>
         </div>
         <div class="col s12 m6">

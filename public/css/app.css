@@ -1759,10 +1759,11 @@ form#edit-job img {
  */
 .carousel.testimonial img.logo {
     box-sizing: border-box;
-    padding: 20px 10px 0px 10px;
+    padding: 20px;
     width: auto;
     height: 175px;
-    /*margin-bottom: -120px;*/
+    margin-bottom: -120px;
+    background-color: #EEE;
 }
 .carousel .carousel-item .testimonial-bg {
     background-color: #060606;
@@ -1773,7 +1774,7 @@ form#edit-job img {
     padding: 18px 24px;
     max-width: 1300px;
     color: #EEE;
-    padding-top:40px;
+    padding-top: 140px;
 }
 .carousel .carousel-item .testimonial-content :not(.heavy) {
     font-size: 1.7rem;
