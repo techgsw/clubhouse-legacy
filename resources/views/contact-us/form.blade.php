@@ -6,7 +6,8 @@
     </div>
     <div class="col s12 m5" style="max-width:500px;">
         <form action="/contact" method="post">
-            <h4>Interested in becoming a client?<br>Contact us</h4>
+            <h4>Want to become a partner?</h4>
+            <h4>Contact us</h4>
             {{ csrf_field() }}
             <div class="sbs input-field" {{ $errors->has('name') ? 'invalid' : '' }}>
                 <input id="name" type="text" name="name" value="{{ old('name') }}" required>

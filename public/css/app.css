@@ -128,6 +128,10 @@ div.row.hero.sbs-hero h2.header {
     font-size: 2rem;
     font-weight: 600;
 }
+div.row.hero.sbs-hero h3.header {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
 
 div.row.hero.transparent-box {
     margin-bottom:75px;
@@ -325,7 +329,7 @@ nav.nav-main ul a:hover {
 .brand-logo > img {
     height: 60px;
     vertical-align: bottom;
-    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 nav a.button-collapse {
@@ -510,7 +514,9 @@ nav.nav-clients {
 }
 nav.nav-clients ul {
     font-size: 14.5px !important;
-    background-color: #F6F6F6;
+    background-color: #F9F9F9;
+    display:flex;
+    justify-content: center;
 }
 nav.nav-clients ul li {
     font-size: inherit !important;
@@ -1126,28 +1132,6 @@ hr {
 
 a .card.linked-account:hover {
     background-color: #EEE;
-}
-
-@media only screen and (max-width: 992px) and (min-width: 600px) {
-    .about-cards {
-        flex-wrap: wrap;
-    }
-    .about-cards .about-card {
-        flex: 0 0 auto;
-        width: 140px;
-    }
-}
-@media only screen and (max-width: 600px) {
-    .about-cards {
-        flex-wrap: wrap;
-    }
-    .about-cards .about-card {
-        flex: 0 0 auto;
-        width: 110px;
-    }
-    #clubhouse-title-text {
-        margin-top: 0;
-    }
 }
 
 /**
@@ -2043,6 +2027,7 @@ body.sbs .sbs-core-values h4 {
     border-left: 4px solid #EB2935;
     padding-left: 20px;
     margin-bottom:70px;
+    height:150px;
     max-width:450px;
 }
 .sbs-core-value-card p {
@@ -2088,7 +2073,7 @@ body.sbs nav.nav-main ul a {
     color:#333;
     border-bottom: 10px solid transparent;
     font-weight:400;
-    margin-top:14px;
+    margin-top:15px;
     line-height:60px;
 }
 
@@ -2097,7 +2082,8 @@ body.sbs nav.nav-main ul a i {
     line-height:unset;
 }
 
-body.sbs nav.nav-main ul a:hover {
+body.sbs nav.nav-main ul a:hover,
+body.sbs nav.nav-main ul a.current-page {
     background-color:unset;
     text-shadow:-0.1ex -0.06ex black, 0 0 black;
     border-bottom: 10px solid #EB2935;
@@ -2740,6 +2726,37 @@ a.sales-vault-twitter-link:hover {
 
     #clubhouse-title-text {
         margin-top: 80px;
+    }
+}
+@media only screen and (max-width: 992px) and (min-width: 600px) {
+    .about-cards {
+        flex-wrap: wrap;
+    }
+    .about-cards .about-card {
+        flex: 0 0 auto;
+        width: 140px;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .about-cards {
+        flex-wrap: wrap;
+    }
+    .about-cards .about-card {
+        flex: 0 0 auto;
+        width: 110px;
+    }
+    #clubhouse-title-text {
+        margin-top: 0;
+    }
+    .modal.clients-modal {
+        width:100%
+    }
+    div.row.hero.transparent-box div.col {
+        min-width:100%;
+        padding: 20px 20px;
+    }
+    .sbs-social .flat-button {
+        margin: 0px 5px;
     }
 }
 

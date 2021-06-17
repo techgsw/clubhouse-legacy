@@ -5,10 +5,10 @@
                 <img src="/images/sbs_consulting_logo.png" alt="SBS Consulting">
             </a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/about">About</a></li>
-                <li><a href="/training-consulting">Services</a></li>
-                <li><a href="/clients">Clients</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a class="{{ strpos(Request::url(), '/about') !== false ? 'current-page' : '' }}" href="/about">About</a></li>
+                <li><a class="{{ strpos(Request::url(), '/training-consulting') !== false ? 'current-page' : '' }}" href="/training-consulting">Services</a></li>
+                <li><a class="{{ strpos(Request::url(), '/clients') !== false ? 'current-page' : '' }}" href="/clients">Clients</a></li>
+                <li><a class="{{ strpos(Request::url(), '/contact') !== false ? 'current-page' : '' }}" href="/contact">Contact</a></li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li class="social-media">

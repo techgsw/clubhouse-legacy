@@ -12,18 +12,22 @@
 @section('content')
 <div class="container center-align" style="margin-top:50px">
     <h5 style="font-weight:600;">Proud to work with some amazing partners</h5>
-    <div class="row center-align clients" style="max-width:1100px;margin-right:auto;margin-left:auto;margin-top:40px">
+    <div class="row center-align clients" style="max-width:1000px;margin-right:auto;margin-left:auto;margin-top:40px">
         <div class="col s12" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;">
-            <img class="logo" src="/images/clients/hootology.JPG" alt="" style="height:50px;">
-            <img class="logo" src="/images/clients/angels.png" alt="" style="height:90px;">
-            <img class="logo" src="/images/clients/classpass.png" alt="" style="height:100px;">
-            <img class="logo" src="/images/clients/titans.png" alt="" style="height:90px;">
-            <img class="logo" src="/images/clients/planet-dds.png" alt="" style="height:50px;">
-            <img class="logo" src="/images/clients/brex.png" alt="" style="height:45px;">
-            <img class="logo" src="/images/clients/golden-state-warriors.png" alt="" style="height:100px;">
-            <img class="logo" src="/images/clients/pluralsight.png" alt="" style="height:70px;">
+            <img class="logo" src="/images/clients/hootology.JPG" alt="Hootology" style="height:50px;">
+            <img class="logo" src="/images/clients/angels.png" alt="Los Angeles Angels" style="height:90px;">
+            <img class="logo" src="/images/clients/classpass.png" alt="ClassPass" style="height:100px;">
+            <img class="logo" src="/images/clients/titans.png" alt="Tennessee Titans" style="height:90px;">
+            <img class="logo" src="/images/clients/lyra.png" alt="Lyra" style="height:60px;">
+            <img class="logo" src="/images/clients/brex.png" alt="Brex" style="height:45px;">
+            <img class="logo" src="/images/clients/golden-state-warriors.png" alt="Golden State Warriors" style="height:100px;">
+            <img class="logo" src="/images/clients/pluralsight.png" alt="Pluralsight" style="height:70px;">
         </div>
     </div>
+    <div class="row center-align">
+        <a href="#clients-modal" class="btn btn-large sbs-red modal-trigger">See all</a>
+    </div>
+    @include('components.clients-modal')
     <hr style="max-width:500px;border:1px solid #DDD;margin: auto;">
 </div>
 <div class="container center-align" style="margin:60px auto">

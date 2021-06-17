@@ -3,7 +3,8 @@
 @section('hero')
     <div class="row hero sbs-hero bg-image transparent-box clients-hero">
         <div class="col s12 m6 offset-m2">
-            <h2 class="header" style="max-width:550px;min-width:300px;">Serving you and your team's growth and transformation. Ensuring a road to success</h2>
+            <h2 class="header" style="max-width:550px;min-width:300px;">Our client partners</h2>
+            <h3 class="header" style="max-width:550px;min-width:300px;">Working alongside amazing leaders, sellers, and organizations is our “why” and we feel so blessed to do what we do. Thanks to all of you for putting your trust in us.</h3>
             <br>
             <h5><a class="no-underline sbs-arrow-link" href="#testimonials">Hear their stories&nbsp;&nbsp;<img src="/images/sbs-red-arrow-right.png" style="width:50px;"></a></h5>
         </div>
@@ -18,7 +19,7 @@
     </div>
 </div>
 <div class="container center-align">
-    <h5 style="font-weight:600;">Sports &amp; entertainment partners</h5>
+    <h5 style="font-weight:600;text-transform: uppercase;">Sports &amp; entertainment partners</h5>
     <div class="row center-align clients" style="max-width:800px;margin:40px auto;">
         <div class="col s12" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;">
             <img class="logo" src="/images/clients/kansas_city.png" alt="Kansas City Chiefs" style="height:80px;">
@@ -33,7 +34,7 @@
     </div>
 </div>
 <div class="container center-align" style="margin: 80px auto;">
-    <h5 style="font-weight:600;">Tech &amp; SaaS Sales Partners</h5>
+    <h5 style="font-weight:600;text-transform: uppercase;">Tech &amp; SaaS Sales Partners</h5>
     <div class="row center-align clients" style="max-width:1100px;margin:40px auto;">
         <div class="col s12" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;">
             <img class="logo" src="/images/clients/classpass.png" alt="ClassPass" style="height:100px;">
@@ -48,8 +49,10 @@
     </div>
 </div>
 <div class="row center-align">
-    <a href="#contact-us" class="btn btn-large sbs-red">Partner with us</a>
+    <a href="#clients-modal" class="btn btn-large sbs-red modal-trigger" style="margin:10px;">See all of our partners</a>
+    <a href="#contact-us" class="btn btn-large sbs-red" style="margin:10px;">Become a partner</a>
 </div>
+@include('components.clients-modal')
 <div id="testimonials" class="row" style="padding: 80px 0 30px 0;">
     <div class="carousel testimonial carousel-slider center" data-indicators="true">
         <div class="carousel-item center-align" href="#">
