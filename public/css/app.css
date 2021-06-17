@@ -2751,6 +2751,9 @@ a.sales-vault-twitter-link:hover {
     .modal.clients-modal {
         width:100%
     }
+    .nav-clients ul.tabs {
+        justify-content: left;
+    }
     div.row.hero.transparent-box div.col {
         min-width:100%;
         padding: 20px 20px;

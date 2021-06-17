@@ -9,6 +9,7 @@
                 <li class="tab"><a href="#ncaa">NCAA</a></li>
                 <li class="tab"><a href="#mls">MLS</a></li>
                 <li class="tab"><a href="#nfl">NFL</a></li>
+                <li class="tab"><a href="#tech-saas">Tech/SaaS</a></li>
                 <li class="tab"><a href="#other">Other</a></li>
             </ul>
         </nav>
@@ -108,6 +109,16 @@
             <img class="logo" src="/images/training-consulting/clients/nfl/image83.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nfl/image84.png" alt="" >
         </div>
+        <div id="tech-saas" style="padding:30px;">
+            <img class="logo" src="/images/clients/classpass.png" alt="ClassPass">
+            <img class="logo" src="/images/clients/brex.png" alt="Brex">
+            <img class="logo" src="/images/clients/lyra.png" alt="Lyra">
+            <img class="logo" src="/images/clients/routeware.png" alt="Routeware">
+            <img class="logo" src="/images/clients/pluralsight.png" alt="Pluralsight">
+            <img class="logo" src="/images/clients/planet_dds.png" alt="Planet DDS">
+            <img class="logo" src="/images/clients/hootology.JPG" alt="Hootology">
+            <img class="logo" src="/images/clients/reputationdotcom.png" alt="Reputation.com">
+        </div>
         <div id="other" style="padding:30px;">
             <img class="logo" src="/images/training-consulting/clients/other/image85.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/other/image86.png" alt="" >
@@ -133,15 +144,6 @@
             <img class="logo" src="/images/training-consulting/clients/other/image106.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/other/image107.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/other/image108.png" alt="" >
-            <img class="logo" src="/images/clients/classpass.png" alt="ClassPass">
-            <img class="logo" src="/images/clients/brex.png" alt="Brex">
-            <img class="logo" src="/images/clients/lyra.png" alt="Lyra">
-            <img class="logo" src="/images/clients/routeware.png" alt="Routeware">
-            <img class="logo" src="/images/clients/pluralsight.png" alt="Pluralsight">
-            <img class="logo" src="/images/clients/planet_dds.png" alt="Planet DDS">
-            <img class="logo" src="/images/clients/hootology.JPG" alt="Hootology">
-            <img class="logo" src="/images/clients/reputationdotcom.png" alt="Reputation.com">
         </div>
-
     </div>
 </div>
