@@ -112,13 +112,13 @@
         </div>
         <div id="tech-saas" style="padding:30px;">
             <img class="logo" src="/images/clients/classpass.png" alt="ClassPass">
-            <img class="logo" src="/images/clients/brex.png" alt="Brex">
+            <img class="logo" src="/images/clients/brex.png" alt="Brex" style="height:50px">
             <img class="logo" src="/images/clients/lyra.png" alt="Lyra">
             <img class="logo" src="/images/clients/routeware.png" alt="Routeware">
             <img class="logo" src="/images/clients/pluralsight.png" alt="Pluralsight">
             <img class="logo" src="/images/clients/planet_dds.png" alt="Planet DDS">
             <img class="logo" src="/images/clients/hootology.JPG" alt="Hootology">
-            <img class="logo" src="/images/clients/reputationdotcom.png" alt="Reputation.com">
+            <img class="logo" src="/images/clients/reputationdotcom.png" alt="Reputation.com" style="height:50px;">
         </div>
         <div id="other" style="padding:30px;">
             <img class="logo" src="/images/training-consulting/clients/other/image85.png" alt="" >
