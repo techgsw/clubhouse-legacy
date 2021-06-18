@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col s12">
                 <ul class="footer-nav">
-                    <li><a target="_blank" href="/documents/Sports-Business-Solutions-Terms-of-Service.pdf">Terms and conditions</a></li>
+                    <li><a target="_blank" href="/documents/SBS-Consulting-Terms-of-Service.pdf">Terms and conditions</a></li>
                     <li>Have a question? Email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></li>
                 </ul>
             </div>

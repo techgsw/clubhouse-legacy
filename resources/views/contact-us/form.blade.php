@@ -1,65 +1,34 @@
-@extends('layouts.default')
-@section('title', 'Contact')
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-            @include('layouts.components.messages')
+<div class="row" style="margin: 75px 0px;">
+    <div class="col hide-on-small-and-down m7" style="margin-left:-5%;padding-right:7%; display:flex; justify-content:right;">
+        <div style="box-shadow:25px 25px; max-width:744px; display:flex; justify-content: center; overflow:hidden;">
+            <img src="/images/sbs_contact_form_image.jpg" style="min-width:744px; box-shadow:25px 25px;">
         </div>
     </div>
-    <form action="/contact" method="post">
-        {{ csrf_field() }}
-        <h3 class="header">Contact SBS Consulting</h3>
-        <div class="row">
-            <div class="input-field col s12 m6 {{ $errors->has('first_name') ? 'invalid' : '' }}">
-                <input id="first-name" type="text" name="first_name" value="{{ old('first_name') }}" required>
-                <label for="first-name">First name</label>
+    <div class="col s12 m5" style="max-width:500px;">
+        <form action="/contact" method="post">
+            <h4>Want to become a partner?</h4>
+            <h4>Contact us</h4>
+            {{ csrf_field() }}
+            <div class="sbs input-field" {{ $errors->has('name') ? 'invalid' : '' }}>
+                <input id="name" type="text" name="name" value="{{ old('name') }}" required>
+                <label for="name">Name</label>
             </div>
-            <div class="input-field col s12 m6 {{ $errors->has('last_name') ? 'invalid' : '' }}">
-                <input id="last-name" type="text" name="last_name" value="{{ old('last_name') }}" required>
-                <label for="last-name">Last name</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12 m6 {{ $errors->has('email') ? 'invalid' : '' }}">
+            <div class="sbs input-field" {{ $errors->has('email') ? 'invalid' : '' }}>
                 <input id="email" type="email" name="email" value="{{ old('email') }}" required>
-                <label for="email">Email Address</label>
+                <label for="email">Email</label>
             </div>
-            <div class="input-field col s12 m6 {{ $errors->has('phone') ? 'invalid' : '' }}">
+            <div class="sbs input-field" {{ $errors->has('phone') ? 'invalid' : '' }}>
                 <input id="phone" type="text" name="phone" value="{{ old('phone') }}" required>
-                <label for="phone">Phone number</label>
+                <label for="phone">Phone</label>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12 m6">
+            <div class="sbs input-field" {{ $errors->has('organization') ? 'invalid' : '' }}>
                 <input id="organization" type="text" name="organization" value="{{ old('organization') }}">
                 <label for="organization">Organization</label>
             </div>
-            <div class="input-field col s12 m6">
-                <select name="about">
-                    <option value="" {{ old('state') == "" ? "selected" : "" }}></option>
-                    <option value="sales-training-consulting" {{ old('state') == "sales-training-consulting" ? "selected" : $interest == "sales-training-consulting" ? "selected" : "" }}>Sales Training & Consulting</option>
-                    <option value="other" {{ old('state') == "other" ? "selected" : $interest == "other" ? "selected" : "" }}>Other</option>
-                </select>
-                <label>I'm interested in:</label>
+            <div class="input-field" style="display:flex;align-items:center;flex-wrap:wrap;">
+                <div class="g-recaptcha" style="margin-right:20px; margin-top:10px;"data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                <button type="submit" style="margin-top:10px;" class="btn btn-large sbs-red">Submit</button>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="body" class="materialize-textarea {{ $errors->has('body') ? 'invalid' : '' }}" name="body" required></textarea>
-                <label for="body">Body</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-            </div>
-        </div>
-        <div class="row" style="margin-bottom: 30px">
-            <div class="input-field col s12">
-                <button type="submit" class="btn sbs-red">Send</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-@endsection

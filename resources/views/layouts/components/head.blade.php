@@ -16,11 +16,13 @@
     <!-- CSS  -->
     <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Oswald:600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="/css/font-awesome.min.css" type="text/css" rel="stylesheet">
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
     <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
     <link href="/css/daterangepicker.css" rel="stylesheet" type="text/css">
-    <link href="/css/app.css?v=52" type="text/css" rel="stylesheet"/>
+    <link href="/css/app.css?v=53" type="text/css" rel="stylesheet"/>
+    @yield('additional-fonts')
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),

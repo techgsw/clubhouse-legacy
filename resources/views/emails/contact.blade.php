@@ -9,12 +9,13 @@
         </style>
     </head>
     <body>
-        @if (!is_null($request->interested_in))
-            <p><i>Interested in {{ $request->interested_in }}</i></p>
+        @if (!is_null($request->body))
+            <p>{!! nl2br(e($request->body)) !!}</p>
+        @else
+            <p>A new client has filled out the Contact Us form and would like to get into contact with you:</p>
         @endif
-        <p>{!! nl2br(e($request->body)) !!}</p>
         <p>
-            {{ $request->first_name }} {{ $request->last_name }}<br/>
+            {{ $request->name }}<br/>
             @if (!is_null($request->organization))
                 {{ $request->organization }}<br/>
             @endif
