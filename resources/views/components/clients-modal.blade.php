@@ -14,7 +14,7 @@
                 <li class="tab"><a href="#other">Other</a></li>
             </ul>
         </nav>
-        <div id="nba" style="padding:30px;">
+        <div id="nba" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/training-consulting/clients/nba/image1.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nba/image2.jpeg" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nba/image3.png" alt="" >
@@ -37,7 +37,7 @@
             <img class="logo" src="/images/training-consulting/clients/nba/image20.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nba/image21.png" alt="" >
         </div>
-        <div id="nhl" style="padding:30px;">
+        <div id="nhl" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/training-consulting/clients/nhl/image22.jpeg" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nhl/image23.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nhl/image24.jpeg" alt="" >
@@ -57,7 +57,7 @@
             <img class="logo" src="/images/training-consulting/clients/nhl/image38.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nhl/image39.png" alt="" >
         </div>
-        <div id="mlb" style="padding:30px;">
+        <div id="mlb" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/training-consulting/clients/mlb/image40.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/mlb/image41.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/mlb/image42.gif" alt="" >
@@ -75,7 +75,7 @@
             <img class="logo" src="/images/training-consulting/clients/mlb/image54.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/mlb/image55.png" alt="" >
         </div>
-        <div id="ncaa" style="padding:30px;">
+        <div id="ncaa" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/training-consulting/clients/ncaa/image56.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/ncaa/image57.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/ncaa/image58.png" alt="" >
@@ -88,7 +88,7 @@
             <img class="logo" src="/images/training-consulting/clients/ncaa/image65.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/ncaa/image66.png" alt="" >
         </div>
-        <div id="mls" style="padding:30px;">
+        <div id="mls" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/training-consulting/clients/mls/image67.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/mls/image68.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/mls/image69.png" alt="" >
@@ -100,7 +100,7 @@
             <img class="logo" src="/images/training-consulting/clients/mls/image75.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/mls/image76.png" alt="" >
         </div>
-        <div id="nfl" style="padding:30px;">
+        <div id="nfl" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/training-consulting/clients/nfl/image77.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nfl/image78.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nfl/image79.png" alt="" >
@@ -110,7 +110,7 @@
             <img class="logo" src="/images/training-consulting/clients/nfl/image83.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/nfl/image84.png" alt="" >
         </div>
-        <div id="tech-saas" style="padding:30px;">
+        <div id="tech-saas" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/clients/classpass.png" alt="ClassPass">
             <img class="logo" src="/images/clients/brex.png" alt="Brex" style="height:50px">
             <img class="logo" src="/images/clients/lyra.png" alt="Lyra">
@@ -120,7 +120,7 @@
             <img class="logo" src="/images/clients/hootology.JPG" alt="Hootology">
             <img class="logo" src="/images/clients/reputationdotcom.png" alt="Reputation.com" style="height:50px;">
         </div>
-        <div id="other" style="padding:30px;">
+        <div id="other" style="padding:30px;text-align:center;">
             <img class="logo" src="/images/training-consulting/clients/other/image85.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/other/image86.png" alt="" >
             <img class="logo" src="/images/training-consulting/clients/other/image87.png" alt="" >
