@@ -105,8 +105,7 @@ Route::domain(env('APP_URL'))->group(function () {
 });
 
 // Clubhouse-domain routes
-$domain = "clubhouse." . substr(env('APP_URL'), strpos(env('APP_URL'), "://")+3);
-Route::domain($domain)->group(function () {
+Route::domain(env('CLUBHOUSE_URL'))->group(function () {
     // Auth
     Route::group(['namespace' => 'Auth'], function () {
         Route::get('login', 'LoginController@login')->name('login');
