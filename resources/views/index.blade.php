@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="row center-align">
-        <a href="#clients-modal" class="btn btn-large sbs-red modal-trigger">See all</a>
+        <a href="#clients-modal" class="btn btn-large sbs-red modal-trigger">See all of our partners</a>
     </div>
     @include('components.clients-modal')
     <hr style="max-width:500px;border:1px solid #DDD;margin: auto;">
