@@ -1,6 +1,7 @@
 <div id="clients-modal" class="clients-modal modal modal-small" style="overflow-x:hidden;">
     <div class="row clients modal-content" style="background-color:#FFF;padding:20px 0">
-        <h3 style="text-align: center;">Our client partners</h3>
+        <h5 style="font-weight:600;text-transform:uppercase;text-align: center;">Our client partners</h5>
+        <br>
         <nav class="nav-clients">
             <ul class="tabs">
                 <li class="tab"><a class="active" href="#nba">NBA</a></li>

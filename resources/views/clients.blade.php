@@ -32,6 +32,8 @@
             <img class="logo" src="/images/clients/nascar.png" alt="Nascar" style="height:75px;">
         </div>
     </div>
+    <a href="#clients-modal" class="btn btn-large sbs-red modal-trigger" style="margin:10px;">See all of our partners</a>
+    <a href="#contact-us" class="btn btn-large sbs-red" style="margin:10px;">Become a partner</a>
 </div>
 <div class="container center-align" style="margin: 80px auto;">
     <h5 style="font-weight:600;text-transform: uppercase;">Tech &amp; SaaS Sales Partners</h5>
@@ -47,8 +49,6 @@
             <img class="logo" src="/images/clients/reputationdotcom.png" alt="Reputation.com" style="height:50px;">
         </div>
     </div>
-</div>
-<div class="row center-align">
     <a href="#clients-modal" class="btn btn-large sbs-red modal-trigger" style="margin:10px;">See all of our partners</a>
     <a href="#contact-us" class="btn btn-large sbs-red" style="margin:10px;">Become a partner</a>
 </div>

@@ -20,7 +20,7 @@
 <div class="container">
     <div class="row">
         <div class="col s12 center-align" style="margin-top: 20px">
-            <a name="why"><h4>Why work with us?</h4></a>
+            <a name="why"><h5 style="font-weight:600;text-transform: uppercase;">Why work with us?</h5></a>
         </div>
     </div>
     <div class="row">
@@ -57,7 +57,7 @@
     </div>
     <div class="row white-text" id="areas-of-expertise" style="margin:30px 0px 75px 0px;">
         <div class="col s12" style="background-color: #CE2A25; background-size: cover;">
-            <h3 class="center-align" style="margin-top: 30px;font-weight: 600;">Our Professional Services</h3>
+            <h5 class="center-align" style="margin-top: 30px;font-weight:600;text-transform: uppercase;">Professional Services</h5>
             <div class="row" style="margin: 0 7vw;font-size: 1.1em; display:flex; justify-content: space-evenly;">
                 <div>
                     <ul class="bullets">

@@ -3,8 +3,8 @@
 @section('hero')
     <div class="row hero sbs-hero bg-image transparent-box about">
         <div class="col s12 m6 offset-m2">
-            <h2 class="header" style="max-width:550px;min-width:300px;">About Us</h2>
-            <h3 class="header" style="max-width:550px;min-width:300px;">We have a passion to level up the sales team of the future.</h2>
+            <h2 class="header" style="max-width:550px;min-width:300px;">About us</h2>
+            <h3 class="header" style="max-width:550px;min-width:300px;">We're experienced and passionate about our craft. Our goal is to level up the sales team of the future.</h2>
             <br>
             <div style="display: grid;grid-template-columns: 185px auto;">
                 <h5><a class="no-underline sbs-arrow-link" href="#sbs-team">Meet our founder</a></h5>
@@ -27,8 +27,8 @@
     <div class="row">
         <div class="col s12 m6" style="color:#575757">
             <div style="max-width:600px;margin-bottom:50px;">
-                <h4>Who we are</h4>
-                <p style="font-size:1.2rem">Launched in 2014, we are a boutique consultancy with a focus on sales training, leadership development, and strategic consulting. We love to help organizations identify gaps in their game and subsequently work alongside them to build a systemthat bridges those gaps. Interested in giving us a try? Learn more below!</p>
+                <h5 style="font-weight:600;text-transform: uppercase;">Who we are</h5>
+                <p style="font-size:1.2rem">Launched in 2014, we are a boutique consultancy with a focus on sales training, leadership development, and strategic consulting. We love to help organizations identify gaps in their game and subsequently work alongside them to build a system that bridges those gaps. Interested in giving us a try? Learn more below!</p>
                 <br>
                 <h5><a class="no-underline sbs-arrow-link" href="/training-consulting">Our services&nbsp;&nbsp;<img src="/images/sbs-red-arrow-right.png" style="width:50px;"></a></h5>
                 <br>
@@ -45,7 +45,7 @@
 </div>
 <div id="sbs-team" class="container" style="padding:45px 0px;">
     <div class="row" style="margin-bottom:40px;">
-        <h4 class="center-align" style="font-weight:600;">Meet our founder</h4>
+        <h5 class="center-align" style="font-weight:600;text-transform: uppercase;">Meet our founder</h5>
     </div>
     <div class="row">
         <div class="about-cards">
@@ -60,7 +60,7 @@
 </div>
 <div id="core-values" class="sbs-core-values">
     <div class="container">
-        <h4 style="padding:50px 0px;">Our core values</h4>
+        <h5 style="padding:50px 0px;font-weight:600;text-transform: uppercase;">Our core values</h5>
         <div class="row">
             <div class="col s12 m6">
                 <div class="sbs-core-value-card">

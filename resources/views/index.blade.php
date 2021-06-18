@@ -11,7 +11,7 @@
 @endsection
 @section('content')
 <div class="container center-align" style="margin-top:50px">
-    <h5 style="font-weight:600;">Proud to work with some amazing partners</h5>
+    <h5 style="font-weight:600;text-transform: uppercase;">Proud to work with some amazing partners</h5>
     <div class="row center-align clients" style="max-width:1000px;margin-right:auto;margin-left:auto;margin-top:40px">
         <div class="col s12" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;">
             <img class="logo" src="/images/clients/hootology.JPG" alt="Hootology" style="height:50px;">
@@ -31,7 +31,7 @@
     <hr style="max-width:500px;border:1px solid #DDD;margin: auto;">
 </div>
 <div class="container center-align" style="margin:60px auto">
-    <h4 style="font-weight:600;">Our Services</h5>
+    <h5 style="font-weight:600;text-transform:uppercase;">Our Services</h5>
     <div class="service-flex" style="justify-content:space-around; flex-wrap: wrap;margin-top:50px;">
         <a href="/training-consulting" class="no-underline" style="width:315px;margin-bottom:20px;">
             <div class="center-align gray-bg gray-hover" style="display: flex; align-items: center; flex-direction: column; justify-content: space-around; padding: 20px 30px;height:250px;">
