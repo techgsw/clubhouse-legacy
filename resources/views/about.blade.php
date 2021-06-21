@@ -79,7 +79,7 @@
                 </div>
                 <div class="sbs-core-value-card">
                     <h4>Teamwork</h4>
-                    <p>We don’t want to tell you what to do, we want to build it together, as a team. We’re always seeking feedback, and believe customization and collaboration drives results.</p>
+                    <p>We don’t want to tell you what to do, we want to build it together, as a team. We’re always seeking feedback, and believe customization and collaboration drive results.</p>
                 </div>
             </div>
         </div>
