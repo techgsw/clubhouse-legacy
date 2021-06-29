@@ -5,12 +5,11 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\ContactJob;
 use App\Job;
 use App\User;
 
-class NewContactJobResponseNotification extends Mailable
+class NewContactJobAssignmentNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -38,8 +37,7 @@ class NewContactJobResponseNotification extends Mailable
     public function build()
     {
         return $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse®')
-                    ->subject("A candidate has responded to your job posting - theClubhouse®")
-                    ->markdown('emails.new-job-contact-response');
+                    ->subject("A new candidate has been assigned to your job posting - theClubhouse®")
+                    ->markdown('emails.new-job-contact-assignment');
     }
 }
-

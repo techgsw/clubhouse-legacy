@@ -14,6 +14,7 @@ use App\Http\Requests\StoreJob;
 use App\Mail\InquiryRated;
 use App\Mail\InquirySubmitted;
 use App\Mail\NewContactJobResponseNotification;
+use App\Mail\NewContactJobAssignmentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -77,6 +78,14 @@ class ContactJobController extends Controller
 
             return $contact_job;
         });
+
+        try {
+            if ($job->user && !$job->user->can('view-admin-dashboard')) {
+                Mail::to($job->user)->send(new NewContactJobAssignmentNotification($job, $contact_job, $job->user));
+            }
+        } catch (\Throwable $t) {
+            Log::error($t);
+        }
 
         return response()->json([
             'type' => 'success',
@@ -204,7 +213,7 @@ class ContactJobController extends Controller
         $contact_job->save();
 
         try {
-            Mail::to($contact_job->job->user)->send(new NewContactJobResponseNotification($contact_job->job, $contact_job));
+            Mail::to($contact_job->job->user)->send(new NewContactJobResponseNotification($contact_job->job, $contact_job, $contact_job->job->user));
         } catch (\Throwable $t) {
             Log::error($t);
         }
