@@ -33,10 +33,7 @@
                     <a href="/job/{{ $job->id }}/make-admin" class="small flat-button green convert-to-admin-job-button"><i class="fa fa-arrow-circle-up"></i> Convert to Admin Job</a>
                 @endif
                 <a href="/job/{{ $job->id }}/edit" class="small flat-button blue"><i class="fa fa-pencil"></i> Edit</a>
-                <a href="/job/{{ $job->id }}/{{ $job->featured ? 'unfeature' : 'feature' }}" class="flat-button small blue"><i class="fa fa-star{{ $job->featured ? '' : '-o' }}"></i> {{ $job->rank }}</a>
-                <a href="/job/{{ $job->id }}/rank-top" class="flat-button small blue"><i class="fa fa-angle-double-up"></i></a>
-                <a href="/job/{{ $job->id }}/rank-up" class="flat-button small blue"><i class="fa fa-arrow-up"></i></a>
-                <a href="/job/{{ $job->id }}/rank-down" class="flat-button small blue"><i class="fa fa-arrow-down"></i></a>
+                <a href="/job/{{ $job->id }}/{{ $job->featured ? 'unfeature' : 'feature' }}" class="flat-button small blue"><i class="fa fa-star{{ $job->featured ? '' : '-o' }}"></i></a>
                 <p style="font-size: 14px; font-weight: 400;">{{ $job->getTimeRemainingString() }}</p>
             @endcan
         </div>

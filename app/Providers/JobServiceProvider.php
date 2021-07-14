@@ -45,6 +45,7 @@ class JobServiceProvider extends ServiceProvider
         }
 
         try {
+            // TODO ranks are currently not in use. jobs are displayed in random order based on featured/unfeatured
             $rank = 0;
 
             $job->organization_name = $organization->name;

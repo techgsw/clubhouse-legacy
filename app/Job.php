@@ -175,6 +175,7 @@ class Job extends Model
             return false;
         }
 
+        // TODO ranks are currently not in use. jobs are displayed in random order based on featured/unfeatured
         $rank = $job->rank;
 
         $job->featured = false;

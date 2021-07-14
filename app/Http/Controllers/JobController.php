@@ -50,10 +50,13 @@ class JobController extends Controller
             'new-inquiries' => ''   // don't allow new-inquiries
         ]);
 
+        if (!$request->session()->get('job_seed')) {
+            $request->session()->put('job_seed', rand());
+        }
+
         $jobs = Job::filter($request)
             ->orderBy('featured', 'desc')
-            ->orderBy('rank', 'desc')
-            ->orderBy('created_at', 'desc')
+            ->inRandomOrder($request->session()->get('job_seed'))
             ->paginate(15);
 
         $featured_jobs = Job::where('job_status_id', '=', JOB_STATUS_ID['open'])->where('featured', '=', 1)->get()->all();

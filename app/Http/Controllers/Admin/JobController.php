@@ -182,6 +182,8 @@ class JobController extends Controller
         }
         $this->authorize('edit-job', $job);
 
+        // TODO ranks are currently not in use. jobs are displayed in random order based on featured/unfeatured
+
         // Insert at last rank, i.e. one greater than the highest current
         $rank = 1;
         $last_job = Job::whereNotNull('rank')
@@ -231,6 +233,7 @@ class JobController extends Controller
     }
 
     /**
+     * @deprecated ranks are currently not in use. jobs are displayed in random order based on featured/unfeatured
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -267,6 +270,7 @@ class JobController extends Controller
     }
 
     /**
+     * @deprecated ranks are currently not in use. jobs are displayed in random order based on featured/unfeatured
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -307,6 +311,7 @@ class JobController extends Controller
     }
 
     /**
+     * @deprecated ranks are currently not in use. jobs are displayed in random order based on featured/unfeatured
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
