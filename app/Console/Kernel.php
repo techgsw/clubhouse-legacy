@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         Commands\SendMigrationEmails::class,
         Commands\SendInquirySummaryEmail::class,
         Commands\SendRegistrationSummaryEmail::class,
+        Commands\SendNewJobTypeMatchPostedEmails::class,
         Commands\UploadContacts::class,
         Commands\UpdateContacts::class,
         Commands\ReconcileContacts::class,

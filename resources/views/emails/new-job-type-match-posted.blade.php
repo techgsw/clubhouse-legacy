@@ -7,7 +7,7 @@
             @foreach ($jobs as $job)
                 <tr>
                     @if (!is_null($job->image))
-                        <td style="padding-right:20px;padding-bottom:35px;">
+                        <td style="padding-right:20px;padding-bottom:35px;max-width:102px;min-width:70px;">
                             <img src={{ $job->image->getURL('medium') }} class="no-border" width="102">
                         </td>
                     @endif
