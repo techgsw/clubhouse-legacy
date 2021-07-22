@@ -9,10 +9,10 @@
     <!-- OPEN GRAPH -->
     <meta property="og:title" content="@yield('title', 'SBS Consulting') | SBS Consulting" />
     <meta property="og:description" content="@yield('description', 'SBS Consulting provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
-    <meta property="og:image" content="@yield('image', url('/').'/images/Share-Sports-Business-Solutions.png')">
+    <meta property="og:image" content="@yield('image', url('/').'/images/Share_SBS_Consulting_Logo.png')">
     <meta property="og:image:height" content="520">
     <meta property="og:image:width" content="1000">
-    <meta property="og:url" content="@yield('url', url('/'))">
+    <meta property="og:url" content="@yield('url', Request::url())">
     <!-- CSS  -->
     <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Oswald:600" rel="stylesheet">

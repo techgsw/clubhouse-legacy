@@ -14,7 +14,7 @@
     <meta property="og:image:alt" content="@yield('image-alt', "theClubhouse® at SBS Consulting")">
     <meta property="og:image:height" content="520">
     <meta property="og:image:width" content="1000">
-    <meta property="og:url" content="@yield('url', url('/'))">
+    <meta property="og:url" content="@yield('url', Request::url())">
     <!-- iOS icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/images/CH_logo-apple-touch.png">
     <!-- Clubhouse Favicon -->
