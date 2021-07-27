@@ -89,6 +89,21 @@ class Mentor extends Model
         return null;
     }
 
+    /**
+     * This is a hack to determinie if a mentor's Calend.ly link is valid.
+     *
+     * Since we let mentors set up their own accounts and send us the link, we cannot use the API
+     * to determine calendar availability. These CURL calls emulate the browser loading an
+     * embedded Calend.ly instance to see if an error message shows up.
+     *
+     * The first CURL call should return "This link is not valid" if the URL was written incorrectly.
+     *
+     * In some instances, the calendar will be marked as unavailable because of various account
+     * issues. When this happens, the initial pageload works but subsequent calls made by the embed
+     * js will reveal an error. The second CURL call emulates the browser request that determines
+     * this using the user's "UUID" (not a real uuid by the way). This request will return "calendar
+     * is currently unavailable" if there are account issues.
+     **/
     public function isCalendlyLinkValid()
     {
         $ch = curl_init($this->calendly_link);
@@ -109,11 +124,52 @@ class Mentor extends Model
         curl_close($ch);
 
         if ($data) {
-            return strpos($data, 'is not valid') === false;
+            if (strpos($data, 'is not valid') !== false) {
+                Log::error('Mentor calendly link is not valid: '.$this->calendly_link);
+            } else {
+                preg_match('/"uuid":"([^"]+)"/', $data, $calendly_uuid_match_array);
+                if (isset($calendly_uuid_match_array[1])) {
+                    // Extract the user's UUID from json in the initial pageload
+                    $calendly_uuid = $calendly_uuid_match_array[1];
+
+                    // A timezone, start date and end date is required. It's unclear how this date range is used
+                    // but I'm mimicking what the embed code does.
+                    $date_range_call_params = array(
+                        'timezone' => "America/Phoenix",
+                        'range_start' => (new \DateTime('now'))->format('Y-m-d'),
+                        'range_end' => (new \DateTime('last day of this month'))->format('Y-m-d')
+                    );
+
+                    $date_range_call_url = "https://calendly.com/api/booking/event_types/".$calendly_uuid."/calendar/range"
+                                    .'?'.http_build_query($date_range_call_params);
+                    $ch2 = curl_init($date_range_call_url);
+                    $headers = [
+                        "Cache-Control: no-cache"
+                    ];
+                    curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch2, CURLOPT_FRESH_CONNECT, 1);
+                    curl_setopt($ch2, CURLOPT_HTTPHEADER, $headers);
+                    try {
+                        $date_range_call_data = curl_exec($ch2);
+                    } catch (\Exception $e) {
+                        Log::error('Error running curl for mentor calendly date range call: '.$date_range_call_url);
+                        Log::error($e);
+                        curl_close($ch2);
+                        return false;
+                    }
+                    curl_close($ch2);
+
+                    if (!$date_range_call_data) {
+                        Log::error('No data when running curl for mentor calendly date range call: '.$date_range_call_url);
+                    } else {
+                        return strpos($date_range_call_data, 'calendar is currently unavailable') === false;
+                    }
+                }
+            }
         } else {
             Log::error('No data when running curl for mentor calendly link: '.$this->calendly_link);
-            return false;
         }
+        return false;
     }
 
     /**
