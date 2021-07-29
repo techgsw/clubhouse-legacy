@@ -74,13 +74,14 @@ class OrganizationController extends Controller
     {
         $duplicate = Organization::where('name', $request->name)->first();
         if ($duplicate) {
-            throw new SBSException('Found an existing organization named '.$request->name);
+            Log::error((new SBSException('Found an existing organization named '.$request->name))->getMessage());
             $request->session()->flash('message', new Message(
                 "Found an existing organization named {$request->name}",
                 "danger",
                 $code = null,
                 $icon = "error"
             ));
+            return back();
         }
 
         try {
