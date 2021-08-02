@@ -2142,6 +2142,39 @@ $.valHooks.textarea = {
         'form#edit-profile input, form#edit-profile select, form#edit-profile textarea'
     );
 
+    // edit profile - "Opt out of new clubhouse content" emails should be based on the individual checkboxes
+    $('body').on(
+        {
+            change: function (e, ui) {
+                if (!$('input#email_preference_new_content_webinars').is(':checked')
+                    && !$('input#email_preference_new_content_blogs').is(':checked')
+                    && !$('input#email_preference_new_content_mentors').is(':checked')
+                   ) {
+                    $('input#email_preference_new_content_all').prop('checked', true);
+                } else {
+                    $('input#email_preference_new_content_all').prop('checked', false);
+                }
+            }
+        },
+        'input#email_preference_new_content_webinars, input#email_preference_new_content_blogs, input#email_preference_new_content_mentors'
+    );
+    $('body').on(
+        {
+            change: function (e, ui) {
+                if ($(this).is(':checked')) {
+                    $('input#email_preference_new_content_webinars').prop('checked', false);
+                    $('input#email_preference_new_content_blogs').prop('checked', false);
+                    $('input#email_preference_new_content_mentors').prop('checked', false);
+                } else {
+                    $('input#email_preference_new_content_webinars').prop('checked', true);
+                    $('input#email_preference_new_content_blogs').prop('checked', true);
+                    $('input#email_preference_new_content_mentors').prop('checked', true);
+                }
+            }
+        },
+        'input#email_preference_new_content_all'
+    );
+
     $('body').on(
         {
             click: function (e, ui) {

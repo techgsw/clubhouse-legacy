@@ -7,6 +7,20 @@
 </head>
 <body>
     <style>
+        h1.section-title {
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+        p.clubhouse-content-copy {
+            font-size:.8em;
+            text-align: center;
+        }
+        a.no-underline {
+            text-decoration: none;
+        }
         .email-sbs-red-button {
             background-color: #EB2935;
             border-radius: 2px;

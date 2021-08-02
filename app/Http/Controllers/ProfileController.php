@@ -391,6 +391,9 @@ class ProfileController extends Controller
         $profile->has_school_plans = request('has_school_plans');
 
         // Email preferences
+        $profile->email_preference_new_content_webinars = request('email_preference_new_content_webinars') ? true : false;
+        $profile->email_preference_new_content_blogs = request('email_preference_new_content_blogs') ? true : false;
+        $profile->email_preference_new_content_mentors = request('email_preference_new_content_mentors') ? true : false;
         $profile->email_preference_new_job = request('email_preference_new_job_opt_out') ? false : true;
         $email_preference_tag_type_ids = array();
         foreach($request->all() as $key=>$datum) {
@@ -413,6 +416,7 @@ class ProfileController extends Controller
         try {
             $profile->save();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $request->session()->flash('message', new Message(
                 "There was an error saving your profile. Please check your submission and try again.",
                 "warning",

@@ -523,9 +523,27 @@
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
                 <div class="row">
-                    <p>Clicking this button unsubscribes you from receiving any job notifications via email.<br>If you'd like to change your job preferences to get fewer emails, update your Job-seeking Preferences above.</p>
-                    <input id="email_preference_new_job_opt_out" type="checkbox" name="email_preference_new_job_opt_out" value="1" {{ is_null(old('email_preference_new_job_opt_out')) ? ($profile->email_preference_new_job ? "" : "checked") : (old('email_preference_new_job_opt_out') ? "checked" : "") }} />
-                    <label for="email_preference_new_job_opt_out"><strong>Opt out</strong> of all new job posting emails</label>
+                    <div class="input-field col s12">
+                        <p><strong>Weekly updates on new Clubhouse content</strong></p>
+                        <input id="email_preference_new_content_all" type="checkbox" value="1" {{((old('email_preference_new_content_webinars') ?? $profile->email_preference_new_content_webinars) || (old('email_preference_new_content_blogs') ?? $profile->email_preference_new_content_blogs) || (old('email_preference_new_content_mentors') ?? $profile->email_preference_new_content_mentors)) ? "" : "checked" }}/>
+                        <label for="email_preference_new_content_all"><strong>Opt out</strong> of the weekly new Clubhouse content emails</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <p>Or show me the following new content every week:
+                            <input id="email_preference_new_content_webinars" type="checkbox" name="email_preference_new_content_webinars" value="1" {{ is_null(old('email_preference_new_content_webinars')) ? ($profile->email_preference_new_content_webinars ? "checked" : "") : (old('email_preference_new_content_webinars') ? "checked" : "") }} />
+                            <label for="email_preference_new_content_webinars" style="margin:0px 10px;">Webinars</label>
+                            <input id="email_preference_new_content_blogs" type="checkbox" name="email_preference_new_content_blogs" value="1" {{ is_null(old('email_preference_new_content_blogs')) ? ($profile->email_preference_new_content_blogs ? "checked" : "") : (old('email_preference_new_content_blogs') ? "checked" : "") }} />
+                            <label for="email_preference_new_content_blogs" style="margin:0px 10px;">Blogs</label>
+                            <input id="email_preference_new_content_mentors" type="checkbox" name="email_preference_new_content_mentors" value="1" {{ is_null(old('email_preference_new_content_mentors')) ? ($profile->email_preference_new_content_mentors ? "checked" : "") : (old('email_preference_new_content_mentors') ? "checked" : "") }} />
+                            <label for="email_preference_new_content_mentors" style="margin:0px 10px;">Mentors</label>
+                        </p>
+                    </div>
+                    <div class="input-field col s12">
+                        <p><strong>New job posting emails</strong> <i>(If you'd like to change which jobs you get notifications for, update your Job-seeking Preferences above)</i></p>
+                        <input id="email_preference_new_job_opt_out" type="checkbox" name="email_preference_new_job_opt_out" value="1" {{ is_null(old('email_preference_new_job_opt_out')) ? ($profile->email_preference_new_job ? "" : "checked") : (old('email_preference_new_job_opt_out') ? "checked" : "") }} />
+                        <label for="email_preference_new_job_opt_out"><strong>Opt out</strong> of all new job posting emails</label>
+
+                    </div>
                 </div>
             </div>
         </li>
