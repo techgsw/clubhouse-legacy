@@ -41,7 +41,7 @@ class Question extends Model
 
         if (request('search')) {
             $search = request('search');
-            $questions->whereRaw("MATCH(`title`,`body`) AGAINST (? IN BOOLEAN MODE)", [$search]);
+            $questions->whereRaw("MATCH(`title`,`body`) AGAINST ('%?%' IN BOOLEAN MODE)", [$search]);
         }
 
         return $questions->orderBy('created_at', 'desc');

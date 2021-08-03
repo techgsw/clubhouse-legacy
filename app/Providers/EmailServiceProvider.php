@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Mail\ClubhouseFailedPaymentNotice;
 use App\Mail\JobExpirationReminder;
 use App\Mail\JobNoActionReminder;
+use App\Post;
 use App\Product;
 use Mail;
 use App\ContactJob;
@@ -34,6 +35,7 @@ use App\Mail\Admin\UserJobPostNotification;
 use App\Mail\Admin\UserOrganizationCreateNotification;
 use App\Mail\MentorshipRequest;
 use App\Mail\JobExpirationNotification;
+use App\Mail\NewClubhouseContentEmail;
 use App\Mail\NewJobTypeMatchPosted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -450,6 +452,69 @@ class EmailServiceProvider extends ServiceProvider
         Log::info('Sending notifications for new jobs to '.count($job_users).' users.');
         foreach ($job_users as $job_user) {
             Mail::to($job_user['user'])->send(new NewJobTypeMatchPosted($job_user['user'], ...$job_user['jobs']));
+        }
+    }
+
+    /**
+     * Send an update of new Clubhouse content to all users who have opted in
+     */
+    public static function sendNewClubhouseContentEmails($date_since)
+    {
+        $new_webinars = Product::with('tags')
+            ->where('active', true)
+            ->where('created_at', '>', $date_since)
+            ->whereHas('tags', function ($query) {
+                $query->whereIn('name', array('Webinar', '#SameHere'));
+            })->get();
+
+        $new_webinar_recordings_query = Product::with(['tags', 'options'])
+            ->where('active', false)
+            ->whereHas('tags', function ($query) {
+                $query->whereIn('name', array('Webinar', '#SameHere'));
+            })->whereHas('options', function ($query) use ($date_since) {
+                // We don't store the date that the webinar was marked inactive,
+                // so we need to assume that the webinar was marked inactive on the date of the webinar,
+                // taken from the product option's name.
+                // If this has not been formatted as expected, we can't pull that info
+                $query->whereRaw("STR_TO_DATE(name, '%M %e, %Y') >= '".$date_since->format('Y-m-d')."'")
+                      ->whereRaw("STR_TO_DATE(name, '%M %e, %Y') < '".(new \DateTime('now'))->format('Y-m-d')."'");
+            });
+        $new_webinar_recordings = $new_webinar_recordings_query->get();
+
+        $new_blog_posts = Post::with('tags')->where('created_at', '>', $date_since)->get();
+
+        $new_mentors = Mentor::where('active', true)->where('created_at', '>', $date_since)->get();
+
+        if ($new_webinars->isEmpty()
+            && $new_webinar_recordings->isEmpty()
+            && $new_blog_posts->isEmpty()
+            && $new_mentors->isEmpty()) {
+            Log::info('New clubhouse content email will not be sent. No new content has been found.');
+            return;
+        }
+
+        $users = User::whereHas('profile', function ($query) use ($new_webinars,
+                                                                  $new_webinar_recordings,
+                                                                  $new_blog_posts,
+                                                                  $new_mentors) {
+                if ($new_webinars->isNotEmpty() || $new_webinar_recordings->isNotEmpty()) {
+                    $query->where('email_preference_new_content_webinars', true);
+                }
+                if ($new_blog_posts->isNotEmpty()) {
+                    $query->orWhere('email_preference_new_content_blogs', true);
+                }
+                if ($new_mentors->isNotEmpty()) {
+                    $query->orWhere('email_preference_new_content_mentors', true);
+                }
+            })->get();
+
+        Log::info('Sending new clubhouse content emails to '.$users->count().' users');
+        foreach ($users as $user) {
+            Mail::to($user)->send(new NewClubhouseContentEmail($user,
+                                                                 $new_webinars,
+                                                                 $new_webinar_recordings,
+                                                                 $new_blog_posts,
+                                                                 $new_mentors));
         }
     }
 

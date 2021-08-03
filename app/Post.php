@@ -51,7 +51,7 @@ class Post extends Model
 
         if (request('search')) {
             $search = request('search');
-            $posts->whereRaw("MATCH(`title`,`body`) AGAINST (? IN BOOLEAN MODE)", [$search]);
+            $posts->whereRaw("MATCH(`title`,`body`) AGAINST ('%?%' IN BOOLEAN MODE)", [$search]);
         }
 
         return $posts->orderBy('post.created_at', 'desc');

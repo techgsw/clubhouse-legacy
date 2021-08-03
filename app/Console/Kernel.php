@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         Commands\SendInquirySummaryEmail::class,
         Commands\SendRegistrationSummaryEmail::class,
         Commands\SendNewJobTypeMatchPostedEmails::class,
+        Commands\SendClubhouseNewContentEmails::class,
         Commands\UploadContacts::class,
         Commands\UpdateContacts::class,
         Commands\ReconcileContacts::class,
@@ -114,6 +115,11 @@ class Kernel extends ConsoleKernel
             $date_since = new \DateTime('-7 days');
             EmailServiceProvider::sendNewJobTypeMatchPostedEmails($date_since);
         })->weeklyOn(3, '8:00');
+
+        $schedule->call(function() {
+            $date_since = new \DateTime('-7 days midnight');
+            EmailServiceProvider::sendNewClubhouseContentEmails($date_since);
+        })->weeklyOn(1, '8:00');
 
         $schedule->call(function() {
             EmailServiceProvider::sendContactJobFollowupEmails();

@@ -196,6 +196,10 @@ class ContactJobController extends Controller
             ['job_interest_token','=',$token]
         ])->first();
 
+        if (is_null($contact_job)) {
+            return redirect('/');
+        }
+
         if (!is_null($contact_job->job_interest_response_code) && !$request->input('override')) {
             return view('job/feedback/' . $request_type . '/default-expired-code', [
                 'contact_job' => $contact_job
@@ -203,10 +207,6 @@ class ContactJobController extends Controller
         }
 
         $job_interest_response = JobInterestResponse::where('code','=',$interest_code)->first();
-
-        if (is_null($contact_job) || is_null($interest_code)) {
-            return redirect('/');
-        }
 
         $contact_job->job_interest_response_code = $job_interest_response->code;
         $contact_job->job_interest_response_date = new \DateTime('now');

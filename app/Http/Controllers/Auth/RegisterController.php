@@ -290,7 +290,10 @@ class RegisterController extends Controller
                 'current_title' => $data['title'],
                 'phone' => $data['phone'],
                 'works_in_sports_years_range' => $years_worked,
-                'planned_services' => empty($planned_services) ? null : $planned_services
+                'planned_services' => empty($planned_services) ? null : $planned_services,
+                'email_preference_new_content_webinars' => isset($data['newsletter']),
+                'email_preference_new_content_blogs' => isset($data['newsletter']),
+                'email_preference_new_content_mentors' => isset($data['newsletter'])
             ]);
 
             $roles = Role::where('code', 'job_user')->get();
