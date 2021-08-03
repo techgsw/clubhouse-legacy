@@ -26,8 +26,8 @@
                 </tr>
             @endforeach
         </table>
-        <p>We sent you this message based on your sports job interests and preferences. If you'd like to update them, or opt out of these emails, click <strong>"Opt out of all new job posting emails"</strong> under <strong>"Email Preferences"</strong> in your <a href="{{env('CLUBHOUSE_URL')}}/user/{{$user->id}}/edit-profile">profile</a>.</p>
         <p>Thanks, <br/><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team</p>
+        @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent
 

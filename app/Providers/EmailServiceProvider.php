@@ -479,7 +479,6 @@ class EmailServiceProvider extends ServiceProvider
                 $query->whereRaw("STR_TO_DATE(name, '%M %e, %Y') >= '".$date_since->format('Y-m-d')."'")
                       ->whereRaw("STR_TO_DATE(name, '%M %e, %Y') < '".(new \DateTime('now'))->format('Y-m-d')."'");
             });
-        Log::info($new_webinar_recordings_query->toSql());
         $new_webinar_recordings = $new_webinar_recordings_query->get();
 
         $new_blog_posts = Post::with('tags')->where('created_at', '>', $date_since)->get();
@@ -509,6 +508,7 @@ class EmailServiceProvider extends ServiceProvider
                 }
             })->get();
 
+        Log::info('Sending new clubhouse content emails to '.$users->count().' users');
         foreach ($users as $user) {
             Mail::to($user)->send(new NewClubhouseContentEmail($user,
                                                                  $new_webinars,
@@ -516,8 +516,6 @@ class EmailServiceProvider extends ServiceProvider
                                                                  $new_blog_posts,
                                                                  $new_mentors));
         }
-
-        Log::info('New clubhouse content email sent to '.$users->count().' users');
     }
 
     /**

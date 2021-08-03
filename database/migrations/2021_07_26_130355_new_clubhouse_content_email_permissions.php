@@ -18,9 +18,6 @@ class NewClubhouseContentEmailPermissions extends Migration
             $table->boolean('email_preference_new_content_blogs')->default(false);
             $table->boolean('email_preference_new_content_mentors')->default(false);
         });
-
-        //TODO need to populate these users with the correct info
-
     }
     /**
      * Reverse the migrations.

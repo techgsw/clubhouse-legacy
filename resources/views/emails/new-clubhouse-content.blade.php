@@ -87,13 +87,13 @@
         @endif
         @if ($user->cannot('view-clubhouse'))
             <hr>
-            <h1 class="section-title"><img src="{{ asset('images/content-email-PRO-cta.png') }}" width="500"/></h1>
+            <h1 class="section-title"><a href="{{env('CLUBHOUSE_URL').'/pro-membership'}}"><img src="{{ asset('images/content-email-PRO-cta.png') }}" width="500"/></a></h1>
         @endif
         @if ($user->profile->email_preference_new_content_mentors && $new_mentors->isNotEmpty())
             <hr>
             <h1 class="section-title">New Mentors</h1>
             @if ($user->can('view-clubhouse'))
-                <p class="clubhouse-content-copy">YOU are a PRO member, which means you get access to networking calls with more than 200 sports industry professionals. See our new mentors below, or just go to the site, search for your mentor, and set up a call. It's that easy!</p>
+                <p class="clubhouse-content-copy">You are a PRO member, which means you get access to networking calls with more than 200 sports industry professionals. See our new mentors below, or just go to the site, search for your mentor, and set up a call. It's that easy!</p>
             @else
                 <p class="clubhouse-content-copy">We have more than 200 sports industry professionals who have made themselves available for 30 minute phone conversations with our <a href="/pro-membership">CLUBHOUSE PRO</a> members. Sign up today, and start networking.</p>
             @endif
