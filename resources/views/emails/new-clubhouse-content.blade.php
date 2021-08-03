@@ -20,7 +20,7 @@
                         <strong style="margin:10px 0px;font-size:.9em">#SameHere</strong>
                     </div>
                 @endif
-                <a href="{{ $webinar->getURL(false, 'webinars') }}" class="no-underline">
+                <a href="{{ env('CLUBHOUSE_URL').$webinar->getURL(false, 'webinars') }}" class="no-underline">
                     @if ($webinar->primaryImage())
                         <img src={{ $webinar->primaryImage()->getURL('medium') }} width="500"/>
                     @else
@@ -39,8 +39,8 @@
                     <tr>
                         <td valign="top" style="padding-right:20px;padding-bottom:35px;width:50%;">
                             @if (!is_null($post->images))
-                                <a href="/post/{{ $post->title_url}}" class="no-underline">
-                                    <img src={{ $post->images->first()->getUrl('share') }} class="no-border" width="220">
+                                <a href="{{env('CLUBHOUSE_URL').'/post/'.$post->title_url}}" class="no-underline">
+                                    <img src="{{ $post->images->first()->getUrl('share') }}" class="no-border" width="220">
                                 </a>
                             @endif
                         </td>
@@ -48,7 +48,7 @@
                             @if ($post->tags->contains('tag_name', '#SameHere'))
                                 <strong style="margin:10px 0px;font-size:.9em">#SameHere</strong>
                             @endif
-                            <a href="/post/{{ $post->title_url}}" class="no-underline">
+                            <a href="{{env('CLUBHOUSE_URL').'/post/'.$post->title_url}}" class="no-underline">
                                 <h1 style="margin-bottom:0px;">{{$post->title}}</h1>
                             </a>
                             <i style="font-size: .9em;text-transform: uppercase;">By {{ $post->authored_by ?: $post->user->first_name.' '.$post->user->last_name }}</i>
@@ -64,14 +64,14 @@
                 @if ($user->can('view-clubhouse'))
                     As a Clubhouse PRO member, one of your biggest benefits is access to more than 90 hours of webinar content in our library, on demand.
                 @else
-                    Become a <a href="/pro-membership">CLUBHOUSE PRO</a> and access more than 90 hours of content available on demand in our webinar library.
+                    Become a <a href="{{env('CLUBHOUSE_URL')}}/pro-membership">CLUBHOUSE PRO</a> and access more than 90 hours of content available on demand in our webinar library.
                 @endif
             </p>
             <table cellpadding="20" cellspacing="20" align="center">
                 @foreach ($new_webinar_recordings as $webinar)
                     <tr>
                         <td style="background-color: #EAEAEA;box-shadow: 0 2px 2px 0 #AAA;">
-                            <a href="{{ $webinar->getURL(false, 'webinars') }}" class="no-underline">
+                            <a href="{{ env('CLUBHOUSE_URL').$webinar->getURL(false, 'webinars') }}" class="no-underline">
                                 <div>
                                     @if ($webinar->tags->contains('tag_name', '#SameHere'))
                                         <strong style="color:#888;margin:10px 0px;font-size:.9em">#SameHere</strong>
@@ -95,14 +95,14 @@
             @if ($user->can('view-clubhouse'))
                 <p class="clubhouse-content-copy">You are a PRO member, which means you get access to networking calls with more than 200 sports industry professionals. See our new mentors below, or just go to the site, search for your mentor, and set up a call. It's that easy!</p>
             @else
-                <p class="clubhouse-content-copy">We have more than 200 sports industry professionals who have made themselves available for 30 minute phone conversations with our <a href="/pro-membership">CLUBHOUSE PRO</a> members. Sign up today, and start networking.</p>
+                <p class="clubhouse-content-copy">We have more than 200 sports industry professionals who have made themselves available for 30 minute phone conversations with our <a href="{{env('CLUBHOUSE_URL')}}/pro-membership">CLUBHOUSE PRO</a> members. Sign up today, and start networking.</p>
             @endif
             <table>
                 @foreach ($new_mentors as $mentor)
                     <tr>
                         <td style="padding-right:20px;padding-top:15px;padding-bottom:15px;max-width:140px;min-width:100px;">
                             @if ($mentor->contact->headshotImage || ($mentor->contact->user && $mentor->contact->user->profile->headshotImage))
-                                <a href="{{ $mentor->getUrL() }}" class="no-underline">
+                                <a href="{{ env('CLUBHOUSE_URL').$mentor->getUrL() }}" class="no-underline">
                                     @if ($mentor->contact->headshotImage)
                                         <img src={{ $mentor->contact->headshotImage->getURL('medium') }} style="border-radius:50%" width="100">
                                     @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
@@ -112,7 +112,7 @@
                             @endif
                         </td>
                         <td style="padding-top:15px;padding-bottom:15px;">
-                            <a href="{{ $mentor->getUrL() }}" class="no-underline">
+                            <a href="{{ env('CLUBHOUSE_URL').$mentor->getUrL() }}" class="no-underline">
                                 <h1 style="margin-bottom:0px;">{{ $mentor->contact->getName() }}</h1>
                             </a>
                             <strong>{{ $mentor->contact->getTitle() }}</strong>
