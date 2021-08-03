@@ -126,6 +126,11 @@
                 @endforeach
             </table>
         @endif
+        <tr>
+            <td align="center" style="padding-bottom:20px;">
+                <p style="font-size:.9em;text-align:center;">Please contact <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a> for any questions or issues</p>
+            </td>
+        </tr>
         @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent

@@ -117,9 +117,10 @@ class Kernel extends ConsoleKernel
         })->weeklyOn(3, '8:00');
 
         $schedule->call(function() {
-            $date_since = new \DateTime('-7 days midnight');
+            $date_since = new \DateTime('-7 days');
+            $date_since->setTime(0,0,0);
             EmailServiceProvider::sendNewClubhouseContentEmails($date_since);
-        })->weeklyOn(1, '8:00');
+        })->weeklyOn(1, '7:00');
 
         $schedule->call(function() {
             EmailServiceProvider::sendContactJobFollowupEmails();

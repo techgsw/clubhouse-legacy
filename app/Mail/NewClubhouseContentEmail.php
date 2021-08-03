@@ -42,7 +42,7 @@ class NewClubhouseContentEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse®')
+        return $this->from('app@sportsbusiness.solutions', 'theClubhouse®')
             ->subject("See what's new in theClubhouse®")
             ->markdown('emails.new-clubhouse-content');
     }
