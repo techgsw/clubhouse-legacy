@@ -15,7 +15,6 @@
             margin-bottom: 30px;
         }
         p.clubhouse-content-copy {
-            font-size:.8em;
             text-align: center;
         }
         a.no-underline {
