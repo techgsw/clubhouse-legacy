@@ -460,12 +460,15 @@ class EmailServiceProvider extends ServiceProvider
      */
     public static function sendNewClubhouseContentEmails($date_since)
     {
-        $new_webinars = Product::with('tags')
+        // Uncomment all toSql statements to reveal queries if Bob asks what's coming in the email
+
+        $new_webinars_query = Product::with('tags')
             ->where('active', true)
-            ->where('created_at', '>', $date_since)
             ->whereHas('tags', function ($query) {
                 $query->whereIn('name', array('Webinar', '#SameHere'));
-            })->get();
+            });
+        //Log::info($new_webinars_query->toSql());
+        $new_webinars = $new_webinars_query->get();
 
         $new_webinar_recordings_query = Product::with(['tags', 'options'])
             ->where('active', false)
@@ -479,11 +482,16 @@ class EmailServiceProvider extends ServiceProvider
                 $query->whereRaw("STR_TO_DATE(name, '%M %e, %Y') >= '".$date_since->format('Y-m-d')."'")
                       ->whereRaw("STR_TO_DATE(name, '%M %e, %Y') < '".(new \DateTime('now'))->format('Y-m-d')."'");
             });
+        //Log::info($new_webinar_recordings_query->toSql());
         $new_webinar_recordings = $new_webinar_recordings_query->get();
 
-        $new_blog_posts = Post::with('tags')->where('created_at', '>', $date_since)->get();
+        $new_blog_posts_query = Post::with('tags')->where('created_at', '>', $date_since);
+        //Log::info($new_blog_posts_query->toSql());
+        $new_blog_posts = $new_blog_posts_query->get();
 
-        $new_mentors = Mentor::where('active', true)->where('created_at', '>', $date_since)->get();
+        $new_mentors_query = Mentor::where('active', true)->where('created_at', '>', $date_since);
+        //Log::info($new_mentors_query->toSql());
+        $new_mentors = $new_mentors_query->get();
 
         if ($new_webinars->isEmpty()
             && $new_webinar_recordings->isEmpty()
