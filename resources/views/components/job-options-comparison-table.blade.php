@@ -9,12 +9,6 @@
     </thead>
     <tbody>
         <tr>
-            <td style="width: 300px; padding-right: 20px;">Featured on the <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> for 30 days</td>
-            <td class="center"><i class="fa fa-check"></i></td>
-            <td class="center"><i class="fa fa-check"></i></td>
-            <td class="center"><i class="fa fa-check"></i></td>
-        </tr>
-        <tr>
             <td style="width: 300px; padding-right: 20px;">Included in our general job update newsletter</td>
             <td class="center"><i class="fa fa-check"></i></td>
             <td class="center"><i class="fa fa-check"></i></td>
@@ -27,14 +21,8 @@
             <td class="center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
-            <td style="width: 300px; padding-right: 20px;">Featured on the <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> for 45 days</td>
-            <td class="center"></td>
-            <td class="center"><i class="fa fa-check"></i></td>
-            <td class="center"><i class="fa fa-check"></i></td>
-        </tr>
-        <tr>
             <td style="width: 300px; padding-right: 20px;">Your individual job will be emailed directly to candidates in our database</td>
-            <td class="center"></i></td>
+            <td class="center"><i class="fa fa-check"></i></td>
             <td class="center"><i class="fa fa-check"></i></td>
             <td class="center"><i class="fa fa-check"></i></td>
         </tr>
@@ -48,12 +36,6 @@
             <td style="width: 300px; padding-right: 20px;">The SBS Consulting team will send you additional job candidate matches based on your search criteria</td>
             <td class="center"></td>
             <td class="center"><i class="fa fa-check"></i></td>
-            <td class="center"><i class="fa fa-check"></i></td>
-        </tr>
-        <tr>
-            <td style="width: 300px; padding-right: 20px;">Featured on the <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> for 60 days</td>
-            <td class="center"></td>
-            <td class="center"></td>
             <td class="center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>

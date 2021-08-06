@@ -201,20 +201,18 @@ class CheckoutController extends Controller
             if (!$job || $job->user_id != $user->id) {
                 return redirect('/user/' . $user->id . '/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
             }
-            if ($job->job_type_id != JOB_TYPE_ID['user_free']) {
-                $job->extended_at = new \DateTime('now');
-                if ($job->job_status_id == JOB_STATUS_ID['expired']) {
-                    $job->job_status_id = JOB_STATUS_ID['open'];
-                }
-                $job->save();
-                Session::flash('message', new Message(
-                    "Your job posting has been extended",
-                    "success",
-                    $code = null,
-                    $icon = "check_circle"
-                ));
-                return redirect('/user/' . $user->id . '/job-postings');
+            $job->extended_at = new \DateTime('now');
+            if ($job->job_status_id == JOB_STATUS_ID['expired']) {
+                $job->job_status_id = JOB_STATUS_ID['open'];
             }
+            $job->save();
+            Session::flash('message', new Message(
+                "Your job posting has been extended",
+                "success",
+                $code = null,
+                $icon = "check_circle"
+            ));
+            return redirect('/user/' . $user->id . '/job-postings');
         } else if (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
             $product_type = 'job-platinum-upgrade';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
