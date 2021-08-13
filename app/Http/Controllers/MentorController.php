@@ -171,6 +171,9 @@ class MentorController extends Controller
         $mentor->tags()->sync($tag_names);
         $mentor->description = request('description') ?: "";
         if (!$edited_by_mentor) {
+            if (request('active') === '1' && !$mentor->active) {
+                $mentor->activated_at = new \DateTime('now');
+            }
             $mentor->active = request('active') === '1';
             $mentor->timezone = request('timezone') ?: "";
             $mentor->day_preference_1 = request('day_preference_1') ?: "";

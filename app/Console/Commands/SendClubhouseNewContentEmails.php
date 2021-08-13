@@ -12,14 +12,14 @@ class SendClubhouseNewContentEmails extends Command
      *
      * @var string
      */
-    protected $signature = 'email:new-clubhouse-content {since}';
+    protected $signature = 'email:new-clubhouse-content {since} {emails?*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send an email to users with new content created in theClubhouse since a specific date';
+    protected $description = 'Send an email to users with new content created in theClubhouse since a specific date (YYYY-MM-DD). Optionally include email addresses to only send it to them.';
 
     /**
      * Create a new command instance.
@@ -42,6 +42,8 @@ class SendClubhouseNewContentEmails extends Command
         $since = new \DateTime($since);
         $since->setTime(0, 0, 0);
 
-        EmailServiceProvider::sendNewClubhouseContentEmails($since);
+        $emails = $this->argument('emails');
+
+        EmailServiceProvider::sendNewClubhouseContentEmails($since, $emails);
     }
 }
