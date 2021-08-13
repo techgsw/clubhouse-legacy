@@ -355,10 +355,12 @@ class ContactController extends Controller
                     $mentor = new Mentor;
                     $mentor->contact_id = $contact->id;
                     $mentor->active = true;
+                    $mentor->activated_at = new \DateTime('now');
                     $mentor->save();
                 } elseif (!$contact->mentor->active) {
                     // Activate mentor
                     $contact->mentor->active = true;
+                    $contact->mentor->activated_at = new \DateTime('now');
                     $contact->mentor->save();
                 }
             } else if (!is_null($contact->mentor)) {

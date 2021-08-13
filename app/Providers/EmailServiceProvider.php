@@ -489,7 +489,7 @@ class EmailServiceProvider extends ServiceProvider
         //Log::info($new_blog_posts_query->toSql());
         $new_blog_posts = $new_blog_posts_query->get();
 
-        $new_mentors_query = Mentor::where('active', true)->where('created_at', '>', $date_since);
+        $new_mentors_query = Mentor::where('active', true)->where('activated_at', '>', $date_since);
         //Log::info($new_mentors_query->toSql());
         $new_mentors = $new_mentors_query->get();
 
