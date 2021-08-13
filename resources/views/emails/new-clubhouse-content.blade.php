@@ -85,10 +85,6 @@
                 @endforeach
             </table>
         @endif
-        @if ($user->cannot('view-clubhouse'))
-            <hr>
-            <h1 class="section-title"><a href="{{env('CLUBHOUSE_URL').'/pro-membership'}}"><img src="{{ asset('images/content-email-PRO-cta.png') }}" width="500"/></a></h1>
-        @endif
         @if ($user->profile->email_preference_new_content_mentors && $new_mentors->isNotEmpty())
             <hr>
             <h1 class="section-title">New Mentors</h1>
@@ -125,6 +121,10 @@
                     </tr>
                 @endforeach
             </table>
+        @endif
+        @if ($user->cannot('view-clubhouse'))
+            <hr>
+            <h1 class="section-title"><a href="{{env('CLUBHOUSE_URL').'/pro-membership'}}"><img src="{{ asset('images/content-email-PRO-cta.png') }}" width="500"/></a></h1>
         @endif
         <tr>
             <td align="center" style="padding-bottom:20px;">
