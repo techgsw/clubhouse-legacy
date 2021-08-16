@@ -458,7 +458,7 @@ class EmailServiceProvider extends ServiceProvider
     /**
      * Send an update of new Clubhouse content to all users who have opted in
      */
-    public static function sendNewClubhouseContentEmails($date_since, $emails = array())
+    public static function sendNewClubhouseContentEmails($date_since, $emails = null)
     {
         // Uncomment all toSql statements to reveal queries if Bob asks what's coming in the email
 
@@ -501,21 +501,28 @@ class EmailServiceProvider extends ServiceProvider
             return;
         }
 
-        if (count($emails) < 1) {
+        if (is_null($emails) || count($emails) < 1) {
             $users = User::whereHas('profile', function ($query) use ($new_webinars,
-                                                                    $new_webinar_recordings,
-                                                                    $new_blog_posts,
-                                                                    $new_mentors) {
-                    if ($new_webinars->isNotEmpty() || $new_webinar_recordings->isNotEmpty()) {
-                        $query->where('email_preference_new_content_webinars', true);
-                    }
-                    if ($new_blog_posts->isNotEmpty()) {
-                        $query->orWhere('email_preference_new_content_blogs', true);
-                    }
-                    if ($new_mentors->isNotEmpty()) {
-                        $query->orWhere('email_preference_new_content_mentors', true);
-                    }
-                })->get();
+                                                                      $new_webinar_recordings,
+                                                                      $new_blog_posts,
+                                                                      $new_mentors) {
+                    $query->where(function ($query) use ($new_webinars,
+                                                         $new_webinar_recordings,
+                                                         $new_blog_posts,
+                                                         $new_mentors) {
+                        if ($new_webinars->isNotEmpty() || $new_webinar_recordings->isNotEmpty()) {
+                            $query->where('email_preference_new_content_webinars', true);
+                        }
+                        if ($new_blog_posts->isNotEmpty()) {
+                            $query->orWhere('email_preference_new_content_blogs', true);
+                        }
+                        if ($new_mentors->isNotEmpty()) {
+                            $query->orWhere('email_preference_new_content_mentors', true);
+                        }
+                    });
+                });
+            Log::info($users->toSql());
+            $users = $users->get();
         } else {
             $users = User::whereIn('email', $emails)->get();
         }
