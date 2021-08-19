@@ -43,16 +43,17 @@
                 <div style="margin-top: -10px">
                     @can ('view-clubhouse')
                         @if ($mentor->calendly_link)
-                            @php
-                                if ($is_blocked) {
-                                    $calendly_link = '';
-                                } else if ($mentor->isMentorBlockedFromRequests() && !Auth::user()->can('view-admin-dashboard')) {
-                                    $calendly_link = 'mentor-blocked';
-                                } else {
-                                    $calendly_link = base64_encode($mentor->calendly_link);
-                                }
-                            @endphp
-                            <a class="small flat-button red mentor-request-trigger calendly" href="#mentor-calendly-modal" mentor-id="{{$mentor->id}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" calendly-link="{{ $calendly_link }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
+                            @if ($mentor->isMentorBlockedFromRequests() && !Auth::user()->can('view-admin-dashboard'))
+                                <a class="flat-button grey lighten-4 mentor-request-trigger calendly tooltipped"
+                                   href="javascript:void(0);"
+                                   data-tooltip="Sorry! This mentor is so popular they've already hit their limit of available calls this week. Please try back again next week, or choose another mentor."
+                                   calendly-link="mentor-blocked"
+                                   style="margin: 2px;cursor:default;"
+                                   disabled
+                                ><i class="fa fa-user-times"></i> Currently Unavailable</a>
+                            @else
+                                <a class="flat-button red mentor-request-trigger calendly" href="#mentor-calendly-modal" mentor-id="{{$mentor->id}}" user-name="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" user-email="{{Auth::user()->email}}" calendly-link="{{ $is_blocked ? '' : base64_encode($mentor->calendly_link) }}" style="margin: 2px;"><i class="fa fa-phone"></i> Schedule a call</a>
+                            @endif
                         @else
                             @php
                                 $timezones = array(

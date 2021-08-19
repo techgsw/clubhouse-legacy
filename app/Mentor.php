@@ -178,7 +178,6 @@ class Mentor extends Model
      */
     public function isMentorBlockedFromRequests()
     {
-        Log::info($this->mentorRequests()->toSql());
         return $this->mentorRequests()->where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
                                       ->count() > 0;
     }
