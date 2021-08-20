@@ -37,21 +37,41 @@
             <table>
                 @foreach ($new_blog_posts as $post)
                     <tr>
-                        <td valign="top" style="padding-right:20px;padding-bottom:35px;width:50%;">
+                        <td style="padding-bottom:35px;">
                             @if (!is_null($post->images))
                                 <a href="{{env('CLUBHOUSE_URL').'/post/'.$post->title_url}}" class="no-underline">
-                                    <img src="{{ $post->images->first()->getUrl('share') }}" class="no-border" width="220">
+                                    <img src="{{ $post->images->first()->getUrl('share') }}" class="no-border" width="500">
                                 </a>
                             @endif
-                        </td>
-                        <td style="padding-bottom:35px;min-width: 50%;">
                             @if ($post->tags->contains('tag_name', '#SameHere'))
                                 <strong style="margin:10px 0px;font-size:.9em">#SameHere</strong>
                             @endif
                             <a href="{{env('CLUBHOUSE_URL').'/post/'.$post->title_url}}" class="no-underline">
-                                <h1 style="margin-bottom:0px;">{{$post->title}}</h1>
+                                <h1 style="margin-top:10px;margin-bottom:0px;">{{$post->title}}</h1>
                             </a>
-                            <i style="font-size: .9em;text-transform: uppercase;">By {{ $post->authored_by ?: $post->user->first_name.' '.$post->user->last_name }}</i>
+                            @php
+                                $parsedown = new Parsedown();
+                                $body = strip_tags($parsedown->text($post->body));
+                                $post_length = strlen($body);
+                                $index = 140;
+                            @endphp
+                            @if ($post_length > $index)
+                                @while (!preg_match('/\s/', $body[$index]) && $post_length > $index)
+                                    @php $index++; @endphp
+                                @endwhile
+                                <p style="font-size: .9em;margin-top:10px;">{{ substr($body, 0, $index) }}...</p>
+                            @else
+                                <p style="font-size: .9em;margin-top:10px;">{{ $body }}</p>
+                            @endif
+                            <a class="email-sbs-red-button" href="{{env('CLUBHOUSE_URL').'/post/'.$post->title_url}}" style="margin-bottom:15px;margin-top:10px;">
+                                <!--[if mso]>
+                                <i style="letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;">&nbsp;</i>
+                                <![endif]-->
+                                <strong style="mso-text-raise: 15pt;">Read more</strong>
+                                <!--[if mso]>
+                                <i style="letter-spacing: 25px; mso-font-width: -100%;">&nbsp;</i>
+                                <![endif]-->
+                            </a>
                         </td>
                     </tr>
                 @endforeach
