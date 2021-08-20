@@ -17,6 +17,7 @@
                         <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" name="headshot_url_text" value="{{ old('headshot_url_text') }}">
                         </div>
+                        <span for="headshot_url" class="filesize-error sbs-red-text hidden">Files cannot be larger than 1.5MB</span>
                     </div>
                 </div>
             </div>
@@ -59,6 +60,7 @@
                         <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" name="resume_url_text" value="{{ old('resume_url_text') }}">
                         </div>
+                        <span for="resume_url" class="filesize-error sbs-red-text hidden">Files cannot be larger than 1.5MB</span>
                     </div>
                 </div>
             </div>
