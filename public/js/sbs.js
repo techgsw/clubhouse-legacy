@@ -2221,6 +2221,22 @@ $.valHooks.textarea = {
         'input#use_profile_resume'
     );
 
+    // Server-side filesize validation is also in place. This not only provides an error sooner but
+    // mitigates an issue we were having with files larger than post_max_size throwing exceptions.
+    $('body').on(
+        {
+            change: function (e, ui) {
+                if (this.files[0].size/1024/1024 > 1.5) {
+                    $(this).val('');
+                    $('.filesize-error[for="' + $(this).attr('name') + '"]').removeClass('hidden');
+                } else {
+                    $('.filesize-error[for="' + $(this).attr('name') + '"]').addClass('hidden');
+                }
+            }
+        },
+        'input[name="resume_url"],input[name="headshot_url"]'
+    )
+
     $('body').on(
         {
             click: function (e, ui) {
