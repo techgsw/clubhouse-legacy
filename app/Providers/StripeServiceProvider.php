@@ -420,11 +420,16 @@ class StripeServiceProvider extends ServiceProvider
                 Transaction::where('stripe_subscription_id', $subscription_event->data->object->id)
                     ->update(['subscription_active_flag' => 0]);
                 $cancelled_user = User::where('stripe_customer_id', $subscription_event->data->object->customer)->first();
-                $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $cancelled_user->id)))->first();
-                if ($role) {
-                    $role->delete();
+                if ($cancelled_user) {
+                    $role = RoleUser::where(array(array('role_code', 'clubhouse'), array('user_id', $cancelled_user->id)))->first();
+                    if ($role) {
+                        $role->delete();
+                        Log::info('Subscription '.$subscription_event->data->object->id.' deactivated. Clubhouse role for user '.$cancelled_user->id.' deleted');
+                    }
+                    Log::info('Subscription '.$subscription_event->data->object->id.' deactivated. User '.$cancelled_user->id.' did not have clubhouse role');
+                } else {
+                    Log::info('Could not find user for stripe ID '.$subscription_event->data->object->customer);
                 }
-                Log::info('Subscription '.$subscription_event->data->object->id.' deactivated. Clubhouse role for user '.$cancelled_user->id.' deleted');
             } else if ($subscription_event->type == 'customer.subscription.updated' && $subscription_event->data->object->status == 'active') {
                 Log::info('Subscription '.$subscription_event->data->object->id.' activated');
                 Transaction::where('stripe_subscription_id', $subscription_event->data->object->id)
