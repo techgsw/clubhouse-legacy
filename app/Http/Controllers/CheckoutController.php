@@ -18,6 +18,7 @@ use App\TransactionProductOption;
 use App\RoleUser;
 use App\ProductOption;
 use App\Http\Requests\StoreCheckout;
+use App\Mail\ClubhouseCancellation;
 use App\Providers\EmailServiceProvider;
 use App\Providers\StripeServiceProvider;
 use App\Providers\ZoomServiceProvider;
@@ -549,6 +550,7 @@ class CheckoutController extends Controller
 
             try {
                 Mail::to(env('CLUBHOUSE_EMAIL'))->send(new CancelNotification($user));
+                Mail::to($user)->send(new ClubhouseCancellation($user));
             } catch (Exception $e) {
                 Log::error($e);
             }
