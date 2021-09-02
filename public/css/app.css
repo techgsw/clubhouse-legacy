@@ -2374,6 +2374,18 @@ p.icon {
 }
 
 /**
+ * Mentors
+ */
+
+button.new-mentor-tag {
+    padding: 12px;
+    height: 27px;
+    line-height: 5px;
+    pointer-events: none;
+    cursor: default;
+}
+
+/**
  * Sport Sales Vault
  */
 

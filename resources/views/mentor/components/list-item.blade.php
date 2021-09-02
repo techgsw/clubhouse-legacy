@@ -1,5 +1,8 @@
 <div class="card">
     <div class="card-content center-align text-center" style="position: relative;">
+        @if ($mentor->new_mentor_flag)
+            <button class="btn sbs-red new-mentor-tag" style="float:left;margin-top:-35px;margin-left:-32px;">NEW</button>
+        @endif
         <div>
             <div class="center-align">
                 <a href="{{ $mentor->getUrl() }}" class="no-underline">

@@ -28,7 +28,10 @@ class MentorController extends Controller
             ->with('socialMediaLinks')
             ->where('active', true)
             ->search($request)
-            ->select('contact.*', 'mentor.*')
+            ->select('contact.*',
+                     'mentor.*',
+                     DB::raw('CASE WHEN activated_at >= DATE_SUB(now(), INTERVAL 30 DAY) THEN 1 ELSE 0 END AS new_mentor_flag'))
+            ->orderBy('new_mentor_flag', 'desc')
             ->inRandomOrder($request->session()->get('mentor_seed'))
             ->paginate(15);
 

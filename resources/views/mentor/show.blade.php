@@ -49,6 +49,10 @@
                         <i class="fa fa-linkedin-square"></i>
                     </a>
                 @endif
+                @if ($mentor->activated_at >= new \DateTime('30 days ago'))
+                    &nbsp;
+                    <button class="btn sbs-red new-mentor-tag" style="font-size:.6em;margin-top:-7px">NEW</button>
+                @endif
             </h4>
             <h5>{{ $mentor->contact->title }}</h5>
             <h5>{{ $mentor->contact->organization }}</h5>
