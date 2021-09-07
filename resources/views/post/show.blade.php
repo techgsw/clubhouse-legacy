@@ -89,10 +89,10 @@
                     <div class="author">
                         <p>by {{$post->authored_by ?: $post->user->first_name.' '.$post->user->last_name}} <br> {{ $post->created_at->format('F d, Y') }}</p>
                         <div style="font-size:20px;">
-                            <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, ($post_length > $index ? $post_length : $index))?>&source=SBS Consulting')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
-                            <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
-                            <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                            <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | SBS Consulting&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                            <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)}}"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                            <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F{{urlencode(htmlspecialchars($post->title_url))}}"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                            <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))}}"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                            <a class="no-underline" href="mailto:?Subject={{$post->title}} | SBS Consulting&body={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)}}"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     <div class="blog-post-body" style="font-size:16px;">
@@ -108,10 +108,10 @@
                         </div>
                         <div class="col s12 center-align" style="margin-top:20px;font-size: 20px;">
                             <div>
-                                <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>&title=<?=htmlspecialchars($post->title)?>&summary=<?=substr($meta_body, 0, ($post_length > $index ? $post_length : $index))?>&source=SBS Consulting')?>"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
-                                <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F<?=urlencode(htmlspecialchars($post->title_url))?>"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
-                                <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))?>"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
-                                <a class="no-underline" href="mailto:?Subject=<?=$post->title?> | SBS Consulting&body=<?=urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)?>"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)}}"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F{{urlencode(htmlspecialchars($post->title_url))}}"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))}}"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
+                                <a class="no-underline" href="mailto:?Subject={{$post->title}} | SBS Consulting&body={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)}}"><i class="fa fa-envelope-square fa-16x" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </div>
