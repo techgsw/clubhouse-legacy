@@ -116,15 +116,18 @@
             <table>
                 @foreach ($new_mentors as $mentor)
                     <tr>
-                        <td style="padding-right:20px;padding-top:15px;padding-bottom:15px;max-width:140px;min-width:100px;">
+                        <td style="padding-right:20px;padding-top:15px;padding-bottom:15px;max-width:140px;min-width:100px;text-align:center;">
                             @if ($mentor->contact->headshotImage || ($mentor->contact->user && $mentor->contact->user->profile->headshotImage))
                                 <a href="{{ env('CLUBHOUSE_URL').$mentor->getUrL() }}" class="no-underline">
                                     @if ($mentor->contact->headshotImage)
-                                        <img src={{ $mentor->contact->headshotImage->getURL('medium') }} style="border-radius:50%" width="100">
+                                        <img src={{ $mentor->contact->headshotImage->getURL('medium') }} style="border-radius:50%" width="110">
                                     @elseif ($mentor->contact->user && $mentor->contact->user->profile->headshotImage)
-                                        <img src={{ $mentor->contact->user->profile->headshotImage->getURL('medium') }} style="border-radius:50%" width="100">
+                                        <img src={{ $mentor->contact->user->profile->headshotImage->getURL('medium') }} style="border-radius:50%" width="110">
                                     @endif
                                 </a>
+                            @endif
+                            @if ($mentor->contact->organizations()->first() && !is_null($mentor->contact->organizations()->first()->image))
+                                <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" width="80"/>
                             @endif
                         </td>
                         <td style="padding-top:15px;padding-bottom:15px;">
@@ -132,11 +135,6 @@
                                 <h1 style="margin-bottom:0px;">{{ $mentor->contact->getName() }}</h1>
                             </a>
                             <strong>{{ $mentor->contact->getTitle() }}</strong>
-                        </td>
-                        <td valign="middle" style="padding-top:15px;padding-bottom:15px;width:50px;">
-                            @if ($mentor->contact->organizations()->first() && !is_null($mentor->contact->organizations()->first()->image))
-                                <img src="{{ $mentor->contact->organizations()->first()->image->getURL('small') }}" width="50"/>
-                            @endif
                         </td>
                     </tr>
                 @endforeach
