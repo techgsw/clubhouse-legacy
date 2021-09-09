@@ -1493,12 +1493,14 @@ div.arrow.down {
     line-height: 55px;
 }
 .blog-post .author {
-    max-width: 50%;
     margin-top: 20px;
     margin-bottom: 30px;
+    color: #555;
+}
+.blog-post .author p {
+    max-width: 50%;
     font-size: 12px;
     text-transform: uppercase;
-    color: #555;
 }
 .blog-post .title:focus {
     border-bottom: none !important;
@@ -1601,7 +1603,7 @@ div.arrow.down {
     .blog-image {
         margin-right:0px;
     }
-    .blog-post .author {
+    .blog-post .author p {
         max-width: 75%;
     }
     .blog-post blockquote {

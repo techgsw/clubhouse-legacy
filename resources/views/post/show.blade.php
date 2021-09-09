@@ -88,7 +88,12 @@
                     <h1 class="title">{{ $post->title }}</h1>
                     <div class="author">
                         <p>by {{$post->authored_by ?: $post->user->first_name.' '.$post->user->last_name}} <br> {{ $post->created_at->format('F d, Y') }}</p>
-                        <div style="font-size:20px;">
+                        <div class="tag-list">
+                            @foreach ($post->tags as $tag)
+                                <a href="/blog?tag={{ urlencode($tag->slug) }}" class="flat-button gray small" style="display: inline-block;margin: 2px 0 2px 0;">{{ ucfirst($tag->name) }}</a>
+                            @endforeach
+                        </div>
+                        <div style="font-size:20px;margin-top:10px;">
                             <a class="no-underline" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.$post->title_url)}}"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                             <a class="no-underline" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fclubhouse.sportsbusiness.solutions%2Fblog%2F{{urlencode(htmlspecialchars($post->title_url))}}"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                             <a class="no-underline" target="_blank" href="https://twitter.com/intent/tweet?text={{urlencode('https://clubhouse.sportsbusiness.solutions/blog/'.htmlspecialchars($post->title_url))}}"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
