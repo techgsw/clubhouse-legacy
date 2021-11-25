@@ -2149,6 +2149,7 @@ $.valHooks.textarea = {
                 if (!$('input#email_preference_new_content_webinars').is(':checked')
                     && !$('input#email_preference_new_content_blogs').is(':checked')
                     && !$('input#email_preference_new_content_mentors').is(':checked')
+                    && !$('input#email_preference_new_content_training_videos').is(':checked')
                    ) {
                     $('input#email_preference_new_content_all').prop('checked', true);
                 } else {
@@ -2156,7 +2157,7 @@ $.valHooks.textarea = {
                 }
             }
         },
-        'input#email_preference_new_content_webinars, input#email_preference_new_content_blogs, input#email_preference_new_content_mentors'
+        'input#email_preference_new_content_webinars, input#email_preference_new_content_blogs, input#email_preference_new_content_mentors, input#email_preference_new_content_training_videos'
     );
     $('body').on(
         {
@@ -2165,10 +2166,12 @@ $.valHooks.textarea = {
                     $('input#email_preference_new_content_webinars').prop('checked', false);
                     $('input#email_preference_new_content_blogs').prop('checked', false);
                     $('input#email_preference_new_content_mentors').prop('checked', false);
+                    $('input#email_preference_new_content_training_videos').prop('checked', false);
                 } else {
                     $('input#email_preference_new_content_webinars').prop('checked', true);
                     $('input#email_preference_new_content_blogs').prop('checked', true);
                     $('input#email_preference_new_content_mentors').prop('checked', true);
+                    $('input#email_preference_new_content_training_videos').prop('checked', true);
                 }
             }
         },

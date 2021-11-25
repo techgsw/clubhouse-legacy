@@ -467,7 +467,6 @@ class EmailServiceProvider extends ServiceProvider
             ->whereHas('tags', function ($query) {
                 $query->whereIn('name', array('Webinar', '#SameHere'));
             });
-        //Log::info($new_webinars_query->toSql());
         $new_webinars = $new_webinars_query->get();
 
         $new_webinar_recordings_query = Product::with(['tags', 'options'])
@@ -482,21 +481,26 @@ class EmailServiceProvider extends ServiceProvider
                 $query->whereRaw("STR_TO_DATE(name, '%M %e, %Y') >= '".$date_since->format('Y-m-d')."'")
                       ->whereRaw("STR_TO_DATE(name, '%M %e, %Y') < '".(new \DateTime('now'))->format('Y-m-d')."'");
             });
-        //Log::info($new_webinar_recordings_query->toSql());
         $new_webinar_recordings = $new_webinar_recordings_query->get();
 
         $new_blog_posts_query = Post::with('tags')->where('created_at', '>', $date_since);
-        //Log::info($new_blog_posts_query->toSql());
         $new_blog_posts = $new_blog_posts_query->get();
 
         $new_mentors_query = Mentor::where('active', true)->where('activated_at', '>', $date_since);
-        //Log::info($new_mentors_query->toSql());
         $new_mentors = $new_mentors_query->get();
+
+        $new_training_videos_query = Product::with('tags')
+            ->where('active', true)
+            ->whereHas('tags', function ($query) {
+                $query->where('name', 'Training Video');
+            })->where('created_at', '>', $date_since);
+        $new_training_videos = $new_training_videos_query->get();
 
         if ($new_webinars->isEmpty()
             && $new_webinar_recordings->isEmpty()
             && $new_blog_posts->isEmpty()
-            && $new_mentors->isEmpty()) {
+            && $new_mentors->isEmpty()
+            && $new_training_videos->isEmpty()) {
             Log::info('New clubhouse content email will not be sent. No new content has been found.');
             return;
         }
@@ -505,11 +509,13 @@ class EmailServiceProvider extends ServiceProvider
             $users = User::whereHas('profile', function ($query) use ($new_webinars,
                                                                       $new_webinar_recordings,
                                                                       $new_blog_posts,
-                                                                      $new_mentors) {
+                                                                      $new_mentors,
+                                                                      $new_training_videos) {
                     $query->where(function ($query) use ($new_webinars,
                                                          $new_webinar_recordings,
                                                          $new_blog_posts,
-                                                         $new_mentors) {
+                                                         $new_mentors,
+                                                         $new_training_videos) {
                         if ($new_webinars->isNotEmpty() || $new_webinar_recordings->isNotEmpty()) {
                             $query->where('email_preference_new_content_webinars', true);
                         }
@@ -519,9 +525,11 @@ class EmailServiceProvider extends ServiceProvider
                         if ($new_mentors->isNotEmpty()) {
                             $query->orWhere('email_preference_new_content_mentors', true);
                         }
+                        if ($new_training_videos->isNotEmpty()) {
+                            $query->orWhere('email_preference_new_content_training_videos', true);
+                        }
                     });
                 });
-            Log::info($users->toSql());
             $users = $users->get();
         } else {
             $users = User::whereIn('email', $emails)->get();
@@ -530,10 +538,11 @@ class EmailServiceProvider extends ServiceProvider
         Log::info('Sending new clubhouse content emails to '.$users->count().' users');
         foreach ($users as $user) {
             Mail::to($user)->send(new NewClubhouseContentEmail($user,
-                                                                 $new_webinars,
-                                                                 $new_webinar_recordings,
-                                                                 $new_blog_posts,
-                                                                 $new_mentors));
+                                                               $new_webinars,
+                                                               $new_webinar_recordings,
+                                                               $new_blog_posts,
+                                                               $new_mentors,
+                                                               $new_training_videos));
         }
     }
 

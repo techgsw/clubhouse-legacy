@@ -1,3 +1,4 @@
+@php $pd = new Parsedown(); @endphp
 @component('emails.layout')
     @slot('body')
         <p>{{$user->first_name}},</p>
@@ -135,6 +136,24 @@
                                 <h1 style="margin-bottom:0px;">{{ $mentor->contact->getName() }}</h1>
                             </a>
                             <strong>{{ $mentor->contact->getTitle() }}</strong>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        @endif
+        @if ($user->profile->email_preference_new_content_training_videos && $new_training_videos->isNotEmpty())
+            <hr>
+            <h1 class="section-title">New Sales Vault Videos</h1>
+            <table cellpadding="20" cellspacing="20" align="center">
+                @foreach ($new_training_videos as $video)
+                    <tr>
+                        <td style="background-color: #EAEAEA;box-shadow: 0 2px 2px 0 #AAA;">
+                            <a href="{{ env('CLUBHOUSE_URL').$video->getURL(false, 'sales-vault/training-videos') }}" class="no-underline">
+                                <div>
+                                    <h2>{{ $video->name }}</h2>
+                                    <p style="color:#707070;font-size:.9em">{!! $pd->text($video->getCleanDescription()) !!}</p>
+                                </div>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
