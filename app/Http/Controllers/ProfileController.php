@@ -394,6 +394,7 @@ class ProfileController extends Controller
         $profile->email_preference_new_content_webinars = request('email_preference_new_content_webinars') ? true : false;
         $profile->email_preference_new_content_blogs = request('email_preference_new_content_blogs') ? true : false;
         $profile->email_preference_new_content_mentors = request('email_preference_new_content_mentors') ? true : false;
+        $profile->email_preference_new_content_training_videos = request('email_preference_new_content_training_videos') ? true : false;
         $profile->email_preference_new_job = request('email_preference_new_job_opt_out') ? false : true;
         $email_preference_tag_type_ids = array();
         foreach($request->all() as $key=>$datum) {

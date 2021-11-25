@@ -527,7 +527,7 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <p><strong>Weekly updates on new Clubhouse content</strong></p>
-                        <input id="email_preference_new_content_all" type="checkbox" value="1" {{((old('email_preference_new_content_webinars') ?? $profile->email_preference_new_content_webinars) || (old('email_preference_new_content_blogs') ?? $profile->email_preference_new_content_blogs) || (old('email_preference_new_content_mentors') ?? $profile->email_preference_new_content_mentors)) ? "" : "checked" }}/>
+                        <input id="email_preference_new_content_all" type="checkbox" value="1" {{((old('email_preference_new_content_webinars') ?? $profile->email_preference_new_content_webinars) || (old('email_preference_new_content_blogs') ?? $profile->email_preference_new_content_blogs) || (old('email_preference_new_content_mentors') ?? $profile->email_preference_new_content_mentors)|| (old('email_preference_new_content_training_videos') ?? $profile->email_preference_new_content_training_videos)) ? "" : "checked" }}/>
                         <label for="email_preference_new_content_all"><strong>Opt out</strong> of the weekly new Clubhouse content emails</label>
                     </div>
                     <div class="input-field col s12">
@@ -538,6 +538,8 @@
                             <label for="email_preference_new_content_blogs" style="margin:0px 10px;">Blogs</label>
                             <input id="email_preference_new_content_mentors" type="checkbox" name="email_preference_new_content_mentors" value="1" {{ is_null(old('email_preference_new_content_mentors')) ? ($profile->email_preference_new_content_mentors ? "checked" : "") : (old('email_preference_new_content_mentors') ? "checked" : "") }} />
                             <label for="email_preference_new_content_mentors" style="margin:0px 10px;">Mentors</label>
+                            <input id="email_preference_new_content_training_videos" type="checkbox" name="email_preference_new_content_training_videos" value="1" {{ is_null(old('email_preference_new_content_training_videos')) ? ($profile->email_preference_new_content_training_videos ? "checked" : "") : (old('email_preference_new_content_training_videos') ? "checked" : "") }} />
+                            <label for="email_preference_new_content_training_videos" style="margin:0px 10px;">Sales Vault Videos</label>
                         </p>
                     </div>
                     <div class="input-field col s12">
