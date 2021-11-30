@@ -12,4 +12,5 @@
         <p>Hope to see you back in <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> soon!</p>
         @include('emails.signature-footer')
     @endslot
+    @include('emails.footer-manage-preferences', ['user' => $user])
 @endcomponent

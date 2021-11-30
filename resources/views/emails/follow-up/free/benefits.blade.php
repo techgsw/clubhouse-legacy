@@ -16,5 +16,6 @@
         </ul>
         <p>See you in <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>!</p>
         @include('emails.signature-footer')
+        @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent

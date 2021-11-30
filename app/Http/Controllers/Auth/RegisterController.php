@@ -295,6 +295,8 @@ class RegisterController extends Controller
                 'email_preference_new_content_blogs' => isset($data['newsletter']),
                 'email_preference_new_content_mentors' => isset($data['newsletter'])
             ]);
+            $profile->generateEmailUnsubscribeToken();
+            $profile->save();
 
             $roles = Role::where('code', 'job_user')->get();
             $user->roles()->attach($roles);

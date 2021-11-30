@@ -14,6 +14,7 @@
             </a>
         </div>
         @include('emails.signature-footer')
+        @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent
 

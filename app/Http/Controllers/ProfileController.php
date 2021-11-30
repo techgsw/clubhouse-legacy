@@ -516,4 +516,82 @@ class ProfileController extends Controller
 
         return redirect()->action('ProfileController@edit', [$user]);
     }
+
+    public function showUnsubscribeOptions($token)
+    {
+        if (!$token) {
+            request()->session()->flash('message', new Message(
+                "We could not find your profile from the link, please log in to edit the Email Preferences on your profile.",
+                "danger",
+                null,
+                "error"
+            ));
+            session(['url.intended' => '/user/self/edit-profile']);
+            return redirect('/login');
+        }
+
+        $profile = Profile::with('user')->where('email_unsubscribe_token', $token)->first();
+
+        if (!$profile) {
+            request()->session()->flash('message', new Message(
+                "We could not find your profile from the link, please log in to edit the Email Preferences on your profile.",
+                "danger",
+                null,
+                "error"
+            ));
+            session(['url.intended' => '/user/self/edit-profile']);
+            return redirect('/login');
+        }
+
+        return view('user/unsubscribe', [
+            'profile' => $profile,
+        ]);
+    }
+
+    public function unsubscribe($token)
+    {
+        $request = request();
+
+        if (
+            !$request->get('email_preference_marketing_opt_out')
+            && !$request->get('email_preference_new_content_opt_out')
+            && !$request->get('email_preference_new_job_opt_out')
+        ) {
+            return redirect()->back()->withErrors([
+                'msg' => "Please select the content you would like to unsubscribe from"
+            ]);
+        }
+
+        if (!$token) {
+            return redirect()->back()->withErrors([
+                'msg' => "There was an issue updating your profile, please try again or log in to edit your email preferences."
+            ]);
+        }
+
+        $profile = Profile::with('user')->where('email_unsubscribe_token', $token)->first();
+
+        if (!$profile) {
+            return redirect()->back()->withErrors([
+                'msg' => "There was an issue updating your profile, please try again or log in to edit your email preferences."
+            ]);
+        }
+
+        if ($request->get('email_preference_marketing_opt_out')) {
+            $profile->email_preference_marketing = false;
+        }
+        if ($request->get('email_preference_new_content_opt_out')) {
+            $profile->email_preference_new_content_blogs = false;
+            $profile->email_preference_new_content_webinars = false;
+            $profile->email_preference_new_content_mentors = false;
+            $profile->email_preference_new_content_training_videos = false;
+        }
+        if ($request->get('email_preference_new_job_opt_out')) {
+            $profile->email_preference_new_job = false;
+        }
+        $profile->save();
+
+        return view('user/unsubscribe-thanks', [
+            'profile' => $profile,
+        ]);
+    }
 }

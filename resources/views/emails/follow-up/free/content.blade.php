@@ -15,6 +15,7 @@
         <p>Interested in more content and 1:1 career coaching and support? Upgrade to <a href="{{ env('CLUBHOUSE_URL') }}/pro-membership">PRO membership</a></p>
         <p>Also, don’t forget to update your <a href="{{ env('CLUBHOUSE_URL') }}/user/{{ $user->id }}/profile">career profile</a> so we can get you more of the content you want.</p>
         @include('emails.signature-footer')
+        @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent
 

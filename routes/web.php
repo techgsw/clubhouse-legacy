@@ -394,6 +394,12 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
 
     });
 
+    // Unsubscribe
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/unsubscribe/{token}', 'ProfileController@showUnsubscribeOptions');
+        Route::post('/unsubscribe/{token}', 'ProfileController@unsubscribe');
+    });
+
     // Webinars
     Route::group(['middleware' => ['web']], function () {
         Route::get('/webinars', 'ProductController@webinars');
