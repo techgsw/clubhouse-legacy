@@ -525,13 +525,11 @@
             <div class="collapsible-header"><i class="material-icons">email</i>Email Preferences</div>
             <div class="collapsible-body">
                 <div class="row">
-                    @if (Auth::user()->can('view-clubhouse'))
-                        <div class="input-field col s12">
-                            <p><strong>Clubhouse Introductions</strong> <i>(Get emails on how to make the most of your Clubhouse PRO experience)</i></p>
-                            <input id="email_preference_marketing_opt_out" type="checkbox" name="email_preference_marketing_opt_out" value="1" {{(old('email_preference_marketing_opt_out') ?? $profile->email_preference_marketing) ? "" : "checked" }}/>
-                            <label for="email_preference_marketing_opt_out"><strong>Opt out</strong> of all clubhouse introduction emails</label>
-                        </div>
-                    @endif
+                    <div class="input-field col s12">
+                        <p><strong>Clubhouse Introductions</strong> <i>(Get emails on how to make the most of your Clubhouse PRO experience)</i></p>
+                        <input id="email_preference_marketing_opt_out" type="checkbox" name="email_preference_marketing_opt_out" value="1" {{(old('email_preference_marketing_opt_out') ?? $profile->email_preference_marketing) ? "" : "checked" }}/>
+                        <label for="email_preference_marketing_opt_out"><strong>Opt out</strong> of all clubhouse introduction emails</label>
+                    </div>
                     <div class="input-field col s12">
                         <p><strong>Weekly updates on new Clubhouse content</strong></p>
                         <input id="email_preference_new_content_all" type="checkbox" value="1" {{((old('email_preference_new_content_webinars') ?? $profile->email_preference_new_content_webinars) || (old('email_preference_new_content_blogs') ?? $profile->email_preference_new_content_blogs) || (old('email_preference_new_content_mentors') ?? $profile->email_preference_new_content_mentors)|| (old('email_preference_new_content_training_videos') ?? $profile->email_preference_new_content_training_videos)) ? "" : "checked" }}/>
