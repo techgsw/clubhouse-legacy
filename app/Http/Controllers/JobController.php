@@ -249,16 +249,6 @@ class JobController extends Controller
             $featured = request('featured') ? true : false;
         }
 
-        if (is_null($organization->addresses()->first())) {
-            $request->session()->flash('message', new Message(
-                "The organization you selected does not have an address.",
-                "danger",
-                $code = null,
-                $icon = "error"
-            ));
-            return back()->withInput();
-        }
-
         if (empty(json_decode(request('job_tags_json')))) {
             $request->session()->flash('message', new Message(
                 "Please include at least one Job Discipline",
@@ -269,25 +259,32 @@ class JobController extends Controller
             return back()->withInput();
         }
 
-        $job = new Job([
-            'user_id' => $job_owner->id,
-            'job_create_user_id' => $user->id,
-            'title' => request('title'),
-            'description' => request('description'),
-            'organization_id' => $organization->id,
-            'job_type' => request('job_type'),
-            'league' => (!is_null($organization->leagues()->first())) ? $organization->leagues()->first()->abbreviation : null,
-            'recruiting_type_code' => $recruiting_type_code,
-            'job_type_id' => $job_type_id,
-            'city' => $organization->addresses()->first()->city,
-            'state' => $organization->addresses()->first()->state,
-            'country' => $organization->addresses()->first()->country,
-            'featured' => $featured,
-            'document' => $document ?: null,
-            'external_job_link' => request('external_job_link'),
-        ]);
-
         try {
+            $organization_address = $organization->addresses()->first();
+            if (is_null($organization_address)) {
+                throw new SBSException('The organization you selected does not have an address. Please contact clubhouse@sportsbusiness.solutions to get this resolved.');
+            } elseif (is_null($organization_address->city) || is_null($organization_address->state) || is_null($organization_address->country)) {
+                throw new SBSException('This organization does not have a valid city, state or country. Please contact clubhouse@sportsbusiness.solutions to get this resolved.');
+            }
+
+            $job = new Job([
+                'user_id' => $job_owner->id,
+                'job_create_user_id' => $user->id,
+                'title' => request('title'),
+                'description' => request('description'),
+                'organization_id' => $organization->id,
+                'job_type' => request('job_type'),
+                'league' => (!is_null($organization->leagues()->first())) ? $organization->leagues()->first()->abbreviation : null,
+                'recruiting_type_code' => $recruiting_type_code,
+                'job_type_id' => $job_type_id,
+                'city' => $organization->addresses()->first()->city,
+                'state' => $organization->addresses()->first()->state,
+                'country' => $organization->addresses()->first()->country,
+                'featured' => $featured,
+                'document' => $document ?: null,
+                'external_job_link' => request('external_job_link'),
+            ]);
+
             $job = DB::transaction(function () use ($job, $document, $alt_image, $user, $organization) {
                 if (is_null($user->contact->organization) && !$user->roles->contains('administrator')) {
                     $user->contact->organizations()->attach($organization->id);

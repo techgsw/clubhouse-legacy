@@ -99,8 +99,8 @@ class JobServiceProvider extends ServiceProvider
 
             return $job;
         } catch (\Exception $e) {
-            Log::error($e);
-            throw new SBSException("Sorry, failed to save the job. Please try again." . $e->getMessage());
+            Log::error($e->getMessage());
+            throw new SBSException("Sorry, failed to save the job. Please try again.");
         }
     }
 
