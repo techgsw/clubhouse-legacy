@@ -552,6 +552,11 @@
                         <input id="email_preference_new_job_opt_out" type="checkbox" name="email_preference_new_job_opt_out" value="1" {{ is_null(old('email_preference_new_job_opt_out')) ? ($profile->email_preference_new_job ? "" : "checked") : (old('email_preference_new_job_opt_out') ? "checked" : "") }} />
                         <label for="email_preference_new_job_opt_out"><strong>Opt out</strong> of all new job posting emails</label>
                     </div>
+                    <div class="input-field col s12">
+                        <p><strong><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</strong></p>
+                        <input id="email_preference_newsletter_opt_out" type="checkbox" name="email_preference_newsletter_opt_out" value="1" {{ is_null(old('email_preference_newsletter_opt_out')) ? ($profile->user->mailchimp_subscriber_hash ? "" : "checked") : (old('email_preference_newsletter_opt_out') ? "checked" : "") }} />
+                        <label for="email_preference_newsletter_opt_out"><strong>Opt out</strong> of receiving <span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</label>
+                    </div>
                 </div>
             </div>
         </li>

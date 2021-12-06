@@ -12,6 +12,7 @@ use App\Profile;
 use App\TagType;
 use App\User;
 use App\Providers\ImageServiceProvider;
+use App\Providers\MailchimpServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -412,6 +413,19 @@ class ProfileController extends Controller
         }
         $profile->emailPreferenceTagTypes()->sync($email_preference_tag_type_ids);
 
+        // Mailchimp newsletter email preference
+        $mailchimp_error = false;
+        try {
+            if (!request('email_preference_newsletter_opt_out') && is_null($profile->user->mailchimp_subscriber_hash)) {
+                MailchimpServiceProvider::addToMailchimp($profile->user);
+            } else if (request('email_preference_newsletter_opt_out') && !is_null($profile->user->mailchimp_subscriber_hash)) {
+                MailchimpServiceProvider::deleteFromMailchimp($profile->user);
+            }
+        } catch (\Throwable $t) {
+            Log::error($t->getMessage());
+            $mailchimp_error = true;
+        }
+
         // Timestamp(s)
         $profile->updated_at = new \DateTime('NOW');
 
@@ -504,6 +518,13 @@ class ProfileController extends Controller
                 "danger",
                 $code = null,
                 $icon = "error"
+            ));
+        } elseif ($mailchimp_error) {
+            $request->session()->flash('message', new Message(
+                "We were unable to update your newsletter preferences. Please try again or contact clubhouse@sportsbusiness.solutions for assistance.",
+                "warning",
+                null,
+                "warning"
             ));
         } else {
             $request->session()->flash('message', new Message(

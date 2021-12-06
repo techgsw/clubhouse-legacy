@@ -569,33 +569,4 @@ class EmailServiceProvider extends ServiceProvider
             Mail::to($contact_job->contact)->send(new ContactJobFollowup($contact_job, true));
         }
     }
-
-    public static function addToMailchimp(User $user)
-    {
-        $api_key = env("MAILCHIMP_API_KEY");
-        $list_id = env("MAILCHIMP_LIST_ID");
-        $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members";
-        $fields = array(
-            "email_address" => $user->email,
-            "email_type" => "html",
-            "status" => "subscribed",
-            "merge_fields" => [
-                "FNAME" => $user->first_name,
-                "LNAME" => $user->last_name,
-            ]
-        );
-        $json = json_encode($fields);
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Content-Type: application/json",
-            "Authorization: apikey {$api_key}"
-        ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        $response = curl_exec($ch);
-
-        return $response;
-    }
 }
