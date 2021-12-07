@@ -15,20 +15,17 @@ class MailchimpServiceProvider extends ServiceProvider
      *
      * 1. Pull all Mailchimp subscribers from the API
      * 2. See if they exist in the database
-     * 3. Update their entry ONLY IF their Mailchimp info was last updated after $since
-     * 4. If they aren't in the Mailchimp list at all (or are listed as unsubscribed/archived/cleaned), remove their hash
+     * 3. Update their entry
+     * 4. OR if they aren't in the Mailchimp list at all (or are listed as unsubscribed/archived/cleaned), remove their hash
      *
-     * @param \DateTime  $since                Only update entries changed after this date/time.
      * @param int        $offset               Pull entries after this number
      * @param array      $subsbcribed_id_list  Keep track of user IDs that are present in Mailchimp.
      **/
     public static function refreshMailchimpSubscriberHashes(
-        \DateTime $since = null,
         int $offset = 0,
         array $subscribed_id_list = []
     ) {
         Log::info('Starting refresh of mailchimp subscriber hashes'
-                  .($since ? ' since '.$since->format('Y-m-d H:i:s') : '')
                   .($offset ? ' with offset '.$offset : ''));
 
         // This is Mailchimp's current limit for this request.
@@ -37,13 +34,10 @@ class MailchimpServiceProvider extends ServiceProvider
         $api_key = env("MAILCHIMP_API_KEY");
         $list_id = env("MAILCHIMP_LIST_ID");
         $query_params = [
-            'fields' => 'id,email_address',
+            'fields' => 'members.id,members.last_changed,members.status,members.email_address,total_items',
             'count' => $limit,
             'offset' => $offset
         ];
-        if ($since) {
-            $query_params['since_last_changed'] = $since->format(DATE_ATOM);
-        }
         $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members?".http_build_query($query_params);
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -68,17 +62,11 @@ class MailchimpServiceProvider extends ServiceProvider
             $email_hash_id_map = [];
             foreach ($response->members as $member) {
                 if (in_array($member->status, ['subscribed', 'pending', 'transactional'])) {
-                    if (!is_null($since) && (new \DateTime($member->last_changed)) >= $since) {
-                        $email_hash_id_map[$member->email_address] = $member->id;
-                    } else {
-                        // This user has not had their mailchimp settings changed.
-                        // We don't need to update anything but we want to know the user exists in mailchimp.
-                        $email_hash_id_map[$member->email_address] = false;
-                    }
+                    $email_hash_id_map[$member->email_address] = $member->id;
                 }
             }
 
-            $users = User::whereIn('email', array_keys($email_hash_id_map));
+            $users = User::whereIn('email', array_keys($email_hash_id_map))->get();
 
             foreach($users as $user) {
                 // $email_hash_id_map should always have a value for the user's email, given the query
@@ -92,7 +80,7 @@ class MailchimpServiceProvider extends ServiceProvider
 
         if ($response->total_items == $limit) {
             // Check for more entries
-            self::refreshMailchimpSubscriberHashes($since, $offset + $limit, $subscribed_id_list);
+            self::refreshMailchimpSubscriberHashes($offset + $limit, $subscribed_id_list);
         } else {
             // We're done. Remove mailchimp_subscriber_hash from anyone not present in the list
             User::whereNotIn('id', $subscribed_id_list)

@@ -2444,17 +2444,17 @@ $.valHooks.textarea = {
                 }
             }
         },
-        'input#email_preference_marketing_opt_out, input#email_preference_new_content_opt_out, input#email_preference_new_job_opt_out'
+        'input#email_preference_marketing_opt_out, input#email_preference_new_content_opt_out, input#email_preference_new_job_opt_out, input#email_preference_newsletter_opt_out'
     );
     $('body').on(
         {
             change: function (e, ui) {
                 if ($(this).is(':checked')) {
-                    ['marketing', 'new_content', 'new_job'].forEach(function(type) {
+                    ['marketing', 'new_content', 'new_job', 'newsletter'].forEach(function(type) {
                         $('input#email_preference_'+type+'_opt_out').prop('checked', true);
                     });
                 } else {
-                    ['marketing', 'new_content', 'new_job'].forEach(function(type) {
+                    ['marketing', 'new_content', 'new_job', 'newsletter'].forEach(function(type) {
                         let opt_out_input = $('input#email_preference_'+type+'_opt_out')
                         if (!opt_out_input.is(':disabled')) {
                             opt_out_input.prop('checked', false);

@@ -12,7 +12,7 @@ class RefreshMailchimpSubscriberHashes extends Command
      *
      * @var string
      */
-    protected $signature = 'update:refreshMailchimpSubscriberHashes {since?}';
+    protected $signature = 'update:refreshMailchimpSubscriberHashes';
 
     /**
      * The console command description.
@@ -38,11 +38,6 @@ class RefreshMailchimpSubscriberHashes extends Command
      */
     public function handle()
     {
-        $since = $this->argument('since');
-        if (!is_null($since)) {
-            $since = new \DateTime($since);
-        }
-
-        MailchimpServiceProvider::refreshMailchimpSubscriberHashes($since);
+        MailchimpServiceProvider::refreshMailchimpSubscriberHashes();
     }
 }

@@ -577,6 +577,7 @@ class ProfileController extends Controller
             !$request->get('email_preference_marketing_opt_out')
             && !$request->get('email_preference_new_content_opt_out')
             && !$request->get('email_preference_new_job_opt_out')
+            && !$request->get('email_preference_newsletter_opt_out')
         ) {
             return redirect()->back()->withErrors([
                 'msg' => "Please select the content you would like to unsubscribe from"
@@ -610,6 +611,17 @@ class ProfileController extends Controller
             $profile->email_preference_new_job = false;
         }
         $profile->save();
+
+        try {
+            if (request('email_preference_newsletter_opt_out') && !is_null($profile->user->mailchimp_subscriber_hash)) {
+                MailchimpServiceProvider::deleteFromMailchimp($profile->user);
+            }
+        } catch (\Throwable $t) {
+            Log::error($t->getMessage());
+            return redirect()->back()->withErrors([
+                'msg' => "There was an issue unsubscribing you from the newsletter. Please try again or contact clubhouse@sportsbusiness.solutions for assistance.",
+            ]);
+        }
 
         return view('user/unsubscribe-thanks', [
             'profile' => $profile,

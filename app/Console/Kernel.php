@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
         Commands\LinkAccountsMatchingContactInfo::class,
         Commands\CheckInvalidMentorCalendlyLinks::class,
         Commands\RefreshInstagramTokens::class,
+        Commands\RefreshMailchimpSubscriberHashes::class,
     ];
 
     /**

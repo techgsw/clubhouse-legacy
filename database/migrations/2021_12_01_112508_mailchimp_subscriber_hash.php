@@ -17,8 +17,7 @@ class MailchimpSubscriberHash extends Migration
         Schema::table('user', function (Blueprint $table) {
             $table->string('mailchimp_subscriber_hash')->nullable()->default(NULL);
         });
-        // TODO commenting this out so i can run the query independently to test. comment this back in when working
-        //MailchimpServiceProvider::refreshMailchimpSubscriberHashes();
+        MailchimpServiceProvider::refreshMailchimpSubscriberHashes();
     }
 
     /**

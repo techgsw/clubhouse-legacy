@@ -50,12 +50,22 @@
             </div>
             <div class="input-field col s12">
                 <p><strong>New job posting emails</strong> <i>(If you'd like to change which jobs you get notifications for, <a href="/user/self/edit-profile">update your profile's Job-seeking Preferences</a>)</i></p>
-                <input id="email_preference_new_job_opt_out" type="checkbox" name="email_preference_new_job_opt_out" value="1" {{$profile->email_preference_new_job ? (old('email_preference_new_job_opt_out') ? "checked" : "")  : "checked disabled"}}/>
+                <input id="email_preference_new_job_opt_out" type="checkbox" name="email_preference_new_job_opt_out" value="1" {{$profile->email_preference_new_job ? (old('email_preference_new_job_opt_out') ? "checked" : "") : "checked disabled"}}/>
                 <label for="email_preference_new_job_opt_out">
                     @if(!$profile->email_preference_new_job)
                         <i><strong>(Already unsubscribed)</strong></i>
                     @endif
                     Unsubscribe from all new job posting emails
+                </label>
+            </div>
+            <div class="input-field col s12">
+                <p><strong><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</strong></p>
+                <input id="email_preference_newsletter_opt_out" type="checkbox" name="email_preference_newsletter_opt_out" value="1" {{ $profile->user->mailchimp_subscriber_hash ? (old('email_preference_newsletter_opt_out') ? "checked" : "") : "checked disabled" }} />
+                <label for="email_preference_newsletter_opt_out">
+                    @if(!$profile->user->mailchimp_subscriber_hash)
+                        <i><strong>(Already unsubscribed)</strong></i>
+                    @endif
+                    Unsubscriber from the newsletter
                 </label>
             </div>
         </div>
