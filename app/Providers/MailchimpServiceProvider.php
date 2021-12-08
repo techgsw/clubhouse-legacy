@@ -62,7 +62,8 @@ class MailchimpServiceProvider extends ServiceProvider
             $email_hash_id_map = [];
             foreach ($response->members as $member) {
                 if (in_array($member->status, ['subscribed', 'pending', 'transactional'])) {
-                    $email_hash_id_map[$member->email_address] = $member->id;
+                    // Note that emails are being stored as lowercase because their case in the db may be different
+                    $email_hash_id_map[strtolower($member->email_address)] = $member->id;
                 }
             }
 
@@ -70,8 +71,8 @@ class MailchimpServiceProvider extends ServiceProvider
 
             foreach($users as $user) {
                 // $email_hash_id_map should always have a value for the user's email, given the query
-                if ($email_hash_id_map[$user->email] !== false) {
-                    $user->mailchimp_subscriber_hash = $email_hash_id_map[$user->email];
+                if ($email_hash_id_map[strtolower($user->email)] !== false) {
+                    $user->mailchimp_subscriber_hash = $email_hash_id_map[strtolower($user->email)];
                     $user->save();
                 }
                 $subscribed_id_list[] = $user->id;
