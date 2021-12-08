@@ -19,7 +19,7 @@ class RefreshMailchimpSubscriberHashes extends Command
      *
      * @var string
      */
-    protected $description = "Refresh users' mailchimp_subscriber_hash based on the newsletter list in mailchimp since a specific date/time (\"YYYY-MM-DD HH:MM:SS\")";
+    protected $description = "Refresh all users' mailchimp_subscriber_hash based on the newsletter list in mailchimp";
 
     /**
      * Create a new command instance.

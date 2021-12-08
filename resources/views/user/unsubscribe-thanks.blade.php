@@ -5,7 +5,7 @@
     @php
         $email_preference_new_content = $profile->email_preference_new_content_blogs || $profile->email_preference_new_content_webinars || $profile->email_preference_new_content_mentors || $profile->email_preference_new_content_training_videos;
     @endphp
-    @if (!$email_preference_new_content && !$profile->email_preference_marketing && !$profile->email_preference_new_job)
+    @if (!$email_preference_new_content && !$profile->email_preference_marketing && !$profile->email_preference_new_job && !$profile->user->mailchimp_subscriber_hash)
         <p>You have been unsubscribed from all content notificatioins.</p>
     @else
         <p>You have been unsubscribed from the following notifications:
@@ -18,6 +18,9 @@
                 @endif
                 @if (!$profile->email_preference_new_job)
                     <li>New job posting emails</li>
+                @endif
+                @if (!$profile->user->mailchimp_subscriber_hash)
+                    <li><span class="sbs-red-text">the</span>Clubhouse<sup>&#174;</sup> newsletter</li>
                 @endif
             </ul>
     @endif

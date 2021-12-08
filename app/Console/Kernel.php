@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Providers\EmailServiceProvider;
 use App\Providers\ImageServiceProvider;
 use App\Providers\JobServiceProvider;
+use App\Providers\MailchimpServiceProvider;
 use App\Providers\StripeServiceProvider;
 use App\Console\Commands\CheckInvalidMentorCalendlyLinks;
 use App\Console\Commands\RefreshInstagramTokens;
@@ -126,6 +127,10 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() {
             EmailServiceProvider::sendContactJobFollowupEmails();
         })->dailyAt('8:00');
+
+        $schedule->call(function() {
+            MailchimpServiceProvider::refreshMailchimpSubscriberHashes();
+        })->dailyAt('2:00');
     }
 
     /**
