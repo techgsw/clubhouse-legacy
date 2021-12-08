@@ -27,6 +27,10 @@
             @endforeach
         </table>
         <p>Thanks, <br/><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team</p>
+        <br>
+        <p style="font-size:.9em;text-align:center;">
+            <a href="{{env('CLUBHOUSE_URL')}}/user/self/edit-profile">Change which jobs you'd like to hear about</a>
+        </p>
         @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent

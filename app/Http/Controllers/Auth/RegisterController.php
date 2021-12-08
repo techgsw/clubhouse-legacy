@@ -19,6 +19,7 @@ use App\User;
 use App\Role;
 use App\Http\Controllers\Controller;
 use App\Providers\EmailServiceProvider;
+use App\Providers\MailchimpServiceProvider;
 use App\Traits\ReCaptchaTrait;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -295,6 +296,8 @@ class RegisterController extends Controller
                 'email_preference_new_content_blogs' => isset($data['newsletter']),
                 'email_preference_new_content_mentors' => isset($data['newsletter'])
             ]);
+            $profile->generateEmailUnsubscribeToken();
+            $profile->save();
 
             $roles = Role::where('code', 'job_user')->get();
             $user->roles()->attach($roles);
@@ -330,7 +333,7 @@ class RegisterController extends Controller
         // https://laravel.com/docs/5.5/queues
         try {
             if (isset($data['newsletter'])) {
-                $response = EmailServiceProvider::addToMailchimp($user);
+                MailchimpServiceProvider::addToMailchimp($user);
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());

@@ -2427,6 +2427,45 @@ $.valHooks.textarea = {
         '#dropzone-previews .dz-preview-flex-container .image-remove-link'
     );
 
+    // Unsubscribe email functionality
+
+    $('body').on(
+        {
+            change: function (e, ui) {
+                let unsubscribe_all = $('input#email_unsubscribe_all');
+                if (unsubscribe_all.length) {
+                    if (['marketing', 'new_content', 'new_job'].filter(type =>
+                        !$('input#email_preference_'+type+'_opt_out').is(':checked')
+                    ).length) {
+                        unsubscribe_all.prop('checked', false);
+                    } else {
+                        unsubscribe_all.prop('checked', true);
+                    }
+                }
+            }
+        },
+        'input#email_preference_marketing_opt_out, input#email_preference_new_content_opt_out, input#email_preference_new_job_opt_out, input#email_preference_newsletter_opt_out'
+    );
+    $('body').on(
+        {
+            change: function (e, ui) {
+                if ($(this).is(':checked')) {
+                    ['marketing', 'new_content', 'new_job', 'newsletter'].forEach(function(type) {
+                        $('input#email_preference_'+type+'_opt_out').prop('checked', true);
+                    });
+                } else {
+                    ['marketing', 'new_content', 'new_job', 'newsletter'].forEach(function(type) {
+                        let opt_out_input = $('input#email_preference_'+type+'_opt_out')
+                        if (!opt_out_input.is(':disabled')) {
+                            opt_out_input.prop('checked', false);
+                        }
+                    });
+                }
+            }
+        },
+        'input#email_unsubscribe_all'
+    );
+
     /**
      * PDF viewer modal.
      *

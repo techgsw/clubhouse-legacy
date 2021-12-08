@@ -9,6 +9,7 @@
         <p>I wanted to check in and see how this first month has gone for you?</p>
         <p>Look forward to hearing from you soon.</p>
         @include('emails.signature-footer')
+        @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent
 

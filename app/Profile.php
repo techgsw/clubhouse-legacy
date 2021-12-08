@@ -233,4 +233,9 @@ class Profile extends Model
         }
         return true;
     }
+
+    public function generateEmailUnsubscribeToken()
+    {
+        $this->email_unsubscribe_token = hash('sha256', "$this->id $this->user_id ".rand(0,100)*rand(0,100));
+    }
 }

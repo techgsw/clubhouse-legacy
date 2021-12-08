@@ -18,6 +18,7 @@
         <p>Want 1:1 career advice and mentorship? Become a <a href="{{ env('CLUBHOUSE_URL') }}/pro-membership">Clubhouse PRO</a>.</p>
         <p>See you back in <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> soon!</p>
         @include('emails.signature-footer')
+        @include('emails.footer-manage-preferences', ['user' => $user])
     @endslot
 @endcomponent
 

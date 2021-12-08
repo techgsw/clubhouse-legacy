@@ -12,6 +12,7 @@ use App\Profile;
 use App\TagType;
 use App\User;
 use App\Providers\ImageServiceProvider;
+use App\Providers\MailchimpServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -396,6 +397,7 @@ class ProfileController extends Controller
         $profile->email_preference_new_content_mentors = request('email_preference_new_content_mentors') ? true : false;
         $profile->email_preference_new_content_training_videos = request('email_preference_new_content_training_videos') ? true : false;
         $profile->email_preference_new_job = request('email_preference_new_job_opt_out') ? false : true;
+        $profile->email_preference_marketing = request('email_preference_marketing_opt_out') ? false : true;
         $email_preference_tag_type_ids = array();
         foreach($request->all() as $key=>$datum) {
             if (strpos($key, 'email_preference_job_') !== false && $datum) {
@@ -410,6 +412,19 @@ class ProfileController extends Controller
             }
         }
         $profile->emailPreferenceTagTypes()->sync($email_preference_tag_type_ids);
+
+        // Mailchimp newsletter email preference
+        $mailchimp_error = false;
+        try {
+            if (!request('email_preference_newsletter_opt_out') && is_null($profile->user->mailchimp_subscriber_hash)) {
+                MailchimpServiceProvider::addToMailchimp($profile->user);
+            } else if (request('email_preference_newsletter_opt_out') && !is_null($profile->user->mailchimp_subscriber_hash)) {
+                MailchimpServiceProvider::deleteFromMailchimp($profile->user);
+            }
+        } catch (\Throwable $t) {
+            Log::error($t->getMessage());
+            $mailchimp_error = true;
+        }
 
         // Timestamp(s)
         $profile->updated_at = new \DateTime('NOW');
@@ -504,6 +519,13 @@ class ProfileController extends Controller
                 $code = null,
                 $icon = "error"
             ));
+        } elseif ($mailchimp_error) {
+            $request->session()->flash('message', new Message(
+                "We were unable to update your newsletter preferences. Please try again or contact clubhouse@sportsbusiness.solutions for assistance.",
+                "warning",
+                null,
+                "warning"
+            ));
         } else {
             $request->session()->flash('message', new Message(
                 "Profile saved",
@@ -514,5 +536,95 @@ class ProfileController extends Controller
         }
 
         return redirect()->action('ProfileController@edit', [$user]);
+    }
+
+    public function showUnsubscribeOptions($token)
+    {
+        if (!$token) {
+            request()->session()->flash('message', new Message(
+                "We could not find your profile from the link, please log in to edit the Email Preferences on your profile.",
+                "danger",
+                null,
+                "error"
+            ));
+            session(['url.intended' => '/user/self/edit-profile']);
+            return redirect('/login');
+        }
+
+        $profile = Profile::with('user')->where('email_unsubscribe_token', $token)->first();
+
+        if (!$profile) {
+            request()->session()->flash('message', new Message(
+                "We could not find your profile from the link, please log in to edit the Email Preferences on your profile.",
+                "danger",
+                null,
+                "error"
+            ));
+            session(['url.intended' => '/user/self/edit-profile']);
+            return redirect('/login');
+        }
+
+        return view('user/unsubscribe', [
+            'profile' => $profile,
+        ]);
+    }
+
+    public function unsubscribe($token)
+    {
+        $request = request();
+
+        if (
+            !$request->get('email_preference_marketing_opt_out')
+            && !$request->get('email_preference_new_content_opt_out')
+            && !$request->get('email_preference_new_job_opt_out')
+            && !$request->get('email_preference_newsletter_opt_out')
+        ) {
+            return redirect()->back()->withErrors([
+                'msg' => "Please select the content you would like to unsubscribe from"
+            ]);
+        }
+
+        if (!$token) {
+            return redirect()->back()->withErrors([
+                'msg' => "There was an issue updating your profile, please try again or log in to edit your email preferences."
+            ]);
+        }
+
+        $profile = Profile::with('user')->where('email_unsubscribe_token', $token)->first();
+
+        if (!$profile) {
+            return redirect()->back()->withErrors([
+                'msg' => "There was an issue updating your profile, please try again or log in to edit your email preferences."
+            ]);
+        }
+
+        if ($request->get('email_preference_marketing_opt_out')) {
+            $profile->email_preference_marketing = false;
+        }
+        if ($request->get('email_preference_new_content_opt_out')) {
+            $profile->email_preference_new_content_blogs = false;
+            $profile->email_preference_new_content_webinars = false;
+            $profile->email_preference_new_content_mentors = false;
+            $profile->email_preference_new_content_training_videos = false;
+        }
+        if ($request->get('email_preference_new_job_opt_out')) {
+            $profile->email_preference_new_job = false;
+        }
+        $profile->save();
+
+        try {
+            if (request('email_preference_newsletter_opt_out') && !is_null($profile->user->mailchimp_subscriber_hash)) {
+                MailchimpServiceProvider::deleteFromMailchimp($profile->user);
+            }
+        } catch (\Throwable $t) {
+            Log::error($t->getMessage());
+            return redirect()->back()->withErrors([
+                'msg' => "There was an issue unsubscribing you from the newsletter. Please try again or contact clubhouse@sportsbusiness.solutions for assistance.",
+            ]);
+        }
+
+        return view('user/unsubscribe-thanks', [
+            'profile' => $profile,
+        ]);
     }
 }
