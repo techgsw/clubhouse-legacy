@@ -137,7 +137,6 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/job/{id}/make-admin', 'JobController@convertToAdminJob');
 
         Route::get('/admin/pipeline', 'PipelineController@index');
-        Route::get('/admin/pipeline/job', 'PipelineController@job');
 
         Route::post('/admin/user/link-accounts', 'UserController@linkAccounts');
         Route::get('/admin/user/unlink-account/{id}', 'UserController@unlinkAccount');
