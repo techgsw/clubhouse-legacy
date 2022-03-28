@@ -2193,8 +2193,6 @@ $.valHooks.textarea = {
         'button[type="submit"], input[type="submit"]'
     );
 
-/*
- * TODO:  double check this, does it need to be on?
     $('body').on(
         {
             click: function (e) {
@@ -2212,7 +2210,6 @@ $.valHooks.textarea = {
         },
         'input.datepicker'
     );
-*/
 
     $('body').on(
         {
