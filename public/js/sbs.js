@@ -1726,6 +1726,12 @@ $.valHooks.textarea = {
                 Note.getContactNotes(contact_id).done(function (view) {
                     $('#contact-note-collapsible-body').html(view);
                     UI.initializeDatePicker();
+
+		    $('.datepicker').on('mousedown',function(event){
+    			event.preventDefault();
+		    })
+
+		    $('.datepicker').trigger('mousedown');
                 });
             }
         },
@@ -2187,6 +2193,8 @@ $.valHooks.textarea = {
         'button[type="submit"], input[type="submit"]'
     );
 
+/*
+ * TODO:  double check this, does it need to be on?
     $('body').on(
         {
             click: function (e) {
@@ -2204,6 +2212,7 @@ $.valHooks.textarea = {
         },
         'input.datepicker'
     );
+*/
 
     $('body').on(
         {
