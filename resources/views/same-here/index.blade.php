@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col s12 center-align">
                     <h4>#SameHere Solutions Blog</h4>
-                    <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:clubhouse@sportsbusiness.solutions">message us</a>.</p>
+                    <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:theclubhouse@generalsports.com">message us</a>.</p>
                 </div>
             </div>
             <div class="row">

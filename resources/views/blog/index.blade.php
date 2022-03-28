@@ -7,7 +7,7 @@
             <img class="responsive-img" src="/images/clubhouse/digital-marketing-white.png" />
             <h4 class="header">Sports Industry Blog</h4>
             <p>Best practices, advice and success stories in sports business.</p>
-            <p>If you’re interested in contributing to our blog, email us <a href="mailto:clubhouse@sportsbusiness.solutions">here</a>.</p>
+            <p>If you’re interested in contributing to our blog, email us <a href="mailto:theclubhouse@generalsports.com">here</a>.</p>
         </div>
     </div>
 @endsection

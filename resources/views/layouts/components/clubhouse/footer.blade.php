@@ -17,7 +17,7 @@
             <div class="col s12">
                 <ul class="footer-nav">
                     <li><a target="_blank" href="/documents/SBS-Consulting-Terms-of-Service.pdf">Terms and conditions</a></li>
-                    <li>Have a question? Email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a></li>
+                    <li>Have a question? Email us at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></li>
                 </ul>
             </div>
         </div>

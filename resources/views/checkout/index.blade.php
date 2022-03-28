@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="col s12 m6 hidden" id="add-card-error">
-                <span class="sbs-red-text">Sorry, there was an error adding your card. Please try again or contact <a href="mailto:clubhouse@sportsbussiness.solutions">clubhouse@sportsbusiness.solutions</a> for help.</span>
+                <span class="sbs-red-text">Sorry, there was an error adding your card. Please try again or contact <a href="mailto:clubhouse@sportsbussiness.solutions">theclubhouse@generalsports.com</a> for help.</span>
             </div>
             <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}" id="payment-method-wrapper">
                 <select class="" name="payment_method" id="payment-method">
