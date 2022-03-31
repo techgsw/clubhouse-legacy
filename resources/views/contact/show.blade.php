@@ -13,6 +13,7 @@
         @if ($contact->user)
             @include('components.resume-button', ['url' => $contact->user->profile->resume_url ?: null])
             @can ('edit-profile', $contact->user)
+		<a href="#" class="flat-button black small" id="password_send_reset" data-email="{{$contact->user->email}}">Send Password Reset</a>
                 <a href="/user/{{ $contact->user->id }}/edit-profile" class="flat-button black small">Edit<span class="hide-on-small-only"> Profile</span></a>
             @endcan
         @elseif (\Gate::allows('delete-contacts'))

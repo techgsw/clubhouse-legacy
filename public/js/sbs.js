@@ -1236,6 +1236,13 @@ $.valHooks.textarea = {
         $('main div.container').first().prepend(template);
     }
 
+    $('#password_send_reset').click(function(e) {
+        e.preventDefault();
+	    $.post('/password/email', {email: $(this).data('email'), '_token': window.Laravel.csrfToken}, function(data) {
+    	    UI.addMessage({type: 'success', message: 'Password reset email sent!'});
+        });
+    });
+
     UI.displayMessage = function (response) {
         var message = $('.message');
         if (message.length == 0) {
