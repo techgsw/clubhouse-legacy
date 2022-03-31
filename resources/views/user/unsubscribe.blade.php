@@ -65,7 +65,7 @@
                     @if(!$profile->user->mailchimp_subscriber_hash)
                         <i><strong>(Already unsubscribed)</strong></i>
                     @endif
-                    Unsubscriber from the newsletter
+                    Unsubscribe from the newsletter
                 </label>
             </div>
         </div>
