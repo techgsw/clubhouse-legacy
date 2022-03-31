@@ -165,7 +165,7 @@
         @endif
         <tr>
             <td align="center" style="padding-bottom:20px;">
-                <p style="font-size:.9em;text-align:center;">Please contact <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a> for any questions or issues
+                <p style="font-size:.9em;text-align:center;">Please contact <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> for any questions or issues
                     <br>
                     <a href="{{env('CLUBHOUSE_URL')}}/user/self/edit-profile">Change which content you'd like to hear about</a>
                 </p>

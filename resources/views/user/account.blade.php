@@ -44,7 +44,7 @@
                             <td>{{ $value->items->data[0]->plan->nickname }}</td>
                             <td>{{ money_format('%.2n', ($value->items->data[0]->plan->amount / 100)) }} / {{ $value->items->data[0]->plan->amount < 7000 ? 'Month' : 'Year' }}</td>
                             @if ($value->status == 'past_due')
-                                <td><span class="tooltipped" data-tooltip="There was an issue charging your card for this subscription. Please try adding another card and making it primary or contact clubhouse@sportsbusiness.solutions for assistance">{{ $next_bill }}<br><b>PAST DUE</b><i class="icon-right fa fa-info-circle" aria-hidden="true"</i></span></td>
+                                <td><span class="tooltipped" data-tooltip="There was an issue charging your card for this subscription. Please try adding another card and making it primary or contact theclubhouse@generalsports.com for assistance">{{ $next_bill }}<br><b>PAST DUE</b><i class="icon-right fa fa-info-circle" aria-hidden="true"</i></span></td>
                             @else 
                                 <td>{{ $value->cancel_at_period_end ? 'N/A, cancels on ' : '' }}{{ $next_bill }}</td>
                             @endif
@@ -97,7 +97,7 @@
                             @endif
                         </tr>
                         @if (!empty($value->status) && $value->status != 'chargeable')
-                            <tr><td class="sbs-red-text">The above payment method could not be charged. Please try adding a new card or contact <a href="mailto:clubhouse@sportsbusiness.solutions">theClubhouse<sup>&#174;</sup> support</a>.</td></tr>
+                            <tr><td class="sbs-red-text">The above payment method could not be charged. Please try adding a new card or contact <a href="mailto:theclubhouse@generalsports.com">theClubhouse<sup>&#174;</sup> support</a>.</td></tr>
                         @endif
                     @endforeach
                 </table>
@@ -122,7 +122,7 @@
                 </div>
             </div>
             <div class="row hidden" id="add-card-error" >
-                <span class="sbs-red-text">Sorry, there was an error adding your card. Please try again or contact <a href="mailto:clubhouse@sportsbussiness.solutions">clubhouse@sportsbusiness.solutions</a> for help.</span>
+                <span class="sbs-red-text">Sorry, there was an error adding your card. Please try again or contact <a href="mailto:clubhouse@sportsbussiness.solutions">theclubhouse@generalsports.com</a> for help.</span>
             </div>
         </div>
     </div>

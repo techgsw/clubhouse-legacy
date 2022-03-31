@@ -23,7 +23,7 @@
                     @if (session('status'))
                         <div class="alert card-panel green white-text">
                             @if (session('status') == "passwords.sent")
-                                Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a> and we can help you find your account.
+                                Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> and we can help you find your account.
                             @else
                                 {{ session('status') }}
                             @endif
@@ -31,7 +31,7 @@
                     @endif
                     @if ($errors->has('email'))
                         <div class="alert card-panel green white-text">
-                            Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a> and we can help you find your account.
+                            Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> and we can help you find your account.
                         </div>
                     @endif
 

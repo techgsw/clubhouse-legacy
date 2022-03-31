@@ -16,7 +16,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            Having trouble? Email us at <a href="mailto:clubhouse@sportsbusiness.solutions">clubhouse@sportsbusiness.solutions</a>
+            Having trouble? Email us at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a>
         </div>
     </div>
 </div>
