@@ -13,6 +13,9 @@
         <a href="/user/{{ $user->id }}/edit-profile" class="flat-button green disabled">Upload Resume</a>
     @endcan
 @endif
+@if ($user->profile->linkedin)
+    <a href="{{ $user->profile->linkedin }}" class="flat-button black">View LinkedIn</a>
+@endif
 @can ('edit-profile', $user)
     <a href="/user/{{ $user->id }}/edit-profile" class="flat-button black">Edit<span class="hide-on-small-only"> Profile</span></a>
 @endcan
