@@ -1238,8 +1238,8 @@ $.valHooks.textarea = {
 
     $('#password_send_reset').click(function(e) {
         e.preventDefault();
-	$.post('/password/email', {email: $(this).data('email'), '_token': window.Laravel.csrfToken}, function(data) {
-    	    UI.addMessage({type: 'success', message: 'Instructions sent'});
+	    $.post('/password/email', {email: $(this).data('email'), '_token': window.Laravel.csrfToken}, function(data) {
+    	    UI.addMessage({type: 'success', message: 'Password reset email sent!'});
         });
     });
 
@@ -2910,7 +2910,4 @@ $(document).ready(function () {
 
     // Initialize
     SBS.init();
-
-
 });
-
