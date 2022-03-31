@@ -1727,11 +1727,6 @@ $.valHooks.textarea = {
                     $('#contact-note-collapsible-body').html(view);
                     UI.initializeDatePicker();
 
-		    $('.datepicker').on('mousedown',function(event){
-    			event.preventDefault();
-		    })
-
-		    $('.datepicker').trigger('mousedown');
                 });
             }
         },
@@ -2891,9 +2886,19 @@ $(document).ready(function () {
     });
 
     // Fix for Chrome 73 breaking Materialize calendars and dropdowns
+    $('body').on(
+        {
+            mousedown: function() {
+                event.preventDefault();
+            }
+        },
+        '.datepicker'
+    );
+    /*
     $('.datepicker').on('mousedown', function(e){
         e.preventDefault();
     });
+    */
     $('.select-dropdown').on('mousedown', function(e){
         e.preventDefault();
     });
