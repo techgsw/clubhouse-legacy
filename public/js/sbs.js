@@ -2892,12 +2892,22 @@ $(document).ready(function () {
     });
 
     // Fix for Chrome 73 breaking Materialize calendars and dropdowns
-    $('.datepicker').on('mousedown', function(e){
-        e.preventDefault();
-    });
-    $('.select-dropdown').on('mousedown', function(e){
-        e.preventDefault();
-    });
+    $('body').on(
+        {
+            mousedown: function() {
+                event.preventDefault();
+            }
+        },
+        '.datepicker'
+    );
+    $('body').on(
+        {
+            mousedown: function() {
+                event.preventDefault();
+            }
+        },
+        '.select-dropdown'
+    );
     $('.select-wrapper select').on('change select', function(e){
         $(this).material_select();
     });
