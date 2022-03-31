@@ -44,6 +44,15 @@
                 </div>
             </div>
             <div class="row">
+                <div class="input-field col s12 m6 {{ $errors->has('linkedin') ? 'invalid' : '' }}">
+                    <input id="linkedin" name="linkedin" type="text" value="{{ $profile->linkedin }}">
+                    <label for="linkedin" class="active">LinkedIn Profile URL</label>
+                </div>
+                <div class="input-field col s12 m6">
+			&nbsp;
+                </div>
+            </div>
+            <div class="row">
                 <div class="file-field input-field col s12 m4">
                     @if ($profile->resume_url)
                         <a href="{{ Storage::disk('local')->url($profile->resume_url) }}" class="btn sbs-red white-text" style="width: 100%">View Resume</a>
