@@ -1726,7 +1726,6 @@ $.valHooks.textarea = {
                 Note.getContactNotes(contact_id).done(function (view) {
                     $('#contact-note-collapsible-body').html(view);
                     UI.initializeDatePicker();
-
                 });
             }
         },
@@ -2894,14 +2893,14 @@ $(document).ready(function () {
         },
         '.datepicker'
     );
-    /*
-    $('.datepicker').on('mousedown', function(e){
-        e.preventDefault();
-    });
-    */
-    $('.select-dropdown').on('mousedown', function(e){
-        e.preventDefault();
-    });
+    $('body').on(
+        {
+            mousedown: function() {
+                event.preventDefault();
+            }
+        },
+        '.select-dropdown'
+    );
     $('.select-wrapper select').on('change select', function(e){
         $(this).material_select();
     });
