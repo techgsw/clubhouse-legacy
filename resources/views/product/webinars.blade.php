@@ -1,16 +1,6 @@
 @php $pd = new Parsedown(); @endphp
 @extends('layouts.clubhouse')
 @section('title', 'Webinars')
-@section('hero')
-    <div class="row hero bg-image webinars">
-        <div class="col s12">
-            <img class="responsive-img" src="/images/clubhouse/event-white.png" />
-            <h4 class="header">Educational Webinars</h4>
-            <p>Live and on demand discussions with sports industry leaders.</p>
-            <a href="{{is_null($active_tag) ? '#past' : '/webinars#past'}}" class="btn btn-large sbs-red">Webinar Library</a>
-        </div>
-    </div>
-@endsection
 @section('content')
 <div class="container">
     <div class="col s12">
