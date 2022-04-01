@@ -1,15 +1,6 @@
 <!-- /resources/views/mentor/index.blade.php -->
 @extends('layouts.clubhouse')
 @section('title', 'Mentors')
-@section('hero')
-    <div class="row hero bg-image mentorship">
-        <div class="col s12">
-            <img class="responsive-img" src="/images/clubhouse/mentorship-white.png" />
-            <h4 class="header">Sports Industry Mentors</h4>
-            <p>Become a <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}">Clubhouse PRO member</a> and schedule your Mentorship call now.</p>
-        </div>
-    </div>
-@endsection
 @section('scripts')
     @if(!$is_blocked)
         @include('mentor.components.scripts')
