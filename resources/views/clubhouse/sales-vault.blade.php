@@ -1,18 +1,5 @@
 @extends('layouts.clubhouse')
 @section('title', 'Sport Sales Training')
-@section('hero')
-    <div class="row hero bg-image sales-vault">
-        <div class="col s12" style="margin-bottom:10px;">
-            <img class="responsive-img" src="/images/sales-vault/treasure.png" />
-            <h4 class="header">The Sport Sales Vault</h4>
-            <h5 style="font-size:25px;">Sales training videos produced by <a href="{{env('APP_URL')}}">SBS Consulting</a></h5>
-            <h5 style="max-width:1050px;font-size:19px;text-align: center;margin-left:auto;margin-right:auto;">We've trained more than 100 sports teams throughout the US and Canada, conducted more than 350 sales training sessions and trained over 1,000 salespeople in sports.</h5>
-        </div>
-        <div class="col s12 center-align" style="margin-top:20px;">
-            <a href="/sales-vault/training-videos" class="btn sbs-red">See all videos</a>
-        </div>
-    </div>
-@endsection
 @section('content')
     <div class="container" style="padding-top:40px;">
         <div class="col s12">
