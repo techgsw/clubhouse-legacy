@@ -324,6 +324,7 @@ class ProfileController extends Controller
         $profile->secondary_phone = request('secondary_phone')
             ? preg_replace("/[^\d]/", "", request('secondary_phone'))
             : null;
+	$profile->linkedin = request('linkedin');
         $profile->resume_url = $r ?: $profile->resume_url;
 
         // Personal Information
