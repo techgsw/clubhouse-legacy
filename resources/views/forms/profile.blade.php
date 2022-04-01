@@ -48,9 +48,7 @@
                     <input id="linkedin" name="linkedin" type="text" value="{{ $profile->linkedin }}">
                     <label for="linkedin" class="active" style="width: 95%">
 			LinkedIn Profile URL
-                	@if ($profile->linkedin)
-                	    <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
-                	@else
+                	@if (!$profile->linkedin)
                 	    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
                 	@endif
 		    </label>
