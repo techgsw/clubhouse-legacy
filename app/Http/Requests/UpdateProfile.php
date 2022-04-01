@@ -34,6 +34,7 @@ class UpdateProfile extends FormRequest
             'college_gpa' => 'nullable|numeric',
             'headshot_url' => 'image|mimes:jpg,jpeg,png,gif|max:1500',
             'resume_url' => 'mimes:pdf,doc,docx|max:1500',
+            'linkedin' => 'nullable|regex:/^https:\/\/www.linkedin.com\/.*/',
             'email' => [
                 'required',
                 'email',
@@ -57,6 +58,7 @@ class UpdateProfile extends FormRequest
             'headshot_url.image' => 'Headshot must be a valid image.',
             'headshot_url.mimes' => 'Please upload a headshot that is a jpg, png, or gif.',
             'headshot_url.max' => 'Maximum allowed file size for a headshot image is 1.5MB.',
+	    'linkedin.regex' => 'LinkedIn URL must be a valid linkedin.com address.',
             'resume_url.mimes' => 'Resume is an invalid type. Please upload a valid PDF or DOC.',
             'resume_url.max' => 'Maximum allowed file size for a resume is 1.5MB.',
             'email.required' => 'E-mail is required',
