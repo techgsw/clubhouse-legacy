@@ -21,11 +21,6 @@
             <a class="btn btn-large sbs-red" href="/sales-vault/training-videos">See all videos</a>
         </div>
     @endif
-    <div class="tag-cloud center-align" style="margin-bottom: 40px;">
-        @foreach($tags as $tag)
-            <a href="/sales-vault/training-videos?tag={{urlencode($tag->slug)}}" class="flat-button black" style="display: inline-block; margin: 4px;">{{$tag->name}}</a>
-        @endforeach
-    </div>
     @if(count($videos) < 1)
         <div class="row center-align">
             <h5>Training Videos coming soon.</h5>

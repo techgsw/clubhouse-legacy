@@ -12,12 +12,7 @@
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/sales-vault">Sales Training</a></li>
-                <li><a href="#" class="dropdown-button" data-activates="training-dropdown" data-hover="true" data-beloworigin="true" data-constrainwidth="false">Career Services&nbsp;&nbsp;<i class="fa fa-caret-down"></i></a></li>
-                <!-- Dropdown Structure -->
-                <ul id="training-dropdown" class="dropdown-content">
-                    <li><a href="/same-here">Mental Health</a></li>
-                    <li><a href="/career-services">Career Services</a></li>
-                </ul>
+                <li><a href="/same-here">Mental Health</a></li>
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
                 <li class="social-media">
@@ -26,7 +21,7 @@
                     <a href="https://instagram.com/theC1ubhouse"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
                     <a href="https://www.linkedin.com/company/the-clubhouse-sbs"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 </li>
-                <li><a href="{{ env('APP_URL') }}" style="text-transform: none; font-size: 18px;">SBS Consulting</a></li>
+                <li><a href="https://generalsportsworldwide.com" style="text-transform: none; font-size: 18px;">General Sports Worldwide</a></li>
                 <li class="divider"></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/webinars">Webinars</a></li>
@@ -34,7 +29,6 @@
                 <li><a href="/job">Job Board</a></li>
                 <li><a href="/sales-vault">Sales Training</a></li>
                 <li><a href="/same-here">Mental Health</a></li>
-                <li><a href="/career-services">Career Services</a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>

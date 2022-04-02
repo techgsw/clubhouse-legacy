@@ -1,26 +1,13 @@
 @php $pd = new Parsedown(); @endphp
 @extends('layouts.clubhouse')
 @section('title', '#SameHere Solutions')
-@section('hero')
-    <div class="row hero bg-image same-here">
-        <div class="col s12">
-            <img src="/images/same-here/logo.png" style="max-width:200px;">
-        </div>
-        <div class="col s12">
-            <h2 class="header">We're all in this together.</h2>
-            <h5 class="header">Mental Health support for the sports business industry.</h5>
-            <br>
-            <div class="col s12 m2 offset-m4">
-                <a href="#same-here-blog" class="flat-button btn-large same-here white" style="max-width: 225px; margin-bottom: 20px;">Blog</a>
-            </div>
-            <div class="col s12 m2">
-                <a href="#same-here-webinars" class="flat-button btn-large same-here white" style="max-width: 225px;">Webinars</a>
-            </div>
-        </div>
-    </div>
-@endsection
 @section('content')
     <div class="container" style="margin-bottom:75px;">
+        <div class="row" style="padding:40px 0px 0px 0px;">
+            <div class="col s12 m10 offset-m1 center-align">
+                <img src="/images/same-here/same-here-color.png">
+            </div>
+        </div>
         <div class="row" style="padding:40px 0px;">
             <div class="col s12 m10 offset-m1 center-align">
                 <h4><strong>As sports industry professionals we all face challenges that can affect our mental health.</strong></h4>
@@ -32,29 +19,55 @@
         <div class="row gray-bg" style="padding: 30px 30px;">
             <div class="col s12 m6">
                 <h5><strong>What's our why?</strong></h5>
-                <p>This is a collaboration between me (Bob Hamer the President & Founder of SBS Consulting) and my great friend and mentor (Eric Kussin, the Founder of the Non Profit We're All a Little "Crazy" and creator of the #SameHere Global Mental Health Movement).</p>
-                <p>Together we have more than 30 years of experience in sports business. We worked together at the Phoenix Suns and we both have faced mental health challenges. Our vision is to share stories, strategies, and resources in an effort to help others in sports overcome the challenges we all face at some point or another.</p>
+                <p>Each of us on theClubhouse® team are excited to continue the collaboration with our friend Eric Kussin, Founder of the non-profit We’re All a Little “Crazy” and creator of the #SameHere Global Mental Health Movement.</p>
+                <p>As a group we have 70+ years of experience in the sports industry and have each faced mental health challenges both personally and professionally, and are looking forward to sharing our stories, strategies, and resources in an effort to help others.</p>
+                <a target="_blank" href="https://www.linkedin.com/company/the-clubhouse-gsw"><img src="/images/linkedin-bw.png" style="max-width: 20px; border-bottom: none;" /> The Clubhouse</a>
+                <br />
+                <a target="_blank" href="https://www.linkedin.com/company/we-are-all-a-little-crazy/"><img src="/images/linkedin-bw.png" style="max-width: 20px; border-bottom: none;" />#Same Here</a>
             </div>
-            <div class="col s6 m3 center-align">
-                <a href="/blog/bob-hamer--my-battle-with-ocd" class="no-underline">
-                    <img src="/images/same-here/bob-same-here.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+            <div class="col s12 m6 center-align">
+                <div class="col s6 center-align">
+                    <a href="/blog/eric-kussin--my-samehere-story" class="no-underline">
+                        <img src="/images/same-here/eric-same-here-cropped.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                        <h5>
+                            Eric Kussin
+                            <span class="about-position">CEO & Founder</span>
+                            <span class="about-position sbs-red-text">We're All A Little "Crazy":</span>
+                        </h5>
+                    </a>
+                </div>
+                <div class="col s6 center-align">
+                    <img src="/images/same-here/lou-de-paoli.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
-                        Bob Hamer
-                        <span class="about-position">President & Founder</span>
-                        <span class="about-position sbs-red-text">SBS Consulting</span>
+                        Lou De Paoli 
+                        <span class="about-position">Managing Director</span>
+                        <span class="about-position sbs-red-text">General Sports Worldwide</span>
                     </h5>
-                </a>
-            </div>
-            <div class="col s6 m3 center-align">
-                <a href="/blog/eric-kussin--my-samehere-story" class="no-underline">
-                    <img src="/images/same-here/eric-same-here-cropped.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                </div>
+                <div class="col s6 center-align">
+                    <img src="/images/same-here/travis-apple.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
-                        Eric Kussin
-                        <span class="about-position">CEO & Founder</span>
-                        <span class="about-position sbs-red-text">We're All A Little "Crazy":</span>
-                        <span class="about-position">The <span style="text-transform: none;">#SameHere</span> Global Mental Health Movement&#8482;</span>
+                        Travis Apple
+                        <span class="about-position">Vice President</span>
+                        <span class="about-position sbs-red-text">General Sports Worldwide</span>
                     </h5>
-                </a>
+                </div>
+                <div class="col s6 center-align">
+                    <img src="/images/same-here/jentry-mullins.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5>
+                        Jentry Mullins 
+                        <span class="about-position">Consultant</span>
+                        <span class="about-position sbs-red-text">General Sports Worldwide</span>
+                    </h5>
+                </div>
+                <div class="col s6 center-align">
+                    <img src="/images/same-here/kayla-lawson.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <h5>
+                        Kayla Lawson
+                        <span class="about-position">Consultant</span>
+                        <span class="about-position sbs-red-text">General Sports Worldwide</span>
+                    </h5>
+                </div>
             </div>
         </div>
     </div>

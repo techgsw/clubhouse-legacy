@@ -1,7 +1,12 @@
 <nav class="nav-user hide-on-med-and-down nav-custom-desktop" role="navigation">
     <div class="nav-wrapper container">
         <ul>
-            <li><a href="{{ env('APP_URL') }}" class="no-underline"><img style="height: 30px; margin-top: 5px;" src="/images/SBSonly_logo.png" alt="SBS Consulting"></a></li>
+            <li>
+                <a href="https://generalsportsworldwide.com" class="no-underline">
+                    <strong>General Sports Worldwide</strong>
+                    <!--<img style="height: 30px; margin-top: 5px;" src="/images/SBSonly_logo.png" alt="SBS Consulting">-->
+                </a>
+            </li>
             @can ('view-admin-dashboard')
                 <li><a href="/admin">ADMIN</a></li>
             @endif
