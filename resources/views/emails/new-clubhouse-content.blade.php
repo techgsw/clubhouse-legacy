@@ -148,7 +148,7 @@
                 @foreach ($new_training_videos as $video)
                     <tr>
                         <td style="background-color: #EAEAEA;box-shadow: 0 2px 2px 0 #AAA;">
-                            <a href="{{ env('CLUBHOUSE_URL').$video->getURL(false, 'sales-vault/training-videos') }}" class="no-underline">
+                            <a href="{{ env('CLUBHOUSE_URL').$video->getURL(false, 'training/training-videos') }}" class="no-underline">
                                 <div>
                                     <h2>{{ $video->name }}</h2>
                                     <p style="color:#707070;font-size:.9em">{!! $pd->text($video->getCleanDescription()) !!}</p>

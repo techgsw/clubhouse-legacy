@@ -122,6 +122,12 @@ class RegisterController extends Controller
         return Validator::make($data, $rules, $messages);
     }
 
+    public function pro()
+    {
+        return view('auth/register-pro', [
+        ]);
+    }
+
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();

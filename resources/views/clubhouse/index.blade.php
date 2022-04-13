@@ -30,10 +30,10 @@
                 <a href="/job" class="red-hover btn clubhouse-option">See job listings</a>
             </div>
             <div class="col center-align clubhouse-option">
-                <a href="#" class="no-underline"><img src="/images/clubhouse/pro-image.png" /></a>
+                <a href="/register/pro" class="no-underline"><img src="/images/clubhouse/pro-image.png" /></a>
                 <p class="option-title"><strong>Become a Pro Member</strong></p>
                 <p class="option-description">In depth career building, connect with industry pros, watch webinars, and get training.</p>
-                <a href="#" class="red-hover btn clubhouse-option">Get started now</a>
+                <a href="/regsiter/pro" class="red-hover btn clubhouse-option pro-modal">Get started now</a>
             </div>
             <div class="col center-align clubhouse-option">
                 <a href="/mentor" class="no-underline"><img src="/images/clubhouse/mentor.png" /></a>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="card large" style="height:100%;margin-bottom: 90px;">
                     @cannot ('view-clubhouse')
-                        <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="no-underline">
+                        <a href="{{Auth::user() ? '/pro-membership' : '/register/pro'}}" class="no-underline">
                             <div class="card-image" style="background-color: #EB2935;color:#FFF;">
                                 <h5 class="center-align" style="font-weight: 600;">Become a Clubhouse PRO Member</h5>
                             </div>
@@ -140,7 +140,7 @@
                     </div>
                     @cannot('view-clubhouse')
                         <div class="row" style="position:absolute;bottom:-70px;left:10px;display:flex;justify-content: center;width:100%;">
-                            <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;"><strong>Start your FREE {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day trial</strong></a>
+                            <a href="{{Auth::user() ? '/pro-membership' : '/register/pro'}}" class="btn btn-large sbs-red" style="margin-top:20px;margin-bottom: -20px;"><strong>Start your FREE {{CLUBHOUSE_FREE_TRIAL_DAYS}}-day trial</strong></a>
                         </div>
                     @endcannot
                 </div>

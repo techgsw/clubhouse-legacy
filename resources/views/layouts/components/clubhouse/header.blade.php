@@ -11,7 +11,7 @@
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/job">Job Board</a></li>
-                <li><a href="/sales-vault">Sales Training</a></li>
+                <li><a href="/training">Training</a></li>
                 <li><a href="/same-here">Mental Health</a></li>
             </ul>
             <ul id="nav-mobile-clubhouse" class="side-nav">
@@ -27,7 +27,7 @@
                 <li><a href="/webinars">Webinars</a></li>
                 <li><a href="/mentor">Mentors</a></li>
                 <li><a href="/job">Job Board</a></li>
-                <li><a href="/sales-vault">Sales Training</a></li>
+                <li><a href="/training">Training</a></li>
                 <li><a href="/same-here">Mental Health</a></li>
                 <li class="divider"></li>
                 @if (Auth::guest())

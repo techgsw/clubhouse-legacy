@@ -112,6 +112,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('logout', 'LoginController@logout')->name('logout');
         Route::get('/auth/login/header', 'LoginController@header');
 
+        Route::get('register/pro', 'RegisterController@pro');
         Route::post('/register/is-this-you/{type}', 'RegisterController@registerIsThisYou');
     });
     Auth::routes();
@@ -428,13 +429,18 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::post('/same-here/discussion/answer/{id}/edit', 'AnswerController@update');
     });
 
-    // Sales Vault
+    // Sales Vault now Training
     Route::group(['middleware' => ['web']], function () {
         Route::get('/sales-vault', 'ClubhouseController@salesVault');
+        Route::get('/training', 'ClubhouseController@salesVault');
 
         Route::get('/sales-vault/training-videos', 'ProductController@trainingVideos');
         Route::get('/sales-vault/training-videos/all-tags', 'ProductController@getTrainingVideoTagsForAutocomplete');
         Route::get('/sales-vault/training-videos/{id}', 'ProductController@showTrainingVideo');
+
+        Route::get('/training/training-videos', 'ProductController@trainingVideos');
+        Route::get('/training/training-videos/all-tags', 'ProductController@getTrainingVideoTagsForAutocomplete');
+        Route::get('/training/training-videos/{id}', 'ProductController@showTrainingVideo');
 
         // Routes for discussion board
         Route::get('/sales-vault/discussion', 'QuestionController@index');

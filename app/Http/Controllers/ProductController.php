@@ -688,8 +688,8 @@ class ProductController extends Controller
             'tags_for_book' => $tags_for_book,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sport Sales Vault' => '/sales-vault/',
-                'Training Videos' => '/sales-vault/training-videos'
+                'Training' => '/training/',
+                'Training Videos' => '/training/training-videos'
             ]
         ]);
     }
@@ -716,9 +716,9 @@ class ProductController extends Controller
             'video' => $video,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sport Sales Vault' => '/sales-vault/',
-                'Training Videos' => '/sales-vault/training-videos',
-                $video->name => "/sales-vault/training-videos/{$video->id}"
+                'Training' => '/training/',
+                'Training Videos' => '/training/training-videos',
+                $video->name => "/training/training-videos/{$video->id}"
             ]
         ]);
     }

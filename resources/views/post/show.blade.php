@@ -49,7 +49,7 @@
             <hr>
             <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/job">Jobs in Sports</a></p>
             <hr>
-            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/sales-vault">Sales Training</a></p>
+            <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/training">Training</a></p>
             <a class="no-underline clubhouse-logo" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
             <br>
             <p><a class="no-underline" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><strong>Become a Clubhouse PRO Member</strong></a></p>
@@ -143,7 +143,7 @@
            <br> 
            <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/job">Jobs in Sports</a>
            <strong class="sbs-red-text">|</strong> 
-           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/sales-vault">Sales Training</a></p>
+           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/training">Training</a></p>
         <p><a class="no-underline" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><strong>Become a Clubhouse PRO Member</strong></a><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
         <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>
     </div>

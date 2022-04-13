@@ -2752,6 +2752,12 @@ a.sales-vault-twitter-link:hover {
     }
 }
 @media only screen and (max-width: 600px) {
+    form.registration-form .card-content {
+        margin: 0;
+    }
+    form.registration-form .card-flex-container .card.large {
+        min-width: inherit;
+    }
     .about-cards {
         flex-wrap: wrap;
     }

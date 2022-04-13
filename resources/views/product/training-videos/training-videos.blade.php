@@ -3,7 +3,7 @@
 @section('hero')
     <div class="row center-align">
         <div class="col s12" style="margin-top:20px;margin-bottom: -20px;">
-            <h3>Sales Training Videos</h3>
+            <h3>Training Videos</h3>
             @if(!is_null($active_tag))
                 <h5>{{$active_tag->name}}</h5>
             @elseif(!is_null($active_author))
@@ -18,7 +18,7 @@
 <div class="container">
     @if(!is_null($active_author) || !is_null($active_tag) || !is_null($active_book))
         <div class="row center-align">
-            <a class="btn btn-large sbs-red" href="/sales-vault/training-videos">See all videos</a>
+            <a class="btn btn-large sbs-red" href="/training/training-videos">See all videos</a>
         </div>
     @endif
     @if(count($videos) < 1)

@@ -2916,6 +2916,9 @@ $(document).ready(function () {
         $('a[href="#register-modal"]').each(function () {
             $(this).attr('href', '/register');
         });
+        $('a[href="#register-pro-modal"]').each(function () {
+            $(this).attr('href', '/register/pro');
+        });
     }
 
     // Initialize

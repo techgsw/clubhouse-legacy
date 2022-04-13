@@ -197,7 +197,7 @@ class ClubhouseController extends Controller
             'questions' => $questions,
             'breadcrumb' => [
                 'Clubhouse' => '/',
-                'Sport Sales Vault' => '/sales-vault'
+                'Training' => '/training'
             ],
         ]);
     }
