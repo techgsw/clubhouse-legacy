@@ -33,7 +33,7 @@
                 <a href="/register/pro" class="no-underline"><img src="/images/clubhouse/pro-image.png" /></a>
                 <p class="option-title"><strong>Become a Pro Member</strong></p>
                 <p class="option-description">In depth career building, connect with industry pros, watch webinars, and get training.</p>
-                <a href="/regsiter/pro" class="red-hover btn clubhouse-option pro-modal">Get started now</a>
+                <a href="/register/pro" class="red-hover btn clubhouse-option pro-modal">Get started now</a>
             </div>
             <div class="col center-align clubhouse-option">
                 <a href="/mentor" class="no-underline"><img src="/images/clubhouse/mentor.png" /></a>
