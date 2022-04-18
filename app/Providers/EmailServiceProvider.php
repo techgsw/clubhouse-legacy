@@ -304,7 +304,7 @@ class EmailServiceProvider extends ServiceProvider
             return count($mentee->mentorRequests);
         });
 
-        Mail::to('bob@sportsbusiness.solutions')->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
+        Mail::to('theclubhouse@generalsports.com')->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
     }
 
     public static function sendInvalidMentorCalendlyLinkNotification($mentors)
@@ -313,7 +313,7 @@ class EmailServiceProvider extends ServiceProvider
             Mail::to($mentor->contact->email)->send(new InvalidMentorCalendlyLinkNotification($mentor));
         }
 
-        Mail::to('bob@sportsbusiness.solutions')->send(new InvalidMentorCalendlyLinkSummary($mentors));
+        Mail::to('theclubhouse@generalsports.com')->send(new InvalidMentorCalendlyLinkSummary($mentors));
     }
 
     public static function sendFailedInstagramRefreshNotification($exception, $env_name)
