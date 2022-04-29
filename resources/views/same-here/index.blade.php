@@ -56,7 +56,7 @@
                     <img src="/images/same-here/jentry-mullins.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
                         Jentry Mullins 
-                        <span class="about-position">Consultant</span>
+                        <span class="about-position">Senior Director</span>
                         <span class="about-position sbs-red-text">General Sports Worldwide</span>
                     </h5>
                 </div>
@@ -64,7 +64,7 @@
                     <img src="/images/same-here/kayla-lawson.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
                     <h5>
                         Kayla Lawson
-                        <span class="about-position">Consultant</span>
+                        <span class="about-position">Manager</span>
                         <span class="about-position sbs-red-text">General Sports Worldwide</span>
                     </h5>
                 </div>
