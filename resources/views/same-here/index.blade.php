@@ -28,7 +28,7 @@
             <div class="col s12 m6 center-align">
                 <div class="col s6 center-align">
                     <a href="/blog/eric-kussin--my-samehere-story" class="no-underline">
-                        <img src="/images/same-here/eric-same-here-cropped.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                        <a class="no-underline" href="https://www.linkedin.com/in/eric-kussin-5010a37/" target="_blank"><img src="/images/same-here/eric-same-here-cropped.jpg" style="width: 80%; max-width: 180px; border-radius: 50%;"></a>
                         <h5>
                             Eric Kussin
                             <span class="about-position">CEO & Founder</span>
@@ -37,7 +37,7 @@
                     </a>
                 </div>
                 <div class="col s6 center-align">
-                    <img src="/images/same-here/lou-de-paoli.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <a href="https://www.linkedin.com/in/lou-depaoli-3a41595/" target="_blank" class="no-underline"><img src="/images/same-here/lou-de-paoli.png" style="width: 80%; max-width: 180px; border-radius: 50%;"></a>
                     <h5>
                         Lou De Paoli 
                         <span class="about-position">Managing Director</span>
@@ -45,7 +45,7 @@
                     </h5>
                 </div>
                 <div class="col s6 center-align">
-                    <img src="/images/same-here/travis-apple.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <a href="https://www.linkedin.com/in/travisapple/" target="_blank" class="no-underline"><img src="/images/same-here/travis-apple.png" style="width: 80%; max-width: 180px; border-radius: 50%;"></a>
                     <h5>
                         Travis Apple
                         <span class="about-position">Vice President</span>
@@ -53,7 +53,7 @@
                     </h5>
                 </div>
                 <div class="col s6 center-align">
-                    <img src="/images/same-here/jentry-mullins.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <a href="https://www.linkedin.com/in/jentrymullins/" target="_blank" class="no-underline"><img src="/images/same-here/jentry-mullins.png" style="width: 80%; max-width: 180px; border-radius: 50%;"></a>
                     <h5>
                         Jentry Mullins 
                         <span class="about-position">Senior Director</span>
@@ -61,7 +61,7 @@
                     </h5>
                 </div>
                 <div class="col s6 center-align">
-                    <img src="/images/same-here/kayla-lawson.png" style="width: 80%; max-width: 180px; border-radius: 50%;">
+                    <a href="https://www.linkedin.com/in/kayla-lawson4/" target="_blank" class="no-underline"><img src="/images/same-here/kayla-lawson.png" style="width: 80%; max-width: 180px; border-radius: 50%;"></a>
                     <h5>
                         Kayla Lawson
                         <span class="about-position">Manager</span>
