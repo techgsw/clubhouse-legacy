@@ -7,7 +7,7 @@
             @include('layouts.components.errors')
         </div>
         <div class="row">
-            <h5 class="center-align"><strong style="text-transform:uppercase;">Sport sales training videos</strong></h5>
+            <h5 class="center-align"><strong style="text-transform:uppercase;">Sports Industry Training Videos</strong></h5>
             <div class="sales-vault-video-container">
                 @foreach($newest_training_videos as $video)
                     <div class="sales-vault-video">
