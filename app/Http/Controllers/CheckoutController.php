@@ -530,7 +530,7 @@ class CheckoutController extends Controller
         } Catch (Exception $e) {
             Log::error($e);
             $request->session()->flash('message', new Message(
-                "There was an error making your card the primary card. Please contact clubhouse@sportsbusiness.solutions for assistance",
+                "There was an error making your card the primary card. Please contact theclubhouse@generalsports.com for assistance",
                 "danger",
                 $code = null,
                 $icon = "error"

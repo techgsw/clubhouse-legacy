@@ -90,7 +90,7 @@ class AnswerController extends Controller
         ]);
 
         try {
-            Mail::to('clubhouse@sportsbusiness.solutions')->send(
+            Mail::to('theclubhouse@generalsports.com')->send(
                 new InternalAlert(
                     'emails.internal.answer',
                     array(

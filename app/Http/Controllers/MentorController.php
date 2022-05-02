@@ -243,7 +243,7 @@ class MentorController extends Controller
             } catch (\Exception $e) {
                 Log::error($e->getMessage());
                 return response()->json([
-                    'error' => 'Sorry, there was an issue sending your mentor request. Please try again or contact clubhouse@sportsbusiness.solutions for support.',
+                    'error' => 'Sorry, there was an issue sending your mentor request. Please try again or contact theclubhouse@generalsports.com for support.',
                     'success' => null
                 ]);
             }

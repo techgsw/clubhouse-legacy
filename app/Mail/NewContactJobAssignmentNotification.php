@@ -36,7 +36,7 @@ class NewContactJobAssignmentNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse®')
+        return $this->from('theclubhouse@generalsports.com', 'theClubhouse®')
                     ->subject("A new candidate has been assigned to your job posting - theClubhouse®")
                     ->markdown('emails.new-job-contact-assignment');
     }

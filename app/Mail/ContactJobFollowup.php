@@ -35,7 +35,7 @@ class ContactJobFollowup extends Mailable
      */
     public function build()
     {
-        $mail = $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse®');
+        $mail = $this->from('theclubhouse@generalsports.com', 'theClubhouse®');
         if ($this->is_final) {
             $mail->subject("{$this->contact_job->job->organization_name}");
             return $mail->markdown('emails.contact.contact-job-followup-final');

@@ -31,7 +31,7 @@ class UserRegistered extends Mailable
      */
     public function build()
     {
-        return $this->from('clubhouse@sportsbusiness.solutions', 'Bob Hamer')
+        return $this->from('theclubhouse@generalsports.com', 'Clubhouse Team')
             ->subject('Welcome to theClubhouse®')
             ->markdown('emails.registration');
     }

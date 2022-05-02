@@ -32,7 +32,7 @@ class MentorFollowUp extends Mailable
      */
     public function build()
     {
-        return $this->from('clubhouse@sportsbusiness.solutions', 'theClubhouse®')
+        return $this->from('theclubhouse@generalsports.com', 'theClubhouse®')
             ->subject('Feedback on your latest Clubhouse mentees - theClubhouse®')
             ->markdown('emails.clubhouse-mentor-followup');
     }

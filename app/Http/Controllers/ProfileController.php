@@ -522,7 +522,7 @@ class ProfileController extends Controller
             ));
         } elseif ($mailchimp_error) {
             $request->session()->flash('message', new Message(
-                "We were unable to update your newsletter preferences. Please try again or contact clubhouse@sportsbusiness.solutions for assistance.",
+                "We were unable to update your newsletter preferences. Please try again or contact theclubhouse@generalsports.com for assistance.",
                 "warning",
                 null,
                 "warning"
@@ -620,7 +620,7 @@ class ProfileController extends Controller
         } catch (\Throwable $t) {
             Log::error($t->getMessage());
             return redirect()->back()->withErrors([
-                'msg' => "There was an issue unsubscribing you from the newsletter. Please try again or contact clubhouse@sportsbusiness.solutions for assistance.",
+                'msg' => "There was an issue unsubscribing you from the newsletter. Please try again or contact theclubhouse@generalsports.com for assistance.",
             ]);
         }
 
