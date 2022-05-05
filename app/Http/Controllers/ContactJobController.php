@@ -104,7 +104,7 @@ class ContactJobController extends Controller
         if (!$contact_job || $contact_job->pipeline_id > 1 ) {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'Unable to find requested job contact relationship.'
+                'message' => 'Unable to find requested job contact relationship or the user has progressed in the pipeline.'
             ]);
         }
 

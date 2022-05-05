@@ -1003,7 +1003,12 @@ $.valHooks.textarea = {
                             $(assigned_at).html('');
                             $(assigned_at).parent().addClass('hidden');
                         });
-                    } 
+                    } else {
+                        UI.addMessage({
+                            'message': resp.message,
+                            'type': 'danger'
+                        });
+                    }
                 });
             }
         },
