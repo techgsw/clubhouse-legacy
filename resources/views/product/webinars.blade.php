@@ -35,11 +35,6 @@
                 @endif
                 </h4>
             </div>
-            <div class="tag-cloud center-align">
-                @foreach ($tags as $tag)
-                    <a href="{{'/webinars?tag='.urlencode($tag->slug) }}" class="small flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
-                @endforeach
-            </div>
             <div class="col s12 center-align" style="margin-top:20px;">
                 <strong><span class="sbs-red-text">FREE Sign up</span>: Watch with a free membership</strong>
                 <br>

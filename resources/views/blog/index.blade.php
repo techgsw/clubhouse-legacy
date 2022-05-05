@@ -28,16 +28,21 @@
                     <button type="submit" name="submit" class="btn sbs-red btn-xs">Go</button>
                 </div>
             </form>
-            <!-- No tag cloud on mobile. Leaving this here in case we want to do something else with this
-            <div class="tag-cloud">
-                @foreach ($tags as $tag)
-                    <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
-                @endforeach
-            </div>-->
         </div>
     </div>
     <div class="row">
-        <div class="col s12 m8 l9 blog-list">
+        <div class="col hide-on-small-and-down m4 l3">
+            <!-- Search -->
+            <form action="/blog" method="get">
+                <div class="input-field">
+                    <input id="search" type="text" name="search" value="{{ request('search') }}">
+                    <label for="search">Search</label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 blog-list">
             @if (request('search') || request('tag'))
                 <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
                     @if (request('tag') && is_null($result_tag))
@@ -101,22 +106,7 @@
                 </div>
             @endif
         </div>
-        <div class="col hide-on-small-and-down m4 l3">
-            <!-- Search -->
-            <form action="/blog" method="get">
-                <div class="input-field">
-                    <input id="search" type="text" name="search" value="{{ request('search') }}">
-                    <label for="search">Search</label>
-                </div>
-                <input type="hidden" name="tag" value="{{ request('tag') }}">
-            </form>
-            <!-- Tags -->
-            <div class="tag-cloud">
-                @foreach ($tags as $tag)
-                    <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black" style="display: inline-block; margin: 4px;">{{ $tag->name }}</a>
-                @endforeach
-            </div>
-        </div>
+
     </div>
 </div>
 @endsection

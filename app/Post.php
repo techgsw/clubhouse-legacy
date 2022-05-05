@@ -39,19 +39,11 @@ class Post extends Model
 
     public static function search(Request $request)
     {
-        if (request('tag')) {
-            $tag = request('tag');
-            $posts = Post::whereHas('tags', function ($query) use ($tag) {
-                $query->where('slug', $tag);
-                $query->where('post_type_code', 'blog');
-            });
-        } else {
-            $posts = Post::where('id', '>', 0)->where('post_type_code', '=', 'blog');
-        }
+        $posts = Post::where('id', '>', 0)->where('post_type_code', '=', 'blog');
 
         if (request('search')) {
             $search = request('search');
-            $posts->whereRaw("MATCH(`title`,`body`) AGAINST ('%?%' IN BOOLEAN MODE)", [$search]);
+            $posts->whereRaw("title LIKE '%?%' OR body LIKE '%?%'", [$search]);
         }
 
         return $posts->orderBy('post.created_at', 'desc');
