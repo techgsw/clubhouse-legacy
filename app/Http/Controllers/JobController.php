@@ -56,6 +56,8 @@ class JobController extends Controller
 
         $jobs = Job::filter($request)
             ->orderBy('featured', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('title', 'asc')
             ->inRandomOrder($request->session()->get('job_seed'))
             ->paginate(15);
 
