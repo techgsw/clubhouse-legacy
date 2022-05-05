@@ -62,7 +62,7 @@ class InquiryController extends Controller
                                     default:
                                         break;
                                 }
-                            } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                            } else {
                                 if ($request->input('comm_type') == 'default'){
                                     Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-positive'));
                                 }
@@ -136,7 +136,7 @@ class InquiryController extends Controller
                                 default:
                                     break;
                             }
-                        } else if ($inquiry->job->job_type_id != JOB_TYPE_ID['sbs_default']) {
+                        } else {
                             Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-negative'));
                         }
                     } catch (Exception $e) {
