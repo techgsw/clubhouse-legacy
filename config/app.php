@@ -124,6 +124,8 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+    'info_email' => env('INFO_EMAIL', 'info@theclubhousecareers.com'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
