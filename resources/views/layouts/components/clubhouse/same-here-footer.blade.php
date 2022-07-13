@@ -39,10 +39,10 @@
             </div>
             <div class="col m4 s12">
                 <div class="hide-on-med-and-up center-align">
-                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></h5>
+                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><<a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></h5>
                 </div>
                 <div class="hide-on-small-and-down" style="padding:20px 50px;">
-                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></h5>
+                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></h5>
                 </div>
             </div>
         </div>

@@ -50,9 +50,9 @@
                             <p class="center-align" style="font-size: 16px; font-weight: 400;">Become a featured job on the job board and receive additional exposure. You’ll also be assigned quality candidates from the SBS database based on your search criteria.</p>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
-                            <p class="center-align" style="font-size: 15px; font-weight: 400;">Email <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> to get a pricing quote.</p>
+                            <p class="center-align" style="font-size: 15px; font-weight: 400;">Email <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> to get a pricing quote.</p>
                             @if ($job_premium)
-                                <a href="mailto:theclubhouse@generalsports.com" class="buy-now btn sbs-red" style="margin-top: 18px;">Contact Us</a>
+                                <a href="mailto:{{ __('email.info_address') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Contact Us</a>
                             @endif
                         </div>
                     </div>
@@ -68,9 +68,9 @@
                             <p class="center-align" style="font-size: 16px; font-weight: 400;">Platinum jobs get the most social media and email promotion. We assign you candidates AND we screen them for you, ensuring that by the time they get to you, they’re qualified and interested.</p>
                         </div>
                         <div class="col s12 center-align" style="padding-bottom: 10px;">
-                            <p class="center-align" style="font-size: 15px; font-weight: 400;">Email <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> to get a pricing quote.</p>
+                            <p class="center-align" style="font-size: 15px; font-weight: 400;">Email <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> to get a pricing quote.</p>
                             @if ($job_platinum)
-                                <a href="mailto:theclubhouse@generalsports.com" class="buy-now btn sbs-red" style="margin-top: 18px;">Contact Us</a>
+                                <a href="mailto:{{ __('email.info_address') }}" class="buy-now btn sbs-red" style="margin-top: 18px;">Contact Us</a>
                             @endif
                         </div>
                     </div>
@@ -104,12 +104,12 @@
                             </td>
                             <td class="center">
                                 @if ($job_premium)
-                                    <a href="mailto:theclubhouse@generalsports.com" class="buy-now btn sbs-red" style="">Contact Us</a>
+                                    <a href="mailto:{{ __('email.info_address') }}" class="buy-now btn sbs-red" style="">Contact Us</a>
                                 @endif
                             </td>
                             <td class="center">
                                 @if ($job_platinum)
-                                    <a href="mailto:theclubhouse@generalsports.com" class="buy-now btn sbs-red" style="">Contact Us</a>
+                                    <a href="mailto:{{ __('email.info_address') }}" class="buy-now btn sbs-red" style="">Contact Us</a>
                                 @endif
                             </td>
                         </tr>

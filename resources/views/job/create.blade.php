@@ -16,7 +16,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            Having trouble? Email us at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a>
+            Having trouble? Email us at <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a>
         </div>
     </div>
 </div>

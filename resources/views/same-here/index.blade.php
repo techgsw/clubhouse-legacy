@@ -39,7 +39,7 @@
                 <div class="col s6 center-align">
                     <a href="https://www.linkedin.com/in/lou-depaoli-3a41595/" target="_blank" class="no-underline"><img src="/images/same-here/lou-de-paoli.png" style="width: 80%; max-width: 180px; border-radius: 50%;"></a>
                     <h5>
-                        Lou De Paoli 
+                        Lou De Paoli
                         <span class="about-position">Managing Director</span>
                         <span class="about-position sbs-red-text">General Sports Worldwide</span>
                     </h5>
@@ -55,7 +55,7 @@
                 <div class="col s6 center-align">
                     <a href="https://www.linkedin.com/in/jentrymullins/" target="_blank" class="no-underline"><img src="/images/same-here/jentry-mullins.png" style="width: 80%; max-width: 180px; border-radius: 50%;"></a>
                     <h5>
-                        Jentry Mullins 
+                        Jentry Mullins
                         <span class="about-position">Senior Director</span>
                         <span class="about-position sbs-red-text">General Sports Worldwide</span>
                     </h5>
@@ -76,7 +76,7 @@
             <div class="row">
                 <div class="col s12 center-align">
                     <h4>#SameHere Solutions Blog</h4>
-                    <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:theclubhouse@generalsports.com">message us</a>.</p>
+                    <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested,  <a href="mailto:{{ __('email.info_address') }}">message us</a>.</p>
                 </div>
             </div>
             <div class="row">

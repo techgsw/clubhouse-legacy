@@ -14,7 +14,7 @@
                     <br />
                     <p>If needed, you can complete your career profile in <a href="/"><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup></a>. There you can update your resume and your career preferences so we can keep you in mind for other opportunities in the future.</p>
                     <br />
-                    <p>If you have any questions about <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>, or the status of this conversation you can always email us at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></p>
+                    <p>If you have any questions about <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>, or the status of this conversation you can always email us at <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></p>
                     <br />
                     <div class="center-align" style="margin-top: 20px;">
                         <a class="btn sbs-red" href="/register">Create your profile</a>
