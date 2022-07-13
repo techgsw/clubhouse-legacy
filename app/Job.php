@@ -58,7 +58,7 @@ class Job extends Model
 
     public function isNew()
     {
-        $new = (new \DateTime('NOW'))->sub(new \DateInterval('P14D'));
+        $new = (new \DateTime('NOW'))->sub(new \DateInterval('P3D'));
         return $this->created_at > $new;
     }
 
@@ -72,7 +72,7 @@ class Job extends Model
                 $totals[$inquiry->job_pipeline->name] += 1;
             } else {
                 $totals[$inquiry->job_pipeline->name] = 1;
-            }    
+            }
         }
 
         return $totals;
@@ -81,16 +81,16 @@ class Job extends Model
     public function contactAssignmentTotals()
     {
         $totals = array('none' => 0, 'up' => 0, 'maybe' => 0, 'down' => 0);
-        
-        foreach ($this->assignments as $contact_job) {   
+
+        foreach ($this->assignments as $contact_job) {
             if (array_key_exists($contact_job->job_pipeline->name, $totals)) {
 
                 $totals[$contact_job->job_pipeline->name] += 1;
             } else {
                 $totals[$contact_job->job_pipeline->name] = 1;
-            }            
+            }
         }
-        
+
         return $totals;
     }
 
@@ -115,7 +115,7 @@ class Job extends Model
             // extensions are only for 30 days regardless of job type
             $end_time = clone($this->extended_at)->add(new \DateInterval('P30D'));
         } else if ($this->job_type_id == JOB_TYPE_ID['sbs_default']) {
-            return 'Does not expire'; 
+            return 'Does not expire';
         } else if ($this->job_type_id == JOB_TYPE_ID['user_free']) {
             $end_time = $start_date->add(new \DateInterval('P30D'));
         } else if ($this->job_type_id == JOB_TYPE_ID['user_premium']) {
