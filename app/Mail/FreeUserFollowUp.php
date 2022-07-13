@@ -35,19 +35,19 @@ class FreeUserFollowUp extends Mailable
     {
         switch ($this->follow_up_type) {
             case "benefits":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Your Clubhouse Benefits")
                     ->markdown('emails.follow-up.free.benefits');
             case "content":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Maximizing the Clubhouse experience")
                     ->markdown('emails.follow-up.free.content');
             case "first_30":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Your one-month update ")
                     ->markdown('emails.follow-up.free.first-30');
             case "reengagement":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("We miss you!")
                     ->markdown('emails.follow-up.free.reengagement');
             default:
