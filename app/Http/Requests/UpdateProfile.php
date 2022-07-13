@@ -41,6 +41,7 @@ class UpdateProfile extends FormRequest
                 'max:255',
                 Rule::unique('user')->ignore($user->id)
             ],
+            'phone' => 'required',
             'secondary_email' => 'nullable|email|max:255'
         ];
     }
@@ -61,9 +62,10 @@ class UpdateProfile extends FormRequest
 	    'linkedin.regex' => 'LinkedIn URL must be a valid linkedin.com address.',
             'resume_url.mimes' => 'Resume is an invalid type. Please upload a valid PDF or DOC.',
             'resume_url.max' => 'Maximum allowed file size for a resume is 1.5MB.',
-            'email.required' => 'E-mail is required',
-            'email.email' => 'E-mail address must be valid',
+            'email.required' => 'Email is required',
+            'email.email' => 'Email address must be valid',
             'email.unique' => 'Email is already taken',
+            'phone.required' => 'Phone number is required',
             'secondary_email.email' => 'Secondary E-mail address must be valid'
         ];
     }
