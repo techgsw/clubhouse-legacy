@@ -57,7 +57,7 @@ class JobController extends Controller
         $jobs = Job::filter($request)
             ->orderBy('featured', 'desc')
             ->orderBy('created_at', 'desc')
-            ->orderBy('title', 'asc')
+            ->orderBy('organization_name', 'asc')
             ->inRandomOrder($request->session()->get('job_seed'))
             ->paginate(15);
 
@@ -83,7 +83,7 @@ class JobController extends Controller
             request('organization');
 
         $pipeline = Pipeline::orderBy('id', 'asc')->get();
-        
+
         return view('job/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
@@ -428,7 +428,7 @@ class JobController extends Controller
 
         $pd = new Parsedown;
 
-        $breadcrumb = array( 
+        $breadcrumb = array(
             'Clubhouse' => '/',
             'My Postings' => (!is_null($user) ? $user->can('view-admin-jobs') ? '/admin/job' : '/user/'.$user->id.'/job-postings/' : ''),
             'Sports Industry Job Board' => '/job',
@@ -584,7 +584,7 @@ class JobController extends Controller
                 Log::error($t);
             }
         }
-        
+
         $organization = Organization::find($request->organization_id);
         if (!$organization) {
             $request->session()->flash('message', new Message(
@@ -663,7 +663,7 @@ class JobController extends Controller
                 $job->country = request('country');
 
                 if ($request->user()->can('view-admin-jobs') && request('job_type') && isset(JOB_TYPE_ID[request('job_type')])) {
-                    $job->job_type_id = JOB_TYPE_ID[request('job_type')]; 
+                    $job->job_type_id = JOB_TYPE_ID[request('job_type')];
                 }
 
                 if (request('document')) {

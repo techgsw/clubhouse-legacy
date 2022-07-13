@@ -58,7 +58,7 @@ class Job extends Model
 
     public function isNew()
     {
-        $new = (new \DateTime('NOW'))->sub(new \DateInterval('P3D'));
+        $new = (new \DateTime('NOW'))->sub(new \DateInterval('P7D'));
         return $this->created_at > $new;
     }
 
