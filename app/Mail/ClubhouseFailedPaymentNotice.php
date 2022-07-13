@@ -35,11 +35,11 @@ class ClubhouseFailedPaymentNotice extends Mailable
     public function build()
     {
         if ($this->attempt_count < 4) {
-            return $this->from('app@sportsbusiness.solutions')
+            return $this->from(__('email.support_address'))
                 ->subject('Failed Payment Notice - theClubhouse®')
                 ->markdown('emails.clubhouse-failed-payment-notice');
         } else {
-            return $this->from('app@sportsbusiness.solutions')
+            return $this->from(__('email.support_address'))
                 ->subject('Failed Payment: FINAL NOTICE - theClubhouse®')
                 ->markdown('emails.clubhouse-failed-payment-final-notice');
         }

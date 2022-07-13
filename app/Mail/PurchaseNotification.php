@@ -40,37 +40,37 @@ class PurchaseNotification extends Mailable
     {
         switch ($this->type) {
             case 'career-service':
-                return $this->from('app@sportsbusiness.solutions')
+                return $this->from(__('email.support_address'))
                     ->subject('Career Service Purchase Notification - theClubhouse®')
                     ->markdown('emails.internal.purchase-notification');
                 break;
             case 'webinar':
-                return $this->from('app@sportsbusiness.solutions')
+                return $this->from(__('email.support_address'))
                     ->subject('Webinar RSVP Notification - theClubhouse®')
                     ->markdown('emails.internal.purchase-notification');
                 break;
             case 'membership':
-                return $this->from('app@sportsbusiness.solutions')
+                return $this->from(__('email.support_address'))
                     ->subject('Membership Purchase Notification - theClubhouse®')
                     ->markdown('emails.internal.purchase-notification');
                 break;
             case 'premium-job':
-                return $this->from('app@sportsbusiness.solutions')
+                return $this->from(__('email.support_address'))
                     ->subject('Preimium Job Purchase Notification - theClubhouse®')
                     ->markdown('emails.internal.purchase-notification');
                 break;
             case 'premium-job-upgrade':
-                return $this->from('app@sportsbusiness.solutions')
+                return $this->from(__('email.support_address'))
                     ->subject('Preimium Job Upgrade Purchase Notification - theClubhouse®')
                     ->markdown('emails.internal.purchase-notification');
                 break;
             case 'platinum-job':
-                return $this->from('app@sportsbusiness.solutions')
+                return $this->from(__('email.support_address'))
                     ->subject('Platinum Job Purchase Notification - theClubhouse®')
                     ->markdown('emails.internal.purchase-notification');
                 break;
             case 'platinum-job-upgrade':
-                return $this->from('app@sportsbusiness.solutions')
+                return $this->from(__('email.support_address'))
                     ->subject('Platinum Job Upgrade Purchase Notification - theClubhouse®')
                     ->markdown('emails.internal.purchase-notification');
                 break;

@@ -126,6 +126,8 @@ return [
 
     'info_email' => env('INFO_EMAIL', 'info@theclubhousecareers.com'),
 
+    'support_email' => env('SUPPORT_EMAIL', 'info@theclubhousecareers.com'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

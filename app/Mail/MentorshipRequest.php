@@ -26,6 +26,6 @@ class MentorshipRequest extends Mailable
 
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')->markdown('emails.mentor.request');
+        return $this->from(__('email.support_address'))->markdown('emails.mentor.request');
     }
 }

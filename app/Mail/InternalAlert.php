@@ -40,7 +40,7 @@ class InternalAlert extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
+        return $this->from(__('email.support_address'))
             ->markdown($this->view);
     }
 }

@@ -40,7 +40,7 @@ class InquiryContacted extends Mailable
         if (\Gate::allows('view-admin-dashboard')) {
             $mail = $this->from($this->user->email);
         } else {
-            $mail = $this->from('app@sportsbusiness.solutions');
+            $mail = $this->from(__('email.support_address'));
         }
 
         $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
