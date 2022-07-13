@@ -38,6 +38,7 @@ class Kernel extends ConsoleKernel
         Commands\CheckInvalidMentorCalendlyLinks::class,
         Commands\RefreshInstagramTokens::class,
         Commands\RefreshMailchimpSubscriberHashes::class,
+        Commands\Dev\LocalizationScan::class,
     ];
 
     /**
