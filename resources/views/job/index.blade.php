@@ -38,7 +38,7 @@
                     <div class="card-content" style="display: flex; flex-wrap: wrap; flex-flow: column; justify-content: space-between;">
                         <div class="col s12 center" style="">
                             @if (!is_null($job->image))
-                                <img style="height: 100px;" src="{{ $job->image->getURL('medium') }}" class="thumb">
+                                <img style="max-height: 100px;" src="{{ $job->image->getURL('medium') }}" class="thumb">
                             @endif
                         </div>
                         <div class="col s12 center" style="">
