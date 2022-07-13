@@ -95,7 +95,7 @@ class EmailServiceProvider extends ServiceProvider
             ->where('email.code', 'job_platinum')
             ->select('user.*')
             ->get();
-        
+
         Mail::to($admin_users)->send(new PurchaseNotification($user, $product_option, $amount, $type));
     }
 
@@ -267,7 +267,7 @@ class EmailServiceProvider extends ServiceProvider
         $days_since = (new \DateTime('now'))->diff($date_since)->format("%a");
 
         $mentors = Mentor::with([
-            'contact', 
+            'contact',
             'mentorRequests' => function($query) use ($date_since) {
                 $query->where('created_at', '>', $date_since);
             },
@@ -304,7 +304,7 @@ class EmailServiceProvider extends ServiceProvider
             return count($mentee->mentorRequests);
         });
 
-        Mail::to('theclubhouse@generalsports.com')->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
+        Mail::to(__('email.info_address'))->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
     }
 
     public static function sendInvalidMentorCalendlyLinkNotification($mentors)
@@ -313,7 +313,7 @@ class EmailServiceProvider extends ServiceProvider
             Mail::to($mentor->contact->email)->send(new InvalidMentorCalendlyLinkNotification($mentor));
         }
 
-        Mail::to('theclubhouse@generalsports.com')->send(new InvalidMentorCalendlyLinkSummary($mentors));
+        Mail::to(__('email.info_address'))->send(new InvalidMentorCalendlyLinkSummary($mentors));
     }
 
     public static function sendFailedInstagramRefreshNotification($exception, $env_name)
@@ -323,7 +323,7 @@ class EmailServiceProvider extends ServiceProvider
 
     /**
      * Handle all drip campaign and reengagement emails. Should be run daily
-     */ 
+     */
     public static function sendFollowUpEmails()
     {
         // Send all drip campaing follow up emails for free and pro users
@@ -343,7 +343,7 @@ class EmailServiceProvider extends ServiceProvider
             ->selectSub(function ($query) {
                 $query->selectRaw('DATE(t.created_at)');
             }, 'clubhouse_subscription_activated_date')->get();
-  
+
         $manually_added_clubhouse_users = User::select('user.*')
             ->whereDoesntHave('roles', function ($query) {
                 $query->where('role_code', 'administrator');
@@ -396,7 +396,7 @@ class EmailServiceProvider extends ServiceProvider
                  Mail::to($user)->send(new FreeUserFollowup($user, 'benefits'));
              }
         }
-        
+
         $reengagement_users = User::whereDoesntHave('roles', function ($query) {
                 $query->whereIn('role_code', array('administrator', 'clubhouse', 'clubhouse_collaborator'));
             })->whereHas('profile', function ($query) {
@@ -441,7 +441,7 @@ class EmailServiceProvider extends ServiceProvider
 
             foreach ($users as $user) {
                 if (!isset($job_users[$user->id])) {
-                    $job_users[$user->id] = array( 
+                    $job_users[$user->id] = array(
                         'user' => $user,
                         'jobs'=> array()
                     );
@@ -551,7 +551,7 @@ class EmailServiceProvider extends ServiceProvider
      */
     public static function sendContactJobFollowupEmails()
     {
-        $normal_followup_contacts = 
+        $normal_followup_contacts =
             ContactJob::where(DB::raw('DATE(job_interest_request_date)'), (new \DateTime('-2 days'))->format('Y-m-d'))
                 ->whereNull('job_interest_response_code')
                 ->get();
@@ -560,7 +560,7 @@ class EmailServiceProvider extends ServiceProvider
             Mail::to($contact_job->contact)->send(new ContactJobFollowup($contact_job, false));
         }
 
-        $final_followup_contacts = 
+        $final_followup_contacts =
             ContactJob::where(DB::raw('DATE(job_interest_request_date)'), (new \DateTime('-5 days'))->format('Y-m-d'))
                 ->whereNull('job_interest_response_code')
                 ->get();
