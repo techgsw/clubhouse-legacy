@@ -51,7 +51,7 @@ class ClubhouseFollowUp extends Mailable
                     ->subject("Want 1 on 1 career advice?")
                     ->markdown('emails.follow-up.clubhouse.career-services');
             case "first_30":
-                return $this->from('bob@sportsbusiness.solutions', __('email.info_name'))
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Your first 30 days as a PRO")
                     ->markdown('emails.follow-up.clubhouse.first-30');
             default:

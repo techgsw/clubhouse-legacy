@@ -32,7 +32,7 @@ class ContactUsController extends Controller
             return back()->withInput();
         }
 
-        $to = 'bob@sportsbusiness.solutions';
+        $to = __('email.info_address');
         Mail::to($to)->send(new Contact($request));
 
         return redirect()->action('ContactUsController@thanks');
