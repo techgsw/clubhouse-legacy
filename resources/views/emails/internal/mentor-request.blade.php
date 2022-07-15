@@ -11,7 +11,7 @@
 @endphp
 @component('emails.layout')
     @slot('body')
-        <p>Exciting! You have a new mentorship request in <span style="color:#EB2935">the</span>Clubhouse<sup>&#174;</sup> below. Please email <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> with which option works best for you and we'll get it scheduled.</p>
+        <p>Exciting! You have a new mentorship request in <span style="color:#EB2935">the</span>Clubhouse<sup>&#174;</sup> below. Please email <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> with which option works best for you and we'll get it scheduled.</p>
         <p>-<span style="color:#EB2935">the</span>Clubhouse<sup>&#174;</sup> Team</p>
         <p><a href="{{ env('CLUBHOUSE_URL') }}/user/{{ $user->id }}/profile">{{ $user->getName() }}</a> (<a href="mailto::{{ $user->email }}">{{ $user->email }}</a>) requested a mentorship meeting with <a href="{{ env('CLUBHOUSE_URL') }}/contact/{{ $mentor->contact->id }}/mentor">{{ $mentor->contact->getName() }}</a> (<a href="mailto::{{ $mentor->contact->email }}">{{ $mentor->contact->email }}</a>) on the following dates ({{ $timezones[$mentor->timezone] }}):</p>
         <ul>

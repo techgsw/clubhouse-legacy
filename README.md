@@ -38,7 +38,7 @@ First, install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) and [
 
 Drop this `Homestead.yaml` config file into the project's root directory:
 ```
-ip: 192.168.10.10
+ip: 192.168.56.10
 memory: 2048
 cpus: 1
 provider: virtualbox
@@ -66,7 +66,7 @@ Add to Hosts
 ```
 sudo vi /etc/hosts
 ```
-Add `192.168.10.10 sportsbusinesssolutions` to the list of hosts
+Add `192.168.56.10 sportsbusinesssolutions` to the list of hosts
 
 Run the dang thing
 ```
@@ -92,10 +92,10 @@ php artisan migrate
 To obtain access through a client like Sequel Pro or MySQL Workbench, set up with SSH
 
 ```
-Host:     192.168.10.10
+Host:     192.168.56.10
 Username: homestead
 Password: secret
-SSH Host: 192.168.10.10
+SSH Host: 192.168.56.10
 SSH User: vagrant
 SSH Pass: vagrant
 ```

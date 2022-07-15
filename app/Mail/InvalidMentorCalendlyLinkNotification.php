@@ -29,7 +29,7 @@ class InvalidMentorCalendlyLinkNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('theclubhouse@generalsports.com')
+        return $this->from(__('email.info_address'))
             ->subject('Your Mentor Calend.ly link appears to be invalid')
             ->markdown('emails.mentor.invalid-calendly-link');
     }

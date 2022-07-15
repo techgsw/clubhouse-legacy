@@ -264,9 +264,9 @@ class JobController extends Controller
         try {
             $organization_address = $organization->addresses()->first();
             if (is_null($organization_address)) {
-                throw new SBSException('The organization you selected does not have an address. Please contact theclubhouse@generalsports.com to get this resolved.');
+                throw new SBSException('The organization you selected does not have an address. Please contact ' . __('email.info_address') . ' to get this resolved.');
             } elseif (is_null($organization_address->city) || is_null($organization_address->state) || is_null($organization_address->country)) {
-                throw new SBSException('This organization does not have a valid city, state or country. Please contact theclubhouse@generalsports.com to get this resolved.');
+                throw new SBSException('This organization does not have a valid city, state or country. Please contact ' . __('email.info_address') . ' to get this resolved.');
             }
 
             $job = new Job([

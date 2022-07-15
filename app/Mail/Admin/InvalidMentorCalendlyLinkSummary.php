@@ -29,7 +29,7 @@ class InvalidMentorCalendlyLinkSummary extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
+        return $this->from(__('email.support_address'))
             ->subject('Invalid Calend.ly links found for mentors - theClubhouse®')
             ->markdown('emails.internal.invalid-mentor-calendly-link');
     }
