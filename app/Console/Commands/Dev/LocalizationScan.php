@@ -59,7 +59,7 @@ class LocalizationScan extends Command
         }
     }
 
-    protected function getMatches(string $line): ?array
+    protected function getMatches(string $line)
     {
         $matches = null;
 
@@ -88,7 +88,7 @@ class LocalizationScan extends Command
         return $matches;
     }
 
-    protected function readFile(string $filePath, string $contents): int
+    protected function readFile(string $filePath, string $contents)
     {
         $lineNum = 1;
         $errors = 0;
@@ -136,7 +136,7 @@ class LocalizationScan extends Command
         return $errors;
     }
 
-    protected function echoSuccess(): void
+    protected function echoSuccess()
     {
         $tests = number_format($this->totalTests, 0, '.', ',');
         $files = number_format($this->totalFiles, 0, '.', ',');
@@ -144,7 +144,7 @@ class LocalizationScan extends Command
         echo  "\033[01;32m{$tests} total tests in {$files} files.\033[0m" . PHP_EOL;
     }
 
-    protected function dumpErrors(): void
+    protected function dumpErrors()
     {
         $this->errorDump->each(function ($message) {
             echo $message;
