@@ -79,8 +79,8 @@
                 <div class="row">
                     <div class="col s12 center-align">
                         <h4>#SameHere Solutions Blog</h4>
-                        <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested, <a href="mailto:theclubhouse@generalsports.com">message us</a>.</p>
-                    </div>
+                    <p>This blog is filled with personal stories and "life hacks" to help support your mental health. It can be intimidating but incredibly rewarding to tell your story. If you'd like to take that step, we'd be honored if you told your story here. If interested,  <a href="mailto:{{ __('email.info_address') }}">message us</a>.</p>
+                </div>
                 </div>
                 <div class="row">
                     @if (count($posts) > 0)
