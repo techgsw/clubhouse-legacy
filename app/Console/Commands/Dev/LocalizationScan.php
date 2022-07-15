@@ -10,11 +10,11 @@ class LocalizationScan extends Command
 {
     protected $signature = 'lang:scan {--root=} {--file=} {--key=} {--string=} {--brief=}';
     protected $description = 'Scan Blade files for localization errors.';
-    protected int $totalFiles = 0;
-    protected int $tests = 0;
-    protected int $totalTests = 0;
-    protected int $totalErrors = 0;
-    protected Collection $errorDump;
+    protected $totalFiles = 0;
+    protected $tests = 0;
+    protected $totalTests = 0;
+    protected $totalErrors = 0;
+    protected $errorDump;
 
     public function handle()
     {
