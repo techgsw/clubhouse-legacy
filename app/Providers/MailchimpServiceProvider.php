@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\User;
+use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 
@@ -22,9 +23,11 @@ class MailchimpServiceProvider extends ServiceProvider
      * @param array      $subsbcribed_id_list  Keep track of user IDs that are present in Mailchimp.
      **/
     public static function refreshMailchimpSubscriberHashes(
-        int $offset = 0,
+        int $offset = null,
         array $subscribed_id_list = []
     ) {
+        $offset = (! $offset) ? 0 : $offset;
+        
         Log::info('Starting refresh of mailchimp subscriber hashes'
                   .($offset ? ' with offset '.$offset : ''));
 
@@ -89,10 +92,10 @@ class MailchimpServiceProvider extends ServiceProvider
         }
     }
 
-    public static function addToMailchimp(User $user)
+    public static function addToMailchimp(User $user, $list_id = null)
     {
         $api_key = env("MAILCHIMP_API_KEY");
-        $list_id = env("MAILCHIMP_LIST_ID");
+        $list_id = (! $list_id) ? env("MAILCHIMP_LIST_ID") : $list_id;
         $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members";
         $fields = array(
             "email_address" => $user->email,
@@ -141,14 +144,14 @@ class MailchimpServiceProvider extends ServiceProvider
         }
     }
 
-    public static function deleteFromMailchimp(User $user)
+    public static function deleteFromMailchimp(User $user, $list_id = null)
     {
         if (!$user->mailchimp_subscriber_hash) {
             throw new \Exception('Mailchimp subscriber hash not found for user '.$user->id);
         }
 
         $api_key = env("MAILCHIMP_API_KEY");
-        $list_id = env("MAILCHIMP_LIST_ID");
+        $list_id = (! $list_id) ? env("MAILCHIMP_LIST_ID") : $list_id;
         $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members/{$user->mailchimp_subscriber_hash}/actions/delete-permanent";
 
         $ch = curl_init($url);
@@ -174,5 +177,16 @@ class MailchimpServiceProvider extends ServiceProvider
 
         $user->mailchimp_subscriber_hash = null;
         $user->save();
+    }
+
+    public static function addUserToProMembersList(User $user)
+    {
+        $proListId = env("MAILCHIMP_PRO_LIST_ID");
+
+        if (! $proListId) {
+            throw new \Exception('Missing MAILCHIMP_PRO_LIST_ID in .env');
+        }
+
+        self::addToMailchimp($user, $proListId);
     }
 }
