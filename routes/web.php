@@ -160,7 +160,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
     Route::group(['namespace' => 'Admin', 'middleware' => ['web','auth', 'ajax_only']], function () {
         Route::post('/admin/inquiry/pipeline-backward', 'InquiryController@pipelineBackward');
         Route::post('/admin/inquiry/pipeline-pause', 'InquiryController@pipelinePause');
-        
+
         Route::post('/admin/contact-job/pipeline-backward/', 'ContactJobController@pipelineBackward');
         Route::post('/admin/contact-job/pipeline-pause/', 'ContactJobController@pipelinePause');
     });
@@ -200,6 +200,8 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::post('/post', 'PostController@store');
         Route::get('/post/{id}/edit', 'PostController@edit');
         Route::post('/post/{id}', 'PostController@update');
+        Route::get('/post/{id}/delete', 'PostController@destroy');
+
 
         //TODO move this out of blog
         Route::post('/tag', 'TagController@store');
@@ -362,7 +364,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/membership-options', 'ClubhouseController@proMembership');
     });
 
-    // Resources 
+    // Resources
     Route::group(['middleware' => ['web']], function () {
         Route::get('/resources', 'ClubhouseController@resources');
     });
