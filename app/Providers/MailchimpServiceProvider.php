@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\User;
+use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 
@@ -176,5 +177,16 @@ class MailchimpServiceProvider extends ServiceProvider
 
         $user->mailchimp_subscriber_hash = null;
         $user->save();
+    }
+
+    public static function addUserToProMembersList(User $user)
+    {
+        $proListId = env("MAILCHIMP_PRO_LIST_ID");
+
+        if (! $proListId) {
+            throw new \Exception('Missing MAILCHIMP_PRO_LIST_ID in .env');
+        }
+
+        self::addToMailchimp($user, $proListId);
     }
 }
