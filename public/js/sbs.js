@@ -505,7 +505,7 @@ $.valHooks.textarea = {
             data: {
                 '_token': $('form#assign-contact-job input[name="_token"]').val(),
                 'contact_id': contact_id,
-                'job_id': job_id 
+                'job_id': job_id
             }
         });
     }
@@ -517,7 +517,7 @@ $.valHooks.textarea = {
             data: {
                 '_token': $('form#assign-contact-job input[name="_token"]').val(),
                 'contact_id': contact_id,
-                'job_id': job_id 
+                'job_id': job_id
             }
         });
     }
@@ -527,7 +527,7 @@ $.valHooks.textarea = {
             type: 'GET',
             url: '/job-options/upgrade_options',
             data: {
-                'job_id': job_id 
+                'job_id': job_id
             }
         });
     }
@@ -739,7 +739,7 @@ $.valHooks.textarea = {
                 if (Object.keys(options).length == 1) {
                     $('form select#organization-id').trigger('change');
                 }
-                
+
                 // Initialize autocompletes
                 organization_autocomplete.autocomplete({
                     data: options,
@@ -788,18 +788,18 @@ $.valHooks.textarea = {
         {
             click: function (e, ui) {
                 var organization_name = $('form.organization-create').find('#name').val()
-                
+
                 Organization.create($('form.organization-create').serialize())
                 .done(function (response) {
                     if (!response.organization) {
                         UI.displayMessage({ type: 'danger', message: response.message });
-                        return; 
+                        return;
                     }
 
                     $('input#organization-id').attr('value', response.organization.id);
                     $('input#organization.organization-autocomplete').attr('value', response.organization.name);
                     $('input#organization.organization-autocomplete').val(response.organization.name);
-                    
+
                     /*
                     Organization.getPreview(response.id, 'medium')
                         .done(function (resp) {
@@ -823,7 +823,7 @@ $.valHooks.textarea = {
                 .fail(function (response) {
                     UI.displayMessage({ type: 'danger', message: reps.message });
                 });
-                
+
                 $('.organization-create-modal').modal('close');
             }
         },
@@ -940,7 +940,7 @@ $.valHooks.textarea = {
         '.view-contact-job-assignment-btn'
     );
 
-    // Assign contact to job 
+    // Assign contact to job
     $('body').on(
         {
             click: function (e, ui) {
@@ -971,7 +971,7 @@ $.valHooks.textarea = {
         '.contact-job-assignment-btn'
     );
 
-    // Remove contact from job 
+    // Remove contact from job
     $('body').on(
         {
             click: function (e, ui) {
@@ -983,7 +983,7 @@ $.valHooks.textarea = {
                     if (button_group_id !== undefined) {
                         button = $('[data-button-group-id = "' + button_group_id + '"]');
                     }
-                                        
+
                 Job.unassignContact(contact_id, job_id).done(function (resp) {
                     if (resp.type == 'success') {
                         $.each(button, function (index, button) {
@@ -996,10 +996,10 @@ $.valHooks.textarea = {
                             $(button).addClass('contact-job-assignment-btn');
                             $(button).addClass('sbs-red');
                             $(button).html('ASSIGN TO JOB');
-    
+
                             $(assigned_by).html('');
                             $(assigned_by).parent().addClass('hidden');
-    
+
                             $(assigned_at).html('');
                             $(assigned_at).parent().addClass('hidden');
                         });
@@ -1343,7 +1343,7 @@ $.valHooks.textarea = {
         },
         '.tag-autocomplete'
     );
-    
+
     $('body').on(
         {
             click: function(e, ui){
@@ -1552,7 +1552,7 @@ $.valHooks.textarea = {
                         $(ui).children('i.fa-envelope').remove();
                         $(ui).html(function (i, html) {
                             return html.replace(/&nbsp;/g, '');
-                        });    
+                        });
                     }
 
                     if (resp.pipeline_id != 1
@@ -1632,7 +1632,7 @@ $.valHooks.textarea = {
         });
     }
 
-    // Change pipline step 
+    // Change pipline step
     $('body').on(
         {
             click: function () {
@@ -2020,6 +2020,15 @@ $.valHooks.textarea = {
         '#add-blog-image'
     );
 
+    $('#blog_delete').on('click', function (event) {
+        event.preventDefault();
+        var targetUrl = $(this).attr('href');
+
+        if (confirm("Are you sure you want to delete this post? \n(Cannot be undone)")) {
+            location.href = targetUrl;
+        }
+    });
+
     //end Blog editor
 
 
@@ -2203,7 +2212,7 @@ $.valHooks.textarea = {
         {
             click: function (e) {
                 var input = $(this);
-                
+
                 if (!input.val() || input.val() === "") {
                     var year = parseInt(input.attr('default-year'));
                     var month = parseInt(input.attr('default-month'));
@@ -2555,12 +2564,12 @@ $.valHooks.textarea = {
             wrapper_bottom = $('#registration-form-wrapper-bottom'),
             registration_form = $('#registration-form-wrapper');
         if ($(window).width() <= 585 && $(wrapper_bottom).html() == '') {
-            $(registration_form).detach(); 
+            $(registration_form).detach();
             $(wrapper_top).html('');
             $(wrapper_bottom).append(registration_form);
         }
         if ($(window).width() > 585 && $(wrapper_top).html() == '') {
-            $(registration_form).detach(); 
+            $(registration_form).detach();
             $(wrapper_bottom).html('');
             $(wrapper_top).append(registration_form);
         }

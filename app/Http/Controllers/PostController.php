@@ -275,4 +275,18 @@ class PostController extends Controller
     {
         return redirect()->action('BlogController@show', [$title_url]);
     }
+
+    public function destroy($title_url)
+    {
+        $post = Post::where('title_url', $title_url)->first();
+        if (!$post) {
+            return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
+        }
+
+        $post->images()->detach();
+        $post->tags()->detach();
+        $post->delete();
+
+        return redirect()->action('BlogController@index');
+    }
 }

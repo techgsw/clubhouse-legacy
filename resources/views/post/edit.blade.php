@@ -92,6 +92,7 @@
                 </div>
                 <div class="input-field" style="margin-top: 40px;">
                     <button type="submit" class="btn sbs-red">Save changes</button>
+                    <button id="blog_delete" href="/post/{{ $post->title_url }}/delete" class="btn sbs-red">Delete Post</button>
                 </div>
             </div>
         </div>

@@ -83,6 +83,7 @@
                     @can ('edit-post', $post)
                         <div style="float: right;">
                             <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
+                            <a id="blog_delete" href="/post/{{ $post->title_url }}/delete" class="flat-button red small"><i class="fa fa-trash"></i> Delete</a>
                         </div>
                     @endif
                     <h1 class="title">{{ $post->title }}</h1>
