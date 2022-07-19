@@ -282,6 +282,7 @@ class PostController extends Controller
         if (!$post) {
             return redirect()->back()->withErrors(['msg' => 'Could not find post ' . $title_url]);
         }
+        $this->authorize('delete-post', $post);
 
         $post->images()->detach();
         $post->tags()->detach();
