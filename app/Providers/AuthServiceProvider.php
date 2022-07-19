@@ -75,7 +75,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
 
-        // Clubhouse member 
+        // Clubhouse member
         Gate::define('view-clubhouse', function ($auth_user) {
             return $auth_user->hasAccess('clubhouse_view');
         });
@@ -221,6 +221,9 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('edit-post', function ($user, $post) {
             return $user->id == $post->user_id || $user->hasAccess('post_edit');
+        });
+        Gate::define('delete-post', function ($user) {
+            return $user->hasAccess('post_delete');
         });
 
         // Tags
