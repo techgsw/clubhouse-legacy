@@ -4,7 +4,6 @@
             <li>
                 <a href="https://generalsportsworldwide.com" class="no-underline">
                     <strong>General Sports Worldwide</strong>
-                    <!--<img style="height: 30px; margin-top: 5px;" src="/images/SBSonly_logo.png" alt="SBS Consulting">-->
                 </a>
             </li>
             @can ('view-admin-dashboard')

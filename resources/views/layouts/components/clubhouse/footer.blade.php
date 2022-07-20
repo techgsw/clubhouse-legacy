@@ -24,7 +24,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <p class="small">Copyright &copy; {{ date('Y') }} SBS Consulting | All Rights Reserved</p>
+            <p class="small">Copyright &copy; {{ date('Y') }} {{ __('general.company_name') }} | All Rights Reserved</p>
         </div>
     </div>
     @include('layouts.components.message-template')

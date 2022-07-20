@@ -7,10 +7,10 @@
     <!-- Twitter Card data -->
     <meta name="twitter:card" value="summary_large_image">
     <meta name="twitter:image" content="@yield('image', url('/').'/images/same-here/Share-Same-Here-Logo.jpg')">
-    <meta name="description" content="@yield('description', 'SBS Consulting provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
+    <meta name="description" content="@yield('description', 'theClubhouse® provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
     <!-- OPEN GRAPH -->
     <meta property="og:title" content="@yield('title', 'theClubhouse®') | theClubhouse®" />
-    <meta property="og:description" content="@yield('description', 'SBS Consulting provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
+    <meta property="og:description" content="@yield('description', 'theClubhouse® provides training, consulting, and recruiting services for sports teams and provide career services for those interested in working in sports.')" />
     <meta property="og:image" content="@yield('image', url('/').'/images/same-here/Share-Same-Here-Logo.jpg')">
     <meta property="og:image:height" content="260">
     <meta property="og:image:width" content="500">

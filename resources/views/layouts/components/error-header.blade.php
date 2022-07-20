@@ -12,7 +12,7 @@
     <nav class="nav-main" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo">
-                <img src="/images/sbs_consulting_logo.png" alt="SBS Consulting">
+                <img src="/images/logos/full/CH_logo_color.jpg?v=1" alt="theClubhouse®">
             </a>
         </div>
     </nav>
