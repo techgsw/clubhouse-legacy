@@ -84,10 +84,11 @@
 
                                             <div class="blog_blurb">{{ strip_tags($post->blurb) }}</div>
                                         </a>
-
-                                        @foreach($post->tags as $tag)
-                                            <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
-                                        @endforeach
+                                        <div>
+                                            @foreach($post->tags as $tag)
+                                                <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>

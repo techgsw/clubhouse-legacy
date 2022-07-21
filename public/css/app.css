@@ -1478,13 +1478,26 @@ div.arrow.down {
 .blog-post {
     outline: none;
 }
+
 .blog-panel {
-    min-height: 42rem;
+    position: relative;
+    min-height: 80vh;
     margin-top: 0;
     margin-bottom: 2rem;
     padding: 5px;
     border: 1px solid #9e9e9e;
 }
+@media only screen and (max-height: 640px) {
+    .blog-panel {
+        min-height: 120vh;
+    }
+}
+@media only screen and (max-height: 440px) {
+    .blog-panel {
+        min-height: 130vh;
+    }
+}
+
 .blog_blurb {
     margin-bottom: 1rem;
     font-weight: 300;

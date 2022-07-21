@@ -23,10 +23,15 @@ class Post extends Model
     {
         $parsedown = new Parsedown();
         $body = strip_tags($parsedown->text($this->body));
-        $post_length = strlen($body);
-        $index = 200;
+        $postLength = strlen($body);
+        $titleAuthorLength = (strlen($this->title) * 2)
+            + strlen($this->authored_by)
+            + strlen($this->first_name)
+            + strlen($this->last_name);
+
+        $index = 300 - $titleAuthorLength;
         // Break into words
-        while (!preg_match('/\s/', $body[$index]) && $post_length > $index) {
+        while (!preg_match('/\s/', $body[$index]) && $postLength > $index) {
             $index++;
         }
 
