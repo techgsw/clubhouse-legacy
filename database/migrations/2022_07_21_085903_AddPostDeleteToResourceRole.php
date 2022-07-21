@@ -18,7 +18,7 @@ class AddPostDeleteToResourceRole extends Migration
         DB::table('resource_role')->insert(
             [
                 'resource_code' => 'post_delete',
-                'role_code' => 'adminstator'
+                'role_code' => 'administrator'
             ]
         );
         DB::table('resource_role')->insert(
