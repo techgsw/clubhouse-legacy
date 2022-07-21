@@ -61,13 +61,12 @@
                 </div>
             @endif
             @if (count($posts) > 0)
-                @foreach ($posts->chunk(3) as $chunked_posts)
-
+                @foreach ($posts->chunk(6) as $chunked_posts)
                     <div class="blog-list-item">
-                        <div class="row">
+                        <div class="row" style="max-height: 0;">
                             @foreach($chunked_posts as $post)
-                            <div class="col s12 l4">
-                                <div class="col s12 l12" style="border: 1px solid #9e9e9e; padding: 5px; min-height: 40rem;">
+                            <div class="col s12 m6 l4" >
+                                <div class="blog-panel">
                                     <div>
                                         @if (!is_null($post->images->first()))
                                             <a href="/post/{{ $post->title_url}}" target="_blank" rel="noopener" class="no-underline blog-image-hover">
@@ -78,29 +77,17 @@
                                     <div style="margin: 1rem;">
                                         <a href="/post/{{ $post->title_url}}" target="_blank" rel="noopener" class="no-underline blog-list-hover">
                                             <h5 style="margin-top: 0; margin-bottom: 0; font-weight: 600;">{{ $post->title }}</h5>
-                                            <p class="small light" style="margin-top: 3px;">By <span style="text-transform: uppercase;">{{(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)}}</span></p>
-                                            @php
-                                                // TODO I'm sure this could be more elegant.
-                                                $parsedown = new Parsedown();
-                                                $body = strip_tags($parsedown->text($post->body));
-                                                $post_length = strlen($body);
-                                                $index = 200;
-                                            @endphp
-                                            @if ($post_length > $index)
-                                                @while (!preg_match('/\s/', $body[$index]) && $post_length > $index)
-                                                    @php $index++; @endphp
-                                                @endwhile
-                                                <p class="">{{ substr($body, 0, $index) }}...</p>
-                                            @else
-                                                <p class="">{{ $body }}</p>
-                                            @endif
+
+                                            <p class="small light" style="margin-top: 3px;">
+                                                By <span style="text-transform: uppercase;">{{(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)}}</span>
+                                            </p>
+
+                                            <div class="blog_blurb">{{ strip_tags($post->blurb) }}</div>
                                         </a>
-                                        <div class="hide-on-med-and-up" style="height: 10px"><br></div>
-                                        <div class="">
-                                            @foreach($post->tags as $tag)
-                                                <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
-                                            @endforeach
-                                        </div>
+
+                                        @foreach($post->tags as $tag)
+                                            <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

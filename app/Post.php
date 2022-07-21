@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Parsedown;
 
 class Post extends Model
 {
@@ -15,6 +16,22 @@ class Post extends Model
         'updated_at',
         'edited_at'
     ];
+
+    protected $attributes = ['blurb'];
+
+    public function getBlurbAttribute()
+    {
+        $parsedown = new Parsedown();
+        $body = strip_tags($parsedown->text($this->body));
+        $post_length = strlen($body);
+        $index = 200;
+        // Break into words
+        while (!preg_match('/\s/', $body[$index]) && $post_length > $index) {
+            $index++;
+        }
+
+        return substr($body, 0, $index) . '&hellip;';
+    }
 
     public function user()
     {
