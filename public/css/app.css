@@ -1481,7 +1481,7 @@ div.arrow.down {
 
 .blog-panel {
     position: relative;
-    min-height: 80vh;
+    min-height: 38rem;
     margin-top: 0;
     margin-bottom: 2rem;
     padding: 5px;
@@ -1489,12 +1489,12 @@ div.arrow.down {
 }
 @media only screen and (max-height: 640px) {
     .blog-panel {
-        min-height: 120vh;
+        min-height: 34rem;
     }
 }
 @media only screen and (max-height: 440px) {
     .blog-panel {
-        min-height: 130vh;
+        min-height: 36rem;
     }
 }
 
