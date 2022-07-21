@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddDeletePostResource extends Migration
 {
@@ -12,12 +13,14 @@ class AddDeletePostResource extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         DB::table('resource')->insert(
             array(
                 'code' => 'post_delete',
                 'description' => "Can delete a blog post."
             )
         );
+        Schema::enableForeignKeyConstraints();
 
     }
 
@@ -28,6 +31,8 @@ class AddDeletePostResource extends Migration
      */
     public function down()
     {
-        DB::delete('delete from resource_role where resource_code = "post_delete"');
+        Schema::disableForeignKeyConstraints();
+        DB::delete('delete from resource where code = "post_delete"');
+        Schema::enableForeignKeyConstraints();
     }
 }
