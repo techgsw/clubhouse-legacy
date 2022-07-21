@@ -14,6 +14,7 @@ class AddPostDeleteToResourceRole extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         DB::table('resource_role')->insert(
             [
                 'resource_code' => 'post_delete',
@@ -26,6 +27,7 @@ class AddPostDeleteToResourceRole extends Migration
                 'role_code' => 'superuser'
             ]
         );
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -35,6 +37,8 @@ class AddPostDeleteToResourceRole extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         DB::delete('delete from resource_role where resource_code = "post_delete"');
+        Schema::enableForeignKeyConstraints();
     }
 }
