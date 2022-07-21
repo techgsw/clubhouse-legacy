@@ -28,6 +28,6 @@ class AddDeletePostResource extends Migration
      */
     public function down()
     {
-        DB::delete('delete from resource_role where resource_code = "post_delete"');
+        DB::delete('delete from resource where code = "post_delete"');
     }
 }
