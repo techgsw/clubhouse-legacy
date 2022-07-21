@@ -35,23 +35,23 @@ class ClubhouseFollowUp extends Mailable
     {
         switch ($this->follow_up_type) {
             case "connected":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Have we connected yet?")
                     ->markdown('emails.follow-up.clubhouse.connected');
             case "networking":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Talk with sports industry mentors")
                     ->markdown('emails.follow-up.clubhouse.networking');
             case "webinars":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Sports Industry Best Practices")
                     ->markdown('emails.follow-up.clubhouse.webinars');
             case "career_services":
-                return $this->from('theclubhouse@generalsports.com', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Want 1 on 1 career advice?")
                     ->markdown('emails.follow-up.clubhouse.career-services');
             case "first_30":
-                return $this->from('bob@sportsbusiness.solutions', 'theClubhouse Team')
+                return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject("Your first 30 days as a PRO")
                     ->markdown('emails.follow-up.clubhouse.first-30');
             default:

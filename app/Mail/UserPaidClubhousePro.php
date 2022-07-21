@@ -31,7 +31,7 @@ class UserPaidClubhousePro extends Mailable
      */
     public function build()
     {
-        return $this->from('theclubhouse@generalsports.com', 'Clubhouse Team')
+        return $this->from(__('email.info_address'), 'Clubhouse Team')
             ->subject('Welcome to PRO membership')
             ->markdown('emails.checkout.paid-clubhouse-pro');
     }

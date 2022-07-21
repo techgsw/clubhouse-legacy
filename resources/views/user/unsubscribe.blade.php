@@ -18,7 +18,7 @@
         <div class="row">
             @if (!$email_preference_new_content && !$profile->email_preference_marketing && !$profile->email_preference_new_job)
                 <div class="col s12">
-                    <p><h5><strong>You are already unsubscribed from all content notifications.</strong></h5> If you are still receiving emails, please forward them to <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> and we will fix the issue.</p>
+                    <p><h5><strong>You are already unsubscribed from all content notifications.</strong></h5> If you are still receiving emails, please forward them to <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> and we will fix the issue.</p>
                 </div>
             @else
                 <div class="input-field col s12">

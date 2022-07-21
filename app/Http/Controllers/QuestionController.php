@@ -157,7 +157,7 @@ class QuestionController extends Controller
         $bob = User::find(1);
 
         try {
-            $notification_emails = array('theclubhouse@generalsports.com');
+            $notification_emails = array(__('email.info_address'));
             if ($this->context == 'sales-vault') {
                 $notification_emails = array_merge($notification_emails,
                     User::join('email_user', 'user.id', 'email_user.user_id')

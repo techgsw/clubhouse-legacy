@@ -26,11 +26,11 @@
             <div class="row">
                 <div class="input-field col s12 m6 {{ $errors->has('email') ? 'invalid' : '' }}">
                     <input id="email" name="email" type="text" value="{{ $user->email }}">
-                    <label for="email" class="active">Email</label>
+                    <label for="email" class="active">Email <span class="sbs-red-text">*</span></label>
                 </div>
                 <div class="input-field col s12 m6">
-                    <input id="phone" type="text" name="phone" value="{{ old('phone') ?: $profile->phone ?: "" }}" />
-                    <label for="phone">Phone</label>
+                    <input id="phone" type="text" name="phone" value="{{ old('phone') ?: $profile->phone ?: "" }}"/>
+                    <label for="phone">Phone <span class="sbs-red-text">*</span></label>
                 </div>
             </div>
             <div class="row">

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'SBS Consulting',
+    'name' => 'General Sports Worldwide',
 
     /*
     |--------------------------------------------------------------------------
@@ -123,6 +123,10 @@ return [
     'log' => env('APP_LOG', 'single'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
+
+    'info_email' => env('INFO_EMAIL', 'info@theclubhousecareers.com'),
+
+    'support_email' => env('SUPPORT_EMAIL', 'info@theclubhousecareers.com'),
 
     /*
     |--------------------------------------------------------------------------

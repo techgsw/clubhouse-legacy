@@ -83,6 +83,7 @@
                     @can ('edit-post', $post)
                         <div style="float: right;">
                             <a href="/post/{{ $post->title_url }}/edit" class="flat-button blue small"><i class="fa fa-pencil"></i> Edit</a>
+                            <a id="blog_delete" href="/post/{{ $post->title_url }}/delete" class="flat-button red small"><i class="fa fa-trash"></i> Delete</a>
                         </div>
                     @endif
                     <h1 class="title">{{ $post->title }}</h1>
@@ -124,7 +125,7 @@
                         <div class="col s12 center-align">
                             <a href="https://generalsportsworldwide.com/" class="btn sbs-red blog-cta" style="line-height:20px;">General Sports Worldwide for Training | Consulting | Recruiting</a>
                             <a target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}" class="btn sbs-red blog-cta" style="line-height:20px;">Grow your professional sports career in theClubhouse<sup>&#174;</sup></a>
-                            <a href="mailto:theclubhouse@generalsports.com" class="btn sbs-red blog-cta">Contact theClubhouse</a>
+                            <a href="mailto:{{ __('email.info_address') }}" class="btn sbs-red blog-cta">Contact theClubhouse</a>
                         </div>
                     </div>
                 </div>
@@ -136,13 +137,13 @@
     <div class="blog-sidebar sidebar-mobile">
         <a class="no-underline clubhouse-logo" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><img style="width:75px" src="/images/CH_logo-compass.png"/></a>
         <p><a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/career-services">Career Services</a>
-           <strong class="sbs-red-text">|</strong> 
-           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/webinars">Webinars</a> 
-           <strong class="sbs-red-text">|</strong> 
+           <strong class="sbs-red-text">|</strong>
+           <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/webinars">Webinars</a>
+           <strong class="sbs-red-text">|</strong>
            <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/mentor">Industry Mentorship</a>
-           <br> 
+           <br>
            <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/job">Jobs in Sports</a>
-           <strong class="sbs-red-text">|</strong> 
+           <strong class="sbs-red-text">|</strong>
            <a class="no-underline" target="_blank" rel="noopener" href="{{env('CLUBHOUSE_URL')}}/training">Training</a></p>
         <p><a class="no-underline" href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}"><strong>Become a Clubhouse PRO Member</strong></a><br>{{CLUBHOUSE_FREE_TRIAL_DAYS}}-day free trial&nbsp;&nbsp;$7/month</p>
         <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" style="height:50px;width:60%;padding:20px;line-height: 12px;" class="btn sbs-red">Subscribe Now</a>

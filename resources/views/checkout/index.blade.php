@@ -33,8 +33,8 @@
     </div>
     <form method="post" id="checkout-form" action="/checkout">
         {{ csrf_field() }}
-        <input type="hidden" name="stripe_product_id" value="{{ ($product_option->stripe_plan_id ? $product_option->stripe_plan_id : $product_option->stripe_sku_id) }}" /> 
-        <input type="hidden" name="job_id" value="{{ $job_id }}" /> 
+        <input type="hidden" name="stripe_product_id" value="{{ ($product_option->stripe_plan_id ? $product_option->stripe_plan_id : $product_option->stripe_sku_id) }}" />
+        <input type="hidden" name="job_id" value="{{ $job_id }}" />
         <div class="row">
             <div class="col s12 m6 hidden" id="card-waiting">
                 <div class="row valign-wrapper">
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="col s12 m6 hidden" id="add-card-error">
-                <span class="sbs-red-text">Sorry, there was an error adding your card. Please try again or contact <a href="mailto:clubhouse@sportsbussiness.solutions">theclubhouse@generalsports.com</a> for help.</span>
+                <span class="sbs-red-text">Sorry, there was an error adding your card. Please try again or contact <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> for help.</span>
             </div>
             <div class="input-field col s12 m6 {{ $product_type == 'webinar' ? 'hidden' : '' }}" id="payment-method-wrapper">
                 <select class="" name="payment_method" id="payment-method">

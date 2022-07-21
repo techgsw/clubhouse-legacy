@@ -57,7 +57,7 @@ class JobController extends Controller
         $jobs = Job::filter($request)
             ->orderBy('featured', 'desc')
             ->orderBy('created_at', 'desc')
-            ->orderBy('title', 'asc')
+            ->orderBy('organization_name', 'asc')
             ->inRandomOrder($request->session()->get('job_seed'))
             ->paginate(15);
 
@@ -83,7 +83,7 @@ class JobController extends Controller
             request('organization');
 
         $pipeline = Pipeline::orderBy('id', 'asc')->get();
-        
+
         return view('job/index', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
@@ -264,9 +264,9 @@ class JobController extends Controller
         try {
             $organization_address = $organization->addresses()->first();
             if (is_null($organization_address)) {
-                throw new SBSException('The organization you selected does not have an address. Please contact theclubhouse@generalsports.com to get this resolved.');
+                throw new SBSException('The organization you selected does not have an address. Please contact ' . __('email.info_address') . ' to get this resolved.');
             } elseif (is_null($organization_address->city) || is_null($organization_address->state) || is_null($organization_address->country)) {
-                throw new SBSException('This organization does not have a valid city, state or country. Please contact theclubhouse@generalsports.com to get this resolved.');
+                throw new SBSException('This organization does not have a valid city, state or country. Please contact ' . __('email.info_address') . ' to get this resolved.');
             }
 
             $job = new Job([
@@ -428,7 +428,7 @@ class JobController extends Controller
 
         $pd = new Parsedown;
 
-        $breadcrumb = array( 
+        $breadcrumb = array(
             'Clubhouse' => '/',
             'My Postings' => (!is_null($user) ? $user->can('view-admin-jobs') ? '/admin/job' : '/user/'.$user->id.'/job-postings/' : ''),
             'Sports Industry Job Board' => '/job',
@@ -584,7 +584,7 @@ class JobController extends Controller
                 Log::error($t);
             }
         }
-        
+
         $organization = Organization::find($request->organization_id);
         if (!$organization) {
             $request->session()->flash('message', new Message(
@@ -663,7 +663,7 @@ class JobController extends Controller
                 $job->country = request('country');
 
                 if ($request->user()->can('view-admin-jobs') && request('job_type') && isset(JOB_TYPE_ID[request('job_type')])) {
-                    $job->job_type_id = JOB_TYPE_ID[request('job_type')]; 
+                    $job->job_type_id = JOB_TYPE_ID[request('job_type')];
                 }
 
                 if (request('document')) {

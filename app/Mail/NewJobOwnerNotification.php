@@ -34,7 +34,7 @@ class NewJobOwnerNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('theclubhouse@generalsports.com', 'theClubhouse®')
+        return $this->from(__('email.info_address'), __('email.info_name'))
                     ->subject('You have been assigned as a job owner - theClubhouse®')
                     ->markdown('emails.new-job-owner');
     }

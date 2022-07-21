@@ -62,7 +62,7 @@ class CheckoutController extends Controller
         }
 
         $product_option = ProductOption::with(['product' => function ($query) { $query->where('active', true); }])->find($id);
-        
+
         if (!$product_option || !$product_option->product) {
             $request->session()->flash('message', new Message(
                 "We were unable to find the product you were looking for.",
@@ -115,8 +115,8 @@ class CheckoutController extends Controller
             //            }
 
             //            return array(
-            //                'type' => 'career-service', 
-            //                'product_option_id' => $product_option->id, 
+            //                'type' => 'career-service',
+            //                'product_option_id' => $product_option->id,
             //                'transaction_id' => $transaction->id
             //            );
             //        });
@@ -217,7 +217,7 @@ class CheckoutController extends Controller
         } else if (in_array($product_option->id, array(PRODUCT_OPTION_ID['platinum_job_upgrade'], PRODUCT_OPTION_ID['platinum_job_upgrade_premium']))) {
             $product_type = 'job-platinum-upgrade';
             $breadcrumb = array('name' => 'Job Posting', 'link' => '/job-options');
-            
+
             $job = Job::find($job_id);
             if (!$job || $job->user_id != $user->id) {
                 return redirect('/user/'.$user->id.'/job-postings')->withErrors(['msg' => 'We are sorry. We are unable to find the job you are looking for.']);
@@ -431,12 +431,12 @@ class CheckoutController extends Controller
                 }
 
                 return array(
-                    'type' => $checkout_type, 
+                    'type' => $checkout_type,
                     'product_option_id' => $product_option->id,
                     'transaction_id' => $transaction->id
                 );
             });
-            
+
             if ($response == false) {
                 return redirect()->back()->withErrors(['msg' => 'Invalid product.']);
             }
@@ -530,7 +530,7 @@ class CheckoutController extends Controller
         } Catch (Exception $e) {
             Log::error($e);
             $request->session()->flash('message', new Message(
-                "There was an error making your card the primary card. Please contact theclubhouse@generalsports.com for assistance",
+                "There was an error making your card the primary card. Please contact ' . __('email.info_address') . ' for assistance",
                 "danger",
                 $code = null,
                 $icon = "error"
@@ -660,7 +660,7 @@ class CheckoutController extends Controller
         $breadcrumb['Thanks'] = '';
 
         return view('checkout/'.$view, [
-            'breadcrumb' => $breadcrumb, 
+            'breadcrumb' => $breadcrumb,
             'product_option' => $product_option,
             'transaction' => $transaction
         ]);

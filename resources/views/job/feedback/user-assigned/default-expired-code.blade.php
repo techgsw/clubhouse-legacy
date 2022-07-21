@@ -16,7 +16,7 @@
                     @include('job.forms.negative-feedback')
                     <p>If you are interested, and want to change your status to YES, just <a href="/user-assigned/feedback/{{ $contact_job->id }}?interest=interested&token={{ $contact_job->job_interest_token }}&override=true">click here</a> and someone from their team will be in touch with you soon.</p>
                     <br />
-                    <p>If you have any questions about <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>, or the status of this conversation you can always email us at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></p>
+                    <p>If you have any questions about <span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup>, or the status of this conversation you can always email us at <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></p>
                     <br />
                 </div>
             </div>

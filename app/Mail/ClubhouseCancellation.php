@@ -30,7 +30,7 @@ class ClubhouseCancellation extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
+        return $this->from(__('email.support_address'))
             ->subject('Clubhouse PRO Member Cancellation - theClubhouse®')
             ->markdown('emails.pro-membership-cancel-confirmation');
     }

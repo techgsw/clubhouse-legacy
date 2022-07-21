@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'bob@sportsbusiness.solutions'),
-        'name' => env('MAIL_FROM_NAME', 'SBS Consulting'),
+        'address' => env('MAIL_FROM_ADDRESS', config('app.info_email')),
+        'name' => env('MAIL_FROM_NAME', config('app.name')),
     ],
 
     /*
