@@ -9,7 +9,7 @@
                 <div class="">
                     <div style="font-size: 20px; margin-right: 10px; margin-bottom: 1rem;"><strong>{{ $video->name }}</strong></div>
                     <div>{{is_null($video->getTrainingVideoAuthor()) ? '' : 'by '.$video->getTrainingVideoAuthor()}}</div>
-                    <div> {!! $pd->text($video->getCleanDescription() ) !!}</div>
+                    <div> {{ strip_tags($video->blurb) }}</div>
                 </div>
                 <div class="col s12" style="height: 40px;">
                     <div style="position: absolute; bottom: 10px; padding-right: 10px;">
