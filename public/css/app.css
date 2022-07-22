@@ -2826,3 +2826,15 @@ a.sales-vault-twitter-link:hover {
     left: inherit;
     margin-top: 8px;
 }
+
+img.profile-pic {
+    width: 120%;
+    max-width: 200px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+div.team-bio {
+    display: none;
+    margin: 0 3.5rem;
+}
