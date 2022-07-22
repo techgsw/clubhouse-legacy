@@ -30,7 +30,15 @@ class Post extends Model
             + strlen($this->first_name)
             + strlen($this->last_name);
 
-        $index = 300 - $titleAuthorLength;
+        // Account for the length of the tags
+        $tagLength = 0;
+        if ($this->tags()->count() > 1) {
+            $this->tags()->each(function ($tag) use (&$tagLength) {
+                $tagLength += strlen($tag->tag_name) + 10;
+            });
+        }
+
+        $index = 300 - $titleAuthorLength - $tagLength;
         // Break into words
         while (!preg_match('/\s/', $body[$index]) && $postLength > $index) {
             $index++;

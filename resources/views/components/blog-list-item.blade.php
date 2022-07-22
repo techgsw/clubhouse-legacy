@@ -9,13 +9,15 @@
                 @endif
             </div>
             <div class="col s12">
-                <h5 style="margin-top: 0; margin-bottom: 0; font-weight: 600;">{{ $post->title }}</h5>
+                <a href="/post/{{ $post->title_url}}" target="_blank" rel="noopener" class="no-underline blog-list-hover">
+                    <h5 style="margin-top: 0; margin-bottom: 0; font-weight: 600;">{{ $post->title }}</h5>
 
-                <p class="small light" style="margin-top: 3px;">
-                    By <span style="text-transform: uppercase;">{{(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)}}</span>
-                </p>
+                    <p class="small light" style="margin-top: 3px;">
+                        By <span style="text-transform: uppercase;">{{(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)}}</span>
+                    </p>
 
-                <div class="blog-blurb">{{ strip_tags($post->blurb) }}</div>
+                    <div class="blog-blurb">{{ strip_tags($post->blurb) }}</div>
+                </a>
             </div>
             <div class="col s12" style="height: 40px;">
                 <div style="position: absolute; bottom: 10px;">
