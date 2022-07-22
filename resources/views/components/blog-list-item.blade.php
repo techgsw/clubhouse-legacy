@@ -20,7 +20,7 @@
                 </a>
             </div>
             <div class="col s12" style="height: 40px;">
-                <div style="position: absolute; bottom: 10px;">
+                <div style="position: absolute; bottom: 10px; padding-right: 10px;">
                     @foreach($post->tags as $tag)
                         <a href="{{ $url . " tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
                     @endforeach

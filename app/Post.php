@@ -74,7 +74,7 @@ class Post extends Model
 
         if (request('search')) {
             $search = request('search');
-            $posts->whereRaw("title LIKE '%?%' OR body LIKE '%?%'", [$search]);
+            $posts->whereRaw('MATCH (title, body) AGAINST (?)', [$search]);
         }
 
         return $posts->orderBy('post.created_at', 'desc');

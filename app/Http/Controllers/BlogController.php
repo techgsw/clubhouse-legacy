@@ -22,7 +22,7 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $posts_query = Post::search($request)->where('post_type_code', 'blog');
-        $tags = Tag::has('posts')->orderBy('name', 'dec')->get();
+        $tags = Tag::has('posts')->orderBy('name', 'desc')->get();
 
         $tag = null;
         if ($request->tag) {
@@ -30,6 +30,11 @@ class BlogController extends Controller
             if (count($results) > 0) {
                 $tag = $results[0];
             }
+            $tagName = $request->tag;
+
+            $posts_query = Post::whereHas('tags', function($query) use ($tagName) {
+                $query->where('slug', $tagName);
+            });
         }
 
         $posts = $posts_query->paginate(15);
