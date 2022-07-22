@@ -625,6 +625,10 @@ class ProductController extends Controller
             $query->where('name', 'Training Video');
         });
 
+        if ($request->search) {
+            $training_videos_query = Product::search($request);
+        }
+
         $tags = Tag::whereHas('products', function($query) use ($active_book) {
                 $query->whereHas('tags', function($query) {
                     $query->where('name', 'Training Video');

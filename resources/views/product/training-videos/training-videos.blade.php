@@ -21,20 +21,37 @@
             <h5>Training Videos coming soon.</h5>
         </div>
     @else
-        @if (request('tag'))
-            <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
-                @if (request('tag') && is_null($active_tag))
-                    Sorry, we couldn't find any tags named <b>{{request('tag')}}</b>
-                    <a href="/training/training-videos" style="float: right;">Go Back</a>
-                @else
-                    <b>{{ $videos->total() }}</b> result{{ count($videos) > 1 || count($videos) == 0 ? "s" : "" }}
-                    @if (request('tag'))
-                        tagged <b>{{ $active_tag->name }}</b>
-                    @endif
-                    <a href="/training/training-videos" style="float: right;">Clear</a>
-                @endif
+            <div class="row">
+                <div class="col s12 m6 l6">
+                    <!-- Search -->
+                    <form action="/training/training-videos" method="get" style="display: flex; flex-flow: row;">
+                        <div class="input-field" style="flex: 1 0 auto;">
+                            <input id="search" type="text" name="search" value="{{ request('search') }}">
+                            <label for="search">Search</label>
+                        </div>
+                        <div class="input-field" style="flex: 0 0 auto;">
+                            <button type="submit" name="submit" class="btn sbs-red btn-xs">Go</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        @endif
+            @if (request('search') || request('tag'))
+                <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
+                    @if (request('tag') && is_null($active_tag))
+                        Sorry, we couldn't find any tags named <b>{{request('tag')}}</b>
+                        <a href="/training/training-videos" style="float: right;">Go Back</a>
+                    @else
+                        <b>{{ $videos->total() }}</b> result{{ count($videos) > 1 || count($videos) == 0 ? "s" : "" }}
+                        @if (request('search'))
+                            searching for <b>{{ request('search') }}</b>
+                        @endif
+                        @if (request('tag'))
+                            tagged <b>{{ $active_tag->name }}</b>
+                        @endif
+                        <a href="/training/training-videos" style="float: right;">Clear</a>
+                    @endif
+                </div>
+            @endif
 
         <div class="row">
             @foreach($videos->chunk(6) as $chunked_videos)

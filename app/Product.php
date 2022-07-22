@@ -151,5 +151,16 @@ class Product extends Model
             return null;
         }
     }
+    public static function search(Request $request)
+    {
+        $posts = Product::where('id', '>', 0)->where('type', '=', 'good');
+
+        if (request('search')) {
+            $search = request('search');
+            $posts->whereRaw('MATCH (name, description) AGAINST (?)', [$search]);
+        }
+
+        return $posts->orderBy('created_at', 'desc');
+    }
 
 }
