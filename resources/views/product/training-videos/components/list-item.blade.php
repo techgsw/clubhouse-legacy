@@ -1,20 +1,21 @@
 @php $pd = new Parsedown(); @endphp
 <div class="col s12">
     <a href="{{ $video->getURL(false, 'training/training-videos') }}" target="_blank" rel="noopener" class="training-video-item">
-        <div class="card horizontal">
-            <div class="card-stacked">
-                <div class="card-content">
-                    @if ($video->created_at > new DateTime('-1 week'))
-                        <button class="btn sbs-red new-training-video-tag" style="margin-top:-34px;margin-left:-32px;">NEW</button>
-                    @endif
-                    <div class="row">
-                        <div class="col s12 m8">
-                            <span style="font-size: 20px;margin-right:10px;"><strong>{{ $video->name }}</strong></span> {{is_null($video->getTrainingVideoAuthor()) ? '' : 'by '.$video->getTrainingVideoAuthor()}}
-                            <span> {!! $pd->text($video->getCleanDescription() ) !!}</span>
-                        </div>
-                        <div class="hide-on-small-and-down m4">
-                            <i style="font-size:70px;top:19%;position:absolute;right:40px;" class="fa fa-caret-right"></i>
-                        </div>
+        <div class="card medium">
+            <div class="card-content">
+                @if ($video->created_at > new DateTime('-1 week'))
+                    <button class="btn sbs-red new-training-video-tag" style="margin-top:-34px;margin-left:-32px;">NEW</button>
+                @endif
+                <div class="">
+                    <div style="font-size: 20px; margin-right: 10px; margin-bottom: 1rem;"><strong>{{ $video->name }}</strong></div>
+                    <div>{{is_null($video->getTrainingVideoAuthor()) ? '' : 'by '.$video->getTrainingVideoAuthor()}}</div>
+                    <div> {!! $pd->text($video->getCleanDescription() ) !!}</div>
+                </div>
+                <div class="col s12" style="height: 40px;">
+                    <div style="position: absolute; bottom: 10px; padding-right: 10px;">
+                        @foreach($video->tags as $tag)
+                            <a href="{{ $url . " tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+                        @endforeach
                     </div>
                 </div>
             </div>

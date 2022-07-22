@@ -501,9 +501,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Actual scheduling is handled by Calend.ly embed. 
+     * Actual scheduling is handled by Calend.ly embed.
      * This records a career service purchase as being scheduled on our side.
-     */ 
+     */
     public function scheduleCareerService($id)
     {
         $career_service_transaction = Transaction::find($id);
@@ -675,7 +675,7 @@ class ProductController extends Controller
                 ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name = 'Training Video')");
         })->distinct()->get(['name']);
 
-        $videos = $training_videos_query->orderBy('created_at', 'DESC')->paginate(10);
+        $videos = $training_videos_query->orderBy('created_at', 'DESC')->paginate(12);
 
         return view('/product/training-videos/training-videos', [
             'videos' => $videos,
