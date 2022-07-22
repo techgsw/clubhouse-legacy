@@ -24,7 +24,8 @@ class Post extends Model
         $parsedown = new Parsedown();
         $body = strip_tags($parsedown->text($this->body));
         $postLength = strlen($body);
-        $titleAuthorLength = (strlen($this->title) * 2)
+        // Use length of other content to guesstimate how much to remove from blurb
+        $titleAuthorLength = (strlen($this->title) * 1)
             + strlen($this->authored_by)
             + strlen($this->first_name)
             + strlen($this->last_name);

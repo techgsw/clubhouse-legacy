@@ -66,31 +66,7 @@
                         <div class="row" style="max-height: 0;">
                             @foreach($chunked_posts as $post)
                             <div class="col s12 m6 l4" >
-                                <div class="blog-panel">
-                                    <div>
-                                        @if (!is_null($post->images->first()))
-                                            <a href="/post/{{ $post->title_url}}" target="_blank" rel="noopener" class="no-underline blog-image-hover">
-                                                <img src="{{ $post->images->first()->getURL('share') }}"/>
-                                            </a>
-                                        @endif
-                                    </div>
-                                    <div style="margin: 1rem;">
-                                        <a href="/post/{{ $post->title_url}}" target="_blank" rel="noopener" class="no-underline blog-list-hover">
-                                            <h5 style="margin-top: 0; margin-bottom: 0; font-weight: 600;">{{ $post->title }}</h5>
-
-                                            <p class="small light" style="margin-top: 3px;">
-                                                By <span style="text-transform: uppercase;">{{(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)}}</span>
-                                            </p>
-
-                                            <div class="blog_blurb">{{ strip_tags($post->blurb) }}</div>
-                                        </a>
-                                        <div>
-                                            @foreach($post->tags as $tag)
-                                                <a href="{{ $url . "tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('components.blog-list-item', ['post' => $post])
                             </div>
                             @endforeach
                         </div>
