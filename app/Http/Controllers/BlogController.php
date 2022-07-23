@@ -37,7 +37,7 @@ class BlogController extends Controller
             });
         }
 
-        $posts = $posts_query->paginate(15);
+        $posts = $posts_query->paginate(12);
 
         return view('blog/index', [
             'breadcrumb' => [
