@@ -317,7 +317,7 @@ nav.nav-main ul li {
 nav.nav-main ul a {
     color: #898989;
     font-weight: 300;
-    line-height: 70px;
+    line-height: 1.5;
     margin-top: 50px;
     font-size: 110%;
     padding: 0 12px;
