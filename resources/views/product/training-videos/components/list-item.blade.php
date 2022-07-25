@@ -1,4 +1,3 @@
-@php $pd = new Parsedown(); @endphp
 <div class="col s12">
     <a href="{{ $video->getURL(false, 'training/training-videos') }}" target="_blank" rel="noopener" class="training-video-item">
         <div class="card medium">

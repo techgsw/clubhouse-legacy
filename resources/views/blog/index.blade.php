@@ -31,34 +31,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col hide-on-small-and-down m4 l3">
-            <!-- Search -->
-            <form action="/blog" method="get">
-                <div class="input-field">
-                    <input id="search" type="text" name="search" value="{{ request('search') }}">
-                    <label for="search">Search</label>
-                </div>
-            </form>
-        </div>
+        @include('components.page-search', ['base_url' => '/blog'])
     </div>
     <div class="row">
         <div class="col s12 blog-list">
             @if (request('search') || request('tag'))
-                <div style="margin: 12px 0; border-radius: 4px; background: #F2F2F2; padding: 10px 14px;">
-                    @if (request('tag') && is_null($result_tag))
-                        Sorry, we couldn't find any tags named <b>{{request('tag')}}</b>
-                        <a href="/blog" style="float: right;">Go Back</a>
-                    @else
-                        <b>{{ $posts->total() }}</b> result{{ count($posts) > 1 || count($posts) == 0 ? "s" : "" }}
-                        @if (request('search'))
-                            searching for <b>{{ request('search') }}</b>
-                        @endif
-                        @if (request('tag'))
-                            tagged <b>{{ $result_tag->name }}</b>
-                        @endif
-                        <a href="/blog" style="float: right;">Clear</a>
-                    @endif
-                </div>
+                @include('components.page-search-found', ['base_url' => '/blog', 'items' => $posts, 'not_found' => $result_tag])
             @endif
             @if (count($posts) > 0)
                 @foreach ($posts->chunk(6) as $chunked_posts)
