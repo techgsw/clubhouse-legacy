@@ -1,6 +1,14 @@
 @php $pd = new Parsedown(); @endphp
 @extends('layouts.clubhouse')
 @section('title', 'Webinars')
+@php
+    if (request('search')) {
+        $url = "/webinars?search=" . request('search') . "&";
+    } else {
+        $url = "/webinars?";
+    }
+@endphp
+
 @section('content')
 <div class="container">
     <div class="col s12">
@@ -29,11 +37,7 @@
     @if (count($inactive_products) > 0)
         <div class="row">
             <div class="col s12">
-                <h4 id="past" style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS
-                @if (!is_null($active_tag))
-                    : <strong>{{$active_tag->name}}</strong>
-                @endif
-                </h4>
+                <h4 id="past" style="font-weight: bold; text-align: center;">PAST WEBINAR EVENTS</h4>
             </div>
             <div class="col s12 center-align" style="margin-top:20px;">
                 <strong><span class="sbs-red-text">FREE Sign up</span>: Watch with a free membership</strong>
@@ -43,9 +47,21 @@
                 <strong><span class="sbs-red-text">WATCH NOW</span>: No signup required</strong>
             </div>
         </div>
-        <div class="row" style="max-width: 800px;margin-right:auto;margin-left:auto;">
-            @foreach ($inactive_products as $product)
-                @include('product.webinars.components.inactive-list-item', ['$product' => $product])
+        <div class="row">
+            @include('components.page-search', ['base_url' => '/webinars'])
+        </div>
+        @if (request('search') || request('tag'))
+            @include('components.page-search-found', ['base_url' => '/webinars', 'items' => $inactive_products, 'not_found' => $active_tag])
+        @endif
+        <div class="row">
+            @foreach ($inactive_products->chunk(6) as $chunked_products)
+                <div class="row" style="max-height: 0;">
+                    @foreach($chunked_products as $product)
+                        <div class="col s12 m6 l4" >
+                            @include('product.webinars.components.inactive-list-item', ['$product' => $product])
+                        </div>
+                    @endforeach
+                </div>
             @endforeach
         </div>
         <div class="row">

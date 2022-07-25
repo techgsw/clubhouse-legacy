@@ -549,10 +549,15 @@ class ProductController extends Controller
             })->get();
         }
 
+        if ($request->search) {
+            $inactive_products_query = Product::search($request);
+        }
+
+
         $inactive_products = $inactive_products_query
 //            ->orderByRaw("FIELD(highest_option_role, 'guest', 'user', 'clubhouse')")
             ->orderBy('id', 'desc')
-            ->paginate(30);
+            ->paginate(24);
 
         $tags = Tag::join('product_tag', function($join) {
             $join->on('name', 'tag_name')
