@@ -16,8 +16,7 @@ class CreateInfluencersTable extends Migration
         Schema::create('influencers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('influencer');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('name');
             $table->timestamps();
         });
     }

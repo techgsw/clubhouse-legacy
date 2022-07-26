@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\ContactOrganization;
+use App\Influencer;
 use App\Organization;
 use App\ProductOption;
 use Illuminate\Auth\Passwords\PasswordBroker;
@@ -195,6 +196,15 @@ class RegisterController extends Controller
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath().'#register-modal');
+    }
+
+    public function registerInfluencer(Request $request, $influencerId)
+    {
+        $influencer = Influencer::where('influencer', $influencerId)->get();
+        return view('auth/register', [
+            'influencer' => $influencerId,
+            'influencerName' => $influencer->name,
+        ]);
     }
 
     /**

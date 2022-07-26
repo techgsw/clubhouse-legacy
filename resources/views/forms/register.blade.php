@@ -169,6 +169,9 @@
             <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
         </div>
     </div>
+    @if(isset($influencer))
+        <input type="hidden" name="influencer" value="{{ $influencer }}"/>
+    @endif
     <div class="row">
         <div class="hide-on-med-and-up">
             <span class="sbs-red-text">*</span> : Required
@@ -180,4 +183,5 @@
             <span style="position:absolute;left:35px;margin-top:20px;"><span class="sbs-red-text">*</span> : Required</span>
         </div>
     </div>
+
 </form>

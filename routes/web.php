@@ -112,6 +112,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('logout', 'LoginController@logout')->name('logout');
         Route::get('/auth/login/header', 'LoginController@header');
 
+        Route::get('register/{id}', 'RegisterController@registerInfluencer');
         Route::get('register/pro', 'RegisterController@pro');
         Route::post('/register/is-this-you/{type}', 'RegisterController@registerIsThisYou');
     });
