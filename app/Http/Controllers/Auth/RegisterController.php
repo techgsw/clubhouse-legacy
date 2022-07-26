@@ -200,11 +200,16 @@ class RegisterController extends Controller
 
     public function registerInfluencer(Request $request, $influencerId)
     {
-        $influencer = Influencer::where('influencer', $influencerId)->get();
-        return view('auth/register', [
-            'influencer' => $influencerId,
-            'influencerName' => $influencer->name,
-        ]);
+        $influencer = Influencer::where('influencer', $influencerId)->first();
+        $data = [];
+
+        if ($influencer) {
+            $data = [
+                'influencer' => $influencerId,
+                'influencerName' => $influencer->name,
+            ];
+        }
+        return view('auth/register',$data);
     }
 
     /**
@@ -341,6 +346,18 @@ class RegisterController extends Controller
                 'address_id' => $address->id,
                 'contact_id' => $contact->id
             ]);
+
+            if ($data['influencer']) {
+                $influencer = Influencer::where('influencer', $data['influencer'])->first();
+
+                if ($influencer) {
+                    $user->influencer()->attach([
+                        $influencer->id => [
+                            'pro' => isset($data['membership-selection-pro'])
+                        ]
+                    ]);
+                }
+            }
 
             return $user;
         });
