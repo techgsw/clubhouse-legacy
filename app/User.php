@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public function influencer()
     {
-        return $this->belongsToMany(Influencer::class);
+        return $this->belongsToMany(Influencer::class)->withPivot('pro');
     }
 
     public function inquiries()

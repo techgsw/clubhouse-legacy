@@ -19,6 +19,7 @@ class CreateInfluencerUserTable extends Migration
             $table->foreign('influencer_id')->references('id')->on('influencers');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('user');
+            $table->boolean('pro')->default(0);
             $table->timestamps();
         });
     }
