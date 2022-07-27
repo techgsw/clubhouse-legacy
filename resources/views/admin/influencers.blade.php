@@ -35,11 +35,14 @@
         <div class="col l3">
             <strong>Email</strong>
         </div>
-        <div class="col l3">
-            <strong>Signed Up</strong>
+        <div class="col l2">
+            <strong>Signup Date</strong>
         </div>
-        <div class="col l3">
-            <strong>PRO Member</strong>
+        <div class="col l2">
+            <strong>Signed as PRO Member</strong>
+        </div>
+        <div class="col l2">
+            <strong>Current PRO Member</strong>
         </div>
     </div>
     @if (count($users) >0)
@@ -51,11 +54,14 @@
                 <div class="col l3">
                     {{ $user->email }}
                 </div>
-                <div class="col l3">
+                <div class="col l2">
                     {{ $user->created_at->format('M j, Y') }}
                 </div>
-                <div class="col l3">
+                <div class="col l2 center">
                     {{ $user->influencer()->first()->pivot->pro ? 'Yes' : 'No' }}
+                </div>
+                <div class="col l2 center">
+                    {{ $user->roles->contains('clubhouse') ? 'Yes' : 'No' }}
                 </div>
             </div>
         @endforeach
