@@ -2528,6 +2528,26 @@ $.valHooks.textarea = {
         '.pdf-modal-trigger'
     );
 
+    // Check/Uncheck all associated checkboxes
+    $('[data-action="check-all"]').on('click', function(event) {
+        var isChecked = event.target.checked;
+        $('[data-type="auto-check"]').each(function () {
+            $(this).prop('checked', isChecked);
+        });
+    });
+
+    // If all are checked and one is then unchecked, uncheck the CHECK ALL box
+    $('[data-type="auto-check"]').on('click', function (event) {
+        var shouldCheck = event.target.checked;
+        if (shouldCheck) {
+            $('[data-type="auto-check"]').each(function () {
+                shouldCheck = shouldCheck && event.target.checked;
+            });
+        }
+        $('[data-action="check-all"]').prop('checked', shouldCheck);
+    });
+
+
     $(window).on("beforeunload", function (e, ui) {
         if (Form.unsaved) {
             return "You have unsaved changes. Do you still want to leave?";
