@@ -42,7 +42,8 @@ class UpdateProfile extends FormRequest
                 Rule::unique('user')->ignore($user->id)
             ],
             'phone' => 'required',
-            'secondary_email' => 'nullable|email|max:255'
+            'secondary_email' => 'nullable|email|max:255',
+            'job_seeking_type' => 'required',
         ];
     }
 
@@ -66,7 +67,8 @@ class UpdateProfile extends FormRequest
             'email.email' => 'Email address must be valid',
             'email.unique' => 'Email is already taken',
             'phone.required' => 'Phone number is required',
-            'secondary_email.email' => 'Secondary E-mail address must be valid'
+            'secondary_email.email' => 'Secondary E-mail address must be valid',
+            'job_seeking_type.required' => 'Job title seeking (in Job-seeking Preferences) is required.'
         ];
     }
 }
