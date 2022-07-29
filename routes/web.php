@@ -379,6 +379,11 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/product/{id}', 'ProductController@show');
     });
 
+    // Search
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/search/state', 'SearchController@state');
+    });
+
     // User
     Route::group(['middleware' => ['web','auth']], function () {
         Route::get('/user/{id?}', 'UserController@show');
