@@ -9,6 +9,7 @@ use App\Message;
 use App\Note;
 use App\Organization;
 use App\Profile;
+use App\State;
 use App\TagType;
 use App\User;
 use App\Providers\ImageServiceProvider;
@@ -339,7 +340,7 @@ class ProfileController extends Controller
         $address->city = request('city');
         $address->state = request('state');
         $address->postal_code = request('postal_code');
-        $address->country = request('country');
+        $address->country = $this->setCountry(request('state'), request('country'));
         $address->updated_at = new \DateTime('NOW');
         $address->save();
 
@@ -537,6 +538,18 @@ class ProfileController extends Controller
         }
 
         return redirect()->action('ProfileController@edit', [$user]);
+    }
+
+    protected function setCountry($state, $country)
+    {
+        $state = State::where('abbrev', $state)->first();
+
+        if ($country && ! $state) {
+            return $country;
+        }
+
+
+        return $state->country;
     }
 
     public function showUnsubscribeOptions($token)
