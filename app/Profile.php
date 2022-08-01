@@ -106,12 +106,25 @@ class Profile extends Model
     {
         return (new static())->genders;
     }
+
     public static function getDepartments()
     {
         $departments = (new static())->departments;
         asort($departments);
 
         return $departments;
+    }
+
+    public static function getDepartmentGoals()
+    {
+        $goals = [];
+
+        collect((new static())->getDepartments())->each(function ($label, $key) use (&$goals) {
+            $goal = str_replace('experience', 'goals', $key);
+            $goals[$goal] = $label;
+        });
+
+        return $goals;
     }
 
     public function user()

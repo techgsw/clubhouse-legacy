@@ -42,122 +42,18 @@ class ProfileController extends Controller
         $this->authorize('view-profile', $user);
 
         $department_goals = [];
-        if ($user->profile->department_goals_ticket_sales) {
-            $department_goals[] = "Ticket Sales";
-        }
-        if ($user->profile->department_goals_sponsorship_sales) {
-            $department_goals[] = "Sponsorship Sales";
-        }
-        if ($user->profile->department_goals_service) {
-            $department_goals[] = "Service";
-        }
-        if ($user->profile->department_goals_premium_sales) {
-            $department_goals[] = "Premium Sales";
-        }
-        if ($user->profile->department_goals_marketing) {
-            $department_goals[] = "Marketing";
-        }
-        if ($user->profile->department_goals_sponsorship_activation) {
-            $department_goals[] = "Sponsorship Activation";
-        }
-        if ($user->profile->department_goals_hr) {
-            $department_goals[] = "Human Resources";
-        }
-        if ($user->profile->department_goals_analytics) {
-            $department_goals[] = "Analytics";
-        }
-        if ($user->profile->department_goals_cr) {
-            $department_goals[] = "Community Relations";
-        }
-        if ($user->profile->department_goals_pr) {
-            $department_goals[] = "Public Relations";
-        }
-        if ($user->profile->department_goals_database) {
-            $department_goals[] = "Database";
-        }
-        if ($user->profile->department_goals_finance) {
-            $department_goals[] = "Finance";
-        }
-        if ($user->profile->department_goals_arena_ops) {
-            $department_goals[] = "Arena Ops";
-        }
-        if ($user->profile->department_goals_player_ops) {
-            $department_goals[] = "Player Ops";
-        }
-        if ($user->profile->department_goals_event_ops) {
-            $department_goals[] = "Event Ops";
-        }
-        if ($user->profile->department_goals_social_media) {
-            $department_goals[] = "Social Media";
-        }
-        if ($user->profile->department_goals_entertainment) {
-            $department_goals[] = "Entertainment";
-        }
-        if ($user->profile->department_goals_legal) {
-            $department_goals[] = "Legal";
-        }
-        if ($user->profile->department_goals_other) {
-            $department_goals[] = $user->profile->department_goals_other;
-        }
+        collect(Profile::getDepartmentGoals())->each(function ($label, $goal) use ($user, &$department_goals) {
+            if ($user->profile->$goal) {
+                $department_goals[] = $label;
+            }
+        });
 
         $department_experience = [];
-        if ($user->profile->department_experience_ticket_sales) {
-            $department_experience[] = "Ticket Sales";
-        }
-        if ($user->profile->department_experience_sponsorship_sales) {
-            $department_experience[] = "Sponsorship Sales";
-        }
-        if ($user->profile->department_experience_service) {
-            $department_experience[] = "Service";
-        }
-        if ($user->profile->department_experience_premium_sales) {
-            $department_experience[] = "Premium Sales";
-        }
-        if ($user->profile->department_experience_marketing) {
-            $department_experience[] = "Marketing";
-        }
-        if ($user->profile->department_experience_sponsorship_activation) {
-            $department_experience[] = "Sponsorship Activation";
-        }
-        if ($user->profile->department_experience_hr) {
-            $department_experience[] = "Human Resources";
-        }
-        if ($user->profile->department_experience_analytics) {
-            $department_experience[] = "Analytics";
-        }
-        if ($user->profile->department_experience_cr) {
-            $department_experience[] = "Community Relations";
-        }
-        if ($user->profile->department_experience_pr) {
-            $department_experience[] = "Public Relations";
-        }
-        if ($user->profile->department_experience_database) {
-            $department_experience[] = "Database";
-        }
-        if ($user->profile->department_experience_finance) {
-            $department_experience[] = "Finance";
-        }
-        if ($user->profile->department_experience_arena_ops) {
-            $department_experience[] = "Arena Ops";
-        }
-        if ($user->profile->department_experience_player_ops) {
-            $department_experience[] = "Player Ops";
-        }
-        if ($user->profile->department_experience_event_ops) {
-            $department_experience[] = "Event Ops";
-        }
-        if ($user->profile->department_experience_social_media) {
-            $department_experience[] = "Social Media";
-        }
-        if ($user->profile->department_experience_entertainment) {
-            $department_experience[] = "Entertainment";
-        }
-        if ($user->profile->department_experience_legal) {
-            $department_experience[] = "Legal";
-        }
-        if ($user->profile->department_experience_other) {
-            $department_experience[] = $user->profile->department_experience_other;
-        }
+        collect(Profile::getDepartments())->each(function ($label, $experience) use ($user, &$department_experience) {
+            if ($user->profile->$experience) {
+                $department_experience[] = $label;
+            }
+        });
 
         $breadcrumb = array(
             'Home' => '/',
