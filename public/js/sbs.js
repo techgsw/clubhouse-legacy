@@ -2528,6 +2528,7 @@ $.valHooks.textarea = {
         '.pdf-modal-trigger'
     );
 
+    /** Profile Form **/
     // Check/Uncheck all associated checkboxes
     var checkAll = $('[data-action="check-all"]');
     var autoChecks = $('[data-type="auto-check"]');
@@ -2551,6 +2552,46 @@ $.valHooks.textarea = {
             checkAll.prop('checked', shouldCheck);
         }
     });
+
+    $('.statesDropdown').select2({
+        'language': {
+            'noResults': function(){
+                return 'Type to see selections';
+            }
+        },
+        ajax: {
+            url: '/search/state',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.abbrev,
+                            id: item.abbrev
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+    // $('.js-data-example-ajax').select2({
+    //     ajax: {
+    //         url: '/search/state?search=ma',
+    //         dataType: 'json',
+    //         data: function (params) {
+    //             var query = {
+    //                 search: params.term,
+    //                 page: params.page || 1
+    //             }
+    //
+    //             // Query parameters will be ?search=[term]&page=[page]
+    //             return query;
+    //         }
+    //     }
+    // });
+    /** End Profile Form **/
 
 
     $(window).on("beforeunload", function (e, ui) {

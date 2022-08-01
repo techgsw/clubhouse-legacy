@@ -381,7 +381,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
 
     // Search
     Route::group(['middleware' => ['web']], function () {
-        Route::get('/search/state', 'SearchController@state');
+        Route::get('/search/state', 'SearchController@state')->name('search-state');
     });
 
     // User

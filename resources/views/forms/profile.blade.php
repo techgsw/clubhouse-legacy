@@ -173,8 +173,12 @@
                         <label for="city">City</label>
                     </div>
                     <div class="input-field col s12 m2">
-                        <input id="state" name="state" type="text" value="{{ old('state') ?: $address->state ?: "" }}">
-                        <label for="state">State/Province</label>
+                        <label for="state" class="active">State/Province</label>
+                        <select class="statesDropdown form-control" name="state">
+                            @if ($address->state)
+                                <option value="{{ $address->state }}" selected>{{ $address->state }}</option>
+                            @endif
+                        </select>
                     </div>
                     <div class="input-field col s12 m3">
                         <input id="postal_code" name="postal_code" type="text" value="{{ old('postal_code') ?: $address->postal_code ?: "" }}">
@@ -185,6 +189,10 @@
                         <label for="country">Country</label>
                     </div>
                 </div>
+                <div class="container mt-3">
+
+                </div>
+
             </div>
         </li>
         <li class="form-section"> <!-- Job-seeking Preferences -->

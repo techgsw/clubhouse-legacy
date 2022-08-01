@@ -28,6 +28,7 @@
     <link href="/css/medium-editor.css" type="text/css" rel="stylesheet"/>
     <link href="/css/medium-editor/default.css" type="text/css" rel="stylesheet"/>
     <link href="/css/daterangepicker.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <link href="/css/app.css?v=55" type="text/css" rel="stylesheet"/>
     <script>
         window.Laravel = {!! json_encode([

@@ -11,7 +11,7 @@ class SearchController
     {
         $result = [];
 
-        $search = $request['search'];
+        $search = $request['term'];
 
         if ($search) {
             $states = State::where('abbrev', 'LIKE', $search . '%')
