@@ -170,10 +170,10 @@
                     </div>
                     <div class="input-field col s12 m4">
                         <input id="city" name="city" type="text" value="{{ old('city') ?: $address->city ?: "" }}">
-                        <label for="city">City</label>
+                        <label for="city">City <span class="sbs-red-text">*</span></label>
                     </div>
                     <div class="input-field col s12 m2">
-                        <label for="state" class="active">State/Province</label>
+                        <label for="state" class="active">State/Province <span class="sbs-red-text">*</span></label>
                         <select class="statesDropdown form-control" name="state">
                             @if ($address->state)
                                 <option value="{{ $address->state }}" selected>{{ $address->state }}</option>
@@ -396,7 +396,7 @@
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_analytics" id="department_experience_analytics" value="1" {{ is_null(old('department_experience_analytics')) ? ($profile->department_experience_analytics ? "checked" : "") : (old('department_experience_analytics') ? "checked" : "") }} />
-                                <label for="department_experience_analytics">Business Analytics</label>
+                                <label for="department_experience_analytics">Business Analytics, CRM & Database</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_pr" id="department_experience_pr" value="1" {{ is_null(old('department_experience_pr')) ? ($profile->department_experience_pr ? "checked" : "") : (old('department_experience_pr') ? "checked" : "") }} />
@@ -436,7 +436,7 @@
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_marketing" id="department_experience_marketing" value="1" {{ is_null(old('department_experience_marketing')) ? ($profile->department_experience_marketing ? "checked" : "") : (old('department_experience_marketing') ? "checked" : "") }} />
-                                <label for="department_experience_marketing">Marketing & Social Media</label>
+                                <label for="department_experience_marketing">Marketing, Digital, & Social Media"</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_player_ops" id="department_experience_player_ops" value="1" {{ is_null(old('department_experience_player_ops')) ? ($profile->department_experience_player_ops ? "checked" : "") : (old('department_experience_player_ops') ? "checked" : "") }} />
@@ -444,7 +444,7 @@
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_premium_sales" id="department_experience_premium_sales" value="1" {{ is_null(old('department_experience_premium_sales')) ? ($profile->department_experience_premium_sales ? "checked" : "") : (old('department_experience_premium_sales') ? "checked" : "") }} />
-                                <label for="department_experience_premium_sales">Premium Sales</label>
+                                <label for="department_experience_premium_sales">Premium Sales & Service</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="department_experience_service" id="department_experience_service" value="1" {{ is_null(old('department_experience_service')) ? ($profile->department_experience_service ? "checked" : "") : (old('department_experience_service') ? "checked" : "") }} />
