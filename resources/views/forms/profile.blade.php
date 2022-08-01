@@ -127,22 +127,18 @@
                 <div class="row">
                     <div class="input-field col s12 m6">
                         <select class="browser-default" name="gender">
-                            <option value="" {{ old('gender') == "" ? "selected" : $profile->gender == "" ? "selected" : "" }} disabled>Gender</option>
-                            <option value="female" {{ old('gender') == "female" ? "selected" : $profile->gender == "female" ? "selected" : "" }}>Female</option>
-                            <option value="male" {{ old('gender') == "male" ? "selected" : $profile->gender == "male" ? "selected" : "" }}>Male</option>
-                            <option value="non-binary" {{ old('gender') == "non-binary" ? "selected" : $profile->gender == "non-binary" ? "selected" : "" }}>Non-binary</option>
-                            <option value="na" {{old('gender') == "na" ? 'selected' : $profile->gender == "na" ? 'selected' : '' }}>Prefer not to answer</option>
+                            <option value="" {{ is_null(old('gender')) ? ($profile->gender == "" ? "selected" : "") : (old("gender") == "" ? "selected" : "") }} disabled>Please select</option>
+                            @foreach(App\Profile::getGenders() as $gender => $label)
+                                <option value="{{ $gender }}" {{ is_null(old('gender')) ? ($profile->gender == $gender ? "selected" : "") : (old("gender") == $gender ? "selected" : "") }}>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="input-field col s12 m6">
                         <select class="browser-default" name="ethnicity">
-                            <option value="" {{old('ethnicity') == "" ? "selected" : "" }} disabled>Ethnicity</option>
-                            <option value="asian" {{old('ethnicity') == "asian" ? 'selected' : $profile->ethnicity == "asian" ? 'selected' : '' }}>Asian or Pacific Islander</option>
-                            <option value="black" {{old('ethnicity') == "black" ? 'selected' : $profile->ethnicity == "black" ? 'selected' : '' }}>Black or African American</option>
-                            <option value="hispanic" {{old('ethnicity') == "hispanic" ? 'selected' : $profile->ethnicity == "hispanic" ? 'selected' : '' }}>Hispanic</option>
-                            <option value="native" {{old('ethnicity') == "native" ? 'selected' : $profile->ethnicity == "native" ? 'selected' : '' }}>Native American</option>
-                            <option value="white" {{old('ethnicity') == "white" ? 'selected' : $profile->ethnicity == "white" ? 'selected' : '' }}>White or Caucasian</option>
-                            <option value="na" {{old('ethnicity') == "na" ? 'selected' : $profile->ethnicity == "na" ? 'selected' : '' }}>Prefer not to answer</option>
+                            <option value="" {{ is_null(old('ethnicity')) ? ($profile->ethnicity == "" ? "selected" : "") : (old("ethnicity") == "" ? "selected" : "") }} disabled>Please select</option>
+                            @foreach(App\Profile::getEthnicities() as $ethnicity => $label)
+                                <option value="{{ $ethnicity }}" {{ is_null(old('ethnicity')) ? ($profile->ethnicity == $ethnicity ? "selected" : "") : (old("ethnicity") == $ethnicity ? "selected" : "") }}>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -211,12 +207,9 @@
                         <label style="font-size: 14px; color: #000; font-weight: 300;">Job title seeking <span class="sbs-red-text">*</span></label>
                         <select class="browser-default" name="job_seeking_type">
                             <option value="" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "" ? "selected" : "") : (old("job_seeking_type") == "" ? "selected" : "") }} disabled>Please select</option>
-                            <option value="internship" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "internship" ? "selected" : "") : (old("job_seeking_type") == "internship" ? "selected" : "") }}>Internship</option>
-                            <option value="entry_level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry_level" ? "selected" : "") : (old("job_seeking_type") == "entry_level" ? "selected" : "") }}>Entry-level</option>
-                            <option value="mid_level" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid_level" ? "selected" : "") : (old("job_seeking_type") == "mid_level" ? "selected" : "") }}>Mid-level</option>
-                            <option value="entry_level_management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "entry_level_management" ? "selected" : "") : (old("job_seeking_type") == "entry_level-managment" ? "selected" : "") }}>Entry-level management</option>
-                            <option value="mid_level_management" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "mid_level_management" ? "selected" : "") : (old("job_seeking_type") == "mid_level-managment" ? "selected" : "") }}>Mid-level management</option>
-                            <option value="executive" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == "executive" ? "selected" : "") : (old("job_seeking_type") == "executive" ? "selected" : "") }}>Executive team</option>
+                            @foreach(App\Profile::getJobSeekingTypes() as $type => $label)
+                                <option value="{{ $type }}" {{ is_null(old('job_seeking_type')) ? ($profile->job_seeking_type == $type ? "selected" : "") : (old("job_seeking_type") == $type ? "selected" : "") }}>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -225,12 +218,9 @@
                         <label style="font-size: 14px; color: #000; font-weight: 300;">Which region are you most interested in working in?</label>
                         <select class="browser-default" name="job_seeking_region">
                             <option value="" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "" ? "selected" : "") : (old("job_seeking_region") == "" ? "selected" : "") }} disabled>Please select</option>
-                            <option value="any" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "any" ? "selected" : "") : (old("job_seeking_region") == "mw" ? "selected" : "") }}>Any/All</option>
-                            <option value="mw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "mw" ? "selected" : "") : (old("job_seeking_region") == "mw" ? "selected" : "") }}>Midwest</option>
-                            <option value="ne" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "ne" ? "selected" : "") : (old("job_seeking_region") == "ne" ? "selected" : "") }}>Northeast</option>
-                            <option value="nw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "nw" ? "selected" : "") : (old("job_seeking_region") == "nw" ? "selected" : "") }}>Northwest</option>
-                            <option value="se" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "se" ? "selected" : "") : (old("job_seeking_region") == "se" ? "selected" : "") }}>Southeast</option>
-                            <option value="sw" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_region == "sw" ? "selected" : "") : (old("job_seeking_region") == "sw" ? "selected" : "") }}>Southwest</option>
+                            @foreach(App\Profile::getJobSeekingRegions() as $region => $label)
+                                <option value="{{ $region }}" {{ is_null(old('job_seeking_region')) ? ($profile->job_seeking_type == $region ? "selected" : "") : (old("job_seeking_type") == $region ? "selected" : "") }}>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
