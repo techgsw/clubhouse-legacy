@@ -2576,21 +2576,6 @@ $.valHooks.textarea = {
             cache: true
         }
     });
-    // $('.js-data-example-ajax').select2({
-    //     ajax: {
-    //         url: '/search/state?search=ma',
-    //         dataType: 'json',
-    //         data: function (params) {
-    //             var query = {
-    //                 search: params.term,
-    //                 page: params.page || 1
-    //             }
-    //
-    //             // Query parameters will be ?search=[term]&page=[page]
-    //             return query;
-    //         }
-    //     }
-    // });
     /** End Profile Form **/
 
 
