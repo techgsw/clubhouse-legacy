@@ -61,6 +61,27 @@ class Profile extends Model
         'na' => 'Prefer not to answer',
     ];
 
+    protected $departments = [
+        'department_experience_arena_ops' => 'Arena Operations',
+        'department_experience_event_ops' => 'Building & Event Operations',
+        'department_experience_analytics' => 'Business Analytics, CRM & Database',
+        'department_experience_pr' => 'Communications/PR',
+        'department_experience_cr' => 'Community Relations',
+        'department_experience_sponsorship_activation' => 'Corporate Partnerships Sales & Activation',
+        'department_experience_database' => 'Database',
+        'department_experience_social_media' => 'Digital/Social Media',
+        'department_experience_finance' => 'Finance',
+        'department_experience_entertainment' => 'Game Entertainment',
+        'department_experience_hr' => 'Human Resources',
+        'department_experience_legal' => 'Legal Finance Accounting & IT',
+        'department_experience_marketing' => 'Marketing, Digital, & Social Media',
+        'department_experience_player_ops' => 'Player Operations',
+        'department_experience_premium_sales' => 'Premium Sales & Service',
+        'department_experience_service' => 'Service',
+        'department_experience_sponsorship_sales' => 'Sponsorship Sales',
+        'department_experience_ticket_sales' => 'Ticket Sales & Service',
+    ];
+
     public static function getJobSeekingStatuses()
     {
         return (new static())->jobSeekingStatuses;
@@ -84,6 +105,13 @@ class Profile extends Model
     public static function getGenders()
     {
         return (new static())->genders;
+    }
+    public static function getDepartments()
+    {
+        $departments = (new static())->departments;
+        asort($departments);
+
+        return $departments;
     }
 
     public function user()
