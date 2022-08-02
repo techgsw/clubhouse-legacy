@@ -62,14 +62,14 @@ class Profile extends Model
     ];
 
     protected $experienceDepartments = [
-        'department_experience_arena_ops' => 'Arena Operations',
+//        'department_experience_arena_ops' => 'Arena Operations',
         'department_experience_event_ops' => 'Building & Event Operations',
         'department_experience_analytics' => 'Business Analytics, CRM & Database',
         'department_experience_pr' => 'Communications/PR',
         'department_experience_cr' => 'Community Relations',
         'department_experience_sponsorship_activation' => 'Corporate Partnerships Sales & Activation',
-        'department_experience_database' => 'Database',
-        'department_experience_social_media' => 'Digital/Social Media',
+//        'department_experience_database' => 'Database',
+//        'department_experience_social_media' => 'Digital/Social Media',
         'department_experience_finance' => 'Finance',
         'department_experience_entertainment' => 'Game Entertainment',
         'department_experience_hr' => 'Human Resources',
@@ -77,8 +77,8 @@ class Profile extends Model
         'department_experience_marketing' => 'Marketing, Digital, & Social Media',
         'department_experience_player_ops' => 'Player Operations',
         'department_experience_premium_sales' => 'Premium Sales & Service',
-        'department_experience_service' => 'Service',
-        'department_experience_sponsorship_sales' => 'Sponsorship Sales',
+//        'department_experience_service' => 'Service',
+//        'department_experience_sponsorship_sales' => 'Sponsorship Sales',
         'department_experience_ticket_sales' => 'Ticket Sales & Service',
     ];
 
