@@ -9,7 +9,7 @@ use App\Message;
 use App\Note;
 use App\Organization;
 use App\Profile;
-use App\Services\ProfileService;
+use App\Services\ProfileUpdateService;
 use App\State;
 use App\TagType;
 use App\User;
@@ -136,18 +136,19 @@ class ProfileController extends Controller
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ProfileUpdateService $service
+     * @param UpdateProfile $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|void
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(ProfileService $service, UpdateProfile $request, $id)
+    public function update(ProfileUpdateService $service, UpdateProfile $request, $id)
     {
         $user = User::find($id);
         $this->authorize('edit-profile', $user);
         if (!$user) {
             return abort(404);
         }
-
 
         return $service->update($request, $user);
     }

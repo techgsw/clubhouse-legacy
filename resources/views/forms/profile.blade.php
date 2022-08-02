@@ -377,7 +377,7 @@
                             @foreach(App\Profile::getExperienceDepartments() as $department => $label)
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="{{ $department }}" id="{{ $department }}" value="1" {{ is_null(old($department)) ? ($profile->$department ? "checked" : "") : (old($department) ? "checked" : "") }} />
-                                <label for="department_experience_arena_ops">{{ $label }}</label>
+                                <label for="{{ $department }}">{{ $label }}</label>
                             </div>
                             @endforeach
                             <div class="input-field col s12" style="margin-top: 1.5rem;">
