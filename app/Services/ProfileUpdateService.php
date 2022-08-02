@@ -10,6 +10,7 @@ use App\Providers\MailchimpServiceProvider;
 use App\State;
 use App\TagType;
 use App\User;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 class ProfileUpdateService
