@@ -374,7 +374,7 @@
                     <div class="col s12">
                         <p>Which department(s) do you have experience in?</p>
                         <div class="row">
-                            @foreach(App\Profile::getDepartments() as $department => $label)
+                            @foreach(App\Profile::getExperienceDepartments() as $department => $label)
                             <div class="input-field col s12 m6 l4">
                                 <input type="checkbox" name="{{ $department }}" id="{{ $department }}" value="1" {{ is_null(old($department)) ? ($profile->$department ? "checked" : "") : (old($department) ? "checked" : "") }} />
                                 <label for="department_experience_arena_ops">{{ $label }}</label>

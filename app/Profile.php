@@ -61,7 +61,7 @@ class Profile extends Model
         'na' => 'Prefer not to answer',
     ];
 
-    protected $departments = [
+    protected $experienceDepartments = [
         'department_experience_arena_ops' => 'Arena Operations',
         'department_experience_event_ops' => 'Building & Event Operations',
         'department_experience_analytics' => 'Business Analytics, CRM & Database',
@@ -107,9 +107,9 @@ class Profile extends Model
         return (new static())->genders;
     }
 
-    public static function getDepartments()
+    public static function getExperienceDepartments()
     {
-        $departments = (new static())->departments;
+        $departments = (new static())->experienceDepartments;
         asort($departments);
 
         return $departments;
@@ -119,7 +119,7 @@ class Profile extends Model
     {
         $goals = [];
 
-        collect((new static())->getDepartments())->each(function ($label, $key) use (&$goals) {
+        collect((new static())->getExperienceDepartments())->each(function ($label, $key) use (&$goals) {
             $goal = str_replace('experience', 'goals', $key);
             $goals[$goal] = $label;
         });
