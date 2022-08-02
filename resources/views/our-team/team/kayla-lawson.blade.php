@@ -4,7 +4,9 @@
     <div class="container" style="margin-bottom: 5rem;">
         <div class="row">
             <div class="col">
-                <img src="/images/same-here/kayla-lawson.png" class="profile-pic">
+                <a href="https://www.linkedin.com/in/kayla-lawson4/" target="_blank" class="no-underline">
+                    <img src="/images/same-here/kayla-lawson.png" class="profile-pic" title="Kayla Lawson on LinkedIn">
+                </a>
             </div>
             <div class="col" style="margin-top: 3rem;">
                 <h4>Kayla Lawson</h4>

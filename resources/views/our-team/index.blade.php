@@ -5,7 +5,11 @@
     <div class="row" style="padding: 30px 30px;">
         <div class="col s12 m12">
             <h5><strong>Our Team</strong></h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            <p>
+                Our theClubhouse® team are all members of General Sports Worldwide’s Executive Search and Team Consulting Division and have over 50 years of hands-on experience of leading, hiring, training, developing, and managing various business operations divisions across multiple teams and leagues in the sports and entertainment industry.
+                We are all passionate about sharing our collective knowledge and experience in an effort “pay it forward”, which is why we purchased theClubhouse® in March of 2022. We are focused on helping find “win-win” solutions for our members and clients.
+                In addition to theClubhouse®, we are involved in Sports Team and League Consulting, Executive Recruiting, and Leadership and Sales Training as part of General Sports Worldwide’s global footprint.
+            </p>
         </div>
         <div class="row center-align">
             <div class="row s12 m12 l12 center-align">

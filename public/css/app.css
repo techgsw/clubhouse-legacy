@@ -2741,7 +2741,7 @@ a.sales-vault-twitter-link:hover {
         justify-content: center;
     }
 }
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1200px) {
     .nav-custom-desktop { display: none; }
     nav .brand-logo.custom-brand-logo { left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); }
     nav a.button-collapse.button-collapse-custom { display: inherit; }

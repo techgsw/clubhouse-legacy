@@ -4,7 +4,9 @@
     <div class="container" style="margin-bottom: 5rem;">
         <div class="row">
             <div class="col">
-                <img src="/images/same-here/travis-apple.png" class="profile-pic">
+                <a href="https://www.linkedin.com/in/travisapple/" target="_blank" class="no-underline">
+                    <img src="/images/same-here/travis-apple.png" class="profile-pic" title="Travis Apple on LinkedIn">
+                </a>
             </div>
             <div class="col" style="margin-top: 3rem;">
                 <h4>Travis Apple</h4>

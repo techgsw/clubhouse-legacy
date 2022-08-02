@@ -4,7 +4,9 @@
     <div class="container" style="margin-bottom: 5rem;">
         <div class="row">
             <div class="col">
-                <img src="/images/same-here/lou-de-paoli.png" class="profile-pic">
+                <a href="https://www.linkedin.com/in/lou-depaoli-3a41595/" target="_blank" class="no-underline">
+                    <img src="/images/same-here/lou-de-paoli.png" class="profile-pic" title="Lou De Paoli on LinkedIn">
+                </a>
             </div>
             <div class="col" style="margin-top: 3rem;">
                 <h4>Lou De Paoli</h4>
