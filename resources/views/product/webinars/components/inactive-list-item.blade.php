@@ -1,10 +1,17 @@
 <div class="col s12">
     @can('view-clubhouse')
         <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline">
-            <div class="card medium">
+            <div class="card large">
                 <div class="card-content">
                     <div class="">
                         <div style="font-size: 20px; margin-right: 10px; margin-bottom: 1rem;"><strong>{{ $product->name }}</strong></div>
+                    </div>
+                    <div class="row center-align">
+                        <div class="col center-align" style="position: absolute; bottom: 10rem; margin-right: 1vw;">
+                            @if($product->primaryImage())
+                                <img src={{ $product->primaryImage()->getURL('medium') }} width="100%"/>
+                            @endif
+                        </div>
                     </div>
                     <div class="col s12" style="height: 40px;">
                         <div style="position: absolute; bottom: 10px; padding-right: 10px;">
