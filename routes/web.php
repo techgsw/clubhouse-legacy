@@ -398,6 +398,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::post('/user/{id}/profile', 'ProfileController@update');
         Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
         Route::post('/user/{id}/create-note', 'ProfileController@createNote');
+        Route::get('/user/{id?}/dont-ask', 'ProfileController@dontAskToComplete');
 
     });
 

@@ -127,7 +127,7 @@
                 <div class="row">
                     <div class="input-field col s12 m6">
                         <select class="browser-default" name="gender">
-                            <option value="" {{ is_null(old('gender')) ? ($profile->gender == "" ? "selected" : "") : (old("gender") == "" ? "selected" : "") }} disabled>Please select</option>
+                            <option value="" {{ is_null(old('gender')) ? ($profile->gender == "" ? "selected" : "") : (old("gender") == "" ? "selected" : "") }} disabled>Gender</option>
                             @foreach(App\Profile::getGenders() as $gender => $label)
                                 <option value="{{ $gender }}" {{ is_null(old('gender')) ? ($profile->gender == $gender ? "selected" : "") : (old("gender") == $gender ? "selected" : "") }}>{{ $label }}</option>
                             @endforeach
@@ -135,7 +135,7 @@
                     </div>
                     <div class="input-field col s12 m6">
                         <select class="browser-default" name="ethnicity">
-                            <option value="" {{ is_null(old('ethnicity')) ? ($profile->ethnicity == "" ? "selected" : "") : (old("ethnicity") == "" ? "selected" : "") }} disabled>Please select</option>
+                            <option value="" {{ is_null(old('ethnicity')) ? ($profile->ethnicity == "" ? "selected" : "") : (old("ethnicity") == "" ? "selected" : "") }} disabled>Etnicity</option>
                             @foreach(App\Profile::getEthnicities() as $ethnicity => $label)
                                 <option value="{{ $ethnicity }}" {{ is_null(old('ethnicity')) ? ($profile->ethnicity == $ethnicity ? "selected" : "") : (old("ethnicity") == $ethnicity ? "selected" : "") }}>{{ $label }}</option>
                             @endforeach

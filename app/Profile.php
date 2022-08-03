@@ -284,6 +284,11 @@ class Profile extends Model
             $this->isEmploymentComplete();
     }
 
+    public function dontAskToComplete()
+    {
+        return $this->dont_ask;
+    }
+
     public function emailPreferenceTagTypesMatchContact()
     {
         foreach ($this->emailPreferenceTagTypes as $tag_type) {

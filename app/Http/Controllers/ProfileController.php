@@ -242,4 +242,16 @@ class ProfileController extends Controller
             'profile' => $profile,
         ]);
     }
+
+    public function dontAskToComplete($id = 'self')
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $user->profile->dont_ask = true;
+            $user->profile->update();
+        }
+
+        return redirect()->back();
+    }
 }
