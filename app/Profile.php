@@ -67,7 +67,7 @@ class Profile extends Model
         'department_experience_analytics' => 'Business Analytics, CRM & Database',
         'department_experience_pr' => 'Communications/PR',
         'department_experience_cr' => 'Community Relations',
-        'department_experience_sponsorship_activation' => 'Corporate Partnerships Sales & Activation',
+        'department_experience_sponsorship_activation' => 'Partnerships Sales & Activation',
 //        'department_experience_database' => 'Database',
 //        'department_experience_social_media' => 'Digital/Social Media',
         'department_experience_finance' => 'Finance',

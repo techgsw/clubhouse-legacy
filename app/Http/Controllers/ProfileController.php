@@ -110,7 +110,7 @@ class ProfileController extends Controller
             $profile->secondary_phone = "(".substr($profile->secondary_phone, 0, 3).")".substr($profile->secondary_phone, 3, 3)."-".substr($profile->secondary_phone, 6, 4);
         }
 
-        $job_tags = TagType::where('type', 'job')->get();
+        $job_tags = TagType::where('type', 'job')->orderBy('tag_name')->get();
 
         $breadcrumb = array(
             'Home' => '/',
