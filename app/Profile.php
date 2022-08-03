@@ -228,14 +228,7 @@ class Profile extends Model
         return
             $this->job_seeking_type &&
             $this->job_seeking_region &&
-            count($this->emailPreferenceTagTypes) > 0 && (
-                // At least one job factor
-                $this->job_factors_money ||
-                $this->job_factors_title ||
-                $this->job_factors_location ||
-                $this->job_factors_organization ||
-                $this->job_factors_other
-            );
+            count($this->emailPreferenceTagTypes) > 0;
     }
 
     public function isJobSeekingTypeComplete()
