@@ -150,9 +150,13 @@
                 @if ($profile->isAddressComplete())
                     <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
-                @endif
+                    @if ($profile->isCityAndStateComplete())
+                        <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    @else
+                        <span class="progress-icon progress-incomplete sbs-red-text text-darken-2" style="float: right;"><i class="material-icons">error_outline</i></span>
+                    @endif
                 <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
+                @endif
             </div>
             <div class="collapsible-body">
                 <div class="row">
@@ -197,7 +201,11 @@
                 @if ($profile->isJobPreferencesComplete())
                     <span class="progress-icon progress-complete green-text text-darken-2" style="float: right;"><i class="material-icons">check_circle</i></span>
                 @else
-                    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    @if ($profile->isJobSeekingTypeComplete())
+                        <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                    @else
+                        <span class="progress-icon progress-incomplete sbs-red-text text-darken-2" style="float: right;"><i class="material-icons">error_outline</i></span>
+                    @endif
                 @endif
                 <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
             </div>

@@ -216,10 +216,16 @@ class Profile extends Model
             $this->address[0]->country;
     }
 
+    public function isCityAndStateComplete()
+    {
+        return
+            $this->address[0]->city &&
+            $this->address[0]->state;
+    }
+
     public function isJobPreferencesComplete()
     {
         return
-            $this->job_seeking_status &&
             $this->job_seeking_type &&
             $this->job_seeking_region &&
             count($this->emailPreferenceTagTypes) > 0 && (
@@ -230,6 +236,11 @@ class Profile extends Model
                 $this->job_factors_organization ||
                 $this->job_factors_other
             );
+    }
+
+    public function isJobSeekingTypeComplete()
+    {
+        return $this->job_seeking_type;
     }
 
     public function isEmploymentComplete()
