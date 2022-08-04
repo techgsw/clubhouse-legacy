@@ -58,7 +58,7 @@
                     <div class="row" style="max-height: 0;">
                         @foreach($chunked_products as $product)
                             <div class="col s12 m6 l4">
-                                @include('product.webinars.components.inactive-list-item', ['$product' => $product])
+                                @include('product.webinars.components.inactive-card-item', ['$product' => $product])
                             </div>
                         @endforeach
                     </div>
