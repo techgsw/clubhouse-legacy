@@ -1,24 +1,58 @@
-@if (!preg_match('/do not show/i', $product->name))
-    <div style="display:flex;align-items: center; justify-content:space-between;margin: 5px 0px;">
-        <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline"><i style="font-size:70px;color:#EB2935; margin-right:20px;" class="fa fa-caret-right"></i></a>
-        <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="webinar-list-title" style="font-size: 18px;margin-right:auto;max-width:650px;"><strong>{{ $product->name }}</strong></a>
-        <span class="sbs-red-text" style="margin-left:15px;white-space: nowrap;">
-            @can('view-clubhouse')
-                <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline"><strong>WATCH NOW</strong></a>
-            @else
-                @if ($product->highest_option_role == 'clubhouse')
-                    <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="no-underline">
-                        <strong>PRO Member</strong>
-                    </a>
-                @elseif ($product->highest_option_role == 'user' && !Auth::user())
-                    <a href="#register-modal" class="no-underline"><strong>FREE Sign up</strong></a>
-                @else
-                    <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline"><strong>WATCH NOW</strong></a>
-                @endif
-            @endcan
-        </span>
-    </div>
-    <div class="hide-on-med-and-up">
-        <hr style="color:#EB2935;margin:unset;">
-    </div>
-@endif
+<div class="col s12">
+    @can('view-clubhouse')
+        <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline">
+            <div class="card large">
+                <div class="card-content">
+                    <div class="">
+                        <div style="font-size: 20px; margin-right: 10px; margin-bottom: 1rem;"><strong>{{ $product->name }}</strong></div>
+                    </div>
+                    <div class="row center-align">
+                        <div class="col center-align" style="position: absolute; bottom: 10rem; margin-right: 1vw;">
+                            @if($product->primaryImage())
+                                <img src={{ $product->primaryImage()->getURL('medium') }} width="100%"/>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col s12" style="height: 40px;">
+                        <div style="position: absolute; bottom: 10px; padding-right: 10px;">
+                            @foreach($product->tags as $tag)
+                                <a href="{{ $url . " tag=" . urlencode($tag->slug) }}" class="flat-button black small" style="margin:2px;">{{ $tag->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    @else
+        <div class="card small">
+            <div class="card-content">
+                <div style="font-size: 20px; margin-right: 10px; margin-bottom: 1rem;"><strong>{{ $product->name }}</strong></div>
+
+                <div class="col s12 center" style="height: 40px;">
+                    <div style="position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center;">
+                        @if ($product->highest_option_role == 'clubhouse')
+                            <a href="{{Auth::user() ? '/pro-membership' : '#register-modal'}}" class="no-underline">
+                                <h6><strong class="sbs-red-text">
+                                    PRO Member
+                                </strong></h6>
+                            </a>
+                        @elseif ($product->highest_option_role == 'user' && !Auth::user())
+                            <a href="#register-modal" class="no-underline">
+                                <h6><strong class="sbs-red-text">
+                                    FREE Sign up
+                                </strong></h6>
+                            </a>
+                        @else
+                            <a href="{{ $product->getURL(false, 'webinars') }}" target="_blank" rel="noopener" class="no-underline">
+                                <h6><strong class="sbs-red-text">
+                                    WATCH NOW
+                                </strong></h6>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    @endcan
+</div>

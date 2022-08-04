@@ -433,6 +433,12 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::post('/same-here/discussion/answer/{id}/edit', 'AnswerController@update');
     });
 
+    // Clubhouse
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/our-team', 'OurTeamController@index');
+        Route::get('/our-team/{id}', 'OurTeamController@show');
+    });
+
     // Sales Vault now Training
     Route::group(['middleware' => ['web']], function () {
         Route::get('/sales-vault', 'ClubhouseController@salesVault');

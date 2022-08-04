@@ -103,33 +103,24 @@
             <strong>Which features and career services do you plan to use? <span class="sbs-red-text">*</span></strong>
         </div>
         <div class="input-field col m6 s12" style="max-width: 250px;">
-            <input type="checkbox" id="services-webinar" name="services-webinar" class="planned-services">
-            <label for="services-webinar" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Webinars</span></label>
+            <input type="checkbox" id="check-all" data-action="check-all" class="planned-services">
+            <label for="check-all" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>CHECK ALL</span></label>
             <br>
-            <input type="checkbox" id="services-mentorship" name="services-mentorship" class="planned-services">
-            <label for="services-mentorship" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Industry Mentorship</span></label>
             <br>
-            <input type="checkbox" id="services-job-board" name="services-job-board" class="planned-services">
+            <input type="checkbox" id="services-job-board" name="services-job-board" data-type="auto-check" class="planned-services">
             <label for="services-job-board" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Job Board</span></label>
             <br>
-            <input type="checkbox" id="services-sales-training" name="services-sales-training" class="planned-services">
-            <label for="services-sales-training" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Sales Training</span></label>
+            <input type="checkbox" id="services-mentorship" name="services-mentorship" data-type="auto-check" class="planned-services">
+            <label for="services-mentorship" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Mentorship</span></label>
             <br>
-            <input type="checkbox" id="services-mental-health" name="services-mental-health" class="planned-services">
+            <input type="checkbox" id="services-sales-training" name="services-sales-training" data-type="auto-check" class="planned-services">
+            <label for="services-sales-training" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Training Vault</span></label>
+            <br>
+            <input type="checkbox" id="services-webinar" name="services-webinar" data-type="auto-check" class="planned-services">
+            <label for="services-webinar" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Webinars</span></label>
+            <br>
+            <input type="checkbox" id="services-mental-health" name="services-mental-health" data-type="auto-check" class="planned-services">
             <label for="services-mental-health" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Mental Health</span></label>
-        </div>
-        <div class="input-field col m6 s12">
-            <input type="checkbox" id="services-interview-coaching" name="services-interview-coaching" class="planned-services">
-            <label for="services-interview-coaching" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Interview and Resume Coaching</span></label>
-            <br>
-            <input type="checkbox" id="services-linkedin-brand" name="services-linkedin-brand" class="planned-services">
-            <label for="services-linkedin-brand" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>LinkedIn&#8482; Brand Review</span></label>
-            <br>
-            <input type="checkbox" id="services-phone-consultation" name="services-phone-consultation" class="planned-services">
-            <label for="services-phone-consultation" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Phone Consultation</span></label>
-            <br>
-            <input type="checkbox" id="services-action-plan" name="services-action-plan" class="planned-services">
-            <label for="services-action-plan" class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span>Career Action Plan</span></label>
         </div>
     </div>
     <div class="row">
