@@ -14,6 +14,8 @@ return [
 
     'name' => 'General Sports Worldwide',
 
+    'business' => 'theClubhouse®',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

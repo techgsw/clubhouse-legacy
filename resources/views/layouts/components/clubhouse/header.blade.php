@@ -25,7 +25,7 @@
                     <a href="https://www.facebook.com/TheClubhouse-458907761265631" style="max-width: 20px"><i class="fa fa-facebook-square fa-16x" aria-hidden="true"></i></a>
                     <a href="https://twitter.com/theC1ubhouse"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a>
                     <a href="https://instagram.com/theC1ubhouse"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a>
-                    <a href="https://www.linkedin.com/company/the-clubhouse-sbs"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
+                    <a href="https://www.linkedin.com/company/the-clubhouse-gsw"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a>
                 </li>
                 <li><a href="https://generalsportsworldwide.com" style="text-transform: none; font-size: 18px;">General Sports Worldwide</a></li>
                 <li class="divider"></li>

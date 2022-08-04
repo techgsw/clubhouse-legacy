@@ -4,7 +4,6 @@
             <li>
                 <a href="https://generalsportsworldwide.com" class="no-underline">
                     <strong>General Sports Worldwide</strong>
-                    <!--<img style="height: 30px; margin-top: 5px;" src="/images/SBSonly_logo.png" alt="SBS Consulting">-->
                 </a>
             </li>
             @can ('view-admin-dashboard')
@@ -12,7 +11,7 @@
             @endif
         </ul>
         <ul class="right">
-            <li><a href="https://www.linkedin.com/company/the-clubhouse-sbs"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.linkedin.com/company/the-clubhouse-gsw"><i class="fa fa-linkedin-square fa-16x" aria-hidden="true"></i></a></li>
             <li><a href="https://twitter.com/theC1ubhouse"><i class="fa fa-twitter-square fa-16x" aria-hidden="true"></i></a></li>
             <li><a href="https://instagram.com/theC1ubhouse"><i class="fa fa-instagram fa-16x" aria-hidden="true"></i></a></li>
             @if (Auth::guest())
