@@ -395,7 +395,7 @@
                             <input id="email_preference_new_content_mentors" type="checkbox" name="email_preference_new_content_mentors" value="1" {{ is_null(old('email_preference_new_content_mentors')) ? ($profile->email_preference_new_content_mentors ? "checked" : "") : (old('email_preference_new_content_mentors') ? "checked" : "") }} />
                             <label for="email_preference_new_content_mentors" style="margin:0px 10px;">Mentors</label>
                             <input id="email_preference_new_content_training_videos" type="checkbox" name="email_preference_new_content_training_videos" value="1" {{ is_null(old('email_preference_new_content_training_videos')) ? ($profile->email_preference_new_content_training_videos ? "checked" : "") : (old('email_preference_new_content_training_videos') ? "checked" : "") }} />
-                            <label for="email_preference_new_content_training_videos" style="margin:0px 10px;">Sales Vault Videos</label>
+                            <label for="email_preference_new_content_training_videos" style="margin:0px 10px;">Training Vault Videos</label>
                         </p>
                     </div>
                     <div class="input-field col s12">
