@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Email::class);
     }
 
+    public function influencer()
+    {
+        return $this->belongsToMany(Influencer::class)->withPivot('pro');
+    }
+
     public function inquiries()
     {
         return $this->hasMany(Inquiry::class);

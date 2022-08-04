@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\ContactOrganization;
+use App\Influencer;
 use App\Organization;
 use App\ProductOption;
 use Illuminate\Auth\Passwords\PasswordBroker;
@@ -197,6 +198,20 @@ class RegisterController extends Controller
             ?: redirect($this->redirectPath().'#register-modal');
     }
 
+    public function registerInfluencer(Request $request, $influencerId)
+    {
+        $influencer = Influencer::where('influencer', $influencerId)->first();
+        $data = [];
+
+        if ($influencer) {
+            $data = [
+                'influencer' => $influencerId,
+                'influencerName' => $influencer->name,
+            ];
+        }
+        return view('auth/register',$data);
+    }
+
     /**
      * If the user reaches the "Is this you" page, then the "Complete registration" request hits this method.
      * This pulls their cached registration data if available and continues with the normal registration process
@@ -331,6 +346,18 @@ class RegisterController extends Controller
                 'address_id' => $address->id,
                 'contact_id' => $contact->id
             ]);
+
+            if ($data['influencer']) {
+                $influencer = Influencer::where('influencer', $data['influencer'])->first();
+
+                if ($influencer) {
+                    $user->influencer()->attach([
+                        $influencer->id => [
+                            'pro' => isset($data['membership-selection-pro'])
+                        ]
+                    ]);
+                }
+            }
 
             return $user;
         });

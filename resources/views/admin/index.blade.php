@@ -76,7 +76,7 @@
         <div class="card-action">
             <a class="no-underline" href="/organization/create"><span class="sbs-red-text"><i class="icon-left fa fa-plus" aria-hidden="true"></i></span><span style="color: #000"> new org</span></a>
         </div>
-    </div>  
+    </div>
     <div class="card">
         <div class="card-content">
             <span class="card-title"><a href="/admin/question" class="no-underline">Questions</a></span>
@@ -172,6 +172,19 @@
             </div>
             <div class="card-action">
                 <a class="no-underline" href="/admin/report"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Reports</span></a>
+            </div>
+        </div>
+    @endcan
+    @can ('view-admin-reports')
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"><a href="/admin/influencers" class="no-underline">Influencers</a></span>
+                <p style="text-transform: uppercase;">
+                    <span class="sbs-red-text">{{ $influencers_count }}</span> influencer signup{{ $influencers_count == 1 ? "" : "s" }}
+                </p>
+            </div>
+            <div class="card-action">
+                <a class="no-underline" href="/admin/influencers"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Influencers</span></a>
             </div>
         </div>
     @endcan
