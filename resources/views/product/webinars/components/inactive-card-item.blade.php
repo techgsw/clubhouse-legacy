@@ -9,7 +9,7 @@
                     <div class="row center-align">
                         <div class="col center-align" style="position: absolute; bottom: 10rem; margin-right: 1vw;">
                             @if($product->primaryImage())
-                                <img src={{ $product->primaryImage()->getURL('medium') }} width="100%"/>
+                                <img src={{ $product->primaryImage()->getURL('medium') }} width="80%"/>
                             @endif
                         </div>
                     </div>
