@@ -33,7 +33,7 @@
                     <div class="row" style="max-height: 0;">
                         @foreach($chunked_videos as $video)
                             <div class="col s12 m6 l4">
-                                @include('product.training-videos.components.list-item', ['video' => $video])
+                                @include('product.training-videos.components.card-item', ['video' => $video])
                             </div>
                         @endforeach
                     </div>
