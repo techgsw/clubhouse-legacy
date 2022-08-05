@@ -17,9 +17,7 @@ class Post extends Model
         'edited_at'
     ];
 
-    protected $attributes = ['blurb'];
-
-    public function getBlurbAttribute()
+    public function getBlurb()
     {
         $parsedown = new Parsedown();
         $body = strip_tags($parsedown->text($this->body));
