@@ -6,12 +6,12 @@
             <h3 class="header">Add a New Influencer</h3>
         </div>
     </div>
-    <div class="modal-content">
+    <div class="modal-content" style="margin: 2rem;">
     <form method="post" action="/admin/influencers/new">
         {{ csrf_field() }}
         <input type="text" name="name" data-input="influencer_name" placeholder="Influencer Name" required="required"/>
         <input type="hidden" name="influencer" data-input="influencer" />
-        <div class="row">
+        <div class="row" style="padding: .5rem;">
             <strong>Signup Link:</strong> {{ route('register') }}/<span data-type="influencer"></span>
         </div>
         <div class="row">

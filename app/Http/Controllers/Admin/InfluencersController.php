@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateInfluencer;
 use App\Influencer;
 use App\Message;
 use App\User;
@@ -23,7 +24,7 @@ class InfluencersController extends Controller
         return view('admin.influencers', ['influencers' => $influencers, 'users' => $users]);
     }
 
-    public function store(Request $request)
+    public function store(CreateInfluencer $request)
     {
         Influencer::create($request->all());
 
