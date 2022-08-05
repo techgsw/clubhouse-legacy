@@ -2748,6 +2748,8 @@ a.sales-vault-twitter-link:hover {
     }
 }
 
+ul.nav-custom-desktop li { max-height: 1rem; }
+
 @media only screen and (max-width: 993px) {
     .sbs-resource-row {
         flex-wrap: wrap;
