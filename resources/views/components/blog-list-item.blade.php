@@ -16,7 +16,7 @@
                         By <span style="text-transform: uppercase;">{{(($post->authored_by) ?: $post->user->first_name.' '.$post->user->last_name)}}</span>
                     </p>
 
-                    <div class="blog-blurb">{{ strip_tags($post->blurb) }}</div>
+                    <div class="blog-blurb">{{ strip_tags($post->getBlurb()) }}</div>
                 </a>
             </div>
             <div class="col s12" style="height: 40px;">

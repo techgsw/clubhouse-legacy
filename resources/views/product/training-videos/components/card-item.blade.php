@@ -9,7 +9,7 @@
                 <div class="">
                     <div style="font-size: 20px; margin-right: 10px; margin-bottom: 1rem;"><strong>{{ $video->name }}</strong></div>
                     <div>{{is_null($video->getTrainingVideoAuthor()) ? '' : 'by '.$video->getTrainingVideoAuthor()}}</div>
-                    <div> {{ strip_tags($video->blurb) }}</div>
+                    <div> {{ strip_tags($video->getBlurb()) }}</div>
                 </div>
                 <div class="row center-align">
                     <div class="col center-align" style="position: absolute; bottom: 10rem; margin-right: 1vw;">
