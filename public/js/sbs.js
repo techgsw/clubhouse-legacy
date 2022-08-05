@@ -2032,6 +2032,21 @@ $.valHooks.textarea = {
     //end Blog editor
 
 
+    // Influencer Modal
+        var influencerName = $('[data-input="influencer_name"]');
+        var influencer = $('[data-input="influencer"]');
+        var linkText = $('[data-type="influencer"]');
+        if (influencerName.is('*')) {
+            influencerName.on('keyup', function (event) {
+                let transform = this.value.replace(/[^a-z0-9]/gi, '')
+                    .replaceAll(' ', '')
+                    .toLowerCase();
+                influencer.val(transform);
+                linkText.html(transform);
+            });
+        }
+    // end Influencer Modal
+
     // Registration Modal
 
     // highlight the correct membership option card on check

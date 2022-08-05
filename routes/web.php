@@ -152,7 +152,8 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/admin/report/clubhouse/download', 'ReportController@downloadClubhouseMembers');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
-        Route::get('/admin/influencers', 'InfluencersController@index');
+        Route::get('/admin/influencers', 'InfluencersController@index')->name('admin.influencers');
+        Route::post('/admin/influencers/new', 'InfluencersController@store');
         //endpoint for editing the user roles
         Route::get('/admin/{id}/edit-roles', 'RoleController@index');
         Route::post('/admin/{id}/update-roles', 'RoleController@update');

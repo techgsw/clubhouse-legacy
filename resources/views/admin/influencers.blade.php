@@ -21,9 +21,14 @@
             <div class="col">
                 <button type="submit" class="btn sbs-red" style="width: 100%;">Search</button>
             </div>
+            <div class="col">
+                <a class="modal-trigger" href="#register-modal">
+                    <button type="button" class="btn sbs-red" style="width: 100%;">Add New</button>
+                </a>
+            </div>
         </div>
         <div class="row" style="margin-bottom: 1rem;">
-            Signup Link: <a href="{{ URL::to('/') . '/register/' . request('name') }}">{{ URL::to('/') . '/register/' . request('name') }}</a>
+            <strong>Signup Link:</strong> <a href="{{ URL::to('/') . '/register/' . request('name') }}">{{ URL::to('/') . '/register/' . request('name') }}</a>
         </div>
     </form>
 
@@ -70,4 +75,6 @@
             <h6>No matching records found</h6>
         </div>
     @endif
+    @include('admin.components.add-influencer-modal')
+
 @endsection
