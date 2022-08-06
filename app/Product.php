@@ -22,6 +22,10 @@ class Product extends Model
         $parsedown = new Parsedown();
         $body = strip_tags($parsedown->text($this->getCleanDescription()));
         $textLength = strlen($body);
+        
+        if ($textLength < 300) {
+            return $body;
+        }
 
         $words = explode(' ', $body);
         $blurb = $body;
