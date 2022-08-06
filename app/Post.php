@@ -19,6 +19,10 @@ class Post extends Model
 
     public function getBlurb()
     {
+        if (strlen($this->body) < 300) {
+            return $this->body;
+        }
+
         $parsedown = new Parsedown();
         $body = strip_tags($parsedown->text($this->body));
         $postLength = strlen($body);
@@ -37,6 +41,7 @@ class Post extends Model
         }
 
         $index = 300 - $titleAuthorLength - $tagLength;
+
         // Break into words
         while (!preg_match('/\s/', $body[$index]) && $postLength > $index) {
             $index++;
