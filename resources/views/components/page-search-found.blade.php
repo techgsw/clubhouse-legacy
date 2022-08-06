@@ -7,7 +7,7 @@
         @if (request('search'))
             searching for <b>{{ request('search') }}</b>
         @endif
-        @if (request('tag') && $active_tag)
+        @if (request('tag') && isset($active_tag))
             tagged <b>{{ $active_tag->name }}</b>
         @endif
         <a href="{{ $base_url }}" style="float: right;">Clear</a>
