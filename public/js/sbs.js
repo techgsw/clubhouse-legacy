@@ -1388,47 +1388,6 @@ $.valHooks.textarea = {
         'span.tag button.x'
     );
 
-    Instagram.getFeed = function (is_same_here) {
-        return $.ajax({
-            type: "GET",
-            url: "/social/instagram",
-            data: { is_same_here: is_same_here},
-        });
-    }
-
-    Instagram.init = function () {
-        var ig = $('#instagram');
-        var is_same_here = $('.same-here-instagram-feed').length > 0;
-        if (ig.length > 0) {
-            Instagram.getFeed(is_same_here).done(
-                function (resp, status, xhr) {
-                    if (xhr.status == 200) {
-                        ig.find('.preloader-wrapper').remove();
-                        ig.append(resp);
-                    } else {
-                        if (is_same_here) {
-                            $('.same-here-instagram-feed').remove();
-                        } else {
-                            ig.find('.preloader-wrapper').remove();
-                            ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
-                        }
-                        console.error("Failed to load Instagram feed.");
-                    }
-                }
-            ).fail(
-                function () {
-                    if (is_same_here) {
-                        $('.same-here-instagram-feed').remove();
-                    } else {
-                        ig.find('.preloader-wrapper').remove();
-                        ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
-                    }
-                    console.error("Failed to load Instagram feed.");
-                }
-            );
-        }
-    }
-
     Twitter.getFeed = function (context) {
         return $.ajax({
             type: "GET",
