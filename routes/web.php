@@ -381,6 +381,11 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/product/{id}', 'ProductController@show');
     });
 
+    // Search
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/search/state', 'SearchController@state')->name('search-state');
+    });
+
     // User
     Route::group(['middleware' => ['web','auth']], function () {
         Route::get('/user/{id?}', 'UserController@show');
@@ -395,6 +400,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::post('/user/{id}/profile', 'ProfileController@update');
         Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
         Route::post('/user/{id}/create-note', 'ProfileController@createNote');
+        Route::get('/user/{id?}/dont-ask', 'ProfileController@dontAskToComplete');
 
     });
 

@@ -69,7 +69,8 @@ class RegisterController extends Controller
                 $query->where('name', 'Clubhouse Pro Membership');
             })->where('name', 'Clubhouse Pro Membership')->first()->getURL(false, 'checkout');
         } else {
-            $redirect_url = Session::get('url.intended', url('/'));
+            // Send new user directly to their profile
+            $redirect_url = url('/user/' . $user->id . '/edit-profile');
         }
 
         if ($redirect_url == '/job-options') {

@@ -936,6 +936,12 @@ TODO: move the below to a "#SameHere" section, or something specific to email in
     color: #DDD;
 }
 
+.select2.select2-container {
+    position: absolute;
+    top: 17px;
+    width: 80% !important;
+}
+
 .same-here-social .flat-button {
     transition: background-color .3s, color .3s;
     border-radius: 49%;
