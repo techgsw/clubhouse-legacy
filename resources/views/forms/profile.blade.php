@@ -30,7 +30,7 @@
                 </div>
                 <div class="input-field col s12 m6">
                     <input id="phone" type="text" name="phone" value="{{ old('phone') ?: $profile->phone ?: "" }}"/>
-                    <label for="phone">Phone <span class="sbs-red-text">*</span></label>
+                    <label @isset($profile->phone)class="active"@endisset for="phone">Phone <span class="sbs-red-text">*</span></label>
                 </div>
             </div>
             <div class="row">
@@ -47,14 +47,14 @@
                 <div class="input-field col s12 m6 {{ $errors->has('linkedin') ? 'invalid' : '' }}">
                     <input id="linkedin" name="linkedin" type="text" value="{{ $profile->linkedin }}">
                     <label for="linkedin" class="active" style="width: 95%">
-			LinkedIn Profile URL
-                	@if (!$profile->linkedin)
-                	    <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
-                	@endif
-		    </label>
+                        LinkedIn Profile URL
+                        @if (!$profile->linkedin)
+                            <span class="progress-icon progress-incomplete yellow-text text-darken-2" style="float: right;"><i class="material-icons">warning</i></span>
+                        @endif
+                    </label>
                 </div>
                 <div class="input-field col s12 m6">
-			&nbsp;
+                    &nbsp;
                 </div>
             </div>
             <div class="row">
@@ -155,7 +155,7 @@
                     @else
                         <span class="progress-icon progress-incomplete sbs-red-text text-darken-2" style="float: right;"><i class="material-icons">error_outline</i></span>
                     @endif
-                <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
+                    <span class="progress-icon progress-unsaved blue-text text-darken-2 hidden" style="float: right;"><i class="material-icons">save</i></span>
                 @endif
             </div>
             <div class="collapsible-body">
@@ -260,12 +260,12 @@
                     <div class="input-field col s12">
                         <p>Do you currently work in sports?</p>
                         <p>
-                          <input name="works_in_sports" id="works_in_sports_yes" type="radio" value="1" {{ is_null(old('works_in_sports')) ? ($profile->works_in_sports ? "checked" : "") : (old('works_in_sports') ? "checked" : "") }} />
-                          <label for="works_in_sports_yes">Yes</label>
+                            <input name="works_in_sports" id="works_in_sports_yes" type="radio" value="1" {{ is_null(old('works_in_sports')) ? ($profile->works_in_sports ? "checked" : "") : (old('works_in_sports') ? "checked" : "") }} />
+                            <label for="works_in_sports_yes">Yes</label>
                         </p>
                         <p>
-                          <input name="works_in_sports" id="works_in_sports_no" type="radio" value="0" {{ is_null(old('works_in_sports')) ? ($profile->works_in_sports ? "" : "checked") : (old('works_in_sports') ? "" : "checked") }} />
-                          <label for="works_in_sports_no">No</label>
+                            <input name="works_in_sports" id="works_in_sports_no" type="radio" value="0" {{ is_null(old('works_in_sports')) ? ($profile->works_in_sports ? "" : "checked") : (old('works_in_sports') ? "" : "checked") }} />
+                            <label for="works_in_sports_no">No</label>
                         </p>
                     </div>
                 </div>
@@ -319,10 +319,10 @@
                         <p>Which department(s) do you have experience in?</p>
                         <div class="row">
                             @foreach(App\Profile::getExperienceDepartments() as $department => $label)
-                            <div class="input-field col s12 m6 l4">
-                                <input type="checkbox" name="{{ $department }}" id="{{ $department }}" value="1" {{ is_null(old($department)) ? ($profile->$department ? "checked" : "") : (old($department) ? "checked" : "") }} />
-                                <label for="{{ $department }}">{{ $label }}</label>
-                            </div>
+                                <div class="input-field col s12 m6 l4">
+                                    <input type="checkbox" name="{{ $department }}" id="{{ $department }}" value="1" {{ is_null(old($department)) ? ($profile->$department ? "checked" : "") : (old($department) ? "checked" : "") }} />
+                                    <label for="{{ $department }}">{{ $label }}</label>
+                                </div>
                             @endforeach
                             <div class="input-field col s12" style="margin-top: 1.5rem;">
                                 <input type="text" name="department_experience_other" id="department_experience_other" value="{{ old('department_experience_other') ?: $profile->department_experience_other ?: '' }}" />
