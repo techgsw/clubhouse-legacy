@@ -501,9 +501,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Actual scheduling is handled by Calend.ly embed. 
+     * Actual scheduling is handled by Calend.ly embed.
      * This records a career service purchase as being scheduled on our side.
-     */ 
+     */
     public function scheduleCareerService($id)
     {
         $career_service_transaction = Transaction::find($id);
@@ -549,10 +549,15 @@ class ProductController extends Controller
             })->get();
         }
 
+        if ($request->search) {
+            $inactive_products_query = Product::search($request);
+        }
+
+
         $inactive_products = $inactive_products_query
 //            ->orderByRaw("FIELD(highest_option_role, 'guest', 'user', 'clubhouse')")
             ->orderBy('id', 'desc')
-            ->paginate(30);
+            ->paginate(24);
 
         $tags = Tag::join('product_tag', function($join) {
             $join->on('name', 'tag_name')
@@ -625,6 +630,10 @@ class ProductController extends Controller
             $query->where('name', 'Training Video');
         });
 
+        if ($request->search) {
+            $training_videos_query = Product::search($request);
+        }
+
         $tags = Tag::whereHas('products', function($query) use ($active_book) {
                 $query->whereHas('tags', function($query) {
                     $query->where('name', 'Training Video');
@@ -675,7 +684,7 @@ class ProductController extends Controller
                 ->whereRaw("product_id IN (SELECT product_id FROM product_tag WHERE tag_name = 'Training Video')");
         })->distinct()->get(['name']);
 
-        $videos = $training_videos_query->orderBy('created_at', 'DESC')->paginate(10);
+        $videos = $training_videos_query->orderBy('created_at', 'DESC')->paginate(12);
 
         return view('/product/training-videos/training-videos', [
             'videos' => $videos,

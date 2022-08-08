@@ -135,6 +135,11 @@
                                     <li>Enter the Sales Vault – Sales training videos for the sport salesperson</li>
                                     <li>Attend live premium webinars and events</li>
                                 </ul>
+                                <div class="center-align">
+                                    <span class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span class="sbs-red-text">$7/MONTH</span></span>
+                                    <span class="sbs-red-checkbox" style="top:0;margin:0px 10px;"><span class="sbs-red-text">$77/YEAR - 1 MONTH FREE</span></span>
+                                </div>
+
                             </div>
                         </div>
                     </div>
