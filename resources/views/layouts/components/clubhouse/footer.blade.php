@@ -4,9 +4,9 @@
             <div class="col m5 s12">
                 <a href="#register-modal" class="no-underline"><img style="max-height:285px;max-width:100%;" src="/images/CH_Footer_Ads-Member.jpg"></a>
             </div>
-{{--            <div class="col m4 s12">--}}
-{{--                @include('layouts.components.instagram')--}}
-{{--            </div>--}}
+            <div class="col m4 s12 clubhouse-instagram-feed">
+                @include('layouts.components.instagram')
+            </div>
             <div class="col m3 s12">
                 @include('layouts.components.clubhouse.twitter')
             </div>
@@ -24,7 +24,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <p class="small">Copyright &copy; {{ date('Y') }} SBS Consulting | All Rights Reserved</p>
+            <p class="small">Copyright &copy; {{ date('Y') }} {{ __('general.company_name') }} | All Rights Reserved</p>
         </div>
     </div>
     @include('layouts.components.message-template')

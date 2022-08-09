@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\SBSException;
+use App\Providers\MailchimpServiceProvider;
 use Illuminate\Support\Facades\Session;
 use Mail;
 use App\Mail\CancelNotification;
@@ -422,6 +423,12 @@ class CheckoutController extends Controller
                         EmailServiceProvider::sendMembershipPurchaseNotificationEmail($user, $product_option, 0, 'membership');
                         Mail::to($user)->send(new UserPaid($user, $product_option, $plan->plan->amount, 'membership'));
                         Mail::to($user)->send(new UserPaidClubhousePro($user));
+                    } catch (\Exception $e) {
+                        Log::error($e->getMessage());
+                    }
+
+                    try {
+                        MailchimpServiceProvider::addUserToProMembersList($user);
                     } catch (\Exception $e) {
                         Log::error($e->getMessage());
                     }

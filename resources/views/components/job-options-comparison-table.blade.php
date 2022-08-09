@@ -33,19 +33,19 @@
             <td class="center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
-            <td style="width: 300px; padding-right: 20px;">The SBS Consulting team will send you additional job candidate matches based on your search criteria</td>
+            <td style="width: 300px; padding-right: 20px;">The {{ __('general.company_name') }} team will send you additional job candidate matches based on your search criteria</td>
             <td class="center"></td>
             <td class="center"><i class="fa fa-check"></i></td>
             <td class="center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
-            <td style="width: 300px; padding-right: 20px;">The SBS Consulting’ team of recruiters will screen and pre-qualify your candidate list to help identify the right person for the job</td>
+            <td style="width: 300px; padding-right: 20px;">The {{ __('general.company_name') }} team of recruiters will screen and pre-qualify your candidate list to help identify the right person for the job</td>
             <td class="center"></td>
             <td class="center"></td>
             <td class="center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
-            <td style="width: 300px; padding-right: 20px;">The SBS Consulting’ team will send you a minimum of 5 candidates that are not only qualified, but pre-screened and interested in your position</td>
+            <td style="width: 300px; padding-right: 20px;">The {{ __('general.company_name') }} team will send you a minimum of 5 candidates that are not only qualified, but pre-screened and interested in your position</td>
             <td class="center"></td>
             <td class="center"></td>
             <td class="center"><i class="fa fa-check"></i></td>

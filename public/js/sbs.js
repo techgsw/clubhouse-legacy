@@ -1388,47 +1388,6 @@ $.valHooks.textarea = {
         'span.tag button.x'
     );
 
-    Instagram.getFeed = function (is_same_here) {
-        return $.ajax({
-            type: "GET",
-            url: "/social/instagram",
-            data: { is_same_here: is_same_here},
-        });
-    }
-
-    Instagram.init = function () {
-        var ig = $('#instagram');
-        var is_same_here = $('.same-here-instagram-feed').length > 0;
-        if (ig.length > 0) {
-            Instagram.getFeed(is_same_here).done(
-                function (resp, status, xhr) {
-                    if (xhr.status == 200) {
-                        ig.find('.preloader-wrapper').remove();
-                        ig.append(resp);
-                    } else {
-                        if (is_same_here) {
-                            $('.same-here-instagram-feed').remove();
-                        } else {
-                            ig.find('.preloader-wrapper').remove();
-                            ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
-                        }
-                        console.error("Failed to load Instagram feed.");
-                    }
-                }
-            ).fail(
-                function () {
-                    if (is_same_here) {
-                        $('.same-here-instagram-feed').remove();
-                    } else {
-                        ig.find('.preloader-wrapper').remove();
-                        ig.append("<a class=\"username\" href=\"https://instagram.com/sportsbizsol\"><span>@</span>sportsbizsol</a>");
-                    }
-                    console.error("Failed to load Instagram feed.");
-                }
-            );
-        }
-    }
-
     Twitter.getFeed = function (context) {
         return $.ajax({
             type: "GET",
@@ -2527,6 +2486,57 @@ $.valHooks.textarea = {
         },
         '.pdf-modal-trigger'
     );
+
+    /** Profile Form **/
+    // Check/Uncheck all associated checkboxes
+    var checkAll = $('[data-action="check-all"]');
+    var autoChecks = $('[data-type="auto-check"]');
+    checkAll.on('click', function(event) {
+        var isChecked = event.target.checked;
+        autoChecks.each(function () {
+            $(this).prop('checked', isChecked);
+        });
+    });
+
+    // If all are checked and one is then unchecked, uncheck the CHECK ALL box
+    autoChecks.on('click', function (event) {
+        var shouldCheck = event.target.checked;
+
+        if (shouldCheck) {
+            autoChecks.each(function () {
+                shouldCheck = shouldCheck && event.target.checked;
+            });
+        }
+        if (checkAll.prop('checked')) {
+            checkAll.prop('checked', shouldCheck);
+        }
+    });
+
+    $('.statesDropdown').select2({
+        'language': {
+            'noResults': function(){
+                return 'Type to see selections';
+            }
+        },
+        ajax: {
+            url: '/search/state',
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.abbrev,
+                            id: item.abbrev
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+    /** End Profile Form **/
+
 
     $(window).on("beforeunload", function (e, ui) {
         if (Form.unsaved) {
