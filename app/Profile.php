@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 class Profile extends Model
 {

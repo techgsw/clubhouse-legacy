@@ -9,15 +9,8 @@ class UpdateUserRelatedTablesWithDeletedAt extends Migration
     const TABLES = [
         'user',
         'contact',
-        'profile',
-        'post',
-        'question',
-        'answer',
-        'job',
-        'role_user',
-        'inquiry',
-        'address',
     ];
+
     /**
      * Run the migrations.
      *
