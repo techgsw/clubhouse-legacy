@@ -5,9 +5,12 @@ namespace App;
 use App\Exceptions\InvalidSearchException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'contact';
     protected $guarded = [];
     protected $hidden = [];

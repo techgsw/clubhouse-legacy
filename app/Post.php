@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Parsedown;
 
 class Post extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'post';
     protected $guarded = [];
     protected $dates = [

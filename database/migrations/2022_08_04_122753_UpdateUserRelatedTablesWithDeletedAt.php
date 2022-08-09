@@ -25,11 +25,13 @@ class UpdateUserRelatedTablesWithDeletedAt extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         collect(self::TABLES)->each(function ($table) {
             Schema::table($table, function (Blueprint $table) {
                 $table->dateTime('deleted_at')->nullable()->default(NULL);
             });
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -39,10 +41,12 @@ class UpdateUserRelatedTablesWithDeletedAt extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         collect(self::TABLES)->each(function ($table) {
             Schema::table($table, function (Blueprint $table) {
                 $table->dropColumn('deleted_at');
             });
         });
+        Schema::enableForeignKeyConstraints();
     }
 }
