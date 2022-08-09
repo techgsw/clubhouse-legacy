@@ -1,5 +1,8 @@
 <header>
     @include('layouts.components.clubhouse.auth-nav')
+    @if (Auth::user() && (! Auth::user()->profile->isComplete() && ! Auth::user()->profile->dontAskToComplete()))
+        @include('layouts.components.clubhouse.complete-profile-banner')
+    @endif
     <nav class="nav-main" role="navigation">
         <div class="nav-wrapper container">
             <!--<a href="/" style="color: #3F3E3E; left: 0; margin-top: 25px;" class="brand-logo">CLUBHOUSE</a>-->
