@@ -412,9 +412,20 @@
             </div>
         </li>
     </ul>
-    <div class="row">
-        <div class="input-field col s12">
+    <div class="row m12">
+        <div class="input-field col m3">
             <button type="submit" class="btn sbs-red">Save profile</button>
         </div>
+        @if(Auth::user()->id !== $user->id && Auth::user()->can('delete-contacts'))
+        <div class="input-field col m3 push-m6 right-align">
+            <button type="button"
+                    class="btn sbs-red"
+                    data-button="delete_profile"
+                    data-id="{{ $user->id }}"
+                    data-user="{{ $user->getName() }}">
+                Delete profile
+            </button>
+        </div>
+        @endif
     </div>
 </form>

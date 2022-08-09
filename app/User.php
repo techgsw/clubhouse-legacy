@@ -31,6 +31,11 @@ class User extends Authenticatable
             $user->roles()->attach($roles);
         });
 
+        static::deleted(function(User $user) {
+            $contact = Contact::where('user_id', $user->id);
+            $contact->delete();
+        });
+
         parent::boot();
     }
 
