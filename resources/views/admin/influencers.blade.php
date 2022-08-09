@@ -7,23 +7,31 @@
             <h4>Influencers</h4>
         </div>
     </div>
+    @if($errors->any())
+        @include('layouts.components.errors')
+    @endif
+
     <form>
-        <div class="row m6">
-            <div class="col">
-                <select name="name">
+        <div class="row m12">
+            <div class="col m3">
+                <select name="name" data-input="influencer_list">
                     <option value="">Select</option>
                     @foreach($influencers as $influencer)
                         <option value="{{ $influencer->influencer }}" {{ request('name') === $influencer->influencer ? "selected" : "" }}>{{ $influencer->name }}</option>
                     @endforeach
                 </select>
-
             </div>
-            <div class="col">
-                <button type="submit" class="btn sbs-red" style="width: 100%;">Search</button>
+            <div class="col m2 push-m7 right-align">
+                <a class="modal-trigger" href="#register-modal">
+                    <button type="button" class="btn sbs-red" style="width: 100%;">Add New</button>
+                </a>
             </div>
         </div>
         <div class="row" style="margin-bottom: 1rem;">
-            Signup Link: <a href="{{ URL::to('/') . '/register/' . request('name') }}">{{ URL::to('/') . '/register/' . request('name') }}</a>
+            <strong>Signup Link:</strong>
+            <span data-type="weblink" data-value="{{ URL::to('/') . '/register/' . request('name') }}" style="cursor: pointer;">
+                {{ URL::to('/') . '/register/' . request('name') }} <i class="material-icons">content_copy</i>
+            </span>
         </div>
     </form>
 
@@ -70,4 +78,6 @@
             <h6>No matching records found</h6>
         </div>
     @endif
+    @include('admin.components.add-influencer-modal')
+
 @endsection

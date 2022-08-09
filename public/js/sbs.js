@@ -1991,6 +1991,54 @@ $.valHooks.textarea = {
     //end Blog editor
 
 
+    // Influencers
+        var influencerList = $('[data-input="influencer_list"]');
+        var influencerName = $('[data-input="influencer_name"]');
+        var influencer = $('[data-input="influencer"]');
+        var linkText = $('[data-type="influencer"]');
+        var webLink = $('[data-type="weblink"]');
+
+        if (influencerList.is('*')) {
+            influencerList.on('change', function (event) {
+                location.href = document.location.pathname + '?name=' +this.value;
+            });
+        }
+
+        if (webLink.is('*')) {
+            webLink.on('click', function (event) {
+                let textToCopy = $(this).data('value');
+                if (navigator.clipboard && window.isSecureContext) {
+                    // navigator clipboard api method'
+                    return navigator.clipboard.writeText(textToCopy);
+                } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                    var textarea = document.createElement("textarea");
+                    textarea.textContent = textToCopy;
+                    textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+                    } catch (ex) {
+                        console.warn("Copy to clipboard failed.", ex);
+                        return prompt("Copy to clipboard: Ctrl+C, Enter", textToCopy);
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+            });
+        }
+
+        if (influencerName.is('*')) {
+            influencerName.on('keyup', function (event) {
+                let transform = this.value.replace(/[^a-z0-9]/gi, '')
+                    .replaceAll(' ', '')
+                    .toLowerCase();
+                influencer.val(transform);
+                linkText.html(transform);
+            });
+        }
+    // end Influencers
+
     // Registration Modal
 
     // highlight the correct membership option card on check
