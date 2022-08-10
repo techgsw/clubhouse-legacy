@@ -2599,7 +2599,6 @@ $.valHooks.textarea = {
 
     SBS.init = function () {
         Markdown.init();
-        Instagram.init();
         Twitter.init();
         Note.init();
         League.init();
