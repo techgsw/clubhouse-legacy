@@ -28,6 +28,10 @@ class InquiryContacted extends Mailable
         $this->inquiry = $inquiry;
         $this->action = $action;
         $this->user = Auth::user();
+//        $this->cc = [
+//            $this->user->email
+//        ];
+
     }
 
     /**
@@ -37,11 +41,7 @@ class InquiryContacted extends Mailable
      */
     public function build()
     {
-        if (\Gate::allows('view-admin-dashboard')) {
-            $mail = $this->from($this->user->email);
-        } else {
-            $mail = $this->from(__('email.support_address'));
-        }
+        $mail = $this->from(__('email.support_address'));
 
         $mail->subject("Your {$this->inquiry->job->title} job application status with the {$this->inquiry->job->organization_name}");
         switch ($this->action) {
