@@ -112,6 +112,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('logout', 'LoginController@logout')->name('logout');
         Route::get('/auth/login/header', 'LoginController@header');
 
+        Route::get('register/{id}', 'RegisterController@registerInfluencer');
         Route::get('register/pro', 'RegisterController@pro');
         Route::post('/register/is-this-you/{type}', 'RegisterController@registerIsThisYou');
     });
@@ -151,6 +152,8 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/admin/report/clubhouse/download', 'ReportController@downloadClubhouseMembers');
         Route::get('/admin/report/ajax-product-type-purchase-report', 'ReportController@ajaxProductTypePurchaseCountGraph');
         Route::get('/admin/follow-up', 'FollowUpController@index');
+        Route::get('/admin/influencers', 'InfluencersController@index')->name('admin.influencers');
+        Route::post('/admin/influencers/new', 'InfluencersController@store');
         //endpoint for editing the user roles
         Route::get('/admin/{id}/edit-roles', 'RoleController@index');
         Route::post('/admin/{id}/update-roles', 'RoleController@update');
@@ -379,6 +382,11 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/product/{id}', 'ProductController@show');
     });
 
+    // Search
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/search/state', 'SearchController@state')->name('search-state');
+    });
+
     // User
     Route::group(['middleware' => ['web','auth']], function () {
         Route::get('/user/{id?}', 'UserController@show');
@@ -393,6 +401,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::post('/user/{id}/profile', 'ProfileController@update');
         Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
         Route::post('/user/{id}/create-note', 'ProfileController@createNote');
+        Route::get('/user/{id?}/dont-ask', 'ProfileController@dontAskToComplete');
 
     });
 
@@ -429,6 +438,12 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/same-here/discussion/answer/{id}/disapprove', 'AnswerController@disapprove');
         Route::get('/same-here/discussion/answer/{id}/edit', 'AnswerController@edit');
         Route::post('/same-here/discussion/answer/{id}/edit', 'AnswerController@update');
+    });
+
+    // Clubhouse
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('/our-team', 'OurTeamController@index');
+        Route::get('/our-team/{id}', 'OurTeamController@show');
     });
 
     // Sales Vault now Training

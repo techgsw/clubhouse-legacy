@@ -58,6 +58,10 @@ class IndexController extends Controller
         $mentor_count = Mentor::where('active', true)->count();
         $product_count = Product::all()->count();
 
+        $influencers_count = User::whereHas('influencer', function ($query) {
+            $query->whereNotNull('influencer');
+        })->get()->count();
+
         return view('admin.index', [
             'contact_count' => $contact_count,
             'user_count' => $user_count,
@@ -77,6 +81,7 @@ class IndexController extends Controller
             'organization_count' => $organization_count,
             'mentor_count' => $mentor_count,
             'product_count' => $product_count,
+            'influencers_count' => $influencers_count,
         ]);
     }
 }

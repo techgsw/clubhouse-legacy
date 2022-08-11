@@ -56,16 +56,7 @@ class LoginController extends Controller
                         "danger",
                         $code = null
                     ));
-                } 
-            }
-            if ($user && $user->profile && !$user->profile->isComplete()) {
-                Session::flash('message', new Message(
-                    'Your profile is still not complete! Click here to fill it out.',
-                    "warning",
-                    $code = null,
-                    $icon = 'error_outline',
-                    $url = '/user/'.$user->id.'/edit-profile'
-                ));
+                }
             }
         }
 
@@ -78,7 +69,7 @@ class LoginController extends Controller
         if(!session()->has('url.intended')) {
             session(['url.intended' => url()->previous()]);
         }
-        return view('auth.login');    
+        return view('auth.login');
     }
 
     public function header()

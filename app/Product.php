@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Parsedown;
 
 class Product extends Model
 {
@@ -14,6 +16,31 @@ class Product extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function getBlurb()
+    {
+        $parsedown = new Parsedown();
+        $body = strip_tags($parsedown->text($this->getCleanDescription()));
+        $textLength = strlen($body);
+        
+        if ($textLength < 300) {
+            return $body;
+        }
+
+        $words = explode(' ', $body);
+        $blurb = $body;
+
+        if ($textLength > 300) {
+            $maxLen = round($textLength * 0.4);
+            $blurb = current($words);
+            while (strlen($blurb) < $maxLen) {
+                $blurb .= ' ' . next($words);
+            }
+            $blurb .= '&hellip;';
+        }
+
+        return $blurb ;
+    }
 
     public function options()
     {
@@ -150,4 +177,16 @@ class Product extends Model
             return null;
         }
     }
+    public static function search(Request $request)
+    {
+        $posts = Product::where('id', '>', 0)->where('type', '=', 'good');
+
+        if (request('search')) {
+            $search = request('search');
+            $posts->whereRaw('MATCH (name, description) AGAINST (?)', [$search]);
+        }
+
+        return $posts->orderBy('created_at', 'desc');
+    }
+
 }
