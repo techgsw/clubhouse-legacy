@@ -103,13 +103,63 @@ class ReportController extends Controller
         ]);
     }
 
+    public function profileUpdates(Request $request)
+    {
+        $this->authorize('view-admin-reports');
+
+        $start_date = $request->query->get('date_range_start');
+        $end_date = $request->query->get('date_range_end');
+
+        if (is_null($end_date)) {
+            $end_date = new \DateTime('now');
+        } else {
+            $end_date = new \DateTime($end_date);
+        }
+
+        if (is_null($start_date)) {
+            $start_date = clone $end_date;
+            $start_date->sub(new \DateInterval('P30D'));
+        } else {
+            $start_date = new \DateTime($start_date);
+        }
+
+        $clubhouse_users = RoleUser::where('role_code', 'clubhouse');
+
+        $transactions = DB::table('transaction_product_option as tpo')
+            ->selectRaw('DATE_FORMAT(t.created_at,\'%Y-%m-%d\') as date, u.id as user_id, u.first_name, u.last_name, u.email, p.id as product_id, p.name, pt.tag_name')
+            ->join('transaction as t','tpo.transaction_id', 't.id')
+            ->join('user as u','t.user_id', 'u.id')
+            ->join('product_option as po','tpo.product_option_id', 'po.id')
+            ->join('product as p','po.product_id', 'p.id')
+            ->join('product_tag as pt','pt.product_id', 'p.id')->whereIn('pt.tag_name', array('Career Service', 'Membership', 'Webinar'))
+            ->where('t.created_at', '>=', $start_date->format('Y-m-d'))
+            ->where('t.created_at', '<=', $end_date->format('Y-m-d').' 23:59:59')
+            ->orderBy('t.created_at', 'DESC')
+            ->get();
+            //->toSql();
+
+
+        return view('admin/report/transactions', [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Admin' => '/admin',
+                'Reports' => '/admin/report',
+                'Transactions' => '/admin/report/transactions'
+            ],
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'clubhouse_users' => $clubhouse_users->get(),
+            'transactions' => $transactions,
+        ]);
+    }
+
     public function ajaxProductTypePurchaseCountGraph(Request $request)
     {
         $this->authorize('view-admin-reports');
 
         $start_date = $request->query->get('date_range_start');
         $end_date = $request->query->get('date_range_end');
-        
+
         if (is_null($end_date)) {
             $end_date = new \DateTime('now');
         } else {
@@ -140,7 +190,7 @@ class ReportController extends Controller
         $active_products = array('Career Service', 'Webinar', 'Membership');
 
         $date = clone $start_date;
-        $i = 0; 
+        $i = 0;
         $current_products = array();
         while ($date->getTimestamp() <= $end_date->getTimestamp()) {
             $current_date = $date->format('Y-m-d');
@@ -157,14 +207,14 @@ class ReportController extends Controller
                     $current_data = $products[$i];
                 }
                 */
-            }    
+            }
             foreach (array_diff($active_products, $current_products) as $missing_product) {
-                $data[$missing_product][] = 0; 
-            }    
+                $data[$missing_product][] = 0;
+            }
             $current_products = array();
 
             $date->add(new \DateInterval('P1D'));
-        }    
+        }
 
         return response()->json(
             array(
