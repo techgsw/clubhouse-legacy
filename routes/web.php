@@ -147,6 +147,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/admin/admin-users', 'UserController@allAdminUsers');
         Route::get('/admin/report', 'ReportController@index');
         Route::get('/admin/report/notes', 'ReportController@notes');
+        Route::get('/admin/report/user-profiles', 'ReportController@profileUpdates');
         Route::get('/admin/report/transactions', 'ReportController@transactions');
         Route::get('/admin/report/clubhouse', 'ReportController@clubhouseMembers');
         Route::get('/admin/report/clubhouse/download', 'ReportController@downloadClubhouseMembers');

@@ -48,6 +48,17 @@
             <a class="no-underline" href="/admin/report/clubhouse"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Report</span></a>
         </div>
     </div>
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title"><a href="/admin/report/user-profiles" class="no-underline">User Profile Updates</a></span>
+            <p style="text-transform: uppercase;">
+                <span class="sbs-red-text">{{ $user_profiles_count }}</span> users
+            </p>
+        </div>
+        <div class="card-action">
+            <a class="no-underline" href="/admin/report/user-profiles"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Report</span></a>
+        </div>
+    </div>
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>
     <div class="card-placeholder"></div>

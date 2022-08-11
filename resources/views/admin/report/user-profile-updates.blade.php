@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Transactions')
+@section('title', 'User Profile Update')
 @section('content')
 <form action="">
     <div class="row">
@@ -15,34 +15,34 @@
 @include('layouts.components.messages')
 <div class="row">
     <div class="col s12">
-        <h5><strong>Transactions By Product Type</strong></h5>
-        <canvas sbs-report="customer-purchase-count-line-graph" height="350" width="1500"></canvas>
+        <h5><strong>User Profile Updates</strong></h5>
     </div>
 </div>
 <div class="row">
     <div class="col s12">
         <table class="responsive-table striped">
             <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Customer</th>
-                    <th>Email</th>
-                </tr>
+            <tr>
+                <th>Updated</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach ($transactions as $transaction)
-                    <tr>
-                        <td>{{ $transaction->date }}</td>
-                        <td><a href="/product/{{ $transaction->product_id }}">{{ $transaction->name }}</a></td>
-                        <td>{{ $transaction->tag_name }}</td>
-                        <td><a href="/user/{{ $transaction->user_id }}/profile">{{ $transaction->first_name }} {{ $transaction->last_name }}</a></td>
-                        <td><a href="mailto: {{ $transaction->email }}">{{ $transaction->email }}</a></td>
-                    </tr>
-                @endforeach
+            @foreach ($profiles as $profile)
+                <tr>
+                    <td>{{ $profile->updated_at->format('F j, Y g:i A') }}</td>
+                    <td><a href="/user/{{ $profile->user->user_id }}">{{ $profile->user->first_name }} {{ $profile->user->last_name }}</a></td>
+                    <td><a href="mailto: {{ $profile->user->email }}">{{ $profile->user->email }}</a></td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
+    </div>
+    <div class="row">
+        <div class="col s12 center-align">
+            {{ $profiles->appends(request()->all())->links('components.pagination') }}
+        </div>
     </div>
 </div>
 @endsection

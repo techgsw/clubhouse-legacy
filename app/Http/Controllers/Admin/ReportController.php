@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Note;
+use App\Profile;
 use App\User;
 use App\Product;
 use App\RoleUser;
 use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +38,8 @@ class ReportController extends Controller
                 $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
             })->count();
 
+        $user_profiles_count = User::all()->count();
+
         return view('admin/report', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
@@ -50,6 +54,7 @@ class ReportController extends Controller
             'month_transaction_count' => $month_transaction_count,
             'sixty_day_transaction_count' => $sixty_day_transaction_count,
             'clubhouse_users_count' => $clubhouse_users_count,
+            'user_profiles_count' => $user_profiles_count,
         ]);
     }
 
@@ -107,49 +112,36 @@ class ReportController extends Controller
     {
         $this->authorize('view-admin-reports');
 
-        $start_date = $request->query->get('date_range_start');
-        $end_date = $request->query->get('date_range_end');
+        $startDate = $request->query->get('date_range_start');
+        $endDate = $request->query->get('date_range_end');
 
-        if (is_null($end_date)) {
-            $end_date = new \DateTime('now');
+        if (is_null($endDate)) {
+            $endDate = Carbon::now();
         } else {
-            $end_date = new \DateTime($end_date);
+            $endDate = Carbon::parse($endDate);
         }
 
-        if (is_null($start_date)) {
-            $start_date = clone $end_date;
-            $start_date->sub(new \DateInterval('P30D'));
+        if (is_null($startDate)) {
+            $startDate = clone $endDate;
+            $startDate->subDays(30);
         } else {
-            $start_date = new \DateTime($start_date);
+            $startDate = Carbon::parse($startDate);
         }
 
-        $clubhouse_users = RoleUser::where('role_code', 'clubhouse');
+        $profiles = Profile::whereBetween('updated_at', [$startDate, $endDate])
+            ->orderBy('updated_at', 'DESC')
+            ->paginate(25);
 
-        $transactions = DB::table('transaction_product_option as tpo')
-            ->selectRaw('DATE_FORMAT(t.created_at,\'%Y-%m-%d\') as date, u.id as user_id, u.first_name, u.last_name, u.email, p.id as product_id, p.name, pt.tag_name')
-            ->join('transaction as t','tpo.transaction_id', 't.id')
-            ->join('user as u','t.user_id', 'u.id')
-            ->join('product_option as po','tpo.product_option_id', 'po.id')
-            ->join('product as p','po.product_id', 'p.id')
-            ->join('product_tag as pt','pt.product_id', 'p.id')->whereIn('pt.tag_name', array('Career Service', 'Membership', 'Webinar'))
-            ->where('t.created_at', '>=', $start_date->format('Y-m-d'))
-            ->where('t.created_at', '<=', $end_date->format('Y-m-d').' 23:59:59')
-            ->orderBy('t.created_at', 'DESC')
-            ->get();
-            //->toSql();
-
-
-        return view('admin/report/transactions', [
+        return view('admin/report/user-profile-updates', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Admin' => '/admin',
                 'Reports' => '/admin/report',
-                'Transactions' => '/admin/report/transactions'
+                'User Profile Updates' => '/admin/report/user-profiles'
             ],
-            'start_date' => $start_date,
-            'end_date' => $end_date,
-            'clubhouse_users' => $clubhouse_users->get(),
-            'transactions' => $transactions,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'profiles' => $profiles,
         ]);
     }
 
