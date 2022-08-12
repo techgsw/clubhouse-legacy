@@ -63,6 +63,11 @@ class Contact extends Model
         return null;
     }
 
+    public function phoneFormatted()
+    {
+        return "(".substr($this->phone, 0, 3).") ".substr($this->phone, 3, 3)."-".substr($this->phone,6);
+    }
+
     public function jobs()
     {
         return $this->hasMany(ContactJob::class);

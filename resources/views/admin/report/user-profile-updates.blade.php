@@ -26,6 +26,7 @@
                 <th>Updated</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phone</th>
             </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
                     <td>{{ $profile->updated_at->format('F j, Y g:i A') }}</td>
                     <td><a href="/user/{{ $profile->user->user_id }}">{{ $profile->user->first_name }} {{ $profile->user->last_name }}</a></td>
                     <td><a href="mailto: {{ $profile->user->email }}">{{ $profile->user->email }}</a></td>
+                    <td>@if($profile->user->contact->phone){{ $profile->user->contact->phoneFormatted() }}@endif</td>
                 </tr>
             @endforeach
             </tbody>
