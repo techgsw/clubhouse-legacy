@@ -65,7 +65,11 @@ class Contact extends Model
 
     public function phoneFormatted()
     {
-        return "(".substr($this->phone, 0, 3).") ".substr($this->phone, 3, 3)."-".substr($this->phone,6);
+        $clean = preg_replace('/[^0-9]/', '', $this->phone);
+        $final = substr($clean,6);
+        $number = substr($final, 0, 4);
+        $ext = strlen($final) > 4 ? ' ext ' . substr($final,4) : '';
+        return "(" . substr($clean, 0, 3) . ") " . substr($clean, 3, 3) . "-" . $number . $ext;
     }
 
     public function jobs()
