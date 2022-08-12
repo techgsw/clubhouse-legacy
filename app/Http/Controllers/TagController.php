@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\JobTagWhiteList;
 use App\Tag;
 use App\TagType;
 use App\Message;
@@ -95,9 +96,14 @@ class TagController extends Controller
      */
     public function jobs(Request $request)
     {
-        $tags = Tag::whereHas('tagType', function($query) {
-            $query->where('type', 'job');
+        $whiteList = JobTagWhiteList::all()
+            ->pluck('tag_name')
+            ->toArray();
+        $tags = Tag::whereHas('tagType', function($query) use ($whiteList) {
+            $query->where('type', 'job')
+                ->whereIn('tag_name', $whiteList);
         })->get();
+
         return response()->json($tags);
     }
 
@@ -131,7 +137,7 @@ class TagController extends Controller
         return redirect()->back();
     }
 
-    public function deleteFromType(Request $request) 
+    public function deleteFromType(Request $request)
     {
         $this->authorize('delete-tag-type');
 
@@ -150,7 +156,7 @@ class TagController extends Controller
 
         $tag_type->delete();
 
-        //TODO ideally we shouldn't have to use conditionals to pull relations 
+        //TODO ideally we shouldn't have to use conditionals to pull relations
         //     but calling relation functions using a string seems kludgy
         if ($type == 'job') {
             $tags = Tag::whereHas('jobs')->where('name', $tag_name)->get();

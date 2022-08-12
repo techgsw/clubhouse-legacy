@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Job;
+use App\JobTagWhiteList;
 use App\Pipeline;
 use App\JobPipeline;
 use App\Tag;
@@ -37,7 +38,7 @@ class JobController extends Controller
         if (!request('status')) {
             $request->merge(['status' => 'open']);
         }
-        
+
         $pipeline = Pipeline::orderBy('id', 'asc')->get();
 
         $job_pipeline = JobPipeline::orderBy('pipeline_id', 'asc')->get();
@@ -55,7 +56,13 @@ class JobController extends Controller
         $count = $jobs->count();
         $jobs = $jobs->paginate(15);
 
-        $disciplines = TagType::where('type', 'job')->get();
+        $whiteList = JobTagWhiteList::all()
+            ->pluck('tag_name')
+            ->toArray();
+        $disciplines = TagType::where('type', 'job')
+            ->whereIn('tag_name', $whiteList)
+            ->orderBy('tag_name')
+            ->get();
 
         $searching =
             request('job_discipline') && request('job_discipline') != 'all' ||
@@ -238,7 +245,7 @@ class JobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function rankDown($id)
-    {  
+    {
         $job = Job::find($id);
         if (!$job) {
             return redirect()->back()->withErrors(['msg' => 'Could not find job ' . $id]);
