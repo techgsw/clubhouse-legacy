@@ -6,6 +6,7 @@ use App\Address;
 use App\AddressContact;
 use App\Contact;
 use App\ContactRelationship;
+use App\JobTagWhiteList;
 use App\Mentor;
 use App\Message;
 use App\Note;
@@ -79,7 +80,13 @@ class ContactController extends Controller
             $redirect_url = url()->previous();
         }
 
-        $job_tags = TagType::where('type', 'job')->get();
+        $whiteList = JobTagWhiteList::all()
+            ->pluck('tag_name')
+            ->toArray();
+        $job_tags = TagType::where('type', 'job')
+            ->whereIn('tag_name', $whiteList)
+            ->orderBy('tag_name')
+            ->get();
 
         return view('contact/show', [
             'contact' => $contact,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\JobTagWhiteList;
 use Mail;
 use App\Image;
 use App\User;
@@ -74,7 +75,13 @@ class JobController extends Controller
             }
         }
 
-        $disciplines = TagType::where('type', 'job')->get();
+        $whiteList = JobTagWhiteList::all()
+            ->pluck('tag_name')
+            ->toArray();
+        $disciplines = TagType::where('type', 'job')
+            ->whereIn('tag_name', $whiteList)
+            ->orderBy('tag_name')
+            ->get();
 
         $searching =
             request('job_discipline') && request('job_discipline') != 'all' ||
