@@ -5,7 +5,6 @@ use App\Post;
 // All-domain routes
 
 // Social Media
-Route::get('/social/instagram', 'SocialMediaController@instagram');
 Route::get('/social/twitter', 'SocialMediaController@twitter');
 
 // SBS-domain routes
