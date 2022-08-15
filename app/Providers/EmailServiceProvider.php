@@ -25,7 +25,6 @@ use App\Mail\MentorFollowUp;
 use App\Mail\FreeUserFollowUp;
 use App\Mail\UserPostJobFollowUp;
 use App\Mail\UserRegistered;
-use App\Mail\Admin\FailedInstagramRefreshNotification;
 use App\Mail\Admin\InquirySummary;
 use App\Mail\Admin\InvalidMentorCalendlyLinkSummary;
 use App\Mail\Admin\MonthlyMentorReport;
@@ -314,11 +313,6 @@ class EmailServiceProvider extends ServiceProvider
         }
 
         Mail::to(__('email.info_address'))->send(new InvalidMentorCalendlyLinkSummary($mentors));
-    }
-
-    public static function sendFailedInstagramRefreshNotification($exception, $env_name)
-    {
-        Mail::to('developer@whale.enterprises')->send(new FailedInstagramRefreshNotification($exception, $env_name));
     }
 
     /**
