@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\ContactOrganization;
+use App\Influencer;
 use App\Organization;
 use App\ProductOption;
 use Illuminate\Auth\Passwords\PasswordBroker;
@@ -68,7 +69,8 @@ class RegisterController extends Controller
                 $query->where('name', 'Clubhouse Pro Membership');
             })->where('name', 'Clubhouse Pro Membership')->first()->getURL(false, 'checkout');
         } else {
-            $redirect_url = Session::get('url.intended', url('/'));
+            // Send new user directly to their profile
+            $redirect_url = url('/user/' . $user->id . '/edit-profile');
         }
 
         if ($redirect_url == '/job-options') {
@@ -195,6 +197,20 @@ class RegisterController extends Controller
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath().'#register-modal');
+    }
+
+    public function registerInfluencer(Request $request, $influencerId)
+    {
+        $influencer = Influencer::where('influencer', $influencerId)->first();
+        $data = [];
+
+        if ($influencer) {
+            $data = [
+                'influencer' => $influencerId,
+                'influencerName' => $influencer->name,
+            ];
+        }
+        return view('auth/register',$data);
     }
 
     /**
@@ -331,6 +347,18 @@ class RegisterController extends Controller
                 'address_id' => $address->id,
                 'contact_id' => $contact->id
             ]);
+
+            if ($data['influencer']) {
+                $influencer = Influencer::where('influencer', $data['influencer'])->first();
+
+                if ($influencer) {
+                    $user->influencer()->attach([
+                        $influencer->id => [
+                            'pro' => isset($data['membership-selection-pro'])
+                        ]
+                    ]);
+                }
+            }
 
             return $user;
         });

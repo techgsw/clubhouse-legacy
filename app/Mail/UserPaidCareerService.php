@@ -36,7 +36,7 @@ class UserPaidCareerService extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
+        return $this->from(__('email.support_address'))
             ->subject('Career Service '.(\Gate::allows('view-clubhouse') ? 'Signup' : 'Payment').' - theClubhouse®')
             ->markdown('emails.checkout.paid-career-service');
     }

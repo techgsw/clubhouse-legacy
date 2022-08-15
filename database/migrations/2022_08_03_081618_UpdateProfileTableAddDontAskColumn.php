@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ProfileLinkedin extends Migration
+class UpdateProfileTableAddDontAskColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class ProfileLinkedin extends Migration
      */
     public function up()
     {
-        //
+        Schema::disableForeignKeyConstraints();
         Schema::table('profile', function (Blueprint $table) {
-            $table->string('linkedin')->nullable()->default(NULL);
+            $table->boolean('dont_ask')->after('user_id')->default(false);
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -26,8 +27,10 @@ class ProfileLinkedin extends Migration
      */
     public function down()
     {
-        Schema::table('profile', function (Blueprint $table) {
-            $table->dropColumn([ 'linkedin' ]);
+        Schema::disableForeignKeyConstraints();
+        Schema::table('profile', function(Blueprint $table) {
+            $table->dropColumn('dont_ask');
         });
+        Schema::enableForeignKeyConstraints();
     }
 }

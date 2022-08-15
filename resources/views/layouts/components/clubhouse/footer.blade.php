@@ -4,7 +4,7 @@
             <div class="col m5 s12">
                 <a href="#register-modal" class="no-underline"><img style="max-height:285px;max-width:100%;" src="/images/CH_Footer_Ads-Member.jpg"></a>
             </div>
-            <div class="col m4 s12">
+            <div class="col m4 s12 clubhouse-instagram-feed">
                 @include('layouts.components.instagram')
             </div>
             <div class="col m3 s12">
@@ -17,14 +17,14 @@
             <div class="col s12">
                 <ul class="footer-nav">
                     <li><a target="_blank" href="/documents/SBS-Consulting-Terms-of-Service.pdf">Terms and conditions</a></li>
-                    <li>Have a question? Email us at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></li>
+                    <li>Have a question? Email us at <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <p class="small">Copyright &copy; {{ date('Y') }} SBS Consulting | All Rights Reserved</p>
+            <p class="small">Copyright &copy; {{ date('Y') }} {{ __('general.company_name') }} | All Rights Reserved</p>
         </div>
     </div>
     @include('layouts.components.message-template')

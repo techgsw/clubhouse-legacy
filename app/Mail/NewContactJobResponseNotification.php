@@ -37,7 +37,7 @@ class NewContactJobResponseNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('theclubhouse@generalsports.com', 'theClubhouse®')
+        return $this->from(__('email.info_address'), 'theClubhouse®')
                     ->subject("A candidate has responded to your job posting - theClubhouse®")
                     ->markdown('emails.new-job-contact-response');
     }

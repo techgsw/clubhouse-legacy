@@ -35,7 +35,7 @@ class JobExpirationReminder extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
+        return $this->from(__('email.support_address'))
             ->subject($this->job->title.' at '.$this->job->organization_name.' Expiring in '.$this->number_of_days.' days - theClubhouse®')
             ->markdown('emails.status.job-expiration-reminder');
     }

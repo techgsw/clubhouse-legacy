@@ -3,11 +3,28 @@
 namespace App\Providers;
 
 use App\User;
+use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 
 class MailchimpServiceProvider extends ServiceProvider
 {
+    const MAILCHIMP_BASE_URL = 'https://us9.api.mailchimp.com/3.0/';
+
+    public function getCurlHandle($url)
+    {
+        $api_key = env("MAILCHIMP_API_KEY");
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json",
+            "Authorization: apikey {$api_key}"
+        ]);
+
+        return $ch;
+    }
+
     /**
      * Recursively update users' mailchimp_subscriber_hash from the Mailchimp API
      *
@@ -22,9 +39,11 @@ class MailchimpServiceProvider extends ServiceProvider
      * @param array      $subsbcribed_id_list  Keep track of user IDs that are present in Mailchimp.
      **/
     public static function refreshMailchimpSubscriberHashes(
-        int $offset = 0,
+        int $offset = null,
         array $subscribed_id_list = []
     ) {
+        $offset = (! $offset) ? 0 : $offset;
+
         Log::info('Starting refresh of mailchimp subscriber hashes'
                   .($offset ? ' with offset '.$offset : ''));
 
@@ -89,11 +108,12 @@ class MailchimpServiceProvider extends ServiceProvider
         }
     }
 
-    public static function addToMailchimp(User $user)
+    public static function addToMailchimp(User $user, $list_id = null)
     {
-        $api_key = env("MAILCHIMP_API_KEY");
-        $list_id = env("MAILCHIMP_LIST_ID");
+        $list_id = (! $list_id) ? env("MAILCHIMP_LIST_ID") : $list_id;
+
         $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members";
+
         $fields = array(
             "email_address" => $user->email,
             "email_type" => "html",
@@ -105,13 +125,9 @@ class MailchimpServiceProvider extends ServiceProvider
         );
         $json_body = json_encode($fields);
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Content-Type: application/json",
-            "Authorization: apikey {$api_key}"
-        ]);
+        $instance = new static(app());
+        $ch = $instance->getCurlHandle($url);
+
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json_body);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -132,7 +148,7 @@ class MailchimpServiceProvider extends ServiceProvider
 
             if (!$response->id) {
                 throw new \Exception('Error from Mailchimp trying to add user '.$user->id.': No subscriber hash returned.');
-            }
+             }
 
             $user->mailchimp_subscriber_hash = $response->id;
             $user->save();
@@ -141,14 +157,14 @@ class MailchimpServiceProvider extends ServiceProvider
         }
     }
 
-    public static function deleteFromMailchimp(User $user)
+    public static function deleteFromMailchimp(User $user, $list_id = null)
     {
         if (!$user->mailchimp_subscriber_hash) {
             throw new \Exception('Mailchimp subscriber hash not found for user '.$user->id);
         }
 
         $api_key = env("MAILCHIMP_API_KEY");
-        $list_id = env("MAILCHIMP_LIST_ID");
+        $list_id = (! $list_id) ? env("MAILCHIMP_LIST_ID") : $list_id;
         $url = "https://us9.api.mailchimp.com/3.0/lists/{$list_id}/members/{$user->mailchimp_subscriber_hash}/actions/delete-permanent";
 
         $ch = curl_init($url);
@@ -174,5 +190,37 @@ class MailchimpServiceProvider extends ServiceProvider
 
         $user->mailchimp_subscriber_hash = null;
         $user->save();
+    }
+
+    public static function addUserToProMembersList(User $user)
+    {
+        $proListId = env("MAILCHIMP_PRO_LIST_ID");
+
+        if (! $proListId) {
+            throw new \Exception('Missing MAILCHIMP_PRO_LIST_ID in .env');
+        }
+
+        self::addToMailchimp($user, $proListId);
+    }
+
+    public static function doesUserEmailExistInList(User $user, $listId = null)
+    {
+        if (! $user) {
+            return false;
+        }
+
+        $listId = (! $listId) ? env("MAILCHIMP_LIST_ID") : $listId;
+        $userEmail = $user->email;
+
+        $instance = new static(app());
+
+        $url =  self::MAILCHIMP_BASE_URL . "search-members?list_id={$listId}&query={$userEmail}";
+        $ch = $instance->getCurlHandle($url);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $results = json_decode($response);
+
+        return $results->exact_matches->total_items > 0;
     }
 }

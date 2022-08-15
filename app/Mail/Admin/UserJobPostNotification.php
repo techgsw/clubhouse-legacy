@@ -27,7 +27,7 @@ class UserJobPostNotification extends Mailable
     public function build()
     {
         return $this
-            ->from('app@sportsbusiness.solutions')
+            ->from(__('email.support_address'))
             ->markdown('emails.internal.user-job-post');
     }
 }

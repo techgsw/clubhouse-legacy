@@ -29,11 +29,13 @@ class MentorController extends Controller
             ->where('active', true)
             ->search($request)
             ->select('contact.*',
-                     'mentor.*',
-                     DB::raw('CASE WHEN activated_at >= DATE_SUB(now(), INTERVAL 30 DAY) THEN 1 ELSE 0 END AS new_mentor_flag'))
+                'mentor.*',
+                DB::raw('CASE WHEN activated_at >= DATE_SUB(now(), INTERVAL 30 DAY) THEN 1 ELSE 0 END AS new_mentor_flag'))
             ->orderBy('new_mentor_flag', 'desc')
+            ->orderBy('contact.last_name')
+            ->orderBy('contact.first_name')
             ->inRandomOrder($request->session()->get('mentor_seed'))
-            ->paginate(15);
+            ->paginate(12);
 
         $tags = Tag::has('mentors')->get();
         $leagues = League::has('organizations.contacts.mentor')->select('league.abbreviation')->get();
@@ -243,7 +245,7 @@ class MentorController extends Controller
             } catch (\Exception $e) {
                 Log::error($e->getMessage());
                 return response()->json([
-                    'error' => 'Sorry, there was an issue sending your mentor request. Please try again or contact theclubhouse@generalsports.com for support.',
+                    'error' => 'Sorry, there was an issue sending your mentor request. Please try again or contact ' . __('email.info_address') . ' for support.',
                     'success' => null
                 ]);
             }

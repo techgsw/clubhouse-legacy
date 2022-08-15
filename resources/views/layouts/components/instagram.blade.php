@@ -1,16 +1,11 @@
-<div id="instagram">
-    <h5>Instagram</h5>
-    <div class="preloader-wrapper active">
-        <div class="spinner-layer spinner-red-only">
-            <div class="circle-clipper left">
-                <div class="circle"></div>
-            </div>
-            <div class="gap-patch">
-                <div class="circle"></div>
-            </div>
-            <div class="circle-clipper right">
-                <div class="circle"></div>
-            </div>
-        </div>
+<script src="https://assets.juicer.io/embed.js" type="text/javascript"></script>
+<link href="https://assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css" />
+<div>
+    <h5 class="title">Instagram</h5>
+    <div class="scroller" style="">
+        <ul id="instagram-feed" class="juicer-feed" data-feed-id="theclubhousecareers">
+            <h1 class="referral"><a href="https://www.juicer.io" style="display: none; height: 0;">Powered by Juicer.io</a></h1>
+        </ul>
     </div>
+    <div class="col l3 tag-hider"></div>
 </div>

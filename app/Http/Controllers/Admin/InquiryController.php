@@ -54,17 +54,23 @@ class InquiryController extends Controller
                             if (\Gate::allows('view-admin-pipelines')) {
                                 switch ($inquiry->job->recruiting_type_code) {
                                     case 'active':
-                                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-positive'));
+                                        Mail::to($inquiry->user)
+                                            ->cc([ Auth::user()->email ])
+                                            ->send(new InquiryContacted($inquiry, 'active-positive'));
                                         break;
                                     case 'passive':
-                                        Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-positive'));
+                                        Mail::to($inquiry->user)
+                                            ->cc([ Auth::user()->email ])
+                                            ->send(new InquiryContacted($inquiry, 'passive-positive'));
                                         break;
                                     default:
                                         break;
                                 }
                             } else {
                                 if ($request->input('comm_type') == 'default'){
-                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-positive'));
+                                    Mail::to($inquiry->user)
+                                        ->cc([ Auth::user()->email ])
+                                        ->send(new InquiryContacted($inquiry, 'user-managed-positive'));
                                 }
                             }
                         } catch (Exception $e) {
@@ -128,16 +134,22 @@ class InquiryController extends Controller
                         if (\Gate::allows('view-admin-pipelines')) {
                             switch ($inquiry->job->recruiting_type_code) {
                                 case 'active':
-                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-negative'));
+                                    Mail::to($inquiry->user)
+                                        ->cc([ Auth::user()->email ])
+                                        ->send(new InquiryContacted($inquiry, 'active-negative'));
                                     break;
                                 case 'passive':
-                                    Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-negative'));
+                                    Mail::to($inquiry->user)
+                                        ->cc([ Auth::user()->email ])
+                                        ->send(new InquiryContacted($inquiry, 'passive-negative'));
                                     break;
                                 default:
                                     break;
                             }
                         } else {
-                            Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'user-managed-negative'));
+                            Mail::to($inquiry->user)
+                                ->cc([ Auth::user()->email ])
+                                ->send(new InquiryContacted($inquiry, 'user-managed-negative'));
                         }
                     } catch (Exception $e) {
                         Log::error($e->getMessage());
@@ -186,10 +198,14 @@ class InquiryController extends Controller
                     try {
                         switch ($inquiry->job->recruiting_type_code) {
                             case 'active':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'active-maybe'));
+                                Mail::to($inquiry->user)
+                                    ->cc([Auth::user()->email])
+                                    ->send(new InquiryContacted($inquiry, 'active-maybe'));
                                 break;
                             case 'passive':
-                                Mail::to($inquiry->user)->send(new InquiryContacted($inquiry, 'passive-maybe'));
+                                Mail::to($inquiry->user)
+                                    ->cc([Auth::user()->email])
+                                    ->send(new InquiryContacted($inquiry, 'passive-maybe'));
                                 break;
                             default:
                                 break;
@@ -203,7 +219,7 @@ class InquiryController extends Controller
                     $inquiry->id,
                     "Paused on " . $job_pipeline[$pause_step]->name . (($pause_step == 0) ? '. Moved to Reviewed.' : '.')
                 );
-                
+
                 $inquiry->save();
                 return $inquiry;
             });

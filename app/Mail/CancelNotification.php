@@ -32,7 +32,7 @@ class CancelNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('app@sportsbusiness.solutions')
+        return $this->from(__('email.support_address'))
             ->subject('Cancel Notification - theClubhouse®')
             ->markdown('emails.internal.cancel-notification');
     }

@@ -46,7 +46,7 @@
                 <div style="margin-top: -10px">
                     @can ('view-clubhouse')
                         @if ($mentor->calendly_link)
-                            @if ($mentor->isMentorBlockedFromRequests() && !Auth::user()->can('view-admin-dashboard'))
+                            @if ($mentor->isMentorBlockedFromRequests() && Auth::user() && !Auth::user()->can('view-admin-dashboard'))
                                 <a class="flat-button grey lighten-4 mentor-request-trigger calendly tooltipped"
                                    href="javascript:void(0);"
                                    data-tooltip="Sorry! This mentor is so popular they've already hit their limit of available calls this week. Please try back again next week, or choose another mentor."

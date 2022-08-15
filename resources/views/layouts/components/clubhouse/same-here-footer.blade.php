@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col m3 offset-m1 s12">
                 <div class="row center-align same-here-social">
-                    <h5 style="line-height:32px;"><a href="{{ env('APP_URL') }}">SBS Consulting</a></h5>
+                    <h5 style="line-height:32px;"><a href="{{ env('CLUBHOUSE_URL') }}">{{ __('general.company_name') }}</a></h5>
                     <br>
                     <br>
                     <a class="flat-button" target="_blank" rel="noopener noreferrer" href="https://instagram.com/sportsbizsol"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -39,10 +39,10 @@
             </div>
             <div class="col m4 s12">
                 <div class="hide-on-med-and-up center-align">
-                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></h5>
+                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><<a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></h5>
                 </div>
                 <div class="hide-on-small-and-down" style="padding:20px 50px;">
-                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></h5>
+                    <h5><strong>Want to talk to someone 1 on 1?<br>Email us directly at</strong><br><a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></h5>
                 </div>
             </div>
         </div>

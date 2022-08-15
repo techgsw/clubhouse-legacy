@@ -174,11 +174,11 @@ class Mentor extends Model
     }
 
     /**
-     * Block users from creating a request for a mentor if the mentor already has had a request in the past week
+     * Block users from creating a request for a mentor if the mentor already has had four requests in the past week
      */
     public function isMentorBlockedFromRequests()
     {
         return $this->mentorRequests()->where('created_at', '>', (new \DateTime())->sub(new \DateInterval('P7D')))
-                                      ->count() > 0;
+                                      ->count() >= 4;
     }
 }

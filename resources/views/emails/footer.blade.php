@@ -3,7 +3,7 @@
         <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0">
             <tr>
                 <td align="center" style="padding-top:35px;">
-                    <a href="https://www.linkedin.com/company/the-clubhouse-sbs"><img src="{{ asset('images/clubhouse_email_social_linkedin.png') }}" width="40" /></a>
+                    <a href="https://www.linkedin.com/company/the-clubhouse-gsw"><img src="{{ asset('images/clubhouse_email_social_linkedin.png') }}" width="40" /></a>
                     &nbsp;&nbsp;
                     <a href="https://twitter.com/theC1ubhouse"><img src="{{ asset('images/clubhouse_email_social_twitter.png') }}" width="40" /></a>
                     &nbsp;&nbsp;

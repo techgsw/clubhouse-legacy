@@ -10,7 +10,7 @@
             @if (request()->query->get('migration') == 'true')
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <p style="font-size: 14.5px; font-weight: normal;">{{ (request()->query->get('name') ? request()->query->get('name').', welcome' : 'Welcome') }} back to SBS Consulting!</p>
+                        <p style="font-size: 14.5px; font-weight: normal;">{{ (request()->query->get('name') ? request()->query->get('name').', welcome' : 'Welcome') }} back to {{ __('general.company_name') }}!</p>
                         <p>Please enter your email below so that we may send you a password reset link.</p>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                     @if (session('status'))
                         <div class="alert card-panel green white-text">
                             @if (session('status') == "passwords.sent")
-                                Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> and we can help you find your account.
+                                Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> and we can help you find your account.
                             @else
                                 {{ session('status') }}
                             @endif
@@ -31,7 +31,7 @@
                     @endif
                     @if ($errors->has('email'))
                         <div class="alert card-panel green white-text">
-                            Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> and we can help you find your account.
+                            Please check your email for a reset link. If you have an account with us we will email you a link, otherwise please contact <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> and we can help you find your account.
                         </div>
                     @endif
 

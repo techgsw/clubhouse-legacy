@@ -19,6 +19,114 @@ class Profile extends Model
         'planned_services' => 'array'
     ];
 
+    protected $jobSeekingStatuses = [
+        'unemployed' => 'Unemployed',
+        'employed_active' => 'Employed, actively seeking a new job',
+        'employed_passive' => 'Employed, passively exploring new opportunities',
+        'employed_future' => 'Employed, only open to future opportunities',
+        'employed_not' => 'Employed, currently have my dream job',
+    ];
+
+    protected $jobSeekingTypes = [
+        'internship' => 'Internship',
+        'entry_level' => 'Entry Level',
+        'management' => 'Manager/SR Manager',
+        'director' => 'Director/SR Director',
+        'vice_president' => 'VP/SVP/EVP',
+        'executive' => 'C-Level',
+    ];
+
+    protected $jobSeekingRegions = [
+        'any' => 'Any/All',
+        'mw' => 'Midwest',
+        'ne' => 'Northeast',
+        'nw' => 'Northwest',
+        'se' => 'Southeast',
+        'sw' => 'Southwest',
+    ];
+
+    protected $ethnicities = [
+        'asian' => 'Asian or Pacific Islander',
+        'black' => 'Black or African American',
+        'hispanic' => 'Hispanic',
+        'native' => 'Native American',
+        'white' => 'White or Caucasian',
+        'na' => 'Prefer not to answer',
+    ];
+
+    protected $genders = [
+        'male' => 'Male',
+        'female' => 'Female',
+        'non-binary' => 'Non-binary',
+        'na' => 'Prefer not to answer',
+    ];
+
+    protected $experienceDepartments = [
+//        'department_experience_arena_ops' => 'Arena Operations',
+        'department_experience_event_ops' => 'Building & Event Operations',
+        'department_experience_analytics' => 'Business Analytics, CRM & Database',
+        'department_experience_pr' => 'Communications/PR',
+        'department_experience_cr' => 'Community Relations',
+        'department_experience_sponsorship_activation' => 'Partnerships Sales & Activation',
+//        'department_experience_database' => 'Database',
+//        'department_experience_social_media' => 'Digital/Social Media',
+        'department_experience_finance' => 'Finance',
+        'department_experience_entertainment' => 'Game Entertainment',
+        'department_experience_hr' => 'Human Resources',
+        'department_experience_legal' => 'Legal Finance Accounting & IT',
+        'department_experience_marketing' => 'Marketing, Digital, & Social Media',
+        'department_experience_player_ops' => 'Player Operations',
+        'department_experience_premium_sales' => 'Premium Sales & Service',
+//        'department_experience_service' => 'Service',
+//        'department_experience_sponsorship_sales' => 'Sponsorship Sales',
+        'department_experience_ticket_sales' => 'Ticket Sales & Service',
+    ];
+
+    public static function getJobSeekingStatuses()
+    {
+        return (new static())->jobSeekingStatuses;
+    }
+
+    public static function getJobSeekingTypes()
+    {
+        return (new static())->jobSeekingTypes;
+    }
+
+    public static function getJobSeekingRegions()
+    {
+        return (new static())->jobSeekingRegions;
+    }
+
+    public static function getEthnicities()
+    {
+        return (new static())->ethnicities;
+    }
+
+    public static function getGenders()
+    {
+        return (new static())->genders;
+    }
+
+    public static function getExperienceDepartments()
+    {
+        $departments = (new static())->experienceDepartments;
+        asort($departments);
+
+        return $departments;
+    }
+
+    public static function getDepartmentGoals()
+    {
+        $goals = [];
+
+        collect((new static())->getExperienceDepartments())->each(function ($label, $key) use (&$goals) {
+            $goal = str_replace('experience', 'goals', $key);
+            $goals[$goal] = $label;
+        });
+
+        return $goals;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -46,94 +154,47 @@ class Profile extends Model
 
     public function getJobSeekingStatus()
     {
-        switch ($this->job_seeking_status) {
-        case "unemployed":
-            return "Unemployed";
-        case "employed_active":
-            return "Employed, actively seeking a new job";
-        case "employed_passive":
-            return "Employed, passively exploring new opportunities";
-        case "employed_future":
-            return "Employed, only open to future opportunities";
-        case "employed_not":
-            return "Employed, currently have my dream job";
-        default:
-            return '';
-        }
+        $statuses = self::getJobSeekingStatuses();
+
+        return isset($statuses[$this->job_seeking_status])
+            ? $statuses[$this->job_seeking_status]
+            : null;
     }
 
     public function getJobSeekingType()
     {
-        switch ($this->job_seeking_type) {
-        case "internship":
-            return "Internship";
-        case "entry_level":
-            return "Entry-level";
-        case "mid_level":
-            return "Mid-level";
-        case "entry_level_management":
-            return "Entry-level management";
-        case "mid_level_management":
-            return "Mid-level management";
-        case "executive":
-            return "Executive team";
-        default:
-            return '';
-        }
+        $types = self::getJobSeekingTypes();
+
+        return isset($types[$this->job_seeking_type])
+            ? $types[$this->job_seeking_type]
+            : null;
     }
 
     public function getJobSeekingRegion()
     {
-        switch ($this->job_seeking_region) {
-        case "mw":
-            return "Midwest";
-        case "ne":
-            return "Northeast";
-        case "nw":
-            return "Northwest";
-        case "se":
-            return "Southeast";
-        case "sw":
-            return "Southwest";
-        default:
-            return '';
-        }
+        $regions = self::getJobSeekingRegions();
+
+        return isset($regions[$this->job_seeking_region])
+            ? $regions[$this->job_seeking_region]
+            : null;
     }
 
     public function getGender()
     {
-        switch ($this->gender) {
-        case "male":
-            return "Male";
-        case "female":
-            return "Female";
-        case "non-binary":
-            return "Non-binary";
-        case "na":
-            return "Prefer not to answer";
-        default:
-            return '';
-        }
+        $genders = self::getGenders();
+
+        return isset($genders[$this->gender])
+            ? $genders[$this->gender]
+            : null;
     }
 
     public function getEthnicity()
     {
-        switch ($this->ethnicity) {
-        case "asian":
-            return "Asian";
-        case "black":
-            return "Black";
-        case "hispanic":
-            return "Hispanic";
-        case "native":
-            return "Native";
-        case "white":
-            return "White";
-        case "na":
-            return "Prefer not to answer";
-        default:
-            return '';
-        }
+        $ethnicities = self::getEthnicities();
+
+        return isset($ethnicities[$this->ethnicity])
+            ? $ethnicities[$this->ethnicity]
+            : null;
     }
 
     public function isPersonalComplete()
@@ -155,20 +216,24 @@ class Profile extends Model
             $this->address[0]->country;
     }
 
+    public function isCityAndStateComplete()
+    {
+        return
+            $this->address[0]->city &&
+            $this->address[0]->state;
+    }
+
     public function isJobPreferencesComplete()
     {
         return
-            $this->job_seeking_status &&
             $this->job_seeking_type &&
-            $this->job_seeking_region && 
-            count($this->emailPreferenceTagTypes) > 0 && (
-                // At least one job factor
-                $this->job_factors_money ||
-                $this->job_factors_title ||
-                $this->job_factors_location ||
-                $this->job_factors_organization ||
-                $this->job_factors_other
-            );
+            $this->job_seeking_region &&
+            count($this->emailPreferenceTagTypes) > 0;
+    }
+
+    public function isJobSeekingTypeComplete()
+    {
+        return $this->job_seeking_type;
     }
 
     public function isEmploymentComplete()
@@ -212,11 +277,16 @@ class Profile extends Model
 
     public function isComplete()
     {
-        return 
+        return
             $this->isPersonalComplete() &&
             $this->isAddressComplete() &&
             $this->isJobPreferencesComplete() &&
             $this->isEmploymentComplete();
+    }
+
+    public function dontAskToComplete()
+    {
+        return $this->dont_ask;
     }
 
     public function emailPreferenceTagTypesMatchContact()

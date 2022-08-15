@@ -27,7 +27,7 @@
                 {{CLUBHOUSE_FREE_TRIAL_DAYS == 30 ? 'one month' : (CLUBHOUSE_FREE_TRIAL_DAYS == 7 ? 'one week' : CLUBHOUSE_FREE_TRIAL_DAYS.' days')}}
                 after date of checkout.</p>
         @endif
-        <p>If you have any questions, please contact us at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a></p>
+        <p>If you have any questions, please contact us at <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a></p>
         <p>Thanks,<br/><span style="color: #EB2935;">the</span>Clubhouse<sup>&#174;</sup> Team</p>
     @endslot
 @endcomponent

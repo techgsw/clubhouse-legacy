@@ -24,7 +24,7 @@
         <div class="col s12">
             <p>We found one or more accounts that match your name. If none of these are your account, you can complete your registration below.</p>
             <p>If any of these accounts are yours, we recommend you log in with your existing account and update your email address. You can keep your old email as a secondary email address in your profile.</p>
-            <p>If you forgot your password to this account, you can <a href="/password/reset">reset your password here</a>. If you no longer have access to this email, you can let us know at <a href="mailto:theclubhouse@generalsports.com">theclubhouse@generalsports.com</a> and we can work with you to get your old account updated.</p>
+            <p>If you forgot your password to this account, you can <a href="/password/reset">reset your password here</a>. If you no longer have access to this email, you can let us know at <a href="mailto:{{ __('email.info_address') }}">{{ __('email.info_address') }}</a> and we can work with you to get your old account updated.</p>
             <h6 class="center-align">Log into your other account <a href="/login">here</a></h6>
         </div>
     </div>

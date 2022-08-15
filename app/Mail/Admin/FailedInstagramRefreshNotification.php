@@ -34,7 +34,7 @@ class FailedInstagramRefreshNotification extends Mailable
     public function build()
     {
         return $this
-            ->from('app@sportsbusiness.solutions')
+            ->from(__('email.support_address'))
             ->subject('Instagram Token Refresh Failed')
             ->markdown('emails.internal.failed-instagram-refresh');
     }

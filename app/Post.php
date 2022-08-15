@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Parsedown;
 
 class Post extends Model
 {
@@ -15,6 +16,39 @@ class Post extends Model
         'updated_at',
         'edited_at'
     ];
+
+    public function getBlurb()
+    {
+        if (strlen($this->body) < 300) {
+            return $this->body;
+        }
+
+        $parsedown = new Parsedown();
+        $body = strip_tags($parsedown->text($this->body));
+        $postLength = strlen($body);
+        // Use length of other content to guesstimate how much to remove from blurb
+        $titleAuthorLength = (strlen($this->title) * 1)
+            + strlen($this->authored_by)
+            + strlen($this->first_name)
+            + strlen($this->last_name);
+
+        // Account for the length of the tags
+        $tagLength = 0;
+        if ($this->tags()->count() > 1) {
+            $this->tags()->each(function ($tag) use (&$tagLength) {
+                $tagLength += strlen($tag->tag_name) + 10;
+            });
+        }
+
+        $index = 300 - $titleAuthorLength - $tagLength;
+
+        // Break into words
+        while (!preg_match('/\s/', $body[$index]) && $postLength > $index) {
+            $index++;
+        }
+
+        return substr($body, 0, $index) . '&hellip;';
+    }
 
     public function user()
     {
@@ -43,7 +77,7 @@ class Post extends Model
 
         if (request('search')) {
             $search = request('search');
-            $posts->whereRaw("title LIKE '%?%' OR body LIKE '%?%'", [$search]);
+            $posts->whereRaw('MATCH (title, body) AGAINST (?)', [$search]);
         }
 
         return $posts->orderBy('post.created_at', 'desc');
