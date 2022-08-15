@@ -213,7 +213,7 @@ class ProfileUpdateService
             return $country;
         }
 
-        return $state->country;
+        return $state ? $state->country : '';
     }
 
     protected function setDepartmentExperience(Profile $profile)
