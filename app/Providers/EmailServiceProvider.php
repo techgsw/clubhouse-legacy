@@ -306,6 +306,9 @@ class EmailServiceProvider extends ServiceProvider
         Mail::to(__('email.info_address'))->send(new MonthlyMentorReport($mentors, $mentees, $total_requests, $days_since));
     }
 
+    /**
+     * @deprecated
+     */
     public static function sendInvalidMentorCalendlyLinkNotification($mentors)
     {
         foreach ($mentors as $mentor) {

@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
         Commands\ReconcileContacts::class,
         Commands\UploadOrganizations::class,
         Commands\LinkAccountsMatchingContactInfo::class,
-        Commands\CheckInvalidMentorCalendlyLinks::class,
+//        Commands\CheckInvalidMentorCalendlyLinks::class,
         Commands\AddProUsersToMailChimp::class,
         Commands\RefreshMailchimpSubscriberHashes::class,
         Commands\Dev\LocalizationScan::class,
@@ -100,7 +100,8 @@ class Kernel extends ConsoleKernel
             EmailServiceProvider::sendMentorshipFollowupEmails($since);
         })->monthlyOn(1, '9:00');
 
-        $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('8:00');
+        /** @deprecated  */
+//        $schedule->command(CheckInvalidMentorCalendlyLinks::class)->dailyAt('8:00');
 
         $schedule->call(function() {
             EmailServiceProvider::sendFollowUpEmails();
