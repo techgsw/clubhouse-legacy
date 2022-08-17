@@ -27,15 +27,20 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Alt. Phone</th>
+                <th>PRO Member</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($profiles as $profile)
                 <tr>
                     <td>{{ $profile->updated_at->format('F j, Y g:i A') }}</td>
-                    <td><a href="/user/{{ $profile->user->user_id }}">{{ $profile->user->first_name }} {{ $profile->user->last_name }}</a></td>
-                    <td><a href="mailto: {{ $profile->user->email }}">{{ $profile->user->email }}</a></td>
-                    <td>@if($profile->user->contact->phone){{ $profile->user->contact->phoneFormatted() }}@endif</td>
+                    <td><a href="/user/{{ $profile->user->id }}">{{ $profile->user->first_name }} {{ $profile->user->last_name }}</a></td>
+                    <td>{{ $profile->user->email }}</td>
+                    <td class="right-align">@if($profile->user->contact->phone){{ $profile->user->contact->phoneFormatted() }}@endif</td>
+                    <td class="right-align">@if($profile->user->contact->secondary_phone){{ $profile->user->contact->phoneFormatted('secondary_phone') }}@endif</td>
+                    <td class="center-align">{{ $profile->user->hasRole('clubhouse') ? 'Yes' : 'No' }}
+                    </td>
                 </tr>
             @endforeach
             </tbody>

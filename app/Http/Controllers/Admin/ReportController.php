@@ -128,11 +128,11 @@ class ReportController extends Controller
             $startDate = Carbon::parse($startDate);
         }
 
-        $profiles = Profile::whereBetween('updated_at', [$startDate, $endDate])
-            ->orderBy('updated_at', 'DESC')
-            ->paginate(25);
+        $profiles = Profile::whereBetween('profile.updated_at', [$startDate, $endDate]);
 
-        return view('admin/report/user-profile-updates', [
+        $profiles = $profiles->orderBy('profile.updated_at', 'DESC')->paginate(25);
+
+        return view('admin.report.user-profile-updates', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
                 'Admin' => '/admin',
