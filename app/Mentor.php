@@ -107,6 +107,12 @@ class Mentor extends Model
      **/
     public function isCalendlyLinkValid()
     {
+        if (! $this->calendly_link) {
+            Log::error('No calendly link found for ' . $this->contact->first_name  . ' ' . $this->contact->last_name );
+
+            return false;
+        }
+
         $ch = curl_init($this->calendly_link);
         $headers = [
             "Cache-Control: no-cache"
