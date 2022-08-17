@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Note;
+use App\Profile;
 use App\User;
 use App\Product;
 use App\RoleUser;
 use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +38,8 @@ class ReportController extends Controller
                 $admin_users_query->select('user_id')->from('role_user')->where('role_code', 'administrator');
             })->count();
 
+        $user_profiles_count = User::all()->count();
+
         return view('admin/report', [
             'breadcrumb' => [
                 'Clubhouse' => '/',
@@ -50,6 +54,7 @@ class ReportController extends Controller
             'month_transaction_count' => $month_transaction_count,
             'sixty_day_transaction_count' => $sixty_day_transaction_count,
             'clubhouse_users_count' => $clubhouse_users_count,
+            'user_profiles_count' => $user_profiles_count,
         ]);
     }
 
@@ -103,13 +108,50 @@ class ReportController extends Controller
         ]);
     }
 
+    public function profileUpdates(Request $request)
+    {
+        $this->authorize('view-admin-reports');
+
+        $startDate = $request->query->get('date_range_start');
+        $endDate = $request->query->get('date_range_end');
+
+        if (is_null($endDate)) {
+            $endDate = Carbon::now();
+        } else {
+            $endDate = Carbon::parse($endDate);
+        }
+
+        if (is_null($startDate)) {
+            $startDate = clone $endDate;
+            $startDate->subDays(30);
+        } else {
+            $startDate = Carbon::parse($startDate);
+        }
+
+        $profiles = Profile::whereBetween('profile.updated_at', [$startDate, $endDate]);
+
+        $profiles = $profiles->orderBy('profile.updated_at', 'DESC')->paginate(25);
+
+        return view('admin.report.user-profile-updates', [
+            'breadcrumb' => [
+                'Clubhouse' => '/',
+                'Admin' => '/admin',
+                'Reports' => '/admin/report',
+                'User Profile Updates' => '/admin/report/user-profiles'
+            ],
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'profiles' => $profiles,
+        ]);
+    }
+
     public function ajaxProductTypePurchaseCountGraph(Request $request)
     {
         $this->authorize('view-admin-reports');
 
         $start_date = $request->query->get('date_range_start');
         $end_date = $request->query->get('date_range_end');
-        
+
         if (is_null($end_date)) {
             $end_date = new \DateTime('now');
         } else {
@@ -140,7 +182,7 @@ class ReportController extends Controller
         $active_products = array('Career Service', 'Webinar', 'Membership');
 
         $date = clone $start_date;
-        $i = 0; 
+        $i = 0;
         $current_products = array();
         while ($date->getTimestamp() <= $end_date->getTimestamp()) {
             $current_date = $date->format('Y-m-d');
@@ -157,14 +199,14 @@ class ReportController extends Controller
                     $current_data = $products[$i];
                 }
                 */
-            }    
+            }
             foreach (array_diff($active_products, $current_products) as $missing_product) {
-                $data[$missing_product][] = 0; 
-            }    
+                $data[$missing_product][] = 0;
+            }
             $current_products = array();
 
             $date->add(new \DateInterval('P1D'));
-        }    
+        }
 
         return response()->json(
             array(

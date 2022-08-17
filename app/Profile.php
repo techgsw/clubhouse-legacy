@@ -142,6 +142,11 @@ class Profile extends Model
         return $this->belongsTo(Image::class);
     }
 
+    public function role_user()
+    {
+        return $this->hasManyThrough(RoleUser::class, User::class, 'id','user_id');
+    }
+
     public function notes()
     {
         return $this->morphMany('App\Note', 'notable');

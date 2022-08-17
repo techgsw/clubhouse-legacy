@@ -169,6 +169,9 @@
                 <p style="text-transform: uppercase;">
                     <a href="/admin/report/clubhouse" class="no-underline">Clubhouse</a>
                 </p>
+                <p style="text-transform: uppercase;">
+                    <a href="/admin/report/user-profiles" class="no-underline">User Profile Updates</a>
+                </p>
             </div>
             <div class="card-action">
                 <a class="no-underline" href="/admin/report"><span class="sbs-red-text"><i class="icon-left fa fa-search" aria-hidden="true"></i></span><span style="color: #000"> View Reports</span></a>

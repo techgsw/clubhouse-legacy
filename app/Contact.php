@@ -63,6 +63,36 @@ class Contact extends Model
         return null;
     }
 
+    public function phoneFormatted($field = 'phone')
+    {
+        // Remove all non-numeric characters
+        $clean = preg_replace('/[^0-9]/', '', $this->$field);
+        if (strlen($clean) < 10) {
+            return '';
+        }
+
+        $countryCodes = [
+            '1', // US and Canada
+            '44' // UK
+        ];
+        $countryCode = '';
+        if (strlen($clean) > 10) {
+            foreach ($countryCodes as $code) {
+                if (strpos($clean, $code) === 0) {
+                    $countryCode = '+' . $code . ' ';
+                    $clean = substr($clean, strlen($code));
+                }
+            }
+        }
+        $final = substr($clean,6);
+        $areaCode = "(" . substr($clean, 0, 3) . ") ";
+        $prefix = substr($clean, 3, 3);
+        $number = substr($final, 0, 4);
+        $ext = strlen($final) > 4 ? ' ext ' . substr($final,4) : '';
+
+        return $countryCode . $areaCode . $prefix . "-" . $number . $ext;
+    }
+
     public function jobs()
     {
         return $this->hasMany(ContactJob::class);

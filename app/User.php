@@ -80,6 +80,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->withPivot('created_at');
     }
 
+    public function role_user()
+    {
+        return $this->hasMany(RoleUser::class);
+    }
+
     public function postings()
     {
         return $this->hasMany(Job::class);
@@ -107,6 +112,13 @@ class User extends Authenticatable
             }
         }
         return false;
+    }
+
+    public function hasRole($roleName)
+    {
+        return $this->role_user->contains(function ($roleUser) use ($roleName) {
+            return $roleUser->role_code === $roleName;
+        });
     }
 
     public function getName()
