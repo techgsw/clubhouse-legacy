@@ -3,16 +3,15 @@
 namespace App;
 
 use App\Mail\UserPasswordReset;
-use App\Note;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     protected $table = 'user';
     protected $guarded = [];
@@ -30,6 +29,11 @@ class User extends Authenticatable
         static::created(function (User $user) {
             $roles = Role::where('code', 'user')->get();
             $user->roles()->attach($roles);
+        });
+
+        static::deleted(function(User $user) {
+            $contact = Contact::where('user_id', $user->id);
+            $contact->delete();
         });
 
         parent::boot();

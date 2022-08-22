@@ -261,4 +261,17 @@ class ProfileController extends Controller
 
         return redirect()->back();
     }
+
+    public function destroy($id = 'self')
+    {
+        $user = User::find($id);
+        $this->authorize('edit-profile', $user);
+        if (!$user) {
+            return abort(404);
+        }
+
+        $user->delete();
+
+        return redirect()->action('Admin\ContactController@index');
+    }
 }

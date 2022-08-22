@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Parsedown;
 
 class Post extends Model

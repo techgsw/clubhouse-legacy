@@ -402,6 +402,7 @@ Route::domain(env('CLUBHOUSE_URL'))->group(function () {
         Route::get('/user/{id}/show-notes', 'ProfileController@showNotes');
         Route::post('/user/{id}/create-note', 'ProfileController@createNote');
         Route::get('/user/{id?}/dont-ask', 'ProfileController@dontAskToComplete');
+        Route::get('/user/{id?}/delete', 'ProfileController@destroy');
 
     });
 

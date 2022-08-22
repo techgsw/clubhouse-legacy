@@ -2583,6 +2583,15 @@ $.valHooks.textarea = {
             cache: true
         }
     });
+
+    var deleteButton = $('[data-button="delete_profile"]');
+    if (deleteButton.is('*')) {
+        deleteButton.on('click', function (event) {
+            if (confirm('Delete the user "' + $(this).data('user') + '"?')) {
+                location.href = '/user/' + $(this).data('id') + '/delete';
+            }
+        });
+    }
     /** End Profile Form **/
 
 
