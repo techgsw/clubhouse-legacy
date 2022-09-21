@@ -274,8 +274,7 @@ class Profile extends Model
     public function isEducationComplete()
     {
         return
-            $this->education_level &&
-            !is_null($this->has_school_plans);
+            $this->education_level;
     }
 
     public function isComplete()
